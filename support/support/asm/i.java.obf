@@ -1,0 +1,94 @@
+package b.a.b;
+
+import android.arch.lifecycle.LiveData;
+import b.a.a.b.c;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.i;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+public class p<T>
+  extends r<T>
+{
+  public c<LiveData<?>, a<?>> a = new c();
+  
+  public p() {}
+  
+  @C
+  public <S> void a(@F LiveData<S> paramLiveData)
+  {
+    paramLiveData = (a)a.remove(paramLiveData);
+    if (paramLiveData != null) {
+      paramLiveData.b();
+    }
+  }
+  
+  @C
+  public <S> void a(@F LiveData<S> paramLiveData, @F s<S> paramS)
+  {
+    a localA = new a(paramLiveData, paramS);
+    paramLiveData = (a)a.b(paramLiveData, localA);
+    if ((paramLiveData != null) && (b != paramS)) {
+      throw new IllegalArgumentException("This source was already added with the different observer");
+    }
+    if (paramLiveData != null) {
+      return;
+    }
+    if (hasActiveObservers()) {
+      localA.a();
+    }
+  }
+  
+  @i
+  public void onActive()
+  {
+    Iterator localIterator = a.iterator();
+    while (localIterator.hasNext()) {
+      ((a)((Map.Entry)localIterator.next()).getValue()).a();
+    }
+  }
+  
+  @i
+  public void onInactive()
+  {
+    Iterator localIterator = a.iterator();
+    while (localIterator.hasNext()) {
+      ((a)((Map.Entry)localIterator.next()).getValue()).b();
+    }
+  }
+  
+  private static class a<V>
+    implements s<V>
+  {
+    public final LiveData<V> a;
+    public final s<V> b;
+    public int c = -1;
+    
+    public a(LiveData<V> paramLiveData, s<V> paramS)
+    {
+      a = paramLiveData;
+      b = paramS;
+    }
+    
+    public void a()
+    {
+      a.observeForever(this);
+    }
+    
+    public void b()
+    {
+      a.removeObserver(this);
+    }
+    
+    public void onChanged(@G V paramV)
+    {
+      if (c != a.getVersion())
+      {
+        c = a.getVersion();
+        b.onChanged(paramV);
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+package com.google.android.android.internal;
+
+public abstract class zzcdu
+  extends zzcdt
+{
+  public boolean zzdoe;
+  
+  public zzcdu(zzccw paramZzccw)
+  {
+    super(paramZzccw);
+    zziki.intersect(this);
+  }
+  
+  public final void initialize()
+  {
+    if (!zzdoe)
+    {
+      zzuk();
+      zziki.zzazj();
+      zzdoe = true;
+      return;
+    }
+    throw new IllegalStateException("Can't initialize twice");
+  }
+  
+  public final boolean isInitialized()
+  {
+    return zzdoe;
+  }
+  
+  public abstract void zzuk();
+  
+  public final void zzwk()
+  {
+    if (isInitialized()) {
+      return;
+    }
+    throw new IllegalStateException("Not initialized");
+  }
+}

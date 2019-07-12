@@ -1,0 +1,104 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.SortedMap;
+import m.a.h;
+
+@b
+public abstract class _a<K, V>
+  extends Sa<K, V>
+  implements SortedMap<K, V>
+{
+  public _a() {}
+  
+  private int f(Object paramObject1, Object paramObject2)
+  {
+    Comparator localComparator = comparator();
+    if (localComparator == null) {
+      return ((Comparable)paramObject1).compareTo(paramObject2);
+    }
+    return localComparator.compare(paramObject1, paramObject2);
+  }
+  
+  public Comparator<? super K> comparator()
+  {
+    return q().comparator();
+  }
+  
+  @a
+  public SortedMap<K, V> e(K paramK1, K paramK2)
+  {
+    return tailMap(paramK1).headMap(paramK2);
+  }
+  
+  public K firstKey()
+  {
+    return q().firstKey();
+  }
+  
+  public SortedMap<K, V> headMap(K paramK)
+  {
+    return q().headMap(paramK);
+  }
+  
+  @a
+  public boolean k(@h Object paramObject)
+  {
+    boolean bool = false;
+    try
+    {
+      int i = f(tailMap(paramObject).firstKey(), paramObject);
+      if (i == 0) {
+        bool = true;
+      }
+      return bool;
+    }
+    catch (ClassCastException|NoSuchElementException|NullPointerException paramObject) {}
+    return false;
+  }
+  
+  public K lastKey()
+  {
+    return q().lastKey();
+  }
+  
+  @a
+  public V n(@h Object paramObject)
+  {
+    try
+    {
+      Iterator localIterator = tailMap(paramObject).entrySet().iterator();
+      if (localIterator.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)localIterator.next();
+        if (f(localEntry.getKey(), paramObject) == 0)
+        {
+          paramObject = localEntry.getValue();
+          localIterator.remove();
+          return paramObject;
+        }
+      }
+      return null;
+    }
+    catch (ClassCastException|NullPointerException paramObject) {}
+    return null;
+  }
+  
+  public abstract SortedMap<K, V> q();
+  
+  public SortedMap<K, V> subMap(K paramK1, K paramK2)
+  {
+    return q().subMap(paramK1, paramK2);
+  }
+  
+  public SortedMap<K, V> tailMap(K paramK)
+  {
+    return q().tailMap(paramK);
+  }
+}

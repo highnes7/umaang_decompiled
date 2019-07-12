@@ -1,0 +1,99 @@
+package f.g.b.a.d;
+
+import f.g.b.a.g.l;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.Charset;
+
+public abstract class d
+{
+  public d() {}
+  
+  private ByteArrayOutputStream a(Object paramObject, boolean paramBoolean)
+    throws IOException
+  {
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    e localE = a(localByteArrayOutputStream, l.a);
+    if (paramBoolean) {
+      localE.b();
+    }
+    localE.a(paramObject);
+    localE.c();
+    return localByteArrayOutputStream;
+  }
+  
+  private String b(Object paramObject, boolean paramBoolean)
+    throws IOException
+  {
+    return a(paramObject, paramBoolean).toString("UTF-8");
+  }
+  
+  public abstract e a(OutputStream paramOutputStream, Charset paramCharset)
+    throws IOException;
+  
+  public abstract e a(Writer paramWriter)
+    throws IOException;
+  
+  public final f a()
+  {
+    return new f(this);
+  }
+  
+  public abstract h a(InputStream paramInputStream)
+    throws IOException;
+  
+  public abstract h a(InputStream paramInputStream, Charset paramCharset)
+    throws IOException;
+  
+  public abstract h a(Reader paramReader)
+    throws IOException;
+  
+  public abstract h a(String paramString)
+    throws IOException;
+  
+  public final <T> T a(InputStream paramInputStream, Class<T> paramClass)
+    throws IOException
+  {
+    return a(paramInputStream).c(paramClass);
+  }
+  
+  public final <T> T a(InputStream paramInputStream, Charset paramCharset, Class<T> paramClass)
+    throws IOException
+  {
+    return a(paramInputStream, paramCharset).c(paramClass);
+  }
+  
+  public final <T> T a(Reader paramReader, Class<T> paramClass)
+    throws IOException
+  {
+    return a(paramReader).c(paramClass);
+  }
+  
+  public final <T> T a(String paramString, Class<T> paramClass)
+    throws IOException
+  {
+    return a(paramString).b(paramClass);
+  }
+  
+  public final byte[] a(Object paramObject)
+    throws IOException
+  {
+    return a(paramObject, false).toByteArray();
+  }
+  
+  public final String b(Object paramObject)
+    throws IOException
+  {
+    return a(paramObject, true).toString("UTF-8");
+  }
+  
+  public final String c(Object paramObject)
+    throws IOException
+  {
+    return a(paramObject, false).toString("UTF-8");
+  }
+}

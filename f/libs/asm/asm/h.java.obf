@@ -1,0 +1,82 @@
+package f.c.a.a;
+
+import android.annotation.TargetApi;
+import android.os.Build.VERSION;
+import java.io.IOException;
+import java.util.Map;
+import l.a.a.a.a.d.c;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Z
+  implements c<X>
+{
+  public static final String a = "appBundleId";
+  public static final String b = "executionId";
+  public static final String c = "installationId";
+  public static final String d = "limitAdTrackingEnabled";
+  public static final String e = "betaDeviceToken";
+  public static final String f = "buildId";
+  public static final String g = "osVersion";
+  public static final String h = "deviceModel";
+  public static final String i = "appVersionCode";
+  public static final String j = "appVersionName";
+  public static final String k = "timestamp";
+  public static final String l = "type";
+  public static final String m = "details";
+  public static final String n = "customType";
+  public static final String o = "customAttributes";
+  public static final String p = "predefinedType";
+  public static final String q = "predefinedAttributes";
+  
+  public Z() {}
+  
+  @TargetApi(9)
+  public JSONObject a(X paramX)
+    throws IOException
+  {
+    try
+    {
+      JSONObject localJSONObject = new JSONObject();
+      Object localObject = e;
+      localJSONObject.put("appBundleId", a);
+      localJSONObject.put("executionId", b);
+      localJSONObject.put("installationId", c);
+      localJSONObject.put("limitAdTrackingEnabled", d);
+      localJSONObject.put("betaDeviceToken", e);
+      localJSONObject.put("buildId", f);
+      localJSONObject.put("osVersion", g);
+      localJSONObject.put("deviceModel", h);
+      localJSONObject.put("appVersionCode", i);
+      localJSONObject.put("appVersionName", j);
+      localJSONObject.put("timestamp", f);
+      localJSONObject.put("type", g.toString());
+      localObject = h;
+      if (localObject != null) {
+        localJSONObject.put("details", new JSONObject((Map)localObject));
+      }
+      localJSONObject.put("customType", i);
+      localObject = j;
+      if (localObject != null) {
+        localJSONObject.put("customAttributes", new JSONObject((Map)localObject));
+      }
+      localJSONObject.put("predefinedType", k);
+      paramX = l;
+      if (paramX != null) {
+        localJSONObject.put("predefinedAttributes", new JSONObject(paramX));
+      }
+      return localJSONObject;
+    }
+    catch (JSONException paramX)
+    {
+      int i1 = Build.VERSION.SDK_INT;
+      throw new IOException(paramX.getMessage(), paramX);
+    }
+  }
+  
+  public byte[] b(X paramX)
+    throws IOException
+  {
+    return a(paramX).toString().getBytes("UTF-8");
+  }
+}

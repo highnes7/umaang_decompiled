@@ -1,0 +1,298 @@
+package android.support.design.internal;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Drawable.ConstantState;
+import android.graphics.drawable.StateListDrawable;
+import android.support.design.R.dimen;
+import android.support.design.R.drawable;
+import android.support.design.R.id;
+import android.support.design.R.layout;
+import android.support.v7.appcompat.R.attr;
+import android.support.v7.view.menu.MenuItemImpl;
+import android.support.v7.view.menu.MenuView.ItemView;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutCompat.LayoutParams;
+import android.support.v7.widget.TooltipCompat;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewStub;
+import android.widget.CheckedTextView;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+import b.b.a.N;
+import support.android.v4.content.asm.Config;
+import support.android.v4.internal.drawable.DrawableCompat;
+import support.android.v4.view.AccessibilityDelegateCompat;
+import support.android.v4.view.ViewCompat;
+import support.android.v4.view.accessibility.AccessibilityNodeInfoCompat;
+import support.android.v4.widget.f;
+
+@N({b.b.a.N.a.b})
+public class NavigationMenuItemView
+  extends ForegroundLinearLayout
+  implements MenuView.ItemView
+{
+  public static final int[] CHECKED_STATE_SET = { 16842912 };
+  public final AccessibilityDelegateCompat accessibilityDelegate = new AccessibilityDelegateCompat()
+  {
+    public void onInitializeAccessibilityNodeInfo(View paramAnonymousView, AccessibilityNodeInfoCompat paramAnonymousAccessibilityNodeInfoCompat)
+    {
+      super.onInitializeAccessibilityNodeInfo(paramAnonymousView, paramAnonymousAccessibilityNodeInfoCompat);
+      paramAnonymousAccessibilityNodeInfoCompat.setCheckable(checkable);
+    }
+  };
+  public FrameLayout actionArea;
+  public boolean checkable;
+  public Drawable emptyDrawable;
+  public boolean hasIconTintList;
+  public final int iconSize;
+  public ColorStateList iconTintList;
+  public MenuItemImpl itemData;
+  public boolean needsEmptyIcon;
+  public final CheckedTextView textView;
+  
+  public NavigationMenuItemView(Context paramContext)
+  {
+    this(paramContext, null, 0);
+  }
+  
+  public NavigationMenuItemView(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    this(paramContext, paramAttributeSet, 0);
+  }
+  
+  public NavigationMenuItemView(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+    setOrientation(0);
+    LayoutInflater.from(paramContext).inflate(R.layout.design_navigation_menu_item, this, true);
+    iconSize = paramContext.getResources().getDimensionPixelSize(R.dimen.design_navigation_icon_size);
+    textView = ((CheckedTextView)findViewById(R.id.design_menu_item_text));
+    textView.setDuplicateParentStateEnabled(true);
+    ViewCompat.setAccessibilityDelegate(textView, accessibilityDelegate);
+  }
+  
+  private void adjustAppearance()
+  {
+    Object localObject;
+    if (shouldExpandActionArea())
+    {
+      textView.setVisibility(8);
+      localObject = actionArea;
+      if (localObject != null)
+      {
+        localObject = (LinearLayoutCompat.LayoutParams)((View)localObject).getLayoutParams();
+        width = -1;
+        actionArea.setLayoutParams((ViewGroup.LayoutParams)localObject);
+      }
+    }
+    else
+    {
+      textView.setVisibility(0);
+      localObject = actionArea;
+      if (localObject != null)
+      {
+        localObject = (LinearLayoutCompat.LayoutParams)((View)localObject).getLayoutParams();
+        width = -2;
+        actionArea.setLayoutParams((ViewGroup.LayoutParams)localObject);
+      }
+    }
+  }
+  
+  private StateListDrawable createDefaultBackground()
+  {
+    TypedValue localTypedValue = new TypedValue();
+    if (getContext().getTheme().resolveAttribute(R.attr.colorControlHighlight, localTypedValue, true))
+    {
+      StateListDrawable localStateListDrawable = new StateListDrawable();
+      localStateListDrawable.addState(CHECKED_STATE_SET, new ColorDrawable(data));
+      localStateListDrawable.addState(View.EMPTY_STATE_SET, new ColorDrawable(0));
+      return localStateListDrawable;
+    }
+    return null;
+  }
+  
+  private void setActionView(View paramView)
+  {
+    if (paramView != null)
+    {
+      if (actionArea == null) {
+        actionArea = ((FrameLayout)((ViewStub)findViewById(R.id.design_menu_item_action_area_stub)).inflate());
+      }
+      actionArea.removeAllViews();
+      actionArea.addView(paramView);
+    }
+  }
+  
+  private boolean shouldExpandActionArea()
+  {
+    return (itemData.getTitle() == null) && (itemData.getIcon() == null) && (itemData.getActionView() != null);
+  }
+  
+  public MenuItemImpl getItemData()
+  {
+    return itemData;
+  }
+  
+  public void initialize(MenuItemImpl paramMenuItemImpl, int paramInt)
+  {
+    itemData = paramMenuItemImpl;
+    if (paramMenuItemImpl.isVisible()) {
+      paramInt = 0;
+    } else {
+      paramInt = 8;
+    }
+    setVisibility(paramInt);
+    if (getBackground() == null) {
+      ViewCompat.setBackgroundDrawable(this, createDefaultBackground());
+    }
+    setCheckable(paramMenuItemImpl.isCheckable());
+    setChecked(paramMenuItemImpl.isChecked());
+    setEnabled(paramMenuItemImpl.isEnabled());
+    setTitle(paramMenuItemImpl.getTitle());
+    setIcon(paramMenuItemImpl.getIcon());
+    setActionView(paramMenuItemImpl.getActionView());
+    setContentDescription(paramMenuItemImpl.getContentDescription());
+    TooltipCompat.setTooltipText(this, paramMenuItemImpl.getTooltipText());
+    adjustAppearance();
+  }
+  
+  public int[] onCreateDrawableState(int paramInt)
+  {
+    int[] arrayOfInt = super.onCreateDrawableState(paramInt + 1);
+    MenuItemImpl localMenuItemImpl = itemData;
+    if ((localMenuItemImpl != null) && (localMenuItemImpl.isCheckable()) && (itemData.isChecked())) {
+      View.mergeDrawableStates(arrayOfInt, CHECKED_STATE_SET);
+    }
+    return arrayOfInt;
+  }
+  
+  public boolean prefersCondensedTitle()
+  {
+    return false;
+  }
+  
+  public void recycle()
+  {
+    FrameLayout localFrameLayout = actionArea;
+    if (localFrameLayout != null) {
+      localFrameLayout.removeAllViews();
+    }
+    textView.setCompoundDrawables(null, null, null, null);
+  }
+  
+  public void setCheckable(boolean paramBoolean)
+  {
+    refreshDrawableState();
+    if (checkable != paramBoolean)
+    {
+      checkable = paramBoolean;
+      accessibilityDelegate.sendAccessibilityEvent(textView, 2048);
+    }
+  }
+  
+  public void setChecked(boolean paramBoolean)
+  {
+    refreshDrawableState();
+    textView.setChecked(paramBoolean);
+  }
+  
+  public void setHorizontalPadding(int paramInt)
+  {
+    setPadding(paramInt, 0, paramInt, 0);
+  }
+  
+  public void setIcon(Drawable paramDrawable)
+  {
+    int i;
+    if (paramDrawable != null)
+    {
+      Object localObject = paramDrawable;
+      if (hasIconTintList)
+      {
+        localObject = paramDrawable.getConstantState();
+        if (localObject != null) {
+          paramDrawable = ((Drawable.ConstantState)localObject).newDrawable();
+        }
+        paramDrawable = DrawableCompat.wrap(paramDrawable).mutate();
+        localObject = paramDrawable;
+        DrawableCompat.setTintList(paramDrawable, iconTintList);
+      }
+      i = iconSize;
+      ((Drawable)localObject).setBounds(0, 0, i, i);
+      paramDrawable = (Drawable)localObject;
+    }
+    else if (needsEmptyIcon)
+    {
+      if (emptyDrawable == null)
+      {
+        emptyDrawable = Config.getDrawable(getResources(), R.drawable.navigation_empty_icon, getContext().getTheme());
+        paramDrawable = emptyDrawable;
+        if (paramDrawable != null)
+        {
+          i = iconSize;
+          paramDrawable.setBounds(0, 0, i, i);
+        }
+      }
+      paramDrawable = emptyDrawable;
+    }
+    f.setCompoundDrawablesRelative(textView, paramDrawable, null, null, null);
+  }
+  
+  public void setIconPadding(int paramInt)
+  {
+    textView.setCompoundDrawablePadding(paramInt);
+  }
+  
+  public void setIconTintList(ColorStateList paramColorStateList)
+  {
+    iconTintList = paramColorStateList;
+    boolean bool;
+    if (iconTintList != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    hasIconTintList = bool;
+    paramColorStateList = itemData;
+    if (paramColorStateList != null) {
+      setIcon(paramColorStateList.getIcon());
+    }
+  }
+  
+  public void setNeedsEmptyIcon(boolean paramBoolean)
+  {
+    needsEmptyIcon = paramBoolean;
+  }
+  
+  public void setShortcut(boolean paramBoolean, char paramChar) {}
+  
+  public void setTextAppearance(int paramInt)
+  {
+    f.setTextAppearance(textView, paramInt);
+  }
+  
+  public void setTextColor(ColorStateList paramColorStateList)
+  {
+    textView.setTextColor(paramColorStateList);
+  }
+  
+  public void setTitle(CharSequence paramCharSequence)
+  {
+    textView.setText(paramCharSequence);
+  }
+  
+  public boolean showsIcon()
+  {
+    return true;
+  }
+}

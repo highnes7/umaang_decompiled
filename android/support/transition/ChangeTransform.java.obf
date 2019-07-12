@@ -1,0 +1,500 @@
+package android.support.transition;
+
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Matrix;
+import android.graphics.Path;
+import android.graphics.PointF;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.util.Property;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.v.Ba;
+import b.b.v.D;
+import b.b.v.E;
+import b.b.v.I;
+import b.b.v.L;
+import b.b.v.M.e;
+import b.b.v.X;
+import b.b.v.ca;
+import b.b.v.ia;
+import b.b.v.p;
+import b.b.v.q;
+import b.b.v.r;
+import b.b.v.u;
+import b.b.v.xa;
+import b.b.x.b.b.j;
+import b.b.x.o.H;
+import java.util.Map;
+import org.xmlpull.v1.XmlPullParser;
+
+public class ChangeTransform
+  extends Transition
+{
+  public static final String a = "android:changeTransform:matrix";
+  public static final String b = "android:changeTransform:transforms";
+  public static final String c = "android:changeTransform:parent";
+  public static final String d = "android:changeTransform:parentMatrix";
+  public static final String e = "android:changeTransform:intermediateParentMatrix";
+  public static final String f = "android:changeTransform:intermediateMatrix";
+  public static final String[] g = { "android:changeTransform:matrix", "android:changeTransform:transforms", "android:changeTransform:parentMatrix" };
+  public static final Property<b, float[]> h = new p([F.class, "nonTranslations");
+  public static final Property<b, PointF> i = new q(PointF.class, "translations");
+  public static final boolean j;
+  public boolean k = true;
+  public boolean l = true;
+  public Matrix m = new Matrix();
+  
+  static
+  {
+    boolean bool;
+    if (Build.VERSION.SDK_INT >= 21) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    j = bool;
+  }
+  
+  public ChangeTransform() {}
+  
+  public ChangeTransform(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, X.g);
+    paramAttributeSet = (XmlPullParser)paramAttributeSet;
+    k = j.a(paramContext, paramAttributeSet, "reparentWithOverlay", 1, true);
+    l = j.a(paramContext, paramAttributeSet, "reparent", 0, true);
+    paramContext.recycle();
+  }
+  
+  private ObjectAnimator a(ia paramIa1, ia paramIa2, boolean paramBoolean)
+  {
+    paramIa1 = (Matrix)a.get("android:changeTransform:matrix");
+    Object localObject2 = (Matrix)a.get("android:changeTransform:matrix");
+    Object localObject1 = paramIa1;
+    if (paramIa1 == null) {
+      localObject1 = I.a;
+    }
+    paramIa1 = (ia)localObject2;
+    if (localObject2 == null) {
+      paramIa1 = I.a;
+    }
+    if (((Matrix)localObject1).equals(paramIa1)) {
+      return null;
+    }
+    localObject2 = (c)a.get("android:changeTransform:transforms");
+    paramIa2 = b;
+    a(paramIa2);
+    Object localObject3 = new float[9];
+    ((Matrix)localObject1).getValues((float[])localObject3);
+    float[] arrayOfFloat = new float[9];
+    paramIa1.getValues(arrayOfFloat);
+    localObject1 = new b(paramIa2, (float[])localObject3);
+    PropertyValuesHolder localPropertyValuesHolder = PropertyValuesHolder.ofObject(h, new u(new float[9]), new float[][] { localObject3, arrayOfFloat });
+    localObject3 = getPathMotion().a(localObject3[2], localObject3[5], arrayOfFloat[2], arrayOfFloat[5]);
+    localObject3 = ObjectAnimator.ofPropertyValuesHolder(localObject1, new PropertyValuesHolder[] { localPropertyValuesHolder, L.a(i, (Path)localObject3) });
+    paramIa1 = new r(this, paramBoolean, paramIa1, paramIa2, (c)localObject2, (b)localObject1);
+    ((ObjectAnimator)localObject3).addListener(paramIa1);
+    int n = Build.VERSION.SDK_INT;
+    ((Animator)localObject3).addPauseListener(paramIa1);
+    return localObject3;
+  }
+  
+  public static void a(View paramView)
+  {
+    a(paramView, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
+  }
+  
+  public static void a(View paramView, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, float paramFloat5, float paramFloat6, float paramFloat7, float paramFloat8)
+  {
+    paramView.setTranslationX(paramFloat1);
+    paramView.setTranslationY(paramFloat2);
+    H.l(paramView, paramFloat3);
+    paramView.setScaleX(paramFloat4);
+    paramView.setScaleY(paramFloat5);
+    paramView.setRotationX(paramFloat6);
+    paramView.setRotationY(paramFloat7);
+    paramView.setRotation(paramFloat8);
+  }
+  
+  private void a(ViewGroup paramViewGroup, ia paramIa1, ia paramIa2)
+  {
+    View localView = b;
+    Object localObject = new Matrix((Matrix)a.get("android:changeTransform:parentMatrix"));
+    xa.a.c(paramViewGroup, (Matrix)localObject);
+    D localD = E.a(localView, paramViewGroup, (Matrix)localObject);
+    if (localD == null) {
+      return;
+    }
+    localD.a((ViewGroup)a.get("android:changeTransform:parent"), b);
+    for (paramViewGroup = this;; paramViewGroup = (ViewGroup)localObject)
+    {
+      localObject = mParent;
+      if (localObject == null) {
+        break;
+      }
+    }
+    paramViewGroup.addListener(new a(localView, localD));
+    if (j)
+    {
+      paramViewGroup = b;
+      if (paramViewGroup != b) {
+        xa.a.a(paramViewGroup, 0.0F);
+      }
+      xa.a.a(localView, 1.0F);
+    }
+  }
+  
+  private void a(ia paramIa1, ia paramIa2)
+  {
+    Matrix localMatrix1 = (Matrix)a.get("android:changeTransform:parentMatrix");
+    b.setTag(M.e.parent_matrix, localMatrix1);
+    Matrix localMatrix2 = m;
+    localMatrix2.reset();
+    localMatrix1.invert(localMatrix2);
+    localMatrix1 = (Matrix)a.get("android:changeTransform:matrix");
+    paramIa2 = localMatrix1;
+    if (localMatrix1 == null)
+    {
+      paramIa2 = new Matrix();
+      a.put("android:changeTransform:matrix", paramIa2);
+    }
+    paramIa2.postConcat((Matrix)a.get("android:changeTransform:parentMatrix"));
+    paramIa2.postConcat(localMatrix2);
+  }
+  
+  private boolean a(ViewGroup paramViewGroup1, ViewGroup paramViewGroup2)
+  {
+    if ((isValidTarget(paramViewGroup1)) && (isValidTarget(paramViewGroup2)))
+    {
+      paramViewGroup1 = getMatchedTransitionValues(paramViewGroup1, true);
+      if ((paramViewGroup1 == null) || (paramViewGroup2 != b)) {}
+    }
+    else
+    {
+      while (paramViewGroup1 == paramViewGroup2) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  private void captureValues(ia paramIa)
+  {
+    View localView = b;
+    if (localView.getVisibility() == 8) {
+      return;
+    }
+    a.put("android:changeTransform:parent", localView.getParent());
+    Object localObject = new c(localView);
+    a.put("android:changeTransform:transforms", localObject);
+    localObject = localView.getMatrix();
+    if ((localObject != null) && (!((Matrix)localObject).isIdentity())) {
+      localObject = new Matrix((Matrix)localObject);
+    } else {
+      localObject = null;
+    }
+    a.put("android:changeTransform:matrix", localObject);
+    if (l)
+    {
+      localObject = new Matrix();
+      ViewGroup localViewGroup = (ViewGroup)localView.getParent();
+      xa.a.b(localViewGroup, (Matrix)localObject);
+      ((Matrix)localObject).preTranslate(-localViewGroup.getScrollX(), -localViewGroup.getScrollY());
+      a.put("android:changeTransform:parentMatrix", localObject);
+      a.put("android:changeTransform:intermediateMatrix", localView.getTag(M.e.transition_transform));
+      a.put("android:changeTransform:intermediateParentMatrix", localView.getTag(M.e.parent_matrix));
+    }
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    l = paramBoolean;
+  }
+  
+  public void b(boolean paramBoolean)
+  {
+    k = paramBoolean;
+  }
+  
+  public boolean b()
+  {
+    return l;
+  }
+  
+  public boolean c()
+  {
+    return k;
+  }
+  
+  public void captureEndValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  public void captureStartValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+    if (!j) {
+      ((ViewGroup)b.getParent()).startViewTransition(b);
+    }
+  }
+  
+  public Animator createAnimator(@F ViewGroup paramViewGroup, ia paramIa1, ia paramIa2)
+  {
+    if ((paramIa1 != null) && (paramIa2 != null) && (a.containsKey("android:changeTransform:parent")) && (a.containsKey("android:changeTransform:parent")))
+    {
+      ViewGroup localViewGroup = (ViewGroup)a.get("android:changeTransform:parent");
+      Object localObject = (ViewGroup)a.get("android:changeTransform:parent");
+      boolean bool;
+      if ((l) && (!a(localViewGroup, (ViewGroup)localObject))) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      localObject = (Matrix)a.get("android:changeTransform:intermediateMatrix");
+      if (localObject != null) {
+        a.put("android:changeTransform:matrix", localObject);
+      }
+      localObject = (Matrix)a.get("android:changeTransform:intermediateParentMatrix");
+      if (localObject != null) {
+        a.put("android:changeTransform:parentMatrix", localObject);
+      }
+      if (bool) {
+        a(paramIa1, paramIa2);
+      }
+      localObject = a(paramIa1, paramIa2, bool);
+      if ((bool) && (localObject != null) && (k))
+      {
+        a(paramViewGroup, paramIa1, paramIa2);
+        return localObject;
+      }
+      if (!j) {
+        localViewGroup.endViewTransition(b);
+      }
+      return localObject;
+    }
+    return null;
+  }
+  
+  public String[] getTransitionProperties()
+  {
+    return g;
+  }
+  
+  private static class a
+    extends ca
+  {
+    public View a;
+    public D b;
+    
+    public a(View paramView, D paramD)
+    {
+      a = paramView;
+      b = paramD;
+    }
+    
+    public void a(@F Transition paramTransition)
+    {
+      b.setVisibility(0);
+    }
+    
+    public void b(@F Transition paramTransition)
+    {
+      b.setVisibility(4);
+    }
+    
+    public void d(@F Transition paramTransition)
+    {
+      paramTransition.removeListener(this);
+      E.a(a);
+      a.setTag(M.e.transition_transform, null);
+      a.setTag(M.e.parent_matrix, null);
+    }
+  }
+  
+  private static class b
+  {
+    public final Matrix a = new Matrix();
+    public final View b;
+    public final float[] c;
+    public float d;
+    public float e;
+    
+    public b(View paramView, float[] paramArrayOfFloat)
+    {
+      b = paramView;
+      c = ((float[])paramArrayOfFloat.clone());
+      paramView = c;
+      d = paramView[2];
+      e = paramView[5];
+      b();
+    }
+    
+    private void b()
+    {
+      Object localObject = c;
+      localObject[2] = d;
+      localObject[5] = e;
+      a.setValues((float[])localObject);
+      localObject = b;
+      Matrix localMatrix = a;
+      xa.a.a((View)localObject, localMatrix);
+    }
+    
+    public Matrix a()
+    {
+      return a;
+    }
+    
+    public void a(PointF paramPointF)
+    {
+      d = x;
+      e = y;
+      b();
+    }
+    
+    public void a(float[] paramArrayOfFloat)
+    {
+      System.arraycopy(paramArrayOfFloat, 0, c, 0, paramArrayOfFloat.length);
+      b();
+    }
+  }
+  
+  private static class c
+  {
+    public final float a;
+    public final float b;
+    public final float c;
+    public final float d;
+    public final float e;
+    public final float f;
+    public final float g;
+    public final float h;
+    
+    public c(View paramView)
+    {
+      a = paramView.getTranslationX();
+      b = paramView.getTranslationY();
+      c = H.O(paramView);
+      d = paramView.getScaleX();
+      e = paramView.getScaleY();
+      f = paramView.getRotationX();
+      g = paramView.getRotationY();
+      h = paramView.getRotation();
+    }
+    
+    public void a(View paramView)
+    {
+      ChangeTransform.a(paramView, a, b, c, d, e, f, g, h);
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      boolean bool1 = paramObject instanceof c;
+      boolean bool2 = false;
+      if (!bool1) {
+        return false;
+      }
+      paramObject = (c)paramObject;
+      bool1 = bool2;
+      if (a == a)
+      {
+        bool1 = bool2;
+        if (b == b)
+        {
+          bool1 = bool2;
+          if (c == c)
+          {
+            bool1 = bool2;
+            if (d == d)
+            {
+              bool1 = bool2;
+              if (e == e)
+              {
+                bool1 = bool2;
+                if (f == f)
+                {
+                  bool1 = bool2;
+                  if (g == g)
+                  {
+                    bool1 = bool2;
+                    if (h == h) {
+                      bool1 = true;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      float f1 = a;
+      int i3 = 0;
+      int i;
+      if (f1 != 0.0F) {
+        i = Float.floatToIntBits(f1);
+      } else {
+        i = 0;
+      }
+      f1 = b;
+      int j;
+      if (f1 != 0.0F) {
+        j = Float.floatToIntBits(f1);
+      } else {
+        j = 0;
+      }
+      f1 = c;
+      int k;
+      if (f1 != 0.0F) {
+        k = Float.floatToIntBits(f1);
+      } else {
+        k = 0;
+      }
+      f1 = d;
+      int m;
+      if (f1 != 0.0F) {
+        m = Float.floatToIntBits(f1);
+      } else {
+        m = 0;
+      }
+      f1 = e;
+      int n;
+      if (f1 != 0.0F) {
+        n = Float.floatToIntBits(f1);
+      } else {
+        n = 0;
+      }
+      f1 = f;
+      int i1;
+      if (f1 != 0.0F) {
+        i1 = Float.floatToIntBits(f1);
+      } else {
+        i1 = 0;
+      }
+      f1 = g;
+      int i2;
+      if (f1 != 0.0F) {
+        i2 = Float.floatToIntBits(f1);
+      } else {
+        i2 = 0;
+      }
+      f1 = h;
+      if (f1 != 0.0F) {
+        i3 = Float.floatToIntBits(f1);
+      }
+      return ((((((i * 31 + j) * 31 + k) * 31 + m) * 31 + n) * 31 + i1) * 31 + i2) * 31 + i3;
+    }
+  }
+}

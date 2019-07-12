@@ -1,0 +1,322 @@
+package f.g.c.c;
+
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.util.Random;
+import sun.misc.Unsafe;
+
+public abstract class W
+  extends Number
+{
+  public static final c a = new c();
+  public static final int b = Runtime.getRuntime().availableProcessors();
+  public static final Unsafe c;
+  public static final long d;
+  public static final long e;
+  public volatile transient a[] f;
+  public volatile transient long g;
+  public volatile transient int h;
+  
+  static
+  {
+    try
+    {
+      c = c();
+      Unsafe localUnsafe = c;
+      d = localUnsafe.objectFieldOffset(W.class.getDeclaredField("g"));
+      localUnsafe = c;
+      e = localUnsafe.objectFieldOffset(W.class.getDeclaredField("h"));
+      return;
+    }
+    catch (Exception localException)
+    {
+      throw new Error(localException);
+    }
+  }
+  
+  public W() {}
+  
+  public static Unsafe c()
+  {
+    for (;;)
+    {
+      try
+      {
+        localUnsafe = Unsafe.getUnsafe();
+        return localUnsafe;
+      }
+      catch (SecurityException localSecurityException)
+      {
+        Unsafe localUnsafe;
+        continue;
+      }
+      try
+      {
+        localUnsafe = (Unsafe)AccessController.doPrivileged(new V());
+        return localUnsafe;
+      }
+      catch (PrivilegedActionException localPrivilegedActionException)
+      {
+        throw new RuntimeException("Could not initialize intrinsics", localPrivilegedActionException.getCause());
+      }
+    }
+  }
+  
+  public final void a(long paramLong)
+  {
+    a[] arrayOfA = f;
+    g = paramLong;
+    if (arrayOfA != null)
+    {
+      int j = arrayOfA.length;
+      int i = 0;
+      while (i < j)
+      {
+        a localA = arrayOfA[i];
+        if (localA != null) {
+          j = paramLong;
+        }
+        i += 1;
+      }
+    }
+  }
+  
+  public final void a(long paramLong, b paramB, boolean paramBoolean)
+  {
+    int j = b;
+    int k = 0;
+    label9:
+    Object localObject;
+    int m;
+    int i;
+    int n;
+    a[] arrayOfA;
+    for (;;)
+    {
+      localObject = f;
+      m = 1;
+      i = 1;
+      if (localObject == null) {
+        break label359;
+      }
+      n = localObject.length;
+      if (n <= 0) {
+        break label359;
+      }
+      arrayOfA = localObject[(n - 1 & j)];
+      if (arrayOfA == null) {
+        if (h == 0)
+        {
+          localObject = new a(paramLong);
+          if ((h == 0) && (b())) {
+            try
+            {
+              arrayOfA = f;
+              if (arrayOfA != null)
+              {
+                m = arrayOfA.length;
+                if (m > 0)
+                {
+                  m = m - 1 & j;
+                  if (arrayOfA[m] == null)
+                  {
+                    arrayOfA[m] = localObject;
+                    break label135;
+                  }
+                }
+              }
+              i = 0;
+              label135:
+              h = 0;
+              if (i == 0) {}
+            }
+            finally
+            {
+              h = 0;
+            }
+          }
+        }
+      }
+    }
+    boolean bool;
+    long l;
+    do
+    {
+      i = 0;
+      bool = paramBoolean;
+      break;
+      if (!paramBoolean)
+      {
+        bool = true;
+        i = k;
+        break;
+      }
+      l = j;
+      if (arrayOfA.a(l, b(l, paramLong))) {
+        break label471;
+      }
+    } while ((n >= b) || (f != localObject));
+    if (k == 0)
+    {
+      i = 1;
+      bool = paramBoolean;
+    }
+    else
+    {
+      i = k;
+      bool = paramBoolean;
+      if (h == 0)
+      {
+        i = k;
+        bool = paramBoolean;
+        if (!b()) {}
+      }
+    }
+    for (;;)
+    {
+      try
+      {
+        if (f == localObject)
+        {
+          arrayOfA = new a[n << 1];
+          i = 0;
+          break label478;
+          f = arrayOfA;
+        }
+        h = 0;
+        break;
+      }
+      finally
+      {
+        h = 0;
+      }
+      j ^= j << 13;
+      j ^= j >>> 17;
+      j ^= j << 5;
+      k = i;
+      paramBoolean = bool;
+      break label9;
+      label359:
+      if ((h == 0) && (f == localObject) && (b())) {}
+      try
+      {
+        if (f == localObject)
+        {
+          localObject = new a[2];
+          localObject[(j & 0x1)] = new a(paramLong);
+          f = ((a[])localObject);
+          i = m;
+        }
+        else
+        {
+          i = 0;
+        }
+        h = 0;
+        if (i == 0) {
+          break label9;
+        }
+      }
+      finally
+      {
+        h = 0;
+      }
+      if (!a(l, b(l, paramLong))) {
+        break label9;
+      }
+      label471:
+      b = j;
+      return;
+      label478:
+      while (i < n)
+      {
+        arrayOfA[i] = localObject[i];
+        i += 1;
+      }
+    }
+  }
+  
+  public final boolean a(long paramLong1, long paramLong2)
+  {
+    return c.compareAndSwapLong(this, d, paramLong1, paramLong2);
+  }
+  
+  public abstract long b(long paramLong1, long paramLong2);
+  
+  public final boolean b()
+  {
+    return c.compareAndSwapInt(this, e, 0, 1);
+  }
+  
+  public static final class a
+  {
+    public static final Unsafe a;
+    public static final long b;
+    public volatile long c;
+    public volatile long d;
+    public volatile long e;
+    public volatile long f;
+    public volatile long g;
+    public volatile long h;
+    public volatile long i;
+    public volatile long j;
+    public volatile long k;
+    public volatile long l;
+    public volatile long m;
+    public volatile long n;
+    public volatile long o;
+    public volatile long p;
+    public volatile long q;
+    
+    static
+    {
+      try
+      {
+        a = W.c();
+        Unsafe localUnsafe = a;
+        b = localUnsafe.objectFieldOffset(a.class.getDeclaredField("j"));
+        return;
+      }
+      catch (Exception localException)
+      {
+        throw new Error(localException);
+      }
+    }
+    
+    public a(long paramLong)
+    {
+      j = paramLong;
+    }
+    
+    public final boolean a(long paramLong1, long paramLong2)
+    {
+      return a.compareAndSwapLong(this, b, paramLong1, paramLong2);
+    }
+  }
+  
+  public static final class b
+  {
+    public static final Random a = new Random();
+    public int b;
+    
+    public b()
+    {
+      int j = a.nextInt();
+      int i = j;
+      if (j == 0) {
+        i = 1;
+      }
+      b = i;
+    }
+  }
+  
+  public static final class c
+    extends ThreadLocal<W.b>
+  {
+    public c() {}
+    
+    public W.b initialValue()
+    {
+      return new W.b();
+    }
+  }
+}

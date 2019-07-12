@@ -1,0 +1,101 @@
+package com.google.android.gms.auth.api.proxy;
+
+import android.app.PendingIntent;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.annotation.KeepForSdkWithMembers;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+@KeepForSdkWithMembers
+public class ProxyResponse
+  extends zzbck
+{
+  public static final Parcelable.Creator<ProxyResponse> CREATOR = new zzb();
+  public static final int STATUS_CODE_NO_CONNECTION = -1;
+  public final byte[] body;
+  public final int googlePlayServicesStatusCode;
+  public final PendingIntent recoveryAction;
+  public final int statusCode;
+  public int versionCode;
+  public Bundle zzebn;
+  
+  public ProxyResponse(int paramInt1, int paramInt2, PendingIntent paramPendingIntent, int paramInt3, Bundle paramBundle, byte[] paramArrayOfByte)
+  {
+    versionCode = paramInt1;
+    googlePlayServicesStatusCode = paramInt2;
+    statusCode = paramInt3;
+    zzebn = paramBundle;
+    body = paramArrayOfByte;
+    recoveryAction = paramPendingIntent;
+  }
+  
+  public ProxyResponse(int paramInt1, PendingIntent paramPendingIntent, int paramInt2, Bundle paramBundle, byte[] paramArrayOfByte)
+  {
+    this(1, paramInt1, paramPendingIntent, paramInt2, paramBundle, paramArrayOfByte);
+  }
+  
+  public ProxyResponse(int paramInt, Bundle paramBundle, byte[] paramArrayOfByte)
+  {
+    this(1, 0, null, paramInt, paramBundle, paramArrayOfByte);
+  }
+  
+  public ProxyResponse(int paramInt, Map<String, String> paramMap, byte[] paramArrayOfByte)
+  {
+    this(paramInt, zzo(paramMap), paramArrayOfByte);
+  }
+  
+  public static ProxyResponse createErrorProxyResponse(int paramInt1, PendingIntent paramPendingIntent, int paramInt2, Map<String, String> paramMap, byte[] paramArrayOfByte)
+  {
+    return new ProxyResponse(1, paramInt1, paramPendingIntent, paramInt2, zzo(paramMap), paramArrayOfByte);
+  }
+  
+  public static Bundle zzo(Map<String, String> paramMap)
+  {
+    Bundle localBundle = new Bundle();
+    if (paramMap == null) {
+      return localBundle;
+    }
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramMap.next();
+      localBundle.putString((String)localEntry.getKey(), (String)localEntry.getValue());
+    }
+    return localBundle;
+  }
+  
+  public Map<String, String> getHeaders()
+  {
+    if (zzebn == null) {
+      return Collections.emptyMap();
+    }
+    HashMap localHashMap = new HashMap();
+    Iterator localIterator = zzebn.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      String str = (String)localIterator.next();
+      localHashMap.put(str, zzebn.getString(str));
+    }
+    return localHashMap;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, googlePlayServicesStatusCode);
+    zzbcn.zza(paramParcel, 2, recoveryAction, paramInt, false);
+    zzbcn.zzc(paramParcel, 3, statusCode);
+    zzbcn.zza(paramParcel, 4, zzebn, false);
+    zzbcn.zza(paramParcel, 5, body, false);
+    zzbcn.zzc(paramParcel, 1000, versionCode);
+    zzbcn.zzah(paramParcel, i);
+  }
+}

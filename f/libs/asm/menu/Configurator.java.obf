@@ -1,0 +1,72 @@
+package f.c.a.c;
+
+import android.os.AsyncTask;
+import l.a.a.a.g;
+
+public class r
+{
+  public r() {}
+  
+  private void b(String paramString)
+  {
+    throw new RuntimeException(paramString);
+  }
+  
+  public void a()
+  {
+    int i = new int[2][10];
+    l.a.a.a.q localQ = g.h();
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Out of bounds value: ");
+    localStringBuilder.append(i);
+    localQ.d("CrashlyticsCore", localStringBuilder.toString());
+  }
+  
+  public void a(long paramLong)
+  {
+    new q(this, paramLong).execute(new Void[] { null });
+  }
+  
+  public void a(String paramString)
+  {
+    throw new RuntimeException(paramString);
+  }
+  
+  public int b()
+  {
+    return b() + (int)Math.random();
+  }
+  
+  public void c()
+  {
+    try
+    {
+      throw new RuntimeException("1");
+    }
+    catch (Exception localException1)
+    {
+      try
+      {
+        throw new RuntimeException("2", localException1);
+      }
+      catch (Exception localException2)
+      {
+        try
+        {
+          throw new RuntimeException("3", localException2);
+        }
+        catch (Exception localException3)
+        {
+          try
+          {
+            throw new RuntimeException("4", localException3);
+          }
+          catch (Exception localException4)
+          {
+            throw new RuntimeException("5", localException4);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+package b.b.x.o;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.os.Build.VERSION;
+import android.util.TypedValue;
+import android.view.ViewConfiguration;
+import b.b.a.F;
+import java.lang.reflect.Method;
+
+public final class I
+{
+  public static final String a = "ViewConfigCompat";
+  public static Method b;
+  
+  static
+  {
+    if (Build.VERSION.SDK_INT == 25) {}
+    try
+    {
+      b = ViewConfiguration.class.getDeclaredMethod("getScaledScrollFactor", new Class[0]);
+      return;
+    }
+    catch (Exception localException) {}
+  }
+  
+  public I() {}
+  
+  public static float a(ViewConfiguration paramViewConfiguration, Context paramContext)
+  {
+    Method localMethod;
+    if (Build.VERSION.SDK_INT >= 25)
+    {
+      localMethod = b;
+      if (localMethod == null) {}
+    }
+    try
+    {
+      int i = ((Integer)localMethod.invoke(paramViewConfiguration, new Object[0])).intValue();
+      return i;
+    }
+    catch (Exception paramViewConfiguration)
+    {
+      for (;;) {}
+    }
+    paramViewConfiguration = new TypedValue();
+    if (paramContext.getTheme().resolveAttribute(16842829, paramViewConfiguration, true)) {
+      return paramViewConfiguration.getDimension(paramContext.getResources().getDisplayMetrics());
+    }
+    return 0.0F;
+  }
+  
+  public static int a(ViewConfiguration paramViewConfiguration)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramViewConfiguration.getScaledHoverSlop();
+    }
+    return paramViewConfiguration.getScaledTouchSlop() / 2;
+  }
+  
+  public static float b(@F ViewConfiguration paramViewConfiguration, @F Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 26) {
+      return paramViewConfiguration.getScaledHorizontalScrollFactor();
+    }
+    return a(paramViewConfiguration, paramContext);
+  }
+  
+  @Deprecated
+  public static int b(ViewConfiguration paramViewConfiguration)
+  {
+    return paramViewConfiguration.getScaledPagingTouchSlop();
+  }
+  
+  public static float c(@F ViewConfiguration paramViewConfiguration, @F Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 26) {
+      return paramViewConfiguration.getScaledVerticalScrollFactor();
+    }
+    return a(paramViewConfiguration, paramContext);
+  }
+  
+  @Deprecated
+  public static boolean c(ViewConfiguration paramViewConfiguration)
+  {
+    return paramViewConfiguration.hasPermanentMenuKey();
+  }
+  
+  public static boolean d(ViewConfiguration paramViewConfiguration, @F Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramViewConfiguration.shouldShowMenuShortcutsWhenKeyboardPresent();
+    }
+    paramViewConfiguration = paramContext.getResources();
+    int i = paramViewConfiguration.getIdentifier("config_showMenuShortcutsWhenKeyboardPresent", "bool", "android");
+    return (i != 0) && (paramViewConfiguration.getBoolean(i));
+  }
+}

@@ -1,0 +1,263 @@
+package com.google.android.gms.analytics;
+
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
+import android.net.Uri;
+import android.os.Process;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzalv;
+import com.google.android.gms.internal.zzama;
+import com.google.android.gms.internal.zzapd;
+import f.a.a.a.a;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RunnableFuture;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public final class zzj
+{
+  public static volatile zzj zzdkx;
+  public final Context mContext;
+  public final List<Object> zzdky;
+  public final zze zzdkz;
+  public final zza zzdla;
+  public volatile zzalv zzdlb;
+  public Thread.UncaughtExceptionHandler zzdlc;
+  
+  public zzj(Context paramContext)
+  {
+    paramContext = paramContext.getApplicationContext();
+    zzbp.zzu(paramContext);
+    mContext = paramContext;
+    zzdla = new zza();
+    zzdky = new CopyOnWriteArrayList();
+    zzdkz = new zze();
+  }
+  
+  public static void zzb(zzg paramZzg)
+  {
+    zzbp.zzgh("deliver should be called from worker thread");
+    zzbp.zzb(paramZzg.zzub(), "Measurement must be submitted");
+    Object localObject = paramZzg.getTransports();
+    if (((List)localObject).isEmpty()) {
+      return;
+    }
+    HashSet localHashSet = new HashSet();
+    localObject = ((List)localObject).iterator();
+    while (((Iterator)localObject).hasNext())
+    {
+      zzm localZzm = (zzm)((Iterator)localObject).next();
+      Uri localUri = localZzm.zztu();
+      if (!localHashSet.contains(localUri))
+      {
+        localHashSet.add(localUri);
+        localZzm.zzb(paramZzg);
+      }
+    }
+  }
+  
+  public static zzj zzbf(Context paramContext)
+  {
+    zzbp.zzu(paramContext);
+    if (zzdkx == null) {
+      try
+      {
+        if (zzdkx == null) {
+          zzdkx = new zzj(paramContext);
+        }
+      }
+      finally {}
+    }
+    return zzdkx;
+  }
+  
+  public static void zzuj()
+  {
+    if ((Thread.currentThread() instanceof zzc)) {
+      return;
+    }
+    throw new IllegalStateException("Call expected from worker thread");
+  }
+  
+  public final Context getContext()
+  {
+    return mContext;
+  }
+  
+  public final void zza(Thread.UncaughtExceptionHandler paramUncaughtExceptionHandler)
+  {
+    zzdlc = paramUncaughtExceptionHandler;
+  }
+  
+  public final <V> Future<V> zzc(Callable<V> paramCallable)
+  {
+    zzbp.zzu(paramCallable);
+    if ((Thread.currentThread() instanceof zzc))
+    {
+      paramCallable = new FutureTask(paramCallable);
+      paramCallable.run();
+      return paramCallable;
+    }
+    return zzdla.submit(paramCallable);
+  }
+  
+  public final void zzc(Runnable paramRunnable)
+  {
+    zzbp.zzu(paramRunnable);
+    zzdla.submit(paramRunnable);
+  }
+  
+  public final void zze(zzg paramZzg)
+  {
+    if (!paramZzg.zzue())
+    {
+      if (!paramZzg.zzub())
+      {
+        paramZzg = paramZzg.zztx();
+        paramZzg.zzuc();
+        zzdla.execute(new zzk(this, paramZzg));
+        return;
+      }
+      throw new IllegalStateException("Measurement can only be submitted once");
+    }
+    throw new IllegalStateException("Measurement prototype can't be submitted");
+  }
+  
+  public final zzalv zzuh()
+  {
+    if (zzdlb == null) {}
+    for (;;)
+    {
+      zzalv localZzalv;
+      PackageManager localPackageManager;
+      String str;
+      Object localObject5;
+      Object localObject3;
+      PackageInfo localPackageInfo;
+      Object localObject1;
+      Object localObject4;
+      try
+      {
+        if (zzdlb == null)
+        {
+          localZzalv = new zzalv();
+          localPackageManager = mContext.getPackageManager();
+          str = mContext.getPackageName();
+          localZzalv.setAppId(str);
+          localZzalv.setAppInstallerId(localPackageManager.getInstallerPackageName(str));
+          localObject5 = null;
+          localObject3 = str;
+        }
+      }
+      finally {}
+      try
+      {
+        localPackageInfo = localPackageManager.getPackageInfo(mContext.getPackageName(), 0);
+        localObject1 = str;
+        localObject4 = localObject5;
+        if (localPackageInfo == null) {
+          continue;
+        }
+        localObject3 = str;
+        localObject4 = localPackageManager.getApplicationLabel(applicationInfo);
+        localObject1 = str;
+        localObject3 = str;
+        if (!TextUtils.isEmpty((CharSequence)localObject4))
+        {
+          localObject3 = str;
+          localObject1 = ((CharSequence)localObject4).toString();
+        }
+        localObject3 = localObject1;
+        localObject4 = versionName;
+      }
+      catch (PackageManager.NameNotFoundException localNameNotFoundException) {}
+    }
+    localObject1 = String.valueOf(localObject3);
+    if (((String)localObject1).length() != 0)
+    {
+      "Error retrieving package info: appName set to ".concat((String)localObject1);
+      localObject1 = localObject3;
+      localObject4 = localObject5;
+    }
+    else
+    {
+      new String("Error retrieving package info: appName set to ");
+      localObject4 = localObject5;
+      localObject1 = localObject3;
+    }
+    localZzalv.setAppName((String)localObject1);
+    localZzalv.setAppVersion((String)localObject4);
+    zzdlb = localZzalv;
+    return zzdlb;
+  }
+  
+  public final zzama zzui()
+  {
+    DisplayMetrics localDisplayMetrics = mContext.getResources().getDisplayMetrics();
+    zzama localZzama = new zzama();
+    localZzama.setLanguage(zzapd.zza(Locale.getDefault()));
+    zzceu = widthPixels;
+    zzcev = heightPixels;
+    return localZzama;
+  }
+  
+  public final class zza
+    extends ThreadPoolExecutor
+  {
+    public zza()
+    {
+      super(1, 1L, TimeUnit.MINUTES, new LinkedBlockingQueue());
+      setThreadFactory(new zzj.zzb(null));
+      allowCoreThreadTimeOut(true);
+    }
+    
+    public final <T> RunnableFuture<T> newTaskFor(Runnable paramRunnable, T paramT)
+    {
+      return new zzl(this, paramRunnable, paramT);
+    }
+  }
+  
+  public static final class zzb
+    implements ThreadFactory
+  {
+    public static final AtomicInteger zzdlg = new AtomicInteger();
+    
+    public zzb() {}
+    
+    public final Thread newThread(Runnable paramRunnable)
+    {
+      return new zzj.zzc(paramRunnable, a.a(23, "measurement-", zzdlg.incrementAndGet()));
+    }
+  }
+  
+  public static final class zzc
+    extends Thread
+  {
+    public zzc(Runnable paramRunnable, String paramString)
+    {
+      super(paramString);
+    }
+    
+    public final void run()
+    {
+      Process.setThreadPriority(10);
+      super.run();
+    }
+  }
+}

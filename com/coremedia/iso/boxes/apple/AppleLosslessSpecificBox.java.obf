@@ -1,0 +1,222 @@
+package com.coremedia.iso.boxes.apple;
+
+import f.b.a.h;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public final class AppleLosslessSpecificBox
+  extends c
+{
+  public static final String TYPE = "alac";
+  public long bitRate;
+  public int channels;
+  public int historyMult;
+  public int initialHistory;
+  public int kModifier;
+  public long maxCodedFrameSize;
+  public long maxSamplePerFrame;
+  public long sampleRate;
+  public int sampleSize;
+  public int unknown1;
+  public int unknown2;
+  
+  static {}
+  
+  public AppleLosslessSpecificBox()
+  {
+    super("alac");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    maxSamplePerFrame = h.j(paramByteBuffer);
+    unknown1 = h.m(paramByteBuffer);
+    sampleSize = h.m(paramByteBuffer);
+    historyMult = h.m(paramByteBuffer);
+    initialHistory = h.m(paramByteBuffer);
+    kModifier = h.m(paramByteBuffer);
+    channels = h.m(paramByteBuffer);
+    unknown2 = h.g(paramByteBuffer);
+    maxCodedFrameSize = h.j(paramByteBuffer);
+    bitRate = h.j(paramByteBuffer);
+    sampleRate = h.j(paramByteBuffer);
+  }
+  
+  public long getBitRate()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_18, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return bitRate;
+  }
+  
+  public int getChannels()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_12, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return channels;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.putInt((int)maxSamplePerFrame);
+    paramByteBuffer.put((byte)(unknown1 & 0xFF));
+    paramByteBuffer.put((byte)(sampleSize & 0xFF));
+    paramByteBuffer.put((byte)(historyMult & 0xFF));
+    paramByteBuffer.put((byte)(initialHistory & 0xFF));
+    paramByteBuffer.put((byte)(kModifier & 0xFF));
+    paramByteBuffer.put((byte)(channels & 0xFF));
+    f.b.a.j.a(paramByteBuffer, unknown2);
+    paramByteBuffer.putInt((int)maxCodedFrameSize);
+    paramByteBuffer.putInt((int)bitRate);
+    paramByteBuffer.putInt((int)sampleRate);
+  }
+  
+  public long getContentSize()
+  {
+    return 28L;
+  }
+  
+  public int getHistoryMult()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_6, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return historyMult;
+  }
+  
+  public int getInitialHistory()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_8, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return initialHistory;
+  }
+  
+  public int getKModifier()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_10, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return kModifier;
+  }
+  
+  public long getMaxCodedFrameSize()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_16, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return maxCodedFrameSize;
+  }
+  
+  public long getMaxSamplePerFrame()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return maxSamplePerFrame;
+  }
+  
+  public long getSampleRate()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_20, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return sampleRate;
+  }
+  
+  public int getSampleSize()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return sampleSize;
+  }
+  
+  public int getUnknown1()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return unknown1;
+  }
+  
+  public int getUnknown2()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_14, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return unknown2;
+  }
+  
+  public void setBitRate(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_19, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    bitRate = paramInt;
+  }
+  
+  public void setChannels(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_13, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    channels = paramInt;
+  }
+  
+  public void setHistoryMult(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_7, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    historyMult = paramInt;
+  }
+  
+  public void setInitialHistory(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_9, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    initialHistory = paramInt;
+  }
+  
+  public void setKModifier(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_11, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    kModifier = paramInt;
+  }
+  
+  public void setMaxCodedFrameSize(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_17, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    maxCodedFrameSize = paramInt;
+  }
+  
+  public void setMaxSamplePerFrame(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    maxSamplePerFrame = paramInt;
+  }
+  
+  public void setSampleRate(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_21, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    sampleRate = paramInt;
+  }
+  
+  public void setSampleSize(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    sampleSize = paramInt;
+  }
+  
+  public void setUnknown1(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    unknown1 = paramInt;
+  }
+  
+  public void setUnknown2(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_15, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    unknown2 = paramInt;
+  }
+}

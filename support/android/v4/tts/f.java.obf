@@ -1,0 +1,169 @@
+package b.b.x.l;
+
+import android.os.Handler;
+import android.os.Handler.Callback;
+import android.os.HandlerThread;
+import b.b.a.N;
+import b.b.a.W;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+@N({b.b.a.N.a.b})
+public class x
+{
+  public static final int a = 1;
+  public static final int b = 0;
+  public final Object c = new Object();
+  @b.b.a.t("mLock")
+  public HandlerThread d;
+  @b.b.a.t("mLock")
+  public Handler e;
+  @b.b.a.t("mLock")
+  public int f;
+  public Handler.Callback g = new t(this);
+  public final int h;
+  public final int i;
+  public final String j;
+  
+  public x(String paramString, int paramInt1, int paramInt2)
+  {
+    j = paramString;
+    i = paramInt1;
+    h = paramInt2;
+    f = 0;
+  }
+  
+  private void b(Runnable paramRunnable)
+  {
+    synchronized (c)
+    {
+      if (d == null)
+      {
+        d = new HandlerThread(j, i);
+        d.start();
+        e = new Handler(d.getLooper(), g);
+        f += 1;
+      }
+      e.removeMessages(0);
+      e.sendMessage(e.obtainMessage(1, paramRunnable));
+      return;
+    }
+  }
+  
+  @W
+  public int a()
+  {
+    synchronized (c)
+    {
+      int k = f;
+      return k;
+    }
+  }
+  
+  public <T> T a(Callable<T> paramCallable, int paramInt)
+    throws InterruptedException
+  {
+    localReentrantLock = new ReentrantLock();
+    Condition localCondition = localReentrantLock.newCondition();
+    AtomicReference localAtomicReference = new AtomicReference();
+    AtomicBoolean localAtomicBoolean = new AtomicBoolean(true);
+    b(new w(this, localAtomicReference, paramCallable, localReentrantLock, localAtomicBoolean, localCondition));
+    localReentrantLock.lock();
+    label104:
+    do
+    {
+      try
+      {
+        if (!localAtomicBoolean.get())
+        {
+          paramCallable = localAtomicReference.get();
+          localReentrantLock.unlock();
+          return paramCallable;
+        }
+        l1 = TimeUnit.MILLISECONDS.toNanos(paramInt);
+      }
+      finally
+      {
+        long l1;
+        long l2;
+        localReentrantLock.unlock();
+        for (;;)
+        {
+          throw paramCallable;
+        }
+      }
+      try
+      {
+        l2 = localCondition.awaitNanos(l1);
+        l1 = l2;
+      }
+      catch (InterruptedException paramCallable)
+      {
+        break label104;
+      }
+      if (!localAtomicBoolean.get())
+      {
+        paramCallable = localAtomicReference.get();
+        localReentrantLock.unlock();
+        return paramCallable;
+      }
+    } while (l1 > 0L);
+    throw new InterruptedException("timeout");
+  }
+  
+  public void a(Runnable arg1)
+  {
+    ???.run();
+    synchronized (c)
+    {
+      e.removeMessages(0);
+      e.sendMessageDelayed(e.obtainMessage(0), h);
+      return;
+    }
+  }
+  
+  public <T> void a(Callable<T> paramCallable, a<T> paramA)
+  {
+    b(new v(this, paramCallable, new Handler(), paramA));
+  }
+  
+  @W
+  public boolean b()
+  {
+    for (;;)
+    {
+      synchronized (c)
+      {
+        if (d != null)
+        {
+          bool = true;
+          return bool;
+        }
+      }
+      boolean bool = false;
+    }
+  }
+  
+  public void c()
+  {
+    synchronized (c)
+    {
+      if (e.hasMessages(1)) {
+        return;
+      }
+      d.quit();
+      d = null;
+      e = null;
+      return;
+    }
+  }
+  
+  public static abstract interface a<T>
+  {
+    public abstract void a(T paramT);
+  }
+}

@@ -1,0 +1,118 @@
+package cn.pedant.SweetAlert;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.animation.Animation;
+import e.a.a.d.d;
+import e.a.a.e;
+
+public class SuccessTickView
+  extends View
+{
+  public float a = -1.0F;
+  public Paint b;
+  public final float c = a(1.2F);
+  public final float d = a(3.0F);
+  public final float e = a(15.0F);
+  public final float f = a(25.0F);
+  public final float g = a(3.3F);
+  public final float h;
+  public float i;
+  public float j;
+  public float k;
+  public boolean l;
+  
+  public SuccessTickView(Context paramContext)
+  {
+    super(paramContext);
+    float f1 = f;
+    h = (a(6.7F) + f1);
+    b();
+  }
+  
+  public SuccessTickView(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    float f1 = f;
+    h = (a(6.7F) + f1);
+    b();
+  }
+  
+  private void b()
+  {
+    b = new Paint();
+    b.setColor(getResources().getColor(d.d.success_stroke_color));
+    j = e;
+    k = f;
+    l = false;
+  }
+  
+  public float a(float paramFloat)
+  {
+    if (a == -1.0F) {
+      a = getResourcesgetDisplayMetricsdensity;
+    }
+    return paramFloat * a + 0.5F;
+  }
+  
+  public void a()
+  {
+    j = 0.0F;
+    k = 0.0F;
+    invalidate();
+    e localE = new e(this);
+    localE.setDuration(750L);
+    localE.setStartOffset(100L);
+    startAnimation(localE);
+  }
+  
+  public void draw(Canvas paramCanvas)
+  {
+    super.draw(paramCanvas);
+    int n = getWidth();
+    int m = getHeight();
+    paramCanvas.rotate(45.0F, n / 2, m / 2);
+    double d1 = n;
+    Double.isNaN(d1);
+    n = (int)(d1 / 1.2D);
+    d1 = m;
+    Double.isNaN(d1);
+    m = (int)(d1 / 1.4D);
+    float f1 = n;
+    i = ((e + f1) / 2.0F + d - 1.0F);
+    RectF localRectF = new RectF();
+    if (l)
+    {
+      left = 0.0F;
+      right = (left + j);
+      top = ((m + f) / 2.0F);
+      bottom = (top + d);
+    }
+    else
+    {
+      f2 = (e + f1) / 2.0F;
+      f3 = d;
+      right = (f2 + f3 - 1.0F);
+      left = (right - j);
+      top = ((m + f) / 2.0F);
+      bottom = (top + f3);
+    }
+    float f2 = c;
+    paramCanvas.drawRoundRect(localRectF, f2, f2, b);
+    localRectF = new RectF();
+    f2 = (m + f) / 2.0F;
+    float f3 = d;
+    bottom = (f2 + f3 - 1.0F);
+    left = ((f1 + e) / 2.0F);
+    right = (left + f3);
+    top = (bottom - k);
+    f1 = c;
+    paramCanvas.drawRoundRect(localRectF, f1, f1, b);
+  }
+}

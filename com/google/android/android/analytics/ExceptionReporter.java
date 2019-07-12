@@ -1,0 +1,96 @@
+package com.google.android.android.analytics;
+
+import android.content.Context;
+import com.google.android.android.internal.zzamj;
+import com.google.android.android.internal.zzamu;
+import com.google.android.android.internal.zzaom;
+import java.util.ArrayList;
+
+public class ExceptionReporter
+  implements Thread.UncaughtExceptionHandler
+{
+  public final Context mContext;
+  public final Thread.UncaughtExceptionHandler zzdjs;
+  public final Tracker zzdjt;
+  public ExceptionParser zzdju;
+  public GoogleAnalytics zzdjv;
+  
+  public ExceptionReporter(Tracker paramTracker, Thread.UncaughtExceptionHandler paramUncaughtExceptionHandler, Context paramContext)
+  {
+    if (paramTracker != null)
+    {
+      if (paramContext != null)
+      {
+        zzdjs = paramUncaughtExceptionHandler;
+        zzdjt = paramTracker;
+        zzdju = new StandardExceptionParser(paramContext, new ArrayList());
+        mContext = paramContext.getApplicationContext();
+        if (paramUncaughtExceptionHandler == null) {
+          paramTracker = "null";
+        } else {
+          paramTracker = paramUncaughtExceptionHandler.getClass().getName();
+        }
+        if (paramTracker.length() != 0) {
+          paramTracker = "ExceptionReporter created, original handler is ".concat(paramTracker);
+        } else {
+          paramTracker = new String("ExceptionReporter created, original handler is ");
+        }
+        zzaom.url(paramTracker);
+        return;
+      }
+      throw new NullPointerException("context cannot be null");
+    }
+    throw new NullPointerException("tracker cannot be null");
+  }
+  
+  public ExceptionParser getExceptionParser()
+  {
+    return zzdju;
+  }
+  
+  public void setExceptionParser(ExceptionParser paramExceptionParser)
+  {
+    zzdju = paramExceptionParser;
+  }
+  
+  public void uncaughtException(Thread paramThread, Throwable paramThrowable)
+  {
+    if (zzdju != null)
+    {
+      if (paramThread != null) {
+        localObject = paramThread.getName();
+      } else {
+        localObject = null;
+      }
+      localObject = zzdju.getDescription((String)localObject, paramThrowable);
+    }
+    else
+    {
+      localObject = "UncaughtException";
+    }
+    String str = String.valueOf(localObject);
+    if (str.length() != 0) {
+      str = "Reporting uncaught exception: ".concat(str);
+    } else {
+      str = new String("Reporting uncaught exception: ");
+    }
+    zzaom.url(str);
+    zzdjt.send(new HitBuilders.ExceptionBuilder().setDescription((String)localObject).setFatal(true).build());
+    if (zzdjv == null) {
+      zzdjv = GoogleAnalytics.getInstance(mContext);
+    }
+    Object localObject = zzdjv;
+    ((GoogleAnalytics)localObject).dispatchLocalHits();
+    ((MyLog)localObject).zztr().zzwc().zzvt();
+    if (zzdjs != null)
+    {
+      zzaom.url("Passing exception to the original handler");
+      zzdjs.uncaughtException(paramThread, paramThrowable);
+    }
+  }
+  
+  public final Thread.UncaughtExceptionHandler zztv()
+  {
+    return zzdjs;
+  }
+}

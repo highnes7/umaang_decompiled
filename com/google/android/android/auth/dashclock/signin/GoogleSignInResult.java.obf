@@ -1,0 +1,36 @@
+package com.google.android.gms.auth.api.signin;
+
+import b.b.a.F;
+import b.b.a.G;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+
+public class GoogleSignInResult
+  implements Result
+{
+  public Status mStatus;
+  public GoogleSignInAccount zzeco;
+  
+  public GoogleSignInResult(@G GoogleSignInAccount paramGoogleSignInAccount, @F Status paramStatus)
+  {
+    zzeco = paramGoogleSignInAccount;
+    mStatus = paramStatus;
+  }
+  
+  @G
+  public GoogleSignInAccount getSignInAccount()
+  {
+    return zzeco;
+  }
+  
+  @F
+  public Status getStatus()
+  {
+    return mStatus;
+  }
+  
+  public boolean isSuccess()
+  {
+    return mStatus.isSuccess();
+  }
+}

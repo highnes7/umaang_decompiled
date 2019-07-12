@@ -1,0 +1,170 @@
+package com.google.android.gms.internal;
+
+import f.a.a.a.a;
+import java.io.IOException;
+
+public final class zzbh
+  extends zzeyh<zzbh>
+{
+  public static volatile zzbh[] zzvv;
+  public int name = 0;
+  public int[] zzvw = zzeyq.zzoty;
+  public int zzvx = 0;
+  public boolean zzvy = false;
+  public boolean zzvz = false;
+  
+  public zzbh()
+  {
+    zzotl = null;
+    zzomu = -1;
+  }
+  
+  public static zzbh[] zzp()
+  {
+    if (zzvv == null) {
+      synchronized (zzeyl.zzott)
+      {
+        if (zzvv == null) {
+          zzvv = new zzbh[0];
+        }
+      }
+    }
+    return zzvv;
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if (!(paramObject instanceof zzbh)) {
+      return false;
+    }
+    paramObject = (zzbh)paramObject;
+    if (!zzeyl.equals(zzvw, zzvw)) {
+      return false;
+    }
+    if (zzvx != zzvx) {
+      return false;
+    }
+    if (name != name) {
+      return false;
+    }
+    if (zzvy != zzvy) {
+      return false;
+    }
+    if (zzvz != zzvz) {
+      return false;
+    }
+    zzeyj localZzeyj = zzotl;
+    if ((localZzeyj != null) && (!localZzeyj.isEmpty())) {
+      return zzotl.equals(zzotl);
+    }
+    paramObject = zzotl;
+    if (paramObject != null) {
+      return paramObject.isEmpty();
+    }
+    return true;
+  }
+  
+  public final int hashCode()
+  {
+    int m = a.a(zzbh.class, 527, 31);
+    int n = zzeyl.hashCode(zzvw);
+    int i1 = zzvx;
+    int i2 = name;
+    boolean bool = zzvy;
+    int j = 1231;
+    int i;
+    if (bool) {
+      i = 1231;
+    } else {
+      i = 1237;
+    }
+    if (!zzvz) {
+      j = 1237;
+    }
+    zzeyj localZzeyj = zzotl;
+    int k;
+    if ((localZzeyj != null) && (!localZzeyj.isEmpty())) {
+      k = zzotl.hashCode();
+    } else {
+      k = 0;
+    }
+    return (((((n + m) * 31 + i1) * 31 + i2) * 31 + i) * 31 + j) * 31 + k;
+  }
+  
+  public final void zza(zzeyf paramZzeyf)
+    throws IOException
+  {
+    boolean bool = zzvz;
+    if (bool) {
+      paramZzeyf.zzl(1, bool);
+    }
+    paramZzeyf.zzx(2, zzvx);
+    int[] arrayOfInt = zzvw;
+    if ((arrayOfInt != null) && (arrayOfInt.length > 0))
+    {
+      i = 0;
+      for (;;)
+      {
+        arrayOfInt = zzvw;
+        if (i >= arrayOfInt.length) {
+          break;
+        }
+        paramZzeyf.zzx(3, arrayOfInt[i]);
+        i += 1;
+      }
+    }
+    int i = name;
+    if (i != 0) {
+      paramZzeyf.zzx(4, i);
+    }
+    bool = zzvy;
+    if (bool) {
+      paramZzeyf.zzl(6, bool);
+    }
+    super.zza(paramZzeyf);
+  }
+  
+  public final int zzn()
+  {
+    int j = super.zzn();
+    int i = j;
+    if (zzvz) {
+      i = j + (zzeyf.zzkb(1) + 1);
+    }
+    int k = zzeyf.zzaa(2, zzvx) + i;
+    int[] arrayOfInt = zzvw;
+    i = k;
+    if (arrayOfInt != null)
+    {
+      i = k;
+      if (arrayOfInt.length > 0)
+      {
+        i = 0;
+        j = 0;
+        for (;;)
+        {
+          arrayOfInt = zzvw;
+          if (i >= arrayOfInt.length) {
+            break;
+          }
+          j += zzeyf.zzkc(arrayOfInt[i]);
+          i += 1;
+        }
+        i = k + j + arrayOfInt.length * 1;
+      }
+    }
+    k = name;
+    j = i;
+    if (k != 0) {
+      j = i + zzeyf.zzaa(4, k);
+    }
+    i = j;
+    if (zzvy) {
+      i = j + (zzeyf.zzkb(6) + 1);
+    }
+    return i;
+  }
+}

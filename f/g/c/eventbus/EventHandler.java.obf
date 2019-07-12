@@ -1,0 +1,72 @@
+package f.g.c.e;
+
+import f.a.a.a.a;
+import f.g.c.b.ba;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class k
+{
+  public final Object a;
+  public final Method b;
+  
+  public k(Object paramObject, Method paramMethod)
+  {
+    ba.a(paramObject, "EventHandler target cannot be null.");
+    ba.a(paramMethod, "EventHandler method cannot be null.");
+    a = paramObject;
+    b = paramMethod;
+    paramMethod.setAccessible(true);
+  }
+  
+  public void a(Object paramObject)
+    throws InvocationTargetException
+  {
+    try
+    {
+      b.invoke(a, new Object[] { paramObject });
+      return;
+    }
+    catch (InvocationTargetException paramObject)
+    {
+      if ((paramObject.getCause() instanceof Error)) {
+        throw ((Error)paramObject.getCause());
+      }
+      throw paramObject;
+    }
+    catch (IllegalAccessException localIllegalAccessException)
+    {
+      throw new Error(a.a("Method became inaccessible: ", paramObject), localIllegalAccessException);
+    }
+    catch (IllegalArgumentException localIllegalArgumentException)
+    {
+      throw new Error(a.a("Method rejected target/argument: ", paramObject), localIllegalArgumentException);
+    }
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (paramObject == null) {
+      return false;
+    }
+    if (getClass() != paramObject.getClass()) {
+      return false;
+    }
+    paramObject = (k)paramObject;
+    return (b.equals(b)) && (a == a);
+  }
+  
+  public int hashCode()
+  {
+    int i = b.hashCode();
+    return a.hashCode() + (i + 31) * 31;
+  }
+  
+  public String toString()
+  {
+    return a.a(a.b("[wrapper "), b, "]");
+  }
+}

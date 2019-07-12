@@ -1,0 +1,462 @@
+package com.google.android.gms.internal;
+
+import android.app.Activity;
+import android.os.Bundle;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.O;
+import b.b.a.X;
+import b.b.x.n.b;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+import com.google.android.gms.measurement.AppMeasurement.zza;
+import com.google.android.gms.measurement.AppMeasurement.zzb;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public final class zzcek
+  extends zzcdu
+{
+  public zzcen zzivj;
+  public volatile AppMeasurement.zzb zzivk;
+  public AppMeasurement.zzb zzivl;
+  public long zzivm;
+  public final Map<Activity, zzcen> zzivn = new b();
+  public final CopyOnWriteArrayList<AppMeasurement.zza> zzivo = new CopyOnWriteArrayList();
+  public boolean zzivp;
+  public AppMeasurement.zzb zzivq;
+  public String zzivr;
+  
+  public zzcek(zzccw paramZzccw)
+  {
+    super(paramZzccw);
+  }
+  
+  /* Error */
+  @C
+  private final void zza(Activity paramActivity, zzcen paramZzcen, boolean paramBoolean)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: getfield 46	com/google/android/gms/internal/zzcek:zzivk	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   4: astore 8
+    //   6: aconst_null
+    //   7: astore 9
+    //   9: aload 8
+    //   11: ifnull +12 -> 23
+    //   14: aload_0
+    //   15: getfield 46	com/google/android/gms/internal/zzcek:zzivk	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   18: astore 8
+    //   20: goto +46 -> 66
+    //   23: aload_0
+    //   24: getfield 48	com/google/android/gms/internal/zzcek:zzivl	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   27: ifnull +36 -> 63
+    //   30: aload_0
+    //   31: invokevirtual 52	com/google/android/gms/internal/zzcek:zzvx	()Lcom/google/android/gms/common/util/zzd;
+    //   34: invokeinterface 58 1 0
+    //   39: aload_0
+    //   40: getfield 60	com/google/android/gms/internal/zzcek:zzivm	J
+    //   43: lsub
+    //   44: invokestatic 66	java/lang/Math:abs	(J)J
+    //   47: ldc2_w 67
+    //   50: lcmp
+    //   51: ifge +12 -> 63
+    //   54: aload_0
+    //   55: getfield 48	com/google/android/gms/internal/zzcek:zzivl	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   58: astore 8
+    //   60: goto +6 -> 66
+    //   63: aconst_null
+    //   64: astore 8
+    //   66: aload 8
+    //   68: ifnull +14 -> 82
+    //   71: new 70	com/google/android/gms/measurement/AppMeasurement$zzb
+    //   74: dup
+    //   75: aload 8
+    //   77: invokespecial 73	com/google/android/gms/measurement/AppMeasurement$zzb:<init>	(Lcom/google/android/gms/measurement/AppMeasurement$zzb;)V
+    //   80: astore 9
+    //   82: iconst_1
+    //   83: istore 5
+    //   85: iconst_1
+    //   86: istore 4
+    //   88: aload_0
+    //   89: iconst_1
+    //   90: putfield 75	com/google/android/gms/internal/zzcek:zzivp	Z
+    //   93: aload_0
+    //   94: getfield 38	com/google/android/gms/internal/zzcek:zzivo	Ljava/util/concurrent/CopyOnWriteArrayList;
+    //   97: invokevirtual 79	java/util/concurrent/CopyOnWriteArrayList:iterator	()Ljava/util/Iterator;
+    //   100: astore 8
+    //   102: iload 4
+    //   104: istore 6
+    //   106: iload 4
+    //   108: istore 5
+    //   110: aload 8
+    //   112: invokeinterface 85 1 0
+    //   117: ifeq +64 -> 181
+    //   120: iload 4
+    //   122: istore 5
+    //   124: aload 8
+    //   126: invokeinterface 89 1 0
+    //   131: checkcast 91	com/google/android/gms/measurement/AppMeasurement$zza
+    //   134: astore 10
+    //   136: aload 10
+    //   138: aload 9
+    //   140: aload_2
+    //   141: invokeinterface 94 3 0
+    //   146: istore 7
+    //   148: iload 4
+    //   150: iload 7
+    //   152: iand
+    //   153: istore 4
+    //   155: goto -53 -> 102
+    //   158: astore 10
+    //   160: iload 4
+    //   162: istore 5
+    //   164: aload_0
+    //   165: invokevirtual 98	com/google/android/gms/internal/zzcek:zzaul	()Lcom/google/android/gms/internal/zzcbw;
+    //   168: invokevirtual 104	com/google/android/gms/internal/zzcbw:zzayd	()Lcom/google/android/gms/internal/zzcby;
+    //   171: ldc 106
+    //   173: aload 10
+    //   175: invokevirtual 112	com/google/android/gms/internal/zzcby:zzj	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   178: goto -76 -> 102
+    //   181: aload_0
+    //   182: iconst_0
+    //   183: putfield 75	com/google/android/gms/internal/zzcek:zzivp	Z
+    //   186: goto +30 -> 216
+    //   189: astore_1
+    //   190: goto +129 -> 319
+    //   193: astore 8
+    //   195: aload_0
+    //   196: invokevirtual 98	com/google/android/gms/internal/zzcek:zzaul	()Lcom/google/android/gms/internal/zzcbw;
+    //   199: invokevirtual 104	com/google/android/gms/internal/zzcbw:zzayd	()Lcom/google/android/gms/internal/zzcby;
+    //   202: ldc 114
+    //   204: aload 8
+    //   206: invokevirtual 112	com/google/android/gms/internal/zzcby:zzj	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   209: iload 5
+    //   211: istore 6
+    //   213: goto -32 -> 181
+    //   216: aload_0
+    //   217: getfield 46	com/google/android/gms/internal/zzcek:zzivk	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   220: ifnonnull +12 -> 232
+    //   223: aload_0
+    //   224: getfield 48	com/google/android/gms/internal/zzcek:zzivl	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   227: astore 8
+    //   229: goto +9 -> 238
+    //   232: aload_0
+    //   233: getfield 46	com/google/android/gms/internal/zzcek:zzivk	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   236: astore 8
+    //   238: iload 6
+    //   240: ifeq +78 -> 318
+    //   243: aload_2
+    //   244: getfield 117	com/google/android/gms/measurement/AppMeasurement$zzb:zziko	Ljava/lang/String;
+    //   247: ifnonnull +17 -> 264
+    //   250: aload_2
+    //   251: aload_1
+    //   252: invokevirtual 123	java/lang/Object:getClass	()Ljava/lang/Class;
+    //   255: invokevirtual 129	java/lang/Class:getCanonicalName	()Ljava/lang/String;
+    //   258: invokestatic 133	com/google/android/gms/internal/zzcek:zzjt	(Ljava/lang/String;)Ljava/lang/String;
+    //   261: putfield 117	com/google/android/gms/measurement/AppMeasurement$zzb:zziko	Ljava/lang/String;
+    //   264: new 135	com/google/android/gms/internal/zzcen
+    //   267: dup
+    //   268: aload_2
+    //   269: invokespecial 138	com/google/android/gms/internal/zzcen:<init>	(Lcom/google/android/gms/internal/zzcen;)V
+    //   272: astore_1
+    //   273: aload_0
+    //   274: aload_0
+    //   275: getfield 46	com/google/android/gms/internal/zzcek:zzivk	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   278: putfield 48	com/google/android/gms/internal/zzcek:zzivl	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   281: aload_0
+    //   282: aload_0
+    //   283: invokevirtual 52	com/google/android/gms/internal/zzcek:zzvx	()Lcom/google/android/gms/common/util/zzd;
+    //   286: invokeinterface 58 1 0
+    //   291: putfield 60	com/google/android/gms/internal/zzcek:zzivm	J
+    //   294: aload_0
+    //   295: aload_1
+    //   296: putfield 46	com/google/android/gms/internal/zzcek:zzivk	Lcom/google/android/gms/measurement/AppMeasurement$zzb;
+    //   299: aload_0
+    //   300: invokevirtual 142	com/google/android/gms/internal/zzcek:zzauk	()Lcom/google/android/gms/internal/zzccr;
+    //   303: new 144	com/google/android/gms/internal/zzcel
+    //   306: dup
+    //   307: aload_0
+    //   308: iload_3
+    //   309: aload 8
+    //   311: aload_1
+    //   312: invokespecial 147	com/google/android/gms/internal/zzcel:<init>	(Lcom/google/android/gms/internal/zzcek;ZLcom/google/android/gms/measurement/AppMeasurement$zzb;Lcom/google/android/gms/internal/zzcen;)V
+    //   315: invokevirtual 153	com/google/android/gms/internal/zzccr:zzg	(Ljava/lang/Runnable;)V
+    //   318: return
+    //   319: aload_0
+    //   320: iconst_0
+    //   321: putfield 75	com/google/android/gms/internal/zzcek:zzivp	Z
+    //   324: goto +5 -> 329
+    //   327: aload_1
+    //   328: athrow
+    //   329: goto -2 -> 327
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	332	0	this	zzcek
+    //   0	332	1	paramActivity	Activity
+    //   0	332	2	paramZzcen	zzcen
+    //   0	332	3	paramBoolean	boolean
+    //   86	75	4	bool1	boolean
+    //   83	127	5	i	int
+    //   104	135	6	j	int
+    //   146	7	7	bool2	boolean
+    //   4	121	8	localObject	Object
+    //   193	12	8	localException1	Exception
+    //   227	83	8	localZzb1	AppMeasurement.zzb
+    //   7	132	9	localZzb2	AppMeasurement.zzb
+    //   134	3	10	localZza	AppMeasurement.zza
+    //   158	16	10	localException2	Exception
+    // Exception table:
+    //   from	to	target	type
+    //   136	148	158	java/lang/Exception
+    //   93	102	189	finally
+    //   110	120	189	finally
+    //   124	136	189	finally
+    //   136	148	189	finally
+    //   164	178	189	finally
+    //   195	209	189	finally
+    //   93	102	193	java/lang/Exception
+    //   110	120	193	java/lang/Exception
+    //   124	136	193	java/lang/Exception
+    //   164	178	193	java/lang/Exception
+  }
+  
+  @X
+  private final void zza(@F zzcen paramZzcen)
+  {
+    zzatx().zzaj(zzvx().elapsedRealtime());
+    if (zzauj().zzbs(zzivx)) {
+      zzivx = false;
+    }
+  }
+  
+  public static void zza(AppMeasurement.zzb paramZzb, Bundle paramBundle)
+  {
+    if ((paramBundle != null) && (paramZzb != null) && (!paramBundle.containsKey("_sc")))
+    {
+      String str = zzikn;
+      if (str != null) {
+        paramBundle.putString("_sn", str);
+      }
+      paramBundle.putString("_sc", zziko);
+      paramBundle.putLong("_si", zzikp);
+    }
+  }
+  
+  public static String zzjt(String paramString)
+  {
+    Object localObject = paramString.split("\\.");
+    if (localObject.length == 0) {
+      return paramString.substring(0, 36);
+    }
+    localObject = localObject[(localObject.length - 1)];
+    paramString = (String)localObject;
+    if (((String)localObject).length() > 36) {
+      paramString = ((String)localObject).substring(0, 36);
+    }
+    return paramString;
+  }
+  
+  @C
+  public final void onActivityDestroyed(Activity paramActivity)
+  {
+    zzivn.remove(paramActivity);
+  }
+  
+  @C
+  public final void onActivityPaused(Activity paramActivity)
+  {
+    paramActivity = zzq(paramActivity);
+    zzivl = zzivk;
+    zzivm = zzvx().elapsedRealtime();
+    zzivk = null;
+    zzauk().zzg(new zzcem(this, paramActivity));
+  }
+  
+  @C
+  public final void onActivityResumed(Activity paramActivity)
+  {
+    zza(paramActivity, zzq(paramActivity), false);
+    paramActivity = zzatx();
+    long l = paramActivity.zzvx().elapsedRealtime();
+    paramActivity.zzauk().zzg(new zzcaq(paramActivity, l));
+  }
+  
+  @C
+  public final void onActivitySaveInstanceState(Activity paramActivity, Bundle paramBundle)
+  {
+    if (paramBundle == null) {
+      return;
+    }
+    paramActivity = (zzcen)zzivn.get(paramActivity);
+    if (paramActivity == null) {
+      return;
+    }
+    Bundle localBundle = new Bundle();
+    localBundle.putLong("id", zzikp);
+    localBundle.putString("name", zzikn);
+    localBundle.putString("referrer_name", zziko);
+    paramBundle.putBundle("com.google.firebase.analytics.screen_service", localBundle);
+  }
+  
+  @C
+  public final void registerOnScreenChangeCallback(@F AppMeasurement.zza paramZza)
+  {
+    zzatv();
+    if (paramZza == null)
+    {
+      zzaul().zzayf().log("Attempting to register null OnScreenChangeCallback");
+      return;
+    }
+    zzivo.remove(paramZza);
+    zzivo.add(paramZza);
+  }
+  
+  @C
+  public final void setCurrentScreen(@F Activity paramActivity, @G @O(max=36L, min=1L) String paramString1, @G @O(max=36L, min=1L) String paramString2)
+  {
+    if (paramActivity == null)
+    {
+      zzaul().zzayf().log("setCurrentScreen must be called with a non-null activity");
+      return;
+    }
+    zzauk();
+    if (!zzccr.zzaq())
+    {
+      zzaul().zzayf().log("setCurrentScreen must be called from the main thread");
+      return;
+    }
+    if (zzivp)
+    {
+      zzaul().zzayf().log("Cannot call setCurrentScreen from onScreenChangeCallback");
+      return;
+    }
+    if (zzivk == null)
+    {
+      zzaul().zzayf().log("setCurrentScreen cannot be called while no activity active");
+      return;
+    }
+    if (zzivn.get(paramActivity) == null)
+    {
+      zzaul().zzayf().log("setCurrentScreen must be called with an activity in the activity lifecycle");
+      return;
+    }
+    String str = paramString2;
+    if (paramString2 == null) {
+      str = zzjt(paramActivity.getClass().getCanonicalName());
+    }
+    boolean bool1 = zzivk.zziko.equals(str);
+    boolean bool2 = zzcfw.zzas(zzivk.zzikn, paramString1);
+    if ((bool1) && (bool2))
+    {
+      zzaul().zzayg().log("setCurrentScreen cannot be called with the same class and name");
+      return;
+    }
+    int i;
+    if (paramString1 != null) {
+      if (paramString1.length() > 0)
+      {
+        i = paramString1.length();
+        zzcax.zzavq();
+        if (i <= 100) {}
+      }
+      else
+      {
+        zzaul().zzayf().zzj("Invalid screen name length in setCurrentScreen. Length", Integer.valueOf(paramString1.length()));
+        return;
+      }
+    }
+    if (str != null) {
+      if (str.length() > 0)
+      {
+        i = str.length();
+        zzcax.zzavq();
+        if (i <= 100) {}
+      }
+      else
+      {
+        zzaul().zzayf().zzj("Invalid class name length in setCurrentScreen. Length", Integer.valueOf(str.length()));
+        return;
+      }
+    }
+    zzcby localZzcby = zzaul().zzayj();
+    if (paramString1 == null) {
+      paramString2 = "null";
+    } else {
+      paramString2 = paramString1;
+    }
+    localZzcby.zze("Setting current screen to name, class", paramString2, str);
+    paramString1 = new zzcen(paramString1, str, zzauh().zzazx());
+    zzivn.put(paramActivity, paramString1);
+    zza(paramActivity, paramString1, true);
+  }
+  
+  @C
+  public final void unregisterOnScreenChangeCallback(@F AppMeasurement.zza paramZza)
+  {
+    zzatv();
+    zzivo.remove(paramZza);
+  }
+  
+  @X
+  public final void zza(String paramString, AppMeasurement.zzb paramZzb)
+  {
+    zzuj();
+    try
+    {
+      if ((zzivr == null) || (zzivr.equals(paramString)) || (paramZzb != null))
+      {
+        zzivr = paramString;
+        zzivq = paramZzb;
+      }
+      return;
+    }
+    finally {}
+  }
+  
+  public final void zzatu()
+  {
+    zzccw.zzatu();
+    throw null;
+  }
+  
+  public final void zzatv()
+  {
+    zzcax.zzawk();
+  }
+  
+  @X
+  public final zzcen zzazn()
+  {
+    zzwk();
+    zzuj();
+    return zzivj;
+  }
+  
+  public final AppMeasurement.zzb zzazo()
+  {
+    zzatv();
+    AppMeasurement.zzb localZzb = zzivk;
+    if (localZzb == null) {
+      return null;
+    }
+    return new AppMeasurement.zzb(localZzb);
+  }
+  
+  @C
+  public final zzcen zzq(@F Activity paramActivity)
+  {
+    zzbp.zzu(paramActivity);
+    zzcen localZzcen2 = (zzcen)zzivn.get(paramActivity);
+    zzcen localZzcen1 = localZzcen2;
+    if (localZzcen2 == null)
+    {
+      localZzcen1 = new zzcen(null, zzjt(paramActivity.getClass().getCanonicalName()), zzauh().zzazx());
+      zzivn.put(paramActivity, localZzcen1);
+    }
+    return localZzcen1;
+  }
+  
+  public final void zzuk() {}
+}

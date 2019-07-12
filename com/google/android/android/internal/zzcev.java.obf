@@ -1,0 +1,47 @@
+package com.google.android.gms.internal;
+
+import android.os.RemoteException;
+import android.text.TextUtils;
+
+public final class zzcev
+  implements Runnable
+{
+  public zzcev(zzceo paramZzceo, boolean paramBoolean1, boolean paramBoolean2, zzcbk paramZzcbk, zzcas paramZzcas, String paramString) {}
+  
+  public final void run()
+  {
+    zzceo localZzceo = zziwf;
+    zzcbo localZzcbo = zzivz;
+    if (localZzcbo == null)
+    {
+      localZzceo.zzaul().zzayd().log("Discarding data. Failed to send event to service");
+      return;
+    }
+    if (zziwi)
+    {
+      zzcbk localZzcbk;
+      if (zziwj) {
+        localZzcbk = null;
+      } else {
+        localZzcbk = zziuo;
+      }
+      localZzceo.zza(localZzcbo, localZzcbk, zziuj);
+    }
+    else
+    {
+      try
+      {
+        if (TextUtils.isEmpty(zziah)) {
+          localZzcbo.zza(zziuo, zziuj);
+        } else {
+          localZzcbo.zza(zziuo, zziah, zziwf.zzaul().zzayk());
+        }
+      }
+      catch (RemoteException localRemoteException)
+      {
+        zziwf.zzaul().zzayd().zzj("Failed to send event to the service", localRemoteException);
+      }
+    }
+    zzceo.zze(zziwf);
+  }
+}

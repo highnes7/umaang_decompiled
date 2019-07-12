@@ -1,0 +1,693 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.J;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import f.g.c.b.ya;
+import java.io.Serializable;
+import java.util.AbstractCollection;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import m.a.h;
+
+@b
+public final class _g
+{
+  public static final J<? extends Map<?, ?>, ? extends Map<?, ?>> a = new Zg();
+  
+  public _g() {}
+  
+  public static <R, C, V> Yg.a<R, C, V> a(@h R paramR, @h C paramC, @h V paramV)
+  {
+    return new b(paramR, paramC, paramV);
+  }
+  
+  public static <R, C, V> Yg<C, R, V> a(Yg<R, C, V> paramYg)
+  {
+    if ((paramYg instanceof d)) {
+      return b;
+    }
+    return new d(paramYg);
+  }
+  
+  @f.g.c.a.a
+  public static <R, C, V1, V2> Yg<R, C, V2> a(Yg<R, C, V1> paramYg, J<? super V1, V2> paramJ)
+  {
+    return new c(paramYg, paramJ);
+  }
+  
+  @f.g.c.a.a
+  public static <R, C, V> Yg<R, C, V> a(Map<R, Map<C, V>> paramMap, ya<? extends Map<C, V>> paramYa)
+  {
+    ba.a(paramMap.isEmpty());
+    if (paramYa != null) {
+      return new Ig(paramMap, paramYa);
+    }
+    throw new NullPointerException();
+  }
+  
+  @f.g.c.a.a
+  public static <R, C, V> Zf<R, C, V> a(Zf<R, ? extends C, ? extends V> paramZf)
+  {
+    return new e(paramZf);
+  }
+  
+  public static <K, V> J<Map<K, V>, Map<K, V>> b()
+  {
+    return a;
+  }
+  
+  public static <R, C, V> Yg<R, C, V> b(Yg<? extends R, ? extends C, ? extends V> paramYg)
+  {
+    return new f(paramYg);
+  }
+  
+  public static abstract class a<R, C, V>
+    implements Yg.a<R, C, V>
+  {
+    public a() {}
+    
+    public boolean equals(Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      if ((paramObject instanceof Yg.a))
+      {
+        paramObject = (Yg.a)paramObject;
+        return (U.a(a(), paramObject.a())) && (U.a(b(), paramObject.b())) && (U.a(getValue(), paramObject.getValue()));
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return Arrays.hashCode(new Object[] { a(), b(), getValue() });
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("(");
+      localStringBuilder.append(a());
+      localStringBuilder.append(",");
+      localStringBuilder.append(b());
+      localStringBuilder.append(")=");
+      localStringBuilder.append(getValue());
+      return localStringBuilder.toString();
+    }
+  }
+  
+  public static final class b<R, C, V>
+    extends _g.a<R, C, V>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final R b;
+    public final C c;
+    public final V d;
+    
+    public b(@h R paramR, @h C paramC, @h V paramV)
+    {
+      b = paramR;
+      c = paramC;
+      d = paramV;
+    }
+    
+    public R a()
+    {
+      return b;
+    }
+    
+    public C b()
+    {
+      return c;
+    }
+    
+    public V getValue()
+    {
+      return d;
+    }
+  }
+  
+  private static class c<R, C, V1, V2>
+    implements Yg<R, C, V2>
+  {
+    public final Yg<R, C, V1> a;
+    public final J<? super V1, V2> b;
+    public c<R, C, V1, V2>.a c;
+    public Collection<V2> d;
+    public Map<R, Map<C, V2>> e;
+    public Map<C, Map<R, V2>> f;
+    
+    public c(Yg<R, C, V1> paramYg, J<? super V1, V2> paramJ)
+    {
+      if (paramYg != null)
+      {
+        a = paramYg;
+        if (paramJ != null)
+        {
+          b = paramJ;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public J<Yg.a<R, C, V1>, Yg.a<R, C, V2>> a()
+    {
+      return new ah(this);
+    }
+    
+    public V2 a(R paramR, C paramC, V2 paramV2)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(Yg<? extends R, ? extends C, ? extends V2> paramYg)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Map<C, Map<R, V2>> b()
+    {
+      ch localCh = new ch(this);
+      return fe.a(a.e(), localCh);
+    }
+    
+    public V2 c(Object paramObject1, Object paramObject2)
+    {
+      if (d(paramObject1, paramObject2)) {
+        return b.apply(a.c(paramObject1, paramObject2));
+      }
+      return null;
+    }
+    
+    public Map<R, Map<C, V2>> c()
+    {
+      bh localBh = new bh(this);
+      return fe.a(a.j(), localBh);
+    }
+    
+    public void clear()
+    {
+      a.clear();
+    }
+    
+    public boolean containsValue(Object paramObject)
+    {
+      return values().contains(paramObject);
+    }
+    
+    public boolean d(Object paramObject1, Object paramObject2)
+    {
+      return a.d(paramObject1, paramObject2);
+    }
+    
+    public Map<C, Map<R, V2>> e()
+    {
+      Map localMap2 = f;
+      Map localMap1 = localMap2;
+      if (localMap2 == null)
+      {
+        localMap1 = b();
+        f = localMap1;
+      }
+      return localMap1;
+    }
+    
+    public boolean e(Object paramObject)
+    {
+      return a.e(paramObject);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      if ((paramObject instanceof Yg))
+      {
+        paramObject = (Yg)paramObject;
+        return h().equals(paramObject.h());
+      }
+      return false;
+    }
+    
+    public Map<R, V2> f(C paramC)
+    {
+      return fe.a(a.f(paramC), b);
+    }
+    
+    public Set<R> g()
+    {
+      return a.g();
+    }
+    
+    public boolean g(Object paramObject)
+    {
+      return a.g(paramObject);
+    }
+    
+    public Map<C, V2> h(R paramR)
+    {
+      return fe.a(a.h(paramR), b);
+    }
+    
+    public Set<Yg.a<R, C, V2>> h()
+    {
+      a localA2 = c;
+      a localA1 = localA2;
+      if (localA2 == null)
+      {
+        localA1 = new a();
+        c = localA1;
+      }
+      return localA1;
+    }
+    
+    public int hashCode()
+    {
+      return h().hashCode();
+    }
+    
+    public Set<C> i()
+    {
+      return a.i();
+    }
+    
+    public boolean isEmpty()
+    {
+      return a.isEmpty();
+    }
+    
+    public Map<R, Map<C, V2>> j()
+    {
+      Map localMap2 = e;
+      Map localMap1 = localMap2;
+      if (localMap2 == null)
+      {
+        localMap1 = c();
+        e = localMap1;
+      }
+      return localMap1;
+    }
+    
+    public V2 remove(Object paramObject1, Object paramObject2)
+    {
+      if (d(paramObject1, paramObject2)) {
+        return b.apply(a.remove(paramObject1, paramObject2));
+      }
+      return null;
+    }
+    
+    public int size()
+    {
+      return a.size();
+    }
+    
+    public String toString()
+    {
+      return j().toString();
+    }
+    
+    public Collection<V2> values()
+    {
+      Collection localCollection2 = d;
+      Collection localCollection1 = localCollection2;
+      if (localCollection2 == null)
+      {
+        localCollection1 = V.a(a.values(), b);
+        d = localCollection1;
+      }
+      return localCollection1;
+    }
+    
+    public class a
+      extends V.f<Yg.a<R, C, V1>, Yg.a<R, C, V2>>
+      implements Set<Yg.a<R, C, V2>>
+    {
+      public a()
+      {
+        super(a());
+      }
+      
+      public boolean contains(Object paramObject)
+      {
+        boolean bool3 = paramObject instanceof Yg.a;
+        boolean bool2 = false;
+        boolean bool1 = bool2;
+        if (bool3)
+        {
+          paramObject = (Yg.a)paramObject;
+          if (!U.a(paramObject.getValue(), c(paramObject.a(), paramObject.b()))) {
+            return false;
+          }
+          if (paramObject.getValue() == null)
+          {
+            bool1 = bool2;
+            if (!a.d(paramObject.a(), paramObject.b())) {}
+          }
+          else
+          {
+            bool1 = true;
+          }
+        }
+        return bool1;
+      }
+      
+      public boolean equals(Object paramObject)
+      {
+        return gg.a(this, paramObject);
+      }
+      
+      public int hashCode()
+      {
+        return gg.a(this);
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        if (contains(paramObject))
+        {
+          paramObject = (Yg.a)paramObject;
+          a.remove(paramObject.a(), paramObject.b());
+          return true;
+        }
+        return false;
+      }
+    }
+  }
+  
+  private static class d<C, R, V>
+    implements Yg<C, R, V>
+  {
+    public static final J<Yg.a<?, ?, ?>, Yg.a<?, ?, ?>> a = new dh();
+    public final Yg<R, C, V> b;
+    public d<C, R, V>.a c;
+    
+    public d(Yg<R, C, V> paramYg)
+    {
+      if (paramYg != null)
+      {
+        b = paramYg;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public V a(C paramC, R paramR, V paramV)
+    {
+      return b.a(paramR, paramC, paramV);
+    }
+    
+    public void a(Yg<? extends C, ? extends R, ? extends V> paramYg)
+    {
+      b.a(_g.a(paramYg));
+    }
+    
+    public V c(@h Object paramObject1, @h Object paramObject2)
+    {
+      return b.c(paramObject2, paramObject1);
+    }
+    
+    public void clear()
+    {
+      b.clear();
+    }
+    
+    public boolean containsValue(@h Object paramObject)
+    {
+      return b.containsValue(paramObject);
+    }
+    
+    public boolean d(@h Object paramObject1, @h Object paramObject2)
+    {
+      return b.d(paramObject2, paramObject1);
+    }
+    
+    public Map<R, Map<C, V>> e()
+    {
+      return b.j();
+    }
+    
+    public boolean e(@h Object paramObject)
+    {
+      return b.g(paramObject);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      if ((paramObject instanceof Yg))
+      {
+        paramObject = (Yg)paramObject;
+        return h().equals(paramObject.h());
+      }
+      return false;
+    }
+    
+    public Map<C, V> f(R paramR)
+    {
+      return b.h(paramR);
+    }
+    
+    public Set<C> g()
+    {
+      return b.i();
+    }
+    
+    public boolean g(@h Object paramObject)
+    {
+      return b.e(paramObject);
+    }
+    
+    public Map<R, V> h(C paramC)
+    {
+      return b.f(paramC);
+    }
+    
+    public Set<Yg.a<C, R, V>> h()
+    {
+      a localA2 = c;
+      a localA1 = localA2;
+      if (localA2 == null)
+      {
+        localA1 = new a();
+        c = localA1;
+      }
+      return localA1;
+    }
+    
+    public int hashCode()
+    {
+      return h().hashCode();
+    }
+    
+    public Set<R> i()
+    {
+      return b.g();
+    }
+    
+    public boolean isEmpty()
+    {
+      return b.isEmpty();
+    }
+    
+    public Map<C, Map<R, V>> j()
+    {
+      return b.e();
+    }
+    
+    public V remove(@h Object paramObject1, @h Object paramObject2)
+    {
+      return b.remove(paramObject2, paramObject1);
+    }
+    
+    public int size()
+    {
+      return b.size();
+    }
+    
+    public String toString()
+    {
+      return j().toString();
+    }
+    
+    public Collection<V> values()
+    {
+      return b.values();
+    }
+    
+    public class a
+      extends V.f<Yg.a<R, C, V>, Yg.a<C, R, V>>
+      implements Set<Yg.a<C, R, V>>
+    {
+      public a()
+      {
+        super(_g.d.a);
+      }
+      
+      public boolean contains(Object paramObject)
+      {
+        if ((paramObject instanceof Yg.a))
+        {
+          paramObject = (Yg.a)paramObject;
+          return b.h().contains(_g.a(paramObject.b(), paramObject.a(), paramObject.getValue()));
+        }
+        return false;
+      }
+      
+      public boolean equals(Object paramObject)
+      {
+        if (paramObject == this) {
+          return true;
+        }
+        if (!(paramObject instanceof Set)) {
+          return false;
+        }
+        paramObject = (Set)paramObject;
+        if (paramObject.size() != size()) {
+          return false;
+        }
+        return containsAll(paramObject);
+      }
+      
+      public int hashCode()
+      {
+        return gg.a(this);
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        if ((paramObject instanceof Yg.a))
+        {
+          paramObject = (Yg.a)paramObject;
+          return b.h().remove(_g.a(paramObject.b(), paramObject.a(), paramObject.getValue()));
+        }
+        return false;
+      }
+    }
+  }
+  
+  public static final class e<R, C, V>
+    extends _g.f<R, C, V>
+    implements Zf<R, C, V>
+  {
+    public static final long c = 0L;
+    
+    public e(Zf<R, ? extends C, ? extends V> paramZf)
+    {
+      super();
+    }
+    
+    public SortedSet<R> g()
+    {
+      return Collections.unmodifiableSortedSet(q().g());
+    }
+    
+    public SortedMap<R, Map<C, V>> j()
+    {
+      J localJ = _g.a;
+      return Collections.unmodifiableSortedMap(fe.a(q().j(), localJ));
+    }
+    
+    public Zf<R, C, V> q()
+    {
+      return (Zf)b;
+    }
+  }
+  
+  private static class f<R, C, V>
+    extends cb<R, C, V>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final Yg<? extends R, ? extends C, ? extends V> b;
+    
+    public f(Yg<? extends R, ? extends C, ? extends V> paramYg)
+    {
+      if (paramYg != null)
+      {
+        b = paramYg;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public V a(@h R paramR, @h C paramC, @h V paramV)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(Yg<? extends R, ? extends C, ? extends V> paramYg)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void clear()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Map<C, Map<R, V>> e()
+    {
+      J localJ = _g.a;
+      return Collections.unmodifiableMap(fe.a(super.e(), localJ));
+    }
+    
+    public Map<R, V> f(@h C paramC)
+    {
+      return Collections.unmodifiableMap(q().f(paramC));
+    }
+    
+    public Set<R> g()
+    {
+      return Collections.unmodifiableSet(super.g());
+    }
+    
+    public Map<C, V> h(@h R paramR)
+    {
+      return Collections.unmodifiableMap(q().h(paramR));
+    }
+    
+    public Set<Yg.a<R, C, V>> h()
+    {
+      return Collections.unmodifiableSet(super.h());
+    }
+    
+    public Set<C> i()
+    {
+      return Collections.unmodifiableSet(super.i());
+    }
+    
+    public Map<R, Map<C, V>> j()
+    {
+      J localJ = _g.a;
+      return Collections.unmodifiableMap(fe.a(super.j(), localJ));
+    }
+    
+    public Yg<R, C, V> q()
+    {
+      return b;
+    }
+    
+    public V remove(@h Object paramObject1, @h Object paramObject2)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Collection<V> values()
+    {
+      return Collections.unmodifiableCollection(super.values());
+    }
+  }
+}

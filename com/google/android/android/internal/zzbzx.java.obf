@@ -1,0 +1,31 @@
+package com.google.android.gms.internal;
+
+import android.os.RemoteException;
+import com.google.android.gms.common.api.internal.zzn;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.location.LocationSettingsResult;
+
+public final class zzbzx
+  extends zzbzn
+{
+  public zzn<LocationSettingsResult> zzhzt;
+  
+  public zzbzx(zzn<LocationSettingsResult> paramZzn)
+  {
+    boolean bool;
+    if (paramZzn != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    zzbp.zzb(bool, "listener can't be null.");
+    zzhzt = paramZzn;
+  }
+  
+  public final void zza(LocationSettingsResult paramLocationSettingsResult)
+    throws RemoteException
+  {
+    zzhzt.setResult(paramLocationSettingsResult);
+    zzhzt = null;
+  }
+}

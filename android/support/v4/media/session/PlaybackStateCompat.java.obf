@@ -1,0 +1,598 @@
+package android.support.v4.media.session;
+
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.os.SystemClock;
+import android.text.TextUtils;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.x.h.b.u;
+import b.b.x.h.b.v;
+import b.b.x.h.b.w;
+import b.b.x.h.b.w.a;
+import b.b.x.h.b.x;
+import f.a.a.a.a;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public final class PlaybackStateCompat
+  implements Parcelable
+{
+  public static final int A = 4;
+  public static final int B = 5;
+  public static final int C = 6;
+  public static final Parcelable.Creator<PlaybackStateCompat> CREATOR = new u();
+  public static final int D = 7;
+  public static final int E = 8;
+  public static final int F = 9;
+  public static final int G = 10;
+  public static final int H = 11;
+  public static final long I = -1L;
+  public static final int J = -1;
+  public static final int K = 0;
+  public static final int L = 1;
+  public static final int M = 2;
+  public static final int N = 3;
+  public static final int O = -1;
+  public static final int P = 0;
+  public static final int Q = 1;
+  public static final int R = 2;
+  public static final int S = 0;
+  public static final int T = 1;
+  public static final int U = 2;
+  public static final int V = 3;
+  public static final int W = 4;
+  public static final int X = 5;
+  public static final int Y = 6;
+  public static final int Z = 7;
+  public static final long a = 1L;
+  public static final int aa = 8;
+  public static final long b = 2L;
+  public static final int ba = 9;
+  public static final long c = 4L;
+  public static final int ca = 10;
+  public static final long d = 8L;
+  public static final int da = 11;
+  public static final long e = 16L;
+  public static final int ea = 127;
+  public static final long f = 32L;
+  public static final int fa = 126;
+  public static final long g = 64L;
+  public static final long h = 128L;
+  public static final long i = 256L;
+  public static final long j = 512L;
+  public static final long k = 1024L;
+  public static final long l = 2048L;
+  public static final long m = 4096L;
+  public static final long n = 8192L;
+  public static final long o = 16384L;
+  public static final long p = 32768L;
+  public static final long q = 65536L;
+  public static final long r = 131072L;
+  public static final long s = 262144L;
+  @Deprecated
+  public static final long t = 524288L;
+  public static final long u = 1048576L;
+  public static final long v = 2097152L;
+  public static final int w = 0;
+  public static final int x = 1;
+  public static final int y = 2;
+  public static final int z = 3;
+  public final int ga;
+  public final long ha;
+  public final long ia;
+  public final float ja;
+  public final long ka;
+  public final int la;
+  public final CharSequence ma;
+  public final long na;
+  public List<CustomAction> oa;
+  public final long pa;
+  public final Bundle qa;
+  public Object ra;
+  
+  public PlaybackStateCompat(int paramInt1, long paramLong1, long paramLong2, float paramFloat, long paramLong3, int paramInt2, CharSequence paramCharSequence, long paramLong4, List<CustomAction> paramList, long paramLong5, Bundle paramBundle)
+  {
+    ga = paramInt1;
+    ha = paramLong1;
+    ia = paramLong2;
+    ja = paramFloat;
+    ka = paramLong3;
+    la = paramInt2;
+    ma = paramCharSequence;
+    na = paramLong4;
+    oa = new ArrayList(paramList);
+    pa = paramLong5;
+    qa = paramBundle;
+  }
+  
+  public PlaybackStateCompat(Parcel paramParcel)
+  {
+    ga = paramParcel.readInt();
+    ha = paramParcel.readLong();
+    ja = paramParcel.readFloat();
+    na = paramParcel.readLong();
+    ia = paramParcel.readLong();
+    ka = paramParcel.readLong();
+    ma = ((CharSequence)TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(paramParcel));
+    oa = paramParcel.createTypedArrayList(CustomAction.CREATOR);
+    pa = paramParcel.readLong();
+    qa = paramParcel.readBundle(MediaSessionCompat.class.getClassLoader());
+    la = paramParcel.readInt();
+  }
+  
+  public static int a(long paramLong)
+  {
+    if (paramLong == 4L) {
+      return 126;
+    }
+    if (paramLong == 2L) {
+      return 127;
+    }
+    if (paramLong == 32L) {
+      return 87;
+    }
+    if (paramLong == 16L) {
+      return 88;
+    }
+    if (paramLong == 1L) {
+      return 86;
+    }
+    if (paramLong == 64L) {
+      return 90;
+    }
+    if (paramLong == 8L) {
+      return 89;
+    }
+    if (paramLong == 512L) {
+      return 85;
+    }
+    return 0;
+  }
+  
+  public static PlaybackStateCompat a(Object paramObject)
+  {
+    Object localObject2 = null;
+    Bundle localBundle = null;
+    Object localObject1 = localObject2;
+    if (paramObject != null)
+    {
+      localObject1 = localObject2;
+      if (Build.VERSION.SDK_INT >= 21)
+      {
+        localObject2 = w.d(paramObject);
+        if (localObject2 != null)
+        {
+          localObject1 = new ArrayList(((List)localObject2).size());
+          localObject2 = ((List)localObject2).iterator();
+          while (((Iterator)localObject2).hasNext()) {
+            ((List)localObject1).add(CustomAction.a(((Iterator)localObject2).next()));
+          }
+        }
+        else
+        {
+          localObject1 = null;
+        }
+        if (Build.VERSION.SDK_INT >= 22) {
+          localBundle = x.a(paramObject);
+        }
+        localObject1 = new PlaybackStateCompat(w.i(paramObject), w.h(paramObject), w.c(paramObject), w.g(paramObject), w.a(paramObject), 0, w.e(paramObject), w.f(paramObject), (List)localObject1, w.b(paramObject), localBundle);
+        ra = paramObject;
+      }
+    }
+    return localObject1;
+  }
+  
+  public long a()
+  {
+    return ka;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public long a(Long paramLong)
+  {
+    long l2 = ha;
+    float f1 = ja;
+    long l1;
+    if (paramLong != null) {
+      l1 = paramLong.longValue();
+    } else {
+      l1 = SystemClock.elapsedRealtime() - na;
+    }
+    return Math.max(0L, l2 + (f1 * (float)l1));
+  }
+  
+  public long b()
+  {
+    return pa;
+  }
+  
+  public long c()
+  {
+    return ia;
+  }
+  
+  public List<CustomAction> d()
+  {
+    return oa;
+  }
+  
+  public int describeContents()
+  {
+    return 0;
+  }
+  
+  public int e()
+  {
+    return la;
+  }
+  
+  public CharSequence f()
+  {
+    return ma;
+  }
+  
+  @G
+  public Bundle g()
+  {
+    return qa;
+  }
+  
+  public long h()
+  {
+    return na;
+  }
+  
+  public float i()
+  {
+    return ja;
+  }
+  
+  public Object j()
+  {
+    if ((ra == null) && (Build.VERSION.SDK_INT >= 21))
+    {
+      Object localObject1 = null;
+      Object localObject2 = oa;
+      if (localObject2 != null)
+      {
+        localObject2 = new ArrayList(((List)localObject2).size());
+        Iterator localIterator = oa.iterator();
+        for (;;)
+        {
+          localObject1 = localObject2;
+          if (!localIterator.hasNext()) {
+            break;
+          }
+          ((List)localObject2).add(((CustomAction)localIterator.next()).b());
+        }
+      }
+      if (Build.VERSION.SDK_INT >= 22) {
+        ra = x.a(ga, ha, ia, ja, ka, ma, na, localObject1, pa, qa);
+      } else {
+        ra = w.a(ga, ha, ia, ja, ka, ma, na, localObject1, pa);
+      }
+    }
+    return ra;
+  }
+  
+  public long k()
+  {
+    return ha;
+  }
+  
+  public int l()
+  {
+    return ga;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder("PlaybackState {");
+    localStringBuilder.append("state=");
+    localStringBuilder.append(ga);
+    localStringBuilder.append(", position=");
+    localStringBuilder.append(ha);
+    localStringBuilder.append(", buffered position=");
+    localStringBuilder.append(ia);
+    localStringBuilder.append(", speed=");
+    localStringBuilder.append(ja);
+    localStringBuilder.append(", updated=");
+    localStringBuilder.append(na);
+    localStringBuilder.append(", actions=");
+    localStringBuilder.append(ka);
+    localStringBuilder.append(", error code=");
+    localStringBuilder.append(la);
+    localStringBuilder.append(", error message=");
+    localStringBuilder.append(ma);
+    localStringBuilder.append(", custom actions=");
+    localStringBuilder.append(oa);
+    localStringBuilder.append(", active item id=");
+    localStringBuilder.append(pa);
+    localStringBuilder.append("}");
+    return localStringBuilder.toString();
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramParcel.writeInt(ga);
+    paramParcel.writeLong(ha);
+    paramParcel.writeFloat(ja);
+    paramParcel.writeLong(na);
+    paramParcel.writeLong(ia);
+    paramParcel.writeLong(ka);
+    TextUtils.writeToParcel(ma, paramParcel, paramInt);
+    paramParcel.writeTypedList(oa);
+    paramParcel.writeLong(pa);
+    paramParcel.writeBundle(qa);
+    paramParcel.writeInt(la);
+  }
+  
+  public static final class CustomAction
+    implements Parcelable
+  {
+    public static final Parcelable.Creator<CustomAction> CREATOR = new v();
+    public final String a;
+    public final CharSequence b;
+    public final int c;
+    public final Bundle d;
+    public Object e;
+    
+    public CustomAction(Parcel paramParcel)
+    {
+      a = paramParcel.readString();
+      b = ((CharSequence)TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(paramParcel));
+      c = paramParcel.readInt();
+      d = paramParcel.readBundle(MediaSessionCompat.class.getClassLoader());
+    }
+    
+    public CustomAction(String paramString, CharSequence paramCharSequence, int paramInt, Bundle paramBundle)
+    {
+      a = paramString;
+      b = paramCharSequence;
+      c = paramInt;
+      d = paramBundle;
+    }
+    
+    public static CustomAction a(Object paramObject)
+    {
+      if ((paramObject != null) && (Build.VERSION.SDK_INT >= 21))
+      {
+        CustomAction localCustomAction = new CustomAction(w.a.a(paramObject), w.a.d(paramObject), w.a.c(paramObject), w.a.b(paramObject));
+        e = paramObject;
+        return localCustomAction;
+      }
+      return null;
+    }
+    
+    public String a()
+    {
+      return a;
+    }
+    
+    public Object b()
+    {
+      if ((e == null) && (Build.VERSION.SDK_INT >= 21))
+      {
+        e = w.a.a(a, b, c, d);
+        return e;
+      }
+      return e;
+    }
+    
+    public Bundle c()
+    {
+      return d;
+    }
+    
+    public int d()
+    {
+      return c;
+    }
+    
+    public int describeContents()
+    {
+      return 0;
+    }
+    
+    public CharSequence e()
+    {
+      return b;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = a.b("Action:mName='");
+      localStringBuilder.append(b);
+      localStringBuilder.append(", mIcon=");
+      localStringBuilder.append(c);
+      localStringBuilder.append(", mExtras=");
+      localStringBuilder.append(d);
+      return localStringBuilder.toString();
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramParcel.writeString(a);
+      TextUtils.writeToParcel(b, paramParcel, paramInt);
+      paramParcel.writeInt(c);
+      paramParcel.writeBundle(d);
+    }
+    
+    public static final class a
+    {
+      public final String a;
+      public final CharSequence b;
+      public final int c;
+      public Bundle d;
+      
+      public a(String paramString, CharSequence paramCharSequence, int paramInt)
+      {
+        if (!TextUtils.isEmpty(paramString))
+        {
+          if (!TextUtils.isEmpty(paramCharSequence))
+          {
+            if (paramInt != 0)
+            {
+              a = paramString;
+              b = paramCharSequence;
+              c = paramInt;
+              return;
+            }
+            throw new IllegalArgumentException("You must specify an icon resource id to build a CustomAction.");
+          }
+          throw new IllegalArgumentException("You must specify a name to build a CustomAction.");
+        }
+        throw new IllegalArgumentException("You must specify an action to build a CustomAction.");
+      }
+      
+      public a a(Bundle paramBundle)
+      {
+        d = paramBundle;
+        return this;
+      }
+      
+      public PlaybackStateCompat.CustomAction a()
+      {
+        return new PlaybackStateCompat.CustomAction(a, b, c, d);
+      }
+    }
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface a {}
+  
+  public static final class b
+  {
+    public final List<PlaybackStateCompat.CustomAction> a = new ArrayList();
+    public int b;
+    public long c;
+    public long d;
+    public float e;
+    public long f;
+    public int g;
+    public CharSequence h;
+    public long i;
+    public long j = -1L;
+    public Bundle k;
+    
+    public b() {}
+    
+    public b(PlaybackStateCompat paramPlaybackStateCompat)
+    {
+      b = ga;
+      c = ha;
+      e = ja;
+      i = na;
+      d = ia;
+      f = ka;
+      g = la;
+      h = ma;
+      List localList = oa;
+      if (localList != null) {
+        a.addAll(localList);
+      }
+      j = pa;
+      k = qa;
+    }
+    
+    public b a(int paramInt, long paramLong, float paramFloat)
+    {
+      return a(paramInt, paramLong, paramFloat, SystemClock.elapsedRealtime());
+    }
+    
+    public b a(int paramInt, long paramLong1, float paramFloat, long paramLong2)
+    {
+      b = paramInt;
+      c = paramLong1;
+      i = paramLong2;
+      e = paramFloat;
+      return this;
+    }
+    
+    public b a(int paramInt, CharSequence paramCharSequence)
+    {
+      g = paramInt;
+      h = paramCharSequence;
+      return this;
+    }
+    
+    public b a(long paramLong)
+    {
+      f = paramLong;
+      return this;
+    }
+    
+    public b a(Bundle paramBundle)
+    {
+      k = paramBundle;
+      return this;
+    }
+    
+    public b a(PlaybackStateCompat.CustomAction paramCustomAction)
+    {
+      if (paramCustomAction != null)
+      {
+        a.add(paramCustomAction);
+        return this;
+      }
+      throw new IllegalArgumentException("You may not add a null CustomAction to PlaybackStateCompat.");
+    }
+    
+    public b a(CharSequence paramCharSequence)
+    {
+      h = paramCharSequence;
+      return this;
+    }
+    
+    public b a(String paramString1, String paramString2, int paramInt)
+    {
+      return a(new PlaybackStateCompat.CustomAction(paramString1, paramString2, paramInt, null));
+    }
+    
+    public PlaybackStateCompat a()
+    {
+      return new PlaybackStateCompat(b, c, d, e, f, g, h, i, a, j, k);
+    }
+    
+    public b b(long paramLong)
+    {
+      j = paramLong;
+      return this;
+    }
+    
+    public b c(long paramLong)
+    {
+      d = paramLong;
+      return this;
+    }
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface c {}
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface d {}
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface e {}
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface f {}
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface g {}
+}

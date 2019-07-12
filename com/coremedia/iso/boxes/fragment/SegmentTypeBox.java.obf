@@ -1,0 +1,134 @@
+package com.coremedia.iso.boxes.fragment;
+
+import f.b.a.g;
+import f.b.a.h;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class SegmentTypeBox
+  extends f.h.a.a
+{
+  public static final String TYPE = "styp";
+  public List<String> compatibleBrands = Collections.emptyList();
+  public String majorBrand;
+  public long minorVersion;
+  
+  static {}
+  
+  public SegmentTypeBox()
+  {
+    super("styp");
+  }
+  
+  public SegmentTypeBox(String paramString, long paramLong, List<String> paramList)
+  {
+    super("styp");
+    majorBrand = paramString;
+    minorVersion = paramLong;
+    compatibleBrands = paramList;
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    majorBrand = h.a(paramByteBuffer);
+    minorVersion = h.j(paramByteBuffer);
+    int j = paramByteBuffer.remaining() / 4;
+    compatibleBrands = new LinkedList();
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return;
+      }
+      compatibleBrands.add(h.a(paramByteBuffer));
+      i += 1;
+    }
+  }
+  
+  public List<String> getCompatibleBrands()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this);
+    j.b().a(localJoinPoint);
+    return compatibleBrands;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.put(g.b(majorBrand));
+    paramByteBuffer.putInt((int)minorVersion);
+    Iterator localIterator = compatibleBrands.iterator();
+    for (;;)
+    {
+      if (!localIterator.hasNext()) {
+        return;
+      }
+      paramByteBuffer.put(g.b((String)localIterator.next()));
+    }
+  }
+  
+  public long getContentSize()
+  {
+    return compatibleBrands.size() * 4 + 8;
+  }
+  
+  public String getMajorBrand()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return majorBrand;
+  }
+  
+  public long getMinorVersion()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this);
+    j.b().a(localJoinPoint);
+    return minorVersion;
+  }
+  
+  public void setCompatibleBrands(List<String> paramList)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this, paramList);
+    j.b().a(localJoinPoint);
+    compatibleBrands = paramList;
+  }
+  
+  public void setMajorBrand(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramString);
+    j.b().a(localJoinPoint);
+    majorBrand = paramString;
+  }
+  
+  public void setMinorVersion(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this, new Integer(paramInt));
+    j.b().a(localJoinPoint);
+    minorVersion = paramInt;
+  }
+  
+  @f.h.a.a.a
+  public String toString()
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.d("SegmentTypeBox[", "majorBrand=");
+    localStringBuilder.append(getMajorBrand());
+    localStringBuilder.append(";");
+    localStringBuilder.append("minorVersion=");
+    localStringBuilder.append(getMinorVersion());
+    Iterator localIterator = compatibleBrands.iterator();
+    for (;;)
+    {
+      if (!localIterator.hasNext())
+      {
+        localStringBuilder.append("]");
+        return localStringBuilder.toString();
+      }
+      f.a.a.a.a.b(localStringBuilder, ";", "compatibleBrand=", (String)localIterator.next());
+    }
+  }
+}

@@ -1,0 +1,56 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+
+public final class zzdi
+  extends Handler
+{
+  public zzdi(zzdg paramZzdg, Looper paramLooper)
+  {
+    super(paramLooper);
+  }
+  
+  public final void handleMessage(Message paramMessage)
+  {
+    int i = what;
+    if (i != 0)
+    {
+      if (i != 1)
+      {
+        paramMessage = new StringBuilder(70);
+        paramMessage.append("TransformationResultHandler received unknown message type: ");
+        paramMessage.append(i);
+        paramMessage.toString();
+        return;
+      }
+      paramMessage = (RuntimeException)obj;
+      localObject1 = String.valueOf(paramMessage.getMessage());
+      if (((String)localObject1).length() != 0) {
+        "Runtime exception on the transformation worker thread: ".concat((String)localObject1);
+      } else {
+        new String("Runtime exception on the transformation worker thread: ");
+      }
+      throw paramMessage;
+    }
+    Object localObject1 = (PendingResult)obj;
+    paramMessage = zzfpp.zzfjf;
+    if (localObject1 == null) {}
+    try
+    {
+      zzdg.zza(zzfpp.zzfpi, new Status(13, "Transform returned null"));
+      break label172;
+      if ((localObject1 instanceof zzcu)) {
+        zzdg.zza(zzfpp.zzfpi, ((zzcu)localObject1).getStatus());
+      } else {
+        zzfpp.zzfpi.zza((PendingResult)localObject1);
+      }
+      label172:
+      return;
+    }
+    finally {}
+  }
+}

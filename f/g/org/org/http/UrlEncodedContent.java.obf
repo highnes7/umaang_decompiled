@@ -1,0 +1,124 @@
+package f.g.b.a.c;
+
+import f.g.b.a.g.ba;
+import f.g.b.a.g.r;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class M
+  extends a
+{
+  public Object c;
+  
+  public M(Object paramObject)
+  {
+    super(N.b);
+    a(paramObject);
+  }
+  
+  public static M a(y paramY)
+  {
+    Object localObject = paramY.e();
+    if (localObject != null) {
+      return (M)localObject;
+    }
+    localObject = new M(new HashMap());
+    paramY.a((p)localObject);
+    return localObject;
+  }
+  
+  public static boolean a(boolean paramBoolean, Writer paramWriter, String paramString, Object paramObject)
+    throws IOException
+  {
+    boolean bool = paramBoolean;
+    if (paramObject != null)
+    {
+      if (r.b(paramObject)) {
+        return paramBoolean;
+      }
+      if (paramBoolean) {
+        paramBoolean = false;
+      } else {
+        paramWriter.write("&");
+      }
+      paramWriter.write(paramString);
+      if ((paramObject instanceof Enum)) {
+        paramString = f.g.b.a.g.v.a((Enum)paramObject).e();
+      } else {
+        paramString = paramObject.toString();
+      }
+      paramString = f.g.b.a.g.a.a.b(paramString);
+      bool = paramBoolean;
+      if (paramString.length() != 0)
+      {
+        paramWriter.write("=");
+        paramWriter.write(paramString);
+        bool = paramBoolean;
+      }
+    }
+    return bool;
+  }
+  
+  public M a(v paramV)
+  {
+    a = paramV;
+    return this;
+  }
+  
+  public M a(Object paramObject)
+  {
+    if (paramObject != null)
+    {
+      c = paramObject;
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public final Object e()
+  {
+    return c;
+  }
+  
+  public void writeTo(OutputStream paramOutputStream)
+    throws IOException
+  {
+    paramOutputStream = new BufferedWriter(new OutputStreamWriter(paramOutputStream, c()));
+    Iterator localIterator = r.d(c).entrySet().iterator();
+    boolean bool1 = true;
+    while (localIterator.hasNext())
+    {
+      Object localObject2 = (Map.Entry)localIterator.next();
+      Object localObject1 = ((Map.Entry)localObject2).getValue();
+      if (localObject1 != null)
+      {
+        localObject2 = f.g.b.a.g.a.a.b((String)((Map.Entry)localObject2).getKey());
+        Class localClass = localObject1.getClass();
+        if ((!(localObject1 instanceof Iterable)) && (!localClass.isArray()))
+        {
+          bool1 = a(bool1, paramOutputStream, (String)localObject2, localObject1);
+        }
+        else
+        {
+          localObject1 = ba.a(localObject1).iterator();
+          for (boolean bool2 = bool1;; bool2 = a(bool2, paramOutputStream, (String)localObject2, ((Iterator)localObject1).next()))
+          {
+            bool1 = bool2;
+            if (!((Iterator)localObject1).hasNext()) {
+              break;
+            }
+          }
+        }
+      }
+    }
+    paramOutputStream.flush();
+  }
+}

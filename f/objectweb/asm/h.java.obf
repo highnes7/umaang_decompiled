@@ -1,0 +1,207 @@
+package f.e.a;
+
+import android.app.Activity;
+import android.app.Dialog;
+import b.b.a.G;
+import b.b.a.V;
+import f.a.a.a.a;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+
+public class i
+{
+  @G
+  public final Activity a;
+  @G
+  public final Dialog b;
+  public final Queue<g> c;
+  public boolean d;
+  @G
+  public w e;
+  public a f;
+  public boolean g;
+  public boolean h;
+  public final w.a i = new h(this);
+  
+  public i(Activity paramActivity)
+  {
+    if (paramActivity != null)
+    {
+      a = paramActivity;
+      b = null;
+      c = new LinkedList();
+      return;
+    }
+    throw new IllegalArgumentException("Activity is null");
+  }
+  
+  public i(Dialog paramDialog)
+  {
+    if (paramDialog != null)
+    {
+      b = paramDialog;
+      a = null;
+      c = new LinkedList();
+      return;
+    }
+    throw new IllegalArgumentException("Given null Dialog");
+  }
+  
+  public i a(g paramG)
+  {
+    c.add(paramG);
+    return this;
+  }
+  
+  public i a(a paramA)
+  {
+    f = paramA;
+    return this;
+  }
+  
+  public i a(List<g> paramList)
+  {
+    c.addAll(paramList);
+    return this;
+  }
+  
+  public i a(boolean paramBoolean)
+  {
+    g = paramBoolean;
+    return this;
+  }
+  
+  public i a(g... paramVarArgs)
+  {
+    Collections.addAll(c, paramVarArgs);
+    return this;
+  }
+  
+  public void a(int paramInt)
+  {
+    if (d) {
+      return;
+    }
+    if ((paramInt >= 0) && (paramInt < c.size()))
+    {
+      int j = c.size() - paramInt;
+      while ((c.peek() != null) && (c.size() != j)) {
+        c.poll();
+      }
+      if (c.size() == j)
+      {
+        c();
+        return;
+      }
+      throw new IllegalStateException(a.a("Given index ", paramInt, " not in sequence"));
+    }
+    IllegalArgumentException localIllegalArgumentException = new IllegalArgumentException(a.a("Given invalid index ", paramInt));
+    for (;;)
+    {
+      throw localIllegalArgumentException;
+    }
+  }
+  
+  @V
+  public boolean a()
+  {
+    if (!c.isEmpty())
+    {
+      if (!d) {
+        return false;
+      }
+      Object localObject = e;
+      if (localObject != null)
+      {
+        if (!G) {
+          return false;
+        }
+        ((w)localObject).a(false);
+        d = false;
+        c.clear();
+        localObject = f;
+        if (localObject != null) {
+          ((a)localObject).a(e.q);
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public i b(boolean paramBoolean)
+  {
+    h = paramBoolean;
+    return this;
+  }
+  
+  public void b()
+  {
+    try
+    {
+      localObject = (g)c.remove();
+      if (a != null)
+      {
+        e = w.a(a, (g)localObject, i);
+        return;
+      }
+      e = w.a(b, (g)localObject, i);
+      return;
+    }
+    catch (NoSuchElementException localNoSuchElementException)
+    {
+      Object localObject;
+      for (;;) {}
+    }
+    localObject = f;
+    if (localObject != null) {
+      ((a)localObject).a();
+    }
+  }
+  
+  public void b(int paramInt)
+  {
+    if (d) {
+      return;
+    }
+    while ((c.peek() != null) && (((g)c.peek()).b() != paramInt)) {
+      c.poll();
+    }
+    Object localObject = (g)c.peek();
+    if ((localObject != null) && (((g)localObject).b() == paramInt))
+    {
+      c();
+      return;
+    }
+    localObject = new IllegalStateException(a.a("Given target ", paramInt, " not in sequence"));
+    for (;;)
+    {
+      throw ((Throwable)localObject);
+    }
+  }
+  
+  @V
+  public void c()
+  {
+    if (!c.isEmpty())
+    {
+      if (d) {
+        return;
+      }
+      d = true;
+      b();
+    }
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void a();
+    
+    public abstract void a(g paramG);
+    
+    public abstract void a(g paramG, boolean paramBoolean);
+  }
+}

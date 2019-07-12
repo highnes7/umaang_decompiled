@@ -1,0 +1,196 @@
+package com.github.mikephil.charting.data.realm.implementation;
+
+import android.graphics.Color;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.realm.base.RealmBarLineScatterCandleBubbleDataSet;
+import com.github.mikephil.charting.data.realm.base.RealmBaseDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import io.realm.DynamicRealmObject;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
+import java.util.Iterator;
+import java.util.List;
+
+public class RealmBarDataSet<T extends RealmObject>
+  extends RealmBarLineScatterCandleBubbleDataSet<T, BarEntry>
+  implements IBarDataSet
+{
+  public int mBarShadowColor = Color.rgb(215, 215, 215);
+  public float mBarSpace = 0.15F;
+  public int mHighLightAlpha = 120;
+  public String[] mStackLabels = { "Stack" };
+  public int mStackSize = 1;
+  public String mStackValueFieldName;
+  
+  public RealmBarDataSet(RealmResults<T> paramRealmResults, String paramString1, String paramString2)
+  {
+    super(paramRealmResults, paramString1, paramString2);
+    mHighLightColor = Color.rgb(0, 0, 0);
+    build(results);
+    calcMinMax(0, paramRealmResults.size());
+  }
+  
+  public RealmBarDataSet(RealmResults<T> paramRealmResults, String paramString1, String paramString2, String paramString3)
+  {
+    super(paramRealmResults, paramString1, paramString2);
+    mStackValueFieldName = paramString3;
+    mHighLightColor = Color.rgb(0, 0, 0);
+    build(results);
+    calcMinMax(0, paramRealmResults.size());
+  }
+  
+  private void calcStackSize()
+  {
+    int i = 0;
+    while (i < mValues.size())
+    {
+      float[] arrayOfFloat = ((BarEntry)mValues.get(i)).getVals();
+      if ((arrayOfFloat != null) && (arrayOfFloat.length > mStackSize)) {
+        mStackSize = arrayOfFloat.length;
+      }
+      i += 1;
+    }
+  }
+  
+  public void build(RealmResults<T> paramRealmResults)
+  {
+    paramRealmResults = paramRealmResults.iterator();
+    while (paramRealmResults.hasNext())
+    {
+      DynamicRealmObject localDynamicRealmObject = new DynamicRealmObject((RealmObject)paramRealmResults.next());
+      try
+      {
+        float f = localDynamicRealmObject.getFloat(mValuesField);
+        mValues.add(new BarEntry(f, localDynamicRealmObject.getInt(mIndexField)));
+      }
+      catch (IllegalArgumentException localIllegalArgumentException)
+      {
+        Object localObject;
+        float[] arrayOfFloat;
+        int i;
+        for (;;) {}
+      }
+      localObject = localDynamicRealmObject.getList(mValuesField);
+      arrayOfFloat = new float[((RealmList)localObject).size()];
+      i = 0;
+      localObject = ((RealmList)localObject).iterator();
+      while (((Iterator)localObject).hasNext())
+      {
+        arrayOfFloat[i] = ((DynamicRealmObject)((Iterator)localObject).next()).getFloat(mStackValueFieldName);
+        i += 1;
+      }
+      mValues.add(new BarEntry(arrayOfFloat, localDynamicRealmObject.getInt(mIndexField)));
+    }
+    calcStackSize();
+  }
+  
+  public void calcMinMax(int paramInt1, int paramInt2)
+  {
+    Object localObject = mValues;
+    if (localObject == null) {
+      return;
+    }
+    int j = ((List)localObject).size();
+    if (j == 0) {
+      return;
+    }
+    int i;
+    if (paramInt2 != 0)
+    {
+      i = paramInt2;
+      if (paramInt2 < j) {}
+    }
+    else
+    {
+      i = j - 1;
+    }
+    mYMin = Float.MAX_VALUE;
+    mYMax = -3.4028235E38F;
+    while (paramInt1 <= i)
+    {
+      localObject = (BarEntry)mValues.get(paramInt1);
+      if ((localObject != null) && (!Float.isNaN(((BarEntry)localObject).getVal()))) {
+        if (((BarEntry)localObject).getVals() == null)
+        {
+          if (((BarEntry)localObject).getVal() < mYMin) {
+            mYMin = ((BarEntry)localObject).getVal();
+          }
+          if (((BarEntry)localObject).getVal() > mYMax) {
+            mYMax = ((BarEntry)localObject).getVal();
+          }
+        }
+        else
+        {
+          if (-((BarEntry)localObject).getNegativeSum() < mYMin) {
+            mYMin = (-((BarEntry)localObject).getNegativeSum());
+          }
+          if (((BarEntry)localObject).getPositiveSum() > mYMax) {
+            mYMax = ((BarEntry)localObject).getPositiveSum();
+          }
+        }
+      }
+      paramInt1 += 1;
+    }
+    if (mYMin == Float.MAX_VALUE)
+    {
+      mYMin = 0.0F;
+      mYMax = 0.0F;
+    }
+  }
+  
+  public int getBarShadowColor()
+  {
+    return mBarShadowColor;
+  }
+  
+  public float getBarSpace()
+  {
+    return mBarSpace;
+  }
+  
+  public float getBarSpacePercent()
+  {
+    return mBarSpace * 100.0F;
+  }
+  
+  public int getHighLightAlpha()
+  {
+    return mHighLightAlpha;
+  }
+  
+  public String[] getStackLabels()
+  {
+    return mStackLabels;
+  }
+  
+  public int getStackSize()
+  {
+    return mStackSize;
+  }
+  
+  public boolean isStacked()
+  {
+    return mStackSize > 1;
+  }
+  
+  public void setBarShadowColor(int paramInt)
+  {
+    mBarShadowColor = paramInt;
+  }
+  
+  public void setBarSpacePercent(float paramFloat)
+  {
+    mBarSpace = (paramFloat / 100.0F);
+  }
+  
+  public void setHighLightAlpha(int paramInt)
+  {
+    mHighLightAlpha = paramInt;
+  }
+  
+  public void setStackLabels(String[] paramArrayOfString)
+  {
+    mStackLabels = paramArrayOfString;
+  }
+}

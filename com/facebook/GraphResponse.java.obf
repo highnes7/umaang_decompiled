@@ -1,0 +1,528 @@
+package com.facebook;
+
+import com.facebook.internal.Logger;
+import com.facebook.internal.Utility;
+import f.a.a.a.a;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+public class GraphResponse
+{
+  public static final String BODY_KEY = "body";
+  public static final String CODE_KEY = "code";
+  public static final String NON_JSON_RESPONSE_PROPERTY = "FACEBOOK_NON_JSON_RESULT";
+  public static final String RESPONSE_LOG_TAG = "Response";
+  public static final String SUCCESS_KEY = "success";
+  public final HttpURLConnection connection;
+  public final FacebookRequestError error;
+  public final JSONObject graphObject;
+  public final JSONArray graphObjectArray;
+  public final String rawResponse;
+  public final GraphRequest request;
+  
+  public GraphResponse(GraphRequest paramGraphRequest, HttpURLConnection paramHttpURLConnection, FacebookRequestError paramFacebookRequestError)
+  {
+    this(paramGraphRequest, paramHttpURLConnection, null, null, null, paramFacebookRequestError);
+  }
+  
+  public GraphResponse(GraphRequest paramGraphRequest, HttpURLConnection paramHttpURLConnection, String paramString, JSONArray paramJSONArray)
+  {
+    this(paramGraphRequest, paramHttpURLConnection, paramString, null, paramJSONArray, null);
+  }
+  
+  public GraphResponse(GraphRequest paramGraphRequest, HttpURLConnection paramHttpURLConnection, String paramString, JSONObject paramJSONObject)
+  {
+    this(paramGraphRequest, paramHttpURLConnection, paramString, paramJSONObject, null, null);
+  }
+  
+  public GraphResponse(GraphRequest paramGraphRequest, HttpURLConnection paramHttpURLConnection, String paramString, JSONObject paramJSONObject, JSONArray paramJSONArray, FacebookRequestError paramFacebookRequestError)
+  {
+    request = paramGraphRequest;
+    connection = paramHttpURLConnection;
+    rawResponse = paramString;
+    graphObject = paramJSONObject;
+    graphObjectArray = paramJSONArray;
+    error = paramFacebookRequestError;
+  }
+  
+  public static List<GraphResponse> constructErrorResponses(List<GraphRequest> paramList, HttpURLConnection paramHttpURLConnection, FacebookException paramFacebookException)
+  {
+    int j = paramList.size();
+    ArrayList localArrayList = new ArrayList(j);
+    int i = 0;
+    while (i < j)
+    {
+      localArrayList.add(new GraphResponse((GraphRequest)paramList.get(i), paramHttpURLConnection, new FacebookRequestError(paramHttpURLConnection, paramFacebookException)));
+      i += 1;
+    }
+    return localArrayList;
+  }
+  
+  public static GraphResponse createResponseFromObject(GraphRequest paramGraphRequest, HttpURLConnection paramHttpURLConnection, Object paramObject1, Object paramObject2)
+    throws JSONException
+  {
+    Object localObject = paramObject1;
+    if ((paramObject1 instanceof JSONObject))
+    {
+      paramObject1 = (JSONObject)paramObject1;
+      paramObject2 = FacebookRequestError.checkResponseAndCreateError(paramObject1, paramObject2, paramHttpURLConnection);
+      if (paramObject2 != null)
+      {
+        if ((paramObject2.getErrorCode() == 190) && (Utility.isCurrentAccessToken(paramGraphRequest.getAccessToken()))) {
+          AccessToken.setCurrentAccessToken(null);
+        }
+        return new GraphResponse(paramGraphRequest, paramHttpURLConnection, paramObject2);
+      }
+      paramObject1 = Utility.getStringPropertyAsJSON(paramObject1, "body", "FACEBOOK_NON_JSON_RESULT");
+      if ((paramObject1 instanceof JSONObject)) {
+        return new GraphResponse(paramGraphRequest, paramHttpURLConnection, paramObject1.toString(), (JSONObject)paramObject1);
+      }
+      if ((paramObject1 instanceof JSONArray)) {
+        return new GraphResponse(paramGraphRequest, paramHttpURLConnection, paramObject1.toString(), (JSONArray)paramObject1);
+      }
+      localObject = JSONObject.NULL;
+    }
+    if (localObject == JSONObject.NULL) {
+      return new GraphResponse(paramGraphRequest, paramHttpURLConnection, localObject.toString(), null);
+    }
+    paramGraphRequest = a.b("Got unexpected object type in response, class: ");
+    paramGraphRequest.append(localObject.getClass().getSimpleName());
+    throw new FacebookException(paramGraphRequest.toString());
+  }
+  
+  public static List<GraphResponse> createResponsesFromObject(HttpURLConnection paramHttpURLConnection, List<GraphRequest> paramList, Object paramObject)
+    throws FacebookException, JSONException
+  {
+    int k = paramList.size();
+    ArrayList localArrayList = new ArrayList(k);
+    int j = 0;
+    GraphRequest localGraphRequest;
+    if (k == 1) {
+      localGraphRequest = (GraphRequest)paramList.get(0);
+    }
+    for (;;)
+    {
+      try
+      {
+        JSONObject localJSONObject = new JSONObject();
+        localJSONObject.put("body", paramObject);
+        if (paramHttpURLConnection == null) {
+          break label329;
+        }
+        i = paramHttpURLConnection.getResponseCode();
+        localJSONObject.put("code", i);
+        JSONArray localJSONArray = new JSONArray();
+        localJSONArray.put(localJSONObject);
+      }
+      catch (IOException localIOException)
+      {
+        localArrayList.add(new GraphResponse(localGraphRequest, paramHttpURLConnection, new FacebookRequestError(paramHttpURLConnection, localIOException)));
+      }
+      catch (JSONException localJSONException1)
+      {
+        localArrayList.add(new GraphResponse(localGraphRequest, paramHttpURLConnection, new FacebookRequestError(paramHttpURLConnection, localJSONException1)));
+      }
+      Object localObject = paramObject;
+      if ((localObject instanceof JSONArray))
+      {
+        localObject = (JSONArray)localObject;
+        if (((JSONArray)localObject).length() == k)
+        {
+          i = j;
+          while (i < ((JSONArray)localObject).length())
+          {
+            localGraphRequest = (GraphRequest)paramList.get(i);
+            try
+            {
+              localArrayList.add(createResponseFromObject(localGraphRequest, paramHttpURLConnection, ((JSONArray)localObject).get(i), paramObject));
+            }
+            catch (FacebookException localFacebookException)
+            {
+              localArrayList.add(new GraphResponse(localGraphRequest, paramHttpURLConnection, new FacebookRequestError(paramHttpURLConnection, localFacebookException)));
+            }
+            catch (JSONException localJSONException2)
+            {
+              localArrayList.add(new GraphResponse(localGraphRequest, paramHttpURLConnection, new FacebookRequestError(paramHttpURLConnection, localJSONException2)));
+            }
+            i += 1;
+          }
+          return localArrayList;
+        }
+      }
+      paramHttpURLConnection = new FacebookException("Unexpected number of results");
+      for (;;)
+      {
+        throw paramHttpURLConnection;
+      }
+      label329:
+      int i = 200;
+    }
+  }
+  
+  public static List<GraphResponse> createResponsesFromStream(InputStream paramInputStream, HttpURLConnection paramHttpURLConnection, GraphRequestBatch paramGraphRequestBatch)
+    throws FacebookException, JSONException, IOException
+  {
+    paramInputStream = Utility.readStreamToString(paramInputStream);
+    Logger.log(LoggingBehavior.INCLUDE_RAW_RESPONSES, "Response", "Response (raw)\n  Size: %d\n  Response:\n%s\n", new Object[] { Integer.valueOf(paramInputStream.length()), paramInputStream });
+    return createResponsesFromString(paramInputStream, paramHttpURLConnection, paramGraphRequestBatch);
+  }
+  
+  public static List<GraphResponse> createResponsesFromString(String paramString, HttpURLConnection paramHttpURLConnection, GraphRequestBatch paramGraphRequestBatch)
+    throws FacebookException, JSONException, IOException
+  {
+    paramHttpURLConnection = createResponsesFromObject(paramHttpURLConnection, paramGraphRequestBatch, new JSONTokener(paramString).nextValue());
+    Logger.log(LoggingBehavior.REQUESTS, "Response", "Response\n  Id: %s\n  Size: %d\n  Responses:\n%s\n", new Object[] { paramGraphRequestBatch.getId(), Integer.valueOf(paramString.length()), paramHttpURLConnection });
+    return paramHttpURLConnection;
+  }
+  
+  /* Error */
+  public static List<GraphResponse> fromHttpConnection(HttpURLConnection paramHttpURLConnection, GraphRequestBatch paramGraphRequestBatch)
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 8
+    //   3: aconst_null
+    //   4: astore 9
+    //   6: aconst_null
+    //   7: astore 10
+    //   9: aconst_null
+    //   10: astore 11
+    //   12: aconst_null
+    //   13: astore_2
+    //   14: aload_2
+    //   15: astore_3
+    //   16: aload 8
+    //   18: astore 4
+    //   20: aload 9
+    //   22: astore 5
+    //   24: aload 10
+    //   26: astore 6
+    //   28: aload 11
+    //   30: astore 7
+    //   32: aload_0
+    //   33: invokevirtual 179	java/net/HttpURLConnection:getResponseCode	()I
+    //   36: sipush 400
+    //   39: if_icmplt +29 -> 68
+    //   42: aload_2
+    //   43: astore_3
+    //   44: aload 8
+    //   46: astore 4
+    //   48: aload 9
+    //   50: astore 5
+    //   52: aload 10
+    //   54: astore 6
+    //   56: aload 11
+    //   58: astore 7
+    //   60: aload_0
+    //   61: invokevirtual 257	java/net/HttpURLConnection:getErrorStream	()Ljava/io/InputStream;
+    //   64: astore_2
+    //   65: goto +26 -> 91
+    //   68: aload_2
+    //   69: astore_3
+    //   70: aload 8
+    //   72: astore 4
+    //   74: aload 9
+    //   76: astore 5
+    //   78: aload 10
+    //   80: astore 6
+    //   82: aload 11
+    //   84: astore 7
+    //   86: aload_0
+    //   87: invokevirtual 260	java/net/HttpURLConnection:getInputStream	()Ljava/io/InputStream;
+    //   90: astore_2
+    //   91: aload_2
+    //   92: astore_3
+    //   93: aload_2
+    //   94: astore 4
+    //   96: aload_2
+    //   97: astore 5
+    //   99: aload_2
+    //   100: astore 6
+    //   102: aload_2
+    //   103: astore 7
+    //   105: aload_2
+    //   106: aload_0
+    //   107: aload_1
+    //   108: invokestatic 262	com/facebook/GraphResponse:createResponsesFromStream	(Ljava/io/InputStream;Ljava/net/HttpURLConnection;Lcom/facebook/GraphRequestBatch;)Ljava/util/List;
+    //   111: astore 8
+    //   113: aload_2
+    //   114: invokestatic 266	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   117: aload 8
+    //   119: areturn
+    //   120: astore_0
+    //   121: goto +184 -> 305
+    //   124: astore_2
+    //   125: aload 4
+    //   127: astore_3
+    //   128: getstatic 241	com/facebook/LoggingBehavior:REQUESTS	Lcom/facebook/LoggingBehavior;
+    //   131: ldc 20
+    //   133: ldc_w 268
+    //   136: iconst_1
+    //   137: anewarray 4	java/lang/Object
+    //   140: dup
+    //   141: iconst_0
+    //   142: aload_2
+    //   143: aastore
+    //   144: invokestatic 224	com/facebook/internal/Logger:log	(Lcom/facebook/LoggingBehavior;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V
+    //   147: aload 4
+    //   149: astore_3
+    //   150: aload_1
+    //   151: aload_0
+    //   152: new 160	com/facebook/FacebookException
+    //   155: dup
+    //   156: aload_2
+    //   157: invokespecial 271	com/facebook/FacebookException:<init>	(Ljava/lang/Throwable;)V
+    //   160: invokestatic 273	com/facebook/GraphResponse:constructErrorResponses	(Ljava/util/List;Ljava/net/HttpURLConnection;Lcom/facebook/FacebookException;)Ljava/util/List;
+    //   163: astore_0
+    //   164: aload 4
+    //   166: invokestatic 266	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   169: aload_0
+    //   170: areturn
+    //   171: astore_2
+    //   172: aload 5
+    //   174: astore_3
+    //   175: getstatic 241	com/facebook/LoggingBehavior:REQUESTS	Lcom/facebook/LoggingBehavior;
+    //   178: ldc 20
+    //   180: ldc_w 268
+    //   183: iconst_1
+    //   184: anewarray 4	java/lang/Object
+    //   187: dup
+    //   188: iconst_0
+    //   189: aload_2
+    //   190: aastore
+    //   191: invokestatic 224	com/facebook/internal/Logger:log	(Lcom/facebook/LoggingBehavior;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V
+    //   194: aload 5
+    //   196: astore_3
+    //   197: aload_1
+    //   198: aload_0
+    //   199: new 160	com/facebook/FacebookException
+    //   202: dup
+    //   203: aload_2
+    //   204: invokespecial 271	com/facebook/FacebookException:<init>	(Ljava/lang/Throwable;)V
+    //   207: invokestatic 273	com/facebook/GraphResponse:constructErrorResponses	(Ljava/util/List;Ljava/net/HttpURLConnection;Lcom/facebook/FacebookException;)Ljava/util/List;
+    //   210: astore_0
+    //   211: aload 5
+    //   213: invokestatic 266	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   216: aload_0
+    //   217: areturn
+    //   218: astore_2
+    //   219: aload 6
+    //   221: astore_3
+    //   222: getstatic 241	com/facebook/LoggingBehavior:REQUESTS	Lcom/facebook/LoggingBehavior;
+    //   225: ldc 20
+    //   227: ldc_w 268
+    //   230: iconst_1
+    //   231: anewarray 4	java/lang/Object
+    //   234: dup
+    //   235: iconst_0
+    //   236: aload_2
+    //   237: aastore
+    //   238: invokestatic 224	com/facebook/internal/Logger:log	(Lcom/facebook/LoggingBehavior;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V
+    //   241: aload 6
+    //   243: astore_3
+    //   244: aload_1
+    //   245: aload_0
+    //   246: new 160	com/facebook/FacebookException
+    //   249: dup
+    //   250: aload_2
+    //   251: invokespecial 271	com/facebook/FacebookException:<init>	(Ljava/lang/Throwable;)V
+    //   254: invokestatic 273	com/facebook/GraphResponse:constructErrorResponses	(Ljava/util/List;Ljava/net/HttpURLConnection;Lcom/facebook/FacebookException;)Ljava/util/List;
+    //   257: astore_0
+    //   258: aload 6
+    //   260: invokestatic 266	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   263: aload_0
+    //   264: areturn
+    //   265: astore_2
+    //   266: aload 7
+    //   268: astore_3
+    //   269: getstatic 241	com/facebook/LoggingBehavior:REQUESTS	Lcom/facebook/LoggingBehavior;
+    //   272: ldc 20
+    //   274: ldc_w 268
+    //   277: iconst_1
+    //   278: anewarray 4	java/lang/Object
+    //   281: dup
+    //   282: iconst_0
+    //   283: aload_2
+    //   284: aastore
+    //   285: invokestatic 224	com/facebook/internal/Logger:log	(Lcom/facebook/LoggingBehavior;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V
+    //   288: aload 7
+    //   290: astore_3
+    //   291: aload_1
+    //   292: aload_0
+    //   293: aload_2
+    //   294: invokestatic 273	com/facebook/GraphResponse:constructErrorResponses	(Ljava/util/List;Ljava/net/HttpURLConnection;Lcom/facebook/FacebookException;)Ljava/util/List;
+    //   297: astore_0
+    //   298: aload 7
+    //   300: invokestatic 266	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   303: aload_0
+    //   304: areturn
+    //   305: aload_3
+    //   306: invokestatic 266	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   309: aload_0
+    //   310: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	311	0	paramHttpURLConnection	HttpURLConnection
+    //   0	311	1	paramGraphRequestBatch	GraphRequestBatch
+    //   13	101	2	localInputStream	InputStream
+    //   124	33	2	localSecurityException	SecurityException
+    //   171	33	2	localIOException	IOException
+    //   218	33	2	localJSONException	JSONException
+    //   265	29	2	localFacebookException	FacebookException
+    //   15	291	3	localObject1	Object
+    //   18	147	4	localObject2	Object
+    //   22	190	5	localObject3	Object
+    //   26	233	6	localObject4	Object
+    //   30	269	7	localObject5	Object
+    //   1	117	8	localList	List
+    //   4	71	9	localObject6	Object
+    //   7	72	10	localObject7	Object
+    //   10	73	11	localObject8	Object
+    // Exception table:
+    //   from	to	target	type
+    //   32	42	120	finally
+    //   60	65	120	finally
+    //   86	91	120	finally
+    //   105	113	120	finally
+    //   128	147	120	finally
+    //   150	164	120	finally
+    //   175	194	120	finally
+    //   197	211	120	finally
+    //   222	241	120	finally
+    //   244	258	120	finally
+    //   269	288	120	finally
+    //   291	298	120	finally
+    //   32	42	124	java/lang/SecurityException
+    //   60	65	124	java/lang/SecurityException
+    //   86	91	124	java/lang/SecurityException
+    //   105	113	124	java/lang/SecurityException
+    //   32	42	171	java/io/IOException
+    //   60	65	171	java/io/IOException
+    //   86	91	171	java/io/IOException
+    //   105	113	171	java/io/IOException
+    //   32	42	218	org/json/JSONException
+    //   60	65	218	org/json/JSONException
+    //   86	91	218	org/json/JSONException
+    //   105	113	218	org/json/JSONException
+    //   32	42	265	com/facebook/FacebookException
+    //   60	65	265	com/facebook/FacebookException
+    //   86	91	265	com/facebook/FacebookException
+    //   105	113	265	com/facebook/FacebookException
+  }
+  
+  public final HttpURLConnection getConnection()
+  {
+    return connection;
+  }
+  
+  public final FacebookRequestError getError()
+  {
+    return error;
+  }
+  
+  public final JSONArray getJSONArray()
+  {
+    return graphObjectArray;
+  }
+  
+  public final JSONObject getJSONObject()
+  {
+    return graphObject;
+  }
+  
+  public String getRawResponse()
+  {
+    return rawResponse;
+  }
+  
+  public GraphRequest getRequest()
+  {
+    return request;
+  }
+  
+  public GraphRequest getRequestForPagedResults(PagingDirection paramPagingDirection)
+  {
+    JSONObject localJSONObject = graphObject;
+    if (localJSONObject != null)
+    {
+      localJSONObject = localJSONObject.optJSONObject("paging");
+      if (localJSONObject != null)
+      {
+        if (paramPagingDirection == PagingDirection.NEXT)
+        {
+          paramPagingDirection = localJSONObject.optString("next");
+          break label52;
+        }
+        paramPagingDirection = localJSONObject.optString("previous");
+        break label52;
+      }
+    }
+    paramPagingDirection = null;
+    label52:
+    if (Utility.isNullOrEmpty(paramPagingDirection)) {
+      return null;
+    }
+    if ((paramPagingDirection != null) && (paramPagingDirection.equals(request.getUrlForSingleRequest()))) {
+      return null;
+    }
+    try
+    {
+      paramPagingDirection = new GraphRequest(request.getAccessToken(), new URL(paramPagingDirection));
+      return paramPagingDirection;
+    }
+    catch (MalformedURLException paramPagingDirection) {}
+    return null;
+  }
+  
+  public String toString()
+  {
+    try
+    {
+      localObject = Locale.US;
+      if (connection == null) {
+        break label119;
+      }
+      i = connection.getResponseCode();
+    }
+    catch (IOException localIOException)
+    {
+      for (;;)
+      {
+        Object localObject;
+        label48:
+        StringBuilder localStringBuilder;
+        continue;
+        label119:
+        int i = 200;
+      }
+    }
+    localObject = String.format((Locale)localObject, "%d", new Object[] { Integer.valueOf(i) });
+    break label48;
+    localObject = "unknown";
+    localStringBuilder = new StringBuilder();
+    localStringBuilder.append("{Response: ");
+    localStringBuilder.append(" responseCode: ");
+    localStringBuilder.append((String)localObject);
+    localStringBuilder.append(", graphObject: ");
+    localStringBuilder.append(graphObject);
+    localStringBuilder.append(", error: ");
+    return a.a(localStringBuilder, error, "}");
+  }
+  
+  public static enum PagingDirection
+  {
+    NEXT,  PREVIOUS;
+    
+    public PagingDirection() {}
+  }
+}

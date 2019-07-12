@@ -1,0 +1,42 @@
+package b.b.x.b.a;
+
+import android.annotation.SuppressLint;
+import android.content.pm.PermissionInfo;
+import android.os.Build.VERSION;
+import b.b.a.F;
+import b.b.a.N;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+public final class c
+{
+  public c() {}
+  
+  @SuppressLint({"WrongConstant"})
+  public static int a(@F PermissionInfo paramPermissionInfo)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramPermissionInfo.getProtection();
+    }
+    return protectionLevel & 0xF;
+  }
+  
+  @SuppressLint({"WrongConstant"})
+  public static int b(@F PermissionInfo paramPermissionInfo)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramPermissionInfo.getProtectionFlags();
+    }
+    return protectionLevel & 0xFFFFFFF0;
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.a})
+  public static @interface a {}
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @SuppressLint({"UniqueConstants"})
+  @N({b.b.a.N.a.a})
+  public static @interface b {}
+}

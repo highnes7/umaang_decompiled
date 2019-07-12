@@ -1,0 +1,174 @@
+package f.g.b.a.g;
+
+import f.g.b.a.e.a.a.a.b.g;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.WeakHashMap;
+
+public final class n
+{
+  public static final Map<Class<?>, n> a = new WeakHashMap();
+  public static final Map<Class<?>, n> b = new WeakHashMap();
+  public final Class<?> c;
+  public final boolean d;
+  public final IdentityHashMap<String, v> e = new IdentityHashMap();
+  public final List<String> f;
+  
+  public n(Class<?> paramClass, boolean paramBoolean)
+  {
+    c = paramClass;
+    d = paramBoolean;
+    boolean bool;
+    if ((paramBoolean) && (paramClass.isEnum())) {
+      bool = false;
+    } else {
+      bool = true;
+    }
+    Object localObject1 = String.valueOf(paramClass);
+    Object localObject2 = new StringBuilder(((String)localObject1).length() + 31);
+    ((StringBuilder)localObject2).append("cannot ignore case on an enum: ");
+    ((StringBuilder)localObject2).append((String)localObject1);
+    g.a(bool, ((StringBuilder)localObject2).toString());
+    TreeSet localTreeSet = new TreeSet(new m(this));
+    Field[] arrayOfField = paramClass.getDeclaredFields();
+    int j = arrayOfField.length;
+    int i = 0;
+    while (i < j)
+    {
+      Field localField = arrayOfField[i];
+      v localV = v.a(localField);
+      if (localV != null)
+      {
+        localObject2 = localV.e();
+        localObject1 = localObject2;
+        if (paramBoolean) {
+          localObject1 = ((String)localObject2).toLowerCase().intern();
+        }
+        Object localObject3 = (v)e.get(localObject1);
+        if (localObject3 == null) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        if (paramBoolean) {
+          localObject2 = "case-insensitive ";
+        } else {
+          localObject2 = "";
+        }
+        if (localObject3 == null) {
+          localObject3 = null;
+        } else {
+          localObject3 = ((v)localObject3).c();
+        }
+        g.a(bool, "two fields have the same %sname <%s>: %s and %s", new Object[] { localObject2, localObject1, localField, localObject3 });
+        e.put(localObject1, localV);
+        localTreeSet.add(localObject1);
+      }
+      i += 1;
+    }
+    paramClass = paramClass.getSuperclass();
+    if (paramClass != null)
+    {
+      paramClass = a(paramClass, paramBoolean);
+      localTreeSet.addAll(f);
+      paramClass = e.entrySet().iterator();
+      while (paramClass.hasNext())
+      {
+        localObject1 = (Map.Entry)paramClass.next();
+        localObject2 = (String)((Map.Entry)localObject1).getKey();
+        if (!e.containsKey(localObject2)) {
+          e.put(localObject2, ((Map.Entry)localObject1).getValue());
+        }
+      }
+    }
+    if (localTreeSet.isEmpty()) {
+      paramClass = Collections.emptyList();
+    } else {
+      paramClass = Collections.unmodifiableList(new ArrayList(localTreeSet));
+    }
+    f = paramClass;
+  }
+  
+  public static n a(Class<?> paramClass)
+  {
+    return a(paramClass, false);
+  }
+  
+  public static n a(Class<?> paramClass, boolean paramBoolean)
+  {
+    if (paramClass == null) {
+      return null;
+    }
+    if (paramBoolean) {
+      ??? = b;
+    }
+    synchronized (a)
+    {
+      n localN2 = (n)???.get(paramClass);
+      n localN1 = localN2;
+      if (localN2 == null)
+      {
+        localN1 = new n(paramClass, paramBoolean);
+        ???.put(paramClass, localN1);
+      }
+      return localN1;
+    }
+  }
+  
+  public Field a(String paramString)
+  {
+    paramString = b(paramString);
+    if (paramString == null) {
+      return null;
+    }
+    return paramString.c();
+  }
+  
+  public Collection<v> a()
+  {
+    return Collections.unmodifiableCollection(e.values());
+  }
+  
+  public v b(String paramString)
+  {
+    String str = paramString;
+    if (paramString != null)
+    {
+      str = paramString;
+      if (d) {
+        str = paramString.toLowerCase();
+      }
+      str = str.intern();
+    }
+    return (v)e.get(str);
+  }
+  
+  public final boolean b()
+  {
+    return d;
+  }
+  
+  public Collection<String> c()
+  {
+    return f;
+  }
+  
+  public Class<?> d()
+  {
+    return c;
+  }
+  
+  public boolean e()
+  {
+    return c.isEnum();
+  }
+}

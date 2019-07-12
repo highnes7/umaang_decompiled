@@ -1,0 +1,88 @@
+package com.google.android.gms.tagmanager;
+
+import com.google.android.gms.internal.zzbd;
+import com.google.android.gms.internal.zzbe;
+import com.google.android.gms.internal.zzbp;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+public final class zzel
+  extends zzbr
+{
+  public static final String ID = zzbd.zzix.toString();
+  public static final String zzjts = zzbe.zzmn.toString();
+  public static final String zzjtt = zzbe.zzmo.toString();
+  public static final String zzjtu = zzbe.zzql.toString();
+  public static final String zzjtv = zzbe.zzqe.toString();
+  
+  public zzel()
+  {
+    super(ID, new String[] { zzjts, zzjtt });
+  }
+  
+  public final boolean zzbcj()
+  {
+    return true;
+  }
+  
+  public final zzbp zzp(Map<String, zzbp> paramMap)
+  {
+    Object localObject = (zzbp)paramMap.get(zzjts);
+    zzbp localZzbp1 = (zzbp)paramMap.get(zzjtt);
+    int i;
+    int j;
+    if (localObject != null)
+    {
+      zzbp localZzbp2 = zzgk.zzjwp;
+      if ((localObject != localZzbp2) && (localZzbp1 != null) && (localZzbp1 != localZzbp2))
+      {
+        i = 64;
+        if (zzgk.zzf((zzbp)paramMap.get(zzjtu)).booleanValue()) {
+          i = 66;
+        }
+        j = 1;
+        paramMap = (zzbp)paramMap.get(zzjtv);
+        if (paramMap != null)
+        {
+          paramMap = zzgk.zzd(paramMap);
+          if (paramMap == zzgk.zzjwi) {
+            return zzgk.zzjwp;
+          }
+          int k = paramMap.intValue();
+          j = k;
+          if (k < 0) {
+            return zzgk.zzjwp;
+          }
+        }
+      }
+    }
+    try
+    {
+      paramMap = zzgk.zzb((zzbp)localObject);
+      localObject = zzgk.zzb(localZzbp1);
+      localZzbp1 = null;
+      localObject = Pattern.compile((String)localObject, i).matcher(paramMap);
+      paramMap = localZzbp1;
+      if (((Matcher)localObject).find())
+      {
+        paramMap = localZzbp1;
+        if (((Matcher)localObject).groupCount() >= j) {
+          paramMap = ((Matcher)localObject).group(j);
+        }
+      }
+      if (paramMap == null) {
+        return zzgk.zzjwp;
+      }
+      paramMap = zzgk.zzah(paramMap);
+      return paramMap;
+    }
+    catch (PatternSyntaxException paramMap)
+    {
+      for (;;) {}
+    }
+    return zzgk.zzjwp;
+    return zzgk.zzjwp;
+  }
+}

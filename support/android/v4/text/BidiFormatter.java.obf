@@ -1,0 +1,613 @@
+package b.b.x.m;
+
+import android.text.SpannableStringBuilder;
+import java.util.Locale;
+
+public final class a
+{
+  public static final e a = f.c;
+  public static final char b = '?';
+  public static final char c = '?';
+  public static final char d = '?';
+  public static final char e = '?';
+  public static final char f = '?';
+  public static final String g = Character.toString('?');
+  public static final String h = Character.toString('?');
+  public static final String i = "";
+  public static final int j = 2;
+  public static final int k = 2;
+  public static final a l = new a(false, 2, a);
+  public static final a m = new a(true, 2, a);
+  public static final int n = -1;
+  public static final int o = 0;
+  public static final int p = 1;
+  public final boolean q;
+  public final int r;
+  public final e s;
+  
+  public a(boolean paramBoolean, int paramInt, e paramE)
+  {
+    q = paramBoolean;
+    r = paramInt;
+    s = paramE;
+  }
+  
+  public static int a(CharSequence paramCharSequence)
+  {
+    return new b(paramCharSequence, false).c();
+  }
+  
+  public static a a()
+  {
+    return new a().a();
+  }
+  
+  public static a a(Locale paramLocale)
+  {
+    return new a(paramLocale).a();
+  }
+  
+  public static a a(boolean paramBoolean)
+  {
+    e localE = a;
+    if (localE == a) {
+      return a.a(paramBoolean);
+    }
+    return new a(paramBoolean, 2, localE);
+  }
+  
+  public static int b(CharSequence paramCharSequence)
+  {
+    return new b(paramCharSequence, false).d();
+  }
+  
+  private String b(CharSequence paramCharSequence, e paramE)
+  {
+    boolean bool = paramE.isRtl(paramCharSequence, 0, paramCharSequence.length());
+    if ((!q) && ((bool) || (b(paramCharSequence) == 1))) {
+      return g;
+    }
+    if ((q) && ((!bool) || (b(paramCharSequence) == -1))) {
+      return h;
+    }
+    return "";
+  }
+  
+  public static boolean b(Locale paramLocale)
+  {
+    return g.b(paramLocale) == 1;
+  }
+  
+  private String c(CharSequence paramCharSequence, e paramE)
+  {
+    boolean bool = paramE.isRtl(paramCharSequence, 0, paramCharSequence.length());
+    if ((!q) && ((bool) || (a(paramCharSequence) == 1))) {
+      return g;
+    }
+    if ((q) && ((!bool) || (a(paramCharSequence) == -1))) {
+      return h;
+    }
+    return "";
+  }
+  
+  public CharSequence a(CharSequence paramCharSequence, e paramE)
+  {
+    return a(paramCharSequence, paramE, true);
+  }
+  
+  public CharSequence a(CharSequence paramCharSequence, e paramE, boolean paramBoolean)
+  {
+    if (paramCharSequence == null) {
+      return null;
+    }
+    boolean bool = paramE.isRtl(paramCharSequence, 0, paramCharSequence.length());
+    SpannableStringBuilder localSpannableStringBuilder = new SpannableStringBuilder();
+    if ((b()) && (paramBoolean))
+    {
+      if (bool) {
+        paramE = f.b;
+      } else {
+        paramE = f.a;
+      }
+      localSpannableStringBuilder.append(c(paramCharSequence, paramE));
+    }
+    if (bool != q)
+    {
+      char c1;
+      if (bool) {
+        c1 = '?';
+      } else {
+        c1 = '?';
+      }
+      localSpannableStringBuilder.append(c1);
+      localSpannableStringBuilder.append(paramCharSequence);
+      localSpannableStringBuilder.append('?');
+    }
+    else
+    {
+      localSpannableStringBuilder.append(paramCharSequence);
+    }
+    if (paramBoolean)
+    {
+      if (bool) {
+        paramE = f.b;
+      } else {
+        paramE = f.a;
+      }
+      localSpannableStringBuilder.append(b(paramCharSequence, paramE));
+    }
+    return localSpannableStringBuilder;
+  }
+  
+  public CharSequence a(CharSequence paramCharSequence, boolean paramBoolean)
+  {
+    return a(paramCharSequence, s, paramBoolean);
+  }
+  
+  public String a(String paramString, e paramE)
+  {
+    return a(paramString, paramE, true);
+  }
+  
+  public String a(String paramString, e paramE, boolean paramBoolean)
+  {
+    if (paramString == null) {
+      return null;
+    }
+    return a(paramString, paramE, paramBoolean).toString();
+  }
+  
+  public String a(String paramString, boolean paramBoolean)
+  {
+    return a(paramString, s, paramBoolean);
+  }
+  
+  public boolean a(String paramString)
+  {
+    return c(paramString);
+  }
+  
+  public String b(String paramString)
+  {
+    return a(paramString, s, true);
+  }
+  
+  public boolean b()
+  {
+    return (r & 0x2) != 0;
+  }
+  
+  public boolean c()
+  {
+    return q;
+  }
+  
+  public boolean c(CharSequence paramCharSequence)
+  {
+    return s.isRtl(paramCharSequence, 0, paramCharSequence.length());
+  }
+  
+  public CharSequence d(CharSequence paramCharSequence)
+  {
+    return a(paramCharSequence, s, true);
+  }
+  
+  public static final class a
+  {
+    public boolean a;
+    public int b;
+    public e c;
+    
+    public a()
+    {
+      c(a.b(Locale.getDefault()));
+    }
+    
+    public a(Locale paramLocale)
+    {
+      c(a.b(paramLocale));
+    }
+    
+    public a(boolean paramBoolean)
+    {
+      a = paramBoolean;
+      c = a.a;
+      b = 2;
+    }
+    
+    public static a a(boolean paramBoolean)
+    {
+      if (paramBoolean) {
+        return a.m;
+      }
+      return a.l;
+    }
+    
+    private void c(boolean paramBoolean)
+    {
+      a = paramBoolean;
+      c = a.a;
+      b = 2;
+    }
+    
+    public a a(e paramE)
+    {
+      c = paramE;
+      return this;
+    }
+    
+    public a a()
+    {
+      if ((b == 2) && (c == a.a)) {
+        return a(a);
+      }
+      return new a(a, b, c);
+    }
+    
+    public a b(boolean paramBoolean)
+    {
+      if (paramBoolean)
+      {
+        b |= 0x2;
+        return this;
+      }
+      b &= 0xFFFFFFFD;
+      return this;
+    }
+  }
+  
+  private static class b
+  {
+    public static final int a = 1792;
+    public static final byte[] b = new byte['?'];
+    public final CharSequence c;
+    public final boolean d;
+    public final int e;
+    public int f;
+    public char g;
+    
+    static
+    {
+      int i = 0;
+      while (i < 1792)
+      {
+        b[i] = Character.getDirectionality(i);
+        i += 1;
+      }
+    }
+    
+    public b(CharSequence paramCharSequence, boolean paramBoolean)
+    {
+      c = paramCharSequence;
+      d = paramBoolean;
+      e = paramCharSequence.length();
+    }
+    
+    public static byte a(char paramChar)
+    {
+      if (paramChar < '?') {
+        return b[paramChar];
+      }
+      return Character.getDirectionality(paramChar);
+    }
+    
+    private byte e()
+    {
+      int i = f;
+      int j;
+      do
+      {
+        j = f;
+        if (j <= 0) {
+          break;
+        }
+        CharSequence localCharSequence = c;
+        j -= 1;
+        f = j;
+        g = localCharSequence.charAt(j);
+        j = g;
+        if (j == 38) {
+          return 12;
+        }
+      } while (j != 59);
+      f = i;
+      g = ';';
+      return 13;
+    }
+    
+    private byte f()
+    {
+      char c1;
+      do
+      {
+        int i = f;
+        if (i >= e) {
+          break;
+        }
+        CharSequence localCharSequence = c;
+        f = (i + 1);
+        c1 = localCharSequence.charAt(i);
+        g = c1;
+      } while (c1 != ';');
+      return 12;
+    }
+    
+    private byte g()
+    {
+      int j = f;
+      CharSequence localCharSequence;
+      do
+      {
+        k = f;
+        if (k <= 0) {
+          break;
+        }
+        localCharSequence = c;
+        k -= 1;
+        f = k;
+        g = localCharSequence.charAt(k);
+        k = g;
+        if (k == 60) {
+          return 12;
+        }
+        if (k == 62) {
+          break;
+        }
+      } while ((k != 34) && (k != 39));
+      int k = g;
+      for (;;)
+      {
+        int m = f;
+        if (m <= 0) {
+          break;
+        }
+        localCharSequence = c;
+        m -= 1;
+        f = m;
+        int i = localCharSequence.charAt(m);
+        g = i;
+        if (i == k) {
+          break;
+        }
+      }
+      f = j;
+      g = '>';
+      return 13;
+    }
+    
+    private byte h()
+    {
+      int j = f;
+      CharSequence localCharSequence;
+      do
+      {
+        k = f;
+        if (k >= e) {
+          break;
+        }
+        localCharSequence = c;
+        f = (k + 1);
+        g = localCharSequence.charAt(k);
+        k = g;
+        if (k == 62) {
+          return 12;
+        }
+      } while ((k != 34) && (k != 39));
+      int k = g;
+      for (;;)
+      {
+        int m = f;
+        if (m >= e) {
+          break;
+        }
+        localCharSequence = c;
+        f = (m + 1);
+        int i = localCharSequence.charAt(m);
+        g = i;
+        if (i == k) {
+          break;
+        }
+      }
+      f = j;
+      g = '<';
+      return 13;
+    }
+    
+    public byte a()
+    {
+      g = c.charAt(f - 1);
+      int i;
+      if (Character.isLowSurrogate(g))
+      {
+        i = Character.codePointBefore(c, f);
+        f -= Character.charCount(i);
+        return Character.getDirectionality(i);
+      }
+      f -= 1;
+      byte b2 = a(g);
+      byte b1 = b2;
+      if (d)
+      {
+        i = g;
+        if (i == 62) {
+          return g();
+        }
+        b1 = b2;
+        if (i == 59) {
+          b1 = e();
+        }
+      }
+      return b1;
+    }
+    
+    public byte b()
+    {
+      g = c.charAt(f);
+      int i;
+      if (Character.isHighSurrogate(g))
+      {
+        i = Character.codePointAt(c, f);
+        int j = f;
+        f = (Character.charCount(i) + j);
+        return Character.getDirectionality(i);
+      }
+      f += 1;
+      byte b2 = a(g);
+      byte b1 = b2;
+      if (d)
+      {
+        i = g;
+        if (i == 60) {
+          return h();
+        }
+        b1 = b2;
+        if (i == 38)
+        {
+          f();
+          b1 = 12;
+        }
+      }
+      return b1;
+    }
+    
+    public int c()
+    {
+      f = 0;
+      int k = 0;
+      int j = 0;
+      int i = 0;
+      while ((f < e) && (k == 0))
+      {
+        int m = b();
+        if (m != 0)
+        {
+          if ((m != 1) && (m != 2))
+          {
+            if (m == 9) {}
+          }
+          else {
+            switch (m)
+            {
+            default: 
+              break;
+            case 18: 
+              i -= 1;
+              j = 0;
+              break;
+            case 16: 
+            case 17: 
+              i += 1;
+              j = 1;
+              break;
+            case 14: 
+            case 15: 
+              i += 1;
+              j = -1;
+              continue;
+              if (i != 0) {
+                break label134;
+              }
+              return 1;
+            }
+          }
+        }
+        else
+        {
+          if (i == 0) {
+            return -1;
+          }
+          label134:
+          k = i;
+        }
+      }
+      if (k == 0) {
+        return 0;
+      }
+      if (j != 0) {
+        return j;
+      }
+      while (f > 0) {
+        switch (a())
+        {
+        default: 
+          break;
+        case 18: 
+          i += 1;
+          break;
+        case 16: 
+        case 17: 
+          if (k == i) {
+            return 1;
+          }
+        case 14: 
+        case 15: 
+          if (k == i) {
+            return -1;
+          }
+          i -= 1;
+        }
+      }
+      return 0;
+    }
+    
+    public int d()
+    {
+      f = e;
+      int j = 0;
+      int i = 0;
+      while (f > 0)
+      {
+        int k = a();
+        if (k != 0)
+        {
+          if ((k != 1) && (k != 2))
+          {
+            if (k == 9) {}
+          }
+          else {
+            switch (k)
+            {
+            default: 
+              if (j != 0) {
+                continue;
+              }
+              break;
+            case 18: 
+              i += 1;
+              break;
+            case 16: 
+            case 17: 
+              if (j == i) {
+                return 1;
+              }
+            case 14: 
+            case 15: 
+              if (j == i) {
+                return -1;
+              }
+              i -= 1;
+              continue;
+              if (i == 0) {
+                return 1;
+              }
+              if (j != 0) {
+                continue;
+              }
+              break;
+            }
+          }
+        }
+        else
+        {
+          if (i == 0) {
+            return -1;
+          }
+          if (j == 0) {
+            j = i;
+          }
+        }
+      }
+      return 0;
+    }
+  }
+}

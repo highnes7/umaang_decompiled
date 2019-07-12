@@ -1,0 +1,1483 @@
+package com.github.clans.fab;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
+import android.graphics.Xfermode;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.Shape;
+import android.os.Build.VERSION;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.os.SystemClock;
+import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.BaseSavedState;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import f.f.a.a.b;
+import f.f.a.a.c;
+import f.f.a.a.d;
+import f.f.a.a.e;
+import f.f.a.a.f;
+import f.f.a.a.r.a;
+import f.f.a.a.r.c;
+import f.f.a.a.r.e;
+import f.f.a.a.r.f;
+import f.f.a.a.s;
+
+public class FloatingActionButton
+  extends ImageButton
+{
+  public static final int a = 0;
+  public static final int b = 1;
+  public static final Xfermode c = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+  public static final long d = 200L;
+  public static final double e = 500.0D;
+  public static final int f = 270;
+  public int A = s.a(getContext(), 6.0F);
+  public int B;
+  public int C;
+  public boolean D;
+  public float E = -1.0F;
+  public float F = -1.0F;
+  public boolean G;
+  public RectF H = new RectF();
+  public Paint I = new Paint(1);
+  public Paint J = new Paint(1);
+  public boolean K;
+  public long L;
+  public float M = 195.0F;
+  public long N = 0L;
+  public double O;
+  public boolean P = true;
+  public int Q = 16;
+  public float R;
+  public float S;
+  public float T;
+  public int U;
+  public boolean V;
+  public boolean W;
+  public boolean aa;
+  public int ba = 100;
+  public boolean ca;
+  public GestureDetector da = new GestureDetector(getContext(), new c(this));
+  public int g;
+  public boolean h;
+  public int i;
+  public int j = s.a(getContext(), 4.0F);
+  public int k = s.a(getContext(), 1.0F);
+  public int l = s.a(getContext(), 3.0F);
+  public int m;
+  public int n;
+  public int o;
+  public int p;
+  public Drawable q;
+  public int r = s.a(getContext(), 24.0F);
+  public Animation s;
+  public Animation t;
+  public String u;
+  public View.OnClickListener v;
+  public Drawable w;
+  public boolean x;
+  public boolean y;
+  public boolean z;
+  
+  public FloatingActionButton(Context paramContext)
+  {
+    this(paramContext, null, 0);
+  }
+  
+  public FloatingActionButton(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    this(paramContext, paramAttributeSet, 0);
+  }
+  
+  public FloatingActionButton(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+    a(paramContext, paramAttributeSet, paramInt);
+  }
+  
+  @TargetApi(21)
+  public FloatingActionButton(Context paramContext, AttributeSet paramAttributeSet, int paramInt1, int paramInt2)
+  {
+    super(paramContext, paramAttributeSet, paramInt1, paramInt2);
+    a(paramContext, paramAttributeSet, paramInt1);
+  }
+  
+  private Drawable a(int paramInt)
+  {
+    a localA = new a(new OvalShape());
+    localA.getPaint().setColor(paramInt);
+    return localA;
+  }
+  
+  private void a(long paramLong)
+  {
+    long l1 = N;
+    if (l1 >= 200L)
+    {
+      double d1 = O;
+      double d2 = paramLong;
+      Double.isNaN(d2);
+      O = (d1 + d2);
+      d1 = O;
+      if (d1 > 500.0D)
+      {
+        O = (d1 - 500.0D);
+        N = 0L;
+        P ^= true;
+      }
+      float f1 = (float)Math.cos((O / 500.0D + 1.0D) * 3.141592653589793D) / 2.0F + 0.5F;
+      float f2 = 270 - Q;
+      if (P)
+      {
+        R = (f1 * f2);
+        return;
+      }
+      f1 = (1.0F - f1) * f2;
+      f2 = S;
+      S = (R - f1 + f2);
+      R = f1;
+      return;
+    }
+    N = (l1 + paramLong);
+  }
+  
+  private void a(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, r.f.FloatingActionButton, paramInt, 0);
+    m = paramContext.getColor(r.f.FloatingActionButton_fab_colorNormal, -2473162);
+    n = paramContext.getColor(r.f.FloatingActionButton_fab_colorPressed, -1617853);
+    o = paramContext.getColor(r.f.FloatingActionButton_fab_colorDisabled, -5592406);
+    p = paramContext.getColor(r.f.FloatingActionButton_fab_colorRipple, -1711276033);
+    h = paramContext.getBoolean(r.f.FloatingActionButton_fab_showShadow, true);
+    i = paramContext.getColor(r.f.FloatingActionButton_fab_shadowColor, 1711276032);
+    j = paramContext.getDimensionPixelSize(r.f.FloatingActionButton_fab_shadowRadius, j);
+    k = paramContext.getDimensionPixelSize(r.f.FloatingActionButton_fab_shadowXOffset, k);
+    l = paramContext.getDimensionPixelSize(r.f.FloatingActionButton_fab_shadowYOffset, l);
+    g = paramContext.getInt(r.f.FloatingActionButton_fab_size, 0);
+    u = paramContext.getString(r.f.FloatingActionButton_fab_label);
+    W = paramContext.getBoolean(r.f.FloatingActionButton_fab_progress_indeterminate, false);
+    B = paramContext.getColor(r.f.FloatingActionButton_fab_progress_color, -16738680);
+    C = paramContext.getColor(r.f.FloatingActionButton_fab_progress_backgroundColor, 1291845632);
+    ba = paramContext.getInt(r.f.FloatingActionButton_fab_progress_max, ba);
+    ca = paramContext.getBoolean(r.f.FloatingActionButton_fab_progress_showBackground, true);
+    if (paramContext.hasValue(r.f.FloatingActionButton_fab_progress))
+    {
+      U = paramContext.getInt(r.f.FloatingActionButton_fab_progress, 0);
+      aa = true;
+    }
+    if (paramContext.hasValue(r.f.FloatingActionButton_fab_elevationCompat))
+    {
+      float f1 = paramContext.getDimensionPixelOffset(r.f.FloatingActionButton_fab_elevationCompat, 0);
+      if (isInEditMode()) {
+        setElevation(f1);
+      } else {
+        setElevationCompat(f1);
+      }
+    }
+    b(paramContext);
+    a(paramContext);
+    paramContext.recycle();
+    if (isInEditMode()) {
+      if (W)
+      {
+        setIndeterminate(true);
+      }
+      else if (aa)
+      {
+        r();
+        a(U, false);
+      }
+    }
+    setClickable(true);
+  }
+  
+  private void a(TypedArray paramTypedArray)
+  {
+    int i1 = paramTypedArray.getResourceId(r.f.FloatingActionButton_fab_hideAnimation, r.a.fab_scale_down);
+    t = AnimationUtils.loadAnimation(getContext(), i1);
+  }
+  
+  private void b(TypedArray paramTypedArray)
+  {
+    int i1 = paramTypedArray.getResourceId(r.f.FloatingActionButton_fab_showAnimation, r.a.fab_scale_up);
+    s = AnimationUtils.loadAnimation(getContext(), i1);
+  }
+  
+  private int getCircleSize()
+  {
+    Resources localResources = getResources();
+    int i1;
+    if (g == 0) {
+      i1 = r.c.fab_size_normal;
+    } else {
+      i1 = r.c.fab_size_mini;
+    }
+    return localResources.getDimensionPixelSize(i1);
+  }
+  
+  private int getShadowX()
+  {
+    int i1 = j;
+    return Math.abs(k) + i1;
+  }
+  
+  private int getShadowY()
+  {
+    int i1 = j;
+    return Math.abs(l) + i1;
+  }
+  
+  private float m()
+  {
+    return getMeasuredWidth() / 2;
+  }
+  
+  private float n()
+  {
+    return getMeasuredHeight() / 2;
+  }
+  
+  private int o()
+  {
+    int i1 = getCircleSize();
+    int i2 = b() + i1;
+    i1 = i2;
+    if (z) {
+      i1 = i2 + A * 2;
+    }
+    return i1;
+  }
+  
+  private int p()
+  {
+    int i1 = getCircleSize();
+    int i2 = c() + i1;
+    i1 = i2;
+    if (z) {
+      i1 = i2 + A * 2;
+    }
+    return i1;
+  }
+  
+  @TargetApi(21)
+  private Drawable q()
+  {
+    Object localObject1 = new StateListDrawable();
+    Object localObject2 = a(o);
+    ((StateListDrawable)localObject1).addState(new int[] { -16842910 }, (Drawable)localObject2);
+    localObject2 = a(n);
+    ((StateListDrawable)localObject1).addState(new int[] { 16842919 }, (Drawable)localObject2);
+    localObject2 = a(m);
+    ((StateListDrawable)localObject1).addState(new int[0], (Drawable)localObject2);
+    if (s.b())
+    {
+      localObject2 = new int[0];
+      int i1 = p;
+      localObject1 = new RippleDrawable(new ColorStateList(new int[][] { localObject2 }, new int[] { i1 }), (Drawable)localObject1, null);
+      setOutlineProvider(new b(this));
+      setClipToOutline(true);
+      w = ((Drawable)localObject1);
+      return localObject1;
+    }
+    w = ((Drawable)localObject1);
+    return localObject1;
+  }
+  
+  private void r()
+  {
+    if (!G)
+    {
+      if (E == -1.0F) {
+        E = getX();
+      }
+      if (F == -1.0F) {
+        F = getY();
+      }
+      G = true;
+    }
+  }
+  
+  private void s()
+  {
+    I.setColor(C);
+    I.setStyle(Paint.Style.STROKE);
+    I.setStrokeWidth(A);
+    J.setColor(B);
+    J.setStyle(Paint.Style.STROKE);
+    J.setStrokeWidth(A);
+  }
+  
+  @TargetApi(16)
+  private void setBackgroundCompat(Drawable paramDrawable)
+  {
+    int i1 = Build.VERSION.SDK_INT;
+    setBackground(paramDrawable);
+  }
+  
+  private void t()
+  {
+    boolean bool = d();
+    int i2 = 0;
+    int i1;
+    if (bool) {
+      i1 = getShadowX();
+    } else {
+      i1 = 0;
+    }
+    if (d()) {
+      i2 = getShadowY();
+    }
+    int i3 = A;
+    H = new RectF(i3 / 2 + i1, i3 / 2 + i2, p() - i1 - A / 2, o() - i2 - A / 2);
+  }
+  
+  private void u()
+  {
+    float f1;
+    float f2;
+    if (z)
+    {
+      if (E > getX()) {
+        f1 = getX() + A;
+      } else {
+        f1 = getX() - A;
+      }
+      float f3;
+      if (F > getY())
+      {
+        f3 = getY() + A;
+        f2 = f1;
+        f1 = f3;
+      }
+      else
+      {
+        f3 = getY() - A;
+        f2 = f1;
+        f1 = f3;
+      }
+    }
+    else
+    {
+      f2 = E;
+      f1 = F;
+    }
+    setX(f2);
+    setY(f1);
+  }
+  
+  public void a(int paramInt1, int paramInt2, int paramInt3)
+  {
+    m = paramInt1;
+    n = paramInt2;
+    p = paramInt3;
+  }
+  
+  public void a(int paramInt, boolean paramBoolean)
+  {
+    for (;;)
+    {
+      try
+      {
+        boolean bool = K;
+        if (bool) {
+          return;
+        }
+        U = paramInt;
+        V = paramBoolean;
+        if (!G)
+        {
+          aa = true;
+          return;
+        }
+        z = true;
+        D = true;
+        t();
+        r();
+        l();
+        int i1;
+        if (paramInt < 0)
+        {
+          i1 = 0;
+        }
+        else
+        {
+          i1 = paramInt;
+          if (paramInt > ba) {
+            i1 = ba;
+          }
+        }
+        f1 = i1;
+        float f2 = T;
+        if (f1 == f2) {
+          return;
+        }
+        if (ba > 0)
+        {
+          f1 = f1 / ba * 360.0F;
+          T = f1;
+          L = SystemClock.uptimeMillis();
+          if (!paramBoolean) {
+            S = T;
+          }
+          invalidate();
+          return;
+        }
+      }
+      finally {}
+      float f1 = 0.0F;
+    }
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    if (!f())
+    {
+      if (paramBoolean) {
+        j();
+      }
+      super.setVisibility(4);
+    }
+  }
+  
+  public int b()
+  {
+    if (d()) {
+      return getShadowY() * 2;
+    }
+    return 0;
+  }
+  
+  public void b(int paramInt1, int paramInt2, int paramInt3)
+  {
+    Label localLabel = getLabelView();
+    int i1 = localLabel.getPaddingLeft();
+    int i2 = localLabel.getPaddingTop();
+    int i3 = localLabel.getPaddingRight();
+    int i4 = localLabel.getPaddingBottom();
+    localLabel.a(paramInt1, paramInt2, paramInt3);
+    localLabel.g();
+    localLabel.setPadding(i1, i2, i3, i4);
+  }
+  
+  public void b(boolean paramBoolean)
+  {
+    if ((!f()) && (getVisibility() != 8))
+    {
+      a(paramBoolean);
+      Label localLabel = getLabelView();
+      if (localLabel != null) {
+        localLabel.a(paramBoolean);
+      }
+      getHideAnimation().setAnimationListener(new e(this));
+    }
+  }
+  
+  public int c()
+  {
+    if (d()) {
+      return getShadowX() * 2;
+    }
+    return 0;
+  }
+  
+  public void c(boolean paramBoolean)
+  {
+    if (f())
+    {
+      if (paramBoolean) {
+        k();
+      }
+      super.setVisibility(0);
+    }
+  }
+  
+  public void d(boolean paramBoolean)
+  {
+    if (getVisibility() == 0) {
+      return;
+    }
+    setVisibility(4);
+    c(paramBoolean);
+    Label localLabel = getLabelView();
+    if (localLabel != null) {
+      localLabel.b(paramBoolean);
+    }
+  }
+  
+  public boolean d()
+  {
+    return (!x) && (h);
+  }
+  
+  public void e()
+  {
+    try
+    {
+      z = false;
+      D = true;
+      l();
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public void e(boolean paramBoolean)
+  {
+    if (f())
+    {
+      c(paramBoolean);
+      return;
+    }
+    a(paramBoolean);
+  }
+  
+  public boolean f()
+  {
+    return getVisibility() == 4;
+  }
+  
+  public boolean g()
+  {
+    try
+    {
+      boolean bool = ca;
+      return bool;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public int getButtonSize()
+  {
+    return g;
+  }
+  
+  public int getColorDisabled()
+  {
+    return o;
+  }
+  
+  public int getColorNormal()
+  {
+    return m;
+  }
+  
+  public int getColorPressed()
+  {
+    return n;
+  }
+  
+  public int getColorRipple()
+  {
+    return p;
+  }
+  
+  public Animation getHideAnimation()
+  {
+    return t;
+  }
+  
+  public Drawable getIconDrawable()
+  {
+    Drawable localDrawable = q;
+    if (localDrawable != null) {
+      return localDrawable;
+    }
+    return new ColorDrawable(0);
+  }
+  
+  public String getLabelText()
+  {
+    return u;
+  }
+  
+  public Label getLabelView()
+  {
+    return (Label)getTag(r.e.fab_label);
+  }
+  
+  public int getLabelVisibility()
+  {
+    Label localLabel = getLabelView();
+    if (localLabel != null) {
+      return localLabel.getVisibility();
+    }
+    return -1;
+  }
+  
+  public int getMax()
+  {
+    try
+    {
+      int i1 = ba;
+      return i1;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public View.OnClickListener getOnClickListener()
+  {
+    return v;
+  }
+  
+  public int getProgress()
+  {
+    try
+    {
+      int i1;
+      if (K) {
+        i1 = 0;
+      } else {
+        i1 = U;
+      }
+      return i1;
+    }
+    finally {}
+  }
+  
+  public int getShadowColor()
+  {
+    return i;
+  }
+  
+  public int getShadowRadius()
+  {
+    return j;
+  }
+  
+  public int getShadowXOffset()
+  {
+    return k;
+  }
+  
+  public int getShadowYOffset()
+  {
+    return l;
+  }
+  
+  public Animation getShowAnimation()
+  {
+    return s;
+  }
+  
+  @TargetApi(21)
+  public void h()
+  {
+    Object localObject = w;
+    if ((localObject instanceof StateListDrawable))
+    {
+      ((StateListDrawable)localObject).setState(new int[] { 16842910, 16842919 });
+      return;
+    }
+    if (s.b())
+    {
+      localObject = (RippleDrawable)w;
+      ((RippleDrawable)localObject).setState(new int[] { 16842910, 16842919 });
+      ((RippleDrawable)localObject).setHotspot(m(), n());
+      ((RippleDrawable)localObject).setVisible(true, true);
+    }
+  }
+  
+  @TargetApi(21)
+  public void i()
+  {
+    Object localObject = w;
+    if ((localObject instanceof StateListDrawable))
+    {
+      ((StateListDrawable)localObject).setState(new int[] { 16842910 });
+      return;
+    }
+    if (s.b())
+    {
+      localObject = (RippleDrawable)w;
+      ((RippleDrawable)localObject).setState(new int[] { 16842910 });
+      ((RippleDrawable)localObject).setHotspot(m(), n());
+      ((RippleDrawable)localObject).setVisible(true, true);
+    }
+  }
+  
+  public void j()
+  {
+    s.cancel();
+    startAnimation(t);
+  }
+  
+  public void k()
+  {
+    t.cancel();
+    startAnimation(s);
+  }
+  
+  public void l()
+  {
+    boolean bool = d();
+    int i2 = 0;
+    LayerDrawable localLayerDrawable;
+    if (bool) {
+      localLayerDrawable = new LayerDrawable(new Drawable[] { new b(), q(), getIconDrawable() });
+    } else {
+      localLayerDrawable = new LayerDrawable(new Drawable[] { q(), getIconDrawable() });
+    }
+    int i1 = -1;
+    if (getIconDrawable() != null) {
+      i1 = Math.max(getIconDrawable().getIntrinsicWidth(), getIconDrawable().getIntrinsicHeight());
+    }
+    int i3 = getCircleSize();
+    if (i1 <= 0) {
+      i1 = r;
+    }
+    int i5 = (i3 - i1) / 2;
+    if (d()) {
+      i1 = j + Math.abs(k);
+    } else {
+      i1 = 0;
+    }
+    if (d()) {
+      i2 = j + Math.abs(l);
+    }
+    i3 = i2;
+    int i4 = i1;
+    if (z)
+    {
+      i3 = A;
+      i4 = i1 + i3;
+      i3 = i2 + i3;
+    }
+    if (d()) {
+      i1 = 2;
+    } else {
+      i1 = 1;
+    }
+    i2 = i4 + i5;
+    i3 += i5;
+    localLayerDrawable.setLayerInset(i1, i2, i3, i2, i3);
+    i1 = Build.VERSION.SDK_INT;
+    setBackground(localLayerDrawable);
+  }
+  
+  public void onDraw(Canvas paramCanvas)
+  {
+    super.onDraw(paramCanvas);
+    if (z)
+    {
+      if (ca) {
+        paramCanvas.drawArc(H, 360.0F, 360.0F, false, I);
+      }
+      boolean bool = K;
+      int i2 = 1;
+      int i1 = 1;
+      float f1;
+      float f2;
+      float f3;
+      if (bool)
+      {
+        long l1 = SystemClock.uptimeMillis() - L;
+        f1 = (float)l1 * M / 1000.0F;
+        a(l1);
+        S += f1;
+        f1 = S;
+        if (f1 > 360.0F) {
+          S = (f1 - 360.0F);
+        }
+        L = SystemClock.uptimeMillis();
+        f1 = S;
+        f2 = Q;
+        f3 = R;
+        if (isInEditMode())
+        {
+          f1 = 0.0F;
+          f2 = 135.0F;
+        }
+        else
+        {
+          f1 -= 90.0F;
+          f2 += f3;
+        }
+        paramCanvas.drawArc(H, f1, f2, false, J);
+        i1 = i2;
+      }
+      else
+      {
+        if (S != T)
+        {
+          f1 = (float)(SystemClock.uptimeMillis() - L) / 1000.0F * M;
+          f2 = S;
+          f3 = T;
+          if (f2 > f3) {
+            S = Math.max(f2 - f1, f3);
+          } else {
+            S = Math.min(f2 + f1, f3);
+          }
+          L = SystemClock.uptimeMillis();
+        }
+        else
+        {
+          i1 = 0;
+        }
+        paramCanvas.drawArc(H, -90.0F, S, false, J);
+      }
+      if (i1 != 0) {
+        invalidate();
+      }
+    }
+  }
+  
+  public void onMeasure(int paramInt1, int paramInt2)
+  {
+    setMeasuredDimension(p(), o());
+  }
+  
+  public void onRestoreInstanceState(Parcelable paramParcelable)
+  {
+    if (!(paramParcelable instanceof ProgressSavedState))
+    {
+      super.onRestoreInstanceState(paramParcelable);
+      return;
+    }
+    paramParcelable = (ProgressSavedState)paramParcelable;
+    super.onRestoreInstanceState(paramParcelable.getSuperState());
+    S = a;
+    T = b;
+    M = c;
+    A = e;
+    B = f;
+    C = g;
+    W = k;
+    aa = l;
+    U = d;
+    V = m;
+    ca = n;
+    L = SystemClock.uptimeMillis();
+  }
+  
+  public Parcelable onSaveInstanceState()
+  {
+    ProgressSavedState localProgressSavedState = new ProgressSavedState(super.onSaveInstanceState());
+    a = S;
+    b = T;
+    c = M;
+    e = A;
+    f = B;
+    g = C;
+    boolean bool = K;
+    k = bool;
+    if ((z) && (U > 0) && (!bool)) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    l = bool;
+    d = U;
+    m = V;
+    n = ca;
+    return localProgressSavedState;
+  }
+  
+  public void onSizeChanged(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    r();
+    if (W)
+    {
+      setIndeterminate(true);
+      W = false;
+    }
+    else if (aa)
+    {
+      a(U, V);
+      aa = false;
+    }
+    else if (D)
+    {
+      u();
+      D = false;
+    }
+    super.onSizeChanged(paramInt1, paramInt2, paramInt3, paramInt4);
+    t();
+    s();
+    l();
+  }
+  
+  public boolean onTouchEvent(MotionEvent paramMotionEvent)
+  {
+    if ((v != null) && (isEnabled()))
+    {
+      Label localLabel = (Label)getTag(r.e.fab_label);
+      if (localLabel == null) {
+        return super.onTouchEvent(paramMotionEvent);
+      }
+      int i1 = paramMotionEvent.getAction();
+      if (i1 != 1)
+      {
+        if (i1 == 3)
+        {
+          localLabel.f();
+          i();
+        }
+      }
+      else
+      {
+        localLabel.f();
+        i();
+      }
+      da.onTouchEvent(paramMotionEvent);
+    }
+    return super.onTouchEvent(paramMotionEvent);
+  }
+  
+  public void setButtonSize(int paramInt)
+  {
+    if ((paramInt != 0) && (paramInt != 1)) {
+      throw new IllegalArgumentException("Use @FabSize constants only!");
+    }
+    if (g != paramInt)
+    {
+      g = paramInt;
+      l();
+    }
+  }
+  
+  public void setColorDisabled(int paramInt)
+  {
+    if (paramInt != o)
+    {
+      o = paramInt;
+      l();
+    }
+  }
+  
+  public void setColorDisabledResId(int paramInt)
+  {
+    setColorDisabled(getResources().getColor(paramInt));
+  }
+  
+  public void setColorNormal(int paramInt)
+  {
+    if (m != paramInt)
+    {
+      m = paramInt;
+      l();
+    }
+  }
+  
+  public void setColorNormalResId(int paramInt)
+  {
+    setColorNormal(getResources().getColor(paramInt));
+  }
+  
+  public void setColorPressed(int paramInt)
+  {
+    if (paramInt != n)
+    {
+      n = paramInt;
+      l();
+    }
+  }
+  
+  public void setColorPressedResId(int paramInt)
+  {
+    setColorPressed(getResources().getColor(paramInt));
+  }
+  
+  public void setColorRipple(int paramInt)
+  {
+    if (paramInt != p)
+    {
+      p = paramInt;
+      l();
+    }
+  }
+  
+  public void setColorRippleResId(int paramInt)
+  {
+    setColorRipple(getResources().getColor(paramInt));
+  }
+  
+  public void setElevation(float paramFloat)
+  {
+    if ((s.b()) && (paramFloat > 0.0F))
+    {
+      super.setElevation(paramFloat);
+      if (!isInEditMode())
+      {
+        x = true;
+        h = false;
+      }
+      l();
+    }
+  }
+  
+  @TargetApi(21)
+  public void setElevationCompat(float paramFloat)
+  {
+    i = 637534208;
+    float f1 = paramFloat / 2.0F;
+    j = Math.round(f1);
+    k = 0;
+    if (g == 0) {
+      f1 = paramFloat;
+    }
+    l = Math.round(f1);
+    if (s.b())
+    {
+      super.setElevation(paramFloat);
+      y = true;
+      h = false;
+      l();
+      ViewGroup.LayoutParams localLayoutParams = getLayoutParams();
+      if (localLayoutParams != null) {
+        setLayoutParams(localLayoutParams);
+      }
+    }
+    else
+    {
+      h = true;
+      l();
+    }
+  }
+  
+  public void setEnabled(boolean paramBoolean)
+  {
+    super.setEnabled(paramBoolean);
+    Label localLabel = (Label)getTag(r.e.fab_label);
+    if (localLabel != null) {
+      localLabel.setEnabled(paramBoolean);
+    }
+  }
+  
+  public void setHideAnimation(Animation paramAnimation)
+  {
+    t = paramAnimation;
+  }
+  
+  public void setImageDrawable(Drawable paramDrawable)
+  {
+    if (q != paramDrawable)
+    {
+      q = paramDrawable;
+      l();
+    }
+  }
+  
+  public void setImageResource(int paramInt)
+  {
+    Drawable localDrawable = getResources().getDrawable(paramInt);
+    if (q != localDrawable)
+    {
+      q = localDrawable;
+      l();
+    }
+  }
+  
+  public void setIndeterminate(boolean paramBoolean)
+  {
+    if (!paramBoolean) {}
+    try
+    {
+      S = 0.0F;
+      z = paramBoolean;
+      D = true;
+      K = paramBoolean;
+      L = SystemClock.uptimeMillis();
+      t();
+      l();
+      return;
+    }
+    finally {}
+  }
+  
+  public void setLabelText(String paramString)
+  {
+    u = paramString;
+    Label localLabel = getLabelView();
+    if (localLabel != null) {
+      localLabel.setText(paramString);
+    }
+  }
+  
+  public void setLabelTextColor(int paramInt)
+  {
+    getLabelView().setTextColor(paramInt);
+  }
+  
+  public void setLabelTextColor(ColorStateList paramColorStateList)
+  {
+    getLabelView().setTextColor(paramColorStateList);
+  }
+  
+  public void setLabelVisibility(int paramInt)
+  {
+    Label localLabel = getLabelView();
+    if (localLabel != null)
+    {
+      localLabel.setVisibility(paramInt);
+      boolean bool;
+      if (paramInt == 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      localLabel.setHandleVisibilityChanges(bool);
+    }
+  }
+  
+  @TargetApi(21)
+  public void setLayoutParams(ViewGroup.LayoutParams paramLayoutParams)
+  {
+    if (((paramLayoutParams instanceof ViewGroup.MarginLayoutParams)) && (y))
+    {
+      ViewGroup.MarginLayoutParams localMarginLayoutParams = (ViewGroup.MarginLayoutParams)paramLayoutParams;
+      leftMargin += getShadowX();
+      topMargin += getShadowY();
+      rightMargin += getShadowX();
+      bottomMargin += getShadowY();
+    }
+    super.setLayoutParams(paramLayoutParams);
+  }
+  
+  public void setMax(int paramInt)
+  {
+    try
+    {
+      ba = paramInt;
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public void setOnClickListener(View.OnClickListener paramOnClickListener)
+  {
+    super.setOnClickListener(paramOnClickListener);
+    v = paramOnClickListener;
+    paramOnClickListener = (View)getTag(r.e.fab_label);
+    if (paramOnClickListener != null) {
+      paramOnClickListener.setOnClickListener(new d(this));
+    }
+  }
+  
+  public void setShadowColor(int paramInt)
+  {
+    if (i != paramInt)
+    {
+      i = paramInt;
+      l();
+    }
+  }
+  
+  public void setShadowColorResource(int paramInt)
+  {
+    paramInt = getResources().getColor(paramInt);
+    if (i != paramInt)
+    {
+      i = paramInt;
+      l();
+    }
+  }
+  
+  public void setShadowRadius(float paramFloat)
+  {
+    j = s.a(getContext(), paramFloat);
+    requestLayout();
+    l();
+  }
+  
+  public void setShadowRadius(int paramInt)
+  {
+    paramInt = getResources().getDimensionPixelSize(paramInt);
+    if (j != paramInt)
+    {
+      j = paramInt;
+      requestLayout();
+      l();
+    }
+  }
+  
+  public void setShadowXOffset(float paramFloat)
+  {
+    k = s.a(getContext(), paramFloat);
+    requestLayout();
+    l();
+  }
+  
+  public void setShadowXOffset(int paramInt)
+  {
+    paramInt = getResources().getDimensionPixelSize(paramInt);
+    if (k != paramInt)
+    {
+      k = paramInt;
+      requestLayout();
+      l();
+    }
+  }
+  
+  public void setShadowYOffset(float paramFloat)
+  {
+    l = s.a(getContext(), paramFloat);
+    requestLayout();
+    l();
+  }
+  
+  public void setShadowYOffset(int paramInt)
+  {
+    paramInt = getResources().getDimensionPixelSize(paramInt);
+    if (l != paramInt)
+    {
+      l = paramInt;
+      requestLayout();
+      l();
+    }
+  }
+  
+  public void setShowAnimation(Animation paramAnimation)
+  {
+    s = paramAnimation;
+  }
+  
+  public void setShowProgressBackground(boolean paramBoolean)
+  {
+    try
+    {
+      ca = paramBoolean;
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public void setShowShadow(boolean paramBoolean)
+  {
+    if (h != paramBoolean)
+    {
+      h = paramBoolean;
+      l();
+    }
+  }
+  
+  public void setVisibility(int paramInt)
+  {
+    super.setVisibility(paramInt);
+    Label localLabel = (Label)getTag(r.e.fab_label);
+    if (localLabel != null) {
+      localLabel.setVisibility(paramInt);
+    }
+  }
+  
+  public static class ProgressSavedState
+    extends View.BaseSavedState
+  {
+    public static final Parcelable.Creator<ProgressSavedState> CREATOR = new f();
+    public float a;
+    public float b;
+    public float c;
+    public int d;
+    public int e;
+    public int f;
+    public int g;
+    public boolean h;
+    public boolean i;
+    public boolean j;
+    public boolean k;
+    public boolean l;
+    public boolean m;
+    public boolean n;
+    
+    public ProgressSavedState(Parcel paramParcel)
+    {
+      super();
+      a = paramParcel.readFloat();
+      b = paramParcel.readFloat();
+      int i1 = paramParcel.readInt();
+      boolean bool2 = true;
+      boolean bool1;
+      if (i1 != 0) {
+        bool1 = true;
+      } else {
+        bool1 = false;
+      }
+      h = bool1;
+      c = paramParcel.readFloat();
+      d = paramParcel.readInt();
+      e = paramParcel.readInt();
+      f = paramParcel.readInt();
+      g = paramParcel.readInt();
+      if (paramParcel.readInt() != 0) {
+        bool1 = true;
+      } else {
+        bool1 = false;
+      }
+      i = bool1;
+      if (paramParcel.readInt() != 0) {
+        bool1 = true;
+      } else {
+        bool1 = false;
+      }
+      j = bool1;
+      if (paramParcel.readInt() != 0) {
+        bool1 = true;
+      } else {
+        bool1 = false;
+      }
+      k = bool1;
+      if (paramParcel.readInt() != 0) {
+        bool1 = true;
+      } else {
+        bool1 = false;
+      }
+      l = bool1;
+      if (paramParcel.readInt() != 0) {
+        bool1 = true;
+      } else {
+        bool1 = false;
+      }
+      m = bool1;
+      if (paramParcel.readInt() != 0) {
+        bool1 = bool2;
+      } else {
+        bool1 = false;
+      }
+      n = bool1;
+    }
+    
+    public ProgressSavedState(Parcelable paramParcelable)
+    {
+      super();
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.e1expr(TypeTransformer.java:496)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:713)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:698)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+    }
+  }
+  
+  private class a
+    extends ShapeDrawable
+  {
+    public int a;
+    public int b;
+    
+    public a() {}
+    
+    public a(Shape paramShape)
+    {
+      super();
+      boolean bool = d();
+      int j = 0;
+      if (bool) {
+        i = FloatingActionButton.this.j + Math.abs(k);
+      } else {
+        i = 0;
+      }
+      a = i;
+      int i = j;
+      if (d())
+      {
+        i = FloatingActionButton.this.j;
+        i = Math.abs(l) + i;
+      }
+      b = i;
+      if (FloatingActionButton.d(FloatingActionButton.this))
+      {
+        i = a;
+        a = (FloatingActionButton.e(FloatingActionButton.this) + i);
+        i = b;
+        b = (FloatingActionButton.e(FloatingActionButton.this) + i);
+      }
+    }
+    
+    public void draw(Canvas paramCanvas)
+    {
+      setBounds(a, b, FloatingActionButton.f(FloatingActionButton.this) - a, FloatingActionButton.g(FloatingActionButton.this) - b);
+      super.draw(paramCanvas);
+    }
+  }
+  
+  private class b
+    extends Drawable
+  {
+    public Paint a = new Paint(1);
+    public Paint b = new Paint(1);
+    public float c;
+    
+    public b()
+    {
+      a();
+    }
+    
+    private void a()
+    {
+      setLayerType(1, null);
+      a.setStyle(Paint.Style.FILL);
+      a.setColor(FloatingActionButton.h(FloatingActionButton.this));
+      b.setXfermode(FloatingActionButton.c);
+      if (!isInEditMode())
+      {
+        Paint localPaint = a;
+        FloatingActionButton localFloatingActionButton = FloatingActionButton.this;
+        localPaint.setShadowLayer(j, k, l, i);
+      }
+      c = (FloatingActionButton.i(FloatingActionButton.this) / 2);
+      if ((FloatingActionButton.d(FloatingActionButton.this)) && (FloatingActionButton.j(FloatingActionButton.this))) {
+        c += FloatingActionButton.e(FloatingActionButton.this);
+      }
+    }
+    
+    public void draw(Canvas paramCanvas)
+    {
+      paramCanvas.drawCircle(FloatingActionButton.a(FloatingActionButton.this), FloatingActionButton.b(FloatingActionButton.this), c, a);
+      paramCanvas.drawCircle(FloatingActionButton.a(FloatingActionButton.this), FloatingActionButton.b(FloatingActionButton.this), c, b);
+    }
+    
+    public int getOpacity()
+    {
+      return 0;
+    }
+    
+    public void setAlpha(int paramInt) {}
+    
+    public void setColorFilter(ColorFilter paramColorFilter) {}
+  }
+}

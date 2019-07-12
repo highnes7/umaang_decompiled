@@ -1,0 +1,97 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public final class kg<K, V>
+  extends Ab<K, V>
+{
+  public final transient K d;
+  public final transient V e;
+  
+  public kg(K paramK, V paramV)
+  {
+    d = paramK;
+    e = paramV;
+  }
+  
+  public kg(Map.Entry<K, V> paramEntry)
+  {
+    this(paramEntry.getKey(), paramEntry.getValue());
+  }
+  
+  public Nb<Map.Entry<K, V>> b()
+  {
+    return Nb.b(fe.a(d, e));
+  }
+  
+  public Nb<K> c()
+  {
+    return Nb.b(d);
+  }
+  
+  public boolean containsKey(@h Object paramObject)
+  {
+    return d.equals(paramObject);
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    return e.equals(paramObject);
+  }
+  
+  public rb<V> d()
+  {
+    return vb.b(e);
+  }
+  
+  public boolean e()
+  {
+    return false;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof Map))
+    {
+      paramObject = (Map)paramObject;
+      if (paramObject.size() == 1)
+      {
+        paramObject = (Map.Entry)paramObject.entrySet().iterator().next();
+        return (d.equals(paramObject.getKey())) && (e.equals(paramObject.getValue()));
+      }
+    }
+    return false;
+  }
+  
+  public V get(@h Object paramObject)
+  {
+    if (d.equals(paramObject)) {
+      return e;
+    }
+    return null;
+  }
+  
+  public int hashCode()
+  {
+    return d.hashCode() ^ e.hashCode();
+  }
+  
+  public boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public int size()
+  {
+    return 1;
+  }
+}

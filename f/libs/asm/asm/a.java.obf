@@ -1,0 +1,76 @@
+package f.c.a.a;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class s
+{
+  public static final int a = 5000;
+  public final ScheduledExecutorService b;
+  public final List<a> c = new ArrayList();
+  public volatile boolean d = true;
+  public final AtomicReference<ScheduledFuture<?>> e = new AtomicReference();
+  public boolean f = true;
+  
+  public s(ScheduledExecutorService paramScheduledExecutorService)
+  {
+    b = paramScheduledExecutorService;
+  }
+  
+  private void c()
+  {
+    Iterator localIterator = c.iterator();
+    while (localIterator.hasNext()) {
+      ((a)localIterator.next()).a();
+    }
+  }
+  
+  public void a()
+  {
+    if ((d) && (!f))
+    {
+      f = true;
+      try
+      {
+        e.compareAndSet(null, b.schedule(new r(this), 5000L, TimeUnit.MILLISECONDS));
+        return;
+      }
+      catch (RejectedExecutionException localRejectedExecutionException)
+      {
+        g.h().a("Answers", "Failed to schedule background detector", localRejectedExecutionException);
+      }
+    }
+  }
+  
+  public void a(a paramA)
+  {
+    c.add(paramA);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    d = paramBoolean;
+  }
+  
+  public void b()
+  {
+    f = false;
+    ScheduledFuture localScheduledFuture = (ScheduledFuture)e.getAndSet(null);
+    if (localScheduledFuture != null) {
+      localScheduledFuture.cancel(false);
+    }
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void a();
+  }
+}

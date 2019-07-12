@@ -1,0 +1,396 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@b(emulated=true)
+public abstract class d<K, V>
+  extends Sa<K, V>
+  implements L<K, V>, Serializable
+{
+  @f.g.c.a.c("Not needed in emulated source.")
+  public static final long a = 0L;
+  public transient Map<K, V> b;
+  public transient d<V, K> c;
+  public transient Set<K> d;
+  public transient Set<V> e;
+  public transient Set<Map.Entry<K, V>> f;
+  
+  public d(Map<K, V> paramMap, d<V, K> paramD)
+  {
+    b = paramMap;
+    c = paramD;
+  }
+  
+  public d(Map<K, V> paramMap, Map<V, K> paramMap1)
+  {
+    a(paramMap, paramMap1);
+  }
+  
+  private V a(@h K paramK, @h V paramV, boolean paramBoolean)
+  {
+    o(paramK);
+    p(paramV);
+    boolean bool = containsKey(paramK);
+    if ((bool) && (U.a(paramV, get(paramK)))) {
+      return paramV;
+    }
+    if (paramBoolean) {
+      f().remove(paramV);
+    } else {
+      ba.a(containsValue(paramV) ^ true, "value already present: %s", new Object[] { paramV });
+    }
+    Object localObject = b.put(paramK, paramV);
+    a(paramK, bool, localObject, paramV);
+    return localObject;
+  }
+  
+  private void a(K paramK, boolean paramBoolean, V paramV1, V paramV2)
+  {
+    if (paramBoolean) {
+      c.b.remove(paramV1);
+    }
+    c.b.put(paramV2, paramK);
+  }
+  
+  private V q(Object paramObject)
+  {
+    paramObject = b.remove(paramObject);
+    r(paramObject);
+    return paramObject;
+  }
+  
+  private void r(V paramV)
+  {
+    c.b.remove(paramV);
+  }
+  
+  public V a(K paramK, V paramV)
+  {
+    return a(paramK, paramV, true);
+  }
+  
+  public void a(Map<K, V> paramMap, Map<V, K> paramMap1)
+  {
+    Map localMap = b;
+    boolean bool2 = true;
+    boolean bool1;
+    if (localMap == null) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1);
+    if (c == null) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1);
+    ba.a(paramMap.isEmpty());
+    ba.a(paramMap1.isEmpty());
+    if (paramMap != paramMap1) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    ba.a(bool1);
+    b = paramMap;
+    c = new b(paramMap1, this, null);
+  }
+  
+  public void b(d<V, K> paramD)
+  {
+    c = paramD;
+  }
+  
+  public void clear()
+  {
+    b.clear();
+    c.b.clear();
+  }
+  
+  public boolean containsValue(Object paramObject)
+  {
+    return c.containsKey(paramObject);
+  }
+  
+  public Set<Map.Entry<K, V>> entrySet()
+  {
+    Set localSet = f;
+    Object localObject = localSet;
+    if (localSet == null)
+    {
+      localObject = new a();
+      f = ((Set)localObject);
+    }
+    return localObject;
+  }
+  
+  public L<V, K> f()
+  {
+    return c;
+  }
+  
+  public Set<K> keySet()
+  {
+    Set localSet = d;
+    Object localObject = localSet;
+    if (localSet == null)
+    {
+      localObject = new c(null);
+      d = ((Set)localObject);
+    }
+    return localObject;
+  }
+  
+  public K o(@h K paramK)
+  {
+    return paramK;
+  }
+  
+  public V p(@h V paramV)
+  {
+    return paramV;
+  }
+  
+  public V put(K paramK, V paramV)
+  {
+    return a(paramK, paramV, false);
+  }
+  
+  public void putAll(Map<? extends K, ? extends V> paramMap)
+  {
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramMap.next();
+      put(localEntry.getKey(), localEntry.getValue());
+    }
+  }
+  
+  public Map<K, V> q()
+  {
+    return b;
+  }
+  
+  public V remove(Object paramObject)
+  {
+    if (containsKey(paramObject))
+    {
+      paramObject = b.remove(paramObject);
+      r(paramObject);
+      return paramObject;
+    }
+    return null;
+  }
+  
+  public Set<V> values()
+  {
+    Set localSet = e;
+    Object localObject = localSet;
+    if (localSet == null)
+    {
+      localObject = new d();
+      e = ((Set)localObject);
+    }
+    return localObject;
+  }
+  
+  private class a
+    extends Ya<Map.Entry<K, V>>
+  {
+    public final Set<Map.Entry<K, V>> a = d.a(d.this).entrySet();
+    
+    public a() {}
+    
+    public void clear()
+    {
+      d.this.clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return fe.a(q(), paramObject);
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      return b(paramCollection);
+    }
+    
+    public Iterator<Map.Entry<K, V>> iterator()
+    {
+      return new c(this, a.iterator());
+    }
+    
+    public Set<Map.Entry<K, V>> q()
+    {
+      return a;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      if (!a.contains(paramObject)) {
+        return false;
+      }
+      paramObject = (Map.Entry)paramObject;
+      d.a(c).remove(paramObject.getValue());
+      a.remove(paramObject);
+      return true;
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      return c(paramCollection);
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      return d(paramCollection);
+    }
+    
+    public Object[] toArray()
+    {
+      return t();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return a(paramArrayOfT);
+    }
+  }
+  
+  private static class b<K, V>
+    extends d<K, V>
+  {
+    @f.g.c.a.c("Not needed in emulated source.")
+    public static final long g = 0L;
+    
+    public b(Map<K, V> paramMap, d<V, K> paramD)
+    {
+      super(paramD, null);
+    }
+    
+    @f.g.c.a.c("java.io.ObjectInputStream")
+    private void a(ObjectInputStream paramObjectInputStream)
+      throws IOException, ClassNotFoundException
+    {
+      paramObjectInputStream.defaultReadObject();
+      b((d)paramObjectInputStream.readObject());
+    }
+    
+    @f.g.c.a.c("java.io.ObjectOuputStream")
+    private void a(ObjectOutputStream paramObjectOutputStream)
+      throws IOException
+    {
+      paramObjectOutputStream.defaultWriteObject();
+      paramObjectOutputStream.writeObject(f());
+    }
+    
+    public K o(K paramK)
+    {
+      return c.p(paramK);
+    }
+    
+    public V p(V paramV)
+    {
+      return c.o(paramV);
+    }
+    
+    public Object q()
+    {
+      return b;
+    }
+    
+    @f.g.c.a.c("Not needed in the emulated source.")
+    public Object x()
+    {
+      return f().f();
+    }
+  }
+  
+  private class c
+    extends Ya<K>
+  {
+    public c() {}
+    
+    public void clear()
+    {
+      d.this.clear();
+    }
+    
+    public Iterator<K> iterator()
+    {
+      return fe.a(entrySet().iterator());
+    }
+    
+    public Set<K> q()
+    {
+      return d.a(d.this).keySet();
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      if (!contains(paramObject)) {
+        return false;
+      }
+      d.a(d.this, paramObject);
+      return true;
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      return c(paramCollection);
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      return d(paramCollection);
+    }
+  }
+  
+  private class d
+    extends Ya<V>
+  {
+    public final Set<V> a = c.keySet();
+    
+    public d() {}
+    
+    public Iterator<V> iterator()
+    {
+      return fe.b(entrySet().iterator());
+    }
+    
+    public Set<V> q()
+    {
+      return a;
+    }
+    
+    public Object[] toArray()
+    {
+      return t();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return a(paramArrayOfT);
+    }
+    
+    public String toString()
+    {
+      return w();
+    }
+  }
+}

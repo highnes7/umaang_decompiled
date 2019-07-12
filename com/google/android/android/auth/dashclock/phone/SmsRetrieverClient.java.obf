@@ -1,0 +1,34 @@
+package com.google.android.gms.auth.api.phone;
+
+import android.app.Activity;
+import android.content.Context;
+import b.b.a.F;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.ApiOptions.NoOptions;
+import com.google.android.gms.common.api.Api.zza;
+import com.google.android.gms.common.api.Api.zzf;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.internal.zzg;
+import com.google.android.gms.internal.zzati;
+import com.google.android.gms.tasks.Task;
+
+public abstract class SmsRetrieverClient
+  extends GoogleApi<Api.ApiOptions.NoOptions>
+  implements SmsRetrieverApi
+{
+  public static final Api<Api.ApiOptions.NoOptions> API = new Api("SmsRetriever.API", zzdwq, zzdwp);
+  public static final Api.zzf<zzati> zzdwp = new Api.zzf();
+  public static final Api.zza<zzati, Api.ApiOptions.NoOptions> zzdwq = new zza();
+  
+  public SmsRetrieverClient(@F Activity paramActivity)
+  {
+    super(paramActivity, API, null, new zzg());
+  }
+  
+  public SmsRetrieverClient(@F Context paramContext)
+  {
+    super(paramContext, API, null, new zzg());
+  }
+  
+  public abstract Task<Void> startSmsRetriever();
+}

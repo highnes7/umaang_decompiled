@@ -1,0 +1,50 @@
+package d;
+
+import java.util.Locale;
+import java.util.concurrent.CancellationException;
+
+public class l
+{
+  public final Object a = new Object();
+  public boolean b;
+  
+  public l() {}
+  
+  public boolean a()
+  {
+    synchronized (a)
+    {
+      boolean bool = b;
+      return bool;
+    }
+  }
+  
+  public void b()
+    throws CancellationException
+  {
+    synchronized (a)
+    {
+      if (!b) {
+        return;
+      }
+      throw new CancellationException();
+    }
+  }
+  
+  public boolean c()
+  {
+    synchronized (a)
+    {
+      if (b) {
+        return false;
+      }
+      b = true;
+      return true;
+    }
+  }
+  
+  public String toString()
+  {
+    return String.format(Locale.US, "%s@%s[cancellationRequested=%s]", new Object[] { l.class.getName(), Integer.toHexString(hashCode()), Boolean.toString(b) });
+  }
+}

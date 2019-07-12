@@ -1,0 +1,593 @@
+package b.b.x.m;
+
+import android.graphics.Typeface;
+import android.os.Build.VERSION;
+import android.os.LocaleList;
+import android.os.Trace;
+import android.text.Layout.Alignment;
+import android.text.PrecomputedText;
+import android.text.PrecomputedText.Params;
+import android.text.PrecomputedText.Params.Builder;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.StaticLayout;
+import android.text.StaticLayout.Builder;
+import android.text.TextDirectionHeuristic;
+import android.text.TextDirectionHeuristics;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.style.MetricAffectingSpan;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.a.V;
+import b.b.a.t;
+import b.b.a.x;
+import b.b.x.n.o;
+import b.b.x.n.s;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+
+public class d
+  implements Spannable
+{
+  public static final char a = '\n';
+  public static final Object b = new Object();
+  @F
+  @t("sLock")
+  public static Executor c = null;
+  @F
+  public final Spannable d;
+  @F
+  public final a e;
+  @F
+  public final int[] f;
+  @G
+  public final PrecomputedText g;
+  
+  @K(28)
+  public d(@F PrecomputedText paramPrecomputedText, @F a paramA)
+  {
+    d = paramPrecomputedText;
+    e = paramA;
+    f = null;
+    g = paramPrecomputedText;
+  }
+  
+  public d(@F CharSequence paramCharSequence, @F a paramA, @F int[] paramArrayOfInt)
+  {
+    d = new SpannableString(paramCharSequence);
+    e = paramA;
+    f = paramArrayOfInt;
+    g = null;
+  }
+  
+  public static d a(@F CharSequence paramCharSequence, @F a paramA)
+  {
+    if (paramCharSequence != null) {
+      if (paramA == null) {}
+    }
+    for (;;)
+    {
+      int i;
+      try
+      {
+        i = Build.VERSION.SDK_INT;
+        Trace.beginSection("PrecomputedText");
+        if (Build.VERSION.SDK_INT >= 28)
+        {
+          localObject = e;
+          if (localObject != null)
+          {
+            paramCharSequence = new d(PrecomputedText.create(paramCharSequence, (PrecomputedText.Params)localObject), paramA);
+            return paramCharSequence;
+          }
+        }
+        Object localObject = new ArrayList();
+        int j = paramCharSequence.length();
+        i = 0;
+        if (i < j)
+        {
+          i = TextUtils.indexOf(paramCharSequence, '\n', i, j);
+          if (i >= 0) {
+            break label294;
+          }
+          i = j;
+          ((ArrayList)localObject).add(Integer.valueOf(i));
+          continue;
+        }
+        int[] arrayOfInt = new int[((ArrayList)localObject).size()];
+        i = 0;
+        if (i < ((ArrayList)localObject).size())
+        {
+          arrayOfInt[i] = ((Integer)((ArrayList)localObject).get(i)).intValue();
+          i += 1;
+          continue;
+        }
+        if (Build.VERSION.SDK_INT >= 23) {
+          StaticLayout.Builder.obtain(paramCharSequence, 0, paramCharSequence.length(), paramA.d(), Integer.MAX_VALUE).setBreakStrategy(paramA.a()).setHyphenationFrequency(paramA.b()).setTextDirection(paramA.c()).build();
+        } else if (Build.VERSION.SDK_INT >= 21) {
+          new StaticLayout(paramCharSequence, paramA.d(), Integer.MAX_VALUE, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, false);
+        }
+        paramCharSequence = new d(paramCharSequence, paramA, arrayOfInt);
+        return paramCharSequence;
+      }
+      finally
+      {
+        i = Build.VERSION.SDK_INT;
+        Trace.endSection();
+      }
+      throw new NullPointerException();
+      paramCharSequence = new NullPointerException();
+      for (;;)
+      {
+        throw paramCharSequence;
+      }
+      label294:
+      i += 1;
+    }
+  }
+  
+  @V
+  public static Future<d> a(@F CharSequence paramCharSequence, @F a paramA, @G Executor arg2)
+  {
+    paramA = new b(paramA, paramCharSequence);
+    paramCharSequence = ???;
+    if (??? == null) {
+      synchronized (b)
+      {
+        if (c == null) {
+          c = Executors.newFixedThreadPool(1);
+        }
+        paramCharSequence = c;
+      }
+    }
+    paramCharSequence.execute(paramA);
+    return paramA;
+  }
+  
+  private int c(@x(from=0L) int paramInt)
+  {
+    int i = 0;
+    for (;;)
+    {
+      localObject = f;
+      if (i >= localObject.length) {
+        break;
+      }
+      if (paramInt < localObject[i]) {
+        return i;
+      }
+      i += 1;
+    }
+    Object localObject = a.b("pos must be less than ");
+    int[] arrayOfInt = f;
+    ((StringBuilder)localObject).append(arrayOfInt[(arrayOfInt.length - 1)]);
+    ((StringBuilder)localObject).append(", gave ");
+    ((StringBuilder)localObject).append(paramInt);
+    localObject = new IndexOutOfBoundsException(((StringBuilder)localObject).toString());
+    for (;;)
+    {
+      throw ((Throwable)localObject);
+    }
+  }
+  
+  @x(from=0L)
+  public int a()
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return g.getParagraphCount();
+    }
+    return f.length;
+  }
+  
+  @x(from=0L)
+  public int a(@x(from=0L) int paramInt)
+  {
+    s.a(paramInt, 0, a(), "paraIndex");
+    if (Build.VERSION.SDK_INT >= 28) {
+      return g.getParagraphEnd(paramInt);
+    }
+    return f[paramInt];
+  }
+  
+  @x(from=0L)
+  public int b(@x(from=0L) int paramInt)
+  {
+    s.a(paramInt, 0, a(), "paraIndex");
+    if (Build.VERSION.SDK_INT >= 28) {
+      return g.getParagraphStart(paramInt);
+    }
+    if (paramInt == 0) {
+      return 0;
+    }
+    return f[(paramInt - 1)];
+  }
+  
+  @F
+  public a b()
+  {
+    return e;
+  }
+  
+  @G
+  @K(28)
+  @N({b.b.a.N.a.b})
+  public PrecomputedText c()
+  {
+    Spannable localSpannable = d;
+    if ((localSpannable instanceof PrecomputedText)) {
+      return (PrecomputedText)localSpannable;
+    }
+    return null;
+  }
+  
+  public char charAt(int paramInt)
+  {
+    return d.charAt(paramInt);
+  }
+  
+  public int getSpanEnd(Object paramObject)
+  {
+    return d.getSpanEnd(paramObject);
+  }
+  
+  public int getSpanFlags(Object paramObject)
+  {
+    return d.getSpanFlags(paramObject);
+  }
+  
+  public int getSpanStart(Object paramObject)
+  {
+    return d.getSpanStart(paramObject);
+  }
+  
+  public <T> T[] getSpans(int paramInt1, int paramInt2, Class<T> paramClass)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return g.getSpans(paramInt1, paramInt2, paramClass);
+    }
+    return d.getSpans(paramInt1, paramInt2, paramClass);
+  }
+  
+  public int length()
+  {
+    return d.length();
+  }
+  
+  public int nextSpanTransition(int paramInt1, int paramInt2, Class paramClass)
+  {
+    return d.nextSpanTransition(paramInt1, paramInt2, paramClass);
+  }
+  
+  public void removeSpan(Object paramObject)
+  {
+    if (!(paramObject instanceof MetricAffectingSpan))
+    {
+      if (Build.VERSION.SDK_INT >= 28)
+      {
+        g.removeSpan(paramObject);
+        return;
+      }
+      d.removeSpan(paramObject);
+      return;
+    }
+    throw new IllegalArgumentException("MetricAffectingSpan can not be removed from PrecomputedText.");
+  }
+  
+  public void setSpan(Object paramObject, int paramInt1, int paramInt2, int paramInt3)
+  {
+    if (!(paramObject instanceof MetricAffectingSpan))
+    {
+      if (Build.VERSION.SDK_INT >= 28)
+      {
+        g.setSpan(paramObject, paramInt1, paramInt2, paramInt3);
+        return;
+      }
+      d.setSpan(paramObject, paramInt1, paramInt2, paramInt3);
+      return;
+    }
+    throw new IllegalArgumentException("MetricAffectingSpan can not be set to PrecomputedText.");
+  }
+  
+  public CharSequence subSequence(int paramInt1, int paramInt2)
+  {
+    return d.subSequence(paramInt1, paramInt2);
+  }
+  
+  public String toString()
+  {
+    return d.toString();
+  }
+  
+  public static final class a
+  {
+    @F
+    public final TextPaint a;
+    @G
+    public final TextDirectionHeuristic b;
+    public final int c;
+    public final int d;
+    public final PrecomputedText.Params e;
+    
+    @K(28)
+    public a(@F PrecomputedText.Params paramParams)
+    {
+      a = paramParams.getTextPaint();
+      b = paramParams.getTextDirection();
+      c = paramParams.getBreakStrategy();
+      d = paramParams.getHyphenationFrequency();
+      e = paramParams;
+    }
+    
+    public a(@F TextPaint paramTextPaint, @F TextDirectionHeuristic paramTextDirectionHeuristic, int paramInt1, int paramInt2)
+    {
+      if (Build.VERSION.SDK_INT >= 28) {
+        e = new PrecomputedText.Params.Builder(paramTextPaint).setBreakStrategy(paramInt1).setHyphenationFrequency(paramInt2).setTextDirection(paramTextDirectionHeuristic).build();
+      } else {
+        e = null;
+      }
+      a = paramTextPaint;
+      b = paramTextDirectionHeuristic;
+      c = paramInt1;
+      d = paramInt2;
+    }
+    
+    @K(23)
+    public int a()
+    {
+      return c;
+    }
+    
+    @K(23)
+    public int b()
+    {
+      return d;
+    }
+    
+    @G
+    @K(18)
+    public TextDirectionHeuristic c()
+    {
+      return b;
+    }
+    
+    @F
+    public TextPaint d()
+    {
+      return a;
+    }
+    
+    public boolean equals(@G Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      if (paramObject != null)
+      {
+        if (!(paramObject instanceof a)) {
+          return false;
+        }
+        paramObject = (a)paramObject;
+        PrecomputedText.Params localParams = e;
+        if (localParams != null) {
+          return localParams.equals(e);
+        }
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+          if (c != paramObject.a()) {
+            return false;
+          }
+          if (d != paramObject.b()) {
+            return false;
+          }
+        }
+        int i = Build.VERSION.SDK_INT;
+        if (b != paramObject.c()) {
+          return false;
+        }
+        if (a.getTextSize() != paramObject.d().getTextSize()) {
+          return false;
+        }
+        if (a.getTextScaleX() != paramObject.d().getTextScaleX()) {
+          return false;
+        }
+        if (a.getTextSkewX() != paramObject.d().getTextSkewX()) {
+          return false;
+        }
+        if (Build.VERSION.SDK_INT >= 21)
+        {
+          if (a.getLetterSpacing() != paramObject.d().getLetterSpacing()) {
+            return false;
+          }
+          if (!TextUtils.equals(a.getFontFeatureSettings(), paramObject.d().getFontFeatureSettings())) {
+            return false;
+          }
+        }
+        if (a.getFlags() != paramObject.d().getFlags()) {
+          return false;
+        }
+        if (Build.VERSION.SDK_INT >= 24)
+        {
+          if (!a.getTextLocales().equals(paramObject.d().getTextLocales())) {
+            return false;
+          }
+        }
+        else if (!a.getTextLocale().equals(paramObject.d().getTextLocale())) {
+          return false;
+        }
+        if (a.getTypeface() == null)
+        {
+          if (paramObject.d().getTypeface() != null) {
+            return false;
+          }
+        }
+        else if (!a.getTypeface().equals(paramObject.d().getTypeface())) {
+          return false;
+        }
+        return true;
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      int i = Build.VERSION.SDK_INT;
+      if (i >= 24) {
+        return o.a(new Object[] { Float.valueOf(a.getTextSize()), Float.valueOf(a.getTextScaleX()), Float.valueOf(a.getTextSkewX()), Float.valueOf(a.getLetterSpacing()), Integer.valueOf(a.getFlags()), a.getTextLocales(), a.getTypeface(), Boolean.valueOf(a.isElegantTextHeight()), b, Integer.valueOf(c), Integer.valueOf(d) });
+      }
+      if (i >= 21) {
+        return o.a(new Object[] { Float.valueOf(a.getTextSize()), Float.valueOf(a.getTextScaleX()), Float.valueOf(a.getTextSkewX()), Float.valueOf(a.getLetterSpacing()), Integer.valueOf(a.getFlags()), a.getTextLocale(), a.getTypeface(), Boolean.valueOf(a.isElegantTextHeight()), b, Integer.valueOf(c), Integer.valueOf(d) });
+      }
+      return o.a(new Object[] { Float.valueOf(a.getTextSize()), Float.valueOf(a.getTextScaleX()), Float.valueOf(a.getTextSkewX()), Integer.valueOf(a.getFlags()), a.getTextLocale(), a.getTypeface(), b, Integer.valueOf(c), Integer.valueOf(d) });
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder1 = new StringBuilder("{");
+      StringBuilder localStringBuilder2 = a.b("textSize=");
+      localStringBuilder2.append(a.getTextSize());
+      localStringBuilder1.append(localStringBuilder2.toString());
+      localStringBuilder2 = new StringBuilder();
+      localStringBuilder2.append(", textScaleX=");
+      localStringBuilder2.append(a.getTextScaleX());
+      localStringBuilder1.append(localStringBuilder2.toString());
+      localStringBuilder2 = new StringBuilder();
+      localStringBuilder2.append(", textSkewX=");
+      localStringBuilder2.append(a.getTextSkewX());
+      localStringBuilder1.append(localStringBuilder2.toString());
+      if (Build.VERSION.SDK_INT >= 21)
+      {
+        localStringBuilder2 = a.b(", letterSpacing=");
+        localStringBuilder2.append(a.getLetterSpacing());
+        localStringBuilder1.append(localStringBuilder2.toString());
+        localStringBuilder2 = new StringBuilder();
+        localStringBuilder2.append(", elegantTextHeight=");
+        localStringBuilder2.append(a.isElegantTextHeight());
+        localStringBuilder1.append(localStringBuilder2.toString());
+      }
+      if (Build.VERSION.SDK_INT >= 24)
+      {
+        localStringBuilder2 = a.b(", textLocale=");
+        localStringBuilder2.append(a.getTextLocales());
+        localStringBuilder1.append(localStringBuilder2.toString());
+      }
+      else
+      {
+        localStringBuilder2 = a.b(", textLocale=");
+        localStringBuilder2.append(a.getTextLocale());
+        localStringBuilder1.append(localStringBuilder2.toString());
+      }
+      localStringBuilder2 = a.b(", typeface=");
+      localStringBuilder2.append(a.getTypeface());
+      localStringBuilder1.append(localStringBuilder2.toString());
+      if (Build.VERSION.SDK_INT >= 26)
+      {
+        localStringBuilder2 = a.b(", variationSettings=");
+        localStringBuilder2.append(a.getFontVariationSettings());
+        localStringBuilder1.append(localStringBuilder2.toString());
+      }
+      localStringBuilder2 = a.b(", textDir=");
+      localStringBuilder2.append(b);
+      localStringBuilder1.append(localStringBuilder2.toString());
+      localStringBuilder2 = new StringBuilder();
+      localStringBuilder2.append(", breakStrategy=");
+      localStringBuilder2.append(c);
+      localStringBuilder1.append(localStringBuilder2.toString());
+      localStringBuilder2 = new StringBuilder();
+      localStringBuilder2.append(", hyphenationFrequency=");
+      localStringBuilder2.append(d);
+      localStringBuilder1.append(localStringBuilder2.toString());
+      localStringBuilder1.append("}");
+      return localStringBuilder1.toString();
+    }
+    
+    public static class a
+    {
+      @F
+      public final TextPaint a;
+      public TextDirectionHeuristic b;
+      public int c;
+      public int d;
+      
+      public a(@F TextPaint paramTextPaint)
+      {
+        a = paramTextPaint;
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+          c = 1;
+          d = 1;
+        }
+        else
+        {
+          d = 0;
+          c = 0;
+        }
+        int i = Build.VERSION.SDK_INT;
+        b = TextDirectionHeuristics.FIRSTSTRONG_LTR;
+      }
+      
+      @K(23)
+      public a a(int paramInt)
+      {
+        c = paramInt;
+        return this;
+      }
+      
+      @K(18)
+      public a a(@F TextDirectionHeuristic paramTextDirectionHeuristic)
+      {
+        b = paramTextDirectionHeuristic;
+        return this;
+      }
+      
+      @F
+      public d.a a()
+      {
+        return new d.a(a, b, c, d);
+      }
+      
+      @K(23)
+      public a b(int paramInt)
+      {
+        d = paramInt;
+        return this;
+      }
+    }
+  }
+  
+  private static class b
+    extends FutureTask<d>
+  {
+    public b(@F d.a paramA, @F CharSequence paramCharSequence)
+    {
+      super();
+    }
+    
+    private static class a
+      implements Callable<d>
+    {
+      public d.a a;
+      public CharSequence b;
+      
+      public a(@F d.a paramA, @F CharSequence paramCharSequence)
+      {
+        a = paramA;
+        b = paramCharSequence;
+      }
+      
+      public d call()
+        throws Exception
+      {
+        return d.a(b, a);
+      }
+    }
+  }
+}

@@ -1,0 +1,588 @@
+package b.b.x.p;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Paint.FontMetricsInt;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.text.Editable;
+import android.text.TextDirectionHeuristic;
+import android.text.TextDirectionHeuristics;
+import android.text.TextPaint;
+import android.text.method.PasswordTransformationMethod;
+import android.view.ActionMode;
+import android.view.ActionMode.Callback;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.I;
+import b.b.a.K;
+import b.b.a.S;
+import b.b.a.p;
+import b.b.a.x;
+import b.b.x.m.d;
+import b.b.x.m.d.a;
+import b.b.x.m.d.a.a;
+import b.b.x.n.s;
+import f.a.a.a.a;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public final class N
+{
+  public static final String a = "TextViewCompat";
+  public static final int b = 0;
+  public static final int c = 1;
+  public static Field d;
+  public static boolean e = false;
+  public static Field f;
+  public static boolean g = false;
+  public static Field h;
+  public static boolean i = false;
+  public static Field j;
+  public static boolean k = false;
+  public static final int l = 1;
+  
+  public N() {}
+  
+  @K(18)
+  public static int a(@F TextDirectionHeuristic paramTextDirectionHeuristic)
+  {
+    if (paramTextDirectionHeuristic == TextDirectionHeuristics.FIRSTSTRONG_RTL) {
+      return 1;
+    }
+    if (paramTextDirectionHeuristic == TextDirectionHeuristics.FIRSTSTRONG_LTR) {
+      return 1;
+    }
+    if (paramTextDirectionHeuristic == TextDirectionHeuristics.ANYRTL_LTR) {
+      return 2;
+    }
+    if (paramTextDirectionHeuristic == TextDirectionHeuristics.LTR) {
+      return 3;
+    }
+    if (paramTextDirectionHeuristic == TextDirectionHeuristics.RTL) {
+      return 4;
+    }
+    if (paramTextDirectionHeuristic == TextDirectionHeuristics.LOCALE) {
+      return 5;
+    }
+    if (paramTextDirectionHeuristic == TextDirectionHeuristics.FIRSTSTRONG_LTR) {
+      return 6;
+    }
+    if (paramTextDirectionHeuristic == TextDirectionHeuristics.FIRSTSTRONG_RTL) {
+      return 7;
+    }
+    return 1;
+  }
+  
+  public static int a(@F TextView paramTextView)
+  {
+    if (Build.VERSION.SDK_INT >= 27) {
+      return paramTextView.getAutoSizeMaxTextSize();
+    }
+    if ((paramTextView instanceof b)) {
+      return ((b)paramTextView).getAutoSizeMaxTextSize();
+    }
+    return -1;
+  }
+  
+  public static int a(Field paramField, TextView paramTextView)
+  {
+    try
+    {
+      int m = paramField.getInt(paramTextView);
+      return m;
+    }
+    catch (IllegalAccessException paramTextView)
+    {
+      for (;;) {}
+    }
+    paramTextView = a.b("Could not retrieve value of ");
+    paramTextView.append(paramField.getName());
+    paramTextView.append(" field.");
+    paramTextView.toString();
+    return -1;
+  }
+  
+  public static Field a(String paramString)
+  {
+    Object localObject = null;
+    try
+    {
+      Field localField = TextView.class.getDeclaredField(paramString);
+      localObject = localField;
+      localField.setAccessible(true);
+      return localField;
+    }
+    catch (NoSuchFieldException localNoSuchFieldException)
+    {
+      for (;;) {}
+    }
+    a.b("Could not retrieve ", paramString, " field.");
+    return localObject;
+  }
+  
+  public static void a(@F TextView paramTextView, int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 27)
+    {
+      paramTextView.setAutoSizeTextTypeWithDefaults(paramInt);
+      return;
+    }
+    if ((paramTextView instanceof b)) {
+      ((b)paramTextView).setAutoSizeTextTypeWithDefaults(paramInt);
+    }
+  }
+  
+  public static void a(@F TextView paramTextView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+    throws IllegalArgumentException
+  {
+    if (Build.VERSION.SDK_INT >= 27)
+    {
+      paramTextView.setAutoSizeTextTypeUniformWithConfiguration(paramInt1, paramInt2, paramInt3, paramInt4);
+      return;
+    }
+    if ((paramTextView instanceof b)) {
+      ((b)paramTextView).setAutoSizeTextTypeUniformWithConfiguration(paramInt1, paramInt2, paramInt3, paramInt4);
+    }
+  }
+  
+  public static void a(@F TextView paramTextView, @G Drawable paramDrawable1, @G Drawable paramDrawable2, @G Drawable paramDrawable3, @G Drawable paramDrawable4)
+  {
+    int m = Build.VERSION.SDK_INT;
+    paramTextView.setCompoundDrawablesRelative(paramDrawable1, paramDrawable2, paramDrawable3, paramDrawable4);
+  }
+  
+  public static void a(@F TextView paramTextView, @F ActionMode.Callback paramCallback)
+  {
+    paramTextView.setCustomSelectionActionModeCallback(b(paramTextView, paramCallback));
+  }
+  
+  public static void a(@F TextView paramTextView, @F d.a paramA)
+  {
+    int m = Build.VERSION.SDK_INT;
+    paramTextView.setTextDirection(a(paramA.c()));
+    if (Build.VERSION.SDK_INT < 23)
+    {
+      float f1 = paramA.d().getTextScaleX();
+      paramTextView.getPaint().set(paramA.d());
+      if (f1 == paramTextView.getTextScaleX()) {
+        paramTextView.setTextScaleX(f1 / 2.0F + 1.0F);
+      }
+      paramTextView.setTextScaleX(f1);
+      return;
+    }
+    paramTextView.getPaint().set(paramA.d());
+    paramTextView.setBreakStrategy(paramA.a());
+    paramTextView.setHyphenationFrequency(paramA.b());
+  }
+  
+  public static void a(@F TextView paramTextView, @F d paramD)
+  {
+    if (Build.VERSION.SDK_INT >= 28)
+    {
+      paramTextView.setText(paramD.c());
+      return;
+    }
+    if (l(paramTextView).equals(paramD.b()))
+    {
+      paramTextView.setText(paramD);
+      return;
+    }
+    throw new IllegalArgumentException("Given text can not be applied to TextView.");
+  }
+  
+  public static void a(@F TextView paramTextView, @F int[] paramArrayOfInt, int paramInt)
+    throws IllegalArgumentException
+  {
+    if (Build.VERSION.SDK_INT >= 27)
+    {
+      paramTextView.setAutoSizeTextTypeUniformWithPresetSizes(paramArrayOfInt, paramInt);
+      return;
+    }
+    if ((paramTextView instanceof b)) {
+      ((b)paramTextView).setAutoSizeTextTypeUniformWithPresetSizes(paramArrayOfInt, paramInt);
+    }
+  }
+  
+  public static int b(@F TextView paramTextView)
+  {
+    if (Build.VERSION.SDK_INT >= 27) {
+      return paramTextView.getAutoSizeMinTextSize();
+    }
+    if ((paramTextView instanceof b)) {
+      return ((b)paramTextView).getAutoSizeMinTextSize();
+    }
+    return -1;
+  }
+  
+  @F
+  @b.b.a.N({b.b.a.N.a.b})
+  public static ActionMode.Callback b(@F TextView paramTextView, @F ActionMode.Callback paramCallback)
+  {
+    int m = Build.VERSION.SDK_INT;
+    if ((m >= 26) && (m <= 27))
+    {
+      if ((paramCallback instanceof b)) {
+        return paramCallback;
+      }
+      return new b(paramCallback, paramTextView);
+    }
+    return paramCallback;
+  }
+  
+  public static void b(@F TextView paramTextView, @I @x(from=0L) int paramInt)
+  {
+    s.a(paramInt);
+    if (Build.VERSION.SDK_INT >= 28)
+    {
+      paramTextView.setFirstBaselineToTopHeight(paramInt);
+      return;
+    }
+    Paint.FontMetricsInt localFontMetricsInt = paramTextView.getPaint().getFontMetricsInt();
+    int m = Build.VERSION.SDK_INT;
+    if (paramTextView.getIncludeFontPadding()) {
+      m = top;
+    } else {
+      m = ascent;
+    }
+    if (paramInt > Math.abs(m))
+    {
+      m = -m;
+      paramTextView.setPadding(paramTextView.getPaddingLeft(), paramInt - m, paramTextView.getPaddingRight(), paramTextView.getPaddingBottom());
+    }
+  }
+  
+  public static void b(@F TextView paramTextView, @p int paramInt1, @p int paramInt2, @p int paramInt3, @p int paramInt4)
+  {
+    int m = Build.VERSION.SDK_INT;
+    paramTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(paramInt1, paramInt2, paramInt3, paramInt4);
+  }
+  
+  public static void b(@F TextView paramTextView, @G Drawable paramDrawable1, @G Drawable paramDrawable2, @G Drawable paramDrawable3, @G Drawable paramDrawable4)
+  {
+    int m = Build.VERSION.SDK_INT;
+    paramTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(paramDrawable1, paramDrawable2, paramDrawable3, paramDrawable4);
+  }
+  
+  public static int c(@F TextView paramTextView)
+  {
+    if (Build.VERSION.SDK_INT >= 27) {
+      return paramTextView.getAutoSizeStepGranularity();
+    }
+    if ((paramTextView instanceof b)) {
+      return ((b)paramTextView).getAutoSizeStepGranularity();
+    }
+    return -1;
+  }
+  
+  public static void c(@F TextView paramTextView, @I @x(from=0L) int paramInt)
+  {
+    s.a(paramInt);
+    Paint.FontMetricsInt localFontMetricsInt = paramTextView.getPaint().getFontMetricsInt();
+    int m = Build.VERSION.SDK_INT;
+    if (paramTextView.getIncludeFontPadding()) {
+      m = bottom;
+    } else {
+      m = descent;
+    }
+    if (paramInt > Math.abs(m)) {
+      paramTextView.setPadding(paramTextView.getPaddingLeft(), paramTextView.getPaddingTop(), paramTextView.getPaddingRight(), paramInt - m);
+    }
+  }
+  
+  public static void d(@F TextView paramTextView, @I @x(from=0L) int paramInt)
+  {
+    s.a(paramInt);
+    int m = paramTextView.getPaint().getFontMetricsInt(null);
+    if (paramInt != m) {
+      paramTextView.setLineSpacing(paramInt - m, 1.0F);
+    }
+  }
+  
+  @F
+  public static int[] d(@F TextView paramTextView)
+  {
+    if (Build.VERSION.SDK_INT >= 27) {
+      return paramTextView.getAutoSizeTextAvailableSizes();
+    }
+    if ((paramTextView instanceof b)) {
+      return ((b)paramTextView).getAutoSizeTextAvailableSizes();
+    }
+    return new int[0];
+  }
+  
+  public static int e(@F TextView paramTextView)
+  {
+    if (Build.VERSION.SDK_INT >= 27) {
+      return paramTextView.getAutoSizeTextType();
+    }
+    if ((paramTextView instanceof b)) {
+      return ((b)paramTextView).getAutoSizeTextType();
+    }
+    return 0;
+  }
+  
+  public static void e(@F TextView paramTextView, @S int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 23)
+    {
+      paramTextView.setTextAppearance(paramInt);
+      return;
+    }
+    paramTextView.setTextAppearance(paramTextView.getContext(), paramInt);
+  }
+  
+  @F
+  public static Drawable[] f(@F TextView paramTextView)
+  {
+    int m = Build.VERSION.SDK_INT;
+    return paramTextView.getCompoundDrawablesRelative();
+  }
+  
+  public static int g(@F TextView paramTextView)
+  {
+    return paramTextView.getPaddingTop() - getPaintgetFontMetricsInttop;
+  }
+  
+  public static int h(@F TextView paramTextView)
+  {
+    return paramTextView.getPaddingBottom() + getPaintgetFontMetricsIntbottom;
+  }
+  
+  public static int i(@F TextView paramTextView)
+  {
+    int m = Build.VERSION.SDK_INT;
+    return paramTextView.getMaxLines();
+  }
+  
+  public static int j(@F TextView paramTextView)
+  {
+    int m = Build.VERSION.SDK_INT;
+    return paramTextView.getMinLines();
+  }
+  
+  @K(18)
+  public static TextDirectionHeuristic k(@F TextView paramTextView)
+  {
+    if ((paramTextView.getTransformationMethod() instanceof PasswordTransformationMethod)) {
+      return TextDirectionHeuristics.LTR;
+    }
+    int n = Build.VERSION.SDK_INT;
+    int m = 0;
+    if ((n >= 28) && ((paramTextView.getInputType() & 0xF) == 3))
+    {
+      m = Character.getDirectionality(android.icu.text.DecimalFormatSymbols.getInstance(paramTextView.getTextLocale()).getDigitStrings()[0].codePointAt(0));
+      if ((m != 1) && (m != 2)) {
+        return TextDirectionHeuristics.LTR;
+      }
+      return TextDirectionHeuristics.RTL;
+    }
+    if (paramTextView.getLayoutDirection() == 1) {
+      m = 1;
+    }
+    switch (paramTextView.getTextDirection())
+    {
+    default: 
+      if (m != 0) {
+        return TextDirectionHeuristics.FIRSTSTRONG_RTL;
+      }
+      break;
+    case 7: 
+      return TextDirectionHeuristics.FIRSTSTRONG_RTL;
+    case 6: 
+      return TextDirectionHeuristics.FIRSTSTRONG_LTR;
+    case 5: 
+      return TextDirectionHeuristics.LOCALE;
+    case 4: 
+      return TextDirectionHeuristics.RTL;
+    case 3: 
+      return TextDirectionHeuristics.LTR;
+    case 2: 
+      return TextDirectionHeuristics.ANYRTL_LTR;
+    }
+    return TextDirectionHeuristics.FIRSTSTRONG_LTR;
+  }
+  
+  @F
+  public static d.a l(@F TextView paramTextView)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return new d.a(paramTextView.getTextMetricsParams());
+    }
+    d.a.a localA = new d.a.a(new TextPaint(paramTextView.getPaint()));
+    if (Build.VERSION.SDK_INT >= 23)
+    {
+      localA.a(paramTextView.getBreakStrategy());
+      localA.b(paramTextView.getHyphenationFrequency());
+    }
+    int m = Build.VERSION.SDK_INT;
+    localA.a(k(paramTextView));
+    return localA.a();
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @b.b.a.N({b.b.a.N.a.b})
+  public static @interface a {}
+  
+  @K(26)
+  private static class b
+    implements ActionMode.Callback
+  {
+    public static final int a = 100;
+    public final ActionMode.Callback b;
+    public final TextView c;
+    public Class d;
+    public Method e;
+    public boolean f;
+    public boolean g;
+    
+    public b(ActionMode.Callback paramCallback, TextView paramTextView)
+    {
+      b = paramCallback;
+      c = paramTextView;
+      g = false;
+    }
+    
+    private Intent a()
+    {
+      return new Intent().setAction("android.intent.action.PROCESS_TEXT").setType("text/plain");
+    }
+    
+    private Intent a(ResolveInfo paramResolveInfo, TextView paramTextView)
+    {
+      return a().putExtra("android.intent.extra.PROCESS_TEXT_READONLY", a(paramTextView) ^ true).setClassName(activityInfo.packageName, activityInfo.name);
+    }
+    
+    private List<ResolveInfo> a(Context paramContext, PackageManager paramPackageManager)
+    {
+      ArrayList localArrayList = new ArrayList();
+      if (!(paramContext instanceof Activity)) {
+        return localArrayList;
+      }
+      paramPackageManager = paramPackageManager.queryIntentActivities(a(), 0).iterator();
+      while (paramPackageManager.hasNext())
+      {
+        ResolveInfo localResolveInfo = (ResolveInfo)paramPackageManager.next();
+        if (a(localResolveInfo, paramContext)) {
+          localArrayList.add(localResolveInfo);
+        }
+      }
+      return localArrayList;
+    }
+    
+    private void a(Menu paramMenu)
+    {
+      Object localObject2 = c.getContext();
+      PackageManager localPackageManager = ((Context)localObject2).getPackageManager();
+      if (!g) {
+        g = true;
+      }
+      try
+      {
+        d = Class.forName("com.android.internal.view.menu.MenuBuilder");
+        e = d.getDeclaredMethod("removeItemAt", new Class[] { Integer.TYPE });
+        f = true;
+      }
+      catch (ClassNotFoundException|NoSuchMethodException localClassNotFoundException)
+      {
+        for (;;)
+        {
+          try
+          {
+            if ((f) && (d.isInstance(paramMenu))) {
+              localObject1 = e;
+            } else {
+              localObject1 = paramMenu.getClass().getDeclaredMethod("removeItemAt", new Class[] { Integer.TYPE });
+            }
+            int i = paramMenu.size() - 1;
+            if (i >= 0)
+            {
+              MenuItem localMenuItem = paramMenu.getItem(i);
+              if ((localMenuItem.getIntent() != null) && ("android.intent.action.PROCESS_TEXT".equals(localMenuItem.getIntent().getAction()))) {
+                ((Method)localObject1).invoke(paramMenu, new Object[] { Integer.valueOf(i) });
+              }
+              i -= 1;
+              continue;
+            }
+            Object localObject1 = a((Context)localObject2, localPackageManager);
+            i = 0;
+            if (i < ((List)localObject1).size())
+            {
+              localObject2 = (ResolveInfo)((List)localObject1).get(i);
+              paramMenu.add(0, 0, i + 100, ((ResolveInfo)localObject2).loadLabel(localPackageManager)).setIntent(a((ResolveInfo)localObject2, c)).setShowAsAction(1);
+              i += 1;
+              continue;
+            }
+            return;
+          }
+          catch (NoSuchMethodException|IllegalAccessException|InvocationTargetException paramMenu) {}
+          localClassNotFoundException = localClassNotFoundException;
+        }
+      }
+      d = null;
+      e = null;
+      f = false;
+    }
+    
+    private boolean a(ResolveInfo paramResolveInfo, Context paramContext)
+    {
+      boolean bool2 = paramContext.getPackageName().equals(activityInfo.packageName);
+      boolean bool1 = true;
+      if (bool2) {
+        return true;
+      }
+      if (!activityInfo.exported) {
+        return false;
+      }
+      paramResolveInfo = activityInfo.permission;
+      if (paramResolveInfo != null)
+      {
+        if (paramContext.checkSelfPermission(paramResolveInfo) == 0) {
+          return true;
+        }
+        bool1 = false;
+      }
+      return bool1;
+    }
+    
+    private boolean a(TextView paramTextView)
+    {
+      return ((paramTextView instanceof Editable)) && (paramTextView.onCheckIsTextEditor()) && (paramTextView.isEnabled());
+    }
+    
+    public boolean onActionItemClicked(ActionMode paramActionMode, MenuItem paramMenuItem)
+    {
+      return b.onActionItemClicked(paramActionMode, paramMenuItem);
+    }
+    
+    public boolean onCreateActionMode(ActionMode paramActionMode, Menu paramMenu)
+    {
+      return b.onCreateActionMode(paramActionMode, paramMenu);
+    }
+    
+    public void onDestroyActionMode(ActionMode paramActionMode)
+    {
+      b.onDestroyActionMode(paramActionMode);
+    }
+    
+    public boolean onPrepareActionMode(ActionMode paramActionMode, Menu paramMenu)
+    {
+      a(paramMenu);
+      return b.onPrepareActionMode(paramActionMode, paramMenu);
+    }
+  }
+}

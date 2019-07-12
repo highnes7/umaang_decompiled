@@ -1,0 +1,74 @@
+package com.google.android.gms.internal;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+
+public abstract class zzeuc<MessageType extends zzeuc<MessageType, BuilderType>, BuilderType extends zzeud<MessageType, BuilderType>>
+  implements zzewl
+{
+  public static boolean zzoms = false;
+  public int zzomr = 0;
+  
+  public zzeuc() {}
+  
+  public static <T> void zza(Iterable<T> paramIterable, List<? super T> paramList)
+  {
+    zzeud.zza(paramIterable, paramList);
+  }
+  
+  public final byte[] toByteArray()
+  {
+    try
+    {
+      byte[] arrayOfByte = new byte[zzhi()];
+      localObject = zzeuy.zzbc(arrayOfByte);
+      zza((zzeuy)localObject);
+      ((zzeuy)localObject).zzctn();
+      return arrayOfByte;
+    }
+    catch (IOException localIOException)
+    {
+      Object localObject = getClass().getName();
+      int i = ((String)localObject).length();
+      StringBuilder localStringBuilder = new StringBuilder("byte array".length() + (i + 62));
+      localStringBuilder.append("Serializing ");
+      localStringBuilder.append((String)localObject);
+      localStringBuilder.append(" to a ");
+      localStringBuilder.append("byte array");
+      localStringBuilder.append(" threw an IOException (should never happen).");
+      throw new RuntimeException(localStringBuilder.toString(), localIOException);
+    }
+  }
+  
+  public final zzeuk toByteString()
+  {
+    try
+    {
+      Object localObject = zzeuk.zzjj(zzhi());
+      zza(((zzeup)localObject).zzcsm());
+      localObject = ((zzeup)localObject).zzcsl();
+      return localObject;
+    }
+    catch (IOException localIOException)
+    {
+      String str = getClass().getName();
+      int i = str.length();
+      StringBuilder localStringBuilder = new StringBuilder("ByteString".length() + (i + 62));
+      localStringBuilder.append("Serializing ");
+      localStringBuilder.append(str);
+      localStringBuilder.append(" to a ");
+      localStringBuilder.append("ByteString");
+      localStringBuilder.append(" threw an IOException (should never happen).");
+      throw new RuntimeException(localStringBuilder.toString(), localIOException);
+    }
+  }
+  
+  public final void writeTo(OutputStream paramOutputStream)
+    throws IOException
+  {
+    paramOutputStream = zzeuy.zzb(paramOutputStream, zzeuy.zzjw(zzhi()));
+    zza(paramOutputStream);
+    paramOutputStream.flush();
+  }
+}

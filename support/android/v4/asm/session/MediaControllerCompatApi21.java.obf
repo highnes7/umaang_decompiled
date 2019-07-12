@@ -1,0 +1,356 @@
+package b.b.x.h.b;
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.media.AudioAttributes;
+import android.media.MediaMetadata;
+import android.media.Rating;
+import android.media.session.MediaController;
+import android.media.session.MediaController.Callback;
+import android.media.session.MediaController.PlaybackInfo;
+import android.media.session.MediaController.TransportControls;
+import android.media.session.MediaSession.QueueItem;
+import android.media.session.MediaSession.Token;
+import android.media.session.PlaybackState;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.view.KeyEvent;
+import b.b.a.K;
+import java.util.ArrayList;
+import java.util.List;
+
+@K(21)
+public class d
+{
+  public d() {}
+  
+  public static Bundle a(Object paramObject)
+  {
+    return ((MediaController)paramObject).getExtras();
+  }
+  
+  public static Object a(Activity paramActivity)
+  {
+    return paramActivity.getMediaController();
+  }
+  
+  public static Object a(Context paramContext, Object paramObject)
+  {
+    return new MediaController(paramContext, (MediaSession.Token)paramObject);
+  }
+  
+  public static Object a(a paramA)
+  {
+    return new b(paramA);
+  }
+  
+  public static void a(Activity paramActivity, Object paramObject)
+  {
+    paramActivity.setMediaController((MediaController)paramObject);
+  }
+  
+  public static void a(Object paramObject, int paramInt1, int paramInt2)
+  {
+    ((MediaController)paramObject).adjustVolume(paramInt1, paramInt2);
+  }
+  
+  public static void a(Object paramObject1, Object paramObject2)
+  {
+    ((MediaController)paramObject1).unregisterCallback((MediaController.Callback)paramObject2);
+  }
+  
+  public static void a(Object paramObject1, Object paramObject2, Handler paramHandler)
+  {
+    ((MediaController)paramObject1).registerCallback((MediaController.Callback)paramObject2, paramHandler);
+  }
+  
+  public static void a(Object paramObject, String paramString, Bundle paramBundle, ResultReceiver paramResultReceiver)
+  {
+    ((MediaController)paramObject).sendCommand(paramString, paramBundle, paramResultReceiver);
+  }
+  
+  public static boolean a(Object paramObject, KeyEvent paramKeyEvent)
+  {
+    return ((MediaController)paramObject).dispatchMediaButtonEvent(paramKeyEvent);
+  }
+  
+  public static long b(Object paramObject)
+  {
+    return ((MediaController)paramObject).getFlags();
+  }
+  
+  public static void b(Object paramObject, int paramInt1, int paramInt2)
+  {
+    ((MediaController)paramObject).setVolumeTo(paramInt1, paramInt2);
+  }
+  
+  public static Object c(Object paramObject)
+  {
+    return ((MediaController)paramObject).getMetadata();
+  }
+  
+  public static String d(Object paramObject)
+  {
+    return ((MediaController)paramObject).getPackageName();
+  }
+  
+  public static Object e(Object paramObject)
+  {
+    return ((MediaController)paramObject).getPlaybackInfo();
+  }
+  
+  public static Object f(Object paramObject)
+  {
+    return ((MediaController)paramObject).getPlaybackState();
+  }
+  
+  public static List<Object> g(Object paramObject)
+  {
+    paramObject = ((MediaController)paramObject).getQueue();
+    if (paramObject == null) {
+      return null;
+    }
+    return new ArrayList(paramObject);
+  }
+  
+  public static CharSequence h(Object paramObject)
+  {
+    return ((MediaController)paramObject).getQueueTitle();
+  }
+  
+  public static int i(Object paramObject)
+  {
+    return ((MediaController)paramObject).getRatingType();
+  }
+  
+  public static PendingIntent j(Object paramObject)
+  {
+    return ((MediaController)paramObject).getSessionActivity();
+  }
+  
+  public static Object k(Object paramObject)
+  {
+    return ((MediaController)paramObject).getSessionToken();
+  }
+  
+  public static Object l(Object paramObject)
+  {
+    return ((MediaController)paramObject).getTransportControls();
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void a(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5);
+    
+    public abstract void a(Bundle paramBundle);
+    
+    public abstract void a(CharSequence paramCharSequence);
+    
+    public abstract void a(Object paramObject);
+    
+    public abstract void a(String paramString, Bundle paramBundle);
+    
+    public abstract void a(List<?> paramList);
+    
+    public abstract void b(Object paramObject);
+    
+    public abstract void j();
+  }
+  
+  public static class b<T extends d.a>
+    extends MediaController.Callback
+  {
+    public final T a;
+    
+    public b(T paramT)
+    {
+      a = paramT;
+    }
+    
+    public void onAudioInfoChanged(MediaController.PlaybackInfo paramPlaybackInfo)
+    {
+      a.a(paramPlaybackInfo.getPlaybackType(), d.c.c(paramPlaybackInfo), paramPlaybackInfo.getVolumeControl(), paramPlaybackInfo.getMaxVolume(), paramPlaybackInfo.getCurrentVolume());
+    }
+    
+    public void onExtrasChanged(Bundle paramBundle)
+    {
+      MediaSessionCompat.a(paramBundle);
+      a.a(paramBundle);
+    }
+    
+    public void onMetadataChanged(MediaMetadata paramMediaMetadata)
+    {
+      a.a(paramMediaMetadata);
+    }
+    
+    public void onPlaybackStateChanged(PlaybackState paramPlaybackState)
+    {
+      a.b(paramPlaybackState);
+    }
+    
+    public void onQueueChanged(List<MediaSession.QueueItem> paramList)
+    {
+      a.a(paramList);
+    }
+    
+    public void onQueueTitleChanged(CharSequence paramCharSequence)
+    {
+      a.a(paramCharSequence);
+    }
+    
+    public void onSessionDestroyed()
+    {
+      a.j();
+    }
+    
+    public void onSessionEvent(String paramString, Bundle paramBundle)
+    {
+      MediaSessionCompat.a(paramBundle);
+      a.a(paramString, paramBundle);
+    }
+  }
+  
+  public static class c
+  {
+    public static final int a = 4;
+    public static final int b = 6;
+    public static final int c = 7;
+    
+    public c() {}
+    
+    public static int a(AudioAttributes paramAudioAttributes)
+    {
+      if ((paramAudioAttributes.getFlags() & 0x1) == 1) {
+        return 7;
+      }
+      if ((paramAudioAttributes.getFlags() & 0x4) == 4) {
+        return 6;
+      }
+      switch (paramAudioAttributes.getUsage())
+      {
+      default: 
+        return 3;
+      case 13: 
+        return 1;
+      case 6: 
+        return 2;
+      case 5: 
+      case 7: 
+      case 8: 
+      case 9: 
+      case 10: 
+        return 5;
+      case 4: 
+        return 4;
+      case 3: 
+        return 8;
+      case 2: 
+        return 0;
+      }
+      return 3;
+    }
+    
+    public static AudioAttributes a(Object paramObject)
+    {
+      return ((MediaController.PlaybackInfo)paramObject).getAudioAttributes();
+    }
+    
+    public static int b(Object paramObject)
+    {
+      return ((MediaController.PlaybackInfo)paramObject).getCurrentVolume();
+    }
+    
+    public static int c(Object paramObject)
+    {
+      return a(a(paramObject));
+    }
+    
+    public static int d(Object paramObject)
+    {
+      return ((MediaController.PlaybackInfo)paramObject).getMaxVolume();
+    }
+    
+    public static int e(Object paramObject)
+    {
+      return ((MediaController.PlaybackInfo)paramObject).getPlaybackType();
+    }
+    
+    public static int f(Object paramObject)
+    {
+      return ((MediaController.PlaybackInfo)paramObject).getVolumeControl();
+    }
+  }
+  
+  public static class d
+  {
+    public d() {}
+    
+    public static void a(Object paramObject)
+    {
+      ((MediaController.TransportControls)paramObject).fastForward();
+    }
+    
+    public static void a(Object paramObject, long paramLong)
+    {
+      ((MediaController.TransportControls)paramObject).seekTo(paramLong);
+    }
+    
+    public static void a(Object paramObject1, Object paramObject2)
+    {
+      ((MediaController.TransportControls)paramObject1).setRating((Rating)paramObject2);
+    }
+    
+    public static void a(Object paramObject, String paramString, Bundle paramBundle)
+    {
+      ((MediaController.TransportControls)paramObject).playFromMediaId(paramString, paramBundle);
+    }
+    
+    public static void b(Object paramObject)
+    {
+      ((MediaController.TransportControls)paramObject).pause();
+    }
+    
+    public static void b(Object paramObject, long paramLong)
+    {
+      ((MediaController.TransportControls)paramObject).skipToQueueItem(paramLong);
+    }
+    
+    public static void b(Object paramObject, String paramString, Bundle paramBundle)
+    {
+      ((MediaController.TransportControls)paramObject).playFromSearch(paramString, paramBundle);
+    }
+    
+    public static void c(Object paramObject)
+    {
+      ((MediaController.TransportControls)paramObject).play();
+    }
+    
+    public static void c(Object paramObject, String paramString, Bundle paramBundle)
+    {
+      ((MediaController.TransportControls)paramObject).sendCustomAction(paramString, paramBundle);
+    }
+    
+    public static void d(Object paramObject)
+    {
+      ((MediaController.TransportControls)paramObject).rewind();
+    }
+    
+    public static void e(Object paramObject)
+    {
+      ((MediaController.TransportControls)paramObject).skipToNext();
+    }
+    
+    public static void f(Object paramObject)
+    {
+      ((MediaController.TransportControls)paramObject).skipToPrevious();
+    }
+    
+    public static void g(Object paramObject)
+    {
+      ((MediaController.TransportControls)paramObject).stop();
+    }
+  }
+}

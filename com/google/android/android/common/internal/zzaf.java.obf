@@ -1,0 +1,43 @@
+package com.google.android.gms.common.internal;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.ServiceConnection;
+
+public abstract class zzaf
+{
+  public static final Object zzfut = new Object();
+  public static zzaf zzfuu;
+  
+  public zzaf() {}
+  
+  public static zzaf zzce(Context paramContext)
+  {
+    synchronized (zzfut)
+    {
+      if (zzfuu == null) {
+        zzfuu = new zzah(paramContext.getApplicationContext());
+      }
+      return zzfuu;
+    }
+  }
+  
+  public final void zza(String paramString1, String paramString2, int paramInt, ServiceConnection paramServiceConnection, String paramString3)
+  {
+    zzb(new zzag(paramString1, paramString2, paramInt), paramServiceConnection, paramString3);
+  }
+  
+  public final boolean zza(ComponentName paramComponentName, ServiceConnection paramServiceConnection, String paramString)
+  {
+    return zza(new zzag(paramComponentName, 129), paramServiceConnection, paramString);
+  }
+  
+  public abstract boolean zza(zzag paramZzag, ServiceConnection paramServiceConnection, String paramString);
+  
+  public final void zzb(ComponentName paramComponentName, ServiceConnection paramServiceConnection, String paramString)
+  {
+    zzb(new zzag(paramComponentName, 129), paramServiceConnection, paramString);
+  }
+  
+  public abstract void zzb(zzag paramZzag, ServiceConnection paramServiceConnection, String paramString);
+}

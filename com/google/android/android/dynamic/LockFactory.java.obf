@@ -1,0 +1,54 @@
+package com.google.android.gms.dynamic;
+
+import android.content.Context;
+import android.os.IBinder;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.zzo;
+
+public abstract class zzp<T>
+{
+  public final String zzgpf;
+  public T zzgpg;
+  
+  public zzp(String paramString)
+  {
+    zzgpf = paramString;
+  }
+  
+  public final T zzcu(Context paramContext)
+    throws zzq
+  {
+    if (zzgpg == null)
+    {
+      zzbp.zzu(paramContext);
+      paramContext = zzo.getRemoteContext(paramContext);
+      if (paramContext != null)
+      {
+        paramContext = paramContext.getClassLoader();
+        try
+        {
+          zzgpg = zze((IBinder)paramContext.loadClass(zzgpf).newInstance());
+        }
+        catch (IllegalAccessException paramContext)
+        {
+          throw new zzq("Could not access creator.", paramContext);
+        }
+        catch (InstantiationException paramContext)
+        {
+          throw new zzq("Could not instantiate creator.", paramContext);
+        }
+        catch (ClassNotFoundException paramContext)
+        {
+          throw new zzq("Could not load creator class.", paramContext);
+        }
+      }
+      else
+      {
+        throw new zzq("Could not get remote context.");
+      }
+    }
+    return zzgpg;
+  }
+  
+  public abstract T zze(IBinder paramIBinder);
+}

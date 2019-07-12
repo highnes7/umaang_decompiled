@@ -1,0 +1,110 @@
+package d;
+
+import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+public final class k
+{
+  public static final k a = new k();
+  public final ExecutorService b;
+  public final ScheduledExecutorService c;
+  public final Executor d;
+  
+  public k()
+  {
+    ExecutorService localExecutorService;
+    if (!c()) {
+      localExecutorService = Executors.newCachedThreadPool();
+    } else {
+      localExecutorService = c.a();
+    }
+    b = localExecutorService;
+    c = Executors.newSingleThreadScheduledExecutor();
+    d = new a();
+  }
+  
+  public static ExecutorService a()
+  {
+    return ab;
+  }
+  
+  public static Executor b()
+  {
+    return ad;
+  }
+  
+  public static boolean c()
+  {
+    String str = System.getProperty("java.runtime.name");
+    if (str == null) {
+      return false;
+    }
+    return str.toLowerCase(Locale.US).contains("android");
+  }
+  
+  public static ScheduledExecutorService d()
+  {
+    return ac;
+  }
+  
+  private static class a
+    implements Executor
+  {
+    public static final int a = 15;
+    public ThreadLocal<Integer> b = new ThreadLocal();
+    
+    public a() {}
+    
+    private int a()
+    {
+      Integer localInteger2 = (Integer)b.get();
+      Integer localInteger1 = localInteger2;
+      if (localInteger2 == null) {
+        localInteger1 = Integer.valueOf(0);
+      }
+      int i = localInteger1.intValue() - 1;
+      if (i == 0)
+      {
+        b.remove();
+        return i;
+      }
+      b.set(Integer.valueOf(i));
+      return i;
+    }
+    
+    private int b()
+    {
+      Integer localInteger2 = (Integer)b.get();
+      Integer localInteger1 = localInteger2;
+      if (localInteger2 == null) {
+        localInteger1 = Integer.valueOf(0);
+      }
+      int i = localInteger1.intValue() + 1;
+      b.set(Integer.valueOf(i));
+      return i;
+    }
+    
+    public void execute(Runnable paramRunnable)
+    {
+      if (b() <= 15) {}
+      try
+      {
+        paramRunnable.run();
+        break label30;
+        ab.execute(paramRunnable);
+        label30:
+        a();
+        return;
+      }
+      finally
+      {
+        for (;;) {}
+      }
+      a();
+      throw paramRunnable;
+    }
+  }
+}

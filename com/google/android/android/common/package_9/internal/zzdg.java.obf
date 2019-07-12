@@ -1,0 +1,218 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Looper;
+import b.b.a.F;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Releasable;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.ResultCallbacks;
+import com.google.android.gms.common.api.ResultTransform;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.TransformedResult;
+import com.google.android.gms.common.internal.zzbp;
+import java.lang.ref.WeakReference;
+import java.util.concurrent.ExecutorService;
+
+public final class zzdg<R extends Result>
+  extends TransformedResult<R>
+  implements ResultCallback<R>
+{
+  public final Object zzfjf = new Object();
+  public final WeakReference<GoogleApiClient> zzfjh;
+  public ResultTransform<? super R, ? extends Result> zzfph = null;
+  public zzdg<? extends Result> zzfpi = null;
+  public volatile ResultCallbacks<? super R> zzfpj = null;
+  public PendingResult<R> zzfpk = null;
+  public Status zzfpl = null;
+  public final zzdi zzfpm;
+  public boolean zzfpn = false;
+  
+  public zzdg(WeakReference<GoogleApiClient> paramWeakReference)
+  {
+    zzbp.zzb(paramWeakReference, "GoogleApiClient reference must not be null");
+    zzfjh = paramWeakReference;
+    paramWeakReference = (GoogleApiClient)zzfjh.get();
+    if (paramWeakReference != null) {
+      paramWeakReference = paramWeakReference.getLooper();
+    } else {
+      paramWeakReference = Looper.getMainLooper();
+    }
+    zzfpm = new zzdi(this, paramWeakReference);
+  }
+  
+  private final void zzain()
+  {
+    if ((zzfph == null) && (zzfpj == null)) {
+      return;
+    }
+    Object localObject = (GoogleApiClient)zzfjh.get();
+    if ((!zzfpn) && (zzfph != null) && (localObject != null))
+    {
+      ((GoogleApiClient)localObject).zza(this);
+      zzfpn = true;
+    }
+    localObject = zzfpl;
+    if (localObject != null)
+    {
+      zzw((Status)localObject);
+      return;
+    }
+    localObject = zzfpk;
+    if (localObject != null) {
+      ((PendingResult)localObject).setResultCallback(this);
+    }
+  }
+  
+  private final boolean zzaip()
+  {
+    GoogleApiClient localGoogleApiClient = (GoogleApiClient)zzfjh.get();
+    return (zzfpj != null) && (localGoogleApiClient != null);
+  }
+  
+  public static void zzd(Result paramResult)
+  {
+    if ((paramResult instanceof Releasable)) {}
+    try
+    {
+      ((Releasable)paramResult).release();
+      return;
+    }
+    catch (RuntimeException localRuntimeException)
+    {
+      StringBuilder localStringBuilder;
+      for (;;) {}
+    }
+    paramResult = String.valueOf(paramResult);
+    localStringBuilder = new StringBuilder(paramResult.length() + 18);
+    localStringBuilder.append("Unable to release ");
+    localStringBuilder.append(paramResult);
+    localStringBuilder.toString();
+  }
+  
+  private final void zzd(Status paramStatus)
+  {
+    synchronized (zzfjf)
+    {
+      zzfpl = paramStatus;
+      zzw(zzfpl);
+      return;
+    }
+  }
+  
+  private final void zzw(Status paramStatus)
+  {
+    synchronized (zzfjf)
+    {
+      if (zzfph != null)
+      {
+        paramStatus = zzfph.onFailure(paramStatus);
+        zzbp.zzb(paramStatus, "onFailure must not return null");
+        zzfpi.zzd(paramStatus);
+      }
+      else if (zzaip())
+      {
+        zzfpj.onFailure(paramStatus);
+      }
+      return;
+    }
+  }
+  
+  public final void andFinally(@F ResultCallbacks<? super R> paramResultCallbacks)
+  {
+    for (;;)
+    {
+      synchronized (zzfjf)
+      {
+        ResultCallbacks localResultCallbacks = zzfpj;
+        boolean bool2 = true;
+        if (localResultCallbacks == null)
+        {
+          bool1 = true;
+          zzbp.zza(bool1, "Cannot call andFinally() twice.");
+          if (zzfph != null) {
+            break label75;
+          }
+          bool1 = bool2;
+          zzbp.zza(bool1, "Cannot call then() and andFinally() on the same TransformedResult.");
+          zzfpj = paramResultCallbacks;
+          zzain();
+          return;
+        }
+      }
+      boolean bool1 = false;
+      continue;
+      label75:
+      bool1 = false;
+    }
+  }
+  
+  public final void onResult(R paramR)
+  {
+    synchronized (zzfjf)
+    {
+      if (paramR.getStatus().isSuccess())
+      {
+        if (zzfph != null) {
+          zzct.zzfnj.submit(new zzdh(this, paramR));
+        } else if (zzaip()) {
+          zzfpj.onSuccess(paramR);
+        }
+      }
+      else
+      {
+        zzd(paramR.getStatus());
+        zzd(paramR);
+      }
+      return;
+    }
+  }
+  
+  @F
+  public final <S extends Result> TransformedResult<S> then(@F ResultTransform<? super R, ? extends S> paramResultTransform)
+  {
+    for (;;)
+    {
+      synchronized (zzfjf)
+      {
+        ResultTransform localResultTransform = zzfph;
+        boolean bool2 = true;
+        if (localResultTransform == null)
+        {
+          bool1 = true;
+          zzbp.zza(bool1, "Cannot call then() twice.");
+          if (zzfpj != null) {
+            break label93;
+          }
+          bool1 = bool2;
+          zzbp.zza(bool1, "Cannot call then() and andFinally() on the same TransformedResult.");
+          zzfph = paramResultTransform;
+          paramResultTransform = new zzdg(zzfjh);
+          zzfpi = paramResultTransform;
+          zzain();
+          return paramResultTransform;
+        }
+      }
+      boolean bool1 = false;
+      continue;
+      label93:
+      bool1 = false;
+    }
+  }
+  
+  public final void zza(PendingResult<?> paramPendingResult)
+  {
+    synchronized (zzfjf)
+    {
+      zzfpk = paramPendingResult;
+      zzain();
+      return;
+    }
+  }
+  
+  public final void zzaio()
+  {
+    zzfpj = null;
+  }
+}

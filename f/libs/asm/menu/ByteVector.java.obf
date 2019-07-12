@@ -1,0 +1,750 @@
+package f.c.a.c;
+
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+
+public final class j
+  implements Flushable
+{
+  public static final int a = 4096;
+  public static final int b = 4;
+  public static final int c = 8;
+  public final byte[] d;
+  public final int e;
+  public int f;
+  public final OutputStream g;
+  
+  public j(OutputStream paramOutputStream, byte[] paramArrayOfByte)
+  {
+    g = paramOutputStream;
+    d = paramArrayOfByte;
+    f = 0;
+    e = paramArrayOfByte.length;
+  }
+  
+  public j(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    g = null;
+    d = paramArrayOfByte;
+    f = paramInt1;
+    e = (paramInt1 + paramInt2);
+  }
+  
+  public static int a(double paramDouble)
+  {
+    return 8;
+  }
+  
+  public static int a(float paramFloat)
+  {
+    return 4;
+  }
+  
+  public static int a(int paramInt, double paramDouble)
+  {
+    return k(paramInt) + 8;
+  }
+  
+  public static int a(int paramInt, float paramFloat)
+  {
+    return k(paramInt) + 4;
+  }
+  
+  public static int a(int paramInt1, int paramInt2)
+  {
+    return k(paramInt1) + f(paramInt2);
+  }
+  
+  public static int a(int paramInt, long paramLong)
+  {
+    return k(paramInt) + 8;
+  }
+  
+  public static int a(int paramInt, f paramF)
+  {
+    paramInt = k(paramInt);
+    return a(paramF) + paramInt;
+  }
+  
+  public static int a(int paramInt, String paramString)
+  {
+    paramInt = k(paramInt);
+    return b(paramString) + paramInt;
+  }
+  
+  public static int a(int paramInt, boolean paramBoolean)
+  {
+    return k(paramInt) + 1;
+  }
+  
+  public static int a(f paramF)
+  {
+    int i = h(paramF.e());
+    return paramF.e() + i;
+  }
+  
+  public static int a(boolean paramBoolean)
+  {
+    return 1;
+  }
+  
+  public static j a(OutputStream paramOutputStream)
+  {
+    return a(paramOutputStream, 4096);
+  }
+  
+  public static j a(OutputStream paramOutputStream, int paramInt)
+  {
+    return new j(paramOutputStream, new byte[paramInt]);
+  }
+  
+  public static j a(byte[] paramArrayOfByte)
+  {
+    return new j(paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public static j a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    return new j(paramArrayOfByte, paramInt1, paramInt2);
+  }
+  
+  public static int b(int paramInt1, int paramInt2)
+  {
+    return k(paramInt1) + 4;
+  }
+  
+  public static int b(int paramInt, long paramLong)
+  {
+    return k(paramInt) + f(paramLong);
+  }
+  
+  public static int b(int paramInt, f paramF)
+  {
+    int i = k(1);
+    paramInt = f(2, paramInt);
+    return a(3, paramF) + (paramInt + i * 2);
+  }
+  
+  public static int b(String paramString)
+  {
+    try
+    {
+      paramString = paramString.getBytes("UTF-8");
+      int i = h(paramString.length);
+      int j = paramString.length;
+      return i + j;
+    }
+    catch (UnsupportedEncodingException paramString)
+    {
+      throw new RuntimeException("UTF-8 not supported.", paramString);
+    }
+  }
+  
+  public static int c(int paramInt1, int paramInt2)
+  {
+    paramInt1 = k(paramInt1);
+    return f(paramInt2) + paramInt1;
+  }
+  
+  public static int c(int paramInt, long paramLong)
+  {
+    return k(paramInt) + 8;
+  }
+  
+  public static int d(int paramInt)
+  {
+    return f(paramInt);
+  }
+  
+  public static int d(int paramInt1, int paramInt2)
+  {
+    return k(paramInt1) + 4;
+  }
+  
+  public static int d(int paramInt, long paramLong)
+  {
+    paramInt = k(paramInt);
+    return h(paramLong) + paramInt;
+  }
+  
+  public static int d(long paramLong)
+  {
+    return 8;
+  }
+  
+  public static int e(int paramInt)
+  {
+    return 4;
+  }
+  
+  public static int e(int paramInt1, int paramInt2)
+  {
+    paramInt1 = k(paramInt1);
+    return j(paramInt2) + paramInt1;
+  }
+  
+  public static int e(int paramInt, long paramLong)
+  {
+    return k(paramInt) + f(paramLong);
+  }
+  
+  public static int e(long paramLong)
+  {
+    return f(paramLong);
+  }
+  
+  private void e()
+    throws IOException
+  {
+    OutputStream localOutputStream = g;
+    if (localOutputStream != null)
+    {
+      localOutputStream.write(d, 0, f);
+      f = 0;
+      return;
+    }
+    throw new a();
+  }
+  
+  public static int f(int paramInt)
+  {
+    if (paramInt >= 0) {
+      return h(paramInt);
+    }
+    return 10;
+  }
+  
+  public static int f(int paramInt1, int paramInt2)
+  {
+    return k(paramInt1) + h(paramInt2);
+  }
+  
+  public static int f(long paramLong)
+  {
+    if ((0xFFFFFFFFFFFFFF80 & paramLong) == 0L) {
+      return 1;
+    }
+    if ((0xFFFFFFFFFFFFC000 & paramLong) == 0L) {
+      return 2;
+    }
+    if ((0xFFFFFFFFFFE00000 & paramLong) == 0L) {
+      return 3;
+    }
+    if ((0xFFFFFFFFF0000000 & paramLong) == 0L) {
+      return 4;
+    }
+    if ((0xFFFFFFF800000000 & paramLong) == 0L) {
+      return 5;
+    }
+    if ((0xFFFFFC0000000000 & paramLong) == 0L) {
+      return 6;
+    }
+    if ((0xFFFE000000000000 & paramLong) == 0L) {
+      return 7;
+    }
+    if ((0xFF00000000000000 & paramLong) == 0L) {
+      return 8;
+    }
+    if ((paramLong & 0x8000000000000000) == 0L) {
+      return 9;
+    }
+    return 10;
+  }
+  
+  public static int g(int paramInt)
+  {
+    if (paramInt > 4096) {
+      return 4096;
+    }
+    return paramInt;
+  }
+  
+  public static int g(long paramLong)
+  {
+    return 8;
+  }
+  
+  public static int h(int paramInt)
+  {
+    if ((paramInt & 0xFFFFFF80) == 0) {
+      return 1;
+    }
+    if ((paramInt & 0xC000) == 0) {
+      return 2;
+    }
+    if ((0xFFE00000 & paramInt) == 0) {
+      return 3;
+    }
+    if ((paramInt & 0xF0000000) == 0) {
+      return 4;
+    }
+    return 5;
+  }
+  
+  public static int h(long paramLong)
+  {
+    return f(j(paramLong));
+  }
+  
+  public static int i(int paramInt)
+  {
+    return 4;
+  }
+  
+  public static int i(long paramLong)
+  {
+    return f(paramLong);
+  }
+  
+  public static int j(int paramInt)
+  {
+    return h(m(paramInt));
+  }
+  
+  public static long j(long paramLong)
+  {
+    return paramLong >> 63 ^ paramLong << 1;
+  }
+  
+  public static int k(int paramInt)
+  {
+    return h(paramInt << 3 | 0x0);
+  }
+  
+  public static int l(int paramInt)
+  {
+    return h(paramInt);
+  }
+  
+  public static int m(int paramInt)
+  {
+    return paramInt >> 31 ^ paramInt << 1;
+  }
+  
+  public void a()
+  {
+    if (d() == 0) {
+      return;
+    }
+    throw new IllegalStateException("Did not write as much data as expected.");
+  }
+  
+  public void a(byte paramByte)
+    throws IOException
+  {
+    if (f == e) {
+      e();
+    }
+    byte[] arrayOfByte = d;
+    int i = f;
+    f = (i + 1);
+    arrayOfByte[i] = paramByte;
+  }
+  
+  public void a(f paramF, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    int j = e;
+    int i = f;
+    if (j - i >= paramInt2)
+    {
+      paramF.a(d, paramInt1, i, paramInt2);
+      f += paramInt2;
+      return;
+    }
+    j -= i;
+    paramF.a(d, paramInt1, i, j);
+    i = paramInt1 + j;
+    paramInt1 = paramInt2 - j;
+    f = e;
+    e();
+    if (paramInt1 <= e)
+    {
+      paramF.a(d, i, 0, paramInt1);
+      f = paramInt1;
+      return;
+    }
+    paramF = paramF.c();
+    long l = i;
+    if (l == paramF.skip(l))
+    {
+      while (paramInt1 > 0)
+      {
+        paramInt2 = Math.min(paramInt1, e);
+        i = paramF.read(d, 0, paramInt2);
+        if (i == paramInt2)
+        {
+          g.write(d, 0, i);
+          paramInt1 -= i;
+        }
+        else
+        {
+          throw new IllegalStateException("Read failed.");
+        }
+      }
+      return;
+    }
+    paramF = new IllegalStateException("Skip failed.");
+    for (;;)
+    {
+      throw paramF;
+    }
+  }
+  
+  public void b(double paramDouble)
+    throws IOException
+  {
+    m(Double.doubleToRawLongBits(paramDouble));
+  }
+  
+  public void b(float paramFloat)
+    throws IOException
+  {
+    r(Float.floatToRawIntBits(paramFloat));
+  }
+  
+  public void b(int paramInt, double paramDouble)
+    throws IOException
+  {
+    l(paramInt, 1);
+    b(paramDouble);
+  }
+  
+  public void b(int paramInt, float paramFloat)
+    throws IOException
+  {
+    l(paramInt, 5);
+    b(paramFloat);
+  }
+  
+  public void b(int paramInt, String paramString)
+    throws IOException
+  {
+    l(paramInt, 2);
+    c(paramString);
+  }
+  
+  public void b(int paramInt, boolean paramBoolean)
+    throws IOException
+  {
+    l(paramInt, 0);
+    b(paramBoolean);
+  }
+  
+  public void b(f paramF)
+    throws IOException
+  {
+    s(paramF.e());
+    c(paramF);
+  }
+  
+  public void b(boolean paramBoolean)
+    throws IOException
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.copyTypes(TypeTransformer.java:311)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.fixTypes(TypeTransformer.java:226)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:207)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  public void b(byte[] paramArrayOfByte)
+    throws IOException
+  {
+    b(paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public void b(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    int j = e;
+    int i = f;
+    if (j - i >= paramInt2)
+    {
+      System.arraycopy(paramArrayOfByte, paramInt1, d, i, paramInt2);
+      f += paramInt2;
+      return;
+    }
+    j -= i;
+    System.arraycopy(paramArrayOfByte, paramInt1, d, i, j);
+    paramInt1 += j;
+    paramInt2 -= j;
+    f = e;
+    e();
+    if (paramInt2 <= e)
+    {
+      System.arraycopy(paramArrayOfByte, paramInt1, d, 0, paramInt2);
+      f = paramInt2;
+      return;
+    }
+    g.write(paramArrayOfByte, paramInt1, paramInt2);
+  }
+  
+  public void c(int paramInt, f paramF)
+    throws IOException
+  {
+    l(paramInt, 2);
+    b(paramF);
+  }
+  
+  public void c(f paramF)
+    throws IOException
+  {
+    a(paramF, 0, paramF.e());
+  }
+  
+  public void c(String paramString)
+    throws IOException
+  {
+    paramString = paramString.getBytes("UTF-8");
+    s(paramString.length);
+    b(paramString);
+  }
+  
+  public int d()
+  {
+    if (g == null) {
+      return e - f;
+    }
+    throw new UnsupportedOperationException("spaceLeft() can only be called on CodedOutputStreams that are writing to a flat array.");
+  }
+  
+  public void d(int paramInt, f paramF)
+    throws IOException
+  {
+    l(1, 3);
+    m(2, paramInt);
+    c(3, paramF);
+    l(1, 4);
+  }
+  
+  public void f(int paramInt, long paramLong)
+    throws IOException
+  {
+    l(paramInt, 1);
+    k(paramLong);
+  }
+  
+  public void flush()
+    throws IOException
+  {
+    if (g != null) {
+      e();
+    }
+  }
+  
+  public void g(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    l(paramInt1, 0);
+    n(paramInt2);
+  }
+  
+  public void g(int paramInt, long paramLong)
+    throws IOException
+  {
+    l(paramInt, 0);
+    l(paramLong);
+  }
+  
+  public void h(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    l(paramInt1, 5);
+    o(paramInt2);
+  }
+  
+  public void h(int paramInt, long paramLong)
+    throws IOException
+  {
+    l(paramInt, 1);
+    o(paramLong);
+  }
+  
+  public void i(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    l(paramInt1, 0);
+    p(paramInt2);
+  }
+  
+  public void i(int paramInt, long paramLong)
+    throws IOException
+  {
+    l(paramInt, 0);
+    p(paramLong);
+  }
+  
+  public void j(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    l(paramInt1, 5);
+    t(paramInt2);
+  }
+  
+  public void j(int paramInt, long paramLong)
+    throws IOException
+  {
+    l(paramInt, 0);
+    q(paramLong);
+  }
+  
+  public void k(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    l(paramInt1, 0);
+    u(paramInt2);
+  }
+  
+  public void k(long paramLong)
+    throws IOException
+  {
+    m(paramLong);
+  }
+  
+  public void l(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    s(paramInt1 << 3 | paramInt2);
+  }
+  
+  public void l(long paramLong)
+    throws IOException
+  {
+    n(paramLong);
+  }
+  
+  public void m(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    l(paramInt1, 0);
+    v(paramInt2);
+  }
+  
+  public void m(long paramLong)
+    throws IOException
+  {
+    q((int)paramLong & 0xFF);
+    q((int)(paramLong >> 8) & 0xFF);
+    q((int)(paramLong >> 16) & 0xFF);
+    q((int)(paramLong >> 24) & 0xFF);
+    q((int)(paramLong >> 32) & 0xFF);
+    q((int)(paramLong >> 40) & 0xFF);
+    q((int)(paramLong >> 48) & 0xFF);
+    q((int)(paramLong >> 56) & 0xFF);
+  }
+  
+  public void n(int paramInt)
+    throws IOException
+  {
+    p(paramInt);
+  }
+  
+  public void n(long paramLong)
+    throws IOException
+  {
+    for (;;)
+    {
+      if ((0xFFFFFFFFFFFFFF80 & paramLong) == 0L)
+      {
+        q((int)paramLong);
+        return;
+      }
+      q((int)paramLong & 0x7F | 0x80);
+      paramLong >>>= 7;
+    }
+  }
+  
+  public void o(int paramInt)
+    throws IOException
+  {
+    r(paramInt);
+  }
+  
+  public void o(long paramLong)
+    throws IOException
+  {
+    m(paramLong);
+  }
+  
+  public void p(int paramInt)
+    throws IOException
+  {
+    if (paramInt >= 0)
+    {
+      s(paramInt);
+      return;
+    }
+    n(paramInt);
+  }
+  
+  public void p(long paramLong)
+    throws IOException
+  {
+    n(j(paramLong));
+  }
+  
+  public void q(int paramInt)
+    throws IOException
+  {
+    a((byte)paramInt);
+  }
+  
+  public void q(long paramLong)
+    throws IOException
+  {
+    n(paramLong);
+  }
+  
+  public void r(int paramInt)
+    throws IOException
+  {
+    q(paramInt & 0xFF);
+    q(paramInt >> 8 & 0xFF);
+    q(paramInt >> 16 & 0xFF);
+    q(paramInt >> 24 & 0xFF);
+  }
+  
+  public void s(int paramInt)
+    throws IOException
+  {
+    for (;;)
+    {
+      if ((paramInt & 0xFFFFFF80) == 0)
+      {
+        q(paramInt);
+        return;
+      }
+      q(paramInt & 0x7F | 0x80);
+      paramInt >>>= 7;
+    }
+  }
+  
+  public void t(int paramInt)
+    throws IOException
+  {
+    r(paramInt);
+  }
+  
+  public void u(int paramInt)
+    throws IOException
+  {
+    s(m(paramInt));
+  }
+  
+  public void v(int paramInt)
+    throws IOException
+  {
+    s(paramInt);
+  }
+  
+  public static class a
+    extends IOException
+  {
+    public static final long a = -6947486886997889499L;
+    
+    public a()
+    {
+      super();
+    }
+  }
+}

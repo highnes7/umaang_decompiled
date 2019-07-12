@@ -1,0 +1,117 @@
+package com.google.android.gms.location;
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.location.Location;
+import android.os.Looper;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.M;
+import com.google.android.gms.common.api.Api.ApiOptions.NoOptions;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.internal.zzcj;
+import com.google.android.gms.common.api.internal.zzcl;
+import com.google.android.gms.common.api.internal.zzcn;
+import com.google.android.gms.common.api.internal.zzcr;
+import com.google.android.gms.common.api.internal.zzde;
+import com.google.android.gms.common.api.internal.zzdn;
+import com.google.android.gms.common.internal.zzbi;
+import com.google.android.gms.internal.zzbyz;
+import com.google.android.gms.internal.zzbzg;
+import com.google.android.gms.internal.zzbzy;
+import com.google.android.gms.internal.zzcam;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+
+public class FusedLocationProviderClient
+  extends GoogleApi<Api.ApiOptions.NoOptions>
+{
+  public FusedLocationProviderClient(@F Activity paramActivity)
+  {
+    super(paramActivity, LocationServices.API, null, new com.google.android.gms.common.api.internal.zzg());
+  }
+  
+  public FusedLocationProviderClient(@F Context paramContext)
+  {
+    super(paramContext, LocationServices.API, null, new com.google.android.gms.common.api.internal.zzg());
+  }
+  
+  public Task<Void> flushLocations()
+  {
+    return zzbi.zzb(LocationServices.FusedLocationApi.flushLocations(zzafl()));
+  }
+  
+  @M(anyOf={"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
+  public Task<Location> getLastLocation()
+  {
+    return zza(new zze(this));
+  }
+  
+  @M(anyOf={"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
+  public Task<LocationAvailability> getLocationAvailability()
+  {
+    return zza(new zzf(this));
+  }
+  
+  public Task<Void> removeLocationUpdates(PendingIntent paramPendingIntent)
+  {
+    return zzbi.zzb(LocationServices.FusedLocationApi.removeLocationUpdates(zzafl(), paramPendingIntent));
+  }
+  
+  public Task<Void> removeLocationUpdates(LocationCallback paramLocationCallback)
+  {
+    paramLocationCallback = zzcn.zza(paramLocationCallback, LocationCallback.class.getSimpleName());
+    com.google.android.gms.common.internal.zzbp.zzb(paramLocationCallback, "Listener key cannot be null.");
+    return zzde.zza(zzfgv.zza(this, paramLocationCallback));
+  }
+  
+  @M(anyOf={"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
+  public Task<Void> requestLocationUpdates(LocationRequest paramLocationRequest, PendingIntent paramPendingIntent)
+  {
+    return zzbi.zzb(LocationServices.FusedLocationApi.requestLocationUpdates(zzafl(), paramLocationRequest, paramPendingIntent));
+  }
+  
+  @M(anyOf={"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
+  public Task<Void> requestLocationUpdates(LocationRequest paramLocationRequest, LocationCallback paramLocationCallback, @G Looper paramLooper)
+  {
+    paramLocationRequest = zzbzy.zza(paramLocationRequest);
+    paramLocationCallback = zzcn.zzb(paramLocationCallback, zzcam.zzb(paramLooper), LocationCallback.class.getSimpleName());
+    paramLocationRequest = new zzg(this, paramLocationCallback, paramLocationRequest, paramLocationCallback);
+    paramLocationCallback = new zzh(this, paramLocationCallback.zzaik());
+    com.google.android.gms.common.internal.zzbp.zzu(paramLocationRequest);
+    com.google.android.gms.common.internal.zzbp.zzu(paramLocationCallback);
+    com.google.android.gms.common.internal.zzbp.zzb(paramLocationRequest.zzaik(), "Listener has already been released.");
+    com.google.android.gms.common.internal.zzbp.zzb(paramLocationCallback.zzaik(), "Listener has already been released.");
+    com.google.android.gms.common.internal.zzbp.zzb(paramLocationRequest.zzaik().equals(paramLocationCallback.zzaik()), "Listener registration and unregistration methods must be constructed with the same ListenerHolder.");
+    return zzfgv.zza(this, paramLocationRequest, paramLocationCallback);
+  }
+  
+  @M(anyOf={"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
+  public Task<Void> setMockLocation(Location paramLocation)
+  {
+    return zzbi.zzb(LocationServices.FusedLocationApi.setMockLocation(zzafl(), paramLocation));
+  }
+  
+  @M(anyOf={"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
+  public Task<Void> setMockMode(boolean paramBoolean)
+  {
+    return zzbi.zzb(LocationServices.FusedLocationApi.setMockMode(zzafl(), paramBoolean));
+  }
+  
+  public static final class zza
+    extends zzbzg
+  {
+    public final TaskCompletionSource<Void> zzdzc;
+    
+    public zza(TaskCompletionSource<Void> paramTaskCompletionSource)
+    {
+      zzdzc = paramTaskCompletionSource;
+    }
+    
+    public final void zza(zzbyz paramZzbyz)
+    {
+      zzde.zza(paramZzbyz.getStatus(), null, zzdzc);
+    }
+  }
+}

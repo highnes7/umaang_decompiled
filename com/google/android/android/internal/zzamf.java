@@ -1,0 +1,68 @@
+package com.google.android.android.internal;
+
+import com.google.android.android.analytics.Log;
+import com.google.android.gms.analytics.zzh;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+public final class zzamf
+  extends zzh<com.google.android.gms.internal.zzamf>
+{
+  public String zzapi;
+  public int zzdne;
+  public int zzdnf;
+  public String zzdng;
+  public String zzdnh;
+  public boolean zzdni;
+  public boolean zzdnj;
+  
+  public zzamf()
+  {
+    this(false);
+  }
+  
+  public zzamf(boolean paramBoolean)
+  {
+    this(false, i);
+  }
+  
+  public zzamf(boolean paramBoolean, int paramInt)
+  {
+    if (paramInt != 0)
+    {
+      zzdne = paramInt;
+      zzdnj = false;
+      return;
+    }
+    throw new IllegalArgumentException("Given Integer is zero");
+  }
+  
+  public final String toString()
+  {
+    HashMap localHashMap = new HashMap();
+    localHashMap.put("screenName", zzapi);
+    localHashMap.put("interstitial", Boolean.valueOf(zzdni));
+    localHashMap.put("automatic", Boolean.valueOf(zzdnj));
+    localHashMap.put("screenId", Integer.valueOf(zzdne));
+    localHashMap.put("referrerScreenId", Integer.valueOf(zzdnf));
+    localHashMap.put("referrerScreenName", zzdng);
+    localHashMap.put("referrerUri", zzdnh);
+    return Log.getID(localHashMap);
+  }
+  
+  public final String zzvk()
+  {
+    return zzapi;
+  }
+  
+  public final int zzvl()
+  {
+    return zzdne;
+  }
+  
+  public final String zzvm()
+  {
+    return zzdnh;
+  }
+}

@@ -1,0 +1,51 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.Comparator;
+import java.util.SortedSet;
+
+@b
+public final class og
+{
+  public og() {}
+  
+  public static <E> Comparator<? super E> a(SortedSet<E> paramSortedSet)
+  {
+    Comparator localComparator = paramSortedSet.comparator();
+    paramSortedSet = localComparator;
+    if (localComparator == null) {
+      paramSortedSet = mf.d();
+    }
+    return paramSortedSet;
+  }
+  
+  public static boolean a(Comparator<?> paramComparator, Iterable<?> paramIterable)
+  {
+    if (paramComparator != null)
+    {
+      if (paramIterable != null)
+      {
+        if ((paramIterable instanceof SortedSet))
+        {
+          Comparator localComparator = ((SortedSet)paramIterable).comparator();
+          paramIterable = localComparator;
+          if (localComparator == null) {
+            paramIterable = mf.d();
+          }
+        }
+        else
+        {
+          if (!(paramIterable instanceof ng)) {
+            break label61;
+          }
+          paramIterable = ((ng)paramIterable).comparator();
+        }
+        return paramComparator.equals(paramIterable);
+        label61:
+        return false;
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+}

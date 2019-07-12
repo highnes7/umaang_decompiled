@@ -1,0 +1,41 @@
+package com.google.android.gms.tagmanager;
+
+import com.google.android.gms.internal.zzbd;
+import com.google.android.gms.internal.zzbe;
+import com.google.android.gms.internal.zzbp;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+public final class zzem
+  extends zzga
+{
+  public static final String ID = zzbd.zzjr.toString();
+  public static final String zzjtu = zzbe.zzql.toString();
+  
+  public zzem()
+  {
+    super(ID);
+  }
+  
+  public final boolean zza(String paramString1, String paramString2, Map<String, zzbp> paramMap)
+  {
+    int i;
+    if (zzgk.zzf((zzbp)paramMap.get(zzjtu)).booleanValue()) {
+      i = 66;
+    } else {
+      i = 64;
+    }
+    try
+    {
+      boolean bool = Pattern.compile(paramString2, i).matcher(paramString1).find();
+      return bool;
+    }
+    catch (PatternSyntaxException paramString1)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+}

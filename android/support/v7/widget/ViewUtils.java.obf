@@ -1,0 +1,64 @@
+package android.support.v7.widget;
+
+import android.graphics.Rect;
+import android.os.Build.VERSION;
+import android.view.View;
+import b.b.a.N;
+import b.b.x.o.H;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@N({b.b.a.N.a.b})
+public class ViewUtils
+{
+  public static final String TAG = "ViewUtils";
+  public static Method sComputeFitSystemWindowsMethod;
+  
+  static
+  {
+    int i = Build.VERSION.SDK_INT;
+    try
+    {
+      sComputeFitSystemWindowsMethod = View.class.getDeclaredMethod("computeFitSystemWindows", new Class[] { Rect.class, Rect.class });
+      if (!sComputeFitSystemWindowsMethod.isAccessible()) {
+        sComputeFitSystemWindowsMethod.setAccessible(true);
+      }
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException) {}
+  }
+  
+  public ViewUtils() {}
+  
+  public static void computeFitSystemWindows(View paramView, Rect paramRect1, Rect paramRect2)
+  {
+    Method localMethod = sComputeFitSystemWindowsMethod;
+    if (localMethod != null) {}
+    try
+    {
+      localMethod.invoke(paramView, new Object[] { paramRect1, paramRect2 });
+      return;
+    }
+    catch (Exception paramView) {}
+  }
+  
+  public static boolean isLayoutRtl(View paramView)
+  {
+    return H.r(paramView) == 1;
+  }
+  
+  public static void makeOptionalFitsSystemWindows(View paramView)
+  {
+    int i = Build.VERSION.SDK_INT;
+    try
+    {
+      Method localMethod = paramView.getClass().getMethod("makeOptionalFitsSystemWindows", new Class[0]);
+      if (!localMethod.isAccessible()) {
+        localMethod.setAccessible(true);
+      }
+      localMethod.invoke(paramView, new Object[0]);
+      return;
+    }
+    catch (NoSuchMethodException|InvocationTargetException|IllegalAccessException paramView) {}
+  }
+}

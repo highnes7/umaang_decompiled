@@ -1,0 +1,23 @@
+package f.c.a.c;
+
+public class Wa
+{
+  public final String a;
+  public final String b;
+  public final StackTraceElement[] c;
+  public final Wa d;
+  
+  public Wa(Throwable paramThrowable, Va paramVa)
+  {
+    a = paramThrowable.getLocalizedMessage();
+    b = paramThrowable.getClass().getName();
+    c = paramVa.a(paramThrowable.getStackTrace());
+    paramThrowable = paramThrowable.getCause();
+    if (paramThrowable != null) {
+      paramThrowable = new Wa(paramThrowable, paramVa);
+    } else {
+      paramThrowable = null;
+    }
+    d = paramThrowable;
+  }
+}

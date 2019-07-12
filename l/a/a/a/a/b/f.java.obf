@@ -1,0 +1,319 @@
+package l.a.a.a.a.b;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.text.TextUtils;
+import f.a.a.a.a;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import l.a.a.a.g;
+import l.a.a.a.n;
+
+public class y
+{
+  public static final String a = "com.crashlytics.CollectDeviceIdentifiers";
+  public static final String b = "com.crashlytics.CollectUserIdentifiers";
+  public static final String c = "0.0";
+  public static final String d = "crashlytics.advertising.id";
+  public static final String e = "crashlytics.installation.id";
+  public static final Pattern f = Pattern.compile("[^\\p{Alnum}]");
+  public static final String g = "9774d56d682e549c";
+  public static final String h = Pattern.quote("/");
+  public final ReentrantLock i = new ReentrantLock();
+  public final A j;
+  public final boolean k;
+  public final boolean l;
+  public final Context m;
+  public final String n;
+  public final String o;
+  public final Collection<n> p;
+  public d q;
+  public b r;
+  public boolean s;
+  public x t;
+  
+  public y(Context paramContext, String paramString1, String paramString2, Collection<n> paramCollection)
+  {
+    if (paramContext != null)
+    {
+      if (paramString1 != null)
+      {
+        if (paramCollection != null)
+        {
+          m = paramContext;
+          n = paramString1;
+          o = paramString2;
+          p = paramCollection;
+          j = new A();
+          q = new d(paramContext);
+          t = new x();
+          k = l.a(paramContext, "com.crashlytics.CollectDeviceIdentifiers", true);
+          if (!k)
+          {
+            paramString1 = g.h();
+            paramString2 = a.b("Device ID collection disabled for ");
+            paramString2.append(paramContext.getPackageName());
+            paramString1.d("Fabric", paramString2.toString());
+          }
+          l = l.a(paramContext, "com.crashlytics.CollectUserIdentifiers", true);
+          if (!l)
+          {
+            paramString1 = g.h();
+            paramString2 = a.b("User information collection disabled for ");
+            paramString2.append(paramContext.getPackageName());
+            paramString1.d("Fabric", paramString2.toString());
+          }
+          return;
+        }
+        throw new IllegalArgumentException("kits must not be null");
+      }
+      throw new IllegalArgumentException("appIdentifier must not be null");
+    }
+    throw new IllegalArgumentException("appContext must not be null");
+  }
+  
+  private String a(String paramString)
+  {
+    if (paramString == null) {
+      return null;
+    }
+    return f.matcher(paramString).replaceAll("").toLowerCase(Locale.US);
+  }
+  
+  private void a(SharedPreferences paramSharedPreferences)
+  {
+    b localB = c();
+    if (localB != null) {
+      a(paramSharedPreferences, a);
+    }
+  }
+  
+  @SuppressLint({"CommitPrefEdits"})
+  private void a(SharedPreferences paramSharedPreferences, String paramString)
+  {
+    i.lock();
+    try
+    {
+      boolean bool = TextUtils.isEmpty(paramString);
+      if (bool) {
+        return;
+      }
+      String str = paramSharedPreferences.getString("crashlytics.advertising.id", null);
+      if (TextUtils.isEmpty(str)) {
+        paramSharedPreferences.edit().putString("crashlytics.advertising.id", paramString).commit();
+      } else if (!str.equals(paramString)) {
+        paramSharedPreferences.edit().remove("crashlytics.installation.id").putString("crashlytics.advertising.id", paramString).commit();
+      }
+      return;
+    }
+    finally
+    {
+      i.unlock();
+    }
+  }
+  
+  private void a(Map<y.a, String> paramMap, y.a paramA, String paramString)
+  {
+    if (paramString != null) {
+      paramMap.put(paramA, paramString);
+    }
+  }
+  
+  @SuppressLint({"CommitPrefEdits"})
+  private String b(SharedPreferences paramSharedPreferences)
+  {
+    i.lock();
+    try
+    {
+      String str2 = paramSharedPreferences.getString("crashlytics.installation.id", null);
+      String str1 = str2;
+      if (str2 == null)
+      {
+        str1 = a(UUID.randomUUID().toString());
+        paramSharedPreferences.edit().putString("crashlytics.installation.id", str1).commit();
+      }
+      return str1;
+    }
+    finally
+    {
+      i.unlock();
+    }
+  }
+  
+  private String b(String paramString)
+  {
+    return paramString.replaceAll(h, "");
+  }
+  
+  private Boolean s()
+  {
+    b localB = c();
+    if (localB != null) {
+      return Boolean.valueOf(b);
+    }
+    return null;
+  }
+  
+  @Deprecated
+  public String a(String paramString1, String paramString2)
+  {
+    return "";
+  }
+  
+  public boolean a()
+  {
+    return l;
+  }
+  
+  @Deprecated
+  public String b()
+  {
+    return null;
+  }
+  
+  public b c()
+  {
+    try
+    {
+      if (!s)
+      {
+        r = q.a();
+        s = true;
+      }
+      b localB = r;
+      return localB;
+    }
+    finally {}
+  }
+  
+  @Deprecated
+  public String d()
+  {
+    return null;
+  }
+  
+  public String e()
+  {
+    return n;
+  }
+  
+  public String f()
+  {
+    Object localObject2 = o;
+    Object localObject1 = localObject2;
+    if (localObject2 == null)
+    {
+      localObject2 = l.i(m);
+      a((SharedPreferences)localObject2);
+      localObject1 = ((SharedPreferences)localObject2).getString("crashlytics.installation.id", null);
+      if (localObject1 == null) {
+        return b((SharedPreferences)localObject2);
+      }
+    }
+    return localObject1;
+  }
+  
+  @Deprecated
+  public String g()
+  {
+    return null;
+  }
+  
+  public Map<y.a, String> h()
+  {
+    HashMap localHashMap = new HashMap();
+    Iterator localIterator = p.iterator();
+    while (localIterator.hasNext())
+    {
+      Object localObject1 = (n)localIterator.next();
+      if ((localObject1 instanceof q))
+      {
+        localObject1 = ((q)localObject1).a().entrySet().iterator();
+        while (((Iterator)localObject1).hasNext())
+        {
+          Object localObject2 = (Map.Entry)((Iterator)localObject1).next();
+          y.a localA = (y.a)((Map.Entry)localObject2).getKey();
+          localObject2 = (String)((Map.Entry)localObject2).getValue();
+          if (localObject2 != null) {
+            localHashMap.put(localA, localObject2);
+          }
+        }
+      }
+    }
+    return Collections.unmodifiableMap(localHashMap);
+  }
+  
+  public String i()
+  {
+    return j.a(m);
+  }
+  
+  public String j()
+  {
+    return String.format(Locale.US, "%s/%s", new Object[] { b(Build.MANUFACTURER), b(Build.MODEL) });
+  }
+  
+  public String k()
+  {
+    return b(Build.VERSION.INCREMENTAL);
+  }
+  
+  public String l()
+  {
+    return b(Build.VERSION.RELEASE);
+  }
+  
+  public String m()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(l());
+    localStringBuilder.append("/");
+    localStringBuilder.append(k());
+    return localStringBuilder.toString();
+  }
+  
+  @Deprecated
+  public String n()
+  {
+    return null;
+  }
+  
+  @Deprecated
+  public String o()
+  {
+    return null;
+  }
+  
+  @Deprecated
+  public String p()
+  {
+    return null;
+  }
+  
+  public Boolean q()
+  {
+    if (r()) {
+      return s();
+    }
+    return null;
+  }
+  
+  public boolean r()
+  {
+    return (k) && (!t.e(m));
+  }
+}

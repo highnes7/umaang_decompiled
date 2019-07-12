@@ -1,0 +1,162 @@
+package org.yaxim.androidclient.data;
+
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
+import f.a.a.a.a;
+import java.util.Arrays;
+import java.util.HashSet;
+import org.yaxim.androidclient.exceptions.YaximXMPPAdressMalformedException;
+import org.yaxim.androidclient.util.XMPPHelper;
+
+public class YaximConfiguration
+  implements SharedPreferences.OnSharedPreferenceChangeListener
+{
+  public static final String GMAIL_SERVER = "talk.google.com";
+  public static final HashSet<String> PRESENCE_PREFS = new HashSet(Arrays.asList(new String[] { "carbons", "account_prio", "status_mode", "status_message" }));
+  public static final HashSet<String> RECONNECT_PREFS = new HashSet(Arrays.asList(new String[] { "account_jabberID", "account_jabberPW", "account_customserver", "account_port", "account_resource", "foregroundService", "require_ssl", "smackdebug" }));
+  public static final String TAG = "yaxim.Configuration";
+  public boolean autoConnect;
+  public String chatFontSize;
+  public String customServer;
+  public boolean enableGroups;
+  public boolean foregroundService;
+  public boolean isLEDNotify;
+  public String jabberID;
+  public boolean jid_configured;
+  public boolean messageCarbons;
+  public Uri notifySound;
+  public String password;
+  public int port;
+  public final SharedPreferences prefs;
+  public boolean presence_required = false;
+  public int priority;
+  public boolean reconnect_required = false;
+  public boolean reportCrash;
+  public boolean require_ssl;
+  public String ressource;
+  public String server;
+  public boolean showOffline;
+  public boolean smackdebug;
+  public String statusMessage;
+  public String[] statusMessageHistory;
+  public String statusMode;
+  public String theme;
+  public boolean ticker;
+  public String userName;
+  public String vibraNotify;
+  
+  public YaximConfiguration(SharedPreferences paramSharedPreferences)
+  {
+    prefs = paramSharedPreferences;
+    prefs.registerOnSharedPreferenceChangeListener(this);
+    loadPrefs(prefs);
+  }
+  
+  private void loadPrefs(SharedPreferences paramSharedPreferences)
+  {
+    jid_configured = false;
+    isLEDNotify = paramSharedPreferences.getBoolean("led", false);
+    vibraNotify = paramSharedPreferences.getString("vibration_list", "SYSTEM");
+    notifySound = Uri.parse(paramSharedPreferences.getString("ringtone", ""));
+    ticker = paramSharedPreferences.getBoolean("ticker", true);
+    password = paramSharedPreferences.getString("account_jabberPW", "");
+    ressource = paramSharedPreferences.getString("account_resource", "yaxim");
+    String str = paramSharedPreferences.getString("account_port", "5333");
+    try
+    {
+      i = Integer.parseInt(str);
+    }
+    catch (NumberFormatException localNumberFormatException1)
+    {
+      int i;
+      for (;;) {}
+    }
+    i = 5333;
+    port = i;
+    str = paramSharedPreferences.getString("account_prio", "0");
+    try
+    {
+      i = Integer.parseInt(str);
+    }
+    catch (NumberFormatException localNumberFormatException2)
+    {
+      for (;;) {}
+    }
+    i = 0;
+    priority = validatePriority(i);
+    foregroundService = paramSharedPreferences.getBoolean("foregroundService", true);
+    autoConnect = paramSharedPreferences.getBoolean("connstartup", false);
+    messageCarbons = paramSharedPreferences.getBoolean("carbons", true);
+    smackdebug = paramSharedPreferences.getBoolean("smackdebug", false);
+    reportCrash = paramSharedPreferences.getBoolean("reportcrash", false);
+    jabberID = paramSharedPreferences.getString("account_jabberID", "");
+    customServer = paramSharedPreferences.getString("account_customserver", "");
+    require_ssl = paramSharedPreferences.getBoolean("require_ssl", false);
+    statusMode = paramSharedPreferences.getString("status_mode", "available");
+    statusMessage = paramSharedPreferences.getString("status_message", "");
+    statusMessageHistory = paramSharedPreferences.getString("status_message_history", statusMessage).split("\036");
+    theme = paramSharedPreferences.getString("theme", "dark");
+    chatFontSize = paramSharedPreferences.getString("setSizeChat", "18");
+    showOffline = paramSharedPreferences.getBoolean("showOffline", false);
+    enableGroups = paramSharedPreferences.getBoolean("enableGroups", true);
+    try
+    {
+      splitAndSetJabberID(XMPPHelper.verifyJabberID(jabberID));
+      jid_configured = true;
+      return;
+    }
+    catch (YaximXMPPAdressMalformedException paramSharedPreferences)
+    {
+      a.b("Exception in getPreferences(): ", paramSharedPreferences);
+      return;
+    }
+  }
+  
+  private void splitAndSetJabberID(String paramString)
+  {
+    String[] arrayOfString = paramString.split("@");
+    userName = arrayOfString[0];
+    server = arrayOfString[1];
+    if (("gmail.com".equals(arrayOfString[1])) || ("googlemail.com".equals(arrayOfString[1])) || ("talk.google.com".equals(customServer)))
+    {
+      userName = paramString;
+      if (customServer.length() == 0) {
+        customServer = "talk.google.com";
+      }
+    }
+  }
+  
+  private int validatePriority(int paramInt)
+  {
+    if (paramInt > 127) {
+      return 127;
+    }
+    if (paramInt < -127) {
+      return -127;
+    }
+    return paramInt;
+  }
+  
+  public void finalize()
+  {
+    prefs.unregisterOnSharedPreferenceChangeListener(this);
+  }
+  
+  public int getTheme()
+  {
+    return 2131820785;
+  }
+  
+  public void onSharedPreferenceChanged(SharedPreferences paramSharedPreferences, String paramString)
+  {
+    a.f("onSharedPreferenceChanged(): ", paramString);
+    loadPrefs(paramSharedPreferences);
+    if (RECONNECT_PREFS.contains(paramString)) {
+      reconnect_required = true;
+    }
+    if (PRESENCE_PREFS.contains(paramString)) {
+      presence_required = true;
+    }
+  }
+}

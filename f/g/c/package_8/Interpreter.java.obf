@@ -1,0 +1,182 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.SortedSet;
+
+@b
+public final class Dg
+{
+  public Dg() {}
+  
+  public static <E> E b(Ye.a<E> paramA)
+  {
+    if (paramA != null) {
+      return paramA.a();
+    }
+    throw new NoSuchElementException();
+  }
+  
+  public static abstract class a<E>
+    extends Va<E>
+    implements Ag<E>
+  {
+    public transient Comparator<? super E> a;
+    public transient SortedSet<E> b;
+    public transient Set<Ye.a<E>> c;
+    
+    public a() {}
+    
+    public Set<Ye.a<E>> A()
+    {
+      return new Cg(this);
+    }
+    
+    public abstract Iterator<Ye.a<E>> B();
+    
+    public abstract Ag<E> C();
+    
+    public Ag<E> a(E paramE, O paramO)
+    {
+      return C().b(paramE, paramO).v();
+    }
+    
+    public Ag<E> a(E paramE1, O paramO1, E paramE2, O paramO2)
+    {
+      return C().a(paramE2, paramO2, paramE1, paramO1).v();
+    }
+    
+    public Ag<E> b(E paramE, O paramO)
+    {
+      return C().a(paramE, paramO).v();
+    }
+    
+    public Comparator<? super E> comparator()
+    {
+      Comparator localComparator = a;
+      Object localObject = localComparator;
+      if (localComparator == null)
+      {
+        localObject = mf.b(C().comparator()).g();
+        a = ((Comparator)localObject);
+      }
+      return localObject;
+    }
+    
+    public Set<Ye.a<E>> entrySet()
+    {
+      Set localSet2 = c;
+      Set localSet1 = localSet2;
+      if (localSet2 == null)
+      {
+        localSet1 = A();
+        c = localSet1;
+      }
+      return localSet1;
+    }
+    
+    public Ye.a<E> firstEntry()
+    {
+      return C().lastEntry();
+    }
+    
+    public Iterator<E> iterator()
+    {
+      return bf.b(this);
+    }
+    
+    public Ye.a<E> lastEntry()
+    {
+      return C().firstEntry();
+    }
+    
+    public Ye.a<E> pollFirstEntry()
+    {
+      return C().pollLastEntry();
+    }
+    
+    public Ye.a<E> pollLastEntry()
+    {
+      return C().pollFirstEntry();
+    }
+    
+    public Ye<E> q()
+    {
+      return C();
+    }
+    
+    public Object[] toArray()
+    {
+      return t();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return a(paramArrayOfT);
+    }
+    
+    public String toString()
+    {
+      return entrySet().toString();
+    }
+    
+    public SortedSet<E> u()
+    {
+      SortedSet localSortedSet = b;
+      Object localObject = localSortedSet;
+      if (localSortedSet == null)
+      {
+        localObject = new Bg(this);
+        b = ((SortedSet)localObject);
+      }
+      return localObject;
+    }
+    
+    public Ag<E> v()
+    {
+      return C();
+    }
+  }
+  
+  public static abstract class b<E>
+    extends bf.b<E>
+    implements SortedSet<E>
+  {
+    public b() {}
+    
+    public abstract Ag<E> c();
+    
+    public Comparator<? super E> comparator()
+    {
+      return c().comparator();
+    }
+    
+    public E first()
+    {
+      return Dg.b(c().firstEntry());
+    }
+    
+    public SortedSet<E> headSet(E paramE)
+    {
+      return c().a(paramE, O.a).u();
+    }
+    
+    public E last()
+    {
+      return Dg.b(c().lastEntry());
+    }
+    
+    public SortedSet<E> subSet(E paramE1, E paramE2)
+    {
+      return c().a(paramE1, O.b, paramE2, O.a).u();
+    }
+    
+    public SortedSet<E> tailSet(E paramE)
+    {
+      return c().b(paramE, O.b).u();
+    }
+  }
+}

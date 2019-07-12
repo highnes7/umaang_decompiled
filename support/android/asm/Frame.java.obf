@@ -1,0 +1,117 @@
+package b.b.v;
+
+import android.graphics.Matrix;
+import android.graphics.Rect;
+import android.os.Build.VERSION;
+import android.util.Property;
+import android.view.View;
+import b.b.a.F;
+import b.b.a.G;
+import java.lang.reflect.Field;
+
+public class xa
+{
+  public static final Ba a;
+  public static final String b = "ViewUtils";
+  public static Field c;
+  public static boolean d = false;
+  public static final int e = 12;
+  public static final Property<View, Float> f = new va(Float.class, "translationAlpha");
+  public static final Property<View, Rect> g = new wa(Rect.class, "clipBounds");
+  
+  static
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (i >= 22) {
+      a = new Aa();
+    } else if (i >= 21) {
+      a = new za();
+    } else {
+      a = new ya();
+    }
+  }
+  
+  public xa() {}
+  
+  public static void a()
+  {
+    if (!d) {}
+    try
+    {
+      c = View.class.getDeclaredField("mViewFlags");
+      c.setAccessible(true);
+      d = true;
+      return;
+    }
+    catch (NoSuchFieldException localNoSuchFieldException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public static void a(@F View paramView)
+  {
+    a.a(paramView);
+  }
+  
+  public static void a(@F View paramView, float paramFloat)
+  {
+    a.a(paramView, paramFloat);
+  }
+  
+  public static void a(@F View paramView, int paramInt)
+  {
+    a();
+    Field localField = c;
+    if (localField != null) {}
+    try
+    {
+      int i = localField.getInt(paramView);
+      c.setInt(paramView, paramInt | i & 0xFFFFFFF3);
+      return;
+    }
+    catch (IllegalAccessException paramView) {}
+  }
+  
+  public static void a(@F View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    a.a(paramView, paramInt1, paramInt2, paramInt3, paramInt4);
+  }
+  
+  public static void a(@F View paramView, @G Matrix paramMatrix)
+  {
+    a.a(paramView, paramMatrix);
+  }
+  
+  public static ua b(@F View paramView)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return new ta(paramView);
+  }
+  
+  public static void b(@F View paramView, @F Matrix paramMatrix)
+  {
+    a.b(paramView, paramMatrix);
+  }
+  
+  public static float c(@F View paramView)
+  {
+    return a.b(paramView);
+  }
+  
+  public static void c(@F View paramView, @F Matrix paramMatrix)
+  {
+    a.c(paramView, paramMatrix);
+  }
+  
+  public static Ga d(@F View paramView)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return new Fa(paramView);
+  }
+  
+  public static void e(@F View paramView)
+  {
+    a.c(paramView);
+  }
+}

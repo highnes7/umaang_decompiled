@@ -1,0 +1,158 @@
+package b.b.x.l;
+
+import android.util.Base64;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.e;
+import b.b.x.n.s;
+import f.a.a.a.a;
+import java.util.List;
+
+public final class c
+{
+  public final String a;
+  public final String b;
+  public final String c;
+  public final List<List<byte[]>> d;
+  public final int e;
+  public final String f;
+  
+  public c(@F String paramString1, @F String paramString2, @F String paramString3, @e int paramInt)
+  {
+    if (paramString1 != null)
+    {
+      a = paramString1;
+      if (paramString2 != null)
+      {
+        b = paramString2;
+        if (paramString3 != null)
+        {
+          c = paramString3;
+          d = null;
+          boolean bool;
+          if (paramInt != 0) {
+            bool = true;
+          } else {
+            bool = false;
+          }
+          s.a(bool);
+          e = paramInt;
+          paramString1 = new StringBuilder(a);
+          paramString1.append("-");
+          paramString1.append(b);
+          paramString1.append("-");
+          paramString1.append(c);
+          f = paramString1.toString();
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public c(@F String paramString1, @F String paramString2, @F String paramString3, @F List<List<byte[]>> paramList)
+  {
+    if (paramString1 != null)
+    {
+      a = paramString1;
+      if (paramString2 != null)
+      {
+        b = paramString2;
+        if (paramString3 != null)
+        {
+          c = paramString3;
+          if (paramList != null)
+          {
+            d = paramList;
+            e = 0;
+            paramString1 = new StringBuilder(a);
+            paramString1.append("-");
+            paramString1.append(b);
+            paramString1.append("-");
+            paramString1.append(c);
+            f = paramString1.toString();
+            return;
+          }
+          throw new NullPointerException();
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  @G
+  public List<List<byte[]>> a()
+  {
+    return d;
+  }
+  
+  @e
+  public int b()
+  {
+    return e;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public String c()
+  {
+    return f;
+  }
+  
+  @F
+  public String d()
+  {
+    return a;
+  }
+  
+  @F
+  public String e()
+  {
+    return b;
+  }
+  
+  @F
+  public String f()
+  {
+    return c;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    Object localObject = a.b("FontRequest {mProviderAuthority: ");
+    ((StringBuilder)localObject).append(a);
+    ((StringBuilder)localObject).append(", mProviderPackage: ");
+    ((StringBuilder)localObject).append(b);
+    ((StringBuilder)localObject).append(", mQuery: ");
+    ((StringBuilder)localObject).append(c);
+    ((StringBuilder)localObject).append(", mCertificates:");
+    localStringBuilder.append(((StringBuilder)localObject).toString());
+    int i = 0;
+    while (i < d.size())
+    {
+      localStringBuilder.append(" [");
+      localObject = (List)d.get(i);
+      int j = 0;
+      while (j < ((List)localObject).size())
+      {
+        localStringBuilder.append(" \"");
+        localStringBuilder.append(Base64.encodeToString((byte[])((List)localObject).get(j), 0));
+        localStringBuilder.append("\"");
+        j += 1;
+      }
+      localStringBuilder.append(" ]");
+      i += 1;
+    }
+    localStringBuilder.append("}");
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("mCertificatesArray: ");
+    ((StringBuilder)localObject).append(e);
+    localStringBuilder.append(((StringBuilder)localObject).toString());
+    return localStringBuilder.toString();
+  }
+}

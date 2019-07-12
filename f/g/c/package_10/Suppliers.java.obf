@@ -1,0 +1,252 @@
+package f.g.c.b;
+
+import f.g.c.a.b;
+import f.g.c.a.d;
+import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
+import m.a.h;
+
+@b
+public final class za
+{
+  public za() {}
+  
+  @f.g.c.a.a
+  public static <T> J<ya<T>, T> a()
+  {
+    return d.a;
+  }
+  
+  public static <F, T> ya<T> a(J<? super F, T> paramJ, ya<F> paramYa)
+  {
+    if (paramJ != null)
+    {
+      if (paramYa != null) {
+        return new c(paramJ, paramYa);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> ya<T> a(ya<T> paramYa)
+  {
+    if ((paramYa instanceof b)) {
+      return paramYa;
+    }
+    if (paramYa != null) {
+      return new b(paramYa);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> ya<T> a(ya<T> paramYa, long paramLong, TimeUnit paramTimeUnit)
+  {
+    return new a(paramYa, paramLong, paramTimeUnit);
+  }
+  
+  public static <T> ya<T> a(@h T paramT)
+  {
+    return new e(paramT);
+  }
+  
+  public static <T> ya<T> b(ya<T> paramYa)
+  {
+    if (paramYa != null) {
+      return new f(paramYa);
+    }
+    throw new NullPointerException();
+  }
+  
+  @d
+  public static class a<T>
+    implements ya<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final ya<T> b;
+    public final long c;
+    public volatile transient T d;
+    public volatile transient long e;
+    
+    public a(ya<T> paramYa, long paramLong, TimeUnit paramTimeUnit)
+    {
+      if (paramYa != null)
+      {
+        b = paramYa;
+        c = paramTimeUnit.toNanos(paramLong);
+        boolean bool;
+        if (paramLong > 0L) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool);
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public T get()
+    {
+      long l1 = e;
+      long l2 = aa.b();
+      if ((l1 == 0L) || (l2 - l1 >= 0L)) {}
+      try
+      {
+        if (l1 == e)
+        {
+          Object localObject1 = b.get();
+          d = localObject1;
+          l2 += c;
+          l1 = l2;
+          if (l2 == 0L) {
+            l1 = 1L;
+          }
+          e = l1;
+          return localObject1;
+        }
+        return d;
+      }
+      finally {}
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("Suppliers.memoizeWithExpiration(");
+      localStringBuilder.append(b);
+      localStringBuilder.append(", ");
+      localStringBuilder.append(c);
+      localStringBuilder.append(", NANOS)");
+      return localStringBuilder.toString();
+    }
+  }
+  
+  @d
+  public static class b<T>
+    implements ya<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final ya<T> b;
+    public volatile transient boolean c;
+    public transient T d;
+    
+    public b(ya<T> paramYa)
+    {
+      b = paramYa;
+    }
+    
+    public T get()
+    {
+      if (!c) {
+        try
+        {
+          if (!c)
+          {
+            Object localObject1 = b.get();
+            d = localObject1;
+            c = true;
+            return localObject1;
+          }
+        }
+        finally {}
+      }
+      return d;
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("Suppliers.memoize("), b, ")");
+    }
+  }
+  
+  private static class c<F, T>
+    implements ya<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final J<? super F, T> b;
+    public final ya<F> c;
+    
+    public c(J<? super F, T> paramJ, ya<F> paramYa)
+    {
+      b = paramJ;
+      c = paramYa;
+    }
+    
+    public T get()
+    {
+      return b.apply(c.get());
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("Suppliers.compose(");
+      localStringBuilder.append(b);
+      localStringBuilder.append(", ");
+      return f.a.a.a.a.a(localStringBuilder, c, ")");
+    }
+  }
+  
+  private static enum d
+    implements J<ya<?>, Object>
+  {
+    public d() {}
+    
+    public Object a(ya<?> paramYa)
+    {
+      return paramYa.get();
+    }
+    
+    public String toString()
+    {
+      return "Suppliers.supplierFunction()";
+    }
+  }
+  
+  private static class e<T>
+    implements ya<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final T b;
+    
+    public e(@h T paramT)
+    {
+      b = paramT;
+    }
+    
+    public T get()
+    {
+      return b;
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("Suppliers.ofInstance("), b, ")");
+    }
+  }
+  
+  private static class f<T>
+    implements ya<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final ya<T> b;
+    
+    public f(ya<T> paramYa)
+    {
+      b = paramYa;
+    }
+    
+    public T get()
+    {
+      synchronized (b)
+      {
+        Object localObject1 = b.get();
+        return localObject1;
+      }
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("Suppliers.synchronizedSupplier("), b, ")");
+    }
+  }
+}

@@ -1,0 +1,185 @@
+package f.g.c.f;
+
+import f.g.c.b.ba;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public final class r
+  extends e
+{
+  public final String a;
+  public final int b;
+  
+  public r(String paramString)
+  {
+    a = paramString;
+    b = (a(paramString).getDigestLength() * 8);
+  }
+  
+  public static MessageDigest a(String paramString)
+  {
+    try
+    {
+      paramString = MessageDigest.getInstance(paramString);
+      return paramString;
+    }
+    catch (NoSuchAlgorithmException paramString)
+    {
+      throw new AssertionError(paramString);
+    }
+  }
+  
+  public int a()
+  {
+    return b;
+  }
+  
+  public o b()
+  {
+    return new a(a(a));
+  }
+  
+  private static class a
+    implements o
+  {
+    public final MessageDigest a;
+    public final ByteBuffer b;
+    public boolean c;
+    
+    public a(MessageDigest paramMessageDigest)
+    {
+      a = paramMessageDigest;
+      b = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
+    }
+    
+    private void b()
+    {
+      ba.b(c ^ true, "Cannot use Hasher after calling #hash() on it");
+    }
+    
+    public l a()
+    {
+      c = true;
+      return new m.a(a.digest());
+    }
+    
+    public o a(byte paramByte)
+    {
+      b();
+      a.update(paramByte);
+      return this;
+    }
+    
+    public o a(char paramChar)
+    {
+      b();
+      b.putChar(paramChar);
+      a.update(b.array(), 0, 2);
+      b.clear();
+      return this;
+    }
+    
+    public o a(double paramDouble)
+    {
+      b();
+      b.putDouble(paramDouble);
+      a.update(b.array(), 0, 8);
+      b.clear();
+      return this;
+    }
+    
+    public o a(float paramFloat)
+    {
+      b();
+      b.putFloat(paramFloat);
+      a.update(b.array(), 0, 4);
+      b.clear();
+      return this;
+    }
+    
+    public o a(int paramInt)
+    {
+      b();
+      b.putInt(paramInt);
+      a.update(b.array(), 0, 4);
+      b.clear();
+      return this;
+    }
+    
+    public o a(long paramLong)
+    {
+      b();
+      b.putLong(paramLong);
+      a.update(b.array(), 0, 8);
+      b.clear();
+      return this;
+    }
+    
+    public o a(CharSequence paramCharSequence)
+    {
+      int i = 0;
+      while (i < paramCharSequence.length())
+      {
+        a(paramCharSequence.charAt(i));
+        i += 1;
+      }
+      return this;
+    }
+    
+    public o a(CharSequence paramCharSequence, Charset paramCharset)
+    {
+      paramCharSequence = paramCharset.encode(CharBuffer.wrap(paramCharSequence));
+      if (paramCharSequence.hasArray())
+      {
+        paramCharset = paramCharSequence.array();
+        int i = paramCharSequence.arrayOffset();
+        int j = paramCharSequence.position();
+        int k = paramCharSequence.limit();
+        return a(paramCharset, j + i, paramCharSequence.arrayOffset() + k);
+      }
+      paramCharset = new byte[paramCharSequence.remaining()];
+      paramCharSequence.get(paramCharset);
+      return a(paramCharset);
+    }
+    
+    public <T> o a(T paramT, j<? super T> paramJ)
+    {
+      b();
+      paramJ.a(paramT, this);
+      return this;
+    }
+    
+    public o a(short paramShort)
+    {
+      b();
+      b.putShort(paramShort);
+      a.update(b.array(), 0, 2);
+      b.clear();
+      return this;
+    }
+    
+    public o a(boolean paramBoolean)
+    {
+      throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.copyTypes(TypeTransformer.java:311)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.fixTypes(TypeTransformer.java:226)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:207)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+    }
+    
+    public o a(byte[] paramArrayOfByte)
+    {
+      b();
+      a.update(paramArrayOfByte);
+      return this;
+    }
+    
+    public o a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    {
+      b();
+      ba.b(paramInt1, paramInt1 + paramInt2, paramArrayOfByte.length);
+      a.update(paramArrayOfByte, paramInt1, paramInt2);
+      return this;
+    }
+  }
+}

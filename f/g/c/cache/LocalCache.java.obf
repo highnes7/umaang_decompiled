@@ -1,0 +1,4753 @@
+package f.g.c.c;
+
+import f.g.c.a.d;
+import f.g.c.b.Ca;
+import f.g.c.b.ba;
+import f.g.c.b.wa;
+import f.g.c.b.ya;
+import f.g.c.d.Ab;
+import f.g.c.d.fe;
+import f.g.c.l.a.Aa;
+import f.g.c.l.a.Oa;
+import f.g.c.l.a.Qa;
+import f.g.c.l.a.ja;
+import f.g.c.l.a.oa;
+import f.g.c.l.a.qa;
+import f.g.c.l.a.va.b;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import java.util.AbstractCollection;
+import java.util.AbstractMap;
+import java.util.AbstractQueue;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import m.a.a.a;
+import m.a.h;
+
+public class q<K, V>
+  extends AbstractMap<K, V>
+  implements ConcurrentMap<K, V>
+{
+  public static final int a = 1073741824;
+  public static final int b = 65536;
+  public static final int c = 3;
+  public static final int d = 63;
+  public static final int e = 16;
+  public static final Logger f = Logger.getLogger(q.class.getName());
+  public static final qa g = new va.b();
+  public static final y<Object, Object> h = new o();
+  public static final Queue<? extends Object> i = new p();
+  public final a.b A;
+  @h
+  public final j<? super K, V> B;
+  public Set<K> C;
+  public Collection<V> D;
+  public Set<Map.Entry<K, V>> E;
+  public final int j;
+  public final int k;
+  public final p<K, V>[] l;
+  public final int m;
+  public final f.g.c.b.C<Object> n;
+  public final f.g.c.b.C<Object> o;
+  public final r p;
+  public final r q;
+  public final long r;
+  public final X<K, V> s;
+  public final long t;
+  public final long u;
+  public final long v;
+  public final Queue<U<K, V>> w;
+  public final P<K, V> x;
+  public final Ca y;
+  public final c z;
+  
+  public q(g<? super K, ? super V> paramG, @h j<? super K, V> paramJ)
+  {
+    m = Math.min(paramG.b(), 65536);
+    p = paramG.g();
+    q = paramG.m();
+    n = paramG.f();
+    o = paramG.l();
+    r = paramG.h();
+    s = paramG.n();
+    t = paramG.c();
+    u = paramG.d();
+    v = paramG.i();
+    x = paramG.j();
+    Object localObject;
+    if (x == g.a.a) {
+      localObject = i;
+    } else {
+      localObject = new ConcurrentLinkedQueue();
+    }
+    w = ((Queue)localObject);
+    y = paramG.a(m());
+    z = c.a(p, q(), u());
+    A = ((a.b)paramG.k().get());
+    B = paramJ;
+    int i2 = Math.min(paramG.e(), 1073741824);
+    int i1 = i2;
+    if (d())
+    {
+      i1 = i2;
+      if (!b()) {
+        i1 = Math.min(i2, (int)r);
+      }
+    }
+    int i6 = 0;
+    int i5 = 0;
+    int i7 = 1;
+    i2 = 1;
+    int i3 = 0;
+    while ((i2 < m) && ((!d()) || (i2 * 20 <= r)))
+    {
+      i3 += 1;
+      i2 <<= 1;
+    }
+    k = (32 - i3);
+    j = (i2 - 1);
+    l = a(i2);
+    int i8 = i1 / i2;
+    i3 = i7;
+    int i4 = i8;
+    if (i8 * i2 < i1)
+    {
+      i4 = i8 + 1;
+      i3 = i7;
+    }
+    while (i3 < i4) {
+      i3 <<= 1;
+    }
+    i1 = i6;
+    if (d())
+    {
+      long l3 = r;
+      long l4 = i2;
+      long l1 = l3 / l4 + 1L;
+      i1 = i5;
+      while (i1 < l.length)
+      {
+        long l2 = l1;
+        if (i1 == l3 % l4) {
+          l2 = l1 - 1L;
+        }
+        l[i1] = a(i3, l2, (a.b)paramG.k().get());
+        i1 += 1;
+        l1 = l2;
+      }
+    }
+    for (;;)
+    {
+      paramJ = l;
+      if (i1 >= paramJ.length) {
+        break;
+      }
+      paramJ[i1] = a(i3, -1L, (a.b)paramG.k().get());
+      i1 += 1;
+    }
+  }
+  
+  @a("Segment.this")
+  public static <K, V> void a(o<K, V> paramO)
+  {
+    n localN = n.a;
+    paramO.d(localN);
+    paramO.b(localN);
+  }
+  
+  @a("Segment.this")
+  public static <K, V> void a(o<K, V> paramO1, o<K, V> paramO2)
+  {
+    paramO1.d(paramO2);
+    paramO2.b(paramO1);
+  }
+  
+  public static int b(int paramInt)
+  {
+    paramInt += (paramInt << 15 ^ 0xCD7D);
+    paramInt ^= paramInt >>> 10;
+    paramInt += (paramInt << 3);
+    paramInt ^= paramInt >>> 6;
+    paramInt = (paramInt << 2) + (paramInt << 14) + paramInt;
+    return paramInt >>> 16 ^ paramInt;
+  }
+  
+  @a("Segment.this")
+  public static <K, V> void b(o<K, V> paramO)
+  {
+    n localN = n.a;
+    paramO.c(localN);
+    paramO.a(localN);
+  }
+  
+  @a("Segment.this")
+  public static <K, V> void b(o<K, V> paramO1, o<K, V> paramO2)
+  {
+    paramO1.c(paramO2);
+    paramO2.a(paramO1);
+  }
+  
+  public static <E> Queue<E> c()
+  {
+    return i;
+  }
+  
+  public static <K, V> o<K, V> j()
+  {
+    return n.a;
+  }
+  
+  public static <K, V> y<K, V> p()
+  {
+    return h;
+  }
+  
+  public o<K, V> a(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int i1 = e(paramObject);
+    return c(i1).c(paramObject, i1);
+  }
+  
+  @d
+  @a("Segment.this")
+  public o<K, V> a(K paramK, int paramInt, @h o<K, V> paramO)
+  {
+    return c(paramInt).a(paramK, paramInt, paramO);
+  }
+  
+  public p<K, V> a(int paramInt, long paramLong, a.b paramB)
+  {
+    return new p(this, paramInt, paramLong, paramB);
+  }
+  
+  @d
+  @a("Segment.this")
+  public y<K, V> a(o<K, V> paramO, V paramV, int paramInt)
+  {
+    int i1 = paramO.b();
+    return q.a(c(i1), paramO, paramV, paramInt);
+  }
+  
+  public Ab<K, V> a(Iterable<? extends K> paramIterable)
+    throws ExecutionException
+  {
+    LinkedHashMap localLinkedHashMap = fe.d();
+    Object localObject1 = new LinkedHashSet();
+    paramIterable = paramIterable.iterator();
+    i4 = 0;
+    int i1 = 0;
+    Object localObject2;
+    Object localObject3;
+    while (paramIterable.hasNext())
+    {
+      localObject2 = paramIterable.next();
+      localObject3 = get(localObject2);
+      if (!localLinkedHashMap.containsKey(localObject2))
+      {
+        localLinkedHashMap.put(localObject2, localObject3);
+        if (localObject3 == null)
+        {
+          i1 += 1;
+          ((Set)localObject1).add(localObject2);
+        }
+        else
+        {
+          i4 += 1;
+        }
+      }
+    }
+    i2 = i1;
+    for (;;)
+    {
+      try
+      {
+        boolean bool = ((Set)localObject1).isEmpty();
+        i3 = i1;
+        if (!bool) {
+          i2 = i1;
+        }
+      }
+      finally
+      {
+        int i3;
+        Object localObject4;
+        A.a(i4);
+        A.b(i2);
+        continue;
+        throw paramIterable;
+        continue;
+      }
+      try
+      {
+        localObject2 = a((Set)localObject1, B);
+        i2 = i1;
+        localObject3 = ((Set)localObject1).iterator();
+        i3 = i1;
+        i2 = i1;
+        if (!((Iterator)localObject3).hasNext()) {
+          continue;
+        }
+        i2 = i1;
+        paramIterable = ((Iterator)localObject3).next();
+        i2 = i1;
+        localObject4 = ((Map)localObject2).get(paramIterable);
+        if (localObject4 != null)
+        {
+          i2 = i1;
+          localLinkedHashMap.put(paramIterable, localObject4);
+        }
+        else
+        {
+          i2 = i1;
+          localObject2 = new StringBuilder();
+          i2 = i1;
+          ((StringBuilder)localObject2).append("loadAll failed to return a value for ");
+          i2 = i1;
+          ((StringBuilder)localObject2).append(paramIterable);
+          i2 = i1;
+          throw new j.b(((StringBuilder)localObject2).toString());
+        }
+      }
+      catch (j.d paramIterable) {}
+    }
+    i2 = i1;
+    paramIterable = ((Set)localObject1).iterator();
+    for (;;)
+    {
+      i3 = i1;
+      i2 = i1;
+      if (!paramIterable.hasNext()) {
+        break;
+      }
+      i2 = i1;
+      localObject1 = paramIterable.next();
+      i1 -= 1;
+      i2 = i1;
+      localLinkedHashMap.put(localObject1, a(localObject1, B));
+    }
+    i2 = i3;
+    paramIterable = Ab.a(localLinkedHashMap);
+    A.a(i4);
+    A.b(i3);
+    return paramIterable;
+  }
+  
+  @h
+  public V a(o<K, V> paramO, long paramLong)
+  {
+    if (paramO.getKey() == null) {
+      return null;
+    }
+    Object localObject = paramO.a().get();
+    if (localObject == null) {
+      return null;
+    }
+    if (b(paramO, paramLong)) {
+      return null;
+    }
+    return localObject;
+  }
+  
+  public V a(K paramK, j<? super K, V> paramJ)
+    throws ExecutionException
+  {
+    if (paramK != null)
+    {
+      int i1 = e(paramK);
+      return c(i1).a(paramK, i1, paramJ);
+    }
+    throw new NullPointerException();
+  }
+  
+  /* Error */
+  @h
+  public Map<K, V> a(Set<? extends K> paramSet, j<? super K, V> paramJ)
+    throws ExecutionException
+  {
+    // Byte code:
+    //   0: new 509	f/g/c/b/wa
+    //   3: dup
+    //   4: getstatic 513	f/g/c/b/Ca:a	Lf/g/c/b/Ca;
+    //   7: invokespecial 516	f/g/c/b/wa:<init>	(Lf/g/c/b/Ca;)V
+    //   10: invokevirtual 519	f/g/c/b/wa:d	()Lf/g/c/b/wa;
+    //   13: astore 5
+    //   15: iconst_0
+    //   16: istore 4
+    //   18: iconst_0
+    //   19: istore_3
+    //   20: aload_2
+    //   21: aload_1
+    //   22: invokevirtual 524	f/g/c/c/j:a	(Ljava/lang/Iterable;)Ljava/util/Map;
+    //   25: astore_1
+    //   26: aload_1
+    //   27: ifnull +166 -> 193
+    //   30: aload 5
+    //   32: invokevirtual 526	f/g/c/b/wa:e	()Lf/g/c/b/wa;
+    //   35: pop
+    //   36: aload_1
+    //   37: invokeinterface 530 1 0
+    //   42: invokeinterface 444 1 0
+    //   47: astore 6
+    //   49: aload 6
+    //   51: invokeinterface 416 1 0
+    //   56: ifeq +63 -> 119
+    //   59: aload 6
+    //   61: invokeinterface 419 1 0
+    //   66: checkcast 532	java/util/Map$Entry
+    //   69: astore 8
+    //   71: aload 8
+    //   73: invokeinterface 533 1 0
+    //   78: astore 7
+    //   80: aload 8
+    //   82: invokeinterface 536 1 0
+    //   87: astore 8
+    //   89: aload 7
+    //   91: ifnull +23 -> 114
+    //   94: aload 8
+    //   96: ifnonnull +6 -> 102
+    //   99: goto +15 -> 114
+    //   102: aload_0
+    //   103: aload 7
+    //   105: aload 8
+    //   107: invokevirtual 537	f/g/c/c/q:put	(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    //   110: pop
+    //   111: goto -62 -> 49
+    //   114: iconst_1
+    //   115: istore_3
+    //   116: goto -67 -> 49
+    //   119: iload_3
+    //   120: ifne +22 -> 142
+    //   123: aload_0
+    //   124: getfield 315	f/g/c/c/q:A	Lf/g/c/c/a$b;
+    //   127: aload 5
+    //   129: getstatic 543	java/util/concurrent/TimeUnit:NANOSECONDS	Ljava/util/concurrent/TimeUnit;
+    //   132: invokevirtual 546	f/g/c/b/wa:b	(Ljava/util/concurrent/TimeUnit;)J
+    //   135: invokeinterface 549 3 0
+    //   140: aload_1
+    //   141: areturn
+    //   142: aload_0
+    //   143: getfield 315	f/g/c/c/q:A	Lf/g/c/c/a$b;
+    //   146: aload 5
+    //   148: getstatic 543	java/util/concurrent/TimeUnit:NANOSECONDS	Ljava/util/concurrent/TimeUnit;
+    //   151: invokevirtual 546	f/g/c/b/wa:b	(Ljava/util/concurrent/TimeUnit;)J
+    //   154: invokeinterface 551 3 0
+    //   159: new 447	java/lang/StringBuilder
+    //   162: dup
+    //   163: invokespecial 448	java/lang/StringBuilder:<init>	()V
+    //   166: astore_1
+    //   167: aload_1
+    //   168: aload_2
+    //   169: invokevirtual 457	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   172: pop
+    //   173: aload_1
+    //   174: ldc_w 553
+    //   177: invokevirtual 454	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   180: pop
+    //   181: new 459	f/g/c/c/j$b
+    //   184: dup
+    //   185: aload_1
+    //   186: invokevirtual 462	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   189: invokespecial 465	f/g/c/c/j$b:<init>	(Ljava/lang/String;)V
+    //   192: athrow
+    //   193: aload_0
+    //   194: getfield 315	f/g/c/c/q:A	Lf/g/c/c/a$b;
+    //   197: aload 5
+    //   199: getstatic 543	java/util/concurrent/TimeUnit:NANOSECONDS	Ljava/util/concurrent/TimeUnit;
+    //   202: invokevirtual 546	f/g/c/b/wa:b	(Ljava/util/concurrent/TimeUnit;)J
+    //   205: invokeinterface 551 3 0
+    //   210: new 447	java/lang/StringBuilder
+    //   213: dup
+    //   214: invokespecial 448	java/lang/StringBuilder:<init>	()V
+    //   217: astore_1
+    //   218: aload_1
+    //   219: aload_2
+    //   220: invokevirtual 457	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   223: pop
+    //   224: aload_1
+    //   225: ldc_w 555
+    //   228: invokevirtual 454	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   231: pop
+    //   232: new 459	f/g/c/c/j$b
+    //   235: dup
+    //   236: aload_1
+    //   237: invokevirtual 462	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   240: invokespecial 465	f/g/c/c/j$b:<init>	(Ljava/lang/String;)V
+    //   243: athrow
+    //   244: astore_1
+    //   245: iload 4
+    //   247: istore_3
+    //   248: goto +55 -> 303
+    //   251: astore_1
+    //   252: new 557	f/g/c/l/a/P
+    //   255: dup
+    //   256: aload_1
+    //   257: invokespecial 560	f/g/c/l/a/P:<init>	(Ljava/lang/Error;)V
+    //   260: athrow
+    //   261: astore_1
+    //   262: new 395	java/util/concurrent/ExecutionException
+    //   265: dup
+    //   266: aload_1
+    //   267: invokespecial 563	java/util/concurrent/ExecutionException:<init>	(Ljava/lang/Throwable;)V
+    //   270: athrow
+    //   271: astore_1
+    //   272: new 565	f/g/c/l/a/Oa
+    //   275: dup
+    //   276: aload_1
+    //   277: invokespecial 566	f/g/c/l/a/Oa:<init>	(Ljava/lang/Throwable;)V
+    //   280: athrow
+    //   281: astore_1
+    //   282: invokestatic 572	java/lang/Thread:currentThread	()Ljava/lang/Thread;
+    //   285: invokevirtual 575	java/lang/Thread:interrupt	()V
+    //   288: new 395	java/util/concurrent/ExecutionException
+    //   291: dup
+    //   292: aload_1
+    //   293: invokespecial 563	java/util/concurrent/ExecutionException:<init>	(Ljava/lang/Throwable;)V
+    //   296: athrow
+    //   297: astore_1
+    //   298: aload_1
+    //   299: athrow
+    //   300: astore_1
+    //   301: iconst_1
+    //   302: istore_3
+    //   303: iload_3
+    //   304: ifne +20 -> 324
+    //   307: aload_0
+    //   308: getfield 315	f/g/c/c/q:A	Lf/g/c/c/a$b;
+    //   311: aload 5
+    //   313: getstatic 543	java/util/concurrent/TimeUnit:NANOSECONDS	Ljava/util/concurrent/TimeUnit;
+    //   316: invokevirtual 546	f/g/c/b/wa:b	(Ljava/util/concurrent/TimeUnit;)J
+    //   319: invokeinterface 551 3 0
+    //   324: goto +5 -> 329
+    //   327: aload_1
+    //   328: athrow
+    //   329: goto -2 -> 327
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	332	0	this	q
+    //   0	332	1	paramSet	Set<? extends K>
+    //   0	332	2	paramJ	j<? super K, V>
+    //   19	285	3	i1	int
+    //   16	230	4	i2	int
+    //   13	299	5	localWa	wa
+    //   47	13	6	localIterator	Iterator
+    //   78	26	7	localObject1	Object
+    //   69	37	8	localObject2	Object
+    // Exception table:
+    //   from	to	target	type
+    //   20	26	244	finally
+    //   252	261	244	finally
+    //   262	271	244	finally
+    //   272	281	244	finally
+    //   282	297	244	finally
+    //   20	26	251	java/lang/Error
+    //   20	26	261	java/lang/Exception
+    //   20	26	271	java/lang/RuntimeException
+    //   20	26	281	java/lang/InterruptedException
+    //   20	26	297	f/g/c/c/j$d
+    //   298	300	300	finally
+  }
+  
+  public void a()
+  {
+    p[] arrayOfP = l;
+    int i2 = arrayOfP.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      arrayOfP[i1].a();
+      i1 += 1;
+    }
+  }
+  
+  public void a(y<K, V> paramY)
+  {
+    o localO = paramY.a();
+    int i1 = localO.b();
+    c(i1).a(localO.getKey(), i1, paramY);
+  }
+  
+  public final p<K, V>[] a(int paramInt)
+  {
+    return new p[paramInt];
+  }
+  
+  public Ab<K, V> b(Iterable<?> paramIterable)
+  {
+    LinkedHashMap localLinkedHashMap = fe.d();
+    paramIterable = paramIterable.iterator();
+    int i2 = 0;
+    int i1 = 0;
+    while (paramIterable.hasNext())
+    {
+      Object localObject1 = paramIterable.next();
+      Object localObject2 = get(localObject1);
+      if (localObject2 == null)
+      {
+        i1 += 1;
+      }
+      else
+      {
+        localLinkedHashMap.put(localObject1, localObject2);
+        i2 += 1;
+      }
+    }
+    A.a(i2);
+    A.b(i1);
+    return Ab.a(localLinkedHashMap);
+  }
+  
+  @h
+  public V b(Object paramObject)
+  {
+    if (paramObject != null)
+    {
+      int i1 = e(paramObject);
+      paramObject = c(i1).b(paramObject, i1);
+      if (paramObject == null)
+      {
+        A.b(1);
+        return paramObject;
+      }
+      A.a(1);
+      return paramObject;
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean b()
+  {
+    return s != g.b.a;
+  }
+  
+  public boolean b(o<K, V> paramO, long paramLong)
+  {
+    if ((g()) && (paramLong - paramO.i() > t)) {
+      return true;
+    }
+    return (h()) && (paramLong - paramO.h() > u);
+  }
+  
+  @d
+  @a("Segment.this")
+  public o<K, V> c(o<K, V> paramO1, o<K, V> paramO2)
+  {
+    return c(paramO1.b()).a(paramO1, paramO2);
+  }
+  
+  public o<K, V> c(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int i1 = e(paramObject);
+    return c(i1).a(paramObject, i1, y.a());
+  }
+  
+  public p<K, V> c(int paramInt)
+  {
+    return l[(paramInt >>> k & j)];
+  }
+  
+  public void c(o<K, V> paramO)
+  {
+    int i1 = paramO.b();
+    c(i1).a(paramO, i1);
+  }
+  
+  public void c(Iterable<?> paramIterable)
+  {
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext()) {
+      remove(paramIterable.next());
+    }
+  }
+  
+  @d
+  public boolean c(o<K, V> paramO, long paramLong)
+  {
+    return c(paramO.b()).a(paramO, paramLong) != null;
+  }
+  
+  public void clear()
+  {
+    p[] arrayOfP = l;
+    int i2 = arrayOfP.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      arrayOfP[i1].b();
+      i1 += 1;
+    }
+  }
+  
+  public boolean containsKey(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    int i1 = e(paramObject);
+    return c(i1).a(paramObject, i1);
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    long l1 = y.a();
+    p[] arrayOfP = l;
+    long l3 = -1L;
+    int i1 = 0;
+    while (i1 < 3)
+    {
+      int i4 = arrayOfP.length;
+      long l2 = 0L;
+      int i2 = 0;
+      while (i2 < i4)
+      {
+        p localP = arrayOfP[i2];
+        int i3 = b;
+        AtomicReferenceArray localAtomicReferenceArray = f;
+        i3 = 0;
+        while (i3 < localAtomicReferenceArray.length())
+        {
+          for (o localO = (o)localAtomicReferenceArray.get(i3); localO != null; localO = localO.c())
+          {
+            Object localObject = localP.a(localO, l1);
+            if ((localObject != null) && (o.b(paramObject, localObject))) {
+              return true;
+            }
+          }
+          i3 += 1;
+        }
+        l2 += d;
+        i2 += 1;
+      }
+      if (l2 == l3) {
+        break;
+      }
+      i1 += 1;
+      l3 = l2;
+    }
+    return false;
+  }
+  
+  public V d(K paramK)
+    throws ExecutionException
+  {
+    return a(paramK, B);
+  }
+  
+  public boolean d()
+  {
+    return r >= 0L;
+  }
+  
+  public int e(Object paramObject)
+  {
+    return b(n.c(paramObject));
+  }
+  
+  public boolean e()
+  {
+    return (h()) || (g());
+  }
+  
+  public Set<Map.Entry<K, V>> entrySet()
+  {
+    Object localObject = E;
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = new e();
+    E = ((Set)localObject);
+    return localObject;
+  }
+  
+  public void f(K paramK)
+  {
+    if (paramK != null)
+    {
+      int i1 = e(paramK);
+      c(i1).c(paramK, i1, B);
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean g()
+  {
+    return t > 0L;
+  }
+  
+  @h
+  public V get(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int i1 = e(paramObject);
+    return c(i1).b(paramObject, i1);
+  }
+  
+  public boolean h()
+  {
+    return u > 0L;
+  }
+  
+  public long i()
+  {
+    p[] arrayOfP = l;
+    long l1 = 0L;
+    int i1 = 0;
+    while (i1 < arrayOfP.length)
+    {
+      l1 += b;
+      i1 += 1;
+    }
+    return l1;
+  }
+  
+  public boolean isEmpty()
+  {
+    p[] arrayOfP = l;
+    long l1 = 0L;
+    int i1 = 0;
+    while (i1 < arrayOfP.length)
+    {
+      if (b != 0) {
+        return false;
+      }
+      l1 += d;
+      i1 += 1;
+    }
+    if (l1 != 0L)
+    {
+      i1 = 0;
+      while (i1 < arrayOfP.length)
+      {
+        if (b != 0) {
+          return false;
+        }
+        l1 -= d;
+        i1 += 1;
+      }
+      if (l1 != 0L) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public void k()
+  {
+    for (;;)
+    {
+      U localU = (U)w.poll();
+      if (localU == null) {
+        break;
+      }
+      try
+      {
+        x.a(localU);
+      }
+      catch (Throwable localThrowable)
+      {
+        f.log(Level.WARNING, "Exception thrown by removal listener", localThrowable);
+      }
+    }
+  }
+  
+  public Set<K> keySet()
+  {
+    Object localObject = C;
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = new h();
+    C = ((Set)localObject);
+    return localObject;
+  }
+  
+  public boolean l()
+  {
+    return g();
+  }
+  
+  public boolean m()
+  {
+    return (n()) || (l());
+  }
+  
+  public boolean n()
+  {
+    return (h()) || (o());
+  }
+  
+  public boolean o()
+  {
+    return v > 0L;
+  }
+  
+  public V put(K paramK, V paramV)
+  {
+    if (paramK != null)
+    {
+      if (paramV != null)
+      {
+        int i1 = e(paramK);
+        return c(i1).a(paramK, i1, paramV, false);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public void putAll(Map<? extends K, ? extends V> paramMap)
+  {
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramMap.next();
+      put(localEntry.getKey(), localEntry.getValue());
+    }
+  }
+  
+  public V putIfAbsent(K paramK, V paramV)
+  {
+    if (paramK != null)
+    {
+      if (paramV != null)
+      {
+        int i1 = e(paramK);
+        return c(i1).a(paramK, i1, paramV, true);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean q()
+  {
+    return (r()) || (l());
+  }
+  
+  public boolean r()
+  {
+    return (g()) || (d());
+  }
+  
+  public V remove(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int i1 = e(paramObject);
+    return c(i1).e(paramObject, i1);
+  }
+  
+  public boolean remove(@h Object paramObject1, @h Object paramObject2)
+  {
+    if ((paramObject1 != null) && (paramObject2 != null))
+    {
+      int i1 = e(paramObject1);
+      return c(i1).a(paramObject1, i1, paramObject2);
+    }
+    return false;
+  }
+  
+  public V replace(K paramK, V paramV)
+  {
+    if (paramK != null)
+    {
+      if (paramV != null)
+      {
+        int i1 = e(paramK);
+        return c(i1).b(paramK, i1, paramV);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean replace(K paramK, @h V paramV1, V paramV2)
+  {
+    if (paramK != null)
+    {
+      if (paramV2 != null)
+      {
+        if (paramV1 == null) {
+          return false;
+        }
+        int i1 = e(paramK);
+        return c(i1).a(paramK, i1, paramV1, paramV2);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean s()
+  {
+    return p != r.a;
+  }
+  
+  public int size()
+  {
+    return f.g.c.j.g.b(i());
+  }
+  
+  public boolean t()
+  {
+    return q != r.a;
+  }
+  
+  public boolean u()
+  {
+    return (v()) || (n());
+  }
+  
+  public boolean v()
+  {
+    return h();
+  }
+  
+  public Collection<V> values()
+  {
+    Object localObject = D;
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = new z();
+    D = ((Collection)localObject);
+    return localObject;
+  }
+  
+  public static final class A<K, V>
+    extends q.C<K, V>
+    implements q.o<K, V>
+  {
+    public volatile long d = Long.MAX_VALUE;
+    @a("Segment.this")
+    public q.o<K, V> e = q.j();
+    @a("Segment.this")
+    public q.o<K, V> f = q.j();
+    
+    public A(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      super(paramK, paramInt, paramO);
+    }
+    
+    public void a(long paramLong)
+    {
+      d = paramLong;
+    }
+    
+    public void b(q.o<K, V> paramO)
+    {
+      f = paramO;
+    }
+    
+    public q.o<K, V> d()
+    {
+      return f;
+    }
+    
+    public void d(q.o<K, V> paramO)
+    {
+      e = paramO;
+    }
+    
+    public q.o<K, V> f()
+    {
+      return e;
+    }
+    
+    public long i()
+    {
+      return d;
+    }
+  }
+  
+  public static final class B<K, V>
+    extends q.C<K, V>
+    implements q.o<K, V>
+  {
+    public volatile long d = Long.MAX_VALUE;
+    @a("Segment.this")
+    public q.o<K, V> e = q.j();
+    @a("Segment.this")
+    public q.o<K, V> f = q.j();
+    public volatile long g = Long.MAX_VALUE;
+    @a("Segment.this")
+    public q.o<K, V> h = q.j();
+    @a("Segment.this")
+    public q.o<K, V> i = q.j();
+    
+    public B(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      super(paramK, paramInt, paramO);
+    }
+    
+    public void a(long paramLong)
+    {
+      d = paramLong;
+    }
+    
+    public void a(q.o<K, V> paramO)
+    {
+      i = paramO;
+    }
+    
+    public void b(long paramLong)
+    {
+      g = paramLong;
+    }
+    
+    public void b(q.o<K, V> paramO)
+    {
+      f = paramO;
+    }
+    
+    public void c(q.o<K, V> paramO)
+    {
+      h = paramO;
+    }
+    
+    public q.o<K, V> d()
+    {
+      return f;
+    }
+    
+    public void d(q.o<K, V> paramO)
+    {
+      e = paramO;
+    }
+    
+    public q.o<K, V> e()
+    {
+      return h;
+    }
+    
+    public q.o<K, V> f()
+    {
+      return e;
+    }
+    
+    public q.o<K, V> g()
+    {
+      return i;
+    }
+    
+    public long h()
+    {
+      return g;
+    }
+    
+    public long i()
+    {
+      return d;
+    }
+  }
+  
+  public static class C<K, V>
+    extends WeakReference<K>
+    implements q.o<K, V>
+  {
+    public final int a;
+    public final q.o<K, V> b;
+    public volatile q.y<K, V> c = q.h;
+    
+    public C(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      super(paramReferenceQueue);
+      a = paramInt;
+      b = paramO;
+    }
+    
+    public q.y<K, V> a()
+    {
+      return c;
+    }
+    
+    public void a(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(q.y<K, V> paramY)
+    {
+      c = paramY;
+    }
+    
+    public int b()
+    {
+      return a;
+    }
+    
+    public void b(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void b(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> c()
+    {
+      return b;
+    }
+    
+    public void c(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> d()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void d(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> e()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> f()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> g()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public K getKey()
+    {
+      return get();
+    }
+    
+    public long h()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public long i()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  public static class D<K, V>
+    extends WeakReference<V>
+    implements q.y<K, V>
+  {
+    public final q.o<K, V> a;
+    
+    public D(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO)
+    {
+      super(paramReferenceQueue);
+      a = paramO;
+    }
+    
+    public q.o<K, V> a()
+    {
+      return a;
+    }
+    
+    public q.y<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO)
+    {
+      return new D(paramReferenceQueue, paramV, paramO);
+    }
+    
+    public void a(V paramV) {}
+    
+    public V b()
+    {
+      return get();
+    }
+    
+    public boolean c()
+    {
+      return true;
+    }
+    
+    public int d()
+    {
+      return 1;
+    }
+    
+    public boolean e()
+    {
+      return false;
+    }
+  }
+  
+  public static final class E<K, V>
+    extends q.C<K, V>
+    implements q.o<K, V>
+  {
+    public volatile long d = Long.MAX_VALUE;
+    @a("Segment.this")
+    public q.o<K, V> e = q.j();
+    @a("Segment.this")
+    public q.o<K, V> f = q.j();
+    
+    public E(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      super(paramK, paramInt, paramO);
+    }
+    
+    public void a(q.o<K, V> paramO)
+    {
+      f = paramO;
+    }
+    
+    public void b(long paramLong)
+    {
+      d = paramLong;
+    }
+    
+    public void c(q.o<K, V> paramO)
+    {
+      e = paramO;
+    }
+    
+    public q.o<K, V> e()
+    {
+      return e;
+    }
+    
+    public q.o<K, V> g()
+    {
+      return f;
+    }
+    
+    public long h()
+    {
+      return d;
+    }
+  }
+  
+  public static final class F<K, V>
+    extends q.q<K, V>
+  {
+    public final int b;
+    
+    public F(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO, int paramInt)
+    {
+      super(paramV, paramO);
+      b = paramInt;
+    }
+    
+    public q.y<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO)
+    {
+      return new F(paramReferenceQueue, paramV, paramO, b);
+    }
+    
+    public int d()
+    {
+      return b;
+    }
+  }
+  
+  public static final class G<K, V>
+    extends q.v<K, V>
+  {
+    public final int b;
+    
+    public G(V paramV, int paramInt)
+    {
+      super();
+      b = paramInt;
+    }
+    
+    public int d()
+    {
+      return b;
+    }
+  }
+  
+  public static final class H<K, V>
+    extends q.D<K, V>
+  {
+    public final int b;
+    
+    public H(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO, int paramInt)
+    {
+      super(paramV, paramO);
+      b = paramInt;
+    }
+    
+    public q.y<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO)
+    {
+      return new H(paramReferenceQueue, paramV, paramO, b);
+    }
+    
+    public int d()
+    {
+      return b;
+    }
+  }
+  
+  public static final class I<K, V>
+    extends AbstractQueue<q.o<K, V>>
+  {
+    public final q.o<K, V> a = new G(this);
+    
+    public I() {}
+    
+    public boolean a(q.o<K, V> paramO)
+    {
+      q.b(paramO.g(), paramO.e());
+      q.b(a.g(), paramO);
+      q.b(paramO, a);
+      return true;
+    }
+    
+    public void clear()
+    {
+      q.o localO;
+      for (Object localObject = a.e();; localObject = localO)
+      {
+        localO = a;
+        if (localObject == localO) {
+          break;
+        }
+        localO = ((q.o)localObject).e();
+        q.b((q.o)localObject);
+      }
+      localO.c(localO);
+      localObject = a;
+      ((q.o)localObject).a((q.o)localObject);
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return ((q.o)paramObject).e() != q.n.a;
+    }
+    
+    public boolean isEmpty()
+    {
+      return a.e() == a;
+    }
+    
+    public Iterator<q.o<K, V>> iterator()
+    {
+      return new H(this, peek());
+    }
+    
+    public q.o<K, V> peek()
+    {
+      q.o localO2 = a.e();
+      q.o localO1 = localO2;
+      if (localO2 == a) {
+        localO1 = null;
+      }
+      return localO1;
+    }
+    
+    public q.o<K, V> poll()
+    {
+      q.o localO = a.e();
+      if (localO == a) {
+        return null;
+      }
+      remove(localO);
+      return localO;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      paramObject = (q.o)paramObject;
+      q.o localO1 = paramObject.g();
+      q.o localO2 = paramObject.e();
+      q.b(localO1, localO2);
+      q.b(paramObject);
+      return localO2 != q.n.a;
+    }
+    
+    public int size()
+    {
+      q.o localO = a.e();
+      int i = 0;
+      while (localO != a)
+      {
+        i += 1;
+        localO = localO.e();
+      }
+      return i;
+    }
+  }
+  
+  public final class J
+    implements Map.Entry<K, V>
+  {
+    public final K a;
+    public V b;
+    
+    public J(V paramV)
+    {
+      a = paramV;
+      Object localObject;
+      b = localObject;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof Map.Entry;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (Map.Entry)paramObject;
+        bool1 = bool2;
+        if (a.equals(paramObject.getKey()))
+        {
+          bool1 = bool2;
+          if (b.equals(paramObject.getValue())) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public K getKey()
+    {
+      return a;
+    }
+    
+    public V getValue()
+    {
+      return b;
+    }
+    
+    public int hashCode()
+    {
+      return a.hashCode() ^ b.hashCode();
+    }
+    
+    public V setValue(V paramV)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(getKey());
+      localStringBuilder.append("=");
+      localStringBuilder.append(getValue());
+      return localStringBuilder.toString();
+    }
+  }
+  
+  public static abstract class a<K, V>
+    implements q.o<K, V>
+  {
+    public a() {}
+    
+    public q.y<K, V> a()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(q.y<K, V> paramY)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int b()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void b(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void b(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> c()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void c(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> d()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void d(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> e()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> f()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> g()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public K getKey()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public long h()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public long i()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  public static final class b<K, V>
+    extends AbstractQueue<q.o<K, V>>
+  {
+    public final q.o<K, V> a = new r(this);
+    
+    public b() {}
+    
+    public boolean a(q.o<K, V> paramO)
+    {
+      q.a(paramO.d(), paramO.f());
+      q.a(a.d(), paramO);
+      q.a(paramO, a);
+      return true;
+    }
+    
+    public void clear()
+    {
+      q.o localO;
+      for (Object localObject = a.f();; localObject = localO)
+      {
+        localO = a;
+        if (localObject == localO) {
+          break;
+        }
+        localO = ((q.o)localObject).f();
+        q.a((q.o)localObject);
+      }
+      localO.d(localO);
+      localObject = a;
+      ((q.o)localObject).b((q.o)localObject);
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return ((q.o)paramObject).f() != q.n.a;
+    }
+    
+    public boolean isEmpty()
+    {
+      return a.f() == a;
+    }
+    
+    public Iterator<q.o<K, V>> iterator()
+    {
+      return new s(this, peek());
+    }
+    
+    public q.o<K, V> peek()
+    {
+      q.o localO2 = a.f();
+      q.o localO1 = localO2;
+      if (localO2 == a) {
+        localO1 = null;
+      }
+      return localO1;
+    }
+    
+    public q.o<K, V> poll()
+    {
+      q.o localO = a.f();
+      if (localO == a) {
+        return null;
+      }
+      remove(localO);
+      return localO;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      paramObject = (q.o)paramObject;
+      q.o localO1 = paramObject.d();
+      q.o localO2 = paramObject.f();
+      q.a(localO1, localO2);
+      q.a(paramObject);
+      return localO2 != q.n.a;
+    }
+    
+    public int size()
+    {
+      q.o localO = a.f();
+      int i = 0;
+      while (localO != a)
+      {
+        i += 1;
+        localO = localO.f();
+      }
+      return i;
+    }
+  }
+  
+  public static abstract enum c
+  {
+    public static final int i = 1;
+    public static final int j = 2;
+    public static final int k = 4;
+    public static final c[] l;
+    
+    static
+    {
+      c localC1 = a;
+      c localC2 = b;
+      c localC3 = c;
+      c localC4 = d;
+      c localC5 = e;
+      c localC6 = f;
+      c localC7 = g;
+      c localC8 = h;
+      m = new c[] { localC1, localC2, localC3, localC4, localC5, localC6, localC7, localC8 };
+      l = new c[] { localC1, localC2, localC3, localC4, localC5, localC6, localC7, localC8 };
+    }
+    
+    public c() {}
+    
+    public static c a(q.r paramR, boolean paramBoolean1, boolean paramBoolean2)
+    {
+      q.r localR = q.r.c;
+      int n = 0;
+      boolean bool;
+      if (paramR == localR) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      if (paramBoolean2) {
+        n = 2;
+      }
+      return l[(bool | paramBoolean1 | n)];
+    }
+    
+    @a("Segment.this")
+    public <K, V> q.o<K, V> a(q.p<K, V> paramP, q.o<K, V> paramO1, q.o<K, V> paramO2)
+    {
+      return a(paramP, paramO1.getKey(), paramO1.b(), paramO2);
+    }
+    
+    public abstract <K, V> q.o<K, V> a(q.p<K, V> paramP, K paramK, int paramInt, @h q.o<K, V> paramO);
+    
+    @a("Segment.this")
+    public <K, V> void a(q.o<K, V> paramO1, q.o<K, V> paramO2)
+    {
+      paramO2.a(paramO1.i());
+      q.a(paramO1.d(), paramO2);
+      q.a(paramO2, paramO1.f());
+      q.a(paramO1);
+    }
+    
+    @a("Segment.this")
+    public <K, V> void b(q.o<K, V> paramO1, q.o<K, V> paramO2)
+    {
+      paramO2.b(paramO1.h());
+      q.b(paramO1.g(), paramO2);
+      q.b(paramO2, paramO1.e());
+      q.b(paramO1);
+    }
+  }
+  
+  public final class d
+    extends q<K, V>.f
+    implements Iterator<Map.Entry<K, V>>
+  {
+    public d()
+    {
+      super();
+    }
+    
+    public Map.Entry<K, V> next()
+    {
+      return b();
+    }
+  }
+  
+  public final class e
+    extends AbstractSet<Map.Entry<K, V>>
+  {
+    public e() {}
+    
+    public void clear()
+    {
+      q.this.clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      boolean bool1 = paramObject instanceof Map.Entry;
+      boolean bool2 = false;
+      if (!bool1) {
+        return false;
+      }
+      paramObject = (Map.Entry)paramObject;
+      Object localObject = paramObject.getKey();
+      if (localObject == null) {
+        return false;
+      }
+      localObject = get(localObject);
+      bool1 = bool2;
+      if (localObject != null)
+      {
+        bool1 = bool2;
+        if (o.b(paramObject.getValue(), localObject)) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public boolean isEmpty()
+    {
+      return q.this.isEmpty();
+    }
+    
+    public Iterator<Map.Entry<K, V>> iterator()
+    {
+      return new q.d(q.this);
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      boolean bool1 = paramObject instanceof Map.Entry;
+      boolean bool2 = false;
+      if (!bool1) {
+        return false;
+      }
+      paramObject = (Map.Entry)paramObject;
+      Object localObject = paramObject.getKey();
+      bool1 = bool2;
+      if (localObject != null)
+      {
+        bool1 = bool2;
+        if (remove(localObject, paramObject.getValue())) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public int size()
+    {
+      return q.this.size();
+    }
+  }
+  
+  public abstract class f
+  {
+    public int a = l.length - 1;
+    public int b = -1;
+    public q.p<K, V> c;
+    public AtomicReferenceArray<q.o<K, V>> d;
+    public q.o<K, V> e;
+    public q<K, V>.J f;
+    public q<K, V>.J g;
+    
+    public f()
+    {
+      a();
+    }
+    
+    public final void a()
+    {
+      f = null;
+      if (c()) {
+        return;
+      }
+      if (d()) {
+        return;
+      }
+      do
+      {
+        do
+        {
+          int i = a;
+          if (i < 0) {
+            break;
+          }
+          q.p[] arrayOfP = l;
+          a = (i - 1);
+          c = arrayOfP[i];
+        } while (c.b == 0);
+        d = c.f;
+        b = (d.length() - 1);
+      } while (!d());
+    }
+    
+    public boolean a(q.o<K, V> paramO)
+    {
+      try
+      {
+        long l = y.a();
+        Object localObject = paramO.getKey();
+        paramO = a(paramO, l);
+        if (paramO != null) {
+          f = new q.J(q.this, localObject, paramO);
+        }
+        for (boolean bool = true;; bool = false)
+        {
+          c.m();
+          return bool;
+        }
+        throw paramO;
+      }
+      finally
+      {
+        c.m();
+      }
+      for (;;) {}
+    }
+    
+    public q<K, V>.J b()
+    {
+      q.J localJ = f;
+      if (localJ != null)
+      {
+        g = localJ;
+        a();
+        return g;
+      }
+      throw new NoSuchElementException();
+    }
+    
+    public boolean c()
+    {
+      q.o localO = e;
+      if (localO != null) {
+        for (;;)
+        {
+          e = localO.c();
+          localO = e;
+          if (localO == null) {
+            break;
+          }
+          if (a(localO)) {
+            return true;
+          }
+          localO = e;
+        }
+      }
+      return false;
+    }
+    
+    public boolean d()
+    {
+      Object localObject;
+      do
+      {
+        int i = b;
+        if (i < 0) {
+          break;
+        }
+        localObject = d;
+        b = (i - 1);
+        localObject = (q.o)((AtomicReferenceArray)localObject).get(i);
+        e = ((q.o)localObject);
+      } while ((localObject == null) || ((!a(e)) && (!c())));
+      return true;
+      return false;
+    }
+    
+    public boolean hasNext()
+    {
+      return f != null;
+    }
+    
+    public void remove()
+    {
+      boolean bool;
+      if (g != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool);
+      remove(g.getKey());
+      g = null;
+    }
+  }
+  
+  public final class g
+    extends q<K, V>.f
+    implements Iterator<K>
+  {
+    public g()
+    {
+      super();
+    }
+    
+    public K next()
+    {
+      return b().getKey();
+    }
+  }
+  
+  public final class h
+    extends AbstractSet<K>
+  {
+    public h() {}
+    
+    public void clear()
+    {
+      q.this.clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return containsKey(paramObject);
+    }
+    
+    public boolean isEmpty()
+    {
+      return q.this.isEmpty();
+    }
+    
+    public Iterator<K> iterator()
+    {
+      return new q.g(q.this);
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      return remove(paramObject) != null;
+    }
+    
+    public int size()
+    {
+      return q.this.size();
+    }
+  }
+  
+  public static final class i<K, V>
+    extends q.m<K, V>
+    implements n<K, V>, Serializable
+  {
+    public static final long o = 1L;
+    public transient n<K, V> p;
+    
+    public i(q<K, V> paramQ)
+    {
+      super();
+    }
+    
+    private void b(ObjectInputStream paramObjectInputStream)
+      throws IOException, ClassNotFoundException
+    {
+      paramObjectInputStream.defaultReadObject();
+      p = r().a(m);
+    }
+    
+    private Object t()
+    {
+      return p;
+    }
+    
+    public Ab<K, V> a(Iterable<? extends K> paramIterable)
+      throws ExecutionException
+    {
+      return p.a(paramIterable);
+    }
+    
+    public final V apply(K paramK)
+    {
+      return p.apply(paramK);
+    }
+    
+    public V b(K paramK)
+    {
+      return p.b(paramK);
+    }
+    
+    public void c(K paramK)
+    {
+      p.c(paramK);
+    }
+    
+    public V get(K paramK)
+      throws ExecutionException
+    {
+      return p.get(paramK);
+    }
+  }
+  
+  public static class j<K, V>
+    implements q.y<K, V>
+  {
+    public volatile q.y<K, V> a;
+    public final Aa<V> b = new Aa();
+    public final wa c = new wa(Ca.a);
+    
+    public j()
+    {
+      this(q.h);
+    }
+    
+    public j(q.y<K, V> paramY)
+    {
+      a = paramY;
+    }
+    
+    public static boolean a(Aa<?> paramAa, Throwable paramThrowable)
+    {
+      try
+      {
+        boolean bool = paramAa.a(paramThrowable);
+        return bool;
+      }
+      catch (Error paramAa)
+      {
+        for (;;) {}
+      }
+      return false;
+    }
+    
+    private oa<V> b(Throwable paramThrowable)
+    {
+      Aa localAa = new Aa();
+      a(localAa, paramThrowable);
+      return localAa;
+    }
+    
+    public q.o<K, V> a()
+    {
+      return null;
+    }
+    
+    public q.y<K, V> a(ReferenceQueue<V> paramReferenceQueue, @h V paramV, q.o<K, V> paramO)
+    {
+      return this;
+    }
+    
+    public oa<V> a(K paramK, j<? super K, V> paramJ)
+    {
+      c.d();
+      Object localObject = a.get();
+      if (localObject == null) {}
+      try
+      {
+        paramK = paramJ.a(paramK);
+        if (b(paramK)) {
+          return b;
+        }
+        return ja.b(paramK);
+      }
+      catch (Throwable paramK)
+      {
+        if (!(paramK instanceof InterruptedException)) {
+          break label80;
+        }
+        Thread.currentThread().interrupt();
+        if (!a(paramK)) {
+          break label93;
+        }
+        return b;
+      }
+      paramK = paramJ.a(paramK, localObject);
+      if (paramK != null) {
+        return paramK;
+      }
+      paramK = ja.b(null);
+      return paramK;
+      label80:
+      label93:
+      return b(paramK);
+    }
+    
+    public void a(@h V paramV)
+    {
+      if (paramV != null)
+      {
+        b(paramV);
+        return;
+      }
+      a = q.h;
+    }
+    
+    public boolean a(Throwable paramThrowable)
+    {
+      return a(b, paramThrowable);
+    }
+    
+    public V b()
+      throws ExecutionException
+    {
+      return Qa.a(b);
+    }
+    
+    public boolean b(@h V paramV)
+    {
+      return b.a(paramV);
+    }
+    
+    public boolean c()
+    {
+      return a.c();
+    }
+    
+    public int d()
+    {
+      return a.d();
+    }
+    
+    public boolean e()
+    {
+      return true;
+    }
+    
+    public long f()
+    {
+      return c.b(TimeUnit.NANOSECONDS);
+    }
+    
+    public q.y<K, V> g()
+    {
+      return a;
+    }
+    
+    public V get()
+    {
+      return a.get();
+    }
+  }
+  
+  public static class k<K, V>
+    extends q.l<K, V>
+    implements n<K, V>
+  {
+    public static final long c = 1L;
+    
+    public k(g<? super K, ? super V> paramG, j<? super K, V> paramJ) {}
+    
+    public Ab<K, V> a(Iterable<? extends K> paramIterable)
+      throws ExecutionException
+    {
+      return b.a(paramIterable);
+    }
+    
+    public final V apply(K paramK)
+    {
+      return b(paramK);
+    }
+    
+    public Object b()
+    {
+      return new q.i(b);
+    }
+    
+    public V b(K paramK)
+    {
+      try
+      {
+        paramK = get(paramK);
+        return paramK;
+      }
+      catch (ExecutionException paramK)
+      {
+        throw new Oa(paramK.getCause());
+      }
+    }
+    
+    public void c(K paramK)
+    {
+      b.f(paramK);
+    }
+    
+    public V get(K paramK)
+      throws ExecutionException
+    {
+      return b.d(paramK);
+    }
+  }
+  
+  public static class l<K, V>
+    implements c<K, V>, Serializable
+  {
+    public static final long a = 1L;
+    public final q<K, V> b;
+    
+    public l(g<? super K, ? super V> paramG)
+    {
+      b = paramG;
+    }
+    
+    public l(q<K, V> paramQ)
+    {
+      b = paramQ;
+    }
+    
+    public V a(K paramK, Callable<? extends V> paramCallable)
+      throws ExecutionException
+    {
+      if (paramCallable != null) {
+        return b.a(paramK, new B(this, paramCallable));
+      }
+      throw new NullPointerException();
+    }
+    
+    public ConcurrentMap<K, V> a()
+    {
+      return b;
+    }
+    
+    public Object b()
+    {
+      return new q.m(b);
+    }
+    
+    public void b(Iterable<?> paramIterable)
+    {
+      b.c(paramIterable);
+    }
+    
+    public Ab<K, V> c(Iterable<?> paramIterable)
+    {
+      return b.b(paramIterable);
+    }
+    
+    public void i(Object paramObject)
+    {
+      if (paramObject != null)
+      {
+        b.remove(paramObject);
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    @h
+    public V j(Object paramObject)
+    {
+      return b.b(paramObject);
+    }
+    
+    public void n()
+    {
+      b.a();
+    }
+    
+    public k o()
+    {
+      a.a localA = new a.a();
+      localA.a(b.A);
+      q.p[] arrayOfP = b.l;
+      int j = arrayOfP.length;
+      int i = 0;
+      while (i < j)
+      {
+        localA.a(n);
+        i += 1;
+      }
+      return localA.b();
+    }
+    
+    public void p()
+    {
+      b.clear();
+    }
+    
+    public void put(K paramK, V paramV)
+    {
+      b.put(paramK, paramV);
+    }
+    
+    public void putAll(Map<? extends K, ? extends V> paramMap)
+    {
+      b.putAll(paramMap);
+    }
+    
+    public long size()
+    {
+      return b.i();
+    }
+  }
+  
+  public static class m<K, V>
+    extends l<K, V>
+    implements Serializable
+  {
+    public static final long a = 1L;
+    public final q.r b;
+    public final q.r c;
+    public final f.g.c.b.C<Object> d;
+    public final f.g.c.b.C<Object> e;
+    public final long f;
+    public final long g;
+    public final long h;
+    public final X<K, V> i;
+    public final int j;
+    public final P<? super K, ? super V> k;
+    public final Ca l;
+    public final j<? super K, V> m;
+    public transient c<K, V> n;
+    
+    public m(q.r paramR1, q.r paramR2, f.g.c.b.C<Object> paramC1, f.g.c.b.C<Object> paramC2, long paramLong1, long paramLong2, long paramLong3, X<K, V> paramX, int paramInt, P<? super K, ? super V> paramP, Ca paramCa, j<? super K, V> paramJ)
+    {
+      b = paramR1;
+      c = paramR2;
+      d = paramC1;
+      e = paramC2;
+      f = paramLong1;
+      g = paramLong2;
+      h = paramLong3;
+      i = paramX;
+      j = paramInt;
+      k = paramP;
+      if (paramCa != Ca.a)
+      {
+        paramR1 = paramCa;
+        if (paramCa != g.h) {}
+      }
+      else
+      {
+        paramR1 = null;
+      }
+      l = paramR1;
+      m = paramJ;
+    }
+    
+    public m(q<K, V> paramQ)
+    {
+      this(p, q, n, o, u, t, r, s, m, x, y, B);
+    }
+    
+    private void a(ObjectInputStream paramObjectInputStream)
+      throws IOException, ClassNotFoundException
+    {
+      paramObjectInputStream.defaultReadObject();
+      n = r().a();
+    }
+    
+    private Object s()
+    {
+      return n;
+    }
+    
+    public c<K, V> q()
+    {
+      return n;
+    }
+    
+    public g<Object, Object> r()
+    {
+      g localG = new g().a(b).b(c).a(d).b(e).a(j);
+      k = false;
+      localG.a(k);
+      long l1 = f;
+      if (l1 > 0L) {
+        localG.b(l1, TimeUnit.NANOSECONDS);
+      }
+      l1 = g;
+      if (l1 > 0L) {
+        localG.a(l1, TimeUnit.NANOSECONDS);
+      }
+      Object localObject = i;
+      if (localObject != g.b.a)
+      {
+        localG.a((X)localObject);
+        l1 = h;
+        if (l1 != -1L) {
+          localG.b(l1);
+        }
+      }
+      else
+      {
+        l1 = h;
+        if (l1 != -1L) {
+          localG.a(l1);
+        }
+      }
+      localObject = l;
+      if (localObject != null) {
+        localG.a((Ca)localObject);
+      }
+      return localG;
+    }
+  }
+  
+  private static enum n
+    implements q.o<Object, Object>
+  {
+    public n() {}
+    
+    public q.y<Object, Object> a()
+    {
+      return null;
+    }
+    
+    public void a(long paramLong) {}
+    
+    public void a(q.o<Object, Object> paramO) {}
+    
+    public void a(q.y<Object, Object> paramY) {}
+    
+    public int b()
+    {
+      return 0;
+    }
+    
+    public void b(long paramLong) {}
+    
+    public void b(q.o<Object, Object> paramO) {}
+    
+    public q.o<Object, Object> c()
+    {
+      return null;
+    }
+    
+    public void c(q.o<Object, Object> paramO) {}
+    
+    public q.o<Object, Object> d()
+    {
+      return this;
+    }
+    
+    public void d(q.o<Object, Object> paramO) {}
+    
+    public q.o<Object, Object> e()
+    {
+      return this;
+    }
+    
+    public q.o<Object, Object> f()
+    {
+      return this;
+    }
+    
+    public q.o<Object, Object> g()
+    {
+      return this;
+    }
+    
+    public Object getKey()
+    {
+      return null;
+    }
+    
+    public long h()
+    {
+      return 0L;
+    }
+    
+    public long i()
+    {
+      return 0L;
+    }
+  }
+  
+  public static abstract interface o<K, V>
+  {
+    public abstract q.y<K, V> a();
+    
+    public abstract void a(long paramLong);
+    
+    public abstract void a(o<K, V> paramO);
+    
+    public abstract void a(q.y<K, V> paramY);
+    
+    public abstract int b();
+    
+    public abstract void b(long paramLong);
+    
+    public abstract void b(o<K, V> paramO);
+    
+    @h
+    public abstract o<K, V> c();
+    
+    public abstract void c(o<K, V> paramO);
+    
+    public abstract o<K, V> d();
+    
+    public abstract void d(o<K, V> paramO);
+    
+    public abstract o<K, V> e();
+    
+    public abstract o<K, V> f();
+    
+    public abstract o<K, V> g();
+    
+    @h
+    public abstract K getKey();
+    
+    public abstract long h();
+    
+    public abstract long i();
+  }
+  
+  public static class p<K, V>
+    extends ReentrantLock
+  {
+    public final q<K, V> a;
+    public volatile int b;
+    @a("Segment.this")
+    public int c;
+    public int d;
+    public int e;
+    public volatile AtomicReferenceArray<q.o<K, V>> f;
+    public final long g;
+    public final ReferenceQueue<K> h;
+    public final ReferenceQueue<V> i;
+    public final Queue<q.o<K, V>> j;
+    public final AtomicInteger k = new AtomicInteger();
+    @a("Segment.this")
+    public final Queue<q.o<K, V>> l;
+    @a("Segment.this")
+    public final Queue<q.o<K, V>> m;
+    public final a.b n;
+    
+    public p(q<K, V> paramQ, int paramInt, long paramLong, a.b paramB)
+    {
+      a = paramQ;
+      g = paramLong;
+      n = paramB;
+      a(b(paramInt));
+      boolean bool = paramQ.s();
+      Object localObject = null;
+      if (bool) {
+        paramB = new ReferenceQueue();
+      } else {
+        paramB = null;
+      }
+      h = paramB;
+      paramB = localObject;
+      if (paramQ.t()) {
+        paramB = new ReferenceQueue();
+      }
+      i = paramB;
+      if (paramQ.r()) {
+        paramB = new ConcurrentLinkedQueue();
+      } else {
+        paramB = q.i;
+      }
+      j = paramB;
+      if (paramQ.v()) {
+        paramB = new q.I();
+      } else {
+        paramB = q.i;
+      }
+      l = paramB;
+      if (paramQ.r()) {
+        paramQ = new q.b();
+      } else {
+        paramQ = q.i;
+      }
+      m = paramQ;
+    }
+    
+    public q.o<K, V> a(int paramInt)
+    {
+      AtomicReferenceArray localAtomicReferenceArray = f;
+      return (q.o)localAtomicReferenceArray.get(paramInt & localAtomicReferenceArray.length() - 1);
+    }
+    
+    @a("Segment.this")
+    public q.o<K, V> a(q.o<K, V> paramO1, q.o<K, V> paramO2)
+    {
+      if (paramO1.getKey() == null) {
+        return null;
+      }
+      q.y localY = paramO1.a();
+      Object localObject = localY.get();
+      if ((localObject == null) && (localY.c())) {
+        return null;
+      }
+      paramO1 = a.z.a(this, paramO1, paramO2);
+      paramO1.a(localY.a(i, localObject, paramO1));
+      return paramO1;
+    }
+    
+    @h
+    @a("Segment.this")
+    public q.o<K, V> a(q.o<K, V> paramO1, q.o<K, V> paramO2, @h K paramK, int paramInt, q.y<K, V> paramY, O paramO)
+    {
+      a(paramK, paramInt, paramY, paramO);
+      l.remove(paramO2);
+      m.remove(paramO2);
+      if (paramY.e())
+      {
+        paramY.a(null);
+        return paramO1;
+      }
+      return b(paramO1, paramO2);
+    }
+    
+    @h
+    public q.o<K, V> a(Object paramObject, int paramInt, long paramLong)
+    {
+      paramObject = c(paramObject, paramInt);
+      if (paramObject == null) {
+        return null;
+      }
+      if (a.b(paramObject, paramLong))
+      {
+        d(paramLong);
+        return null;
+      }
+      return paramObject;
+    }
+    
+    @a("Segment.this")
+    public q.o<K, V> a(K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      return a.z.a(this, paramK, paramInt, paramO);
+    }
+    
+    public oa<V> a(K paramK, int paramInt, q.j<K, V> paramJ, j<? super K, V> paramJ1)
+    {
+      paramJ1 = paramJ.a(paramK, paramJ1);
+      paramJ1.a(new C(this, paramK, paramInt, paramJ, paramJ1), q.g);
+      return paramJ1;
+    }
+    
+    public V a(q.o<K, V> paramO, long paramLong)
+    {
+      if (paramO.getKey() == null)
+      {
+        p();
+        return null;
+      }
+      Object localObject = paramO.a().get();
+      if (localObject == null)
+      {
+        p();
+        return null;
+      }
+      if (a.b(paramO, paramLong))
+      {
+        d(paramLong);
+        return null;
+      }
+      return localObject;
+    }
+    
+    public V a(q.o<K, V> paramO, K paramK, int paramInt, V paramV, long paramLong, j<? super K, V> paramJ)
+    {
+      if ((a.o()) && (paramLong - paramO.h() > a.v))
+      {
+        paramO = c(paramK, paramInt, paramJ);
+        if (paramO != null) {
+          return paramO;
+        }
+      }
+      return paramV;
+    }
+    
+    public V a(q.o<K, V> paramO, K paramK, q.y<K, V> paramY)
+      throws ExecutionException
+    {
+      if (paramY.e())
+      {
+        ba.b(Thread.holdsLock(paramO) ^ true, "Recursive load");
+        try
+        {
+          paramY = paramY.b();
+          if (paramY != null)
+          {
+            c(paramO, a.y.a());
+            return paramY;
+          }
+          paramO = new StringBuilder();
+          paramO.append("CacheLoader returned null for key ");
+          paramO.append(paramK);
+          paramO.append(".");
+          throw new j.b(paramO.toString());
+        }
+        finally
+        {
+          n.b(1);
+        }
+      }
+      throw new AssertionError();
+    }
+    
+    /* Error */
+    public V a(K paramK, int paramInt, j<? super K, V> paramJ)
+      throws ExecutionException
+    {
+      // Byte code:
+      //   0: aload_0
+      //   1: getfield 284	f/g/c/c/q$p:b	I
+      //   4: ifeq +116 -> 120
+      //   7: aload_0
+      //   8: aload_1
+      //   9: iload_2
+      //   10: invokevirtual 174	f/g/c/c/q$p:c	(Ljava/lang/Object;I)Lf/g/c/c/q$o;
+      //   13: astore 6
+      //   15: aload 6
+      //   17: ifnull +103 -> 120
+      //   20: aload_0
+      //   21: getfield 52	f/g/c/c/q$p:a	Lf/g/c/c/q;
+      //   24: getfield 242	f/g/c/c/q:y	Lf/g/c/b/Ca;
+      //   27: invokevirtual 246	f/g/c/b/Ca:a	()J
+      //   30: lstore 4
+      //   32: aload_0
+      //   33: aload 6
+      //   35: lload 4
+      //   37: invokevirtual 286	f/g/c/c/q$p:a	(Lf/g/c/c/q$o;J)Ljava/lang/Object;
+      //   40: astore 7
+      //   42: aload 7
+      //   44: ifnull +41 -> 85
+      //   47: aload_0
+      //   48: aload 6
+      //   50: lload 4
+      //   52: invokevirtual 249	f/g/c/c/q$p:c	(Lf/g/c/c/q$o;J)V
+      //   55: aload_0
+      //   56: getfield 56	f/g/c/c/q$p:n	Lf/g/c/c/a$b;
+      //   59: iconst_1
+      //   60: invokeinterface 288 2 0
+      //   65: aload_0
+      //   66: aload 6
+      //   68: aload_1
+      //   69: iload_2
+      //   70: aload 7
+      //   72: lload 4
+      //   74: aload_3
+      //   75: invokevirtual 290	f/g/c/c/q$p:a	(Lf/g/c/c/q$o;Ljava/lang/Object;ILjava/lang/Object;JLf/g/c/c/j;)Ljava/lang/Object;
+      //   78: astore_1
+      //   79: aload_0
+      //   80: invokevirtual 292	f/g/c/c/q$p:m	()V
+      //   83: aload_1
+      //   84: areturn
+      //   85: aload 6
+      //   87: invokeinterface 126 1 0
+      //   92: astore 7
+      //   94: aload 7
+      //   96: invokeinterface 162 1 0
+      //   101: ifeq +19 -> 120
+      //   104: aload_0
+      //   105: aload 6
+      //   107: aload_1
+      //   108: aload 7
+      //   110: invokevirtual 294	f/g/c/c/q$p:a	(Lf/g/c/c/q$o;Ljava/lang/Object;Lf/g/c/c/q$y;)Ljava/lang/Object;
+      //   113: astore_1
+      //   114: aload_0
+      //   115: invokevirtual 292	f/g/c/c/q$p:m	()V
+      //   118: aload_1
+      //   119: areturn
+      //   120: aload_0
+      //   121: aload_1
+      //   122: iload_2
+      //   123: aload_3
+      //   124: invokevirtual 296	f/g/c/c/q$p:b	(Ljava/lang/Object;ILf/g/c/c/j;)Ljava/lang/Object;
+      //   127: astore_1
+      //   128: aload_0
+      //   129: invokevirtual 292	f/g/c/c/q$p:m	()V
+      //   132: aload_1
+      //   133: areturn
+      //   134: astore_1
+      //   135: goto +46 -> 181
+      //   138: astore_1
+      //   139: aload_1
+      //   140: invokevirtual 300	java/util/concurrent/ExecutionException:getCause	()Ljava/lang/Throwable;
+      //   143: astore_3
+      //   144: aload_3
+      //   145: instanceof 302
+      //   148: ifne +21 -> 169
+      //   151: aload_3
+      //   152: instanceof 304
+      //   155: ifeq +12 -> 167
+      //   158: new 306	f/g/c/l/a/Oa
+      //   161: dup
+      //   162: aload_3
+      //   163: invokespecial 309	f/g/c/l/a/Oa:<init>	(Ljava/lang/Throwable;)V
+      //   166: athrow
+      //   167: aload_1
+      //   168: athrow
+      //   169: new 311	f/g/c/l/a/P
+      //   172: dup
+      //   173: aload_3
+      //   174: checkcast 302	java/lang/Error
+      //   177: invokespecial 314	f/g/c/l/a/P:<init>	(Ljava/lang/Error;)V
+      //   180: athrow
+      //   181: aload_0
+      //   182: invokevirtual 292	f/g/c/c/q$p:m	()V
+      //   185: aload_1
+      //   186: athrow
+      // Local variable table:
+      //   start	length	slot	name	signature
+      //   0	187	0	this	p
+      //   0	187	1	paramK	K
+      //   0	187	2	paramInt	int
+      //   0	187	3	paramJ	j<? super K, V>
+      //   30	43	4	l1	long
+      //   13	93	6	localO	q.o
+      //   40	69	7	localObject	Object
+      // Exception table:
+      //   from	to	target	type
+      //   0	15	134	finally
+      //   20	42	134	finally
+      //   47	79	134	finally
+      //   85	114	134	finally
+      //   120	128	134	finally
+      //   139	167	134	finally
+      //   167	169	134	finally
+      //   169	181	134	finally
+      //   0	15	138	java/util/concurrent/ExecutionException
+      //   20	42	138	java/util/concurrent/ExecutionException
+      //   47	79	138	java/util/concurrent/ExecutionException
+      //   85	114	138	java/util/concurrent/ExecutionException
+      //   120	128	138	java/util/concurrent/ExecutionException
+    }
+    
+    public V a(K paramK, int paramInt, q.j<K, V> paramJ, oa<V> paramOa)
+      throws ExecutionException
+    {
+      Object localObject;
+      try
+      {
+        localObject = Qa.a(paramOa);
+        if (localObject == null) {}
+      }
+      finally {}
+      try
+      {
+        n.b(paramJ.f());
+        a(paramK, paramInt, paramJ, localObject);
+        return localObject;
+      }
+      finally
+      {
+        for (;;) {}
+      }
+      paramOa = new StringBuilder();
+      paramOa.append("CacheLoader returned null for key ");
+      paramOa.append(paramK);
+      paramOa.append(".");
+      throw new j.b(paramOa.toString());
+      if (localObject == null)
+      {
+        n.a(paramJ.f());
+        a(paramK, paramInt, paramJ);
+      }
+      throw paramOa;
+    }
+    
+    @h
+    public V a(K paramK, int paramInt, V paramV, boolean paramBoolean)
+    {
+      lock();
+      try
+      {
+        long l1 = a.y.a();
+        b(l1);
+        if (b + 1 > e)
+        {
+          k();
+          i1 = b;
+        }
+        Object localObject3 = f;
+        int i1 = paramInt & ((AtomicReferenceArray)localObject3).length() - 1;
+        Object localObject2 = (q.o)((AtomicReferenceArray)localObject3).get(i1);
+        Object localObject1 = localObject2;
+        if (localObject1 != null)
+        {
+          Object localObject4 = ((q.o)localObject1).getKey();
+          if ((((q.o)localObject1).b() == paramInt) && (localObject4 != null) && (a.n.b(paramK, localObject4)))
+          {
+            localObject2 = ((q.o)localObject1).a();
+            localObject3 = ((q.y)localObject2).get();
+            if (localObject3 == null)
+            {
+              d += 1;
+              if (((q.y)localObject2).c())
+              {
+                a(paramK, paramInt, (q.y)localObject2, O.c);
+                a((q.o)localObject1, paramK, paramV, l1);
+                paramInt = b;
+              }
+              else
+              {
+                a((q.o)localObject1, paramK, paramV, l1);
+                paramInt = b + 1;
+              }
+              b = paramInt;
+              j();
+            }
+          }
+        }
+        for (;;)
+        {
+          unlock();
+          n();
+          return null;
+          if (paramBoolean) {
+            b((q.o)localObject1, l1);
+          }
+          for (;;)
+          {
+            unlock();
+            n();
+            return localObject3;
+            d += 1;
+            a(paramK, paramInt, (q.y)localObject2, O.b);
+            a((q.o)localObject1, paramK, paramV, l1);
+            j();
+          }
+          localObject1 = ((q.o)localObject1).c();
+          break;
+          d += 1;
+          localObject1 = a(paramK, paramInt, (q.o)localObject2);
+          a((q.o)localObject1, paramK, paramV, l1);
+          ((AtomicReferenceArray)localObject3).set(i1, localObject1);
+          b += 1;
+          j();
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        n();
+      }
+      for (;;) {}
+    }
+    
+    public void a()
+    {
+      c(a.y.a());
+      o();
+    }
+    
+    @a("Segment.this")
+    public void a(long paramLong)
+    {
+      g();
+      q.o localO;
+      do
+      {
+        localO = (q.o)l.peek();
+        if ((localO == null) || (!a.b(localO, paramLong))) {
+          break;
+        }
+      } while (a(localO, localO.b(), O.d));
+      throw new AssertionError();
+      do
+      {
+        localO = (q.o)m.peek();
+        if ((localO == null) || (!a.b(localO, paramLong))) {
+          break;
+        }
+      } while (a(localO, localO.b(), O.d));
+      throw new AssertionError();
+    }
+    
+    @a("Segment.this")
+    public void a(q.o<K, V> paramO)
+    {
+      a(paramO, O.c);
+      l.remove(paramO);
+      m.remove(paramO);
+    }
+    
+    @a("Segment.this")
+    public void a(q.o<K, V> paramO, int paramInt, long paramLong)
+    {
+      g();
+      c += paramInt;
+      if (a.l()) {
+        paramO.a(paramLong);
+      }
+      if (a.n()) {
+        paramO.b(paramLong);
+      }
+      m.add(paramO);
+      l.add(paramO);
+    }
+    
+    @a("Segment.this")
+    public void a(q.o<K, V> paramO, O paramO1)
+    {
+      a(paramO.getKey(), paramO.b(), paramO.a(), paramO1);
+    }
+    
+    @a("Segment.this")
+    public void a(q.o<K, V> paramO, K paramK, V paramV, long paramLong)
+    {
+      q.y localY = paramO.a();
+      int i1 = a.s.a(paramK, paramV);
+      boolean bool;
+      if (i1 >= 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool, "Weights must be non-negative");
+      paramO.a(a.q.a(this, paramO, paramV, i1));
+      a(paramO, i1, paramLong);
+      localY.a(paramV);
+    }
+    
+    @a("Segment.this")
+    public void a(@h K paramK, int paramInt, q.y<K, V> paramY, O paramO)
+    {
+      c -= paramY.d();
+      if (paramO.a()) {
+        n.a();
+      }
+      if (a.w != q.i)
+      {
+        paramK = new U(paramK, paramY.get(), paramO);
+        a.w.offer(paramK);
+      }
+    }
+    
+    public void a(AtomicReferenceArray<q.o<K, V>> paramAtomicReferenceArray)
+    {
+      e = (paramAtomicReferenceArray.length() * 3 / 4);
+      if (!a.b())
+      {
+        int i1 = e;
+        if (i1 == g) {
+          e = (i1 + 1);
+        }
+      }
+      f = paramAtomicReferenceArray;
+    }
+    
+    public boolean a(q.o<K, V> paramO, int paramInt)
+    {
+      lock();
+      try
+      {
+        int i1 = b;
+        AtomicReferenceArray localAtomicReferenceArray = f;
+        i1 = localAtomicReferenceArray.length() - 1 & paramInt;
+        q.o localO2 = (q.o)localAtomicReferenceArray.get(i1);
+        for (q.o localO1 = localO2; localO1 != null; localO1 = localO1.c()) {
+          if (localO1 == paramO)
+          {
+            d += 1;
+            paramO = a(localO2, localO1, localO1.getKey(), paramInt, localO1.a(), O.c);
+            paramInt = b;
+            localAtomicReferenceArray.set(i1, paramO);
+            b = (paramInt - 1);
+            unlock();
+            n();
+            return true;
+          }
+        }
+        unlock();
+        n();
+        return false;
+      }
+      finally
+      {
+        unlock();
+        n();
+      }
+      for (;;)
+      {
+        throw paramO;
+      }
+    }
+    
+    @a("Segment.this")
+    public boolean a(q.o<K, V> paramO, int paramInt, O paramO1)
+    {
+      int i1 = b;
+      AtomicReferenceArray localAtomicReferenceArray = f;
+      i1 = localAtomicReferenceArray.length() - 1 & paramInt;
+      q.o localO2 = (q.o)localAtomicReferenceArray.get(i1);
+      for (q.o localO1 = localO2; localO1 != null; localO1 = localO1.c()) {
+        if (localO1 == paramO)
+        {
+          d += 1;
+          paramO = a(localO2, localO1, localO1.getKey(), paramInt, localO1.a(), paramO1);
+          paramInt = b;
+          localAtomicReferenceArray.set(i1, paramO);
+          b = (paramInt - 1);
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    @d
+    public boolean a(Object paramObject)
+    {
+      try
+      {
+        if (b != 0)
+        {
+          long l1 = a.y.a();
+          AtomicReferenceArray localAtomicReferenceArray = f;
+          int i2 = localAtomicReferenceArray.length();
+          int i1 = 0;
+          while (i1 < i2)
+          {
+            for (q.o localO = (q.o)localAtomicReferenceArray.get(i1); localO != null; localO = localO.c())
+            {
+              Object localObject = a(localO, l1);
+              if (localObject != null)
+              {
+                boolean bool = a.o.b(paramObject, localObject);
+                if (bool)
+                {
+                  m();
+                  return true;
+                }
+              }
+            }
+            i1 += 1;
+          }
+        }
+        m();
+        return false;
+      }
+      finally
+      {
+        m();
+      }
+      for (;;)
+      {
+        throw paramObject;
+      }
+    }
+    
+    public boolean a(Object paramObject, int paramInt)
+    {
+      try
+      {
+        int i1 = b;
+        boolean bool = false;
+        if (i1 != 0)
+        {
+          paramObject = a(paramObject, paramInt, a.y.a());
+          if (paramObject == null) {
+            return false;
+          }
+          paramObject = paramObject.a().get();
+          if (paramObject != null) {
+            bool = true;
+          }
+          return bool;
+        }
+        return false;
+      }
+      finally
+      {
+        m();
+      }
+    }
+    
+    public boolean a(K paramK, int paramInt, q.j<K, V> paramJ)
+    {
+      lock();
+      try
+      {
+        AtomicReferenceArray localAtomicReferenceArray = f;
+        int i1 = localAtomicReferenceArray.length() - 1 & paramInt;
+        q.o localO2 = (q.o)localAtomicReferenceArray.get(i1);
+        for (q.o localO1 = localO2;; localO1 = localO1.c())
+        {
+          if (localO1 != null)
+          {
+            Object localObject = localO1.getKey();
+            if ((localO1.b() != paramInt) || (localObject == null) || (!a.n.b(paramK, localObject))) {
+              continue;
+            }
+            if (localO1.a() == paramJ)
+            {
+              if (paramJ.c()) {
+                localO1.a(paramJ.g());
+              } else {
+                localAtomicReferenceArray.set(i1, b(localO2, localO1));
+              }
+              unlock();
+              n();
+              return true;
+            }
+          }
+          unlock();
+          n();
+          return false;
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        n();
+      }
+      for (;;) {}
+    }
+    
+    public boolean a(K paramK, int paramInt, q.j<K, V> paramJ, V paramV)
+    {
+      lock();
+      try
+      {
+        long l1 = a.y.a();
+        b(l1);
+        int i2 = b + 1;
+        int i1 = i2;
+        if (i2 > e)
+        {
+          k();
+          i1 = b + 1;
+        }
+        Object localObject3 = f;
+        i2 = paramInt & ((AtomicReferenceArray)localObject3).length() - 1;
+        Object localObject2 = (q.o)((AtomicReferenceArray)localObject3).get(i2);
+        Object localObject1 = localObject2;
+        if (localObject1 != null)
+        {
+          Object localObject4 = ((q.o)localObject1).getKey();
+          if ((((q.o)localObject1).b() == paramInt) && (localObject4 != null) && (a.n.b(paramK, localObject4)))
+          {
+            localObject2 = ((q.o)localObject1).a();
+            localObject3 = ((q.y)localObject2).get();
+            if ((paramJ != localObject2) && ((localObject3 != null) || (localObject2 == q.h)))
+            {
+              a(paramK, paramInt, new q.G(paramV, 0), O.b);
+              unlock();
+              n();
+              return false;
+            }
+            d += 1;
+            i2 = i1;
+            if (paramJ.c())
+            {
+              if (localObject3 == null) {
+                localObject2 = O.c;
+              } else {
+                localObject2 = O.b;
+              }
+              a(paramK, paramInt, paramJ, (O)localObject2);
+              i2 = i1 - 1;
+            }
+            a((q.o)localObject1, paramK, paramV, l1);
+            b = i2;
+            j();
+          }
+        }
+        for (;;)
+        {
+          unlock();
+          n();
+          return true;
+          localObject1 = ((q.o)localObject1).c();
+          break;
+          d += 1;
+          paramJ = a(paramK, paramInt, (q.o)localObject2);
+          a(paramJ, paramK, paramV, l1);
+          ((AtomicReferenceArray)localObject3).set(i2, paramJ);
+          b = i1;
+          j();
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        n();
+      }
+      for (;;) {}
+    }
+    
+    public boolean a(K paramK, int paramInt, q.y<K, V> paramY)
+    {
+      lock();
+      try
+      {
+        int i1 = b;
+        AtomicReferenceArray localAtomicReferenceArray = f;
+        i1 = localAtomicReferenceArray.length() - 1 & paramInt;
+        q.o localO2 = (q.o)localAtomicReferenceArray.get(i1);
+        for (q.o localO1 = localO2; localO1 != null; localO1 = localO1.c())
+        {
+          Object localObject = localO1.getKey();
+          if ((localO1.b() == paramInt) && (localObject != null) && (a.n.b(paramK, localObject)))
+          {
+            if (localO1.a() == paramY)
+            {
+              d += 1;
+              paramK = a(localO2, localO1, localObject, paramInt, paramY, O.c);
+              paramInt = b;
+              localAtomicReferenceArray.set(i1, paramK);
+              b = (paramInt - 1);
+              unlock();
+              if (!isHeldByCurrentThread()) {
+                n();
+              }
+              return true;
+            }
+            unlock();
+            if (!isHeldByCurrentThread()) {
+              n();
+            }
+            return false;
+          }
+        }
+        unlock();
+        if (!isHeldByCurrentThread()) {
+          n();
+        }
+        return false;
+      }
+      finally
+      {
+        unlock();
+        if (!isHeldByCurrentThread()) {
+          n();
+        }
+      }
+      for (;;)
+      {
+        throw paramK;
+      }
+    }
+    
+    public boolean a(Object paramObject1, int paramInt, Object paramObject2)
+    {
+      lock();
+      try
+      {
+        b(a.y.a());
+        int i1 = b;
+        AtomicReferenceArray localAtomicReferenceArray = f;
+        i1 = localAtomicReferenceArray.length();
+        boolean bool = true;
+        i1 = i1 - 1 & paramInt;
+        q.o localO2 = (q.o)localAtomicReferenceArray.get(i1);
+        for (q.o localO1 = localO2;; localO1 = localO1.c())
+        {
+          if (localO1 != null)
+          {
+            Object localObject = localO1.getKey();
+            if ((localO1.b() != paramInt) || (localObject == null) || (!a.n.b(paramObject1, localObject))) {
+              continue;
+            }
+            q.y localY = localO1.a();
+            paramObject1 = localY.get();
+            if (a.o.b(paramObject2, paramObject1))
+            {
+              paramObject1 = O.a;
+            }
+            else
+            {
+              if ((paramObject1 != null) || (!localY.c())) {
+                break label238;
+              }
+              paramObject1 = O.c;
+            }
+            d += 1;
+            paramObject2 = a(localO2, localO1, localObject, paramInt, localY, paramObject1);
+            paramInt = b;
+            localAtomicReferenceArray.set(i1, paramObject2);
+            b = (paramInt - 1);
+            paramObject2 = O.a;
+            if (paramObject1 != paramObject2) {
+              bool = false;
+            }
+            unlock();
+            n();
+            return bool;
+          }
+          label238:
+          unlock();
+          n();
+          return false;
+        }
+        throw paramObject1;
+      }
+      finally
+      {
+        unlock();
+        n();
+      }
+      for (;;) {}
+    }
+    
+    public boolean a(K paramK, int paramInt, V paramV1, V paramV2)
+    {
+      lock();
+      try
+      {
+        long l1 = a.y.a();
+        b(l1);
+        AtomicReferenceArray localAtomicReferenceArray = f;
+        int i1 = paramInt & localAtomicReferenceArray.length() - 1;
+        q.o localO2 = (q.o)localAtomicReferenceArray.get(i1);
+        for (q.o localO1 = localO2;; localO1 = localO1.c())
+        {
+          q.y localY;
+          Object localObject2;
+          if (localO1 != null)
+          {
+            Object localObject1 = localO1.getKey();
+            if ((localO1.b() != paramInt) || (localObject1 == null) || (!a.n.b(paramK, localObject1))) {
+              continue;
+            }
+            localY = localO1.a();
+            localObject2 = localY.get();
+            if (localObject2 != null) {
+              break label197;
+            }
+            if (localY.c())
+            {
+              int i2 = b;
+              d += 1;
+              paramK = a(localO2, localO1, localObject1, paramInt, localY, O.c);
+              paramInt = b;
+              localAtomicReferenceArray.set(i1, paramK);
+              b = (paramInt - 1);
+            }
+          }
+          for (;;)
+          {
+            unlock();
+            n();
+            return false;
+            label197:
+            if (a.o.b(paramV1, localObject2))
+            {
+              d += 1;
+              a(paramK, paramInt, localY, O.b);
+              a(localO1, paramK, paramV2, l1);
+              j();
+              unlock();
+              n();
+              return true;
+            }
+            b(localO1, l1);
+          }
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        n();
+      }
+      for (;;) {}
+    }
+    
+    @h
+    @a("Segment.this")
+    public q.o<K, V> b(q.o<K, V> paramO1, q.o<K, V> paramO2)
+    {
+      int i1 = b;
+      Object localObject = paramO2.c();
+      while (paramO1 != paramO2)
+      {
+        q.o localO = a(paramO1, (q.o)localObject);
+        if (localO != null)
+        {
+          localObject = localO;
+        }
+        else
+        {
+          a(paramO1);
+          i1 -= 1;
+        }
+        paramO1 = paramO1.c();
+      }
+      b = i1;
+      return localObject;
+    }
+    
+    @h
+    public V b(Object paramObject, int paramInt)
+    {
+      try
+      {
+        if (b != 0)
+        {
+          long l1 = a.y.a();
+          paramObject = a(paramObject, paramInt, l1);
+          if (paramObject == null) {
+            return null;
+          }
+          Object localObject = paramObject.a().get();
+          if (localObject != null)
+          {
+            c(paramObject, l1);
+            paramObject = a(paramObject, paramObject.getKey(), paramInt, localObject, l1, a.B);
+            return paramObject;
+          }
+          p();
+        }
+        return null;
+      }
+      finally
+      {
+        m();
+      }
+    }
+    
+    public V b(K paramK, int paramInt, j<? super K, V> paramJ)
+      throws ExecutionException
+    {
+      lock();
+      try
+      {
+        long l1 = a.y.a();
+        b(l1);
+        i1 = b;
+        localAtomicReferenceArray = f;
+        i2 = localAtomicReferenceArray.length() - 1 & paramInt;
+        localO2 = (q.o)localAtomicReferenceArray.get(i2);
+        for (localO1 = localO2;; localO1 = localO1.c())
+        {
+          localJ = null;
+          if (localO1 == null) {
+            break label427;
+          }
+          localObject2 = localO1.getKey();
+          if ((localO1.b() == paramInt) && (localObject2 != null) && (a.n.b(paramK, localObject2)))
+          {
+            localObject1 = localO1.a();
+            if (((q.y)localObject1).e())
+            {
+              i1 = 0;
+              localObject2 = localObject1;
+              break;
+            }
+            Object localObject3 = ((q.y)localObject1).get();
+            if (localObject3 == null)
+            {
+              a(localObject2, paramInt, (q.y)localObject1, O.c);
+            }
+            else
+            {
+              if (!a.b(localO1, l1)) {
+                break label229;
+              }
+              a(localObject2, paramInt, (q.y)localObject1, O.d);
+            }
+            l.remove(localO1);
+            m.remove(localO1);
+            b = (i1 - 1);
+            break label430;
+            label229:
+            b(localO1, l1);
+            n.a(1);
+            unlock();
+            n();
+            return localObject3;
+          }
+        }
+      }
+      finally
+      {
+        for (;;)
+        {
+          AtomicReferenceArray localAtomicReferenceArray;
+          int i2;
+          q.o localO2;
+          q.o localO1;
+          q.j localJ;
+          unlock();
+          n();
+          for (;;)
+          {
+            throw paramK;
+          }
+          Object localObject1 = null;
+          int i1 = 1;
+          Object localObject2 = localObject1;
+        }
+      }
+      localObject1 = localO1;
+      if (i1 != 0)
+      {
+        localJ = new q.j(q.h);
+        if (localO1 == null)
+        {
+          localObject1 = a(paramK, paramInt, localO2);
+          ((q.o)localObject1).a(localJ);
+          localAtomicReferenceArray.set(i2, localObject1);
+        }
+        else
+        {
+          localO1.a(localJ);
+          localObject1 = localO1;
+        }
+      }
+      unlock();
+      n();
+      if (i1 != 0) {
+        try
+        {
+          try
+          {
+            paramK = b(paramK, paramInt, localJ, paramJ);
+            return paramK;
+          }
+          finally {}
+          return a((q.o)localObject1, paramK, localObject2);
+        }
+        finally
+        {
+          n.b(1);
+        }
+      }
+    }
+    
+    public V b(K paramK, int paramInt, q.j<K, V> paramJ, j<? super K, V> paramJ1)
+      throws ExecutionException
+    {
+      return a(paramK, paramInt, paramJ, paramJ.a(paramK, paramJ1));
+    }
+    
+    @h
+    public V b(K paramK, int paramInt, V paramV)
+    {
+      lock();
+      try
+      {
+        long l1 = a.y.a();
+        b(l1);
+        AtomicReferenceArray localAtomicReferenceArray = f;
+        int i1 = paramInt & localAtomicReferenceArray.length() - 1;
+        q.o localO2 = (q.o)localAtomicReferenceArray.get(i1);
+        for (q.o localO1 = localO2;; localO1 = localO1.c())
+        {
+          q.y localY;
+          Object localObject2;
+          if (localO1 != null)
+          {
+            Object localObject1 = localO1.getKey();
+            if ((localO1.b() != paramInt) || (localObject1 == null) || (!a.n.b(paramK, localObject1))) {
+              continue;
+            }
+            localY = localO1.a();
+            localObject2 = localY.get();
+            if (localObject2 != null) {
+              break label197;
+            }
+            if (localY.c())
+            {
+              int i2 = b;
+              d += 1;
+              paramK = a(localO2, localO1, localObject1, paramInt, localY, O.c);
+              paramInt = b;
+              localAtomicReferenceArray.set(i1, paramK);
+              b = (paramInt - 1);
+            }
+          }
+          unlock();
+          n();
+          return null;
+          label197:
+          d += 1;
+          a(paramK, paramInt, localY, O.b);
+          a(localO1, paramK, paramV, l1);
+          j();
+          unlock();
+          n();
+          return localObject2;
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        n();
+      }
+      for (;;) {}
+    }
+    
+    public AtomicReferenceArray<q.o<K, V>> b(int paramInt)
+    {
+      return new AtomicReferenceArray(paramInt);
+    }
+    
+    public void b()
+    {
+      if (b != 0) {
+        lock();
+      }
+      for (;;)
+      {
+        try
+        {
+          AtomicReferenceArray localAtomicReferenceArray = f;
+          i1 = 0;
+          if (i1 >= localAtomicReferenceArray.length()) {
+            break label165;
+          }
+          q.o localO = (q.o)localAtomicReferenceArray.get(i1);
+          if (localO == null) {
+            break label158;
+          }
+          if (localO.a().c()) {
+            a(localO, O.a);
+          }
+          localO = localO.c();
+          continue;
+          if (i1 < localAtomicReferenceArray.length())
+          {
+            localAtomicReferenceArray.set(i1, null);
+            i1 += 1;
+            continue;
+          }
+          d();
+          l.clear();
+          m.clear();
+          k.set(0);
+          d += 1;
+          b = 0;
+          return;
+        }
+        finally
+        {
+          unlock();
+          n();
+        }
+        return;
+        label158:
+        i1 += 1;
+        continue;
+        label165:
+        int i1 = 0;
+      }
+    }
+    
+    @a("Segment.this")
+    public void b(long paramLong)
+    {
+      c(paramLong);
+    }
+    
+    @a("Segment.this")
+    public void b(q.o<K, V> paramO, long paramLong)
+    {
+      if (a.l()) {
+        paramO.a(paramLong);
+      }
+      m.add(paramO);
+    }
+    
+    @h
+    public q.o<K, V> c(Object paramObject, int paramInt)
+    {
+      for (q.o localO = a(paramInt); localO != null; localO = localO.c()) {
+        if (localO.b() == paramInt)
+        {
+          Object localObject = localO.getKey();
+          if (localObject == null) {
+            p();
+          } else if (a.n.b(paramObject, localObject)) {
+            return localO;
+          }
+        }
+      }
+      return null;
+    }
+    
+    @h
+    public V c(K paramK, int paramInt, j<? super K, V> paramJ)
+    {
+      q.j localJ = d(paramK, paramInt);
+      if (localJ == null) {
+        return null;
+      }
+      paramK = a(paramK, paramInt, localJ, paramJ);
+      if (paramK.isDone()) {}
+      try
+      {
+        paramK = Qa.a(paramK);
+        return paramK;
+      }
+      catch (Throwable paramK) {}
+      return null;
+      return null;
+    }
+    
+    public void c()
+    {
+      while (h.poll() != null) {}
+    }
+    
+    public void c(long paramLong)
+    {
+      if (tryLock()) {
+        try
+        {
+          h();
+          a(paramLong);
+          k.set(0);
+          return;
+        }
+        finally
+        {
+          unlock();
+        }
+      }
+    }
+    
+    public void c(q.o<K, V> paramO, long paramLong)
+    {
+      if (a.l()) {
+        paramO.a(paramLong);
+      }
+      j.add(paramO);
+    }
+    
+    @h
+    public q.j<K, V> d(K paramK, int paramInt)
+    {
+      lock();
+      try
+      {
+        b(a.y.a());
+        AtomicReferenceArray localAtomicReferenceArray = f;
+        int i1 = localAtomicReferenceArray.length() - 1 & paramInt;
+        q.o localO = (q.o)localAtomicReferenceArray.get(i1);
+        for (Object localObject1 = localO; localObject1 != null; localObject1 = ((q.o)localObject1).c())
+        {
+          Object localObject2 = ((q.o)localObject1).getKey();
+          if ((((q.o)localObject1).b() == paramInt) && (localObject2 != null) && (a.n.b(paramK, localObject2)))
+          {
+            paramK = ((q.o)localObject1).a();
+            boolean bool = paramK.e();
+            if (bool)
+            {
+              unlock();
+              n();
+              return null;
+            }
+            d += 1;
+            paramK = new q.j(paramK);
+            ((q.o)localObject1).a(paramK);
+            unlock();
+            n();
+            return paramK;
+          }
+        }
+        d += 1;
+        localObject1 = new q.j(q.h);
+        paramK = a(paramK, paramInt, localO);
+        paramK.a((q.y)localObject1);
+        localAtomicReferenceArray.set(i1, paramK);
+        unlock();
+        n();
+        return localObject1;
+      }
+      finally
+      {
+        unlock();
+        n();
+      }
+      for (;;)
+      {
+        throw paramK;
+      }
+    }
+    
+    public void d()
+    {
+      if (a.s()) {
+        c();
+      }
+      if (a.t()) {
+        e();
+      }
+    }
+    
+    public void d(long paramLong)
+    {
+      if (tryLock()) {
+        try
+        {
+          a(paramLong);
+          return;
+        }
+        finally
+        {
+          unlock();
+        }
+      }
+    }
+    
+    @h
+    public V e(Object paramObject, int paramInt)
+    {
+      lock();
+      for (;;)
+      {
+        try
+        {
+          b(a.y.a());
+          i1 = b;
+          localAtomicReferenceArray = f;
+          i1 = localAtomicReferenceArray.length() - 1 & paramInt;
+          localO2 = (q.o)localAtomicReferenceArray.get(i1);
+          localO1 = localO2;
+          if (localO1 == null) {
+            continue;
+          }
+          localObject1 = localO1.getKey();
+          if ((localO1.b() != paramInt) || (localObject1 == null) || (!a.n.b(paramObject, localObject1))) {
+            continue;
+          }
+          localY = localO1.a();
+          localObject2 = localY.get();
+          if (localObject2 != null) {
+            paramObject = O.a;
+          } else if (localY.c()) {
+            paramObject = O.c;
+          }
+        }
+        finally
+        {
+          int i1;
+          AtomicReferenceArray localAtomicReferenceArray;
+          q.o localO2;
+          q.o localO1;
+          Object localObject1;
+          q.y localY;
+          Object localObject2;
+          unlock();
+          n();
+          continue;
+          throw paramObject;
+          continue;
+          continue;
+        }
+        d += 1;
+        paramObject = a(localO2, localO1, localObject1, paramInt, localY, paramObject);
+        paramInt = b;
+        localAtomicReferenceArray.set(i1, paramObject);
+        b = (paramInt - 1);
+        unlock();
+        n();
+        return localObject2;
+        unlock();
+        n();
+        return null;
+        localO1 = localO1.c();
+      }
+    }
+    
+    public void e()
+    {
+      while (i.poll() != null) {}
+    }
+    
+    @a("Segment.this")
+    public void f()
+    {
+      int i1 = 0;
+      int i2;
+      do
+      {
+        Object localObject = h.poll();
+        if (localObject == null) {
+          break;
+        }
+        localObject = (q.o)localObject;
+        a.c((q.o)localObject);
+        i2 = i1 + 1;
+        i1 = i2;
+      } while (i2 != 16);
+    }
+    
+    @a("Segment.this")
+    public void g()
+    {
+      for (;;)
+      {
+        q.o localO = (q.o)j.poll();
+        if (localO == null) {
+          break;
+        }
+        if (m.contains(localO)) {
+          m.add(localO);
+        }
+      }
+    }
+    
+    @a("Segment.this")
+    public void h()
+    {
+      if (a.s()) {
+        f();
+      }
+      if (a.t()) {
+        i();
+      }
+    }
+    
+    @a("Segment.this")
+    public void i()
+    {
+      int i1 = 0;
+      int i2;
+      do
+      {
+        Object localObject = i.poll();
+        if (localObject == null) {
+          break;
+        }
+        localObject = (q.y)localObject;
+        a.a((q.y)localObject);
+        i2 = i1 + 1;
+        i1 = i2;
+      } while (i2 != 16);
+    }
+    
+    @a("Segment.this")
+    public void j()
+    {
+      if (!a.d()) {
+        return;
+      }
+      g();
+      while (c > g)
+      {
+        q.o localO = l();
+        if (!a(localO, localO.b(), O.e)) {
+          throw new AssertionError();
+        }
+      }
+    }
+    
+    @a("Segment.this")
+    public void k()
+    {
+      AtomicReferenceArray localAtomicReferenceArray1 = f;
+      int i6 = localAtomicReferenceArray1.length();
+      if (i6 >= 1073741824) {
+        return;
+      }
+      int i1 = b;
+      AtomicReferenceArray localAtomicReferenceArray2 = b(i6 << 1);
+      e = (localAtomicReferenceArray2.length() * 3 / 4);
+      int i7 = localAtomicReferenceArray2.length() - 1;
+      int i2 = 0;
+      while (i2 < i6)
+      {
+        q.o localO2 = (q.o)localAtomicReferenceArray1.get(i2);
+        int i3 = i1;
+        if (localO2 != null)
+        {
+          q.o localO1 = localO2.c();
+          i3 = localO2.b() & i7;
+          if (localO1 == null)
+          {
+            localAtomicReferenceArray2.set(i3, localO2);
+            i3 = i1;
+          }
+          else
+          {
+            q.o localO3 = localO2;
+            while (localO1 != null)
+            {
+              int i5 = localO1.b() & i7;
+              int i4 = i3;
+              if (i5 != i3)
+              {
+                localO3 = localO1;
+                i4 = i5;
+              }
+              localO1 = localO1.c();
+              i3 = i4;
+            }
+            localAtomicReferenceArray2.set(i3, localO3);
+            for (;;)
+            {
+              i3 = i1;
+              if (localO2 == localO3) {
+                break;
+              }
+              i3 = localO2.b() & i7;
+              localO1 = a(localO2, (q.o)localAtomicReferenceArray2.get(i3));
+              if (localO1 != null)
+              {
+                localAtomicReferenceArray2.set(i3, localO1);
+              }
+              else
+              {
+                a(localO2);
+                i1 -= 1;
+              }
+              localO2 = localO2.c();
+            }
+          }
+        }
+        i2 += 1;
+        i1 = i3;
+      }
+      f = localAtomicReferenceArray2;
+      b = i1;
+    }
+    
+    public q.o<K, V> l()
+    {
+      Object localObject = m.iterator();
+      while (((Iterator)localObject).hasNext())
+      {
+        q.o localO = (q.o)((Iterator)localObject).next();
+        if (localO.a().d() > 0) {
+          return localO;
+        }
+      }
+      localObject = new AssertionError();
+      for (;;)
+      {
+        throw ((Throwable)localObject);
+      }
+    }
+    
+    public void m()
+    {
+      if ((k.incrementAndGet() & 0x3F) == 0) {
+        a();
+      }
+    }
+    
+    public void n()
+    {
+      o();
+    }
+    
+    public void o()
+    {
+      if (!isHeldByCurrentThread()) {
+        a.k();
+      }
+    }
+    
+    public void p()
+    {
+      if (tryLock()) {
+        try
+        {
+          h();
+          return;
+        }
+        finally
+        {
+          unlock();
+        }
+      }
+    }
+  }
+  
+  public static class q<K, V>
+    extends SoftReference<V>
+    implements q.y<K, V>
+  {
+    public final q.o<K, V> a;
+    
+    public q(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO)
+    {
+      super(paramReferenceQueue);
+      a = paramO;
+    }
+    
+    public q.o<K, V> a()
+    {
+      return a;
+    }
+    
+    public q.y<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO)
+    {
+      return new q(paramReferenceQueue, paramV, paramO);
+    }
+    
+    public void a(V paramV) {}
+    
+    public V b()
+    {
+      return get();
+    }
+    
+    public boolean c()
+    {
+      return true;
+    }
+    
+    public int d()
+    {
+      return 1;
+    }
+    
+    public boolean e()
+    {
+      return false;
+    }
+  }
+  
+  public static abstract enum r
+  {
+    public r() {}
+    
+    public abstract f.g.c.b.C<Object> a();
+    
+    public abstract <K, V> q.y<K, V> a(q.p<K, V> paramP, q.o<K, V> paramO, V paramV, int paramInt);
+  }
+  
+  public static final class s<K, V>
+    extends q.u<K, V>
+    implements q.o<K, V>
+  {
+    public volatile long e = Long.MAX_VALUE;
+    @a("Segment.this")
+    public q.o<K, V> f = q.j();
+    @a("Segment.this")
+    public q.o<K, V> g = q.j();
+    
+    public s(K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      super(paramInt, paramO);
+    }
+    
+    public void a(long paramLong)
+    {
+      e = paramLong;
+    }
+    
+    public void b(q.o<K, V> paramO)
+    {
+      g = paramO;
+    }
+    
+    public q.o<K, V> d()
+    {
+      return g;
+    }
+    
+    public void d(q.o<K, V> paramO)
+    {
+      f = paramO;
+    }
+    
+    public q.o<K, V> f()
+    {
+      return f;
+    }
+    
+    public long i()
+    {
+      return e;
+    }
+  }
+  
+  public static final class t<K, V>
+    extends q.u<K, V>
+    implements q.o<K, V>
+  {
+    public volatile long e = Long.MAX_VALUE;
+    @a("Segment.this")
+    public q.o<K, V> f = q.j();
+    @a("Segment.this")
+    public q.o<K, V> g = q.j();
+    public volatile long h = Long.MAX_VALUE;
+    @a("Segment.this")
+    public q.o<K, V> i = q.j();
+    @a("Segment.this")
+    public q.o<K, V> j = q.j();
+    
+    public t(K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      super(paramInt, paramO);
+    }
+    
+    public void a(long paramLong)
+    {
+      e = paramLong;
+    }
+    
+    public void a(q.o<K, V> paramO)
+    {
+      j = paramO;
+    }
+    
+    public void b(long paramLong)
+    {
+      h = paramLong;
+    }
+    
+    public void b(q.o<K, V> paramO)
+    {
+      g = paramO;
+    }
+    
+    public void c(q.o<K, V> paramO)
+    {
+      i = paramO;
+    }
+    
+    public q.o<K, V> d()
+    {
+      return g;
+    }
+    
+    public void d(q.o<K, V> paramO)
+    {
+      f = paramO;
+    }
+    
+    public q.o<K, V> e()
+    {
+      return i;
+    }
+    
+    public q.o<K, V> f()
+    {
+      return f;
+    }
+    
+    public q.o<K, V> g()
+    {
+      return j;
+    }
+    
+    public long h()
+    {
+      return h;
+    }
+    
+    public long i()
+    {
+      return e;
+    }
+  }
+  
+  public static class u<K, V>
+    implements q.o<K, V>
+  {
+    public final K a;
+    public final int b;
+    public final q.o<K, V> c;
+    public volatile q.y<K, V> d = q.h;
+    
+    public u(K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      a = paramK;
+      b = paramInt;
+      c = paramO;
+    }
+    
+    public q.y<K, V> a()
+    {
+      return d;
+    }
+    
+    public void a(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(q.y<K, V> paramY)
+    {
+      d = paramY;
+    }
+    
+    public int b()
+    {
+      return b;
+    }
+    
+    public void b(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void b(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> c()
+    {
+      return c;
+    }
+    
+    public void c(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> d()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void d(q.o<K, V> paramO)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> e()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> f()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public q.o<K, V> g()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public K getKey()
+    {
+      return a;
+    }
+    
+    public long h()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public long i()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  public static class v<K, V>
+    implements q.y<K, V>
+  {
+    public final V a;
+    
+    public v(V paramV)
+    {
+      a = paramV;
+    }
+    
+    public q.o<K, V> a()
+    {
+      return null;
+    }
+    
+    public q.y<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, q.o<K, V> paramO)
+    {
+      return this;
+    }
+    
+    public void a(V paramV) {}
+    
+    public V b()
+    {
+      return get();
+    }
+    
+    public boolean c()
+    {
+      return true;
+    }
+    
+    public int d()
+    {
+      return 1;
+    }
+    
+    public boolean e()
+    {
+      return false;
+    }
+    
+    public V get()
+    {
+      return a;
+    }
+  }
+  
+  public static final class w<K, V>
+    extends q.u<K, V>
+    implements q.o<K, V>
+  {
+    public volatile long e = Long.MAX_VALUE;
+    @a("Segment.this")
+    public q.o<K, V> f = q.j();
+    @a("Segment.this")
+    public q.o<K, V> g = q.j();
+    
+    public w(K paramK, int paramInt, @h q.o<K, V> paramO)
+    {
+      super(paramInt, paramO);
+    }
+    
+    public void a(q.o<K, V> paramO)
+    {
+      g = paramO;
+    }
+    
+    public void b(long paramLong)
+    {
+      e = paramLong;
+    }
+    
+    public void c(q.o<K, V> paramO)
+    {
+      f = paramO;
+    }
+    
+    public q.o<K, V> e()
+    {
+      return f;
+    }
+    
+    public q.o<K, V> g()
+    {
+      return g;
+    }
+    
+    public long h()
+    {
+      return e;
+    }
+  }
+  
+  public final class x
+    extends q<K, V>.f
+    implements Iterator<V>
+  {
+    public x()
+    {
+      super();
+    }
+    
+    public V next()
+    {
+      return b().getValue();
+    }
+  }
+  
+  public static abstract interface y<K, V>
+  {
+    @h
+    public abstract q.o<K, V> a();
+    
+    public abstract y<K, V> a(ReferenceQueue<V> paramReferenceQueue, @h V paramV, q.o<K, V> paramO);
+    
+    public abstract void a(@h V paramV);
+    
+    public abstract V b()
+      throws ExecutionException;
+    
+    public abstract boolean c();
+    
+    public abstract int d();
+    
+    public abstract boolean e();
+    
+    @h
+    public abstract V get();
+  }
+  
+  public final class z
+    extends AbstractCollection<V>
+  {
+    public z() {}
+    
+    public void clear()
+    {
+      q.this.clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return containsValue(paramObject);
+    }
+    
+    public boolean isEmpty()
+    {
+      return q.this.isEmpty();
+    }
+    
+    public Iterator<V> iterator()
+    {
+      return new q.x(q.this);
+    }
+    
+    public int size()
+    {
+      return q.this.size();
+    }
+  }
+}

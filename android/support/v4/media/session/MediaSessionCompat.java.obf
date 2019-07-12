@@ -1,0 +1,3473 @@
+package android.support.v4.media.session;
+
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.RemoteControlClient;
+import android.media.RemoteControlClient.MetadataEditor;
+import android.media.session.MediaSession;
+import android.net.Uri;
+import android.os.BadParcelableException;
+import android.os.Binder;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
+import android.os.ResultReceiver;
+import android.os.SystemClock;
+import android.support.v4.app.BundleCompat;
+import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.MediaMetadataCompat.b;
+import android.support.v4.media.RatingCompat;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.KeyEvent;
+import android.view.ViewConfiguration;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.x.h.b.b;
+import b.b.x.h.b.b.a;
+import b.b.x.h.b.c;
+import b.b.x.h.b.g;
+import b.b.x.h.b.h;
+import b.b.x.h.b.i;
+import b.b.x.h.b.j;
+import b.b.x.h.b.k;
+import b.b.x.h.b.l;
+import b.b.x.h.b.m;
+import b.b.x.h.b.n;
+import b.b.x.h.b.o;
+import b.b.x.h.b.p;
+import b.b.x.h.b.p.a;
+import b.b.x.h.b.p.c;
+import b.b.x.h.b.r.a;
+import b.b.x.h.b.r.b;
+import b.b.x.h.b.s;
+import b.b.x.h.b.s.a;
+import b.b.x.h.ea.b;
+import b.b.x.h.la;
+import b.b.x.h.la.a;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class MediaSessionCompat
+{
+  @N({b.b.a.N.a.a})
+  public static final String A = "android.support.v4.media.session.action.ARGUMENT_EXTRAS";
+  @N({b.b.a.N.a.a})
+  public static final String B = "android.support.v4.media.session.action.ARGUMENT_CAPTIONING_ENABLED";
+  @N({b.b.a.N.a.a})
+  public static final String C = "android.support.v4.media.session.action.ARGUMENT_REPEAT_MODE";
+  @N({b.b.a.N.a.a})
+  public static final String D = "android.support.v4.media.session.action.ARGUMENT_SHUFFLE_MODE";
+  @N({b.b.a.N.a.b})
+  public static final String E = "android.support.v4.media.session.TOKEN";
+  @N({b.b.a.N.a.a})
+  public static final String F = "android.support.v4.media.session.EXTRA_BINDER";
+  @N({b.b.a.N.a.b})
+  public static final String G = "android.support.v4.media.session.SESSION_TOKEN2_BUNDLE";
+  public static final int H = 320;
+  public static final String I = "data_calling_pkg";
+  public static final String J = "data_calling_pid";
+  public static final String K = "data_calling_uid";
+  public static final String L = "data_extras";
+  public static int M = 0;
+  public static final String a = "MediaSessionCompat";
+  public static final int b = 1;
+  public static final int c = 2;
+  public static final int d = 4;
+  public static final String e = "android.support.v4.media.session.action.FLAG_AS_INAPPROPRIATE";
+  public static final String f = "android.support.v4.media.session.action.SKIP_AD";
+  public static final String g = "android.support.v4.media.session.action.FOLLOW";
+  public static final String h = "android.support.v4.media.session.action.UNFOLLOW";
+  public static final String i = "android.support.v4.media.session.ARGUMENT_MEDIA_ATTRIBUTE";
+  public static final String j = "android.support.v4.media.session.ARGUMENT_MEDIA_ATTRIBUTE_VALUE";
+  public static final int k = 0;
+  public static final int l = 1;
+  public static final int m = 2;
+  @N({b.b.a.N.a.a})
+  public static final String n = "android.support.v4.media.session.action.PLAY_FROM_URI";
+  @N({b.b.a.N.a.a})
+  public static final String o = "android.support.v4.media.session.action.PREPARE";
+  @N({b.b.a.N.a.a})
+  public static final String p = "android.support.v4.media.session.action.PREPARE_FROM_MEDIA_ID";
+  @N({b.b.a.N.a.a})
+  public static final String q = "android.support.v4.media.session.action.PREPARE_FROM_SEARCH";
+  @N({b.b.a.N.a.a})
+  public static final String r = "android.support.v4.media.session.action.PREPARE_FROM_URI";
+  @N({b.b.a.N.a.a})
+  public static final String s = "android.support.v4.media.session.action.SET_CAPTIONING_ENABLED";
+  @N({b.b.a.N.a.a})
+  public static final String t = "android.support.v4.media.session.action.SET_REPEAT_MODE";
+  @N({b.b.a.N.a.a})
+  public static final String u = "android.support.v4.media.session.action.SET_SHUFFLE_MODE";
+  @N({b.b.a.N.a.a})
+  public static final String v = "android.support.v4.media.session.action.SET_RATING";
+  @N({b.b.a.N.a.a})
+  public static final String w = "android.support.v4.media.session.action.ARGUMENT_MEDIA_ID";
+  @N({b.b.a.N.a.a})
+  public static final String x = "android.support.v4.media.session.action.ARGUMENT_QUERY";
+  @N({b.b.a.N.a.a})
+  public static final String y = "android.support.v4.media.session.action.ARGUMENT_URI";
+  @N({b.b.a.N.a.a})
+  public static final String z = "android.support.v4.media.session.action.ARGUMENT_RATING";
+  public final b N;
+  public final MediaControllerCompat O;
+  public final ArrayList<h> P = new ArrayList();
+  
+  public MediaSessionCompat(Context paramContext, b paramB)
+  {
+    N = paramB;
+    if ((Build.VERSION.SDK_INT >= 21) && (!p.b(paramB.f()))) {
+      a(new i(this));
+    }
+    O = new MediaControllerCompat(paramContext, this);
+  }
+  
+  public MediaSessionCompat(Context paramContext, String paramString)
+  {
+    this(paramContext, paramString, null, null);
+  }
+  
+  public MediaSessionCompat(Context paramContext, String paramString, ComponentName paramComponentName, PendingIntent paramPendingIntent)
+  {
+    this(paramContext, paramString, paramComponentName, paramPendingIntent, null);
+  }
+  
+  public MediaSessionCompat(Context paramContext, String paramString, ComponentName paramComponentName, PendingIntent paramPendingIntent, Bundle paramBundle)
+  {
+    if (paramContext != null)
+    {
+      if (!TextUtils.isEmpty(paramString))
+      {
+        ComponentName localComponentName = paramComponentName;
+        if (paramComponentName == null) {
+          localComponentName = c.a(paramContext);
+        }
+        paramComponentName = paramPendingIntent;
+        if (localComponentName != null)
+        {
+          paramComponentName = paramPendingIntent;
+          if (paramPendingIntent == null)
+          {
+            paramComponentName = new Intent("android.intent.action.MEDIA_BUTTON");
+            paramComponentName.setComponent(localComponentName);
+            paramComponentName = PendingIntent.getBroadcast(paramContext, 0, paramComponentName, 0);
+          }
+        }
+        int i1 = Build.VERSION.SDK_INT;
+        if (i1 >= 28)
+        {
+          N = new f(paramContext, paramString, paramBundle);
+          a(new g(this));
+          N.b(paramComponentName);
+        }
+        else if (i1 >= 21)
+        {
+          N = new e(paramContext, paramString, paramBundle);
+          a(new h(this));
+          N.b(paramComponentName);
+        }
+        else
+        {
+          N = new d(paramContext, paramString, localComponentName, paramComponentName);
+        }
+        O = new MediaControllerCompat(paramContext, this);
+        if (M == 0) {
+          M = (int)(TypedValue.applyDimension(1, 320.0F, paramContext.getResources().getDisplayMetrics()) + 0.5F);
+        }
+        return;
+      }
+      throw new IllegalArgumentException("tag must not be null or empty");
+    }
+    throw new IllegalArgumentException("context must not be null");
+  }
+  
+  @N({b.b.a.N.a.b})
+  public MediaSessionCompat(Context paramContext, String paramString, Bundle paramBundle)
+  {
+    this(paramContext, paramString, null, null, paramBundle);
+  }
+  
+  public static MediaSessionCompat a(Context paramContext, Object paramObject)
+  {
+    if ((paramContext != null) && (paramObject != null) && (Build.VERSION.SDK_INT >= 21)) {
+      return new MediaSessionCompat(paramContext, new e(paramObject));
+    }
+    return null;
+  }
+  
+  public static PlaybackStateCompat a(PlaybackStateCompat paramPlaybackStateCompat, MediaMetadataCompat paramMediaMetadataCompat)
+  {
+    PlaybackStateCompat localPlaybackStateCompat = paramPlaybackStateCompat;
+    if (paramPlaybackStateCompat != null)
+    {
+      long l1 = paramPlaybackStateCompat.k();
+      long l2 = -1L;
+      if (l1 == -1L) {
+        return paramPlaybackStateCompat;
+      }
+      if ((paramPlaybackStateCompat.l() != 3) && (paramPlaybackStateCompat.l() != 4))
+      {
+        localPlaybackStateCompat = paramPlaybackStateCompat;
+        if (paramPlaybackStateCompat.l() != 5) {}
+      }
+      else
+      {
+        l1 = paramPlaybackStateCompat.h();
+        localPlaybackStateCompat = paramPlaybackStateCompat;
+        if (l1 > 0L)
+        {
+          long l4 = SystemClock.elapsedRealtime();
+          long l3 = (paramPlaybackStateCompat.i() * (float)(l4 - l1)) + paramPlaybackStateCompat.k();
+          l1 = l2;
+          if (paramMediaMetadataCompat != null)
+          {
+            l1 = l2;
+            if (paramMediaMetadataCompat.a("android.media.metadata.DURATION")) {
+              l1 = paramMediaMetadataCompat.c("android.media.metadata.DURATION");
+            }
+          }
+          if ((l1 < 0L) || (l3 <= l1)) {
+            if (l3 < 0L) {
+              l1 = 0L;
+            } else {
+              l1 = l3;
+            }
+          }
+          localPlaybackStateCompat = new PlaybackStateCompat.b(paramPlaybackStateCompat).a(paramPlaybackStateCompat.l(), l1, paramPlaybackStateCompat.i(), l4).a();
+        }
+      }
+    }
+    return localPlaybackStateCompat;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a(@G Bundle paramBundle)
+  {
+    if (paramBundle != null) {
+      paramBundle.setClassLoader(MediaSessionCompat.class.getClassLoader());
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public String a()
+  {
+    return N.d();
+  }
+  
+  public void a(int paramInt)
+  {
+    N.setFlags(paramInt);
+  }
+  
+  public void a(PendingIntent paramPendingIntent)
+  {
+    N.b(paramPendingIntent);
+  }
+  
+  public void a(MediaMetadataCompat paramMediaMetadataCompat)
+  {
+    N.a(paramMediaMetadataCompat);
+  }
+  
+  public void a(a paramA)
+  {
+    a(paramA, null);
+  }
+  
+  public void a(a paramA, Handler paramHandler)
+  {
+    if (paramA == null)
+    {
+      N.a(null, null);
+      return;
+    }
+    b localB = N;
+    if (paramHandler == null) {
+      paramHandler = new Handler();
+    }
+    localB.a(paramA, paramHandler);
+  }
+  
+  public void a(h paramH)
+  {
+    if (paramH != null)
+    {
+      P.add(paramH);
+      return;
+    }
+    throw new IllegalArgumentException("Listener may not be null");
+  }
+  
+  public void a(PlaybackStateCompat paramPlaybackStateCompat)
+  {
+    N.a(paramPlaybackStateCompat);
+  }
+  
+  public void a(la paramLa)
+  {
+    if (paramLa != null)
+    {
+      N.a(paramLa);
+      return;
+    }
+    throw new IllegalArgumentException("volumeProvider may not be null!");
+  }
+  
+  public void a(CharSequence paramCharSequence)
+  {
+    N.a(paramCharSequence);
+  }
+  
+  public void a(String paramString, Bundle paramBundle)
+  {
+    if (!TextUtils.isEmpty(paramString))
+    {
+      N.a(paramString, paramBundle);
+      return;
+    }
+    throw new IllegalArgumentException("event cannot be null or empty");
+  }
+  
+  public void a(List<QueueItem> paramList)
+  {
+    N.a(paramList);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    N.b(paramBoolean);
+    Iterator localIterator = P.iterator();
+    while (localIterator.hasNext()) {
+      ((h)localIterator.next()).a();
+    }
+  }
+  
+  public MediaControllerCompat b()
+  {
+    return O;
+  }
+  
+  public void b(int paramInt)
+  {
+    N.d(paramInt);
+  }
+  
+  public void b(PendingIntent paramPendingIntent)
+  {
+    N.a(paramPendingIntent);
+  }
+  
+  public void b(Bundle paramBundle)
+  {
+    N.setExtras(paramBundle);
+  }
+  
+  public void b(h paramH)
+  {
+    if (paramH != null)
+    {
+      P.remove(paramH);
+      return;
+    }
+    throw new IllegalArgumentException("Listener may not be null");
+  }
+  
+  public void b(boolean paramBoolean)
+  {
+    N.a(paramBoolean);
+  }
+  
+  @F
+  public final ea.b c()
+  {
+    return N.g();
+  }
+  
+  public void c(int paramInt)
+  {
+    N.c(paramInt);
+  }
+  
+  public Object d()
+  {
+    return N.f();
+  }
+  
+  public void d(int paramInt)
+  {
+    N.b(paramInt);
+  }
+  
+  public Object e()
+  {
+    return N.e();
+  }
+  
+  public void e(int paramInt)
+  {
+    N.a(paramInt);
+  }
+  
+  public Token f()
+  {
+    return N.a();
+  }
+  
+  public boolean g()
+  {
+    return N.c();
+  }
+  
+  public void h()
+  {
+    N.release();
+  }
+  
+  public static final class QueueItem
+    implements Parcelable
+  {
+    public static final Parcelable.Creator<QueueItem> CREATOR = new m();
+    public static final int a = -1;
+    public final MediaDescriptionCompat b;
+    public final long c;
+    public Object d;
+    
+    public QueueItem(Parcel paramParcel)
+    {
+      b = ((MediaDescriptionCompat)MediaDescriptionCompat.CREATOR.createFromParcel(paramParcel));
+      c = paramParcel.readLong();
+    }
+    
+    public QueueItem(MediaDescriptionCompat paramMediaDescriptionCompat, long paramLong)
+    {
+      this(null, paramMediaDescriptionCompat, paramLong);
+    }
+    
+    public QueueItem(Object paramObject, MediaDescriptionCompat paramMediaDescriptionCompat, long paramLong)
+    {
+      if (paramMediaDescriptionCompat != null)
+      {
+        if (paramLong != -1L)
+        {
+          b = paramMediaDescriptionCompat;
+          c = paramLong;
+          d = paramObject;
+          return;
+        }
+        throw new IllegalArgumentException("Id cannot be QueueItem.UNKNOWN_ID");
+      }
+      throw new IllegalArgumentException("Description cannot be null.");
+    }
+    
+    public static QueueItem a(Object paramObject)
+    {
+      if ((paramObject != null) && (Build.VERSION.SDK_INT >= 21)) {
+        return new QueueItem(paramObject, MediaDescriptionCompat.a(p.c.a(paramObject)), p.c.b(paramObject));
+      }
+      return null;
+    }
+    
+    public static List<QueueItem> a(List<?> paramList)
+    {
+      if ((paramList != null) && (Build.VERSION.SDK_INT >= 21))
+      {
+        ArrayList localArrayList = new ArrayList();
+        paramList = paramList.iterator();
+        while (paramList.hasNext()) {
+          localArrayList.add(a(paramList.next()));
+        }
+        return localArrayList;
+      }
+      return null;
+    }
+    
+    public MediaDescriptionCompat a()
+    {
+      return b;
+    }
+    
+    public long b()
+    {
+      return c;
+    }
+    
+    public Object c()
+    {
+      if ((d == null) && (Build.VERSION.SDK_INT >= 21))
+      {
+        d = p.c.a(b.e(), c);
+        return d;
+      }
+      return d;
+    }
+    
+    public int describeContents()
+    {
+      return 0;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("MediaSession.QueueItem {Description=");
+      localStringBuilder.append(b);
+      localStringBuilder.append(", Id=");
+      localStringBuilder.append(c);
+      localStringBuilder.append(" }");
+      return localStringBuilder.toString();
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      b.writeToParcel(paramParcel, paramInt);
+      paramParcel.writeLong(c);
+    }
+  }
+  
+  @N({b.b.a.N.a.a})
+  public static final class ResultReceiverWrapper
+    implements Parcelable
+  {
+    public static final Parcelable.Creator<ResultReceiverWrapper> CREATOR = new n();
+    public ResultReceiver a;
+    
+    public ResultReceiverWrapper(Parcel paramParcel)
+    {
+      a = ((ResultReceiver)ResultReceiver.CREATOR.createFromParcel(paramParcel));
+    }
+    
+    public ResultReceiverWrapper(ResultReceiver paramResultReceiver)
+    {
+      a = paramResultReceiver;
+    }
+    
+    public int describeContents()
+    {
+      return 0;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      a.writeToParcel(paramParcel, paramInt);
+    }
+  }
+  
+  public static final class Token
+    implements Parcelable
+  {
+    public static final Parcelable.Creator<Token> CREATOR = new o();
+    public final Object a;
+    public b b;
+    public Bundle c;
+    
+    public Token(Object paramObject)
+    {
+      a = paramObject;
+      b = null;
+      c = null;
+    }
+    
+    public Token(Object paramObject, b paramB)
+    {
+      a = paramObject;
+      b = paramB;
+      c = null;
+    }
+    
+    public Token(Object paramObject, b paramB, Bundle paramBundle)
+    {
+      a = paramObject;
+      b = paramB;
+      c = paramBundle;
+    }
+    
+    @N({b.b.a.N.a.b})
+    public static Token a(Bundle paramBundle)
+    {
+      if (paramBundle == null) {
+        return null;
+      }
+      b localB = b.a.a(BundleCompat.getBinder(paramBundle, "android.support.v4.media.session.EXTRA_BINDER"));
+      Bundle localBundle = paramBundle.getBundle("android.support.v4.media.session.SESSION_TOKEN2_BUNDLE");
+      paramBundle = (Token)paramBundle.getParcelable("android.support.v4.media.session.TOKEN");
+      if (paramBundle == null) {
+        return null;
+      }
+      return new Token(a, localB, localBundle);
+    }
+    
+    public static Token a(Object paramObject)
+    {
+      return a(paramObject, null);
+    }
+    
+    @N({b.b.a.N.a.b})
+    public static Token a(Object paramObject, b paramB)
+    {
+      if ((paramObject != null) && (Build.VERSION.SDK_INT >= 21))
+      {
+        p.f(paramObject);
+        return new Token(paramObject, paramB);
+      }
+      return null;
+    }
+    
+    @N({b.b.a.N.a.b})
+    public b a()
+    {
+      return b;
+    }
+    
+    @N({b.b.a.N.a.b})
+    public void a(b paramB)
+    {
+      b = paramB;
+    }
+    
+    @N({b.b.a.N.a.b})
+    public Bundle b()
+    {
+      return c;
+    }
+    
+    @N({b.b.a.N.a.b})
+    public void b(Bundle paramBundle)
+    {
+      c = paramBundle;
+    }
+    
+    public Object c()
+    {
+      return a;
+    }
+    
+    @N({b.b.a.N.a.b})
+    public Bundle d()
+    {
+      Bundle localBundle = new Bundle();
+      localBundle.putParcelable("android.support.v4.media.session.TOKEN", this);
+      Object localObject = b;
+      if (localObject != null)
+      {
+        localObject = ((IInterface)localObject).asBinder();
+        int i = Build.VERSION.SDK_INT;
+        localBundle.putBinder("android.support.v4.media.session.EXTRA_BINDER", (IBinder)localObject);
+      }
+      localObject = c;
+      if (localObject != null) {
+        localBundle.putBundle("android.support.v4.media.session.SESSION_TOKEN2_BUNDLE", (Bundle)localObject);
+      }
+      return localBundle;
+    }
+    
+    public int describeContents()
+    {
+      return 0;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (this == paramObject) {
+        return true;
+      }
+      if (!(paramObject instanceof Token)) {
+        return false;
+      }
+      Object localObject = (Token)paramObject;
+      paramObject = a;
+      if (paramObject == null) {
+        return a == null;
+      }
+      localObject = a;
+      if (localObject == null) {
+        return false;
+      }
+      return paramObject.equals(localObject);
+    }
+    
+    public int hashCode()
+    {
+      Object localObject = a;
+      if (localObject == null) {
+        return 0;
+      }
+      return localObject.hashCode();
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      if (Build.VERSION.SDK_INT >= 21)
+      {
+        paramParcel.writeParcelable((Parcelable)a, paramInt);
+        return;
+      }
+      paramParcel.writeStrongBinder((IBinder)a);
+    }
+  }
+  
+  public static abstract class a
+  {
+    public final Object a;
+    public WeakReference<MediaSessionCompat.b> b;
+    public a c = null;
+    public boolean d;
+    
+    public a()
+    {
+      int i = Build.VERSION.SDK_INT;
+      if (i >= 24)
+      {
+        a = s.a(new d());
+        return;
+      }
+      if (i >= 23)
+      {
+        a = new r.b(new c());
+        return;
+      }
+      if (i >= 21)
+      {
+        a = p.a(new b());
+        return;
+      }
+      a = null;
+    }
+    
+    public void a() {}
+    
+    @Deprecated
+    public void a(int paramInt) {}
+    
+    public void a(long paramLong) {}
+    
+    public void a(Uri paramUri, Bundle paramBundle) {}
+    
+    public void a(MediaDescriptionCompat paramMediaDescriptionCompat) {}
+    
+    public void a(MediaDescriptionCompat paramMediaDescriptionCompat, int paramInt) {}
+    
+    public void a(RatingCompat paramRatingCompat) {}
+    
+    public void a(RatingCompat paramRatingCompat, Bundle paramBundle) {}
+    
+    public void a(MediaSessionCompat.b paramB, Handler paramHandler)
+    {
+      b = new WeakReference(paramB);
+      paramB = c;
+      if (paramB != null) {
+        paramB.removeCallbacksAndMessages(null);
+      }
+      c = new a(paramHandler.getLooper());
+    }
+    
+    public void a(ea.b paramB)
+    {
+      if (!d) {
+        return;
+      }
+      int k = 0;
+      d = false;
+      c.removeMessages(1);
+      MediaSessionCompat.b localB = (MediaSessionCompat.b)b.get();
+      if (localB == null) {
+        return;
+      }
+      PlaybackStateCompat localPlaybackStateCompat = localB.b();
+      long l;
+      if (localPlaybackStateCompat == null) {
+        l = 0L;
+      } else {
+        l = localPlaybackStateCompat.a();
+      }
+      int i;
+      if ((localPlaybackStateCompat != null) && (localPlaybackStateCompat.l() == 3)) {
+        i = 1;
+      } else {
+        i = 0;
+      }
+      int j;
+      if ((0x204 & l) != 0L) {
+        j = 1;
+      } else {
+        j = 0;
+      }
+      if ((l & 0x202) != 0L) {
+        k = 1;
+      }
+      localB.a(paramB);
+      if ((i != 0) && (k != 0)) {
+        b();
+      } else if ((i == 0) && (j != 0)) {
+        c();
+      }
+      localB.a(null);
+    }
+    
+    public void a(String paramString, Bundle paramBundle) {}
+    
+    public void a(String paramString, Bundle paramBundle, ResultReceiver paramResultReceiver) {}
+    
+    public void a(boolean paramBoolean) {}
+    
+    public boolean a(Intent paramIntent)
+    {
+      if (Build.VERSION.SDK_INT >= 27) {
+        return false;
+      }
+      Object localObject = (MediaSessionCompat.b)b.get();
+      if (localObject != null)
+      {
+        if (c == null) {
+          return false;
+        }
+        KeyEvent localKeyEvent = (KeyEvent)paramIntent.getParcelableExtra("android.intent.extra.KEY_EVENT");
+        if (localKeyEvent != null)
+        {
+          if (localKeyEvent.getAction() != 0) {
+            return false;
+          }
+          paramIntent = ((MediaSessionCompat.b)localObject).g();
+          int i = localKeyEvent.getKeyCode();
+          if ((i != 79) && (i != 85))
+          {
+            a(paramIntent);
+            return false;
+          }
+          if (localKeyEvent.getRepeatCount() > 0)
+          {
+            a(paramIntent);
+            return true;
+          }
+          if (d)
+          {
+            c.removeMessages(1);
+            d = false;
+            paramIntent = ((MediaSessionCompat.b)localObject).b();
+            long l;
+            if (paramIntent == null) {
+              l = 0L;
+            } else {
+              l = paramIntent.a();
+            }
+            if ((l & 0x20) != 0L)
+            {
+              f();
+              return true;
+            }
+          }
+          else
+          {
+            d = true;
+            localObject = c;
+            ((Handler)localObject).sendMessageDelayed(((Handler)localObject).obtainMessage(1, paramIntent), ViewConfiguration.getDoubleTapTimeout());
+          }
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    public void b() {}
+    
+    public void b(int paramInt) {}
+    
+    public void b(long paramLong) {}
+    
+    public void b(Uri paramUri, Bundle paramBundle) {}
+    
+    public void b(MediaDescriptionCompat paramMediaDescriptionCompat) {}
+    
+    public void b(String paramString, Bundle paramBundle) {}
+    
+    public void c() {}
+    
+    public void c(int paramInt) {}
+    
+    public void c(String paramString, Bundle paramBundle) {}
+    
+    public void d() {}
+    
+    public void d(String paramString, Bundle paramBundle) {}
+    
+    public void e() {}
+    
+    public void e(String paramString, Bundle paramBundle) {}
+    
+    public void f() {}
+    
+    public void g() {}
+    
+    public void h() {}
+    
+    private class a
+      extends Handler
+    {
+      public static final int a = 1;
+      
+      public a(Looper paramLooper)
+      {
+        super();
+      }
+      
+      public void handleMessage(Message paramMessage)
+      {
+        if (what == 1) {
+          a((ea.b)obj);
+        }
+      }
+    }
+    
+    @K(21)
+    private class b
+      implements p.a
+    {
+      public b() {}
+      
+      public void a()
+      {
+        MediaSessionCompat.a.this.f();
+      }
+      
+      public void a(long paramLong)
+      {
+        MediaSessionCompat.a.this.b(paramLong);
+      }
+      
+      public void a(Object paramObject)
+      {
+        a(RatingCompat.a(paramObject));
+      }
+      
+      public void a(Object paramObject, Bundle paramBundle) {}
+      
+      public void a(String paramString, Bundle paramBundle, ResultReceiver paramResultReceiver)
+      {
+        try
+        {
+          boolean bool = paramString.equals("android.support.v4.media.session.command.GET_EXTRA_BINDER");
+          MediaSessionCompat.Token localToken = null;
+          Object localObject = null;
+          int i;
+          if (bool)
+          {
+            paramString = (MediaSessionCompat.e)b.get();
+            if (paramString != null)
+            {
+              paramBundle = new Bundle();
+              localToken = paramString.a();
+              paramString = localToken.a();
+              if (paramString == null) {
+                paramString = localObject;
+              } else {
+                paramString = paramString.asBinder();
+              }
+              i = Build.VERSION.SDK_INT;
+              paramBundle.putBinder("android.support.v4.media.session.EXTRA_BINDER", paramString);
+              paramBundle.putBundle("android.support.v4.media.session.SESSION_TOKEN2_BUNDLE", localToken.b());
+              paramResultReceiver.send(0, paramBundle);
+            }
+          }
+          else
+          {
+            bool = paramString.equals("android.support.v4.media.session.command.ADD_QUEUE_ITEM");
+            if (bool)
+            {
+              a((MediaDescriptionCompat)paramBundle.getParcelable("android.support.v4.media.session.command.ARGUMENT_MEDIA_DESCRIPTION"));
+              return;
+            }
+            bool = paramString.equals("android.support.v4.media.session.command.ADD_QUEUE_ITEM_AT");
+            if (bool)
+            {
+              a((MediaDescriptionCompat)paramBundle.getParcelable("android.support.v4.media.session.command.ARGUMENT_MEDIA_DESCRIPTION"), paramBundle.getInt("android.support.v4.media.session.command.ARGUMENT_INDEX"));
+              return;
+            }
+            if (paramString.equals("android.support.v4.media.session.command.REMOVE_QUEUE_ITEM"))
+            {
+              b((MediaDescriptionCompat)paramBundle.getParcelable("android.support.v4.media.session.command.ARGUMENT_MEDIA_DESCRIPTION"));
+              return;
+            }
+            if (paramString.equals("android.support.v4.media.session.command.REMOVE_QUEUE_ITEM_AT"))
+            {
+              paramResultReceiver = (MediaSessionCompat.e)b.get();
+              if ((paramResultReceiver != null) && (f != null))
+              {
+                i = paramBundle.getInt("android.support.v4.media.session.command.ARGUMENT_INDEX", -1);
+                paramString = localToken;
+                if (i >= 0)
+                {
+                  paramString = localToken;
+                  if (i < f.size()) {
+                    paramString = (MediaSessionCompat.QueueItem)f.get(i);
+                  }
+                }
+                if (paramString != null) {
+                  b(paramString.a());
+                }
+              }
+            }
+            else
+            {
+              MediaSessionCompat.a.this.a(paramString, paramBundle, paramResultReceiver);
+            }
+          }
+          return;
+        }
+        catch (BadParcelableException paramString) {}
+      }
+      
+      public boolean a(Intent paramIntent)
+      {
+        return MediaSessionCompat.a.this.a(paramIntent);
+      }
+      
+      public void b()
+      {
+        g();
+      }
+      
+      public void b(long paramLong)
+      {
+        MediaSessionCompat.a.this.a(paramLong);
+      }
+      
+      public void b(String paramString, Bundle paramBundle)
+      {
+        MediaSessionCompat.a.this.c(paramString, paramBundle);
+      }
+      
+      public void c(String paramString, Bundle paramBundle)
+      {
+        Bundle localBundle = paramBundle.getBundle("android.support.v4.media.session.action.ARGUMENT_EXTRAS");
+        MediaSessionCompat.a(localBundle);
+        if (paramString.equals("android.support.v4.media.session.action.PLAY_FROM_URI"))
+        {
+          paramString = (Uri)paramBundle.getParcelable("android.support.v4.media.session.action.ARGUMENT_URI");
+          a(paramString, localBundle);
+          return;
+        }
+        if (paramString.equals("android.support.v4.media.session.action.PREPARE"))
+        {
+          MediaSessionCompat.a.this.d();
+          return;
+        }
+        if (paramString.equals("android.support.v4.media.session.action.PREPARE_FROM_MEDIA_ID"))
+        {
+          paramString = paramBundle.getString("android.support.v4.media.session.action.ARGUMENT_MEDIA_ID");
+          d(paramString, localBundle);
+          return;
+        }
+        if (paramString.equals("android.support.v4.media.session.action.PREPARE_FROM_SEARCH"))
+        {
+          paramString = paramBundle.getString("android.support.v4.media.session.action.ARGUMENT_QUERY");
+          MediaSessionCompat.a.this.e(paramString, localBundle);
+          return;
+        }
+        if (paramString.equals("android.support.v4.media.session.action.PREPARE_FROM_URI"))
+        {
+          paramString = (Uri)paramBundle.getParcelable("android.support.v4.media.session.action.ARGUMENT_URI");
+          b(paramString, localBundle);
+          return;
+        }
+        if (paramString.equals("android.support.v4.media.session.action.SET_CAPTIONING_ENABLED"))
+        {
+          boolean bool = paramBundle.getBoolean("android.support.v4.media.session.action.ARGUMENT_CAPTIONING_ENABLED");
+          a(bool);
+          return;
+        }
+        int i;
+        if (paramString.equals("android.support.v4.media.session.action.SET_REPEAT_MODE"))
+        {
+          i = paramBundle.getInt("android.support.v4.media.session.action.ARGUMENT_REPEAT_MODE");
+          b(i);
+          return;
+        }
+        if (paramString.equals("android.support.v4.media.session.action.SET_SHUFFLE_MODE"))
+        {
+          i = paramBundle.getInt("android.support.v4.media.session.action.ARGUMENT_SHUFFLE_MODE");
+          c(i);
+          return;
+        }
+        if (paramString.equals("android.support.v4.media.session.action.SET_RATING"))
+        {
+          paramString = (RatingCompat)paramBundle.getParcelable("android.support.v4.media.session.action.ARGUMENT_RATING");
+          a(paramString, localBundle);
+          return;
+        }
+        a(paramString, paramBundle);
+      }
+      
+      public void d()
+      {
+        MediaSessionCompat.a.this.e();
+      }
+      
+      public void e()
+      {
+        c();
+      }
+      
+      public void e(String paramString, Bundle paramBundle)
+      {
+        MediaSessionCompat.a.this.b(paramString, paramBundle);
+      }
+      
+      public void f()
+      {
+        MediaSessionCompat.a.this.a();
+      }
+      
+      public void onPause()
+      {
+        MediaSessionCompat.a.this.b();
+      }
+      
+      public void onStop()
+      {
+        h();
+      }
+    }
+    
+    @K(23)
+    private class c
+      extends MediaSessionCompat.a.b
+      implements r.a
+    {
+      public c()
+      {
+        super();
+      }
+      
+      public void a(Uri paramUri, Bundle paramBundle)
+      {
+        MediaSessionCompat.a.this.a(paramUri, paramBundle);
+      }
+    }
+    
+    @K(24)
+    private class d
+      extends MediaSessionCompat.a.c
+      implements s.a
+    {
+      public d()
+      {
+        super();
+      }
+      
+      public void a(String paramString, Bundle paramBundle)
+      {
+        MediaSessionCompat.a.this.d(paramString, paramBundle);
+      }
+      
+      public void b(Uri paramUri, Bundle paramBundle)
+      {
+        MediaSessionCompat.a.this.b(paramUri, paramBundle);
+      }
+      
+      public void c()
+      {
+        d();
+      }
+      
+      public void d(String paramString, Bundle paramBundle)
+      {
+        e(paramString, paramBundle);
+      }
+    }
+  }
+  
+  public static abstract interface b
+  {
+    public abstract MediaSessionCompat.Token a();
+    
+    public abstract void a(int paramInt);
+    
+    public abstract void a(PendingIntent paramPendingIntent);
+    
+    public abstract void a(MediaMetadataCompat paramMediaMetadataCompat);
+    
+    public abstract void a(MediaSessionCompat.a paramA, Handler paramHandler);
+    
+    public abstract void a(PlaybackStateCompat paramPlaybackStateCompat);
+    
+    public abstract void a(ea.b paramB);
+    
+    public abstract void a(la paramLa);
+    
+    public abstract void a(CharSequence paramCharSequence);
+    
+    public abstract void a(String paramString, Bundle paramBundle);
+    
+    public abstract void a(List<MediaSessionCompat.QueueItem> paramList);
+    
+    public abstract void a(boolean paramBoolean);
+    
+    public abstract PlaybackStateCompat b();
+    
+    public abstract void b(int paramInt);
+    
+    public abstract void b(PendingIntent paramPendingIntent);
+    
+    public abstract void b(boolean paramBoolean);
+    
+    public abstract void c(int paramInt);
+    
+    public abstract boolean c();
+    
+    public abstract String d();
+    
+    public abstract void d(int paramInt);
+    
+    public abstract Object e();
+    
+    public abstract Object f();
+    
+    public abstract ea.b g();
+    
+    public abstract void release();
+    
+    public abstract void setExtras(Bundle paramBundle);
+    
+    public abstract void setFlags(int paramInt);
+  }
+  
+  @K(18)
+  public static class c
+    extends MediaSessionCompat.g
+  {
+    public static boolean I = true;
+    
+    public c(Context paramContext, String paramString, ComponentName paramComponentName, PendingIntent paramPendingIntent)
+    {
+      super(paramString, paramComponentName, paramPendingIntent);
+    }
+    
+    public int a(long paramLong)
+    {
+      int j = super.a(paramLong);
+      int i = j;
+      if ((paramLong & 0x100) != 0L) {
+        i = j | 0x100;
+      }
+      return i;
+    }
+    
+    public void a(PendingIntent paramPendingIntent, ComponentName paramComponentName)
+    {
+      if (I) {}
+      try
+      {
+        i.registerMediaButtonEventReceiver(paramPendingIntent);
+      }
+      catch (NullPointerException paramPendingIntent)
+      {
+        for (;;) {}
+      }
+      I = false;
+      if (!I) {
+        i.registerMediaButtonEventReceiver(paramComponentName);
+      }
+    }
+    
+    public void a(MediaSessionCompat.a paramA, Handler paramHandler)
+    {
+      super.a(paramA, paramHandler);
+      if (paramA == null)
+      {
+        j.setPlaybackPositionUpdateListener(null);
+        return;
+      }
+      paramA = new j(this);
+      j.setPlaybackPositionUpdateListener(paramA);
+    }
+    
+    public void b(PendingIntent paramPendingIntent, ComponentName paramComponentName)
+    {
+      if (I)
+      {
+        i.unregisterMediaButtonEventReceiver(paramPendingIntent);
+        return;
+      }
+      i.unregisterMediaButtonEventReceiver(paramComponentName);
+    }
+    
+    public void b(PlaybackStateCompat paramPlaybackStateCompat)
+    {
+      long l2 = paramPlaybackStateCompat.k();
+      float f = paramPlaybackStateCompat.i();
+      long l4 = paramPlaybackStateCompat.h();
+      long l5 = SystemClock.elapsedRealtime();
+      long l1 = l2;
+      if (paramPlaybackStateCompat.l() == 3)
+      {
+        long l3 = 0L;
+        l1 = l2;
+        if (l2 > 0L)
+        {
+          l1 = l3;
+          if (l4 > 0L)
+          {
+            l3 = l5 - l4;
+            l1 = l3;
+            if (f > 0.0F)
+            {
+              l1 = l3;
+              if (f != 1.0F) {
+                l1 = ((float)l3 * f);
+              }
+            }
+          }
+          l1 = l2 + l1;
+        }
+      }
+      j.setPlaybackState(e(paramPlaybackStateCompat.l()), l1, f);
+    }
+  }
+  
+  @K(19)
+  public static class d
+    extends MediaSessionCompat.c
+  {
+    public d(Context paramContext, String paramString, ComponentName paramComponentName, PendingIntent paramPendingIntent)
+    {
+      super(paramString, paramComponentName, paramPendingIntent);
+    }
+    
+    public int a(long paramLong)
+    {
+      int j = super.a(paramLong);
+      int i = j;
+      if ((paramLong & 0x80) != 0L) {
+        i = j | 0x200;
+      }
+      return i;
+    }
+    
+    public RemoteControlClient.MetadataEditor a(Bundle paramBundle)
+    {
+      RemoteControlClient.MetadataEditor localMetadataEditor = super.a(paramBundle);
+      PlaybackStateCompat localPlaybackStateCompat = v;
+      long l;
+      if (localPlaybackStateCompat == null) {
+        l = 0L;
+      } else {
+        l = localPlaybackStateCompat.a();
+      }
+      if ((l & 0x80) != 0L) {
+        localMetadataEditor.addEditableKey(268435457);
+      }
+      if (paramBundle == null) {
+        return localMetadataEditor;
+      }
+      if (paramBundle.containsKey("android.media.metadata.YEAR")) {
+        localMetadataEditor.putLong(8, paramBundle.getLong("android.media.metadata.YEAR"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.RATING")) {
+        localMetadataEditor.putObject(101, paramBundle.getParcelable("android.media.metadata.RATING"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.USER_RATING")) {
+        localMetadataEditor.putObject(268435457, paramBundle.getParcelable("android.media.metadata.USER_RATING"));
+      }
+      return localMetadataEditor;
+    }
+    
+    public void a(MediaSessionCompat.a paramA, Handler paramHandler)
+    {
+      super.a(paramA, paramHandler);
+      if (paramA == null)
+      {
+        j.setMetadataUpdateListener(null);
+        return;
+      }
+      paramA = new k(this);
+      j.setMetadataUpdateListener(paramA);
+    }
+  }
+  
+  @K(21)
+  public static class e
+    implements MediaSessionCompat.b
+  {
+    public final Object a;
+    public final MediaSessionCompat.Token b;
+    public boolean c = false;
+    public final RemoteCallbackList<b.b.x.h.b.a> d = new RemoteCallbackList();
+    public PlaybackStateCompat e;
+    public List<MediaSessionCompat.QueueItem> f;
+    public MediaMetadataCompat g;
+    public int h;
+    public boolean i;
+    public int j;
+    public int k;
+    
+    public e(Context paramContext, String paramString, Bundle paramBundle)
+    {
+      a = p.a(paramContext, paramString);
+      b = new MediaSessionCompat.Token(p.a(a), new a(), paramBundle);
+    }
+    
+    public e(Object paramObject)
+    {
+      p.e(paramObject);
+      a = paramObject;
+      b = new MediaSessionCompat.Token(p.a(a), new a());
+    }
+    
+    public MediaSessionCompat.Token a()
+    {
+      return b;
+    }
+    
+    public void a(int paramInt)
+    {
+      int m;
+      if (k != paramInt)
+      {
+        k = paramInt;
+        m = d.beginBroadcast() - 1;
+      }
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (m >= 0) {
+          localA = (b.b.x.h.b.a)d.getBroadcastItem(m);
+        }
+        try
+        {
+          localA.d(paramInt);
+          m -= 1;
+          continue;
+          d.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    public void a(PendingIntent paramPendingIntent)
+    {
+      p.b(a, paramPendingIntent);
+    }
+    
+    public void a(MediaMetadataCompat paramMediaMetadataCompat)
+    {
+      g = paramMediaMetadataCompat;
+      Object localObject = a;
+      if (paramMediaMetadataCompat == null) {
+        paramMediaMetadataCompat = null;
+      } else {
+        paramMediaMetadataCompat = paramMediaMetadataCompat.c();
+      }
+      p.a(localObject, paramMediaMetadataCompat);
+    }
+    
+    public void a(MediaSessionCompat.a paramA, Handler paramHandler)
+    {
+      Object localObject2 = a;
+      Object localObject1;
+      if (paramA == null) {
+        localObject1 = null;
+      } else {
+        localObject1 = a;
+      }
+      p.a(localObject2, localObject1, paramHandler);
+      if (paramA != null) {
+        paramA.a(this, paramHandler);
+      }
+    }
+    
+    public void a(PlaybackStateCompat paramPlaybackStateCompat)
+    {
+      e = paramPlaybackStateCompat;
+      int m = d.beginBroadcast() - 1;
+      for (;;)
+      {
+        Object localObject;
+        if (m >= 0) {
+          localObject = (b.b.x.h.b.a)d.getBroadcastItem(m);
+        }
+        try
+        {
+          ((b.b.x.h.b.a)localObject).a(paramPlaybackStateCompat);
+          m -= 1;
+          continue;
+          d.finishBroadcast();
+          localObject = a;
+          if (paramPlaybackStateCompat == null) {
+            paramPlaybackStateCompat = null;
+          } else {
+            paramPlaybackStateCompat = paramPlaybackStateCompat.j();
+          }
+          p.b(localObject, paramPlaybackStateCompat);
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    public void a(ea.b paramB) {}
+    
+    public void a(la paramLa)
+    {
+      p.c(a, paramLa.d());
+    }
+    
+    public void a(CharSequence paramCharSequence)
+    {
+      p.a(a, paramCharSequence);
+    }
+    
+    public void a(String paramString, Bundle paramBundle)
+    {
+      int m;
+      if (Build.VERSION.SDK_INT < 23) {
+        m = d.beginBroadcast() - 1;
+      }
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (m >= 0) {
+          localA = (b.b.x.h.b.a)d.getBroadcastItem(m);
+        }
+        try
+        {
+          localA.f(paramString, paramBundle);
+          m -= 1;
+          continue;
+          d.finishBroadcast();
+          p.a(a, paramString, paramBundle);
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    public void a(List<MediaSessionCompat.QueueItem> paramList)
+    {
+      f = paramList;
+      if (paramList != null)
+      {
+        ArrayList localArrayList = new ArrayList();
+        Iterator localIterator = paramList.iterator();
+        for (;;)
+        {
+          paramList = localArrayList;
+          if (!localIterator.hasNext()) {
+            break;
+          }
+          localArrayList.add(((MediaSessionCompat.QueueItem)localIterator.next()).c());
+        }
+      }
+      paramList = null;
+      p.a(a, paramList);
+    }
+    
+    public void a(boolean paramBoolean)
+    {
+      int m;
+      if (i != paramBoolean)
+      {
+        i = paramBoolean;
+        m = d.beginBroadcast() - 1;
+      }
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (m >= 0) {
+          localA = (b.b.x.h.b.a)d.getBroadcastItem(m);
+        }
+        try
+        {
+          localA.c(paramBoolean);
+          m -= 1;
+          continue;
+          d.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    public PlaybackStateCompat b()
+    {
+      return e;
+    }
+    
+    public void b(int paramInt)
+    {
+      int m;
+      if (j != paramInt)
+      {
+        j = paramInt;
+        m = d.beginBroadcast() - 1;
+      }
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (m >= 0) {
+          localA = (b.b.x.h.b.a)d.getBroadcastItem(m);
+        }
+        try
+        {
+          localA.e(paramInt);
+          m -= 1;
+          continue;
+          d.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    public void b(PendingIntent paramPendingIntent)
+    {
+      p.a(a, paramPendingIntent);
+    }
+    
+    public void b(boolean paramBoolean)
+    {
+      p.a(a, paramBoolean);
+    }
+    
+    public void c(int paramInt)
+    {
+      if (Build.VERSION.SDK_INT < 22)
+      {
+        h = paramInt;
+        return;
+      }
+      ((MediaSession)a).setRatingType(paramInt);
+    }
+    
+    public boolean c()
+    {
+      return p.c(a);
+    }
+    
+    public String d()
+    {
+      if (Build.VERSION.SDK_INT < 24) {
+        return null;
+      }
+      return s.a(a);
+    }
+    
+    public void d(int paramInt)
+    {
+      p.b(a, paramInt);
+    }
+    
+    public Object e()
+    {
+      return null;
+    }
+    
+    public Object f()
+    {
+      return a;
+    }
+    
+    public ea.b g()
+    {
+      return null;
+    }
+    
+    public void release()
+    {
+      c = true;
+      p.d(a);
+    }
+    
+    public void setExtras(Bundle paramBundle)
+    {
+      p.a(a, paramBundle);
+    }
+    
+    public void setFlags(int paramInt)
+    {
+      p.a(a, paramInt);
+    }
+    
+    public class a
+      extends b.a
+    {
+      public a() {}
+      
+      public String a()
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(int paramInt)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(int paramInt1, int paramInt2, String paramString)
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(long paramLong)
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(Uri paramUri, Bundle paramBundle)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(MediaDescriptionCompat paramMediaDescriptionCompat)
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(MediaDescriptionCompat paramMediaDescriptionCompat, int paramInt)
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(RatingCompat paramRatingCompat)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(RatingCompat paramRatingCompat, Bundle paramBundle)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(b.b.x.h.b.a paramA)
+      {
+        Object localObject = MediaSessionCompat.e.this;
+        if (!c)
+        {
+          String str = ((MediaSessionCompat.e)localObject).d();
+          localObject = str;
+          if (str == null) {
+            localObject = "android.media.session.MediaController";
+          }
+          localObject = new ea.b((String)localObject, Binder.getCallingPid(), Binder.getCallingUid());
+          d.register(paramA, localObject);
+        }
+      }
+      
+      public void a(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(String paramString, Bundle paramBundle, MediaSessionCompat.ResultReceiverWrapper paramResultReceiverWrapper)
+      {
+        throw new AssertionError();
+      }
+      
+      public void a(boolean paramBoolean)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public boolean a(KeyEvent paramKeyEvent)
+      {
+        throw new AssertionError();
+      }
+      
+      public PlaybackStateCompat b()
+      {
+        MediaSessionCompat.e localE = MediaSessionCompat.e.this;
+        return MediaSessionCompat.a(e, g);
+      }
+      
+      public void b(int paramInt)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void b(int paramInt1, int paramInt2, String paramString)
+      {
+        throw new AssertionError();
+      }
+      
+      public void b(Uri paramUri, Bundle paramBundle)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void b(MediaDescriptionCompat paramMediaDescriptionCompat)
+      {
+        throw new AssertionError();
+      }
+      
+      public void b(b.b.x.h.b.a paramA)
+      {
+        d.unregister(paramA);
+      }
+      
+      public void b(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void b(boolean paramBoolean)
+        throws RemoteException
+      {}
+      
+      public int c()
+      {
+        return h;
+      }
+      
+      public void c(int paramInt)
+      {
+        throw new AssertionError();
+      }
+      
+      public void c(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public int d()
+      {
+        return k;
+      }
+      
+      public void d(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void e(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public boolean e()
+      {
+        return i;
+      }
+      
+      public CharSequence f()
+      {
+        throw new AssertionError();
+      }
+      
+      public MediaMetadataCompat g()
+      {
+        throw new AssertionError();
+      }
+      
+      public Bundle getExtras()
+      {
+        throw new AssertionError();
+      }
+      
+      public long getFlags()
+      {
+        throw new AssertionError();
+      }
+      
+      public String getTag()
+      {
+        throw new AssertionError();
+      }
+      
+      public List<MediaSessionCompat.QueueItem> h()
+      {
+        return null;
+      }
+      
+      public int i()
+      {
+        return j;
+      }
+      
+      public boolean k()
+      {
+        return false;
+      }
+      
+      public PendingIntent l()
+      {
+        throw new AssertionError();
+      }
+      
+      public void n()
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void next()
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public boolean o()
+      {
+        throw new AssertionError();
+      }
+      
+      public void p()
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void pause()
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void previous()
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void q()
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void r()
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public ParcelableVolumeInfo s()
+      {
+        throw new AssertionError();
+      }
+      
+      public void seekTo(long paramLong)
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+      
+      public void stop()
+        throws RemoteException
+      {
+        throw new AssertionError();
+      }
+    }
+  }
+  
+  @K(28)
+  public static class f
+    extends MediaSessionCompat.e
+  {
+    public f(Context paramContext, String paramString, Bundle paramBundle)
+    {
+      super(paramString, paramBundle);
+    }
+    
+    public f(Object paramObject)
+    {
+      super();
+    }
+    
+    public void a(ea.b paramB) {}
+    
+    @F
+    public final ea.b g()
+    {
+      return new ea.b(((MediaSession)a).getCurrentControllerInfo());
+    }
+  }
+  
+  public static class g
+    implements MediaSessionCompat.b
+  {
+    public static final int a = 0;
+    public boolean A;
+    public int B;
+    public int C;
+    public Bundle D;
+    public int E;
+    public int F;
+    public la G;
+    public la.a H = new l(this);
+    public final Context b;
+    public final ComponentName c;
+    public final PendingIntent d;
+    public final b e;
+    public final MediaSessionCompat.Token f;
+    public final String g;
+    public final String h;
+    public final AudioManager i;
+    public final RemoteControlClient j;
+    public final Object k = new Object();
+    public final RemoteCallbackList<b.b.x.h.b.a> l = new RemoteCallbackList();
+    public c m;
+    public boolean n = false;
+    public boolean o = false;
+    public boolean p = false;
+    public boolean q = false;
+    public volatile MediaSessionCompat.a r;
+    public ea.b s;
+    public int t;
+    public MediaMetadataCompat u;
+    public PlaybackStateCompat v;
+    public PendingIntent w;
+    public List<MediaSessionCompat.QueueItem> x;
+    public CharSequence y;
+    public int z;
+    
+    public g(Context paramContext, String paramString, ComponentName paramComponentName, PendingIntent paramPendingIntent)
+    {
+      if (paramComponentName != null)
+      {
+        b = paramContext;
+        g = paramContext.getPackageName();
+        i = ((AudioManager)paramContext.getSystemService("audio"));
+        h = paramString;
+        c = paramComponentName;
+        d = paramPendingIntent;
+        e = new b();
+        f = new MediaSessionCompat.Token(e);
+        z = 0;
+        E = 1;
+        F = 3;
+        j = new RemoteControlClient(paramPendingIntent);
+        return;
+      }
+      throw new IllegalArgumentException("MediaButtonReceiver component may not be null.");
+    }
+    
+    private void b(Bundle paramBundle)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.a(paramBundle);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void b(MediaMetadataCompat paramMediaMetadataCompat)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.a(paramMediaMetadataCompat);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void b(CharSequence paramCharSequence)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.a(paramCharSequence);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void b(String paramString, Bundle paramBundle)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.f(paramString, paramBundle);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void b(List<MediaSessionCompat.QueueItem> paramList)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.a(paramList);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void c(PlaybackStateCompat paramPlaybackStateCompat)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.a(paramPlaybackStateCompat);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void c(boolean paramBoolean)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.c(paramBoolean);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void f(int paramInt)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.e(paramInt);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void g(int paramInt)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.d(paramInt);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    private void i()
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.j();
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          l.kill();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    public int a(long paramLong)
+    {
+      if ((1L & paramLong) != 0L) {
+        i2 = 32;
+      } else {
+        i2 = 0;
+      }
+      int i1 = i2;
+      if ((0x2 & paramLong) != 0L) {
+        i1 = i2 | 0x10;
+      }
+      int i2 = i1;
+      if ((0x4 & paramLong) != 0L) {
+        i2 = i1 | 0x4;
+      }
+      i1 = i2;
+      if ((0x8 & paramLong) != 0L) {
+        i1 = i2 | 0x2;
+      }
+      i2 = i1;
+      if ((0x10 & paramLong) != 0L) {
+        i2 = i1 | 0x1;
+      }
+      i1 = i2;
+      if ((0x20 & paramLong) != 0L) {
+        i1 = i2 | 0x80;
+      }
+      i2 = i1;
+      if ((0x40 & paramLong) != 0L) {
+        i2 = i1 | 0x40;
+      }
+      i1 = i2;
+      if ((paramLong & 0x200) != 0L) {
+        i1 = i2 | 0x8;
+      }
+      return i1;
+    }
+    
+    public RemoteControlClient.MetadataEditor a(Bundle paramBundle)
+    {
+      RemoteControlClient.MetadataEditor localMetadataEditor = j.editMetadata(true);
+      if (paramBundle == null) {
+        return localMetadataEditor;
+      }
+      Bitmap localBitmap2;
+      Bitmap localBitmap1;
+      if (paramBundle.containsKey("android.media.metadata.ART"))
+      {
+        localBitmap2 = (Bitmap)paramBundle.getParcelable("android.media.metadata.ART");
+        localBitmap1 = localBitmap2;
+        if (localBitmap2 != null) {
+          localBitmap1 = localBitmap2.copy(localBitmap2.getConfig(), false);
+        }
+        localMetadataEditor.putBitmap(100, localBitmap1);
+      }
+      else if (paramBundle.containsKey("android.media.metadata.ALBUM_ART"))
+      {
+        localBitmap2 = (Bitmap)paramBundle.getParcelable("android.media.metadata.ALBUM_ART");
+        localBitmap1 = localBitmap2;
+        if (localBitmap2 != null) {
+          localBitmap1 = localBitmap2.copy(localBitmap2.getConfig(), false);
+        }
+        localMetadataEditor.putBitmap(100, localBitmap1);
+      }
+      if (paramBundle.containsKey("android.media.metadata.ALBUM")) {
+        localMetadataEditor.putString(1, paramBundle.getString("android.media.metadata.ALBUM"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.ALBUM_ARTIST")) {
+        localMetadataEditor.putString(13, paramBundle.getString("android.media.metadata.ALBUM_ARTIST"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.ARTIST")) {
+        localMetadataEditor.putString(2, paramBundle.getString("android.media.metadata.ARTIST"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.AUTHOR")) {
+        localMetadataEditor.putString(3, paramBundle.getString("android.media.metadata.AUTHOR"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.COMPILATION")) {
+        localMetadataEditor.putString(15, paramBundle.getString("android.media.metadata.COMPILATION"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.COMPOSER")) {
+        localMetadataEditor.putString(4, paramBundle.getString("android.media.metadata.COMPOSER"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.DATE")) {
+        localMetadataEditor.putString(5, paramBundle.getString("android.media.metadata.DATE"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.DISC_NUMBER")) {
+        localMetadataEditor.putLong(14, paramBundle.getLong("android.media.metadata.DISC_NUMBER"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.DURATION")) {
+        localMetadataEditor.putLong(9, paramBundle.getLong("android.media.metadata.DURATION"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.GENRE")) {
+        localMetadataEditor.putString(6, paramBundle.getString("android.media.metadata.GENRE"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.TITLE")) {
+        localMetadataEditor.putString(7, paramBundle.getString("android.media.metadata.TITLE"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.TRACK_NUMBER")) {
+        localMetadataEditor.putLong(0, paramBundle.getLong("android.media.metadata.TRACK_NUMBER"));
+      }
+      if (paramBundle.containsKey("android.media.metadata.WRITER")) {
+        localMetadataEditor.putString(11, paramBundle.getString("android.media.metadata.WRITER"));
+      }
+      return localMetadataEditor;
+    }
+    
+    public MediaSessionCompat.Token a()
+    {
+      return f;
+    }
+    
+    public void a(int paramInt)
+    {
+      if (C != paramInt)
+      {
+        C = paramInt;
+        g(paramInt);
+      }
+    }
+    
+    public void a(int paramInt1, int paramInt2)
+    {
+      if (E == 2)
+      {
+        la localLa = G;
+        if (localLa != null) {
+          localLa.a(paramInt1);
+        }
+      }
+      else
+      {
+        i.adjustStreamVolume(F, paramInt1, paramInt2);
+      }
+    }
+    
+    public void a(int paramInt1, int paramInt2, int paramInt3, Object paramObject, Bundle paramBundle)
+    {
+      synchronized (k)
+      {
+        if (m != null)
+        {
+          paramObject = m.obtainMessage(paramInt1, paramInt2, paramInt3, paramObject);
+          Bundle localBundle = new Bundle();
+          localBundle.putString("data_calling_pkg", "android.media.session.MediaController");
+          localBundle.putInt("data_calling_pid", Binder.getCallingPid());
+          localBundle.putInt("data_calling_uid", Binder.getCallingUid());
+          if (paramBundle != null) {
+            localBundle.putBundle("data_extras", paramBundle);
+          }
+          paramObject.setData(localBundle);
+          paramObject.sendToTarget();
+        }
+        return;
+      }
+    }
+    
+    public void a(PendingIntent paramPendingIntent)
+    {
+      synchronized (k)
+      {
+        w = paramPendingIntent;
+        return;
+      }
+    }
+    
+    public void a(PendingIntent paramPendingIntent, ComponentName paramComponentName)
+    {
+      i.registerMediaButtonEventReceiver(paramComponentName);
+    }
+    
+    public void a(MediaMetadataCompat arg1)
+    {
+      MediaMetadataCompat localMediaMetadataCompat = ???;
+      if (??? != null) {
+        localMediaMetadataCompat = new MediaMetadataCompat.b(???, MediaSessionCompat.M).a();
+      }
+      synchronized (k)
+      {
+        u = localMediaMetadataCompat;
+        b(localMediaMetadataCompat);
+        if (!o) {
+          return;
+        }
+        if (localMediaMetadataCompat == null) {
+          ??? = null;
+        } else {
+          ??? = localMediaMetadataCompat.a();
+        }
+        a(???).apply();
+        return;
+      }
+    }
+    
+    public void a(MediaSessionCompat.a paramA, Handler arg2)
+    {
+      r = paramA;
+      if (paramA != null)
+      {
+        paramA = ???;
+        if (??? == null) {
+          paramA = new Handler();
+        }
+        synchronized (k)
+        {
+          if (m != null) {
+            m.removeCallbacksAndMessages(null);
+          }
+          m = new c(paramA.getLooper());
+          r.a(this, paramA);
+          return;
+        }
+      }
+    }
+    
+    public void a(ParcelableVolumeInfo paramParcelableVolumeInfo)
+    {
+      int i1 = l.beginBroadcast() - 1;
+      for (;;)
+      {
+        b.b.x.h.b.a localA;
+        if (i1 >= 0) {
+          localA = (b.b.x.h.b.a)l.getBroadcastItem(i1);
+        }
+        try
+        {
+          localA.a(paramParcelableVolumeInfo);
+          i1 -= 1;
+          continue;
+          l.finishBroadcast();
+          return;
+        }
+        catch (RemoteException localRemoteException)
+        {
+          for (;;) {}
+        }
+      }
+    }
+    
+    public void a(PlaybackStateCompat paramPlaybackStateCompat)
+    {
+      synchronized (k)
+      {
+        v = paramPlaybackStateCompat;
+        c(paramPlaybackStateCompat);
+        if (!o) {
+          return;
+        }
+        if (paramPlaybackStateCompat == null)
+        {
+          j.setPlaybackState(0);
+          j.setTransportControlFlags(0);
+          return;
+        }
+        b(paramPlaybackStateCompat);
+        j.setTransportControlFlags(a(paramPlaybackStateCompat.a()));
+        return;
+      }
+    }
+    
+    public void a(ea.b paramB)
+    {
+      synchronized (k)
+      {
+        s = paramB;
+        return;
+      }
+    }
+    
+    public void a(la paramLa)
+    {
+      if (paramLa != null)
+      {
+        la localLa = G;
+        if (localLa != null) {
+          localLa.a(null);
+        }
+        E = 2;
+        G = paramLa;
+        a(new ParcelableVolumeInfo(E, F, G.c(), G.b(), G.a()));
+        paramLa.a(H);
+        return;
+      }
+      throw new IllegalArgumentException("volumeProvider may not be null");
+    }
+    
+    public void a(CharSequence paramCharSequence)
+    {
+      y = paramCharSequence;
+      b(paramCharSequence);
+    }
+    
+    public void a(String paramString, Bundle paramBundle)
+    {
+      b(paramString, paramBundle);
+    }
+    
+    public void a(List<MediaSessionCompat.QueueItem> paramList)
+    {
+      x = paramList;
+      b(paramList);
+    }
+    
+    public void a(boolean paramBoolean)
+    {
+      if (A != paramBoolean)
+      {
+        A = paramBoolean;
+        c(paramBoolean);
+      }
+    }
+    
+    public PlaybackStateCompat b()
+    {
+      synchronized (k)
+      {
+        PlaybackStateCompat localPlaybackStateCompat = v;
+        return localPlaybackStateCompat;
+      }
+    }
+    
+    public void b(int paramInt)
+    {
+      if (B != paramInt)
+      {
+        B = paramInt;
+        f(paramInt);
+      }
+    }
+    
+    public void b(int paramInt1, int paramInt2)
+    {
+      if (E == 2)
+      {
+        la localLa = G;
+        if (localLa != null) {
+          localLa.b(paramInt1);
+        }
+      }
+      else
+      {
+        i.setStreamVolume(F, paramInt1, paramInt2);
+      }
+    }
+    
+    public void b(PendingIntent paramPendingIntent) {}
+    
+    public void b(PendingIntent paramPendingIntent, ComponentName paramComponentName)
+    {
+      i.unregisterMediaButtonEventReceiver(paramComponentName);
+    }
+    
+    public void b(PlaybackStateCompat paramPlaybackStateCompat)
+    {
+      j.setPlaybackState(e(paramPlaybackStateCompat.l()));
+    }
+    
+    public void b(boolean paramBoolean)
+    {
+      if (paramBoolean == o) {
+        return;
+      }
+      o = paramBoolean;
+      if (h())
+      {
+        a(u);
+        a(v);
+      }
+    }
+    
+    public void c(int paramInt)
+    {
+      z = paramInt;
+    }
+    
+    public boolean c()
+    {
+      return o;
+    }
+    
+    public String d()
+    {
+      return null;
+    }
+    
+    public void d(int paramInt)
+    {
+      la localLa = G;
+      if (localLa != null) {
+        localLa.a(null);
+      }
+      F = paramInt;
+      E = 1;
+      paramInt = E;
+      int i1 = F;
+      a(new ParcelableVolumeInfo(paramInt, i1, 2, i.getStreamMaxVolume(i1), i.getStreamVolume(F)));
+    }
+    
+    public int e(int paramInt)
+    {
+      switch (paramInt)
+      {
+      default: 
+        return -1;
+      case 10: 
+      case 11: 
+        return 6;
+      case 9: 
+        return 7;
+      case 7: 
+        return 9;
+      case 6: 
+      case 8: 
+        return 8;
+      case 5: 
+        return 5;
+      case 4: 
+        return 4;
+      case 3: 
+        return 3;
+      case 2: 
+        return 2;
+      case 1: 
+        return 1;
+      }
+      return 0;
+    }
+    
+    public Object e()
+    {
+      return null;
+    }
+    
+    public Object f()
+    {
+      return null;
+    }
+    
+    public ea.b g()
+    {
+      synchronized (k)
+      {
+        ea.b localB = s;
+        return localB;
+      }
+    }
+    
+    public boolean h()
+    {
+      if (o)
+      {
+        if ((!p) && ((t & 0x1) != 0))
+        {
+          a(d, c);
+          p = true;
+        }
+        else if ((p) && ((t & 0x1) == 0))
+        {
+          b(d, c);
+          p = false;
+        }
+        if ((!q) && ((t & 0x2) != 0))
+        {
+          i.registerRemoteControlClient(j);
+          q = true;
+          return true;
+        }
+        if ((q) && ((t & 0x2) == 0))
+        {
+          j.setPlaybackState(0);
+          i.unregisterRemoteControlClient(j);
+          q = false;
+        }
+      }
+      else
+      {
+        if (p)
+        {
+          b(d, c);
+          p = false;
+        }
+        if (q)
+        {
+          j.setPlaybackState(0);
+          i.unregisterRemoteControlClient(j);
+          q = false;
+        }
+      }
+      return false;
+    }
+    
+    public void release()
+    {
+      o = false;
+      n = true;
+      h();
+      i();
+    }
+    
+    public void setExtras(Bundle paramBundle)
+    {
+      D = paramBundle;
+      b(paramBundle);
+    }
+    
+    public void setFlags(int paramInt)
+    {
+      synchronized (k)
+      {
+        t = paramInt;
+        h();
+        return;
+      }
+    }
+    
+    private static final class a
+    {
+      public final String a;
+      public final Bundle b;
+      public final ResultReceiver c;
+      
+      public a(String paramString, Bundle paramBundle, ResultReceiver paramResultReceiver)
+      {
+        a = paramString;
+        b = paramBundle;
+        c = paramResultReceiver;
+      }
+    }
+    
+    public class b
+      extends b.a
+    {
+      public b() {}
+      
+      public String a()
+      {
+        return g;
+      }
+      
+      public void a(int paramInt)
+        throws RemoteException
+      {
+        a(30, paramInt);
+      }
+      
+      public void a(int paramInt1, int paramInt2)
+      {
+        a(paramInt1, paramInt2, 0, null, null);
+      }
+      
+      public void a(int paramInt1, int paramInt2, String paramString)
+      {
+        b(paramInt1, paramInt2);
+      }
+      
+      public void a(int paramInt, Object paramObject)
+      {
+        a(paramInt, 0, 0, paramObject, null);
+      }
+      
+      public void a(int paramInt1, Object paramObject, int paramInt2)
+      {
+        a(paramInt1, paramInt2, 0, paramObject, null);
+      }
+      
+      public void a(int paramInt, Object paramObject, Bundle paramBundle)
+      {
+        a(paramInt, 0, 0, paramObject, paramBundle);
+      }
+      
+      public void a(long paramLong)
+      {
+        a(11, Long.valueOf(paramLong));
+      }
+      
+      public void a(Uri paramUri, Bundle paramBundle)
+        throws RemoteException
+      {
+        a(6, paramUri, paramBundle);
+      }
+      
+      public void a(MediaDescriptionCompat paramMediaDescriptionCompat)
+      {
+        a(27, paramMediaDescriptionCompat);
+      }
+      
+      public void a(MediaDescriptionCompat paramMediaDescriptionCompat, int paramInt)
+      {
+        a(26, paramMediaDescriptionCompat, paramInt);
+      }
+      
+      public void a(RatingCompat paramRatingCompat)
+        throws RemoteException
+      {
+        a(19, paramRatingCompat);
+      }
+      
+      public void a(RatingCompat paramRatingCompat, Bundle paramBundle)
+        throws RemoteException
+      {
+        a(31, paramRatingCompat, paramBundle);
+      }
+      
+      public void a(b.b.x.h.b.a paramA)
+      {
+        if (n) {}
+        try
+        {
+          paramA.j();
+          return;
+        }
+        catch (Exception paramA) {}
+        ea.b localB = new ea.b("android.media.session.MediaController", Binder.getCallingPid(), Binder.getCallingUid());
+        l.register(paramA, localB);
+        return;
+      }
+      
+      public void a(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        a(20, paramString, paramBundle);
+      }
+      
+      public void a(String paramString, Bundle paramBundle, MediaSessionCompat.ResultReceiverWrapper paramResultReceiverWrapper)
+      {
+        a(1, new MediaSessionCompat.g.a(paramString, paramBundle, a));
+      }
+      
+      public void a(boolean paramBoolean)
+        throws RemoteException
+      {
+        a(29, Boolean.valueOf(paramBoolean));
+      }
+      
+      public boolean a(KeyEvent paramKeyEvent)
+      {
+        int i = t;
+        boolean bool = true;
+        if ((i & 0x1) == 0) {
+          bool = false;
+        }
+        if (bool) {
+          a(21, paramKeyEvent);
+        }
+        return bool;
+      }
+      
+      public PlaybackStateCompat b()
+      {
+        synchronized (k)
+        {
+          PlaybackStateCompat localPlaybackStateCompat = v;
+          MediaMetadataCompat localMediaMetadataCompat = u;
+          return MediaSessionCompat.a(localPlaybackStateCompat, localMediaMetadataCompat);
+        }
+      }
+      
+      public void b(int paramInt)
+        throws RemoteException
+      {
+        a(23, paramInt);
+      }
+      
+      public void b(int paramInt1, int paramInt2, String paramString)
+      {
+        MediaSessionCompat.g.this.a(paramInt1, paramInt2);
+      }
+      
+      public void b(Uri paramUri, Bundle paramBundle)
+        throws RemoteException
+      {
+        a(10, paramUri, paramBundle);
+      }
+      
+      public void b(MediaDescriptionCompat paramMediaDescriptionCompat)
+      {
+        a(25, paramMediaDescriptionCompat);
+      }
+      
+      public void b(b.b.x.h.b.a paramA)
+      {
+        l.unregister(paramA);
+      }
+      
+      public void b(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        a(4, paramString, paramBundle);
+      }
+      
+      public void b(boolean paramBoolean)
+        throws RemoteException
+      {}
+      
+      public int c()
+      {
+        return z;
+      }
+      
+      public void c(int paramInt)
+      {
+        a(28, paramInt);
+      }
+      
+      public void c(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        a(8, paramString, paramBundle);
+      }
+      
+      public int d()
+      {
+        return C;
+      }
+      
+      public void d(int paramInt)
+      {
+        a(paramInt, 0, 0, null, null);
+      }
+      
+      public void d(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        a(9, paramString, paramBundle);
+      }
+      
+      public void e(String paramString, Bundle paramBundle)
+        throws RemoteException
+      {
+        a(5, paramString, paramBundle);
+      }
+      
+      public boolean e()
+      {
+        return A;
+      }
+      
+      public CharSequence f()
+      {
+        return y;
+      }
+      
+      public MediaMetadataCompat g()
+      {
+        return u;
+      }
+      
+      public Bundle getExtras()
+      {
+        synchronized (k)
+        {
+          Bundle localBundle = D;
+          return localBundle;
+        }
+      }
+      
+      public long getFlags()
+      {
+        synchronized (k)
+        {
+          long l = t;
+          return l;
+        }
+      }
+      
+      public String getTag()
+      {
+        return h;
+      }
+      
+      public List<MediaSessionCompat.QueueItem> h()
+      {
+        synchronized (k)
+        {
+          List localList = x;
+          return localList;
+        }
+      }
+      
+      public int i()
+      {
+        return B;
+      }
+      
+      public boolean k()
+      {
+        return false;
+      }
+      
+      public PendingIntent l()
+      {
+        synchronized (k)
+        {
+          PendingIntent localPendingIntent = w;
+          return localPendingIntent;
+        }
+      }
+      
+      public void n()
+        throws RemoteException
+      {
+        d(17);
+      }
+      
+      public void next()
+        throws RemoteException
+      {
+        d(14);
+      }
+      
+      public boolean o()
+      {
+        return (t & 0x2) != 0;
+      }
+      
+      public void p()
+        throws RemoteException
+      {
+        d(3);
+      }
+      
+      public void pause()
+        throws RemoteException
+      {
+        d(12);
+      }
+      
+      public void previous()
+        throws RemoteException
+      {
+        d(15);
+      }
+      
+      public void q()
+        throws RemoteException
+      {
+        d(16);
+      }
+      
+      public void r()
+        throws RemoteException
+      {
+        d(7);
+      }
+      
+      public ParcelableVolumeInfo s()
+      {
+        synchronized (MediaSessionCompat.g.this.k)
+        {
+          int m = E;
+          int n = F;
+          la localLa = G;
+          int j;
+          int i;
+          int k;
+          if (m == 2)
+          {
+            j = localLa.c();
+            i = localLa.b();
+            k = localLa.a();
+          }
+          else
+          {
+            i = MediaSessionCompat.g.this.i.getStreamMaxVolume(n);
+            k = MediaSessionCompat.g.this.i.getStreamVolume(n);
+            j = 2;
+          }
+          return new ParcelableVolumeInfo(m, n, j, i, k);
+        }
+      }
+      
+      public void seekTo(long paramLong)
+        throws RemoteException
+      {
+        a(18, Long.valueOf(paramLong));
+      }
+      
+      public void stop()
+        throws RemoteException
+      {
+        d(13);
+      }
+    }
+    
+    public class c
+      extends Handler
+    {
+      public static final int A = 27;
+      public static final int B = 28;
+      public static final int C = 29;
+      public static final int D = 30;
+      public static final int E = 127;
+      public static final int F = 126;
+      public static final int a = 1;
+      public static final int b = 2;
+      public static final int c = 3;
+      public static final int d = 4;
+      public static final int e = 5;
+      public static final int f = 6;
+      public static final int g = 7;
+      public static final int h = 8;
+      public static final int i = 9;
+      public static final int j = 10;
+      public static final int k = 11;
+      public static final int l = 12;
+      public static final int m = 13;
+      public static final int n = 14;
+      public static final int o = 15;
+      public static final int p = 16;
+      public static final int q = 17;
+      public static final int r = 18;
+      public static final int s = 19;
+      public static final int t = 31;
+      public static final int u = 20;
+      public static final int v = 21;
+      public static final int w = 22;
+      public static final int x = 23;
+      public static final int y = 25;
+      public static final int z = 26;
+      
+      public c(Looper paramLooper)
+      {
+        super();
+      }
+      
+      private void a(KeyEvent paramKeyEvent, MediaSessionCompat.a paramA)
+      {
+        if (paramKeyEvent != null)
+        {
+          if (paramKeyEvent.getAction() != 0) {
+            return;
+          }
+          PlaybackStateCompat localPlaybackStateCompat = v;
+          long l1;
+          if (localPlaybackStateCompat == null) {
+            l1 = 0L;
+          } else {
+            l1 = localPlaybackStateCompat.a();
+          }
+          int i1 = paramKeyEvent.getKeyCode();
+          if (i1 != 79)
+          {
+            if (i1 != 126) {
+              if (i1 == 127) {}
+            }
+            switch (i1)
+            {
+            default: 
+              
+            case 90: 
+              if ((l1 & 0x40) != 0L)
+              {
+                paramA.a();
+                return;
+              }
+              break;
+            case 89: 
+              if ((l1 & 0x8) != 0L)
+              {
+                paramA.e();
+                return;
+              }
+              break;
+            case 88: 
+              if ((l1 & 0x10) != 0L)
+              {
+                paramA.g();
+                return;
+              }
+              break;
+            case 87: 
+              if ((l1 & 0x20) != 0L)
+              {
+                paramA.f();
+                return;
+              }
+              break;
+            case 86: 
+              if ((l1 & 1L) != 0L)
+              {
+                paramA.h();
+                return;
+                if ((l1 & 0x2) != 0L)
+                {
+                  paramA.b();
+                  return;
+                  if ((l1 & 0x4) != 0L) {
+                    paramA.c();
+                  }
+                }
+              }
+              break;
+            }
+          }
+        }
+      }
+      
+      public void handleMessage(Message paramMessage)
+      {
+        MediaSessionCompat.a localA = r;
+        if (localA == null) {
+          return;
+        }
+        Object localObject = paramMessage.getData();
+        MediaSessionCompat.a((Bundle)localObject);
+        a(new ea.b(((Bundle)localObject).getString("data_calling_pkg"), ((Bundle)localObject).getInt("data_calling_pid"), ((Bundle)localObject).getInt("data_calling_uid")));
+        localObject = ((Bundle)localObject).getBundle("data_extras");
+        MediaSessionCompat.a((Bundle)localObject);
+        for (;;)
+        {
+          try
+          {
+            switch (what)
+            {
+            case 31: 
+              localA.a((RatingCompat)obj, (Bundle)localObject);
+              break;
+            case 30: 
+              localA.c(arg1);
+              break;
+            case 29: 
+              localA.a(((Boolean)obj).booleanValue());
+              break;
+            case 28: 
+              if (x != null)
+              {
+                int i1 = arg1;
+                if ((i1 < 0) || (i1 >= x.size())) {
+                  break label729;
+                }
+                paramMessage = (MediaSessionCompat.QueueItem)x.get(arg1);
+                if (paramMessage != null) {
+                  localA.b(paramMessage.a());
+                }
+              }
+              break;
+            case 27: 
+              localA.b((MediaDescriptionCompat)obj);
+              break;
+            case 26: 
+              localA.a((MediaDescriptionCompat)obj, arg1);
+              break;
+            case 25: 
+              localA.a((MediaDescriptionCompat)obj);
+              break;
+            case 23: 
+              localA.b(arg1);
+              break;
+            case 22: 
+              b(arg1, 0);
+              break;
+            case 21: 
+              paramMessage = (KeyEvent)obj;
+              localObject = new Intent("android.intent.action.MEDIA_BUTTON");
+              ((Intent)localObject).putExtra("android.intent.extra.KEY_EVENT", paramMessage);
+              if (!localA.a((Intent)localObject)) {
+                a(paramMessage, localA);
+              }
+              break;
+            case 20: 
+              localA.a((String)obj, (Bundle)localObject);
+              break;
+            case 19: 
+              localA.a((RatingCompat)obj);
+              break;
+            case 18: 
+              localA.a(((Long)obj).longValue());
+              break;
+            case 17: 
+              localA.e();
+              break;
+            case 16: 
+              localA.a();
+              break;
+            case 15: 
+              localA.g();
+              break;
+            case 14: 
+              localA.f();
+              break;
+            case 13: 
+              localA.h();
+              break;
+            case 12: 
+              localA.b();
+              break;
+            case 11: 
+              localA.b(((Long)obj).longValue());
+              break;
+            case 10: 
+              localA.a((Uri)obj, (Bundle)localObject);
+              break;
+            case 9: 
+              localA.c((String)obj, (Bundle)localObject);
+              break;
+            case 8: 
+              localA.b((String)obj, (Bundle)localObject);
+              break;
+            case 7: 
+              localA.c();
+              break;
+            case 6: 
+              localA.b((Uri)obj, (Bundle)localObject);
+              break;
+            case 5: 
+              localA.e((String)obj, (Bundle)localObject);
+              break;
+            case 4: 
+              localA.d((String)obj, (Bundle)localObject);
+              break;
+            case 3: 
+              localA.d();
+              break;
+            case 2: 
+              a(arg1, 0);
+              break;
+            case 1: 
+              paramMessage = (MediaSessionCompat.g.a)obj;
+              localA.a(a, b, c);
+              return;
+            }
+          }
+          finally
+          {
+            a(null);
+          }
+          continue;
+          label729:
+          paramMessage = null;
+        }
+      }
+    }
+  }
+  
+  public static abstract interface h
+  {
+    public abstract void a();
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface i {}
+}

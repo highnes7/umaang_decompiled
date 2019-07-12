@@ -1,0 +1,126 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.g;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class ClassificationBox
+  extends c
+{
+  public static final String TYPE = "clsf";
+  public String classificationEntity;
+  public String classificationInfo;
+  public int classificationTableIndex;
+  public String language;
+  
+  static {}
+  
+  public ClassificationBox()
+  {
+    super("clsf");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    byte[] arrayOfByte = new byte[4];
+    paramByteBuffer.get(arrayOfByte);
+    classificationEntity = g.a(arrayOfByte);
+    classificationTableIndex = h.g(paramByteBuffer);
+    language = h.e(paramByteBuffer);
+    classificationInfo = h.f(paramByteBuffer);
+  }
+  
+  public String getClassificationEntity()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return classificationEntity;
+  }
+  
+  public String getClassificationInfo()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return classificationInfo;
+  }
+  
+  public int getClassificationTableIndex()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return classificationTableIndex;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.put(g.b(classificationEntity));
+    f.b.a.j.a(paramByteBuffer, classificationTableIndex);
+    f.b.a.j.a(paramByteBuffer, language);
+    paramByteBuffer.put(m.a(classificationInfo));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public long getContentSize()
+  {
+    return m.b(classificationInfo) + 8 + 1;
+  }
+  
+  public String getLanguage()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return language;
+  }
+  
+  public void setClassificationEntity(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    classificationEntity = paramString;
+  }
+  
+  public void setClassificationInfo(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_7, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    classificationInfo = paramString;
+  }
+  
+  public void setClassificationTableIndex(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    classificationTableIndex = paramInt;
+  }
+  
+  public void setLanguage(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_6, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    language = paramString;
+  }
+  
+  public String toString()
+  {
+    Object localObject = Factory.makeJP(ajc$tjp_8, this, this);
+    f.h.a.j.b().a((JoinPoint)localObject);
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("ClassificationBox[language=");
+    ((StringBuilder)localObject).append(getLanguage());
+    ((StringBuilder)localObject).append("classificationEntity=");
+    ((StringBuilder)localObject).append(getClassificationEntity());
+    ((StringBuilder)localObject).append(";classificationTableIndex=");
+    ((StringBuilder)localObject).append(getClassificationTableIndex());
+    ((StringBuilder)localObject).append(";language=");
+    ((StringBuilder)localObject).append(getLanguage());
+    ((StringBuilder)localObject).append(";classificationInfo=");
+    ((StringBuilder)localObject).append(getClassificationInfo());
+    ((StringBuilder)localObject).append("]");
+    return ((StringBuilder)localObject).toString();
+  }
+}

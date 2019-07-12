@@ -1,0 +1,44 @@
+package com.google.android.gms.auth.account;
+
+import android.accounts.Account;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.internal.zzeb;
+import com.google.android.gms.internal.zzed;
+
+public final class zze
+  extends zzeb
+  implements zzc
+{
+  public zze(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.gms.auth.account.IWorkAccountService");
+  }
+  
+  public final void zza(zza paramZza, Account paramAccount)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramZza);
+    zzed.zza(localParcel, paramAccount);
+    zzb(3, localParcel);
+  }
+  
+  public final void zza(zza paramZza, String paramString)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramZza);
+    localParcel.writeString(paramString);
+    zzb(2, localParcel);
+  }
+  
+  public final void zzap(boolean paramBoolean)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramBoolean);
+    zzb(1, localParcel);
+  }
+}

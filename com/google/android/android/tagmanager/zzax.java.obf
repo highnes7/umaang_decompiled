@@ -1,0 +1,193 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build.VERSION;
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+
+public final class zzax
+  extends SQLiteOpenHelper
+{
+  public zzax(zzat paramZzat, Context paramContext, String paramString)
+  {
+    super(paramContext, paramString, null, 1);
+  }
+  
+  /* Error */
+  public static boolean zza(String paramString, SQLiteDatabase paramSQLiteDatabase)
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 4
+    //   3: aconst_null
+    //   4: astore_3
+    //   5: aload_1
+    //   6: ldc 20
+    //   8: iconst_1
+    //   9: anewarray 22	java/lang/String
+    //   12: dup
+    //   13: iconst_0
+    //   14: ldc 24
+    //   16: aastore
+    //   17: ldc 26
+    //   19: iconst_1
+    //   20: anewarray 22	java/lang/String
+    //   23: dup
+    //   24: iconst_0
+    //   25: aload_0
+    //   26: aastore
+    //   27: aconst_null
+    //   28: aconst_null
+    //   29: aconst_null
+    //   30: invokevirtual 32	android/database/sqlite/SQLiteDatabase:query	(Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+    //   33: astore_1
+    //   34: aload_1
+    //   35: astore_3
+    //   36: aload_1
+    //   37: astore 4
+    //   39: aload_1
+    //   40: invokeinterface 38 1 0
+    //   45: istore_2
+    //   46: aload_1
+    //   47: invokeinterface 42 1 0
+    //   52: iload_2
+    //   53: ireturn
+    //   54: astore_0
+    //   55: goto +73 -> 128
+    //   58: aload 4
+    //   60: astore_3
+    //   61: aload_0
+    //   62: invokestatic 46	java/lang/String:valueOf	(Ljava/lang/Object;)Ljava/lang/String;
+    //   65: astore_0
+    //   66: aload 4
+    //   68: astore_3
+    //   69: aload_0
+    //   70: invokevirtual 50	java/lang/String:length	()I
+    //   73: ifeq +16 -> 89
+    //   76: aload 4
+    //   78: astore_3
+    //   79: ldc 52
+    //   81: aload_0
+    //   82: invokevirtual 56	java/lang/String:concat	(Ljava/lang/String;)Ljava/lang/String;
+    //   85: astore_0
+    //   86: goto +16 -> 102
+    //   89: aload 4
+    //   91: astore_3
+    //   92: new 22	java/lang/String
+    //   95: dup
+    //   96: ldc 52
+    //   98: invokespecial 59	java/lang/String:<init>	(Ljava/lang/String;)V
+    //   101: astore_0
+    //   102: aload 4
+    //   104: astore_3
+    //   105: getstatic 65	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   108: aload_0
+    //   109: invokeinterface 70 2 0
+    //   114: aload 4
+    //   116: ifnull +10 -> 126
+    //   119: aload 4
+    //   121: invokeinterface 42 1 0
+    //   126: iconst_0
+    //   127: ireturn
+    //   128: aload_3
+    //   129: ifnull +9 -> 138
+    //   132: aload_3
+    //   133: invokeinterface 42 1 0
+    //   138: aload_0
+    //   139: athrow
+    //   140: astore_1
+    //   141: goto -83 -> 58
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	144	0	paramString	String
+    //   0	144	1	paramSQLiteDatabase	SQLiteDatabase
+    //   45	8	2	bool	boolean
+    //   4	129	3	localSQLiteDatabase1	SQLiteDatabase
+    //   1	119	4	localSQLiteDatabase2	SQLiteDatabase
+    // Exception table:
+    //   from	to	target	type
+    //   5	34	54	finally
+    //   39	46	54	finally
+    //   61	66	54	finally
+    //   69	76	54	finally
+    //   79	86	54	finally
+    //   92	102	54	finally
+    //   105	114	54	finally
+    //   5	34	140	android/database/sqlite/SQLiteException
+    //   39	46	140	android/database/sqlite/SQLiteException
+  }
+  
+  public final SQLiteDatabase getWritableDatabase()
+  {
+    try
+    {
+      localSQLiteDatabase1 = super.getWritableDatabase();
+    }
+    catch (SQLiteException localSQLiteException)
+    {
+      SQLiteDatabase localSQLiteDatabase1;
+      SQLiteDatabase localSQLiteDatabase2;
+      for (;;) {}
+    }
+    zzat.zzb(zzjqw).getDatabasePath("google_tagmanager.db").delete();
+    localSQLiteDatabase1 = null;
+    localSQLiteDatabase2 = localSQLiteDatabase1;
+    if (localSQLiteDatabase1 == null) {
+      localSQLiteDatabase2 = super.getWritableDatabase();
+    }
+    return localSQLiteDatabase2;
+  }
+  
+  public final void onCreate(SQLiteDatabase paramSQLiteDatabase)
+  {
+    zzbs.zzlr(paramSQLiteDatabase.getPath());
+  }
+  
+  public final void onDowngrade(SQLiteDatabase paramSQLiteDatabase, int paramInt1, int paramInt2) {}
+  
+  public final void onOpen(SQLiteDatabase paramSQLiteDatabase)
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (!zza("datalayer", paramSQLiteDatabase))
+    {
+      paramSQLiteDatabase.execSQL(zzat.zzjqq);
+      return;
+    }
+    paramSQLiteDatabase = paramSQLiteDatabase.rawQuery("SELECT * FROM datalayer WHERE 0", null);
+    HashSet localHashSet = new HashSet();
+    try
+    {
+      String[] arrayOfString = paramSQLiteDatabase.getColumnNames();
+      i = 0;
+      while (i < arrayOfString.length)
+      {
+        localHashSet.add(arrayOfString[i]);
+        i += 1;
+      }
+      paramSQLiteDatabase.close();
+      if ((localHashSet.remove("key")) && (localHashSet.remove("value")) && (localHashSet.remove("ID")) && (localHashSet.remove("expires")))
+      {
+        if (localHashSet.isEmpty()) {
+          return;
+        }
+        throw new SQLiteException("Database has extra columns");
+      }
+      throw new SQLiteException("Database column missing");
+    }
+    finally
+    {
+      paramSQLiteDatabase.close();
+    }
+    for (;;)
+    {
+      throw localObject;
+    }
+  }
+  
+  public final void onUpgrade(SQLiteDatabase paramSQLiteDatabase, int paramInt1, int paramInt2) {}
+}

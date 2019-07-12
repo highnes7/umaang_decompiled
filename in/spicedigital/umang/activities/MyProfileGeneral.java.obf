@@ -1,0 +1,404 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Resources;
+import android.graphics.Bitmap.Config;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView.a;
+import e.a.a.i;
+import f.l.a.b.d;
+import f.l.a.b.d.a;
+import f.l.a.b.f;
+import k.a.a.a.Al;
+import k.a.a.a.Bl;
+import k.a.a.a.Cl;
+import k.a.a.a.Dl;
+import k.a.a.a.El;
+import k.a.a.a.Fl;
+import k.a.a.a.Gl;
+import k.a.a.a.tl;
+import k.a.a.a.ul;
+import k.a.a.a.vl;
+import k.a.a.a.wl;
+import k.a.a.a.xl;
+import k.a.a.a.yl;
+import k.a.a.a.zl;
+import k.a.a.c.W;
+import k.a.a.l.u;
+import k.a.a.m.Ea;
+import k.a.a.m.Fa;
+import k.a.a.m.V;
+import k.a.a.m.Wa;
+import org.json.JSONObject;
+
+public class MyProfileGeneral
+  extends BaseActivity
+{
+  public d A;
+  public boolean B = false;
+  public Snackbar C = null;
+  public BroadcastReceiver D;
+  public Uri E;
+  public f.l.a.b.f.a F = new xl(this);
+  public String TAG = "MyProfileGeneral";
+  public Toolbar b;
+  public View c;
+  public TextView d;
+  public TextView e;
+  public NestedScrollView f;
+  public TextView g;
+  public TextView h;
+  public TextView i;
+  public TextView j;
+  public TextView k;
+  public TextView l;
+  public TextView m;
+  public TextView n;
+  public TextView o;
+  public TextView p;
+  public TextView q;
+  public TextView r;
+  public TextView s;
+  public TextView t;
+  public LinearLayout u;
+  public V v;
+  public i w;
+  public ImageView x;
+  public ImageView y;
+  public f z;
+  
+  public MyProfileGeneral() {}
+  
+  private void a(String paramString, boolean paramBoolean)
+  {
+    if (paramBoolean)
+    {
+      C = Snackbar.make(f, getResources().getString(2131756005), -2);
+      paramString = C.getView();
+      paramString.setBackgroundColor(getResources().getColor(2131099887));
+      ((Button)paramString.findViewById(2131297588)).setOnClickListener(new tl(this));
+      C.show();
+      return;
+    }
+    paramString = C;
+    if (paramString != null) {
+      paramString.dismiss();
+    }
+  }
+  
+  private void e()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("mno", v.a(V.da, ""));
+      localJSONObject.put("type", "general");
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new u(new Bl(this), "https://app.umang.gov.in/umang/coreapi/ws2/fp", (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private void f()
+    throws Exception
+  {
+    Wa localWa = new Wa(this);
+    W localW = localWa.i();
+    g.setText(localWa.a(localW.u()));
+    h.setText(localWa.a(localW.q()));
+    k.setText(localW.x());
+    j.setText(localW.h());
+    i.setText(localWa.a(localW.a()));
+    l.setText(localWa.a(localW.r()));
+    m.setText(localWa.a(localW.y()));
+    n.setText(localWa.a(localW.o()));
+    o.setText(localWa.a(localW.m()));
+    p.setText(localWa.a(localW.p()));
+    q.setText(localWa.a(localW.l()));
+    r.setText(localWa.a(localW.g()));
+    s.setText(localWa.a(localW.u()));
+    if (localWa.a(localW.u()).equalsIgnoreCase("")) {
+      s.setVisibility(8);
+    }
+    t.setText(v.a(V.da, ""));
+    if (localW.s().equalsIgnoreCase("M"))
+    {
+      y.setVisibility(0);
+      y.setImageResource(2131231235);
+    }
+    else if (localW.s().equalsIgnoreCase("F"))
+    {
+      y.setVisibility(0);
+      y.setImageResource(2131231042);
+    }
+    else if (localW.s().equalsIgnoreCase("T"))
+    {
+      y.setVisibility(0);
+      y.setImageResource(2131231690);
+    }
+    else
+    {
+      y.setVisibility(0);
+      y.setImageResource(2131231690);
+    }
+    if (localW.v().length() > 0) {
+      z.a(localW.v(), y, A, F);
+    }
+    if (localWa.a(localW.q()).length() > 0)
+    {
+      if (localWa.o().equalsIgnoreCase("0"))
+      {
+        x.setImageResource(2131231011);
+        x.setEnabled(true);
+        x.setVisibility(0);
+        B = false;
+      }
+      else if (localWa.o().equalsIgnoreCase("1"))
+      {
+        x.setImageResource(2131231010);
+        x.setEnabled(false);
+        x.setVisibility(0);
+        B = true;
+      }
+      else
+      {
+        x.setVisibility(8);
+      }
+    }
+    else {
+      x.setVisibility(8);
+    }
+    f.setVisibility(0);
+  }
+  
+  private void g()
+  {
+    Dialog localDialog = new Dialog(this);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131493203);
+    TextView localTextView = (TextView)localDialog.findViewById(2131297550);
+    localDialog.setCancelable(true);
+    localDialog.show();
+    ((TextView)localDialog.findViewById(2131297427)).setOnClickListener(new Dl(this, localDialog));
+    localTextView.setOnClickListener(new El(this, localDialog));
+  }
+  
+  private void h()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("email", h.getText().toString());
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new u(new Fl(this), "https://app.umang.gov.in/umang/coreapi/ws2/reever", (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private void i()
+  {
+    u = ((LinearLayout)findViewById(2131296979));
+    f = ((NestedScrollView)findViewById(2131296834));
+    g = ((TextView)findViewById(2131297307));
+    h = ((TextView)findViewById(2131297303));
+    l = ((TextView)findViewById(2131297304));
+    k = ((TextView)findViewById(2131297302));
+    j = ((TextView)findViewById(2131297308));
+    m = ((TextView)findViewById(2131297313));
+    n = ((TextView)findViewById(2131297300));
+    o = ((TextView)findViewById(2131297298));
+    p = ((TextView)findViewById(2131297301));
+    q = ((TextView)findViewById(2131297297));
+    i = ((TextView)findViewById(2131297296));
+    r = ((TextView)findViewById(2131297312));
+    s = ((TextView)findViewById(2131296863));
+    t = ((TextView)findViewById(2131296862));
+    x = ((ImageView)findViewById(2131297578));
+    x.setVisibility(8);
+    x.setOnClickListener(new Al(this));
+    y = ((ImageView)findViewById(2131297986));
+    u.setVisibility(0);
+    f.setVisibility(8);
+  }
+  
+  private void registerNetworkReceiver()
+  {
+    Fa localFa = new Fa(new Gl(this), this);
+    IntentFilter localIntentFilter = new IntentFilter();
+    localIntentFilter.addAction("android.net.wifi.STATE_CHANGE");
+    localIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+    D = localFa.c();
+    registerReceiver(D, localIntentFilter);
+  }
+  
+  public void d()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new u(new Cl(this), "https://app.umang.gov.in/umang/coreapi/ws2/fstqu", (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  public void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
+  {
+    super.onActivityResult(paramInt1, paramInt2, paramIntent);
+    if ((paramInt1 == 2016) && (paramInt2 == -1))
+    {
+      if (!isFinishing()) {
+        runOnUiThread(new ul(this));
+      }
+    }
+    else if (paramInt1 == 203)
+    {
+      paramIntent = CropImage.a(paramIntent);
+      if (paramInt2 == -1)
+      {
+        if (!isFinishing()) {
+          runOnUiThread(new vl(this, paramIntent));
+        }
+      }
+      else
+      {
+        if (paramInt2 == 204)
+        {
+          paramIntent.d();
+          isFinishing();
+          return;
+        }
+        if (!isFinishing()) {
+          runOnUiThread(new wl(this));
+        }
+      }
+    }
+  }
+  
+  public void onCreate(Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131493155);
+    Ea.a(this, "UMANG Profile Screen");
+    v = new V(this);
+    z = f.g();
+    A = f.a.a.a.a.a(true, true).a(Bitmap.Config.RGB_565).a();
+    b = ((Toolbar)findViewById(2131297768));
+    f.a.a.a.a.a(this, b, true);
+    c = b.getRootView();
+    d = ((TextView)c.findViewById(2131297758));
+    f.a.a.a.a.a(this, 2131755776, d);
+    try
+    {
+      paramBundle = getIntent().getStringExtra("notifId");
+      if (paramBundle != null)
+      {
+        k.a.a.e.b.a(this).E(paramBundle);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      k.a.a.m.b.a(paramBundle);
+    }
+    e = ((TextView)c.findViewById(2131296696));
+    e.setOnClickListener(new yl(this));
+    i();
+    ((AppBarLayout)findViewById(2131296858)).addOnOffsetChangedListener(new zl(this));
+  }
+  
+  public void onNewIntent(Intent paramIntent)
+  {
+    super.onNewIntent(paramIntent);
+    setIntent(paramIntent);
+    try
+    {
+      paramIntent = getIntent().getStringExtra("notifId");
+      if (paramIntent != null)
+      {
+        k.a.a.e.b.a(this).E(paramIntent);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+        return;
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      onBackPressed();
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+  
+  public void onPause()
+  {
+    super.onPause();
+    unregisterReceiver(D);
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    registerNetworkReceiver();
+    if (v.a(V.Za, "").length() == 0)
+    {
+      d();
+      return;
+    }
+    e();
+  }
+}

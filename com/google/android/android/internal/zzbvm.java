@@ -1,0 +1,72 @@
+package com.google.android.android.internal;
+
+import android.os.Binder;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.android.dynamic.IObjectWrapper.zza;
+
+public abstract class zzbvm
+  extends zzec
+  implements zzbvl
+{
+  public zzbvm()
+  {
+    attachInterface(this, "com.google.android.gms.flags.IFlagProvider");
+  }
+  
+  public static zzbvl asInterface(IBinder paramIBinder)
+  {
+    if (paramIBinder == null) {
+      return null;
+    }
+    IInterface localIInterface = paramIBinder.queryLocalInterface("com.google.android.gms.flags.IFlagProvider");
+    if ((localIInterface instanceof zzbvl)) {
+      return (zzbvl)localIInterface;
+    }
+    return new zzbvn(paramIBinder);
+  }
+  
+  public boolean onTransact(int paramInt1, Parcel paramParcel1, Parcel paramParcel2, int paramInt2)
+    throws RemoteException
+  {
+    if (connect(paramInt1, paramParcel1, paramParcel2, paramInt2)) {
+      return true;
+    }
+    if (paramInt1 != 1)
+    {
+      if (paramInt1 != 2)
+      {
+        if (paramInt1 != 3)
+        {
+          if (paramInt1 != 4)
+          {
+            if (paramInt1 != 5) {
+              return false;
+            }
+            paramParcel1 = getStringFlagValue(paramParcel1.readString(), paramParcel1.readString(), paramParcel1.readInt());
+            paramParcel2.writeNoException();
+            paramParcel2.writeString(paramParcel1);
+            return true;
+          }
+          long l = getLongFlagValue(paramParcel1.readString(), paramParcel1.readLong(), paramParcel1.readInt());
+          paramParcel2.writeNoException();
+          paramParcel2.writeLong(l);
+          return true;
+        }
+        paramInt1 = getIntFlagValue(paramParcel1.readString(), paramParcel1.readInt(), paramParcel1.readInt());
+        paramParcel2.writeNoException();
+        paramParcel2.writeInt(paramInt1);
+        return true;
+      }
+      boolean bool = getBooleanFlagValue(paramParcel1.readString(), zzed.readString(paramParcel1), paramParcel1.readInt());
+      paramParcel2.writeNoException();
+      zzed.append(paramParcel2, bool);
+      return true;
+    }
+    init(IObjectWrapper.zza.zzao(paramParcel1.readStrongBinder()));
+    paramParcel2.writeNoException();
+    return true;
+  }
+}

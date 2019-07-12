@@ -1,0 +1,221 @@
+package b.b.x.e.b;
+
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
+import android.hardware.fingerprint.FingerprintManager.AuthenticationCallback;
+import android.hardware.fingerprint.FingerprintManager.CryptoObject;
+import android.os.Build.VERSION;
+import android.os.CancellationSignal;
+import android.os.Handler;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.M;
+import java.security.Signature;
+import javax.crypto.Cipher;
+import javax.crypto.Mac;
+
+public final class b
+{
+  public final Context a;
+  
+  public b(Context paramContext)
+  {
+    a = paramContext;
+  }
+  
+  @K(23)
+  public static FingerprintManager.AuthenticationCallback a(a paramA)
+  {
+    return new a(paramA);
+  }
+  
+  @K(23)
+  public static FingerprintManager.CryptoObject a(c paramC)
+  {
+    FingerprintManager.CryptoObject localCryptoObject = null;
+    if (paramC == null) {
+      return null;
+    }
+    if (paramC.a() != null) {
+      return new FingerprintManager.CryptoObject(paramC.a());
+    }
+    if (paramC.c() != null) {
+      return new FingerprintManager.CryptoObject(paramC.c());
+    }
+    if (paramC.b() != null) {
+      localCryptoObject = new FingerprintManager.CryptoObject(paramC.b());
+    }
+    return localCryptoObject;
+  }
+  
+  @K(23)
+  public static c a(FingerprintManager.CryptoObject paramCryptoObject)
+  {
+    c localC = null;
+    if (paramCryptoObject == null) {
+      return null;
+    }
+    if (paramCryptoObject.getCipher() != null) {
+      return new c(paramCryptoObject.getCipher());
+    }
+    if (paramCryptoObject.getSignature() != null) {
+      return new c(paramCryptoObject.getSignature());
+    }
+    if (paramCryptoObject.getMac() != null) {
+      localC = new c(paramCryptoObject.getMac());
+    }
+    return localC;
+  }
+  
+  @F
+  public static b a(@F Context paramContext)
+  {
+    return new b(paramContext);
+  }
+  
+  @G
+  @K(23)
+  public static FingerprintManager b(@F Context paramContext)
+  {
+    if (paramContext.getPackageManager().hasSystemFeature("android.hardware.fingerprint")) {
+      return (FingerprintManager)paramContext.getSystemService(FingerprintManager.class);
+    }
+    return null;
+  }
+  
+  @M("android.permission.USE_FINGERPRINT")
+  public void a(@G c paramC, int paramInt, @G b.b.x.j.b paramB, @F a paramA, @G Handler paramHandler)
+  {
+    if (Build.VERSION.SDK_INT >= 23)
+    {
+      FingerprintManager localFingerprintManager = b(a);
+      if (localFingerprintManager != null)
+      {
+        if (paramB != null) {
+          paramB = (CancellationSignal)paramB.b();
+        } else {
+          paramB = null;
+        }
+        localFingerprintManager.authenticate(a(paramC), paramB, paramInt, new a(paramA), paramHandler);
+      }
+    }
+  }
+  
+  @M("android.permission.USE_FINGERPRINT")
+  public boolean a()
+  {
+    int i = Build.VERSION.SDK_INT;
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (i >= 23)
+    {
+      FingerprintManager localFingerprintManager = b(a);
+      bool1 = bool2;
+      if (localFingerprintManager != null)
+      {
+        bool1 = bool2;
+        if (localFingerprintManager.hasEnrolledFingerprints()) {
+          bool1 = true;
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  @M("android.permission.USE_FINGERPRINT")
+  public boolean b()
+  {
+    int i = Build.VERSION.SDK_INT;
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (i >= 23)
+    {
+      FingerprintManager localFingerprintManager = b(a);
+      bool1 = bool2;
+      if (localFingerprintManager != null)
+      {
+        bool1 = bool2;
+        if (localFingerprintManager.isHardwareDetected()) {
+          bool1 = true;
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public static abstract class a
+  {
+    public a() {}
+    
+    public void a() {}
+    
+    public void a(int paramInt, CharSequence paramCharSequence) {}
+    
+    public void a(b.b paramB) {}
+    
+    public void b(int paramInt, CharSequence paramCharSequence) {}
+  }
+  
+  public static final class b
+  {
+    public final b.c a;
+    
+    public b(b.c paramC)
+    {
+      a = paramC;
+    }
+    
+    public b.c a()
+    {
+      return a;
+    }
+  }
+  
+  public static class c
+  {
+    public final Signature a;
+    public final Cipher b;
+    public final Mac c;
+    
+    public c(@F Signature paramSignature)
+    {
+      a = paramSignature;
+      b = null;
+      c = null;
+    }
+    
+    public c(@F Cipher paramCipher)
+    {
+      b = paramCipher;
+      a = null;
+      c = null;
+    }
+    
+    public c(@F Mac paramMac)
+    {
+      c = paramMac;
+      b = null;
+      a = null;
+    }
+    
+    @G
+    public Cipher a()
+    {
+      return b;
+    }
+    
+    @G
+    public Mac b()
+    {
+      return c;
+    }
+    
+    @G
+    public Signature c()
+    {
+      return a;
+    }
+  }
+}

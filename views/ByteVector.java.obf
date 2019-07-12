@@ -1,0 +1,456 @@
+package d;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.net.Uri.Builder;
+import android.os.Bundle;
+import android.util.SparseArray;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class f
+{
+  public static final String a = "user_agent";
+  public static final String b = "version";
+  public static final String c = "referer_app_link";
+  public static final String d = "app_name";
+  public static final String e = "package";
+  public static final String f = "1.0";
+  public static g g;
+  public final d h;
+  public final Bundle i;
+  public final Bundle j;
+  
+  public f(d paramD, Bundle paramBundle1, Bundle paramBundle2)
+  {
+    if (paramD != null)
+    {
+      Bundle localBundle = paramBundle1;
+      if (paramBundle1 == null) {
+        localBundle = new Bundle();
+      }
+      paramBundle1 = paramBundle2;
+      if (paramBundle2 == null) {
+        paramBundle1 = new Bundle();
+      }
+      h = paramD;
+      i = localBundle;
+      j = paramBundle1;
+      return;
+    }
+    throw new IllegalArgumentException("appLink must not be null.");
+  }
+  
+  public static F<a> a(Context paramContext, Uri paramUri)
+  {
+    return a(paramContext, paramUri, a(paramContext));
+  }
+  
+  public static F<a> a(Context paramContext, Uri paramUri, g paramG)
+  {
+    return paramG.getAppLinkFromUrlInBackground(paramUri).c(new e(paramContext), F.c);
+  }
+  
+  public static F<a> a(Context paramContext, String paramString)
+  {
+    return a(paramContext, paramString, a(paramContext));
+  }
+  
+  public static F<a> a(Context paramContext, String paramString, g paramG)
+  {
+    return a(paramContext, Uri.parse(paramString), paramG);
+  }
+  
+  public static F<a> a(Context paramContext, URL paramURL)
+  {
+    g localG = a(paramContext);
+    return a(paramContext, Uri.parse(paramURL.toString()), localG);
+  }
+  
+  public static F<a> a(Context paramContext, URL paramURL, g paramG)
+  {
+    return a(paramContext, Uri.parse(paramURL.toString()), paramG);
+  }
+  
+  public static a a(Context paramContext, d paramD)
+  {
+    return new f(paramD, null, null).b(paramContext);
+  }
+  
+  public static g a(Context paramContext)
+  {
+    g localG = g;
+    if (localG != null) {
+      return localG;
+    }
+    return new L(paramContext);
+  }
+  
+  private Object a(Object paramObject)
+    throws JSONException
+  {
+    if ((paramObject instanceof Bundle)) {
+      return a((Bundle)paramObject);
+    }
+    if ((paramObject instanceof CharSequence)) {
+      return paramObject.toString();
+    }
+    JSONArray localJSONArray;
+    if ((paramObject instanceof List))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = ((List)paramObject).iterator();
+      while (paramObject.hasNext()) {
+        localJSONArray.put(a(paramObject.next()));
+      }
+      return localJSONArray;
+    }
+    boolean bool = paramObject instanceof SparseArray;
+    int k = 0;
+    int m = 0;
+    int n = 0;
+    int i1 = 0;
+    int i2 = 0;
+    int i3 = 0;
+    int i4 = 0;
+    int i5 = 0;
+    int i6 = 0;
+    int i7 = 0;
+    if (bool)
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (SparseArray)paramObject;
+      k = i7;
+      while (k < paramObject.size())
+      {
+        localJSONArray.put(paramObject.keyAt(k), a(paramObject.valueAt(k)));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof Character)) {
+      return paramObject.toString();
+    }
+    if ((paramObject instanceof Boolean)) {
+      return paramObject;
+    }
+    if ((paramObject instanceof Number))
+    {
+      if ((!(paramObject instanceof Double)) && (!(paramObject instanceof Float))) {
+        return Long.valueOf(((Number)paramObject).longValue());
+      }
+      return Double.valueOf(((Number)paramObject).doubleValue());
+    }
+    if ((paramObject instanceof boolean[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (boolean[])paramObject;
+      m = paramObject.length;
+      while (k < m)
+      {
+        localJSONArray.put(a(Boolean.valueOf(paramObject[k])));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof char[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (char[])paramObject;
+      n = paramObject.length;
+      k = m;
+      while (k < n)
+      {
+        localJSONArray.put(a(Character.valueOf(paramObject[k])));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof CharSequence[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (CharSequence[])paramObject;
+      m = paramObject.length;
+      k = n;
+      while (k < m)
+      {
+        localJSONArray.put(a(paramObject[k]));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof double[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (double[])paramObject;
+      m = paramObject.length;
+      k = i1;
+      while (k < m)
+      {
+        localJSONArray.put(a(Double.valueOf(paramObject[k])));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof float[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (float[])paramObject;
+      m = paramObject.length;
+      k = i2;
+      while (k < m)
+      {
+        localJSONArray.put(a(Float.valueOf(paramObject[k])));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof int[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (int[])paramObject;
+      m = paramObject.length;
+      k = i3;
+      while (k < m)
+      {
+        localJSONArray.put(a(Integer.valueOf(paramObject[k])));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof long[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (long[])paramObject;
+      m = paramObject.length;
+      k = i4;
+      while (k < m)
+      {
+        localJSONArray.put(a(Long.valueOf(paramObject[k])));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof short[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (short[])paramObject;
+      m = paramObject.length;
+      k = i5;
+      while (k < m)
+      {
+        localJSONArray.put(a(Short.valueOf(paramObject[k])));
+        k += 1;
+      }
+      return localJSONArray;
+    }
+    if ((paramObject instanceof String[]))
+    {
+      localJSONArray = new JSONArray();
+      paramObject = (String[])paramObject;
+      m = paramObject.length;
+      k = i6;
+    }
+    for (;;)
+    {
+      Object localObject;
+      if (k < m) {
+        localObject = paramObject[k];
+      }
+      try
+      {
+        localObject = a(localObject);
+        localJSONArray.put(localObject);
+        k += 1;
+      }
+      catch (Throwable paramObject)
+      {
+        break label776;
+      }
+    }
+    return localJSONArray;
+    return null;
+    label776:
+    for (;;)
+    {
+      throw paramObject;
+    }
+  }
+  
+  private JSONObject a(Bundle paramBundle)
+    throws JSONException
+  {
+    JSONObject localJSONObject = new JSONObject();
+    Iterator localIterator = paramBundle.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      String str = (String)localIterator.next();
+      localJSONObject.put(str, a(paramBundle.get(str)));
+    }
+    return localJSONObject;
+  }
+  
+  private void a(Context paramContext, Intent paramIntent, a paramA, JSONException paramJSONException)
+  {
+    HashMap localHashMap = new HashMap();
+    if (paramJSONException != null) {
+      localHashMap.put("error", paramJSONException.getLocalizedMessage());
+    }
+    if (paramA.b()) {
+      paramJSONException = "1";
+    } else {
+      paramJSONException = "0";
+    }
+    localHashMap.put("success", paramJSONException);
+    localHashMap.put("type", paramA.a());
+    p.a(paramContext, "al_nav_out", paramIntent, localHashMap);
+  }
+  
+  public static void a(g paramG)
+  {
+    g = paramG;
+  }
+  
+  private Bundle c(Context paramContext)
+  {
+    Bundle localBundle1 = new Bundle();
+    Bundle localBundle2 = new Bundle();
+    if (paramContext != null)
+    {
+      Object localObject = paramContext.getPackageName();
+      if (localObject != null) {
+        localBundle2.putString("package", (String)localObject);
+      }
+      localObject = paramContext.getApplicationInfo();
+      if (localObject != null)
+      {
+        paramContext = paramContext.getString(labelRes);
+        if (paramContext != null) {
+          localBundle2.putString("app_name", paramContext);
+        }
+      }
+    }
+    localBundle1.putAll(b());
+    localBundle1.putString("target_url", a().a().toString());
+    localBundle1.putString("version", "1.0");
+    localBundle1.putString("user_agent", "Bolts Android 1.2.0");
+    localBundle1.putBundle("referer_app_link", localBundle2);
+    localBundle1.putBundle("extras", d());
+    return localBundle1;
+  }
+  
+  public static g c()
+  {
+    return g;
+  }
+  
+  public d a()
+  {
+    return h;
+  }
+  
+  public Bundle b()
+  {
+    return j;
+  }
+  
+  public a b(Context paramContext)
+  {
+    Object localObject3 = paramContext.getPackageManager();
+    Object localObject2 = c(paramContext);
+    Object localObject4 = a().b().iterator();
+    while (((Iterator)localObject4).hasNext())
+    {
+      d.a localA = (d.a)((Iterator)localObject4).next();
+      localObject1 = new Intent("android.intent.action.VIEW");
+      if (localA.d() != null) {
+        ((Intent)localObject1).setData(localA.d());
+      } else {
+        ((Intent)localObject1).setData(h.a());
+      }
+      ((Intent)localObject1).setPackage(localA.c());
+      if (localA.b() != null) {
+        ((Intent)localObject1).setClassName(localA.c(), localA.b());
+      }
+      ((Intent)localObject1).putExtra("al_applink_data", (Bundle)localObject2);
+      if (((PackageManager)localObject3).resolveActivity((Intent)localObject1, 65536) != null) {
+        break label151;
+      }
+    }
+    Object localObject1 = null;
+    label151:
+    localObject3 = a.a;
+    Intent localIntent;
+    if (localObject1 != null)
+    {
+      localObject3 = a.c;
+      localObject2 = localObject1;
+      localObject1 = localObject3;
+    }
+    else
+    {
+      localObject4 = a().c();
+      if (localObject4 != null)
+      {
+        try
+        {
+          localObject2 = a((Bundle)localObject2);
+          localObject2 = new Intent("android.intent.action.VIEW", ((Uri)localObject4).buildUpon().appendQueryParameter("al_applink_data", ((JSONObject)localObject2).toString()).build());
+          localObject1 = a.b;
+        }
+        catch (JSONException localJSONException)
+        {
+          a(paramContext, (Intent)localObject1, a.a, localJSONException);
+          throw new RuntimeException(localJSONException);
+        }
+      }
+      else
+      {
+        localIntent = null;
+        localObject1 = localObject3;
+      }
+    }
+    a(paramContext, localIntent, (a)localObject1, null);
+    if (localIntent != null) {
+      paramContext.startActivity(localIntent);
+    }
+    return localObject1;
+  }
+  
+  public Bundle d()
+  {
+    return i;
+  }
+  
+  public static enum a
+  {
+    public String e;
+    public boolean f;
+    
+    public a(String paramString, boolean paramBoolean)
+    {
+      e = paramString;
+      f = paramBoolean;
+    }
+    
+    public String a()
+    {
+      return e;
+    }
+    
+    public boolean b()
+    {
+      return f;
+    }
+  }
+}

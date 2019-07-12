@@ -1,0 +1,54 @@
+package com.google.android.android.common.package_9.internal;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+
+public final class zzby
+  extends BroadcastReceiver
+{
+  public Context mContext;
+  public final zzbz zzfoi;
+  
+  public zzby(zzbz paramZzbz)
+  {
+    zzfoi = paramZzbz;
+  }
+  
+  public final void onReceive(Context paramContext, Intent paramIntent)
+  {
+    paramContext = paramIntent.getData();
+    if (paramContext != null) {
+      paramContext = paramContext.getSchemeSpecificPart();
+    } else {
+      paramContext = null;
+    }
+    if ("com.google.android.gms".equals(paramContext))
+    {
+      zzfoi.zzage();
+      unregister();
+    }
+  }
+  
+  public final void setContext(Context paramContext)
+  {
+    mContext = paramContext;
+  }
+  
+  public final void unregister()
+  {
+    try
+    {
+      if (mContext != null) {
+        mContext.unregisterReceiver(this);
+      }
+      mContext = null;
+      return;
+    }
+    catch (Throwable localThrowable)
+    {
+      throw localThrowable;
+    }
+  }
+}

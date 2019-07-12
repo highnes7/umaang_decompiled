@@ -1,0 +1,95 @@
+package com.google.android.gms.vision.barcode;
+
+import android.content.Context;
+import android.util.SparseArray;
+import com.google.android.gms.internal.zzdcc;
+import com.google.android.gms.internal.zzdce;
+import com.google.android.gms.internal.zzdcj;
+import com.google.android.gms.internal.zzdck;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.Frame;
+
+public final class BarcodeDetector
+  extends Detector<Barcode>
+{
+  public final zzdce zzkij;
+  
+  public BarcodeDetector()
+  {
+    throw new IllegalStateException("Default constructor called");
+  }
+  
+  public BarcodeDetector(zzdce paramZzdce)
+  {
+    zzkij = paramZzdce;
+  }
+  
+  public final SparseArray<Barcode> detect(Frame paramFrame)
+  {
+    if (paramFrame != null)
+    {
+      Object localObject1 = zzdck.zzc(paramFrame);
+      if (paramFrame.getBitmap() != null)
+      {
+        paramFrame = zzkij.zza(paramFrame.getBitmap(), (zzdck)localObject1);
+        if (paramFrame == null) {
+          throw new IllegalArgumentException("Internal barcode detector error; check logcat output.");
+        }
+      }
+      else
+      {
+        paramFrame = paramFrame.getGrayscaleImageData();
+        paramFrame = zzkij.zza(paramFrame, (zzdck)localObject1);
+      }
+      localObject1 = new SparseArray(paramFrame.length);
+      int j = paramFrame.length;
+      int i = 0;
+      while (i < j)
+      {
+        Object localObject2 = paramFrame[i];
+        ((SparseArray)localObject1).append(rawValue.hashCode(), localObject2);
+        i += 1;
+      }
+      return localObject1;
+    }
+    paramFrame = new IllegalArgumentException("No frame supplied.");
+    for (;;)
+    {
+      throw paramFrame;
+    }
+  }
+  
+  public final boolean isOperational()
+  {
+    return zzkij.isOperational();
+  }
+  
+  public final void release()
+  {
+    super.release();
+    zzkij.zzbio();
+  }
+  
+  public static class Builder
+  {
+    public Context mContext;
+    public zzdcc zzkik;
+    
+    public Builder(Context paramContext)
+    {
+      mContext = paramContext;
+      zzkik = new zzdcc();
+    }
+    
+    public BarcodeDetector build()
+    {
+      return new BarcodeDetector(new zzdce(mContext, zzkik), null);
+    }
+    
+    public Builder setBarcodeFormats(int paramInt)
+    {
+      zzkik.zzkil = paramInt;
+      return this;
+    }
+  }
+}

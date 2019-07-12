@@ -1,0 +1,44 @@
+package f.g.b.a.g.b;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
+
+public final class f
+{
+  public f() {}
+  
+  public static String a(d<?> paramD)
+  {
+    try
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append('{');
+      int i = 1;
+      Iterator localIterator = paramD.keySet().iterator();
+      while (localIterator.hasNext())
+      {
+        String str = (String)localIterator.next();
+        if (i != 0) {
+          i = 0;
+        } else {
+          localStringBuilder.append(", ");
+        }
+        localStringBuilder.append(str);
+        localStringBuilder.append('=');
+        localStringBuilder.append(paramD.get(str));
+      }
+      localStringBuilder.append('}');
+      paramD = localStringBuilder.toString();
+      return paramD;
+    }
+    catch (IOException paramD)
+    {
+      paramD = new RuntimeException(paramD);
+    }
+    for (;;)
+    {
+      throw paramD;
+    }
+  }
+}

@@ -1,0 +1,87 @@
+package f.l.a.c;
+
+import android.util.Log;
+import f.l.a.b.f;
+
+public final class e
+{
+  public static final String a = "%1$s\n%2$s";
+  public static volatile boolean b = false;
+  public static volatile boolean c = true;
+  
+  public e() {}
+  
+  @Deprecated
+  public static void a()
+  {
+    c = false;
+  }
+  
+  public static void a(int paramInt, Throwable paramThrowable, String paramString, Object... paramVarArgs)
+  {
+    if (!c) {
+      return;
+    }
+    String str = paramString;
+    if (paramVarArgs.length > 0) {
+      str = String.format(paramString, paramVarArgs);
+    }
+    if (paramThrowable != null)
+    {
+      paramString = str;
+      if (str == null) {
+        paramString = paramThrowable.getMessage();
+      }
+      str = String.format("%1$s\n%2$s", new Object[] { paramString, Log.getStackTraceString(paramThrowable) });
+    }
+    Log.println(paramInt, f.a, str);
+  }
+  
+  public static void a(String paramString, Object... paramVarArgs)
+  {
+    if (b) {
+      a(3, null, paramString, paramVarArgs);
+    }
+  }
+  
+  public static void a(Throwable paramThrowable)
+  {
+    a(6, paramThrowable, null, new Object[0]);
+  }
+  
+  public static void a(Throwable paramThrowable, String paramString, Object... paramVarArgs)
+  {
+    a(6, paramThrowable, paramString, paramVarArgs);
+  }
+  
+  public static void a(boolean paramBoolean)
+  {
+    b = paramBoolean;
+  }
+  
+  @Deprecated
+  public static void b()
+  {
+    c = true;
+  }
+  
+  public static void b(String paramString, Object... paramVarArgs)
+  {
+    a(6, null, paramString, paramVarArgs);
+  }
+  
+  public static void b(boolean paramBoolean)
+  {
+    c = paramBoolean;
+  }
+  
+  public static void c(String paramString, Object... paramVarArgs)
+  {
+    a(4, null, paramString, paramVarArgs);
+  }
+  
+  public static void d(String paramString, Object... paramVarArgs)
+  {
+    a(5, null, paramString, paramVarArgs);
+  }
+}

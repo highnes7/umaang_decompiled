@@ -1,0 +1,2040 @@
+package android.support.v4.media;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.ServiceConnection;
+import android.os.BadParcelableException;
+import android.os.Binder;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.os.RemoteException;
+import android.support.v4.app.BundleCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.MediaSessionCompat.Token;
+import android.support.v4.os.ResultReceiver;
+import android.text.TextUtils;
+import android.util.Log;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.x.h.b.b.a;
+import b.b.x.h.d;
+import b.b.x.h.e;
+import b.b.x.h.f;
+import b.b.x.h.g;
+import b.b.x.h.h;
+import b.b.x.h.i;
+import b.b.x.h.j;
+import b.b.x.h.k;
+import b.b.x.h.l;
+import b.b.x.h.m;
+import b.b.x.h.n;
+import b.b.x.h.o;
+import b.b.x.h.p;
+import b.b.x.h.q;
+import b.b.x.h.r;
+import b.b.x.h.s;
+import b.b.x.h.t.a;
+import b.b.x.h.t.c;
+import b.b.x.h.t.d;
+import b.b.x.h.u;
+import b.b.x.h.u.a;
+import b.b.x.h.u.b;
+import b.b.x.h.v;
+import b.b.x.h.v.a;
+import b.b.x.h.v.b;
+import b.b.x.h.w;
+import f.a.a.a.a;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class MediaBrowserCompat
+{
+  public static final String a = "MediaBrowserCompat";
+  public static final boolean b = Log.isLoggable("MediaBrowserCompat", 3);
+  public static final String c = "android.media.browse.extra.PAGE";
+  public static final String d = "android.media.browse.extra.PAGE_SIZE";
+  public static final String e = "android.media.browse.extra.MEDIA_ID";
+  public static final String f = "android.media.browse.extra.DOWNLOAD_PROGRESS";
+  public static final String g = "android.support.v4.media.action.DOWNLOAD";
+  public static final String h = "android.support.v4.media.action.REMOVE_DOWNLOADED_FILE";
+  public final e i;
+  
+  public MediaBrowserCompat(Context paramContext, ComponentName paramComponentName, b paramB, Bundle paramBundle)
+  {
+    int j = Build.VERSION.SDK_INT;
+    if (j >= 26)
+    {
+      i = new h(paramContext, paramComponentName, paramB, paramBundle);
+      return;
+    }
+    if (j >= 23)
+    {
+      i = new g(paramContext, paramComponentName, paramB, paramBundle);
+      return;
+    }
+    if (j >= 21)
+    {
+      i = new f(paramContext, paramComponentName, paramB, paramBundle);
+      return;
+    }
+    i = new i(paramContext, paramComponentName, paramB, paramBundle);
+  }
+  
+  public void a()
+  {
+    i.connect();
+  }
+  
+  public void a(@F String paramString)
+  {
+    if (!TextUtils.isEmpty(paramString))
+    {
+      i.a(paramString, null);
+      return;
+    }
+    throw new IllegalArgumentException("parentId is empty");
+  }
+  
+  public void a(@F String paramString, Bundle paramBundle, @G c paramC)
+  {
+    if (!TextUtils.isEmpty(paramString))
+    {
+      i.a(paramString, paramBundle, paramC);
+      return;
+    }
+    throw new IllegalArgumentException("action cannot be empty");
+  }
+  
+  public void a(@F String paramString, Bundle paramBundle, @F k paramK)
+  {
+    if (!TextUtils.isEmpty(paramString))
+    {
+      if (paramK != null)
+      {
+        i.a(paramString, paramBundle, paramK);
+        return;
+      }
+      throw new IllegalArgumentException("callback cannot be null");
+    }
+    throw new IllegalArgumentException("query cannot be empty");
+  }
+  
+  public void a(@F String paramString, @F Bundle paramBundle, @F n paramN)
+  {
+    if (!TextUtils.isEmpty(paramString))
+    {
+      if (paramN != null)
+      {
+        if (paramBundle != null)
+        {
+          i.a(paramString, paramBundle, paramN);
+          return;
+        }
+        throw new IllegalArgumentException("options are null");
+      }
+      throw new IllegalArgumentException("callback is null");
+    }
+    throw new IllegalArgumentException("parentId is empty");
+  }
+  
+  public void a(@F String paramString, @F d paramD)
+  {
+    i.a(paramString, paramD);
+  }
+  
+  public void a(@F String paramString, @F n paramN)
+  {
+    if (!TextUtils.isEmpty(paramString))
+    {
+      if (paramN != null)
+      {
+        i.a(paramString, null, paramN);
+        return;
+      }
+      throw new IllegalArgumentException("callback is null");
+    }
+    throw new IllegalArgumentException("parentId is empty");
+  }
+  
+  public void b()
+  {
+    i.disconnect();
+  }
+  
+  public void b(@F String paramString, @F n paramN)
+  {
+    if (!TextUtils.isEmpty(paramString))
+    {
+      if (paramN != null)
+      {
+        i.a(paramString, paramN);
+        return;
+      }
+      throw new IllegalArgumentException("callback is null");
+    }
+    throw new IllegalArgumentException("parentId is empty");
+  }
+  
+  @G
+  public Bundle c()
+  {
+    return i.getExtras();
+  }
+  
+  @G
+  @N({b.b.a.N.a.a})
+  public Bundle d()
+  {
+    return i.e();
+  }
+  
+  @F
+  public String e()
+  {
+    return i.getRoot();
+  }
+  
+  @F
+  public ComponentName f()
+  {
+    return i.d();
+  }
+  
+  @F
+  public MediaSessionCompat.Token g()
+  {
+    return i.a();
+  }
+  
+  public boolean h()
+  {
+    return i.isConnected();
+  }
+  
+  private static class CustomActionResultReceiver
+    extends ResultReceiver
+  {
+    public final String d;
+    public final Bundle e;
+    public final MediaBrowserCompat.c f;
+    
+    public CustomActionResultReceiver(String paramString, Bundle paramBundle, MediaBrowserCompat.c paramC, Handler paramHandler)
+    {
+      super();
+      d = paramString;
+      e = paramBundle;
+      f = paramC;
+    }
+    
+    public void a(int paramInt, Bundle paramBundle)
+    {
+      if (f == null) {
+        return;
+      }
+      MediaSessionCompat.a(paramBundle);
+      if (paramInt != -1)
+      {
+        if (paramInt != 0)
+        {
+          if (paramInt != 1)
+          {
+            StringBuilder localStringBuilder = a.b("Unknown result code: ", paramInt, " (extras=");
+            localStringBuilder.append(e);
+            localStringBuilder.append(", resultData=");
+            localStringBuilder.append(paramBundle);
+            localStringBuilder.append(")");
+            localStringBuilder.toString();
+            return;
+          }
+          f.b(d, e, paramBundle);
+          return;
+        }
+        f.c(d, e, paramBundle);
+        return;
+      }
+      f.a(d, e, paramBundle);
+    }
+  }
+  
+  private static class ItemReceiver
+    extends ResultReceiver
+  {
+    public final String d;
+    public final MediaBrowserCompat.d e;
+    
+    public ItemReceiver(String paramString, MediaBrowserCompat.d paramD, Handler paramHandler)
+    {
+      super();
+      d = paramString;
+      e = paramD;
+    }
+    
+    public void a(int paramInt, Bundle paramBundle)
+    {
+      MediaSessionCompat.a(paramBundle);
+      if ((paramInt == 0) && (paramBundle != null) && (paramBundle.containsKey("media_item")))
+      {
+        paramBundle = paramBundle.getParcelable("media_item");
+        if ((paramBundle != null) && (!(paramBundle instanceof MediaBrowserCompat.MediaItem)))
+        {
+          e.a(d);
+          return;
+        }
+        e.a((MediaBrowserCompat.MediaItem)paramBundle);
+        return;
+      }
+      e.a(d);
+    }
+  }
+  
+  public static class MediaItem
+    implements Parcelable
+  {
+    public static final Parcelable.Creator<MediaItem> CREATOR = new s();
+    public static final int a = 1;
+    public static final int b = 2;
+    public final int c;
+    public final MediaDescriptionCompat d;
+    
+    public MediaItem(Parcel paramParcel)
+    {
+      c = paramParcel.readInt();
+      d = ((MediaDescriptionCompat)MediaDescriptionCompat.CREATOR.createFromParcel(paramParcel));
+    }
+    
+    public MediaItem(@F MediaDescriptionCompat paramMediaDescriptionCompat, int paramInt)
+    {
+      if (paramMediaDescriptionCompat != null)
+      {
+        if (!TextUtils.isEmpty(paramMediaDescriptionCompat.f()))
+        {
+          c = paramInt;
+          d = paramMediaDescriptionCompat;
+          return;
+        }
+        throw new IllegalArgumentException("description must have a non-empty media id");
+      }
+      throw new IllegalArgumentException("description cannot be null");
+    }
+    
+    public static MediaItem a(Object paramObject)
+    {
+      if ((paramObject != null) && (Build.VERSION.SDK_INT >= 21))
+      {
+        int i = t.c.b(paramObject);
+        return new MediaItem(MediaDescriptionCompat.a(t.c.a(paramObject)), i);
+      }
+      return null;
+    }
+    
+    public static List<MediaItem> a(List<?> paramList)
+    {
+      if ((paramList != null) && (Build.VERSION.SDK_INT >= 21))
+      {
+        ArrayList localArrayList = new ArrayList(paramList.size());
+        paramList = paramList.iterator();
+        while (paramList.hasNext()) {
+          localArrayList.add(a(paramList.next()));
+        }
+        return localArrayList;
+      }
+      return null;
+    }
+    
+    @F
+    public MediaDescriptionCompat a()
+    {
+      return d;
+    }
+    
+    public int b()
+    {
+      return c;
+    }
+    
+    @G
+    public String c()
+    {
+      return d.f();
+    }
+    
+    public boolean d()
+    {
+      return (c & 0x1) != 0;
+    }
+    
+    public int describeContents()
+    {
+      return 0;
+    }
+    
+    public boolean e()
+    {
+      return (c & 0x2) != 0;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder("MediaItem{");
+      localStringBuilder.append("mFlags=");
+      localStringBuilder.append(c);
+      localStringBuilder.append(", mDescription=");
+      return a.a(localStringBuilder, d, '}');
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramParcel.writeInt(c);
+      d.writeToParcel(paramParcel, paramInt);
+    }
+    
+    @Retention(RetentionPolicy.SOURCE)
+    @N({b.b.a.N.a.b})
+    public static @interface a {}
+  }
+  
+  private static class SearchResultReceiver
+    extends ResultReceiver
+  {
+    public final String d;
+    public final Bundle e;
+    public final MediaBrowserCompat.k f;
+    
+    public SearchResultReceiver(String paramString, Bundle paramBundle, MediaBrowserCompat.k paramK, Handler paramHandler)
+    {
+      super();
+      d = paramString;
+      e = paramBundle;
+      f = paramK;
+    }
+    
+    public void a(int paramInt, Bundle paramBundle)
+    {
+      MediaSessionCompat.a(paramBundle);
+      if ((paramInt == 0) && (paramBundle != null) && (paramBundle.containsKey("search_results")))
+      {
+        Parcelable[] arrayOfParcelable = paramBundle.getParcelableArray("search_results");
+        paramBundle = null;
+        if (arrayOfParcelable != null)
+        {
+          ArrayList localArrayList = new ArrayList();
+          int i = arrayOfParcelable.length;
+          paramInt = 0;
+          for (;;)
+          {
+            paramBundle = localArrayList;
+            if (paramInt >= i) {
+              break;
+            }
+            localArrayList.add((MediaBrowserCompat.MediaItem)arrayOfParcelable[paramInt]);
+            paramInt += 1;
+          }
+        }
+        f.a(d, e, paramBundle);
+        return;
+      }
+      f.a(d, e);
+    }
+  }
+  
+  private static class a
+    extends Handler
+  {
+    public final WeakReference<MediaBrowserCompat.j> a;
+    public WeakReference<Messenger> b;
+    
+    public a(MediaBrowserCompat.j paramJ)
+    {
+      a = new WeakReference(paramJ);
+    }
+    
+    public void a(Messenger paramMessenger)
+    {
+      b = new WeakReference(paramMessenger);
+    }
+    
+    public void handleMessage(Message paramMessage)
+    {
+      Object localObject1 = b;
+      Object localObject2;
+      Messenger localMessenger;
+      if ((localObject1 != null) && (((WeakReference)localObject1).get() != null))
+      {
+        if (a.get() == null) {
+          return;
+        }
+        localObject2 = paramMessage.getData();
+        MediaSessionCompat.a((Bundle)localObject2);
+        localObject1 = (MediaBrowserCompat.j)a.get();
+        localMessenger = (Messenger)b.get();
+      }
+      try
+      {
+        int i = what;
+        if (i != 1)
+        {
+          if (i != 2)
+          {
+            if (i != 3)
+            {
+              localObject2 = new StringBuilder();
+              ((StringBuilder)localObject2).append("Unhandled message: ");
+              ((StringBuilder)localObject2).append(paramMessage);
+              ((StringBuilder)localObject2).append("\n  Client version: ");
+              ((StringBuilder)localObject2).append(1);
+              ((StringBuilder)localObject2).append("\n  Service version: ");
+              ((StringBuilder)localObject2).append(arg1);
+              ((StringBuilder)localObject2).toString();
+              return;
+            }
+            localBundle1 = ((Bundle)localObject2).getBundle("data_options");
+            MediaSessionCompat.a(localBundle1);
+            Bundle localBundle2 = ((Bundle)localObject2).getBundle("data_notify_children_changed_options");
+            MediaSessionCompat.a(localBundle2);
+            ((MediaBrowserCompat.j)localObject1).a(localMessenger, ((Bundle)localObject2).getString("data_media_item_id"), ((Bundle)localObject2).getParcelableArrayList("data_media_item_list"), localBundle1, localBundle2);
+            return;
+          }
+          ((MediaBrowserCompat.j)localObject1).a(localMessenger);
+          return;
+        }
+        Bundle localBundle1 = ((Bundle)localObject2).getBundle("data_root_hints");
+        MediaSessionCompat.a(localBundle1);
+        ((MediaBrowserCompat.j)localObject1).a(localMessenger, ((Bundle)localObject2).getString("data_media_item_id"), (MediaSessionCompat.Token)((Bundle)localObject2).getParcelable("data_media_session_token"), localBundle1);
+        return;
+      }
+      catch (BadParcelableException localBadParcelableException)
+      {
+        for (;;) {}
+      }
+      if (what == 1) {
+        ((MediaBrowserCompat.j)localObject1).a(localMessenger);
+      }
+    }
+  }
+  
+  public static class b
+  {
+    public final Object a;
+    public a b;
+    
+    public b()
+    {
+      if (Build.VERSION.SDK_INT >= 21)
+      {
+        a = b.b.x.h.t.a(new b());
+        return;
+      }
+      a = null;
+    }
+    
+    public void a() {}
+    
+    public void a(a paramA)
+    {
+      b = paramA;
+    }
+    
+    public void b() {}
+    
+    public void c() {}
+    
+    public static abstract interface a
+    {
+      public abstract void b();
+      
+      public abstract void c();
+      
+      public abstract void onConnected();
+    }
+    
+    private class b
+      implements t.a
+    {
+      public b() {}
+      
+      public void b()
+      {
+        MediaBrowserCompat.b.a localA = b;
+        if (localA != null) {
+          localA.b();
+        }
+        MediaBrowserCompat.b.this.b();
+      }
+      
+      public void c()
+      {
+        MediaBrowserCompat.b.a localA = b;
+        if (localA != null) {
+          localA.c();
+        }
+        MediaBrowserCompat.b.this.c();
+      }
+      
+      public void onConnected()
+      {
+        MediaBrowserCompat.b.a localA = b;
+        if (localA != null) {
+          localA.onConnected();
+        }
+        a();
+      }
+    }
+  }
+  
+  public static abstract class c
+  {
+    public c() {}
+    
+    public void a(String paramString, Bundle paramBundle1, Bundle paramBundle2) {}
+    
+    public void b(String paramString, Bundle paramBundle1, Bundle paramBundle2) {}
+    
+    public void c(String paramString, Bundle paramBundle1, Bundle paramBundle2) {}
+  }
+  
+  public static abstract class d
+  {
+    public final Object a;
+    
+    public d()
+    {
+      if (Build.VERSION.SDK_INT >= 23)
+      {
+        a = new u.b(new a());
+        return;
+      }
+      a = null;
+    }
+    
+    public void a(MediaBrowserCompat.MediaItem paramMediaItem) {}
+    
+    public void a(@F String paramString) {}
+    
+    private class a
+      implements u.a
+    {
+      public a() {}
+      
+      public void a(Parcel paramParcel)
+      {
+        if (paramParcel == null)
+        {
+          a(null);
+          return;
+        }
+        paramParcel.setDataPosition(0);
+        MediaBrowserCompat.MediaItem localMediaItem = (MediaBrowserCompat.MediaItem)MediaBrowserCompat.MediaItem.CREATOR.createFromParcel(paramParcel);
+        paramParcel.recycle();
+        a(localMediaItem);
+      }
+      
+      public void a(@F String paramString)
+      {
+        MediaBrowserCompat.d.this.a(paramString);
+      }
+    }
+  }
+  
+  public static abstract interface e
+  {
+    @F
+    public abstract MediaSessionCompat.Token a();
+    
+    public abstract void a(@F String paramString, Bundle paramBundle, @G MediaBrowserCompat.c paramC);
+    
+    public abstract void a(@F String paramString, Bundle paramBundle, @F MediaBrowserCompat.k paramK);
+    
+    public abstract void a(@F String paramString, @G Bundle paramBundle, @F MediaBrowserCompat.n paramN);
+    
+    public abstract void a(@F String paramString, @F MediaBrowserCompat.d paramD);
+    
+    public abstract void a(@F String paramString, MediaBrowserCompat.n paramN);
+    
+    public abstract void connect();
+    
+    public abstract ComponentName d();
+    
+    public abstract void disconnect();
+    
+    @G
+    public abstract Bundle e();
+    
+    @G
+    public abstract Bundle getExtras();
+    
+    @F
+    public abstract String getRoot();
+    
+    public abstract boolean isConnected();
+  }
+  
+  @K(21)
+  public static class f
+    implements MediaBrowserCompat.e, MediaBrowserCompat.j, MediaBrowserCompat.b.a
+  {
+    public final Context a;
+    public final Object b;
+    public final Bundle c;
+    public final MediaBrowserCompat.a d = new MediaBrowserCompat.a(this);
+    public final b.b.x.n.b<String, MediaBrowserCompat.m> e = new b.b.x.n.b();
+    public int f;
+    public MediaBrowserCompat.l g;
+    public Messenger h;
+    public MediaSessionCompat.Token i;
+    public Bundle j;
+    
+    public f(Context paramContext, ComponentName paramComponentName, MediaBrowserCompat.b paramB, Bundle paramBundle)
+    {
+      a = paramContext;
+      if (paramBundle != null) {
+        paramBundle = new Bundle(paramBundle);
+      } else {
+        paramBundle = new Bundle();
+      }
+      c = paramBundle;
+      c.putInt("extra_client_version", 1);
+      paramB.a(this);
+      b = b.b.x.h.t.a(paramContext, paramComponentName, a, c);
+    }
+    
+    @F
+    public MediaSessionCompat.Token a()
+    {
+      if (i == null) {
+        i = MediaSessionCompat.Token.a(b.b.x.h.t.f(b));
+      }
+      return i;
+    }
+    
+    public void a(Messenger paramMessenger) {}
+    
+    public void a(Messenger paramMessenger, String paramString, MediaSessionCompat.Token paramToken, Bundle paramBundle) {}
+    
+    public void a(Messenger paramMessenger, String paramString, List paramList, Bundle paramBundle1, Bundle paramBundle2)
+    {
+      if (h != paramMessenger) {
+        return;
+      }
+      paramMessenger = (MediaBrowserCompat.m)e.get(paramString);
+      if (paramMessenger == null)
+      {
+        if (MediaBrowserCompat.b) {
+          a.f("onLoadChildren for id that isn't subscribed id=", paramString);
+        }
+        return;
+      }
+      paramMessenger = paramMessenger.a(paramBundle1);
+      if (paramMessenger != null)
+      {
+        if (paramBundle1 == null)
+        {
+          if (paramList == null)
+          {
+            paramMessenger.a(paramString);
+            return;
+          }
+          j = paramBundle2;
+          paramMessenger.a(paramString, paramList);
+          j = null;
+          return;
+        }
+        if (paramList == null)
+        {
+          paramMessenger.a(paramString, paramBundle1);
+          return;
+        }
+        j = paramBundle2;
+        paramMessenger.a(paramString, paramList, paramBundle1);
+        j = null;
+      }
+    }
+    
+    public void a(@F String paramString, Bundle paramBundle, @G MediaBrowserCompat.c paramC)
+    {
+      if (isConnected())
+      {
+        if ((g == null) && (paramC != null)) {
+          d.post(new i(this, paramC, paramString, paramBundle));
+        }
+        localObject = new MediaBrowserCompat.CustomActionResultReceiver(paramString, paramBundle, paramC, d);
+      }
+      try
+      {
+        g.b(paramString, paramBundle, (ResultReceiver)localObject, h);
+        return;
+      }
+      catch (RemoteException localRemoteException)
+      {
+        for (;;) {}
+      }
+      Object localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("Remote error sending a custom action: action=");
+      ((StringBuilder)localObject).append(paramString);
+      ((StringBuilder)localObject).append(", extras=");
+      ((StringBuilder)localObject).append(paramBundle);
+      ((StringBuilder)localObject).toString();
+      if (paramC != null) {
+        d.post(new j(this, paramC, paramString, paramBundle));
+      }
+      return;
+      paramC = new StringBuilder();
+      paramC.append("Cannot send a custom action (");
+      paramC.append(paramString);
+      paramC.append(") with ");
+      paramC.append("extras ");
+      paramC.append(paramBundle);
+      throw new IllegalStateException(a.a(paramC, " because the browser is not connected to the ", "service."));
+    }
+    
+    public void a(@F String paramString, Bundle paramBundle, @F MediaBrowserCompat.k paramK)
+    {
+      MediaBrowserCompat.SearchResultReceiver localSearchResultReceiver;
+      if (isConnected())
+      {
+        if (g == null)
+        {
+          d.post(new g(this, paramK, paramString, paramBundle));
+          return;
+        }
+        localSearchResultReceiver = new MediaBrowserCompat.SearchResultReceiver(paramString, paramBundle, paramK, d);
+      }
+      try
+      {
+        g.a(paramString, paramBundle, localSearchResultReceiver, h);
+        return;
+      }
+      catch (RemoteException localRemoteException)
+      {
+        for (;;) {}
+      }
+      a.f("Remote error searching items with query: ", paramString);
+      d.post(new h(this, paramK, paramString, paramBundle));
+      return;
+      throw new IllegalStateException("search() called while not connected");
+    }
+    
+    public void a(@F String paramString, Bundle paramBundle, @F MediaBrowserCompat.n paramN)
+    {
+      MediaBrowserCompat.m localM = (MediaBrowserCompat.m)e.get(paramString);
+      Object localObject = localM;
+      if (localM == null)
+      {
+        localObject = new MediaBrowserCompat.m();
+        e.put(paramString, localObject);
+      }
+      paramN.a((MediaBrowserCompat.m)localObject);
+      if (paramBundle == null) {
+        paramBundle = null;
+      } else {
+        paramBundle = new Bundle(paramBundle);
+      }
+      ((MediaBrowserCompat.m)localObject).a(paramBundle, paramN);
+      localObject = g;
+      if (localObject == null)
+      {
+        b.b.x.h.t.a(b, paramString, a);
+        return;
+      }
+      try
+      {
+        ((MediaBrowserCompat.l)localObject).a(paramString, b, paramBundle, h);
+        return;
+      }
+      catch (RemoteException paramBundle)
+      {
+        for (;;) {}
+      }
+      a.f("Remote error subscribing media item: ", paramString);
+    }
+    
+    public void a(@F String paramString, @F MediaBrowserCompat.d paramD)
+    {
+      MediaBrowserCompat.ItemReceiver localItemReceiver;
+      if (!TextUtils.isEmpty(paramString)) {
+        if (paramD != null)
+        {
+          if (!b.b.x.h.t.g(b))
+          {
+            d.post(new d(this, paramD, paramString));
+            return;
+          }
+          if (g == null)
+          {
+            d.post(new e(this, paramD, paramString));
+            return;
+          }
+          localItemReceiver = new MediaBrowserCompat.ItemReceiver(paramString, paramD, d);
+        }
+      }
+      try
+      {
+        g.a(paramString, localItemReceiver, h);
+        return;
+      }
+      catch (RemoteException localRemoteException)
+      {
+        for (;;) {}
+      }
+      a.f("Remote error getting media item: ", paramString);
+      d.post(new f(this, paramD, paramString));
+      return;
+      throw new IllegalArgumentException("cb is null");
+      throw new IllegalArgumentException("mediaId is empty");
+    }
+    
+    public void a(@F String paramString, MediaBrowserCompat.n paramN)
+    {
+      // Byte code:
+      //   0: aload_0
+      //   1: getfield 66	android/support/v4/media/MediaBrowserCompat$f:e	Lb/b/x/n/b;
+      //   4: aload_1
+      //   5: invokevirtual 120	b/b/x/n/t:get	(Ljava/lang/Object;)Ljava/lang/Object;
+      //   8: checkcast 122	android/support/v4/media/MediaBrowserCompat$m
+      //   11: astore 5
+      //   13: aload 5
+      //   15: ifnonnull +4 -> 19
+      //   18: return
+      //   19: aload_0
+      //   20: getfield 161	android/support/v4/media/MediaBrowserCompat$f:g	Landroid/support/v4/media/MediaBrowserCompat$l;
+      //   23: astore 6
+      //   25: aload 6
+      //   27: ifnonnull +113 -> 140
+      //   30: aload_2
+      //   31: ifnonnull +14 -> 45
+      //   34: aload_0
+      //   35: getfield 96	android/support/v4/media/MediaBrowserCompat$f:b	Ljava/lang/Object;
+      //   38: aload_1
+      //   39: invokestatic 293	b/b/x/h/t:a	(Ljava/lang/Object;Ljava/lang/String;)V
+      //   42: goto +213 -> 255
+      //   45: aload 5
+      //   47: invokevirtual 296	android/support/v4/media/MediaBrowserCompat$m:a	()Ljava/util/List;
+      //   50: astore 6
+      //   52: aload 5
+      //   54: invokevirtual 298	android/support/v4/media/MediaBrowserCompat$m:b	()Ljava/util/List;
+      //   57: astore 7
+      //   59: aload 6
+      //   61: invokeinterface 304 1 0
+      //   66: istore_3
+      //   67: iload_3
+      //   68: iconst_1
+      //   69: isub
+      //   70: istore 4
+      //   72: iload 4
+      //   74: iflt +45 -> 119
+      //   77: iload 4
+      //   79: istore_3
+      //   80: aload 6
+      //   82: iload 4
+      //   84: invokeinterface 307 2 0
+      //   89: aload_2
+      //   90: if_acmpne -23 -> 67
+      //   93: aload 6
+      //   95: iload 4
+      //   97: invokeinterface 310 2 0
+      //   102: pop
+      //   103: aload 7
+      //   105: iload 4
+      //   107: invokeinterface 310 2 0
+      //   112: pop
+      //   113: iload 4
+      //   115: istore_3
+      //   116: goto -49 -> 67
+      //   119: aload 6
+      //   121: invokeinterface 304 1 0
+      //   126: ifne +129 -> 255
+      //   129: aload_0
+      //   130: getfield 96	android/support/v4/media/MediaBrowserCompat$f:b	Ljava/lang/Object;
+      //   133: aload_1
+      //   134: invokestatic 293	b/b/x/h/t:a	(Ljava/lang/Object;Ljava/lang/String;)V
+      //   137: goto +118 -> 255
+      //   140: aload_2
+      //   141: ifnonnull +17 -> 158
+      //   144: aload 6
+      //   146: aload_1
+      //   147: aconst_null
+      //   148: aload_0
+      //   149: getfield 115	android/support/v4/media/MediaBrowserCompat$f:h	Landroid/os/Messenger;
+      //   152: invokevirtual 313	android/support/v4/media/MediaBrowserCompat$l:a	(Ljava/lang/String;Landroid/os/IBinder;Landroid/os/Messenger;)V
+      //   155: goto +100 -> 255
+      //   158: aload 5
+      //   160: invokevirtual 296	android/support/v4/media/MediaBrowserCompat$m:a	()Ljava/util/List;
+      //   163: astore 6
+      //   165: aload 5
+      //   167: invokevirtual 298	android/support/v4/media/MediaBrowserCompat$m:b	()Ljava/util/List;
+      //   170: astore 7
+      //   172: aload 6
+      //   174: invokeinterface 304 1 0
+      //   179: istore_3
+      //   180: iload_3
+      //   181: iconst_1
+      //   182: isub
+      //   183: istore 4
+      //   185: iload 4
+      //   187: iflt +68 -> 255
+      //   190: iload 4
+      //   192: istore_3
+      //   193: aload 6
+      //   195: iload 4
+      //   197: invokeinterface 307 2 0
+      //   202: aload_2
+      //   203: if_acmpne -23 -> 180
+      //   206: aload_0
+      //   207: getfield 161	android/support/v4/media/MediaBrowserCompat$f:g	Landroid/support/v4/media/MediaBrowserCompat$l;
+      //   210: aload_1
+      //   211: aload_2
+      //   212: getfield 252	android/support/v4/media/MediaBrowserCompat$n:b	Landroid/os/IBinder;
+      //   215: aload_0
+      //   216: getfield 115	android/support/v4/media/MediaBrowserCompat$f:h	Landroid/os/Messenger;
+      //   219: invokevirtual 313	android/support/v4/media/MediaBrowserCompat$l:a	(Ljava/lang/String;Landroid/os/IBinder;Landroid/os/Messenger;)V
+      //   222: aload 6
+      //   224: iload 4
+      //   226: invokeinterface 310 2 0
+      //   231: pop
+      //   232: aload 7
+      //   234: iload 4
+      //   236: invokeinterface 310 2 0
+      //   241: pop
+      //   242: iload 4
+      //   244: istore_3
+      //   245: goto -65 -> 180
+      //   248: ldc_w 315
+      //   251: aload_1
+      //   252: invokestatic 132	f/a/a/a/a:f	(Ljava/lang/String;Ljava/lang/String;)V
+      //   255: aload 5
+      //   257: invokevirtual 317	android/support/v4/media/MediaBrowserCompat$m:c	()Z
+      //   260: ifne +7 -> 267
+      //   263: aload_2
+      //   264: ifnonnull +12 -> 276
+      //   267: aload_0
+      //   268: getfield 66	android/support/v4/media/MediaBrowserCompat$f:e	Lb/b/x/n/b;
+      //   271: aload_1
+      //   272: invokevirtual 319	b/b/x/n/t:remove	(Ljava/lang/Object;)Ljava/lang/Object;
+      //   275: pop
+      //   276: return
+      //   277: astore 6
+      //   279: goto -31 -> 248
+      // Local variable table:
+      //   start	length	slot	name	signature
+      //   0	282	0	this	f
+      //   0	282	1	paramString	String
+      //   0	282	2	paramN	MediaBrowserCompat.n
+      //   66	179	3	k	int
+      //   70	173	4	m	int
+      //   11	245	5	localM	MediaBrowserCompat.m
+      //   23	200	6	localObject	Object
+      //   277	1	6	localRemoteException	RemoteException
+      //   57	176	7	localList	List
+      // Exception table:
+      //   from	to	target	type
+      //   144	155	277	android/os/RemoteException
+      //   158	180	277	android/os/RemoteException
+      //   193	242	277	android/os/RemoteException
+    }
+    
+    public void b() {}
+    
+    public void c()
+    {
+      g = null;
+      h = null;
+      i = null;
+      d.a(null);
+    }
+    
+    public void connect()
+    {
+      b.b.x.h.t.a(b);
+    }
+    
+    public ComponentName d()
+    {
+      return b.b.x.h.t.e(b);
+    }
+    
+    public void disconnect()
+    {
+      MediaBrowserCompat.l localL = g;
+      Messenger localMessenger;
+      if (localL != null)
+      {
+        localMessenger = h;
+        if (localMessenger == null) {}
+      }
+      try
+      {
+        localL.b(localMessenger);
+        b.b.x.h.t.b(b);
+        return;
+      }
+      catch (RemoteException localRemoteException)
+      {
+        for (;;) {}
+      }
+    }
+    
+    public Bundle e()
+    {
+      return j;
+    }
+    
+    @G
+    public Bundle getExtras()
+    {
+      return b.b.x.h.t.c(b);
+    }
+    
+    @F
+    public String getRoot()
+    {
+      return b.b.x.h.t.d(b);
+    }
+    
+    public boolean isConnected()
+    {
+      return b.b.x.h.t.g(b);
+    }
+    
+    public void onConnected()
+    {
+      Object localObject = b.b.x.h.t.c(b);
+      if (localObject == null) {
+        return;
+      }
+      f = ((Bundle)localObject).getInt("extra_service_version", 0);
+      IBinder localIBinder = BundleCompat.getBinder((Bundle)localObject, "extra_messenger");
+      if (localIBinder != null)
+      {
+        g = new MediaBrowserCompat.l(localIBinder, c);
+        h = new Messenger(d);
+        d.a(h);
+      }
+      try
+      {
+        g.b(a, h);
+      }
+      catch (RemoteException localRemoteException)
+      {
+        for (;;) {}
+      }
+      localObject = b.a.a(BundleCompat.getBinder((Bundle)localObject, "extra_session_binder"));
+      if (localObject != null) {
+        i = MediaSessionCompat.Token.a(b.b.x.h.t.f(b), (b.b.x.h.b.b)localObject);
+      }
+    }
+  }
+  
+  @K(23)
+  public static class g
+    extends MediaBrowserCompat.f
+  {
+    public g(Context paramContext, ComponentName paramComponentName, MediaBrowserCompat.b paramB, Bundle paramBundle)
+    {
+      super(paramComponentName, paramB, paramBundle);
+    }
+    
+    public void a(@F String paramString, @F MediaBrowserCompat.d paramD)
+    {
+      if (g == null)
+      {
+        u.a(b, paramString, a);
+        return;
+      }
+      super.a(paramString, paramD);
+    }
+  }
+  
+  @K(26)
+  public static class h
+    extends MediaBrowserCompat.g
+  {
+    public h(Context paramContext, ComponentName paramComponentName, MediaBrowserCompat.b paramB, Bundle paramBundle)
+    {
+      super(paramComponentName, paramB, paramBundle);
+    }
+    
+    public void a(@F String paramString, @G Bundle paramBundle, @F MediaBrowserCompat.n paramN)
+    {
+      if ((g != null) && (f >= 2))
+      {
+        super.a(paramString, paramBundle, paramN);
+        return;
+      }
+      if (paramBundle == null)
+      {
+        b.b.x.h.t.a(b, paramString, a);
+        return;
+      }
+      v.a(b, paramString, paramBundle, a);
+    }
+    
+    public void a(@F String paramString, MediaBrowserCompat.n paramN)
+    {
+      if ((g != null) && (f >= 2))
+      {
+        super.a(paramString, paramN);
+        return;
+      }
+      if (paramN == null)
+      {
+        b.b.x.h.t.a(b, paramString);
+        return;
+      }
+      v.a(b, paramString, a);
+    }
+  }
+  
+  public static class i
+    implements MediaBrowserCompat.e, MediaBrowserCompat.j
+  {
+    public static final int a = 0;
+    public static final int b = 1;
+    public static final int c = 2;
+    public static final int d = 3;
+    public static final int e = 4;
+    public final Context f;
+    public final ComponentName g;
+    public final MediaBrowserCompat.b h;
+    public final Bundle i;
+    public final MediaBrowserCompat.a j = new MediaBrowserCompat.a(this);
+    public final b.b.x.n.b<String, MediaBrowserCompat.m> k = new b.b.x.n.b();
+    public int l = 1;
+    public a m;
+    public MediaBrowserCompat.l n;
+    public Messenger o;
+    public String p;
+    public MediaSessionCompat.Token q;
+    public Bundle r;
+    public Bundle s;
+    
+    public i(Context paramContext, ComponentName paramComponentName, MediaBrowserCompat.b paramB, Bundle paramBundle)
+    {
+      if (paramContext != null)
+      {
+        if (paramComponentName != null)
+        {
+          if (paramB != null)
+          {
+            f = paramContext;
+            g = paramComponentName;
+            h = paramB;
+            if (paramBundle == null) {
+              paramContext = null;
+            } else {
+              paramContext = new Bundle(paramBundle);
+            }
+            i = paramContext;
+            return;
+          }
+          throw new IllegalArgumentException("connection callback must not be null");
+        }
+        throw new IllegalArgumentException("service component must not be null");
+      }
+      throw new IllegalArgumentException("context must not be null");
+    }
+    
+    public static String a(int paramInt)
+    {
+      if (paramInt != 0)
+      {
+        if (paramInt != 1)
+        {
+          if (paramInt != 2)
+          {
+            if (paramInt != 3)
+            {
+              if (paramInt != 4) {
+                return a.a("UNKNOWN/", paramInt);
+              }
+              return "CONNECT_STATE_SUSPENDED";
+            }
+            return "CONNECT_STATE_CONNECTED";
+          }
+          return "CONNECT_STATE_CONNECTING";
+        }
+        return "CONNECT_STATE_DISCONNECTED";
+      }
+      return "CONNECT_STATE_DISCONNECTING";
+    }
+    
+    private boolean a(Messenger paramMessenger, String paramString)
+    {
+      if (o == paramMessenger)
+      {
+        i1 = l;
+        if ((i1 != 0) && (i1 != 1)) {
+          return true;
+        }
+      }
+      int i1 = l;
+      if ((i1 != 0) && (i1 != 1))
+      {
+        paramMessenger = a.d(paramString, " for ");
+        paramMessenger.append(g);
+        paramMessenger.append(" with mCallbacksMessenger=");
+        paramMessenger.append(o);
+        paramMessenger.append(" this=");
+        paramMessenger.append(this);
+        paramMessenger.toString();
+      }
+      return false;
+    }
+    
+    @F
+    public MediaSessionCompat.Token a()
+    {
+      if (isConnected()) {
+        return q;
+      }
+      throw new IllegalStateException(a.a(a.b("getSessionToken() called while not connected(state="), l, ")"));
+    }
+    
+    public void a(Messenger paramMessenger)
+    {
+      StringBuilder localStringBuilder = a.b("onConnectFailed for ");
+      localStringBuilder.append(g);
+      localStringBuilder.toString();
+      if (!a(paramMessenger, "onConnectFailed")) {
+        return;
+      }
+      if (l != 2)
+      {
+        paramMessenger = a.b("onConnect from service while mState=");
+        paramMessenger.append(a(l));
+        paramMessenger.append("... ignoring");
+        paramMessenger.toString();
+        return;
+      }
+      c();
+      h.b();
+    }
+    
+    public void a(Messenger paramMessenger, String paramString, MediaSessionCompat.Token paramToken, Bundle paramBundle)
+    {
+      if (!a(paramMessenger, "onConnect")) {
+        return;
+      }
+      if (l != 2)
+      {
+        paramMessenger = a.b("onConnect from service while mState=");
+        paramMessenger.append(a(l));
+        paramMessenger.append("... ignoring");
+        paramMessenger.toString();
+        return;
+      }
+      p = paramString;
+      q = paramToken;
+      r = paramBundle;
+      l = 3;
+      if (MediaBrowserCompat.b) {
+        b();
+      }
+      h.a();
+      try
+      {
+        paramMessenger = k.entrySet().iterator();
+        while (paramMessenger.hasNext())
+        {
+          paramToken = (Map.Entry)paramMessenger.next();
+          paramString = (String)paramToken.getKey();
+          paramBundle = (MediaBrowserCompat.m)paramToken.getValue();
+          paramToken = paramBundle.a();
+          paramBundle = paramBundle.b();
+          int i1 = 0;
+          while (i1 < paramToken.size())
+          {
+            n.a(paramString, getb, (Bundle)paramBundle.get(i1), o);
+            i1 += 1;
+          }
+        }
+        return;
+      }
+      catch (RemoteException paramMessenger) {}
+    }
+    
+    public void a(Messenger paramMessenger, String paramString, List paramList, Bundle paramBundle1, Bundle paramBundle2)
+    {
+      if (!a(paramMessenger, "onLoadChildren")) {
+        return;
+      }
+      if (MediaBrowserCompat.b)
+      {
+        paramMessenger = a.b("onLoadChildren for ");
+        paramMessenger.append(g);
+        paramMessenger.append(" id=");
+        paramMessenger.append(paramString);
+        paramMessenger.toString();
+      }
+      paramMessenger = (MediaBrowserCompat.m)k.get(paramString);
+      if (paramMessenger == null)
+      {
+        if (MediaBrowserCompat.b) {
+          a.f("onLoadChildren for id that isn't subscribed id=", paramString);
+        }
+        return;
+      }
+      paramMessenger = paramMessenger.a(paramBundle1);
+      if (paramMessenger != null)
+      {
+        if (paramBundle1 == null)
+        {
+          if (paramList == null)
+          {
+            paramMessenger.a(paramString);
+            return;
+          }
+          s = paramBundle2;
+          paramMessenger.a(paramString, paramList);
+          s = null;
+          return;
+        }
+        if (paramList == null)
+        {
+          paramMessenger.a(paramString, paramBundle1);
+          return;
+        }
+        s = paramBundle2;
+        paramMessenger.a(paramString, paramList, paramBundle1);
+        s = null;
+      }
+    }
+    
+    public void a(@F String paramString, Bundle paramBundle, @G MediaBrowserCompat.c paramC)
+    {
+      if (isConnected()) {
+        localObject = new MediaBrowserCompat.CustomActionResultReceiver(paramString, paramBundle, paramC, j);
+      }
+      try
+      {
+        n.b(paramString, paramBundle, (ResultReceiver)localObject, o);
+        return;
+      }
+      catch (RemoteException localRemoteException)
+      {
+        for (;;) {}
+      }
+      Object localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("Remote error sending a custom action: action=");
+      ((StringBuilder)localObject).append(paramString);
+      ((StringBuilder)localObject).append(", extras=");
+      ((StringBuilder)localObject).append(paramBundle);
+      ((StringBuilder)localObject).toString();
+      if (paramC != null) {
+        j.post(new p(this, paramC, paramString, paramBundle));
+      }
+      return;
+      paramC = new StringBuilder();
+      paramC.append("Cannot send a custom action (");
+      paramC.append(paramString);
+      paramC.append(") with ");
+      paramC.append("extras ");
+      paramC.append(paramBundle);
+      throw new IllegalStateException(a.a(paramC, " because the browser is not connected to the ", "service."));
+    }
+    
+    public void a(@F String paramString, Bundle paramBundle, @F MediaBrowserCompat.k paramK)
+    {
+      MediaBrowserCompat.SearchResultReceiver localSearchResultReceiver;
+      if (isConnected()) {
+        localSearchResultReceiver = new MediaBrowserCompat.SearchResultReceiver(paramString, paramBundle, paramK, j);
+      }
+      try
+      {
+        n.a(paramString, paramBundle, localSearchResultReceiver, o);
+        return;
+      }
+      catch (RemoteException localRemoteException)
+      {
+        for (;;) {}
+      }
+      a.f("Remote error searching items with query: ", paramString);
+      j.post(new o(this, paramK, paramString, paramBundle));
+      return;
+      paramString = a.b("search() called while not connected (state=");
+      paramString.append(a(l));
+      paramString.append(")");
+      throw new IllegalStateException(paramString.toString());
+    }
+    
+    public void a(@F String paramString, Bundle paramBundle, @F MediaBrowserCompat.n paramN)
+    {
+      MediaBrowserCompat.m localM2 = (MediaBrowserCompat.m)k.get(paramString);
+      MediaBrowserCompat.m localM1 = localM2;
+      if (localM2 == null)
+      {
+        localM1 = new MediaBrowserCompat.m();
+        k.put(paramString, localM1);
+      }
+      if (paramBundle == null) {
+        paramBundle = null;
+      } else {
+        paramBundle = new Bundle(paramBundle);
+      }
+      localM1.a(paramBundle, paramN);
+      if (isConnected()) {}
+      try
+      {
+        n.a(paramString, b, paramBundle, o);
+        return;
+      }
+      catch (RemoteException paramBundle)
+      {
+        for (;;) {}
+      }
+      a.f("addSubscription failed with RemoteException parentId=", paramString);
+    }
+    
+    public void a(@F String paramString, @F MediaBrowserCompat.d paramD)
+    {
+      MediaBrowserCompat.ItemReceiver localItemReceiver;
+      if (!TextUtils.isEmpty(paramString)) {
+        if (paramD != null)
+        {
+          if (!isConnected())
+          {
+            j.post(new m(this, paramD, paramString));
+            return;
+          }
+          localItemReceiver = new MediaBrowserCompat.ItemReceiver(paramString, paramD, j);
+        }
+      }
+      try
+      {
+        n.a(paramString, localItemReceiver, o);
+        return;
+      }
+      catch (RemoteException localRemoteException)
+      {
+        for (;;) {}
+      }
+      a.f("Remote error getting media item: ", paramString);
+      j.post(new n(this, paramD, paramString));
+      return;
+      throw new IllegalArgumentException("cb is null");
+      throw new IllegalArgumentException("mediaId is empty");
+    }
+    
+    public void a(@F String paramString, MediaBrowserCompat.n paramN)
+    {
+      MediaBrowserCompat.m localM = (MediaBrowserCompat.m)k.get(paramString);
+      if (localM == null) {
+        return;
+      }
+      if (paramN == null) {}
+      try
+      {
+        if (!isConnected()) {
+          break label150;
+        }
+        n.a(paramString, null, o);
+      }
+      catch (RemoteException localRemoteException)
+      {
+        List localList1;
+        List localList2;
+        int i1;
+        for (;;) {}
+      }
+      localList1 = localM.a();
+      localList2 = localM.b();
+      i1 = localList1.size();
+      for (;;)
+      {
+        int i2 = i1 - 1;
+        if (i2 >= 0)
+        {
+          i1 = i2;
+          if (localList1.get(i2) == paramN)
+          {
+            if (isConnected()) {
+              n.a(paramString, b, o);
+            }
+            localList1.remove(i2);
+            localList2.remove(i2);
+            i1 = i2;
+            continue;
+            a.f("removeSubscription failed with RemoteException parentId=", paramString);
+          }
+        }
+      }
+      label150:
+      if ((localM.c()) || (paramN == null)) {
+        k.remove(paramString);
+      }
+    }
+    
+    public void b()
+    {
+      StringBuilder localStringBuilder = a.b("  mServiceComponent=");
+      localStringBuilder.append(g);
+      localStringBuilder.toString();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("  mCallback=");
+      localStringBuilder.append(h);
+      localStringBuilder.toString();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("  mRootHints=");
+      localStringBuilder.append(i);
+      localStringBuilder.toString();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("  mState=");
+      localStringBuilder.append(a(l));
+      localStringBuilder.toString();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("  mServiceConnection=");
+      localStringBuilder.append(m);
+      localStringBuilder.toString();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("  mServiceBinderWrapper=");
+      localStringBuilder.append(n);
+      localStringBuilder.toString();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("  mCallbacksMessenger=");
+      localStringBuilder.append(o);
+      localStringBuilder.toString();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("  mRootId=");
+      localStringBuilder.append(p);
+      localStringBuilder.toString();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("  mMediaSessionToken=");
+      localStringBuilder.append(q);
+      localStringBuilder.toString();
+    }
+    
+    public void c()
+    {
+      a localA = m;
+      if (localA != null) {
+        f.unbindService(localA);
+      }
+      l = 1;
+      m = null;
+      n = null;
+      o = null;
+      j.a(null);
+      p = null;
+      q = null;
+    }
+    
+    public void connect()
+    {
+      int i1 = l;
+      if ((i1 != 0) && (i1 != 1))
+      {
+        StringBuilder localStringBuilder = a.b("connect() called while neigther disconnecting nor disconnected (state=");
+        localStringBuilder.append(a(l));
+        localStringBuilder.append(")");
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      l = 2;
+      j.post(new k(this));
+    }
+    
+    @F
+    public ComponentName d()
+    {
+      if (isConnected()) {
+        return g;
+      }
+      throw new IllegalStateException(a.a(a.b("getServiceComponent() called while not connected (state="), l, ")"));
+    }
+    
+    public void disconnect()
+    {
+      l = 0;
+      j.post(new l(this));
+    }
+    
+    public Bundle e()
+    {
+      return s;
+    }
+    
+    @G
+    public Bundle getExtras()
+    {
+      if (isConnected()) {
+        return r;
+      }
+      StringBuilder localStringBuilder = a.b("getExtras() called while not connected (state=");
+      localStringBuilder.append(a(l));
+      localStringBuilder.append(")");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    @F
+    public String getRoot()
+    {
+      if (isConnected()) {
+        return p;
+      }
+      StringBuilder localStringBuilder = a.b("getRoot() called while not connected(state=");
+      localStringBuilder.append(a(l));
+      localStringBuilder.append(")");
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public boolean isConnected()
+    {
+      return l == 3;
+    }
+    
+    private class a
+      implements ServiceConnection
+    {
+      public a() {}
+      
+      private void a(Runnable paramRunnable)
+      {
+        if (Thread.currentThread() == j.getLooper().getThread())
+        {
+          paramRunnable.run();
+          return;
+        }
+        j.post(paramRunnable);
+      }
+      
+      public boolean a(String paramString)
+      {
+        MediaBrowserCompat.i localI = MediaBrowserCompat.i.this;
+        if (m == this)
+        {
+          i = l;
+          if ((i != 0) && (i != 1)) {
+            return true;
+          }
+        }
+        int i = l;
+        if ((i != 0) && (i != 1))
+        {
+          paramString = a.d(paramString, " for ");
+          paramString.append(g);
+          paramString.append(" with mServiceConnection=");
+          paramString.append(m);
+          paramString.append(" this=");
+          paramString.append(this);
+          paramString.toString();
+        }
+        return false;
+      }
+      
+      public void onServiceConnected(ComponentName paramComponentName, IBinder paramIBinder)
+      {
+        a(new q(this, paramComponentName, paramIBinder));
+      }
+      
+      public void onServiceDisconnected(ComponentName paramComponentName)
+      {
+        a(new r(this, paramComponentName));
+      }
+    }
+  }
+  
+  public static abstract interface j
+  {
+    public abstract void a(Messenger paramMessenger);
+    
+    public abstract void a(Messenger paramMessenger, String paramString, MediaSessionCompat.Token paramToken, Bundle paramBundle);
+    
+    public abstract void a(Messenger paramMessenger, String paramString, List paramList, Bundle paramBundle1, Bundle paramBundle2);
+  }
+  
+  public static abstract class k
+  {
+    public k() {}
+    
+    public void a(@F String paramString, Bundle paramBundle) {}
+    
+    public void a(@F String paramString, Bundle paramBundle, @F List<MediaBrowserCompat.MediaItem> paramList) {}
+  }
+  
+  private static class l
+  {
+    public Messenger a;
+    public Bundle b;
+    
+    public l(IBinder paramIBinder, Bundle paramBundle)
+    {
+      a = new Messenger(paramIBinder);
+      b = paramBundle;
+    }
+    
+    private void a(int paramInt, Bundle paramBundle, Messenger paramMessenger)
+      throws RemoteException
+    {
+      Message localMessage = Message.obtain();
+      what = paramInt;
+      arg1 = 1;
+      localMessage.setData(paramBundle);
+      replyTo = paramMessenger;
+      a.send(localMessage);
+    }
+    
+    public void a(Context paramContext, Messenger paramMessenger)
+      throws RemoteException
+    {
+      Bundle localBundle = new Bundle();
+      localBundle.putString("data_package_name", paramContext.getPackageName());
+      localBundle.putBundle("data_root_hints", b);
+      a(1, localBundle, paramMessenger);
+    }
+    
+    public void a(Messenger paramMessenger)
+      throws RemoteException
+    {
+      a(2, null, paramMessenger);
+    }
+    
+    public void a(String paramString, Bundle paramBundle, ResultReceiver paramResultReceiver, Messenger paramMessenger)
+      throws RemoteException
+    {
+      Bundle localBundle = new Bundle();
+      localBundle.putString("data_search_query", paramString);
+      localBundle.putBundle("data_search_extras", paramBundle);
+      localBundle.putParcelable("data_result_receiver", paramResultReceiver);
+      a(8, localBundle, paramMessenger);
+    }
+    
+    public void a(String paramString, IBinder paramIBinder, Bundle paramBundle, Messenger paramMessenger)
+      throws RemoteException
+    {
+      paramString = a.a("data_media_item_id", paramString);
+      int i = Build.VERSION.SDK_INT;
+      paramString.putBinder("data_callback_token", paramIBinder);
+      paramString.putBundle("data_options", paramBundle);
+      a(3, paramString, paramMessenger);
+    }
+    
+    public void a(String paramString, IBinder paramIBinder, Messenger paramMessenger)
+      throws RemoteException
+    {
+      paramString = a.a("data_media_item_id", paramString);
+      int i = Build.VERSION.SDK_INT;
+      paramString.putBinder("data_callback_token", paramIBinder);
+      a(4, paramString, paramMessenger);
+    }
+    
+    public void a(String paramString, ResultReceiver paramResultReceiver, Messenger paramMessenger)
+      throws RemoteException
+    {
+      Bundle localBundle = new Bundle();
+      localBundle.putString("data_media_item_id", paramString);
+      localBundle.putParcelable("data_result_receiver", paramResultReceiver);
+      a(5, localBundle, paramMessenger);
+    }
+    
+    public void b(Context paramContext, Messenger paramMessenger)
+      throws RemoteException
+    {
+      Bundle localBundle = new Bundle();
+      localBundle.putString("data_package_name", paramContext.getPackageName());
+      localBundle.putBundle("data_root_hints", b);
+      a(6, localBundle, paramMessenger);
+    }
+    
+    public void b(Messenger paramMessenger)
+      throws RemoteException
+    {
+      a(7, null, paramMessenger);
+    }
+    
+    public void b(String paramString, Bundle paramBundle, ResultReceiver paramResultReceiver, Messenger paramMessenger)
+      throws RemoteException
+    {
+      Bundle localBundle = new Bundle();
+      localBundle.putString("data_custom_action", paramString);
+      localBundle.putBundle("data_custom_action_extras", paramBundle);
+      localBundle.putParcelable("data_result_receiver", paramResultReceiver);
+      a(9, localBundle, paramMessenger);
+    }
+  }
+  
+  private static class m
+  {
+    public final List<MediaBrowserCompat.n> a = new ArrayList();
+    public final List<Bundle> b = new ArrayList();
+    
+    public m() {}
+    
+    public MediaBrowserCompat.n a(Bundle paramBundle)
+    {
+      int i = 0;
+      while (i < b.size())
+      {
+        if (w.a((Bundle)b.get(i), paramBundle)) {
+          return (MediaBrowserCompat.n)a.get(i);
+        }
+        i += 1;
+      }
+      return null;
+    }
+    
+    public List<MediaBrowserCompat.n> a()
+    {
+      return a;
+    }
+    
+    public void a(Bundle paramBundle, MediaBrowserCompat.n paramN)
+    {
+      int i = 0;
+      while (i < b.size())
+      {
+        if (w.a((Bundle)b.get(i), paramBundle))
+        {
+          a.set(i, paramN);
+          return;
+        }
+        i += 1;
+      }
+      a.add(paramN);
+      b.add(paramBundle);
+    }
+    
+    public List<Bundle> b()
+    {
+      return b;
+    }
+    
+    public boolean c()
+    {
+      return a.isEmpty();
+    }
+  }
+  
+  public static abstract class n
+  {
+    public final Object a;
+    public final IBinder b = new Binder();
+    public WeakReference<MediaBrowserCompat.m> c;
+    
+    public n()
+    {
+      int i = Build.VERSION.SDK_INT;
+      if (i >= 26)
+      {
+        a = new v.b(new b());
+        return;
+      }
+      if (i >= 21)
+      {
+        a = b.b.x.h.t.a(new a());
+        return;
+      }
+      a = null;
+    }
+    
+    public void a(MediaBrowserCompat.m paramM)
+    {
+      c = new WeakReference(paramM);
+    }
+    
+    public void a(@F String paramString) {}
+    
+    public void a(@F String paramString, @F Bundle paramBundle) {}
+    
+    public void a(@F String paramString, @F List<MediaBrowserCompat.MediaItem> paramList) {}
+    
+    public void a(@F String paramString, @F List<MediaBrowserCompat.MediaItem> paramList, @F Bundle paramBundle) {}
+    
+    private class a
+      implements t.d
+    {
+      public a() {}
+      
+      public List<MediaBrowserCompat.MediaItem> a(List<MediaBrowserCompat.MediaItem> paramList, Bundle paramBundle)
+      {
+        if (paramList == null) {
+          return null;
+        }
+        int i = paramBundle.getInt("android.media.browse.extra.PAGE", -1);
+        int m = paramBundle.getInt("android.media.browse.extra.PAGE_SIZE", -1);
+        if ((i == -1) && (m == -1)) {
+          return paramList;
+        }
+        int k = m * i;
+        int j = k + m;
+        if ((i >= 0) && (m >= 1) && (k < paramList.size()))
+        {
+          i = j;
+          if (j > paramList.size()) {
+            i = paramList.size();
+          }
+          return paramList.subList(k, i);
+        }
+        return Collections.emptyList();
+      }
+      
+      public void a(@F String paramString)
+      {
+        MediaBrowserCompat.n.this.a(paramString);
+      }
+      
+      public void a(@F String paramString, List<?> paramList)
+      {
+        Object localObject = c;
+        if (localObject == null) {
+          localObject = null;
+        } else {
+          localObject = (MediaBrowserCompat.m)((WeakReference)localObject).get();
+        }
+        if (localObject == null)
+        {
+          MediaBrowserCompat.n.this.a(paramString, MediaBrowserCompat.MediaItem.a(paramList));
+          return;
+        }
+        paramList = MediaBrowserCompat.MediaItem.a(paramList);
+        List localList = ((MediaBrowserCompat.m)localObject).a();
+        localObject = ((MediaBrowserCompat.m)localObject).b();
+        int i = 0;
+        while (i < localList.size())
+        {
+          Bundle localBundle = (Bundle)((List)localObject).get(i);
+          if (localBundle == null) {
+            MediaBrowserCompat.n.this.a(paramString, paramList);
+          } else {
+            a(paramString, a(paramList, localBundle), localBundle);
+          }
+          i += 1;
+        }
+      }
+    }
+    
+    private class b
+      extends MediaBrowserCompat.n.a
+      implements v.a
+    {
+      public b()
+      {
+        super();
+      }
+      
+      public void a(@F String paramString, @F Bundle paramBundle)
+      {
+        MediaBrowserCompat.n.this.a(paramString, paramBundle);
+      }
+      
+      public void a(@F String paramString, List<?> paramList, @F Bundle paramBundle)
+      {
+        MediaBrowserCompat.n.this.a(paramString, MediaBrowserCompat.MediaItem.a(paramList), paramBundle);
+      }
+    }
+  }
+}

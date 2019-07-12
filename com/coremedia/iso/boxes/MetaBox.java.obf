@@ -1,0 +1,88 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.d;
+import f.b.a.h;
+import f.b.a.j;
+import f.h.a.b;
+import f.h.a.e;
+import f.h.a.f;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.WritableByteChannel;
+
+public class MetaBox
+  extends b
+{
+  public static final String TYPE = "meta";
+  public int flags;
+  public int version;
+  
+  public MetaBox()
+  {
+    super("meta");
+  }
+  
+  public void getBox(WritableByteChannel paramWritableByteChannel)
+    throws IOException
+  {
+    paramWritableByteChannel.write(getHeader());
+    ByteBuffer localByteBuffer = ByteBuffer.allocate(4);
+    writeVersionAndFlags(localByteBuffer);
+    paramWritableByteChannel.write((ByteBuffer)localByteBuffer.rewind());
+    writeContainer(paramWritableByteChannel);
+  }
+  
+  public int getFlags()
+  {
+    return flags;
+  }
+  
+  public long getSize()
+  {
+    long l = getContainerSize() + 4L;
+    int i;
+    if ((!largeBox) && (l < 4294967296L)) {
+      i = 8;
+    } else {
+      i = 16;
+    }
+    return l + i;
+  }
+  
+  public int getVersion()
+  {
+    return version;
+  }
+  
+  public void parse(f paramF, ByteBuffer paramByteBuffer, long paramLong, d paramD)
+    throws IOException
+  {
+    paramByteBuffer = ByteBuffer.allocate(4);
+    paramF.read(paramByteBuffer);
+    parseVersionAndFlags((ByteBuffer)paramByteBuffer.rewind());
+    parseContainer(paramF, paramLong - 4L, paramD);
+  }
+  
+  public final long parseVersionAndFlags(ByteBuffer paramByteBuffer)
+  {
+    version = h.m(paramByteBuffer);
+    flags = h.i(paramByteBuffer);
+    return 4L;
+  }
+  
+  public void setFlags(int paramInt)
+  {
+    flags = paramInt;
+  }
+  
+  public void setVersion(int paramInt)
+  {
+    version = paramInt;
+  }
+  
+  public final void writeVersionAndFlags(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.put((byte)(version & 0xFF));
+    j.c(paramByteBuffer, flags);
+  }
+}

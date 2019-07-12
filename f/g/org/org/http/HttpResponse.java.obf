@@ -1,0 +1,324 @@
+package f.g.b.a.c;
+
+import f.a.a.a.a;
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.C;
+import f.g.b.a.g.W;
+import f.g.b.a.g.l;
+import f.g.b.a.g.x;
+import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.GZIPInputStream;
+
+public final class B
+{
+  public InputStream a;
+  public final String b;
+  public final String c;
+  public final v d;
+  public J e;
+  public final int f;
+  public final String g;
+  public final y h;
+  public int i;
+  public boolean j;
+  public boolean k;
+  
+  public B(y paramY, J paramJ)
+    throws IOException
+  {
+    h = paramY;
+    i = paramY.f();
+    j = paramY.z();
+    e = paramJ;
+    b = paramJ.c();
+    int i1 = paramJ.h();
+    int n = 0;
+    int m = i1;
+    if (i1 < 0) {
+      m = 0;
+    }
+    f = m;
+    Object localObject1 = paramJ.g();
+    g = ((String)localObject1);
+    Logger localLogger = F.a;
+    m = n;
+    if (j)
+    {
+      m = n;
+      if (localLogger.isLoggable(Level.CONFIG)) {
+        m = 1;
+      }
+    }
+    Object localObject2 = null;
+    StringBuilder localStringBuilder;
+    if (m != 0)
+    {
+      localStringBuilder = a.b("-------------- RESPONSE --------------");
+      localStringBuilder.append(W.a);
+      localObject3 = paramJ.i();
+      if (localObject3 != null)
+      {
+        localStringBuilder.append((String)localObject3);
+      }
+      else
+      {
+        localStringBuilder.append(f);
+        if (localObject1 != null)
+        {
+          localStringBuilder.append(' ');
+          localStringBuilder.append((String)localObject1);
+        }
+      }
+      localStringBuilder.append(W.a);
+    }
+    else
+    {
+      localStringBuilder = null;
+    }
+    Object localObject3 = paramY.p();
+    if (m != 0) {
+      localObject1 = localStringBuilder;
+    } else {
+      localObject1 = null;
+    }
+    ((t)localObject3).a(paramJ, (StringBuilder)localObject1);
+    localObject1 = paramJ.e();
+    paramJ = (J)localObject1;
+    if (localObject1 == null) {
+      paramJ = paramY.p().s();
+    }
+    c = paramJ;
+    if (paramJ == null) {
+      paramY = localObject2;
+    } else {
+      paramY = new v(paramJ);
+    }
+    d = paramY;
+    if (m != 0) {
+      localLogger.config(localStringBuilder.toString());
+    }
+  }
+  
+  private boolean q()
+    throws IOException
+  {
+    int m = j();
+    if ((!i().o().equals("HEAD")) && (m / 100 != 1) && (m != 204) && (m != 304)) {
+      return true;
+    }
+    m();
+    return false;
+  }
+  
+  public B a(int paramInt)
+  {
+    boolean bool;
+    if (paramInt >= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    g.a(bool, "The content logging limit must be non-negative.");
+    i = paramInt;
+    return this;
+  }
+  
+  public B a(boolean paramBoolean)
+  {
+    j = paramBoolean;
+    return this;
+  }
+  
+  public <T> T a(Class<T> paramClass)
+    throws IOException
+  {
+    if (!q()) {
+      return null;
+    }
+    return h.m().a(b(), c(), paramClass);
+  }
+  
+  public Object a(Type paramType)
+    throws IOException
+  {
+    if (!q()) {
+      return null;
+    }
+    return h.m().a(b(), c(), paramType);
+  }
+  
+  public void a()
+    throws IOException
+  {
+    m();
+    e.a();
+  }
+  
+  public void a(OutputStream paramOutputStream)
+    throws IOException
+  {
+    x.a(b(), paramOutputStream, true);
+  }
+  
+  public InputStream b()
+    throws IOException
+  {
+    Object localObject3;
+    Object localObject4;
+    Object localObject5;
+    if (!k)
+    {
+      localObject3 = e.b();
+      if (localObject3 != null)
+      {
+        localObject4 = localObject3;
+        localObject5 = localObject3;
+      }
+    }
+    try
+    {
+      try
+      {
+        Object localObject6 = b;
+        Object localObject1 = localObject3;
+        if (localObject6 != null)
+        {
+          localObject1 = localObject3;
+          localObject4 = localObject3;
+          localObject5 = localObject3;
+          if (((String)localObject6).contains("gzip"))
+          {
+            localObject4 = localObject3;
+            localObject5 = localObject3;
+            localObject1 = new GZIPInputStream((InputStream)localObject3);
+          }
+        }
+        localObject4 = localObject1;
+        localObject5 = localObject1;
+        localObject6 = F.a;
+        localObject3 = localObject1;
+        localObject4 = localObject1;
+        localObject5 = localObject1;
+        if (j)
+        {
+          localObject3 = localObject1;
+          localObject4 = localObject1;
+          localObject5 = localObject1;
+          if (((Logger)localObject6).isLoggable(Level.CONFIG))
+          {
+            localObject4 = localObject1;
+            localObject5 = localObject1;
+            localObject3 = new C((InputStream)localObject1, (Logger)localObject6, Level.CONFIG, i);
+          }
+        }
+        localObject4 = localObject3;
+        localObject5 = localObject3;
+        a = ((InputStream)localObject3);
+      }
+      finally
+      {
+        localObject4.close();
+      }
+    }
+    catch (EOFException localEOFException)
+    {
+      for (;;) {}
+    }
+    localObject5.close();
+    k = true;
+    return a;
+  }
+  
+  public Charset c()
+  {
+    v localV = d;
+    if ((localV != null) && (localV.c() != null)) {
+      return d.c();
+    }
+    return l.b;
+  }
+  
+  public String d()
+  {
+    return b;
+  }
+  
+  public int e()
+  {
+    return i;
+  }
+  
+  public String f()
+  {
+    return c;
+  }
+  
+  public t g()
+  {
+    return h.p();
+  }
+  
+  public v h()
+  {
+    return d;
+  }
+  
+  public y i()
+  {
+    return h;
+  }
+  
+  public int j()
+  {
+    return f;
+  }
+  
+  public String k()
+  {
+    return g;
+  }
+  
+  public F l()
+  {
+    return h.v();
+  }
+  
+  public void m()
+    throws IOException
+  {
+    InputStream localInputStream = b();
+    if (localInputStream != null) {
+      localInputStream.close();
+    }
+  }
+  
+  public boolean n()
+  {
+    return j;
+  }
+  
+  public boolean o()
+  {
+    return E.b(f);
+  }
+  
+  public String p()
+    throws IOException
+  {
+    InputStream localInputStream = b();
+    if (localInputStream == null) {
+      return "";
+    }
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    x.a(localInputStream, localByteArrayOutputStream, true);
+    return localByteArrayOutputStream.toString(c().name());
+  }
+}

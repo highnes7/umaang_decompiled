@@ -1,0 +1,139 @@
+package b.b.x.h;
+
+import android.content.Context;
+import android.media.session.MediaSessionManager.RemoteUserInfo;
+import android.os.Build.VERSION;
+import android.util.Log;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.N;
+
+public final class ea
+{
+  public static final String a = "MediaSessionManager";
+  public static final boolean b = Log.isLoggable("MediaSessionManager", 3);
+  public static final Object c = new Object();
+  public static volatile ea d;
+  public a e;
+  
+  public ea(Context paramContext)
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (i >= 28)
+    {
+      e = new ga(paramContext);
+      return;
+    }
+    if (i >= 21)
+    {
+      e = new fa(paramContext);
+      return;
+    }
+    e = new ha(paramContext);
+  }
+  
+  @F
+  public static ea a(@F Context paramContext)
+  {
+    Object localObject1 = d;
+    if (localObject1 == null) {
+      synchronized (c)
+      {
+        ea localEa = d;
+        localObject1 = localEa;
+        if (localEa == null)
+        {
+          d = new ea(paramContext.getApplicationContext());
+          localObject1 = d;
+        }
+        return localObject1;
+      }
+    }
+    return localObject1;
+  }
+  
+  public Context a()
+  {
+    return e.getContext();
+  }
+  
+  public boolean a(@F b paramB)
+  {
+    if (paramB != null) {
+      return e.a(b);
+    }
+    throw new IllegalArgumentException("userInfo should not be null");
+  }
+  
+  public static abstract interface a
+  {
+    public abstract boolean a(ea.c paramC);
+    
+    public abstract Context getContext();
+  }
+  
+  public static final class b
+  {
+    public static final String a = "android.media.session.MediaController";
+    public ea.c b;
+    
+    @K(28)
+    @N({b.b.a.N.a.b})
+    public b(MediaSessionManager.RemoteUserInfo paramRemoteUserInfo)
+    {
+      b = new ga.a(paramRemoteUserInfo);
+    }
+    
+    public b(@F String paramString, int paramInt1, int paramInt2)
+    {
+      if (Build.VERSION.SDK_INT >= 28)
+      {
+        b = new ga.a(paramString, paramInt1, paramInt2);
+        return;
+      }
+      b = new ha.a(paramString, paramInt1, paramInt2);
+    }
+    
+    @F
+    public String a()
+    {
+      return b.a();
+    }
+    
+    public int b()
+    {
+      return b.b();
+    }
+    
+    public int c()
+    {
+      return b.getUid();
+    }
+    
+    public boolean equals(@G Object paramObject)
+    {
+      if (this == paramObject) {
+        return true;
+      }
+      if (!(paramObject instanceof b)) {
+        return false;
+      }
+      return b.equals(b);
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode();
+    }
+  }
+  
+  public static abstract interface c
+  {
+    public abstract String a();
+    
+    public abstract int b();
+    
+    public abstract int getUid();
+  }
+}

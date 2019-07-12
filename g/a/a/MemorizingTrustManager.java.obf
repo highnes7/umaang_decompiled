@@ -1,0 +1,824 @@
+package g.a.a;
+
+import android.app.Activity;
+import android.app.Application;
+import android.app.Notification.Builder;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.util.SparseArray;
+import f.a.a.a.a;
+import java.io.File;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+
+public class d
+  implements X509TrustManager
+{
+  public static final String a = "de.duenndns.ssl.DECISION";
+  public static final String b = "de.duenndns.ssl.DECISION.decisionId";
+  public static final String c = "de.duenndns.ssl.DECISION.cert";
+  public static final String d = "de.duenndns.ssl.DECISION.decisionChoice";
+  public static final Logger e = Logger.getLogger(d.class.getName());
+  public static final String f = "de.duenndns.ssl.DECISION.titleId";
+  public static final int g = 100509;
+  public static final String h = "Trust anchor for certification path not found.";
+  public static String i = "KeyStore";
+  public static String j = "KeyStore.bks";
+  public static int k = 0;
+  public static SparseArray<b> l = new SparseArray();
+  public Context m;
+  public Activity n;
+  public NotificationManager o;
+  public Handler p;
+  public File q;
+  public KeyStore r;
+  public X509TrustManager s;
+  public X509TrustManager t;
+  
+  public d(Context paramContext)
+  {
+    b(paramContext);
+    t = a(r);
+    s = a(null);
+  }
+  
+  public d(Context paramContext, X509TrustManager paramX509TrustManager)
+  {
+    b(paramContext);
+    t = a(r);
+    s = paramX509TrustManager;
+  }
+  
+  private int a(b paramB)
+  {
+    synchronized (l)
+    {
+      int i1 = k;
+      l.put(i1, paramB);
+      k += 1;
+      return i1;
+    }
+  }
+  
+  public static String a(X509Certificate paramX509Certificate, String paramString)
+  {
+    try
+    {
+      paramString = MessageDigest.getInstance(paramString);
+      paramString.update(paramX509Certificate.getEncoded());
+      paramX509Certificate = a(paramString.digest());
+      return paramX509Certificate;
+    }
+    catch (NoSuchAlgorithmException paramX509Certificate)
+    {
+      return paramX509Certificate.getMessage();
+    }
+    catch (CertificateEncodingException paramX509Certificate) {}
+    return paramX509Certificate.getMessage();
+  }
+  
+  public static String a(byte[] paramArrayOfByte)
+  {
+    StringBuffer localStringBuffer = new StringBuffer();
+    int i1 = 0;
+    while (i1 < paramArrayOfByte.length)
+    {
+      localStringBuffer.append(String.format("%02x", new Object[] { Byte.valueOf(paramArrayOfByte[i1]) }));
+      if (i1 < paramArrayOfByte.length - 1) {
+        localStringBuffer.append(":");
+      }
+      i1 += 1;
+    }
+    return localStringBuffer.toString();
+  }
+  
+  private String a(X509Certificate[] paramArrayOfX509Certificate, CertificateException paramCertificateException)
+  {
+    Object localObject = e;
+    Level localLevel = Level.FINE;
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("certChainMessage for ");
+    localStringBuilder.append(paramCertificateException);
+    ((Logger)localObject).log(localLevel, localStringBuilder.toString());
+    localObject = new StringBuffer();
+    if (paramCertificateException.getCause() != null)
+    {
+      paramCertificateException = paramCertificateException.getCause();
+      if ("Trust anchor for certification path not found.".equals(paramCertificateException.getMessage())) {
+        ((StringBuffer)localObject).append(m.getString(e.a.mtm_trust_anchor));
+      } else {
+        ((StringBuffer)localObject).append(paramCertificateException.getLocalizedMessage());
+      }
+      ((StringBuffer)localObject).append("\n");
+    }
+    ((StringBuffer)localObject).append("\n");
+    ((StringBuffer)localObject).append(m.getString(e.a.mtm_connect_anyway));
+    ((StringBuffer)localObject).append("\n\n");
+    ((StringBuffer)localObject).append(m.getString(e.a.mtm_cert_details));
+    int i2 = paramArrayOfX509Certificate.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      a((StringBuffer)localObject, paramArrayOfX509Certificate[i1]);
+      i1 += 1;
+    }
+    return ((StringBuffer)localObject).toString();
+  }
+  
+  public static void a(int paramInt1, int paramInt2)
+  {
+    synchronized (l)
+    {
+      b localB = (b)l.get(paramInt1);
+      l.remove(paramInt1);
+      if (localB == null)
+      {
+        e.log(Level.SEVERE, "interactResult: aborting due to stale decision reference!");
+        return;
+      }
+      try
+      {
+        e = paramInt2;
+        localB.notify();
+        return;
+      }
+      finally {}
+    }
+  }
+  
+  public static void a(String paramString1, String paramString2)
+  {
+    i = paramString1;
+    j = paramString2;
+  }
+  
+  private void a(StringBuffer paramStringBuffer, X509Certificate paramX509Certificate)
+  {
+    SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    paramStringBuffer.append("\n");
+    paramStringBuffer.append(paramX509Certificate.getSubjectDN().toString());
+    paramStringBuffer.append("\n");
+    paramStringBuffer.append(localSimpleDateFormat.format(paramX509Certificate.getNotBefore()));
+    paramStringBuffer.append(" - ");
+    paramStringBuffer.append(localSimpleDateFormat.format(paramX509Certificate.getNotAfter()));
+    paramStringBuffer.append("\nSHA-256: ");
+    paramStringBuffer.append(a(paramX509Certificate, "SHA-256"));
+    paramStringBuffer.append("\nSHA-1: ");
+    paramStringBuffer.append(a(paramX509Certificate, "SHA-1"));
+    paramStringBuffer.append("\nSigned by: ");
+    paramStringBuffer.append(paramX509Certificate.getIssuerDN().toString());
+    paramStringBuffer.append("\n");
+  }
+  
+  private boolean a(Throwable paramThrowable)
+  {
+    Throwable localThrowable;
+    do
+    {
+      if ((paramThrowable instanceof CertificateExpiredException)) {
+        return true;
+      }
+      localThrowable = paramThrowable.getCause();
+      paramThrowable = localThrowable;
+    } while (localThrowable != null);
+    return false;
+  }
+  
+  public static X509TrustManager[] a(Context paramContext)
+  {
+    return new X509TrustManager[] { new d(paramContext) };
+  }
+  
+  private boolean b(X509Certificate paramX509Certificate)
+  {
+    boolean bool = false;
+    try
+    {
+      paramX509Certificate = r.getCertificateAlias(paramX509Certificate);
+      if (paramX509Certificate != null) {
+        bool = true;
+      }
+      return bool;
+    }
+    catch (KeyStoreException paramX509Certificate) {}
+    return false;
+  }
+  
+  private String c(X509Certificate paramX509Certificate, String paramString)
+  {
+    localStringBuffer = new StringBuffer();
+    localStringBuffer.append(m.getString(e.a.mtm_hostname_mismatch, new Object[] { paramString }));
+    localStringBuffer.append("\n\n");
+    try
+    {
+      paramString = paramX509Certificate.getSubjectAlternativeNames();
+      if (paramString == null)
+      {
+        localStringBuffer.append(paramX509Certificate.getSubjectDN());
+        localStringBuffer.append("\n");
+      }
+      else
+      {
+        paramString = paramString.iterator();
+        while (paramString.hasNext())
+        {
+          List localList = (List)paramString.next();
+          Object localObject = localList.get(1);
+          if ((localObject instanceof String))
+          {
+            localStringBuffer.append("[");
+            localStringBuffer.append((Integer)localList.get(0));
+            localStringBuffer.append("] ");
+            localStringBuffer.append(localObject);
+            localStringBuffer.append("\n");
+          }
+        }
+      }
+      return localStringBuffer.toString();
+    }
+    catch (CertificateParsingException paramString)
+    {
+      paramString.printStackTrace();
+      localStringBuffer.append("<Parsing error: ");
+      localStringBuffer.append(paramString.getLocalizedMessage());
+      localStringBuffer.append(">\n");
+      localStringBuffer.append("\n");
+      localStringBuffer.append(m.getString(e.a.mtm_connect_anyway));
+      localStringBuffer.append("\n\n");
+      localStringBuffer.append(m.getString(e.a.mtm_cert_details));
+      a(localStringBuffer, paramX509Certificate);
+    }
+  }
+  
+  public int a(String paramString, int paramInt)
+  {
+    localB = new b();
+    int i1 = a(localB);
+    p.post(new c(this, i1, paramString, paramInt));
+    paramString = e;
+    Level localLevel = Level.FINE;
+    StringBuilder localStringBuilder = a.b("openDecisions: ");
+    localStringBuilder.append(l);
+    localStringBuilder.append(", waiting on ");
+    localStringBuilder.append(i1);
+    paramString.log(localLevel, localStringBuilder.toString());
+    try
+    {
+      try
+      {
+        localB.wait();
+      }
+      finally {}
+      return e;
+    }
+    catch (InterruptedException paramString)
+    {
+      e.log(Level.FINER, "InterruptedException", paramString);
+      paramString = e;
+      localLevel = Level.FINE;
+      localStringBuilder = a.b("finished wait on ", i1, ": ");
+      localStringBuilder.append(e);
+      paramString.log(localLevel, localStringBuilder.toString());
+    }
+  }
+  
+  public HostnameVerifier a(HostnameVerifier paramHostnameVerifier)
+  {
+    if (paramHostnameVerifier != null) {
+      return new d.a(this, paramHostnameVerifier);
+    }
+    throw new IllegalArgumentException("The default verifier may not be null");
+  }
+  
+  public X509TrustManager a(KeyStore paramKeyStore)
+  {
+    try
+    {
+      Object localObject1 = TrustManagerFactory.getInstance("X509");
+      ((TrustManagerFactory)localObject1).init(paramKeyStore);
+      localObject1 = ((TrustManagerFactory)localObject1).getTrustManagers();
+      int i2 = localObject1.length;
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        Object localObject2 = localObject1[i1];
+        if ((localObject2 instanceof X509TrustManager))
+        {
+          localObject1 = (X509TrustManager)localObject2;
+          return localObject1;
+        }
+        i1 += 1;
+      }
+      return null;
+    }
+    catch (Exception localException)
+    {
+      e.log(Level.SEVERE, a.a("getTrustManager(", paramKeyStore, ")"), localException);
+    }
+  }
+  
+  public void a(Activity paramActivity)
+  {
+    n = paramActivity;
+  }
+  
+  public void a(Intent paramIntent, int paramInt, String paramString)
+  {
+    paramIntent = PendingIntent.getActivity(m, 0, paramIntent, 0);
+    String str = m.getString(e.a.mtm_notification);
+    long l1 = System.currentTimeMillis();
+    m.getApplicationContext();
+    paramIntent = new Notification.Builder(m).setContentTitle(str).setContentText(paramString).setTicker(paramString).setSmallIcon(17301551).setWhen(l1).setContentIntent(paramIntent).setAutoCancel(true).build();
+    o.notify(paramInt + 100509, paramIntent);
+  }
+  
+  public void a(String paramString)
+    throws KeyStoreException
+  {
+    r.deleteEntry(paramString);
+    d();
+  }
+  
+  public void a(String paramString, Certificate paramCertificate)
+  {
+    try
+    {
+      r.setCertificateEntry(paramString, paramCertificate);
+      d();
+      return;
+    }
+    catch (KeyStoreException paramString)
+    {
+      e.log(Level.SEVERE, a.a("storeCert(", paramCertificate, ")"), paramString);
+    }
+  }
+  
+  public void a(X509Certificate paramX509Certificate)
+  {
+    a(paramX509Certificate.getSubjectDN().toString(), paramX509Certificate);
+  }
+  
+  public void a(X509Certificate[] paramArrayOfX509Certificate, String paramString, CertificateException paramCertificateException)
+    throws CertificateException
+  {
+    int i1 = a(a(paramArrayOfX509Certificate, paramCertificateException), e.a.mtm_accept_cert);
+    if (i1 != 2)
+    {
+      if (i1 == 3)
+      {
+        a(paramArrayOfX509Certificate[0]);
+        return;
+      }
+      throw paramCertificateException;
+    }
+  }
+  
+  public void a(X509Certificate[] paramArrayOfX509Certificate, String paramString, boolean paramBoolean)
+    throws CertificateException
+  {
+    Logger localLogger = e;
+    Level localLevel = Level.FINE;
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("checkCertTrusted(");
+    localStringBuilder.append(paramArrayOfX509Certificate);
+    localStringBuilder.append(", ");
+    localStringBuilder.append(paramString);
+    localStringBuilder.append(", ");
+    localStringBuilder.append(paramBoolean);
+    localStringBuilder.append(")");
+    localLogger.log(localLevel, localStringBuilder.toString());
+    try
+    {
+      e.log(Level.FINE, "checkCertTrusted: trying appTrustManager");
+      if (paramBoolean)
+      {
+        t.checkServerTrusted(paramArrayOfX509Certificate, paramString);
+        return;
+      }
+      t.checkClientTrusted(paramArrayOfX509Certificate, paramString);
+      return;
+    }
+    catch (CertificateException localCertificateException1)
+    {
+      e.log(Level.FINER, "checkCertTrusted: appTrustManager failed", localCertificateException1);
+      if (a(localCertificateException1))
+      {
+        e.log(Level.INFO, "checkCertTrusted: accepting expired certificate from keystore");
+        return;
+      }
+      if (b(paramArrayOfX509Certificate[0]))
+      {
+        e.log(Level.INFO, "checkCertTrusted: accepting cert already stored in keystore");
+        return;
+      }
+      try
+      {
+        if (s != null)
+        {
+          e.log(Level.FINE, "checkCertTrusted: trying defaultTrustManager");
+          if (paramBoolean)
+          {
+            s.checkServerTrusted(paramArrayOfX509Certificate, paramString);
+            return;
+          }
+          s.checkClientTrusted(paramArrayOfX509Certificate, paramString);
+          return;
+        }
+        throw localCertificateException1;
+      }
+      catch (CertificateException localCertificateException2)
+      {
+        e.log(Level.FINER, "checkCertTrusted: defaultTrustManager failed", localCertificateException2);
+        a(paramArrayOfX509Certificate, paramString, localCertificateException2);
+      }
+    }
+  }
+  
+  public Certificate b(String paramString)
+  {
+    try
+    {
+      paramString = r.getCertificate(paramString);
+      return paramString;
+    }
+    catch (KeyStoreException paramString)
+    {
+      throw new RuntimeException(paramString);
+    }
+  }
+  
+  public Enumeration<String> b()
+  {
+    try
+    {
+      Enumeration localEnumeration = r.aliases();
+      return localEnumeration;
+    }
+    catch (KeyStoreException localKeyStoreException)
+    {
+      throw new RuntimeException(localKeyStoreException);
+    }
+  }
+  
+  public void b(Activity paramActivity)
+  {
+    if (n == paramActivity) {
+      n = null;
+    }
+  }
+  
+  public void b(Context paramContext)
+  {
+    m = paramContext;
+    p = new Handler(paramContext.getMainLooper());
+    o = ((NotificationManager)m.getSystemService("notification"));
+    if ((paramContext instanceof Application))
+    {
+      paramContext = (Application)paramContext;
+    }
+    else if ((paramContext instanceof Service))
+    {
+      paramContext = ((Service)paramContext).getApplication();
+    }
+    else
+    {
+      if (!(paramContext instanceof Activity)) {
+        break label148;
+      }
+      paramContext = ((Activity)paramContext).getApplication();
+    }
+    paramContext = paramContext.getDir(i, 0);
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramContext);
+    localStringBuilder.append(File.separator);
+    localStringBuilder.append(j);
+    q = new File(localStringBuilder.toString());
+    r = e();
+    return;
+    label148:
+    throw new ClassCastException("MemorizingTrustManager context must be either Activity or Service!");
+  }
+  
+  public boolean b(X509Certificate paramX509Certificate, String paramString)
+  {
+    int i1 = a(c(paramX509Certificate, paramString), e.a.mtm_accept_servername);
+    if (i1 != 2)
+    {
+      if (i1 != 3) {
+        return false;
+      }
+      a(paramString, paramX509Certificate);
+    }
+    return true;
+  }
+  
+  public Context c()
+  {
+    Activity localActivity = n;
+    if (localActivity != null) {
+      return localActivity;
+    }
+    return m;
+  }
+  
+  public void checkClientTrusted(X509Certificate[] paramArrayOfX509Certificate, String paramString)
+    throws CertificateException
+  {
+    a(paramArrayOfX509Certificate, paramString, false);
+  }
+  
+  public void checkServerTrusted(X509Certificate[] paramArrayOfX509Certificate, String paramString)
+    throws CertificateException
+  {
+    a(paramArrayOfX509Certificate, paramString, true);
+  }
+  
+  /* Error */
+  public void d()
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: aload_0
+    //   2: aload_0
+    //   3: getfield 93	g/a/a/d:r	Ljava/security/KeyStore;
+    //   6: invokevirtual 96	g/a/a/d:a	(Ljava/security/KeyStore;)Ljavax/net/ssl/X509TrustManager;
+    //   9: putfield 98	g/a/a/d:t	Ljavax/net/ssl/X509TrustManager;
+    //   12: aconst_null
+    //   13: astore_3
+    //   14: new 633	java/io/FileOutputStream
+    //   17: dup
+    //   18: aload_0
+    //   19: getfield 613	g/a/a/d:q	Ljava/io/File;
+    //   22: invokespecial 636	java/io/FileOutputStream:<init>	(Ljava/io/File;)V
+    //   25: astore_2
+    //   26: aload_2
+    //   27: astore_1
+    //   28: aload_0
+    //   29: getfield 93	g/a/a/d:r	Ljava/security/KeyStore;
+    //   32: aload_2
+    //   33: ldc_w 638
+    //   36: invokevirtual 642	java/lang/String:toCharArray	()[C
+    //   39: invokevirtual 646	java/security/KeyStore:store	(Ljava/io/OutputStream;[C)V
+    //   42: aload_2
+    //   43: invokevirtual 649	java/io/FileOutputStream:close	()V
+    //   46: return
+    //   47: astore_1
+    //   48: getstatic 69	g/a/a/d:e	Ljava/util/logging/Logger;
+    //   51: astore_2
+    //   52: getstatic 242	java/util/logging/Level:SEVERE	Ljava/util/logging/Level;
+    //   55: astore_3
+    //   56: new 172	java/lang/StringBuilder
+    //   59: dup
+    //   60: invokespecial 173	java/lang/StringBuilder:<init>	()V
+    //   63: astore 4
+    //   65: goto +115 -> 180
+    //   68: astore_3
+    //   69: goto +10 -> 79
+    //   72: astore_1
+    //   73: goto +140 -> 213
+    //   76: astore_3
+    //   77: aconst_null
+    //   78: astore_2
+    //   79: aload_2
+    //   80: astore_1
+    //   81: getstatic 69	g/a/a/d:e	Ljava/util/logging/Logger;
+    //   84: astore 4
+    //   86: aload_2
+    //   87: astore_1
+    //   88: getstatic 242	java/util/logging/Level:SEVERE	Ljava/util/logging/Level;
+    //   91: astore 5
+    //   93: aload_2
+    //   94: astore_1
+    //   95: new 172	java/lang/StringBuilder
+    //   98: dup
+    //   99: invokespecial 173	java/lang/StringBuilder:<init>	()V
+    //   102: astore 6
+    //   104: aload_2
+    //   105: astore_1
+    //   106: aload 6
+    //   108: ldc_w 511
+    //   111: invokevirtual 178	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   114: pop
+    //   115: aload_2
+    //   116: astore_1
+    //   117: aload 6
+    //   119: aload_0
+    //   120: getfield 613	g/a/a/d:q	Ljava/io/File;
+    //   123: invokevirtual 181	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   126: pop
+    //   127: aload_2
+    //   128: astore_1
+    //   129: aload 6
+    //   131: ldc_w 432
+    //   134: invokevirtual 178	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   137: pop
+    //   138: aload_2
+    //   139: astore_1
+    //   140: aload 4
+    //   142: aload 5
+    //   144: aload 6
+    //   146: invokevirtual 182	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   149: aload_3
+    //   150: invokevirtual 395	java/util/logging/Logger:log	(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+    //   153: aload_2
+    //   154: ifnull +53 -> 207
+    //   157: aload_2
+    //   158: invokevirtual 649	java/io/FileOutputStream:close	()V
+    //   161: return
+    //   162: astore_1
+    //   163: getstatic 69	g/a/a/d:e	Ljava/util/logging/Logger;
+    //   166: astore_2
+    //   167: getstatic 242	java/util/logging/Level:SEVERE	Ljava/util/logging/Level;
+    //   170: astore_3
+    //   171: new 172	java/lang/StringBuilder
+    //   174: dup
+    //   175: invokespecial 173	java/lang/StringBuilder:<init>	()V
+    //   178: astore 4
+    //   180: aload 4
+    //   182: ldc_w 511
+    //   185: invokevirtual 178	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   188: pop
+    //   189: aload_2
+    //   190: aload_3
+    //   191: aload 4
+    //   193: aload_0
+    //   194: getfield 613	g/a/a/d:q	Ljava/io/File;
+    //   197: ldc_w 432
+    //   200: invokestatic 652	f/a/a/a/a:a	(Ljava/lang/StringBuilder;Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;
+    //   203: aload_1
+    //   204: invokevirtual 395	java/util/logging/Logger:log	(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+    //   207: return
+    //   208: astore_2
+    //   209: aload_1
+    //   210: astore_3
+    //   211: aload_2
+    //   212: astore_1
+    //   213: aload_3
+    //   214: ifnull +37 -> 251
+    //   217: aload_3
+    //   218: invokevirtual 649	java/io/FileOutputStream:close	()V
+    //   221: goto +30 -> 251
+    //   224: astore_2
+    //   225: getstatic 69	g/a/a/d:e	Ljava/util/logging/Logger;
+    //   228: getstatic 242	java/util/logging/Level:SEVERE	Ljava/util/logging/Level;
+    //   231: ldc_w 511
+    //   234: invokestatic 379	f/a/a/a/a:b	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   237: aload_0
+    //   238: getfield 613	g/a/a/d:q	Ljava/io/File;
+    //   241: ldc_w 432
+    //   244: invokestatic 652	f/a/a/a/a:a	(Ljava/lang/StringBuilder;Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;
+    //   247: aload_2
+    //   248: invokevirtual 395	java/util/logging/Logger:log	(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+    //   251: aload_1
+    //   252: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	253	0	this	d
+    //   27	1	1	localObject1	Object
+    //   47	1	1	localIOException1	java.io.IOException
+    //   72	1	1	localObject2	Object
+    //   80	60	1	localObject3	Object
+    //   162	48	1	localIOException2	java.io.IOException
+    //   212	40	1	localObject4	Object
+    //   25	165	2	localObject5	Object
+    //   208	4	2	localObject6	Object
+    //   224	24	2	localIOException3	java.io.IOException
+    //   13	43	3	localLevel1	Level
+    //   68	1	3	localException1	Exception
+    //   76	74	3	localException2	Exception
+    //   170	48	3	localObject7	Object
+    //   63	129	4	localObject8	Object
+    //   91	52	5	localLevel2	Level
+    //   102	43	6	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   42	46	47	java/io/IOException
+    //   28	42	68	java/lang/Exception
+    //   14	26	72	finally
+    //   14	26	76	java/lang/Exception
+    //   157	161	162	java/io/IOException
+    //   28	42	208	finally
+    //   81	86	208	finally
+    //   88	93	208	finally
+    //   95	104	208	finally
+    //   106	115	208	finally
+    //   117	127	208	finally
+    //   129	138	208	finally
+    //   140	153	208	finally
+    //   217	221	224	java/io/IOException
+  }
+  
+  /* Error */
+  public KeyStore e()
+  {
+    // Byte code:
+    //   0: invokestatic 657	java/security/KeyStore:getDefaultType	()Ljava/lang/String;
+    //   3: invokestatic 660	java/security/KeyStore:getInstance	(Ljava/lang/String;)Ljava/security/KeyStore;
+    //   6: astore_1
+    //   7: aload_1
+    //   8: aconst_null
+    //   9: aconst_null
+    //   10: invokevirtual 664	java/security/KeyStore:load	(Ljava/io/InputStream;[C)V
+    //   13: aload_1
+    //   14: new 666	java/io/FileInputStream
+    //   17: dup
+    //   18: aload_0
+    //   19: getfield 613	g/a/a/d:q	Ljava/io/File;
+    //   22: invokespecial 667	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   25: ldc_w 638
+    //   28: invokevirtual 642	java/lang/String:toCharArray	()[C
+    //   31: invokevirtual 664	java/security/KeyStore:load	(Ljava/io/InputStream;[C)V
+    //   34: aload_1
+    //   35: areturn
+    //   36: astore_2
+    //   37: getstatic 69	g/a/a/d:e	Ljava/util/logging/Logger;
+    //   40: getstatic 242	java/util/logging/Level:SEVERE	Ljava/util/logging/Level;
+    //   43: ldc_w 669
+    //   46: invokestatic 379	f/a/a/a/a:b	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   49: aload_0
+    //   50: getfield 613	g/a/a/d:q	Ljava/io/File;
+    //   53: ldc_w 432
+    //   56: invokestatic 652	f/a/a/a/a:a	(Ljava/lang/StringBuilder;Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;
+    //   59: aload_2
+    //   60: invokevirtual 395	java/util/logging/Logger:log	(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+    //   63: aload_1
+    //   64: areturn
+    //   65: getstatic 69	g/a/a/d:e	Ljava/util/logging/Logger;
+    //   68: astore_2
+    //   69: getstatic 550	java/util/logging/Level:INFO	Ljava/util/logging/Level;
+    //   72: astore_3
+    //   73: ldc_w 669
+    //   76: invokestatic 379	f/a/a/a/a:b	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   79: astore 4
+    //   81: aload 4
+    //   83: aload_0
+    //   84: getfield 613	g/a/a/d:q	Ljava/io/File;
+    //   87: invokevirtual 181	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   90: pop
+    //   91: aload 4
+    //   93: ldc_w 671
+    //   96: invokevirtual 178	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   99: pop
+    //   100: aload_2
+    //   101: aload_3
+    //   102: aload 4
+    //   104: invokevirtual 182	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   107: invokevirtual 186	java/util/logging/Logger:log	(Ljava/util/logging/Level;Ljava/lang/String;)V
+    //   110: aload_1
+    //   111: areturn
+    //   112: astore_1
+    //   113: getstatic 69	g/a/a/d:e	Ljava/util/logging/Logger;
+    //   116: getstatic 242	java/util/logging/Level:SEVERE	Ljava/util/logging/Level;
+    //   119: ldc_w 673
+    //   122: aload_1
+    //   123: invokevirtual 395	java/util/logging/Logger:log	(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+    //   126: aconst_null
+    //   127: areturn
+    //   128: astore_2
+    //   129: goto -64 -> 65
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	132	0	this	d
+    //   6	105	1	localKeyStore	KeyStore
+    //   112	11	1	localKeyStoreException	KeyStoreException
+    //   36	24	2	localException	Exception
+    //   68	33	2	localLogger	Logger
+    //   128	1	2	localFileNotFoundException	java.io.FileNotFoundException
+    //   72	30	3	localLevel	Level
+    //   79	24	4	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   7	34	36	java/lang/Exception
+    //   0	7	112	java/security/KeyStoreException
+    //   7	34	128	java/io/FileNotFoundException
+  }
+  
+  public X509Certificate[] getAcceptedIssuers()
+  {
+    e.log(Level.FINE, "getAcceptedIssuers()");
+    return s.getAcceptedIssuers();
+  }
+}

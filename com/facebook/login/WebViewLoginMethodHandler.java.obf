@@ -1,0 +1,229 @@
+package com.facebook.login;
+
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
+import android.webkit.CookieSyncManager;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenSource;
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
+import com.facebook.FacebookRequestError;
+import com.facebook.FacebookSdk;
+import com.facebook.FacebookServiceException;
+import com.facebook.internal.FacebookDialogFragment;
+import com.facebook.internal.Utility;
+import com.facebook.internal.WebDialog;
+import com.facebook.internal.WebDialog.Builder;
+import com.facebook.internal.WebDialog.OnCompleteListener;
+import java.util.Locale;
+
+public class WebViewLoginMethodHandler
+  extends LoginMethodHandler
+{
+  public static final Parcelable.Creator<WebViewLoginMethodHandler> CREATOR = new Parcelable.Creator()
+  {
+    public WebViewLoginMethodHandler createFromParcel(Parcel paramAnonymousParcel)
+    {
+      return new WebViewLoginMethodHandler(paramAnonymousParcel);
+    }
+    
+    public WebViewLoginMethodHandler[] newArray(int paramAnonymousInt)
+    {
+      return new WebViewLoginMethodHandler[paramAnonymousInt];
+    }
+  };
+  public static final String WEB_VIEW_AUTH_HANDLER_STORE = "com.facebook.login.AuthorizationClient.WebViewAuthHandler.TOKEN_STORE_KEY";
+  public static final String WEB_VIEW_AUTH_HANDLER_TOKEN_KEY = "TOKEN";
+  public String e2e;
+  public WebDialog loginDialog;
+  
+  public WebViewLoginMethodHandler(Parcel paramParcel)
+  {
+    super(paramParcel);
+    e2e = paramParcel.readString();
+  }
+  
+  public WebViewLoginMethodHandler(LoginClient paramLoginClient)
+  {
+    super(paramLoginClient);
+  }
+  
+  private String loadCookieToken()
+  {
+    return loginClient.getActivity().getSharedPreferences("com.facebook.login.AuthorizationClient.WebViewAuthHandler.TOKEN_STORE_KEY", 0).getString("TOKEN", "");
+  }
+  
+  private void saveCookieToken(String paramString)
+  {
+    loginClient.getActivity().getSharedPreferences("com.facebook.login.AuthorizationClient.WebViewAuthHandler.TOKEN_STORE_KEY", 0).edit().putString("TOKEN", paramString).apply();
+  }
+  
+  public void cancel()
+  {
+    WebDialog localWebDialog = loginDialog;
+    if (localWebDialog != null)
+    {
+      localWebDialog.cancel();
+      loginDialog = null;
+    }
+  }
+  
+  public int describeContents()
+  {
+    return 0;
+  }
+  
+  public String getNameForLogging()
+  {
+    return "web_view";
+  }
+  
+  public boolean needsInternetPermission()
+  {
+    return true;
+  }
+  
+  public void onWebDialogComplete(LoginClient.Request paramRequest, Bundle paramBundle, FacebookException paramFacebookException)
+  {
+    if (paramBundle != null)
+    {
+      if (paramBundle.containsKey("e2e")) {
+        e2e = paramBundle.getString("e2e");
+      }
+      try
+      {
+        paramBundle = LoginMethodHandler.createAccessTokenFromWebBundle(paramRequest.getPermissions(), paramBundle, AccessTokenSource.WEB_VIEW, paramRequest.getApplicationId());
+        paramRequest = LoginClient.Result.createTokenResult(loginClient.getPendingRequest(), paramBundle);
+        CookieSyncManager.createInstance(loginClient.getActivity()).sync();
+        saveCookieToken(paramBundle.getToken());
+      }
+      catch (FacebookException paramRequest)
+      {
+        paramRequest = LoginClient.Result.createErrorResult(loginClient.getPendingRequest(), null, paramRequest.getMessage());
+      }
+    }
+    else if ((paramFacebookException instanceof FacebookOperationCanceledException))
+    {
+      paramRequest = LoginClient.Result.createCancelResult(loginClient.getPendingRequest(), "User canceled log in.");
+    }
+    else
+    {
+      e2e = null;
+      paramRequest = paramFacebookException.getMessage();
+      if ((paramFacebookException instanceof FacebookServiceException))
+      {
+        paramRequest = ((FacebookServiceException)paramFacebookException).getRequestError();
+        paramBundle = String.format(Locale.ROOT, "%d", new Object[] { Integer.valueOf(paramRequest.getErrorCode()) });
+        paramRequest = paramRequest.toString();
+      }
+      else
+      {
+        paramBundle = null;
+      }
+      paramRequest = LoginClient.Result.createErrorResult(loginClient.getPendingRequest(), null, paramRequest, paramBundle);
+    }
+    if (!Utility.isNullOrEmpty(e2e)) {
+      logWebLoginCompleted(e2e);
+    }
+    loginClient.completeAndValidate(paramRequest);
+  }
+  
+  public boolean tryAuthorize(final LoginClient.Request paramRequest)
+  {
+    Bundle localBundle = new Bundle();
+    if (!Utility.isNullOrEmpty(paramRequest.getPermissions()))
+    {
+      localObject = TextUtils.join(",", paramRequest.getPermissions());
+      localBundle.putString("scope", (String)localObject);
+      addLoggingExtra("scope", localObject);
+    }
+    localBundle.putString("default_audience", paramRequest.getDefaultAudience().getNativeProtocolAudience());
+    Object localObject = AccessToken.getCurrentAccessToken();
+    if (localObject != null) {
+      localObject = ((AccessToken)localObject).getToken();
+    } else {
+      localObject = null;
+    }
+    if ((localObject != null) && (((String)localObject).equals(loadCookieToken())))
+    {
+      localBundle.putString("access_token", (String)localObject);
+      addLoggingExtra("access_token", "1");
+    }
+    else
+    {
+      Utility.clearFacebookCookies(loginClient.getActivity());
+      addLoggingExtra("access_token", "0");
+    }
+    WebDialog.OnCompleteListener local1 = new WebDialog.OnCompleteListener()
+    {
+      public void onComplete(Bundle paramAnonymousBundle, FacebookException paramAnonymousFacebookException)
+      {
+        onWebDialogComplete(paramRequest, paramAnonymousBundle, paramAnonymousFacebookException);
+      }
+    };
+    e2e = LoginClient.getE2E();
+    addLoggingExtra("e2e", e2e);
+    localObject = loginClient.getActivity();
+    loginDialog = new AuthDialogBuilder((Context)localObject, paramRequest.getApplicationId(), localBundle).setE2E(e2e).setIsRerequest(paramRequest.isRerequest()).setOnCompleteListener(local1).setTheme(FacebookSdk.getWebDialogTheme()).build();
+    paramRequest = new FacebookDialogFragment();
+    paramRequest.setRetainInstance(true);
+    paramRequest.setDialog(loginDialog);
+    paramRequest.show(((FragmentActivity)localObject).getSupportFragmentManager(), "FacebookDialogFragment");
+    return true;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    Utility.writeStringMapToParcel(paramParcel, methodLoggingExtras);
+    paramParcel.writeString(e2e);
+  }
+  
+  public static class AuthDialogBuilder
+    extends WebDialog.Builder
+  {
+    public static final String OAUTH_DIALOG = "oauth";
+    public static final String REDIRECT_URI = "fbconnect://success";
+    public String e2e;
+    public boolean isRerequest;
+    
+    public AuthDialogBuilder(Context paramContext, String paramString, Bundle paramBundle)
+    {
+      super(paramString, "oauth", paramBundle);
+    }
+    
+    public WebDialog build()
+    {
+      Bundle localBundle = getParameters();
+      localBundle.putString("redirect_uri", "fbconnect://success");
+      localBundle.putString("client_id", getApplicationId());
+      localBundle.putString("e2e", e2e);
+      localBundle.putString("response_type", "token,signed_request");
+      localBundle.putString("return_scopes", "true");
+      if (isRerequest) {
+        localBundle.putString("auth_type", "rerequest");
+      }
+      return new WebDialog(getContext(), "oauth", localBundle, getTheme(), getListener());
+    }
+    
+    public AuthDialogBuilder setE2E(String paramString)
+    {
+      e2e = paramString;
+      return this;
+    }
+    
+    public AuthDialogBuilder setIsRerequest(boolean paramBoolean)
+    {
+      isRerequest = paramBoolean;
+      return this;
+    }
+  }
+}

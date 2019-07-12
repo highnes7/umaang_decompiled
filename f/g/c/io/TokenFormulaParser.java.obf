@@ -1,0 +1,112 @@
+package f.g.c.g;
+
+import java.io.IOException;
+
+public abstract class A
+{
+  public StringBuilder a = new StringBuilder();
+  public boolean b;
+  
+  public A() {}
+  
+  private boolean a(boolean paramBoolean)
+    throws IOException
+  {
+    String str2 = a.toString();
+    String str1;
+    if (b)
+    {
+      if (paramBoolean) {
+        str1 = "\r\n";
+      } else {
+        str1 = "\r";
+      }
+    }
+    else if (paramBoolean) {
+      str1 = "\n";
+    } else {
+      str1 = "";
+    }
+    a(str2, str1);
+    a = new StringBuilder();
+    b = false;
+    return paramBoolean;
+  }
+  
+  public void a()
+    throws IOException
+  {
+    if ((b) || (a.length() > 0)) {
+      a(false);
+    }
+  }
+  
+  public abstract void a(String paramString1, String paramString2)
+    throws IOException;
+  
+  public void a(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    boolean bool;
+    if ((b) && (paramInt2 > 0))
+    {
+      if (paramArrayOfChar[paramInt1] == '\n') {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      a(bool);
+      if (bool)
+      {
+        i = paramInt1 + 1;
+        break label51;
+      }
+    }
+    int i = paramInt1;
+    label51:
+    int j = paramInt1 + paramInt2;
+    paramInt2 = i;
+    paramInt1 = i;
+    while (paramInt1 < j)
+    {
+      i = paramArrayOfChar[paramInt1];
+      if (i != 10)
+      {
+        if (i != 13)
+        {
+          i = paramInt2;
+          break label191;
+        }
+        a.append(paramArrayOfChar, paramInt2, paramInt1 - paramInt2);
+        b = true;
+        i = paramInt1 + 1;
+        paramInt2 = paramInt1;
+        if (i < j)
+        {
+          if (paramArrayOfChar[i] == '\n') {
+            bool = true;
+          } else {
+            bool = false;
+          }
+          a(bool);
+          paramInt2 = paramInt1;
+          if (bool) {
+            paramInt2 = i;
+          }
+        }
+      }
+      else
+      {
+        a.append(paramArrayOfChar, paramInt2, paramInt1 - paramInt2);
+        a(true);
+        paramInt2 = paramInt1;
+      }
+      i = paramInt2 + 1;
+      paramInt1 = paramInt2;
+      label191:
+      paramInt1 += 1;
+      paramInt2 = i;
+    }
+    a.append(paramArrayOfChar, paramInt2, j - paramInt2);
+  }
+}

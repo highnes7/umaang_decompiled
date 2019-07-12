@@ -1,0 +1,49 @@
+package com.google.android.gms.auth.api.accounttransfer;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+public class DeviceMetaData
+  extends zzbck
+{
+  public static final Parcelable.Creator<DeviceMetaData> CREATOR = new zzw();
+  public int zzdxs;
+  public boolean zzdzu;
+  public long zzdzv;
+  public final boolean zzdzw;
+  
+  public DeviceMetaData(int paramInt, boolean paramBoolean1, long paramLong, boolean paramBoolean2)
+  {
+    zzdxs = paramInt;
+    zzdzu = paramBoolean1;
+    zzdzv = paramLong;
+    zzdzw = paramBoolean2;
+  }
+  
+  public long getMinAgeOfLockScreen()
+  {
+    return zzdzv;
+  }
+  
+  public boolean isChallengeAllowed()
+  {
+    return zzdzw;
+  }
+  
+  public boolean isLockScreenSolved()
+  {
+    return zzdzu;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    zzbcn.zza(paramParcel, 2, isLockScreenSolved());
+    zzbcn.zza(paramParcel, 3, getMinAgeOfLockScreen());
+    zzbcn.zza(paramParcel, 4, isChallengeAllowed());
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+}

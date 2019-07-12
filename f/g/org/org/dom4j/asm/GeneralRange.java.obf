@@ -1,0 +1,79 @@
+package f.g.b.a.a.b;
+
+import f.g.b.a.c.B;
+import f.g.b.a.c.C;
+import f.g.b.a.c.C.a;
+import f.g.b.a.c.v;
+import f.g.b.a.d.b;
+import f.g.b.a.d.d;
+import f.g.b.a.d.f;
+import f.g.b.a.e.a.a.a.b.h;
+import f.g.b.a.g.W;
+import java.io.IOException;
+
+public class w
+  extends C
+{
+  public static final long f = 4020689092957439244L;
+  public final transient r g;
+  
+  public w(C.a paramA, r paramR)
+  {
+    super(paramA);
+    g = paramR;
+  }
+  
+  public static w a(d paramD, B paramB)
+  {
+    C.a localA = new C.a(paramB.j(), paramB.k(), paramB.g());
+    if (paramD != null)
+    {
+      Object localObject1 = paramB.f();
+      Object localObject2 = null;
+      try
+      {
+        if ((!paramB.o()) && (localObject1 != null) && (paramB.b() != null) && (v.a("application/json; charset=UTF-8", (String)localObject1)))
+        {
+          localObject1 = (r)new f(paramD).a(paramB.b(), paramB.c(), r.class);
+          try
+          {
+            paramD = ((b)localObject1).h();
+          }
+          catch (IOException localIOException1)
+          {
+            paramD = (d)localObject1;
+            break label112;
+          }
+        }
+        else
+        {
+          paramD = paramB.p();
+          localObject1 = null;
+        }
+      }
+      catch (IOException localIOException2)
+      {
+        paramD = null;
+        label112:
+        localIOException2.printStackTrace();
+        localObject1 = paramD;
+        paramD = localObject2;
+      }
+      paramB = C.a(paramB);
+      if (!h.b(paramD))
+      {
+        paramB.append(W.a);
+        paramB.append(paramD);
+        localA.a(paramD);
+      }
+      localA.b(paramB.toString());
+      return new w(localA, (r)localObject1);
+    }
+    throw new NullPointerException();
+  }
+  
+  public final r f()
+  {
+    return g;
+  }
+}

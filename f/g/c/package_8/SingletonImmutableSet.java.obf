@@ -1,0 +1,120 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.Iterator;
+import java.util.Set;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public final class lg<E>
+  extends Nb<E>
+{
+  public final transient E f;
+  public transient int g;
+  
+  public lg(E paramE)
+  {
+    if (paramE != null)
+    {
+      f = paramE;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public lg(E paramE, int paramInt)
+  {
+    f = paramE;
+    g = paramInt;
+  }
+  
+  public boolean c()
+  {
+    return false;
+  }
+  
+  public boolean contains(Object paramObject)
+  {
+    return f.equals(paramObject);
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof Set))
+    {
+      paramObject = (Set)paramObject;
+      return (paramObject.size() == 1) && (f.equals(paramObject.iterator().next()));
+    }
+    return false;
+  }
+  
+  public boolean f()
+  {
+    return g != 0;
+  }
+  
+  public final int hashCode()
+  {
+    int j = g;
+    int i = j;
+    if (j == 0)
+    {
+      i = f.hashCode();
+      g = i;
+    }
+    return i;
+  }
+  
+  public boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public th<E> iterator()
+  {
+    return Jc.a(f);
+  }
+  
+  public int size()
+  {
+    return 1;
+  }
+  
+  public Object[] toArray()
+  {
+    return new Object[] { f };
+  }
+  
+  public <T> T[] toArray(T[] paramArrayOfT)
+  {
+    Object localObject;
+    if (paramArrayOfT.length == 0)
+    {
+      localObject = kf.b(paramArrayOfT, 1);
+    }
+    else
+    {
+      localObject = paramArrayOfT;
+      if (paramArrayOfT.length > 1)
+      {
+        paramArrayOfT[1] = null;
+        localObject = paramArrayOfT;
+      }
+    }
+    localObject[0] = f;
+    return localObject;
+  }
+  
+  public String toString()
+  {
+    String str = f.toString();
+    StringBuilder localStringBuilder = new StringBuilder(str.length() + 2);
+    localStringBuilder.append('[');
+    localStringBuilder.append(str);
+    localStringBuilder.append(']');
+    return localStringBuilder.toString();
+  }
+}

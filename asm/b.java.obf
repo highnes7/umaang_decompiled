@@ -1,0 +1,53 @@
+package a;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class b
+  extends f
+{
+  public static final char[] b = { 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 43, 47 };
+  
+  public b() {}
+  
+  public int a()
+  {
+    return 3;
+  }
+  
+  public void a(OutputStream paramOutputStream, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    if (paramInt2 == 1)
+    {
+      paramInt1 = paramArrayOfByte[paramInt1];
+      paramOutputStream.write(b[(paramInt1 >>> 2 & 0x3F)]);
+      paramOutputStream.write(b[((paramInt1 << 4 & 0x30) + 0)]);
+      paramOutputStream.write(61);
+      paramOutputStream.write(61);
+      return;
+    }
+    if (paramInt2 == 2)
+    {
+      paramInt2 = paramArrayOfByte[paramInt1];
+      paramInt1 = paramArrayOfByte[(paramInt1 + 1)];
+      paramOutputStream.write(b[(paramInt2 >>> 2 & 0x3F)]);
+      paramOutputStream.write(b[((paramInt2 << 4 & 0x30) + (paramInt1 >>> 4 & 0xF))]);
+      paramOutputStream.write(b[((paramInt1 << 2 & 0x3C) + 0)]);
+      paramOutputStream.write(61);
+      return;
+    }
+    paramInt2 = paramArrayOfByte[paramInt1];
+    int i = paramArrayOfByte[(paramInt1 + 1)];
+    paramInt1 = paramArrayOfByte[(paramInt1 + 2)];
+    paramOutputStream.write(b[(paramInt2 >>> 2 & 0x3F)]);
+    paramOutputStream.write(b[((paramInt2 << 4 & 0x30) + (i >>> 4 & 0xF))]);
+    paramOutputStream.write(b[((i << 2 & 0x3C) + (paramInt1 >>> 6 & 0x3))]);
+    paramOutputStream.write(b[(paramInt1 & 0x3F)]);
+  }
+  
+  public int b()
+  {
+    return 57;
+  }
+}

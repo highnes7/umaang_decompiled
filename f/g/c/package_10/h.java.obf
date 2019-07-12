@@ -1,0 +1,621 @@
+package f.g.c.b;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import java.util.Arrays;
+import m.a.c;
+
+@a
+@b
+public abstract class w
+  implements ca<Character>
+{
+  public static final w a = a("\t\n\013\f\r ??????").b(a('?', '?')).b(a('?', '?')).a("CharMatcher.BREAKING_WHITESPACE").b();
+  public static final w b = new i("CharMatcher.ASCII", '\000', '');
+  public static final w c;
+  public static final w d = new n("CharMatcher.JAVA_DIGIT");
+  public static final w e = new o("CharMatcher.JAVA_LETTER");
+  public static final w f = new p("CharMatcher.JAVA_LETTER_OR_DIGIT");
+  public static final w g = new q("CharMatcher.JAVA_UPPER_CASE");
+  public static final w h = new r("CharMatcher.JAVA_LOWER_CASE");
+  public static final w i = a('\000', '\037').b(a('', '?')).a("CharMatcher.JAVA_ISO_CONTROL");
+  public static final w j = a('\000', ' ').b(a('', '?')).b(a('?')).b(a('?', '?')).b(a("????")).b(a('?', '?')).b(a('?', '?')).b(a('?', '?')).b(a('?', '?')).b(a('?')).b(a(55296, 63743)).b(a("????")).a("CharMatcher.INVISIBLE").b();
+  public static final w k = a('\000', '?').b(a('?')).b(a('?', '?')).b(a('?')).b(a('?')).b(a('?', '?')).b(a('?', '?')).b(a('?', '?')).b(a('?', '?')).b(a('?', '?')).b(a(64336, 65023)).b(a(65136, 65279)).b(a(65377, 65500)).a("CharMatcher.SINGLE_WIDTH").b();
+  public static final w l = new s("CharMatcher.ANY");
+  public static final w m = new t("CharMatcher.NONE");
+  public static final w n = new m("CharMatcher.WHITESPACE");
+  public final String o;
+  
+  static
+  {
+    w localW = a('0', '9');
+    char[] arrayOfChar = "??????????????????????????????".toCharArray();
+    int i2 = arrayOfChar.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      char c1 = arrayOfChar[i1];
+      localW = localW.b(a(c1, (char)(c1 + '\t')));
+      i1 += 1;
+    }
+    c = localW.a("CharMatcher.DIGIT").b();
+  }
+  
+  public w()
+  {
+    o = "UnknownCharMatcher";
+  }
+  
+  public w(String paramString)
+  {
+    o = paramString;
+  }
+  
+  public static w a(char paramChar)
+  {
+    StringBuilder localStringBuilder = new StringBuilder("CharMatcher.is(");
+    localStringBuilder.append(Integer.toHexString(paramChar));
+    localStringBuilder.append(")");
+    return new u(localStringBuilder.toString(), paramChar);
+  }
+  
+  public static w a(char paramChar1, char paramChar2)
+  {
+    boolean bool;
+    if (paramChar2 >= paramChar1) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool);
+    StringBuilder localStringBuilder = new StringBuilder("CharMatcher.inRange(");
+    localStringBuilder.append(Integer.toHexString(paramChar1));
+    localStringBuilder.append(", ");
+    localStringBuilder.append(Integer.toHexString(paramChar2));
+    localStringBuilder.append(")");
+    return new i(localStringBuilder.toString(), paramChar1, paramChar2);
+  }
+  
+  public static w a(char paramChar1, char paramChar2, String paramString)
+  {
+    return new i(paramString, paramChar1, paramChar2);
+  }
+  
+  public static w a(ca<? super Character> paramCa)
+  {
+    if (paramCa != null)
+    {
+      if ((paramCa instanceof w)) {
+        return (w)paramCa;
+      }
+      StringBuilder localStringBuilder = new StringBuilder("CharMatcher.forPredicate(");
+      localStringBuilder.append(paramCa);
+      localStringBuilder.append(')');
+      return new j(localStringBuilder.toString(), paramCa);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static w a(CharSequence paramCharSequence)
+  {
+    int i1 = paramCharSequence.length();
+    if (i1 != 0)
+    {
+      if (i1 != 1)
+      {
+        if (i1 != 2)
+        {
+          paramCharSequence = paramCharSequence.toString().toCharArray();
+          Arrays.sort(paramCharSequence);
+          localStringBuilder = new StringBuilder("CharMatcher.anyOf(\"");
+          localStringBuilder.append(paramCharSequence);
+          localStringBuilder.append("\")");
+          return new h(localStringBuilder.toString(), paramCharSequence);
+        }
+        char c1 = paramCharSequence.charAt(0);
+        char c2 = paramCharSequence.charAt(1);
+        StringBuilder localStringBuilder = new StringBuilder("CharMatcher.anyOf(\"");
+        localStringBuilder.append(paramCharSequence);
+        localStringBuilder.append("\")");
+        return new g(localStringBuilder.toString(), c1, c2);
+      }
+      return a(paramCharSequence.charAt(0));
+    }
+    return m;
+  }
+  
+  public static w b(char paramChar)
+  {
+    StringBuilder localStringBuilder = new StringBuilder("CharMatcher.isNot(");
+    localStringBuilder.append(Integer.toHexString(paramChar));
+    localStringBuilder.append(")");
+    return new v(localStringBuilder.toString(), paramChar);
+  }
+  
+  public static w h(CharSequence paramCharSequence)
+  {
+    return a(paramCharSequence).a();
+  }
+  
+  public int a(CharSequence paramCharSequence, int paramInt)
+  {
+    int i1 = paramCharSequence.length();
+    ba.d(paramInt, i1, "index");
+    while (paramInt < i1)
+    {
+      if (c(paramCharSequence.charAt(paramInt))) {
+        return paramInt;
+      }
+      paramInt += 1;
+    }
+    return -1;
+  }
+  
+  public w a()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(this);
+    localStringBuilder.append(".negate()");
+    return new k(this, localStringBuilder.toString(), this);
+  }
+  
+  public w a(w paramW)
+  {
+    if (paramW != null) {
+      return new a(this, paramW);
+    }
+    throw new NullPointerException();
+  }
+  
+  public w a(String paramString)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  @c
+  public String a(CharSequence paramCharSequence, char paramChar)
+  {
+    int i1 = c(paramCharSequence);
+    if (i1 == -1) {
+      return paramCharSequence.toString();
+    }
+    StringBuilder localStringBuilder = new StringBuilder(paramCharSequence.length());
+    localStringBuilder.append(paramCharSequence.subSequence(0, i1));
+    localStringBuilder.append(paramChar);
+    int i2 = i1 + 1;
+    for (int i3 = 1; i2 < paramCharSequence.length(); i3 = i1)
+    {
+      char c1 = paramCharSequence.charAt(i2);
+      if (c(c1))
+      {
+        i1 = i3;
+        if (i3 == 0)
+        {
+          localStringBuilder.append(paramChar);
+          i1 = 1;
+        }
+      }
+      else
+      {
+        localStringBuilder.append(c1);
+        i1 = 0;
+      }
+      i2 += 1;
+    }
+    return localStringBuilder.toString();
+  }
+  
+  @c
+  public String a(CharSequence paramCharSequence1, CharSequence paramCharSequence2)
+  {
+    int i2 = paramCharSequence2.length();
+    if (i2 == 0) {
+      return i(paramCharSequence1);
+    }
+    int i1 = 0;
+    if (i2 == 1) {
+      return b(paramCharSequence1, paramCharSequence2.charAt(0));
+    }
+    paramCharSequence1 = paramCharSequence1.toString();
+    i2 = c(paramCharSequence1);
+    if (i2 == -1) {
+      return paramCharSequence1;
+    }
+    int i5 = paramCharSequence1.length();
+    StringBuilder localStringBuilder = new StringBuilder(i5 * 3 / 2 + 16);
+    int i3;
+    int i4;
+    do
+    {
+      localStringBuilder.append(paramCharSequence1, i1, i2);
+      localStringBuilder.append(paramCharSequence2);
+      i3 = i2 + 1;
+      i4 = a(paramCharSequence1, i3);
+      i2 = i4;
+      i1 = i3;
+    } while (i4 != -1);
+    localStringBuilder.append(paramCharSequence1, i3, i5);
+    return localStringBuilder.toString();
+  }
+  
+  public void a(b paramB)
+  {
+    int i2;
+    for (int i1 = 0;; i1 = i2)
+    {
+      if (c(i1)) {
+        paramB.b(i1);
+      }
+      i2 = (char)(i1 + 1);
+      if (i1 == 65535) {
+        return;
+      }
+    }
+  }
+  
+  public boolean a(Character paramCharacter)
+  {
+    return c(paramCharacter.charValue());
+  }
+  
+  public int b(CharSequence paramCharSequence)
+  {
+    int i1 = 0;
+    int i3;
+    for (int i2 = 0; i1 < paramCharSequence.length(); i2 = i3)
+    {
+      i3 = i2;
+      if (c(paramCharSequence.charAt(i1))) {
+        i3 = i2 + 1;
+      }
+      i1 += 1;
+    }
+    return i2;
+  }
+  
+  public w b()
+  {
+    return aa.a(this);
+  }
+  
+  public w b(w paramW)
+  {
+    if (paramW != null) {
+      return new c(this, paramW);
+    }
+    throw new NullPointerException();
+  }
+  
+  @c
+  public String b(CharSequence paramCharSequence, char paramChar)
+  {
+    paramCharSequence = paramCharSequence.toString();
+    int i1 = c(paramCharSequence);
+    if (i1 == -1) {
+      return paramCharSequence;
+    }
+    paramCharSequence = paramCharSequence.toCharArray();
+    paramCharSequence[i1] = paramChar;
+    for (;;)
+    {
+      int i2 = i1 + 1;
+      if (i2 >= paramCharSequence.length) {
+        break;
+      }
+      i1 = i2;
+      if (c(paramCharSequence[i2]))
+      {
+        paramCharSequence[i2] = paramChar;
+        i1 = i2;
+      }
+    }
+    return new String(paramCharSequence);
+  }
+  
+  public int c(CharSequence paramCharSequence)
+  {
+    int i2 = paramCharSequence.length();
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      if (c(paramCharSequence.charAt(i1))) {
+        return i1;
+      }
+      i1 += 1;
+    }
+    return -1;
+  }
+  
+  public w c()
+  {
+    Object localObject = d();
+    int i1 = localObject.length;
+    if (i1 == 0) {
+      return m;
+    }
+    if (i1 == 1) {
+      return a(localObject[0]);
+    }
+    if (i1 < 63) {
+      return ka.a((char[])localObject, toString());
+    }
+    if (i1 < 1023) {
+      return S.a((char[])localObject, toString());
+    }
+    localObject = new b();
+    a((b)localObject);
+    return new l(this, toString(), (b)localObject);
+  }
+  
+  @c
+  public String c(CharSequence paramCharSequence, char paramChar)
+  {
+    int i3 = a().c(paramCharSequence);
+    if (i3 == -1) {
+      return "";
+    }
+    StringBuilder localStringBuilder = new StringBuilder(paramCharSequence.length());
+    int i1 = 0;
+    while (i3 < paramCharSequence.length())
+    {
+      char c1 = paramCharSequence.charAt(i3);
+      if (c(c1))
+      {
+        i1 = 1;
+      }
+      else
+      {
+        int i2 = i1;
+        if (i1 != 0)
+        {
+          localStringBuilder.append(paramChar);
+          i2 = 0;
+        }
+        localStringBuilder.append(c1);
+        i1 = i2;
+      }
+      i3 += 1;
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public abstract boolean c(char paramChar);
+  
+  public int d(CharSequence paramCharSequence)
+  {
+    int i1 = paramCharSequence.length() - 1;
+    while (i1 >= 0)
+    {
+      if (c(paramCharSequence.charAt(i1))) {
+        return i1;
+      }
+      i1 -= 1;
+    }
+    return -1;
+  }
+  
+  public char[] d()
+  {
+    char[] arrayOfChar1 = new char[65536];
+    int i1 = 0;
+    int i3;
+    for (int i2 = 0; i1 <= 65535; i2 = i3)
+    {
+      char c1 = (char)i1;
+      i3 = i2;
+      if (c(c1))
+      {
+        arrayOfChar1[i2] = c1;
+        i3 = i2 + 1;
+      }
+      i1 += 1;
+    }
+    char[] arrayOfChar2 = new char[i2];
+    System.arraycopy(arrayOfChar1, 0, arrayOfChar2, 0, i2);
+    return arrayOfChar2;
+  }
+  
+  public boolean e(CharSequence paramCharSequence)
+  {
+    int i1 = paramCharSequence.length() - 1;
+    while (i1 >= 0)
+    {
+      if (!c(paramCharSequence.charAt(i1))) {
+        return false;
+      }
+      i1 -= 1;
+    }
+    return true;
+  }
+  
+  public boolean f(CharSequence paramCharSequence)
+  {
+    return g(paramCharSequence) ^ true;
+  }
+  
+  public boolean g(CharSequence paramCharSequence)
+  {
+    return c(paramCharSequence) == -1;
+  }
+  
+  @c
+  public String i(CharSequence paramCharSequence)
+  {
+    paramCharSequence = paramCharSequence.toString();
+    int i1 = c(paramCharSequence);
+    if (i1 == -1) {
+      return paramCharSequence;
+    }
+    paramCharSequence = paramCharSequence.toCharArray();
+    int i2 = 1;
+    i1 += 1;
+    for (;;)
+    {
+      if (i1 == paramCharSequence.length) {
+        return new String(paramCharSequence, 0, i1 - i2);
+      }
+      if (c(paramCharSequence[i1]))
+      {
+        i2 += 1;
+        break;
+      }
+      paramCharSequence[(i1 - i2)] = paramCharSequence[i1];
+      i1 += 1;
+    }
+  }
+  
+  @c
+  public String j(CharSequence paramCharSequence)
+  {
+    return a().i(paramCharSequence);
+  }
+  
+  @c
+  public String k(CharSequence paramCharSequence)
+  {
+    int i2 = paramCharSequence.length();
+    int i1 = 0;
+    while ((i1 < i2) && (c(paramCharSequence.charAt(i1)))) {
+      i1 += 1;
+    }
+    i2 -= 1;
+    while ((i2 > i1) && (c(paramCharSequence.charAt(i2)))) {
+      i2 -= 1;
+    }
+    return paramCharSequence.subSequence(i1, i2 + 1).toString();
+  }
+  
+  @c
+  public String l(CharSequence paramCharSequence)
+  {
+    int i2 = paramCharSequence.length();
+    int i1 = 0;
+    while ((i1 < i2) && (c(paramCharSequence.charAt(i1)))) {
+      i1 += 1;
+    }
+    return paramCharSequence.subSequence(i1, i2).toString();
+  }
+  
+  @c
+  public String m(CharSequence paramCharSequence)
+  {
+    int i1 = paramCharSequence.length() - 1;
+    while ((i1 >= 0) && (c(paramCharSequence.charAt(i1)))) {
+      i1 -= 1;
+    }
+    return paramCharSequence.subSequence(0, i1 + 1).toString();
+  }
+  
+  public String toString()
+  {
+    return o;
+  }
+  
+  private static class a
+    extends w
+  {
+    public final w p;
+    public final w q;
+    
+    public a(w paramW1, w paramW2)
+    {
+      this(paramW1, paramW2, localStringBuilder.toString());
+    }
+    
+    public a(w paramW1, w paramW2, String paramString)
+    {
+      super();
+      if (paramW1 != null)
+      {
+        p = paramW1;
+        if (paramW2 != null)
+        {
+          q = paramW2;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public w a(w paramW)
+    {
+      return new a(this, paramW);
+    }
+    
+    public w a(String paramString)
+    {
+      return new a(p, q, paramString);
+    }
+    
+    public boolean c(char paramChar)
+    {
+      return (p.c(paramChar)) && (q.c(paramChar));
+    }
+  }
+  
+  private static final class b
+  {
+    public int[] a = new int['?'];
+    
+    public b() {}
+    
+    public boolean a(char paramChar)
+    {
+      return ('\001' << paramChar & a[(paramChar >> '\005')]) != 0;
+    }
+    
+    public void b(char paramChar)
+    {
+      int[] arrayOfInt = a;
+      int i = paramChar >> '\005';
+      arrayOfInt[i] = ('\001' << paramChar | arrayOfInt[i]);
+    }
+  }
+  
+  private static class c
+    extends w
+  {
+    public final w p;
+    public final w q;
+    
+    public c(w paramW1, w paramW2)
+    {
+      this(paramW1, paramW2, localStringBuilder.toString());
+    }
+    
+    public c(w paramW1, w paramW2, String paramString)
+    {
+      super();
+      if (paramW1 != null)
+      {
+        p = paramW1;
+        if (paramW2 != null)
+        {
+          q = paramW2;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public w a(String paramString)
+    {
+      return new c(p, q, paramString);
+    }
+    
+    public w b(w paramW)
+    {
+      if (paramW != null) {
+        return new c(this, paramW);
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean c(char paramChar)
+    {
+      return (p.c(paramChar)) || (q.c(paramChar));
+    }
+  }
+}

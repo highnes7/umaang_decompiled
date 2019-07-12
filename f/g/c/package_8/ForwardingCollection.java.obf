@@ -1,0 +1,168 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.b.U;
+import java.util.Collection;
+import java.util.Iterator;
+import m.a.h;
+
+@b
+public abstract class Ja<E>
+  extends Wa
+  implements Collection<E>
+{
+  public Ja() {}
+  
+  @a
+  public boolean a(Collection<? extends E> paramCollection)
+  {
+    return Jc.a(this, paramCollection.iterator());
+  }
+  
+  @a
+  public <T> T[] a(T[] paramArrayOfT)
+  {
+    return kf.a(this, paramArrayOfT);
+  }
+  
+  public boolean add(E paramE)
+  {
+    return q().add(paramE);
+  }
+  
+  public boolean addAll(Collection<? extends E> paramCollection)
+  {
+    return q().addAll(paramCollection);
+  }
+  
+  @a
+  public boolean b(Collection<?> paramCollection)
+  {
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext()) {
+      if (!contains(paramCollection.next())) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  @a
+  public boolean c(Collection<?> paramCollection)
+  {
+    return Jc.a(iterator(), paramCollection);
+  }
+  
+  public void clear()
+  {
+    q().clear();
+  }
+  
+  public boolean contains(Object paramObject)
+  {
+    return q().contains(paramObject);
+  }
+  
+  public boolean containsAll(Collection<?> paramCollection)
+  {
+    return q().containsAll(paramCollection);
+  }
+  
+  @a
+  public boolean d(Collection<?> paramCollection)
+  {
+    return Jc.b(iterator(), paramCollection);
+  }
+  
+  public boolean isEmpty()
+  {
+    return q().isEmpty();
+  }
+  
+  public Iterator<E> iterator()
+  {
+    return q().iterator();
+  }
+  
+  @a
+  public boolean k(@h Object paramObject)
+  {
+    return Jc.a(iterator(), paramObject);
+  }
+  
+  @a
+  public boolean l(@h Object paramObject)
+  {
+    Iterator localIterator = iterator();
+    while (localIterator.hasNext()) {
+      if (U.a(localIterator.next(), paramObject))
+      {
+        localIterator.remove();
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public abstract Collection<E> q();
+  
+  @a
+  public void r()
+  {
+    Iterator localIterator = iterator();
+    while (localIterator.hasNext())
+    {
+      localIterator.next();
+      localIterator.remove();
+    }
+  }
+  
+  public boolean remove(Object paramObject)
+  {
+    return q().remove(paramObject);
+  }
+  
+  public boolean removeAll(Collection<?> paramCollection)
+  {
+    return q().removeAll(paramCollection);
+  }
+  
+  public boolean retainAll(Collection<?> paramCollection)
+  {
+    return q().retainAll(paramCollection);
+  }
+  
+  @a
+  public boolean s()
+  {
+    return iterator().hasNext() ^ true;
+  }
+  
+  public int size()
+  {
+    return q().size();
+  }
+  
+  @a
+  public Object[] t()
+  {
+    return toArray(new Object[size()]);
+  }
+  
+  public Object[] toArray()
+  {
+    return q().toArray();
+  }
+  
+  public <T> T[] toArray(T[] paramArrayOfT)
+  {
+    return q().toArray(paramArrayOfT);
+  }
+  
+  @a
+  public String w()
+  {
+    return V.b(this);
+  }
+}

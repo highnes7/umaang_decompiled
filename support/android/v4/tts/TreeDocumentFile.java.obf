@@ -1,0 +1,328 @@
+package b.b.x.l;
+
+import android.content.Context;
+import android.net.Uri;
+import android.provider.DocumentsContract;
+import b.b.a.G;
+import b.b.a.K;
+
+@K(21)
+public class z
+  extends a
+{
+  public Context c;
+  public Uri d;
+  
+  public z(@G a paramA, Context paramContext, Uri paramUri)
+  {
+    super(paramA);
+    c = paramContext;
+    d = paramUri;
+  }
+  
+  @G
+  public static Uri a(Context paramContext, Uri paramUri, String paramString1, String paramString2)
+  {
+    try
+    {
+      paramContext = DocumentsContract.createDocument(paramContext.getContentResolver(), paramUri, paramString1, paramString2);
+      return paramContext;
+    }
+    catch (Exception paramContext)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static void a(@G AutoCloseable paramAutoCloseable)
+  {
+    if (paramAutoCloseable != null) {}
+    try
+    {
+      paramAutoCloseable.close();
+      return;
+    }
+    catch (RuntimeException paramAutoCloseable)
+    {
+      throw paramAutoCloseable;
+      return;
+    }
+    catch (Exception paramAutoCloseable) {}
+  }
+  
+  @G
+  public a a(String paramString)
+  {
+    paramString = a(c, d, "vnd.android.document/directory", paramString);
+    if (paramString != null) {
+      return new z(this, c, paramString);
+    }
+    return null;
+  }
+  
+  @G
+  public a a(String paramString1, String paramString2)
+  {
+    paramString1 = a(c, d, paramString1, paramString2);
+    if (paramString1 != null) {
+      return new z(this, c, paramString1);
+    }
+    return null;
+  }
+  
+  public boolean a()
+  {
+    return b.a(c, d);
+  }
+  
+  public boolean b()
+  {
+    return b.b(c, d);
+  }
+  
+  public boolean c()
+  {
+    try
+    {
+      boolean bool = DocumentsContract.deleteDocument(c.getContentResolver(), d);
+      return bool;
+    }
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public boolean c(String paramString)
+  {
+    try
+    {
+      paramString = DocumentsContract.renameDocument(c.getContentResolver(), d, paramString);
+      if (paramString != null)
+      {
+        d = paramString;
+        return true;
+      }
+      return false;
+    }
+    catch (Exception paramString) {}
+    return false;
+  }
+  
+  public boolean d()
+  {
+    return b.c(c, d);
+  }
+  
+  @G
+  public String e()
+  {
+    return b.e(c, d);
+  }
+  
+  @G
+  public String g()
+  {
+    return b.g(c, d);
+  }
+  
+  public Uri h()
+  {
+    return d;
+  }
+  
+  public boolean i()
+  {
+    return b.h(c, d);
+  }
+  
+  public boolean j()
+  {
+    return b.i(c, d);
+  }
+  
+  public boolean k()
+  {
+    return b.j(c, d);
+  }
+  
+  public long l()
+  {
+    return b.k(c, d);
+  }
+  
+  public long m()
+  {
+    return b.l(c, d);
+  }
+  
+  /* Error */
+  public a[] n()
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: getfield 19	b/b/x/l/z:c	Landroid/content/Context;
+    //   4: invokevirtual 33	android/content/Context:getContentResolver	()Landroid/content/ContentResolver;
+    //   7: astore 4
+    //   9: aload_0
+    //   10: getfield 21	b/b/x/l/z:d	Landroid/net/Uri;
+    //   13: astore_2
+    //   14: aload_2
+    //   15: aload_2
+    //   16: invokestatic 110	android/provider/DocumentsContract:getDocumentId	(Landroid/net/Uri;)Ljava/lang/String;
+    //   19: invokestatic 114	android/provider/DocumentsContract:buildChildDocumentsUriUsingTree	(Landroid/net/Uri;Ljava/lang/String;)Landroid/net/Uri;
+    //   22: astore 5
+    //   24: new 116	java/util/ArrayList
+    //   27: dup
+    //   28: invokespecial 118	java/util/ArrayList:<init>	()V
+    //   31: astore 6
+    //   33: iconst_0
+    //   34: istore_1
+    //   35: aconst_null
+    //   36: astore_2
+    //   37: aconst_null
+    //   38: astore_3
+    //   39: aload 4
+    //   41: aload 5
+    //   43: iconst_1
+    //   44: anewarray 120	java/lang/String
+    //   47: dup
+    //   48: iconst_0
+    //   49: ldc 122
+    //   51: aastore
+    //   52: aconst_null
+    //   53: aconst_null
+    //   54: aconst_null
+    //   55: invokevirtual 128	android/content/ContentResolver:query	(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+    //   58: astore 4
+    //   60: aload 4
+    //   62: astore 5
+    //   64: aload 4
+    //   66: astore_3
+    //   67: aload 4
+    //   69: astore_2
+    //   70: aload 4
+    //   72: invokeinterface 133 1 0
+    //   77: ifeq +43 -> 120
+    //   80: aload 4
+    //   82: astore_3
+    //   83: aload 4
+    //   85: astore_2
+    //   86: aload 4
+    //   88: iconst_0
+    //   89: invokeinterface 137 2 0
+    //   94: astore 5
+    //   96: aload 4
+    //   98: astore_3
+    //   99: aload 4
+    //   101: astore_2
+    //   102: aload 6
+    //   104: aload_0
+    //   105: getfield 21	b/b/x/l/z:d	Landroid/net/Uri;
+    //   108: aload 5
+    //   110: invokestatic 140	android/provider/DocumentsContract:buildDocumentUriUsingTree	(Landroid/net/Uri;Ljava/lang/String;)Landroid/net/Uri;
+    //   113: invokevirtual 144	java/util/ArrayList:add	(Ljava/lang/Object;)Z
+    //   116: pop
+    //   117: goto -57 -> 60
+    //   120: aload 5
+    //   122: invokestatic 146	b/b/x/l/z:a	(Ljava/lang/AutoCloseable;)V
+    //   125: goto +54 -> 179
+    //   128: astore_2
+    //   129: goto +106 -> 235
+    //   132: astore 4
+    //   134: aload_2
+    //   135: astore_3
+    //   136: new 148	java/lang/StringBuilder
+    //   139: dup
+    //   140: invokespecial 149	java/lang/StringBuilder:<init>	()V
+    //   143: astore 5
+    //   145: aload_2
+    //   146: astore_3
+    //   147: aload 5
+    //   149: ldc -105
+    //   151: invokevirtual 155	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   154: pop
+    //   155: aload_2
+    //   156: astore_3
+    //   157: aload 5
+    //   159: aload 4
+    //   161: invokevirtual 158	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   164: pop
+    //   165: aload_2
+    //   166: astore_3
+    //   167: aload 5
+    //   169: invokevirtual 161	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   172: pop
+    //   173: aload_2
+    //   174: astore 5
+    //   176: goto -56 -> 120
+    //   179: aload 6
+    //   181: aload 6
+    //   183: invokevirtual 165	java/util/ArrayList:size	()I
+    //   186: anewarray 167	android/net/Uri
+    //   189: invokevirtual 171	java/util/ArrayList:toArray	([Ljava/lang/Object;)[Ljava/lang/Object;
+    //   192: checkcast 173	[Landroid/net/Uri;
+    //   195: astore_2
+    //   196: aload_2
+    //   197: arraylength
+    //   198: anewarray 4	b/b/x/l/a
+    //   201: astore_3
+    //   202: iload_1
+    //   203: aload_2
+    //   204: arraylength
+    //   205: if_icmpge +28 -> 233
+    //   208: aload_3
+    //   209: iload_1
+    //   210: new 2	b/b/x/l/z
+    //   213: dup
+    //   214: aload_0
+    //   215: aload_0
+    //   216: getfield 19	b/b/x/l/z:c	Landroid/content/Context;
+    //   219: aload_2
+    //   220: iload_1
+    //   221: aaload
+    //   222: invokespecial 56	b/b/x/l/z:<init>	(Lb/b/x/l/a;Landroid/content/Context;Landroid/net/Uri;)V
+    //   225: aastore
+    //   226: iload_1
+    //   227: iconst_1
+    //   228: iadd
+    //   229: istore_1
+    //   230: goto -28 -> 202
+    //   233: aload_3
+    //   234: areturn
+    //   235: aload_3
+    //   236: invokestatic 146	b/b/x/l/z:a	(Ljava/lang/AutoCloseable;)V
+    //   239: goto +5 -> 244
+    //   242: aload_2
+    //   243: athrow
+    //   244: goto -2 -> 242
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	247	0	this	z
+    //   34	196	1	i	int
+    //   13	89	2	localObject1	Object
+    //   128	46	2	localObject2	Object
+    //   195	48	2	arrayOfUri	Uri[]
+    //   38	198	3	localObject3	Object
+    //   7	93	4	localObject4	Object
+    //   132	28	4	localException	Exception
+    //   22	153	5	localObject5	Object
+    //   31	151	6	localArrayList	java.util.ArrayList
+    // Exception table:
+    //   from	to	target	type
+    //   39	60	128	finally
+    //   70	80	128	finally
+    //   86	96	128	finally
+    //   102	117	128	finally
+    //   136	145	128	finally
+    //   147	155	128	finally
+    //   157	165	128	finally
+    //   167	173	128	finally
+    //   39	60	132	java/lang/Exception
+    //   70	80	132	java/lang/Exception
+    //   86	96	132	java/lang/Exception
+    //   102	117	132	java/lang/Exception
+  }
+}

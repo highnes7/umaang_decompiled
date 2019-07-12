@@ -1,0 +1,265 @@
+package android.support.v4.view;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.k;
+import b.b.a.m;
+import b.b.a.p;
+import b.b.x.b.c;
+import b.b.x.o.A;
+import b.b.x.o.z;
+
+public class PagerTabStrip
+  extends PagerTitleStrip
+{
+  public static final String s = "PagerTabStrip";
+  public static final int t = 3;
+  public static final int u = 6;
+  public static final int v = 16;
+  public static final int w = 32;
+  public static final int x = 64;
+  public static final int y = 1;
+  public static final int z = 32;
+  public int A = r;
+  public int B;
+  public int C;
+  public int D;
+  public int E;
+  public int F;
+  public final Paint G = new Paint();
+  public final Rect H = new Rect();
+  public int I = 255;
+  public boolean J = false;
+  public boolean K = false;
+  public int L;
+  public boolean M;
+  public float N;
+  public float O;
+  public int P;
+  
+  public PagerTabStrip(@F Context paramContext)
+  {
+    this(paramContext, null);
+  }
+  
+  public PagerTabStrip(@F Context paramContext, @G AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    G.setColor(A);
+    float f = getResourcesgetDisplayMetricsdensity;
+    B = ((int)(3.0F * f + 0.5F));
+    C = ((int)(6.0F * f + 0.5F));
+    D = ((int)(64.0F * f));
+    F = ((int)(16.0F * f + 0.5F));
+    L = ((int)(1.0F * f + 0.5F));
+    E = ((int)(f * 32.0F + 0.5F));
+    P = ViewConfiguration.get(paramContext).getScaledTouchSlop();
+    setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
+    setTextSpacing(getTextSpacing());
+    setWillNotDraw(false);
+    this.f.setFocusable(true);
+    this.f.setOnClickListener(new z(this));
+    h.setFocusable(true);
+    h.setOnClickListener(new A(this));
+    if (getBackground() == null) {
+      J = true;
+    }
+  }
+  
+  public void a(int paramInt, float paramFloat, boolean paramBoolean)
+  {
+    Rect localRect = H;
+    int i = getHeight();
+    int j = g.getLeft();
+    int k = F;
+    int m = g.getRight();
+    int n = F;
+    int i1 = i - B;
+    localRect.set(j - k, i1, m + n, i);
+    super.a(paramInt, paramFloat, paramBoolean);
+    I = ((int)(Math.abs(paramFloat - 0.5F) * 2.0F * 255.0F));
+    localRect.union(g.getLeft() - F, i1, g.getRight() + F, i);
+    invalidate(localRect);
+  }
+  
+  public boolean getDrawFullUnderline()
+  {
+    return J;
+  }
+  
+  public int getMinHeight()
+  {
+    return Math.max(super.getMinHeight(), E);
+  }
+  
+  @k
+  public int getTabIndicatorColor()
+  {
+    return A;
+  }
+  
+  public void onDraw(Canvas paramCanvas)
+  {
+    super.onDraw(paramCanvas);
+    int i = getHeight();
+    int j = g.getLeft();
+    int k = F;
+    int m = g.getRight();
+    int n = F;
+    int i1 = B;
+    G.setColor(I << 24 | A & 0xFFFFFF);
+    float f1 = j - k;
+    float f2 = i - i1;
+    float f3 = m + n;
+    float f4 = i;
+    paramCanvas.drawRect(f1, f2, f3, f4, G);
+    if (J)
+    {
+      G.setColor(0xFF000000 | A & 0xFFFFFF);
+      paramCanvas.drawRect(getPaddingLeft(), i - L, getWidth() - getPaddingRight(), f4, G);
+    }
+  }
+  
+  public boolean onTouchEvent(MotionEvent paramMotionEvent)
+  {
+    int i = paramMotionEvent.getAction();
+    if ((i != 0) && (M)) {
+      return false;
+    }
+    float f1 = paramMotionEvent.getX();
+    float f2 = paramMotionEvent.getY();
+    if (i != 0)
+    {
+      if (i != 1)
+      {
+        if (i != 2) {
+          return true;
+        }
+        if ((Math.abs(f1 - N) > P) || (Math.abs(f2 - O) > P))
+        {
+          M = true;
+          return true;
+        }
+      }
+      else
+      {
+        if (f1 < g.getLeft() - F)
+        {
+          paramMotionEvent = e;
+          paramMotionEvent.setCurrentItem(paramMotionEvent.getCurrentItem() - 1);
+          return true;
+        }
+        if (f1 > g.getRight() + F)
+        {
+          paramMotionEvent = e;
+          paramMotionEvent.setCurrentItem(paramMotionEvent.getCurrentItem() + 1);
+          return true;
+        }
+      }
+    }
+    else
+    {
+      N = f1;
+      O = f2;
+      M = false;
+    }
+    return true;
+  }
+  
+  public void setBackgroundColor(@k int paramInt)
+  {
+    super.setBackgroundColor(paramInt);
+    if (!K)
+    {
+      boolean bool;
+      if ((paramInt & 0xFF000000) == 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      J = bool;
+    }
+  }
+  
+  public void setBackgroundDrawable(Drawable paramDrawable)
+  {
+    super.setBackgroundDrawable(paramDrawable);
+    if (!K)
+    {
+      boolean bool;
+      if (paramDrawable == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      J = bool;
+    }
+  }
+  
+  public void setBackgroundResource(@p int paramInt)
+  {
+    super.setBackgroundResource(paramInt);
+    if (!K)
+    {
+      boolean bool;
+      if (paramInt == 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      J = bool;
+    }
+  }
+  
+  public void setDrawFullUnderline(boolean paramBoolean)
+  {
+    J = paramBoolean;
+    K = true;
+    invalidate();
+  }
+  
+  public void setPadding(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    int j = C;
+    int i = paramInt4;
+    if (paramInt4 < j) {
+      i = j;
+    }
+    super.setPadding(paramInt1, paramInt2, paramInt3, i);
+  }
+  
+  public void setTabIndicatorColor(@k int paramInt)
+  {
+    A = paramInt;
+    G.setColor(A);
+    invalidate();
+  }
+  
+  public void setTabIndicatorColorResource(@m int paramInt)
+  {
+    setTabIndicatorColor(c.getColor(getContext(), paramInt));
+  }
+  
+  public void setTextSpacing(int paramInt)
+  {
+    int j = D;
+    int i = paramInt;
+    if (paramInt < j) {
+      i = j;
+    }
+    k = i;
+    requestLayout();
+  }
+}

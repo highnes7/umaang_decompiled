@@ -1,0 +1,98 @@
+package b.b.w.a;
+
+import android.graphics.Point;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
+import b.b.x.o.q;
+
+public class d
+{
+  public final View a;
+  public final a b;
+  public int c;
+  public int d;
+  public boolean e;
+  public final View.OnLongClickListener f = new b(this);
+  public final View.OnTouchListener g = new c(this);
+  
+  public d(View paramView, a paramA)
+  {
+    a = paramView;
+    b = paramA;
+  }
+  
+  public void a()
+  {
+    a.setOnLongClickListener(f);
+    a.setOnTouchListener(g);
+  }
+  
+  public void a(Point paramPoint)
+  {
+    paramPoint.set(c, d);
+  }
+  
+  public boolean a(View paramView)
+  {
+    return b.a(paramView, this);
+  }
+  
+  public boolean a(View paramView, MotionEvent paramMotionEvent)
+  {
+    int i = (int)paramMotionEvent.getX();
+    int j = (int)paramMotionEvent.getY();
+    int k = paramMotionEvent.getAction();
+    if (k != 0)
+    {
+      if (k != 1) {
+        if (k != 2)
+        {
+          if (k != 3) {
+            return false;
+          }
+        }
+        else
+        {
+          if (!q.f(paramMotionEvent, 8194)) {
+            break label142;
+          }
+          if ((paramMotionEvent.getButtonState() & 0x1) == 0) {
+            return false;
+          }
+          if (e) {
+            return false;
+          }
+          if ((c == i) && (d == j)) {
+            return false;
+          }
+          c = i;
+          d = j;
+          e = b.a(paramView, this);
+          return e;
+        }
+      }
+      e = false;
+      return false;
+    }
+    else
+    {
+      c = i;
+      d = j;
+    }
+    label142:
+    return false;
+  }
+  
+  public void b()
+  {
+    a.setOnLongClickListener(null);
+    a.setOnTouchListener(null);
+  }
+  
+  public static abstract interface a
+  {
+    public abstract boolean a(View paramView, d paramD);
+  }
+}

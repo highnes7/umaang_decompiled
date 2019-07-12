@@ -1,0 +1,55 @@
+package com.github.mikephil.charting.data;
+
+import com.github.mikephil.charting.interfaces.datasets.IBubbleDataSet;
+import f.a.a.a.a;
+import java.util.Iterator;
+import java.util.List;
+
+public class BubbleData
+  extends BarLineScatterCandleBubbleData<IBubbleDataSet>
+{
+  public BubbleData() {}
+  
+  public BubbleData(List<String> paramList)
+  {
+    super(paramList);
+  }
+  
+  public BubbleData(List<String> paramList, IBubbleDataSet paramIBubbleDataSet)
+  {
+    super(paramList, toList(paramIBubbleDataSet));
+  }
+  
+  public BubbleData(List<String> paramList, List<IBubbleDataSet> paramList1)
+  {
+    super(paramList, paramList1);
+  }
+  
+  public BubbleData(String[] paramArrayOfString)
+  {
+    super(paramArrayOfString);
+  }
+  
+  public BubbleData(String[] paramArrayOfString, IBubbleDataSet paramIBubbleDataSet)
+  {
+    super(paramArrayOfString, toList(paramIBubbleDataSet));
+  }
+  
+  public BubbleData(String[] paramArrayOfString, List<IBubbleDataSet> paramList)
+  {
+    super(paramArrayOfString, paramList);
+  }
+  
+  public static List<IBubbleDataSet> toList(IBubbleDataSet paramIBubbleDataSet)
+  {
+    return a.a(paramIBubbleDataSet);
+  }
+  
+  public void setHighlightCircleWidth(float paramFloat)
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      ((IBubbleDataSet)localIterator.next()).setHighlightCircleWidth(paramFloat);
+    }
+  }
+}

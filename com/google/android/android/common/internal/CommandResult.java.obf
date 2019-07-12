@@ -1,0 +1,84 @@
+package com.google.android.gms.common.internal;
+
+import android.accounts.Account;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.zzc;
+import com.google.android.gms.common.zze;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+public final class zzy
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzy> CREATOR = new zzz();
+  public int version;
+  public int zzfuc;
+  public int zzfud;
+  public String zzfue;
+  public IBinder zzfuf;
+  public Scope[] zzfug;
+  public Bundle zzfuh;
+  public Account zzfui;
+  public zzc[] zzfuj;
+  
+  public zzy(int paramInt)
+  {
+    version = 3;
+    zzfud = zze.GOOGLE_PLAY_SERVICES_VERSION_CODE;
+    zzfuc = paramInt;
+  }
+  
+  public zzy(int paramInt1, int paramInt2, int paramInt3, String paramString, IBinder paramIBinder, Scope[] paramArrayOfScope, Bundle paramBundle, Account paramAccount, zzc[] paramArrayOfZzc)
+  {
+    version = paramInt1;
+    zzfuc = paramInt2;
+    zzfud = paramInt3;
+    if ("com.google.android.gms".equals(paramString)) {
+      zzfue = "com.google.android.gms";
+    } else {
+      zzfue = paramString;
+    }
+    if (paramInt1 < 2)
+    {
+      paramString = null;
+      if (paramIBinder != null)
+      {
+        paramString = paramIBinder.queryLocalInterface("com.google.android.gms.common.internal.IAccountAccessor");
+        if ((paramString instanceof zzam)) {
+          paramString = (zzam)paramString;
+        } else {
+          paramString = new zzao(paramIBinder);
+        }
+        paramString = zza.zza(paramString);
+      }
+      zzfui = paramString;
+    }
+    else
+    {
+      zzfuf = paramIBinder;
+      zzfui = paramAccount;
+    }
+    zzfug = paramArrayOfScope;
+    zzfuh = paramBundle;
+    zzfuj = paramArrayOfZzc;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, version);
+    zzbcn.zzc(paramParcel, 2, zzfuc);
+    zzbcn.zzc(paramParcel, 3, zzfud);
+    zzbcn.zza(paramParcel, 4, zzfue, false);
+    zzbcn.zza(paramParcel, 5, zzfuf, false);
+    zzbcn.zza(paramParcel, 6, zzfug, paramInt, false);
+    zzbcn.zza(paramParcel, 7, zzfuh, false);
+    zzbcn.zza(paramParcel, 8, zzfui, paramInt, false);
+    zzbcn.zza(paramParcel, 10, zzfuj, paramInt, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+}

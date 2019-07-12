@@ -1,0 +1,40 @@
+package com.google.android.gms.internal;
+
+import android.app.PendingIntent;
+import android.util.Log;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.internal.zzn;
+import com.google.android.gms.location.LocationStatusCodes;
+
+public final class zzbzv
+  extends zzbzj
+{
+  public zzn<Status> zzhzt;
+  
+  public zzbzv(zzn<Status> paramZzn)
+  {
+    zzhzt = paramZzn;
+  }
+  
+  public final void zza(int paramInt, PendingIntent paramPendingIntent)
+  {
+    Log.wtf("LocationClientImpl", "Unexpected call to onRemoveGeofencesByPendingIntentResult");
+  }
+  
+  public final void zza(int paramInt, String[] paramArrayOfString)
+  {
+    if (zzhzt == null)
+    {
+      Log.wtf("LocationClientImpl", "onAddGeofenceResult called multiple times");
+      return;
+    }
+    paramArrayOfString = LocationStatusCodes.zzdr(LocationStatusCodes.zzdq(paramInt));
+    zzhzt.setResult(paramArrayOfString);
+    zzhzt = null;
+  }
+  
+  public final void zzb(int paramInt, String[] paramArrayOfString)
+  {
+    Log.wtf("LocationClientImpl", "Unexpected call to onRemoveGeofencesByRequestIdsResult");
+  }
+}

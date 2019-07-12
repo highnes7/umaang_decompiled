@@ -1,0 +1,272 @@
+package com.google.android.gms.auth.api.signin;
+
+import android.accounts.Account;
+import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.text.TextUtils;
+import b.b.a.F;
+import b.b.a.G;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.internal.ReflectedParcelable;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+import com.google.android.gms.common.util.zzh;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class GoogleSignInAccount
+  extends zzbck
+  implements ReflectedParcelable
+{
+  public static final Parcelable.Creator<GoogleSignInAccount> CREATOR = new zzb();
+  public static zzd zzebv = zzh.zzfyr;
+  public static Comparator<Scope> zzecc = new zza();
+  public int versionCode;
+  public String zzbsx;
+  public List<Scope> zzdxx;
+  public String zzeaf;
+  public String zzeag;
+  public String zzeaw;
+  public String zzebw;
+  public String zzebx;
+  public Uri zzeby;
+  public String zzebz;
+  public long zzeca;
+  public String zzecb;
+  
+  public GoogleSignInAccount(int paramInt, String paramString1, String paramString2, String paramString3, String paramString4, Uri paramUri, String paramString5, long paramLong, String paramString6, List<Scope> paramList, String paramString7, String paramString8)
+  {
+    versionCode = paramInt;
+    zzbsx = paramString1;
+    zzeaw = paramString2;
+    zzebw = paramString3;
+    zzebx = paramString4;
+    zzeby = paramUri;
+    zzebz = paramString5;
+    zzeca = paramLong;
+    zzecb = paramString6;
+    zzdxx = paramList;
+    zzeaf = paramString7;
+    zzeag = paramString8;
+  }
+  
+  private final JSONObject toJsonObject()
+  {
+    JSONObject localJSONObject = new JSONObject();
+    RuntimeException localRuntimeException;
+    try
+    {
+      if (getId() != null) {
+        localJSONObject.put("id", getId());
+      }
+      if (getIdToken() != null) {
+        localJSONObject.put("tokenId", getIdToken());
+      }
+      if (getEmail() != null) {
+        localJSONObject.put("email", getEmail());
+      }
+      if (getDisplayName() != null) {
+        localJSONObject.put("displayName", getDisplayName());
+      }
+      if (getGivenName() != null) {
+        localJSONObject.put("givenName", getGivenName());
+      }
+      if (getFamilyName() != null) {
+        localJSONObject.put("familyName", getFamilyName());
+      }
+      if (getPhotoUrl() != null) {
+        localJSONObject.put("photoUrl", getPhotoUrl().toString());
+      }
+      if (getServerAuthCode() != null) {
+        localJSONObject.put("serverAuthCode", getServerAuthCode());
+      }
+      localJSONObject.put("expirationTime", zzeca);
+      localJSONObject.put("obfuscatedIdentifier", zzecb);
+      JSONArray localJSONArray = new JSONArray();
+      Collections.sort(zzdxx, zzecc);
+      Iterator localIterator = zzdxx.iterator();
+      while (localIterator.hasNext()) {
+        localJSONArray.put(((Scope)localIterator.next()).zzaft());
+      }
+      localJSONObject.put("grantedScopes", localJSONArray);
+      return localJSONObject;
+    }
+    catch (JSONException localJSONException)
+    {
+      localRuntimeException = new RuntimeException(localJSONException);
+    }
+    for (;;)
+    {
+      throw localRuntimeException;
+    }
+  }
+  
+  @G
+  public static GoogleSignInAccount zzem(@G String paramString)
+    throws JSONException
+  {
+    if (TextUtils.isEmpty(paramString)) {
+      return null;
+    }
+    JSONObject localJSONObject = new JSONObject(paramString);
+    paramString = localJSONObject.optString("photoUrl", null);
+    if (!TextUtils.isEmpty(paramString)) {
+      paramString = Uri.parse(paramString);
+    } else {
+      paramString = null;
+    }
+    long l = Long.parseLong(localJSONObject.getString("expirationTime"));
+    HashSet localHashSet = new HashSet();
+    Object localObject = localJSONObject.getJSONArray("grantedScopes");
+    int j = ((JSONArray)localObject).length();
+    int i = 0;
+    while (i < j)
+    {
+      localHashSet.add(new Scope(1, ((JSONArray)localObject).getString(i)));
+      i += 1;
+    }
+    String str1 = localJSONObject.optString("id");
+    String str2 = localJSONObject.optString("tokenId", null);
+    String str3 = localJSONObject.optString("email", null);
+    String str4 = localJSONObject.optString("displayName", null);
+    String str5 = localJSONObject.optString("givenName", null);
+    String str6 = localJSONObject.optString("familyName", null);
+    Long localLong = Long.valueOf(l);
+    String str7 = localJSONObject.getString("obfuscatedIdentifier");
+    localObject = localLong;
+    if (localLong == null) {
+      localObject = Long.valueOf(zzebv.currentTimeMillis() / 1000L);
+    }
+    l = ((Long)localObject).longValue();
+    zzbp.zzgg(str7);
+    zzbp.zzu(localHashSet);
+    paramString = new GoogleSignInAccount(3, str1, str2, str3, str4, paramString, null, l, str7, new ArrayList((Collection)localHashSet), str5, str6);
+    zzebz = localJSONObject.optString("serverAuthCode", null);
+    return paramString;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (!(paramObject instanceof GoogleSignInAccount)) {
+      return false;
+    }
+    return ((GoogleSignInAccount)paramObject).toJsonObject().toString().equals(toJsonObject().toString());
+  }
+  
+  @G
+  public Account getAccount()
+  {
+    String str = zzebw;
+    if (str == null) {
+      return null;
+    }
+    return new Account(str, "com.google");
+  }
+  
+  @G
+  public String getDisplayName()
+  {
+    return zzebx;
+  }
+  
+  @G
+  public String getEmail()
+  {
+    return zzebw;
+  }
+  
+  @G
+  public String getFamilyName()
+  {
+    return zzeag;
+  }
+  
+  @G
+  public String getGivenName()
+  {
+    return zzeaf;
+  }
+  
+  @F
+  public Set<Scope> getGrantedScopes()
+  {
+    return new HashSet(zzdxx);
+  }
+  
+  @G
+  public String getId()
+  {
+    return zzbsx;
+  }
+  
+  @G
+  public String getIdToken()
+  {
+    return zzeaw;
+  }
+  
+  @G
+  public Uri getPhotoUrl()
+  {
+    return zzeby;
+  }
+  
+  @G
+  public String getServerAuthCode()
+  {
+    return zzebz;
+  }
+  
+  public int hashCode()
+  {
+    return toJsonObject().toString().hashCode();
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, versionCode);
+    zzbcn.zza(paramParcel, 2, getId(), false);
+    zzbcn.zza(paramParcel, 3, getIdToken(), false);
+    zzbcn.zza(paramParcel, 4, getEmail(), false);
+    zzbcn.zza(paramParcel, 5, getDisplayName(), false);
+    zzbcn.zza(paramParcel, 6, getPhotoUrl(), paramInt, false);
+    zzbcn.zza(paramParcel, 7, getServerAuthCode(), false);
+    zzbcn.zza(paramParcel, 8, zzeca);
+    zzbcn.zza(paramParcel, 9, zzecb, false);
+    zzbcn.zzc(paramParcel, 10, zzdxx, false);
+    zzbcn.zza(paramParcel, 11, getGivenName(), false);
+    zzbcn.zza(paramParcel, 12, getFamilyName(), false);
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public final boolean zzaad()
+  {
+    return zzebv.currentTimeMillis() / 1000L >= zzeca - 300L;
+  }
+  
+  @F
+  public final String zzaae()
+  {
+    return zzecb;
+  }
+  
+  public final String zzaaf()
+  {
+    JSONObject localJSONObject = toJsonObject();
+    localJSONObject.remove("serverAuthCode");
+    return localJSONObject.toString();
+  }
+}

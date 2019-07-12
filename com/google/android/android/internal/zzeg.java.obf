@@ -1,0 +1,66 @@
+package com.google.android.gms.internal;
+
+import android.accounts.Account;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.auth.AccountChangeEventsRequest;
+import com.google.android.gms.auth.AccountChangeEventsResponse;
+
+public final class zzeg
+  extends zzeb
+  implements zzee
+{
+  public zzeg(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.auth.IAuthManagerService");
+  }
+  
+  public final Bundle zza(Account paramAccount)
+    throws RemoteException
+  {
+    Object localObject = zzax();
+    zzed.zza((Parcel)localObject, paramAccount);
+    paramAccount = zza(7, (Parcel)localObject);
+    localObject = (Bundle)zzed.zza(paramAccount, Bundle.CREATOR);
+    paramAccount.recycle();
+    return localObject;
+  }
+  
+  public final Bundle zza(Account paramAccount, String paramString, Bundle paramBundle)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramAccount);
+    localParcel.writeString(paramString);
+    zzed.zza(localParcel, paramBundle);
+    paramAccount = zza(5, localParcel);
+    paramString = (Bundle)zzed.zza(paramAccount, Bundle.CREATOR);
+    paramAccount.recycle();
+    return paramString;
+  }
+  
+  public final Bundle zza(String paramString, Bundle paramBundle)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    localParcel.writeString(paramString);
+    zzed.zza(localParcel, paramBundle);
+    paramString = zza(2, localParcel);
+    paramBundle = (Bundle)zzed.zza(paramString, Bundle.CREATOR);
+    paramString.recycle();
+    return paramBundle;
+  }
+  
+  public final AccountChangeEventsResponse zza(AccountChangeEventsRequest paramAccountChangeEventsRequest)
+    throws RemoteException
+  {
+    Object localObject = zzax();
+    zzed.zza((Parcel)localObject, paramAccountChangeEventsRequest);
+    paramAccountChangeEventsRequest = zza(3, (Parcel)localObject);
+    localObject = (AccountChangeEventsResponse)zzed.zza(paramAccountChangeEventsRequest, AccountChangeEventsResponse.CREATOR);
+    paramAccountChangeEventsRequest.recycle();
+    return localObject;
+  }
+}

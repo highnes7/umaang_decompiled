@@ -1,0 +1,91 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.b.J;
+import java.util.Comparator;
+import java.util.List;
+import java.util.RandomAccess;
+import m.a.h;
+
+@a
+@b
+public final class tg
+{
+  public tg() {}
+  
+  public static <E, K extends Comparable> int a(List<E> paramList, J<? super E, K> paramJ, @h K paramK, b paramB, a paramA)
+  {
+    return a(paramList, paramJ, paramK, mf.d(), paramB, paramA);
+  }
+  
+  public static <E, K> int a(List<E> paramList, J<? super E, K> paramJ, @h K paramK, Comparator<? super K> paramComparator, b paramB, a paramA)
+  {
+    return a(fd.a(paramList, paramJ), paramK, paramComparator, paramB, paramA);
+  }
+  
+  public static <E extends Comparable> int a(List<? extends E> paramList, E paramE, b paramB, a paramA)
+  {
+    if (paramE != null) {
+      return a(paramList, paramE, mf.d(), paramB, paramA);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> int a(List<? extends E> paramList, @h E paramE, Comparator<? super E> paramComparator, b paramB, a paramA)
+  {
+    if (paramComparator != null)
+    {
+      if (paramList != null)
+      {
+        if (paramB != null)
+        {
+          if (paramA != null)
+          {
+            Object localObject = paramList;
+            if (!(paramList instanceof RandomAccess)) {
+              localObject = fd.b(paramList);
+            }
+            int j = 0;
+            int i = ((List)localObject).size() - 1;
+            while (j <= i)
+            {
+              int k = j + i >>> 1;
+              int m = paramComparator.compare(paramE, ((List)localObject).get(k));
+              if (m < 0) {
+                i = k - 1;
+              } else if (m > 0) {
+                j = k + 1;
+              } else {
+                return paramB.a(paramComparator, paramE, ((List)localObject).subList(j, i + 1), k - j) + j;
+              }
+            }
+            return paramA.a(j);
+          }
+          throw new NullPointerException();
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    paramList = new NullPointerException();
+    for (;;)
+    {
+      throw paramList;
+    }
+  }
+  
+  public static abstract enum a
+  {
+    public a() {}
+    
+    public abstract int a(int paramInt);
+  }
+  
+  public static abstract enum b
+  {
+    public b() {}
+    
+    public abstract <E> int a(Comparator<? super E> paramComparator, E paramE, List<? extends E> paramList, int paramInt);
+  }
+}

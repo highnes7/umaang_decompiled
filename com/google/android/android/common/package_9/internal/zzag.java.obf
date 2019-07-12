@@ -1,0 +1,112 @@
+package com.google.android.gms.common.api.internal;
+
+import b.b.a.F;
+import b.b.x.n.b;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.AvailabilityException;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+
+public final class zzag
+  implements OnCompleteListener<Void>
+{
+  public zzcv zzfkz;
+  
+  public zzag(zzad paramZzad, zzcv paramZzcv)
+  {
+    zzfkz = paramZzcv;
+  }
+  
+  public final void cancel()
+  {
+    zzfkz.zzaak();
+  }
+  
+  public final void onComplete(@F Task<Void> paramTask)
+  {
+    zzfky.zzfke.lock();
+    try
+    {
+      if (!zzfky.zzfkt)
+      {
+        zzfkz.zzaak();
+        zzfky.zzfke.unlock();
+        return;
+      }
+      Object localObject;
+      if (paramTask.isSuccessful())
+      {
+        zzfky.zzfkv = new b(zzfky.zzfkl.size());
+        paramTask = zzfky.zzfkl.values().iterator();
+        while (paramTask.hasNext())
+        {
+          localObject = (zzac)paramTask.next();
+          zzfky.zzfkv.put(((GoogleApi)localObject).zzafk(), ConnectionResult.zzfff);
+        }
+      }
+      if ((paramTask.getException() instanceof AvailabilityException))
+      {
+        AvailabilityException localAvailabilityException = (AvailabilityException)paramTask.getException();
+        if (zzfky.zzfkr)
+        {
+          zzfky.zzfkv = new b(zzfky.zzfkl.size());
+          Iterator localIterator = zzfky.zzfkl.values().iterator();
+          if (localIterator.hasNext())
+          {
+            paramTask = (zzac)localIterator.next();
+            zzh localZzh = paramTask.zzafk();
+            localObject = localAvailabilityException.getConnectionResult(paramTask);
+            if (zzad.zza(zzfky, paramTask, (ConnectionResult)localObject))
+            {
+              paramTask = zzfky.zzfkv;
+              localObject = new ConnectionResult(16);
+            }
+            for (;;)
+            {
+              paramTask.put(localZzh, localObject);
+              break;
+              paramTask = zzfky.zzfkv;
+            }
+          }
+        }
+        else
+        {
+          zzfky.zzfkv = localAvailabilityException.zzafh();
+        }
+      }
+      else
+      {
+        paramTask.getException();
+        zzfky.zzfkv = Collections.emptyMap();
+      }
+      if (zzfky.isConnected())
+      {
+        zzfky.zzfku.putAll(zzfky.zzfkv);
+        if (zzad.zzf(zzfky) == null)
+        {
+          zzad.zzi(zzfky);
+          zzad.zzj(zzfky);
+          zzfky.zzfkp.signalAll();
+        }
+      }
+      zzfkz.zzaak();
+      zzfky.zzfke.unlock();
+      return;
+    }
+    finally
+    {
+      zzfky.zzfke.unlock();
+    }
+    for (;;)
+    {
+      throw paramTask;
+    }
+  }
+}

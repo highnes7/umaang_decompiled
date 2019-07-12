@@ -1,0 +1,157 @@
+package b.b.x.h;
+
+import android.annotation.TargetApi;
+import android.media.AudioAttributes;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.support.v4.media.AudioAttributesCompat;
+import b.b.a.F;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@TargetApi(21)
+public class b
+  implements a
+{
+  public static final String a = "AudioAttributesCompat21";
+  public static Method b;
+  public AudioAttributes c;
+  public int d = -1;
+  
+  public b() {}
+  
+  public b(AudioAttributes paramAudioAttributes)
+  {
+    c = paramAudioAttributes;
+    d = -1;
+  }
+  
+  public b(AudioAttributes paramAudioAttributes, int paramInt)
+  {
+    c = paramAudioAttributes;
+    d = paramInt;
+  }
+  
+  public static a a(Bundle paramBundle)
+  {
+    if (paramBundle == null) {
+      return null;
+    }
+    AudioAttributes localAudioAttributes = (AudioAttributes)paramBundle.getParcelable("android.support.v4.media.audio_attrs.FRAMEWORKS");
+    if (localAudioAttributes == null) {
+      return null;
+    }
+    return new b(localAudioAttributes, paramBundle.getInt("android.support.v4.media.audio_attrs.LEGACY_STREAM_TYPE", -1));
+  }
+  
+  public static Method f()
+  {
+    try
+    {
+      if (b == null) {
+        b = AudioAttributes.class.getMethod("toLegacyStreamType", new Class[] { AudioAttributes.class });
+      }
+      return b;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public int a()
+  {
+    return d;
+  }
+  
+  public int b()
+  {
+    return c.getUsage();
+  }
+  
+  public int c()
+  {
+    if (Build.VERSION.SDK_INT >= 26) {
+      return c.getVolumeControlStream();
+    }
+    return AudioAttributesCompat.a(true, getFlags(), b());
+  }
+  
+  public int d()
+  {
+    int i = d;
+    if (i != -1) {
+      return i;
+    }
+    Object localObject = f();
+    if (localObject == null)
+    {
+      localObject = f.a.a.a.a.b("No AudioAttributes#toLegacyStreamType() on API: ");
+      ((StringBuilder)localObject).append(Build.VERSION.SDK_INT);
+      ((StringBuilder)localObject).toString();
+      return -1;
+    }
+    try
+    {
+      i = ((Integer)((Method)localObject).invoke(null, new Object[] { c })).intValue();
+      return i;
+    }
+    catch (InvocationTargetException|IllegalAccessException localInvocationTargetException)
+    {
+      for (;;) {}
+    }
+    localObject = f.a.a.a.a.b("getLegacyStreamType() failed on API: ");
+    ((StringBuilder)localObject).append(Build.VERSION.SDK_INT);
+    ((StringBuilder)localObject).toString();
+    return -1;
+  }
+  
+  public Object e()
+  {
+    return c;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (!(paramObject instanceof b)) {
+      return false;
+    }
+    paramObject = (b)paramObject;
+    return c.equals(c);
+  }
+  
+  public int getContentType()
+  {
+    return c.getContentType();
+  }
+  
+  public int getFlags()
+  {
+    return c.getFlags();
+  }
+  
+  public int hashCode()
+  {
+    return c.hashCode();
+  }
+  
+  @F
+  public Bundle toBundle()
+  {
+    Bundle localBundle = new Bundle();
+    localBundle.putParcelable("android.support.v4.media.audio_attrs.FRAMEWORKS", c);
+    int i = d;
+    if (i != -1) {
+      localBundle.putInt("android.support.v4.media.audio_attrs.LEGACY_STREAM_TYPE", i);
+    }
+    return localBundle;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.b("AudioAttributesCompat: audioattributes=");
+    localStringBuilder.append(c);
+    return localStringBuilder.toString();
+  }
+}

@@ -1,0 +1,44 @@
+package b.b.x.d;
+
+import android.graphics.Typeface;
+import b.b.a.K;
+import b.b.a.N;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@K(28)
+@N({b.b.a.N.a.b})
+public class k
+  extends j
+{
+  public static final String t = "TypefaceCompatApi28Impl";
+  public static final String u = "createFromFamiliesWithDefault";
+  public static final int v = -1;
+  public static final String w = "sans-serif";
+  
+  public k() {}
+  
+  public Typeface a(Object paramObject)
+  {
+    try
+    {
+      Object localObject = Array.newInstance(m, 1);
+      Array.set(localObject, 0, paramObject);
+      paramObject = (Typeface)s.invoke(null, new Object[] { localObject, "sans-serif", Integer.valueOf(-1), Integer.valueOf(-1) });
+      return paramObject;
+    }
+    catch (InvocationTargetException paramObject) {}catch (IllegalAccessException paramObject) {}
+    throw new RuntimeException(paramObject);
+  }
+  
+  public Method d(Class paramClass)
+    throws NoSuchMethodException
+  {
+    paramClass = Array.newInstance(paramClass, 1).getClass();
+    Class localClass = Integer.TYPE;
+    paramClass = Typeface.class.getDeclaredMethod("createFromFamiliesWithDefault", new Class[] { paramClass, String.class, localClass, localClass });
+    paramClass.setAccessible(true);
+    return paramClass;
+  }
+}

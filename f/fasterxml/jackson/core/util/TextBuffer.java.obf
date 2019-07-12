@@ -1,0 +1,549 @@
+package f.d.a.a.g;
+
+import f.d.a.a.c.h;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+public final class j
+{
+  public static final char[] a = new char[0];
+  public static final int b = 1000;
+  public static final int c = 262144;
+  public final a d;
+  public char[] e;
+  public int f;
+  public int g;
+  public ArrayList<char[]> h;
+  public boolean i = false;
+  public int j;
+  public char[] k;
+  public int l;
+  public String m;
+  public char[] n;
+  
+  public j(a paramA)
+  {
+    d = paramA;
+  }
+  
+  private char[] b(int paramInt)
+  {
+    return new char[paramInt];
+  }
+  
+  private void c(int paramInt)
+  {
+    if (h == null) {
+      h = new ArrayList();
+    }
+    char[] arrayOfChar = k;
+    i = true;
+    h.add(arrayOfChar);
+    j += arrayOfChar.length;
+    int i2 = arrayOfChar.length;
+    int i1 = i2 >> 1;
+    if (i1 >= paramInt) {
+      paramInt = i1;
+    }
+    arrayOfChar = new char[Math.min(262144, i2 + paramInt)];
+    l = 0;
+    k = arrayOfChar;
+  }
+  
+  private char[] d(int paramInt)
+  {
+    a localA = d;
+    if (localA != null) {
+      return localA.a(a.b.c, paramInt);
+    }
+    return new char[Math.max(paramInt, 1000)];
+  }
+  
+  private void e(int paramInt)
+  {
+    int i1 = g;
+    g = 0;
+    char[] arrayOfChar1 = e;
+    e = null;
+    int i2 = f;
+    f = -1;
+    paramInt += i1;
+    char[] arrayOfChar2 = k;
+    if ((arrayOfChar2 == null) || (paramInt > arrayOfChar2.length)) {
+      k = d(paramInt);
+    }
+    if (i1 > 0) {
+      System.arraycopy(arrayOfChar1, i2, k, 0, i1);
+    }
+    j = 0;
+    l = i1;
+  }
+  
+  private char[] q()
+  {
+    Object localObject1 = m;
+    if (localObject1 != null) {
+      return ((String)localObject1).toCharArray();
+    }
+    int i1 = f;
+    int i2;
+    if (i1 >= 0)
+    {
+      i2 = g;
+      if (i2 < 1) {
+        return a;
+      }
+      localObject1 = new char[i2];
+      System.arraycopy(e, i1, localObject1, 0, i2);
+      return localObject1;
+    }
+    i1 = p();
+    if (i1 < 1) {
+      return a;
+    }
+    localObject1 = new char[i1];
+    Object localObject2 = h;
+    if (localObject2 != null)
+    {
+      int i4 = ((ArrayList)localObject2).size();
+      i2 = 0;
+      i1 = 0;
+      for (;;)
+      {
+        i3 = i1;
+        if (i2 >= i4) {
+          break;
+        }
+        localObject2 = (char[])h.get(i2);
+        i3 = localObject2.length;
+        System.arraycopy(localObject2, 0, localObject1, i1, i3);
+        i1 += i3;
+        i2 += 1;
+      }
+    }
+    int i3 = 0;
+    System.arraycopy(k, 0, localObject1, i3, l);
+    return localObject1;
+  }
+  
+  private void r()
+  {
+    i = false;
+    h.clear();
+    j = 0;
+    l = 0;
+  }
+  
+  public void a(char paramChar)
+  {
+    if (f >= 0) {
+      e(16);
+    }
+    m = null;
+    n = null;
+    char[] arrayOfChar2 = k;
+    char[] arrayOfChar1 = arrayOfChar2;
+    if (l >= arrayOfChar2.length)
+    {
+      c(1);
+      arrayOfChar1 = k;
+    }
+    int i1 = l;
+    l = (i1 + 1);
+    arrayOfChar1[i1] = paramChar;
+  }
+  
+  public void a(int paramInt)
+  {
+    l = paramInt;
+  }
+  
+  public void a(String paramString)
+  {
+    e = null;
+    f = -1;
+    g = 0;
+    m = paramString;
+    n = null;
+    if (i) {
+      r();
+    }
+    l = 0;
+  }
+  
+  public void a(String paramString, int paramInt1, int paramInt2)
+  {
+    if (f >= 0) {
+      e(paramInt2);
+    }
+    m = null;
+    n = null;
+    char[] arrayOfChar = k;
+    int i1 = arrayOfChar.length;
+    int i3 = l;
+    int i4 = i1 - i3;
+    if (i4 >= paramInt2)
+    {
+      paramString.getChars(paramInt1, paramInt1 + paramInt2, arrayOfChar, i3);
+      l += paramInt2;
+      return;
+    }
+    i1 = paramInt1;
+    int i2 = paramInt2;
+    if (i4 > 0)
+    {
+      i1 = paramInt1 + i4;
+      paramString.getChars(paramInt1, i1, arrayOfChar, i3);
+      i2 = paramInt2 - i4;
+    }
+    for (;;)
+    {
+      c(i2);
+      paramInt2 = Math.min(k.length, i2);
+      paramInt1 = i1 + paramInt2;
+      paramString.getChars(i1, paramInt1, k, 0);
+      l += paramInt2;
+      i2 -= paramInt2;
+      if (i2 <= 0) {
+        return;
+      }
+      i1 = paramInt1;
+    }
+  }
+  
+  public void a(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+  {
+    if (f >= 0) {
+      e(paramInt2);
+    }
+    m = null;
+    n = null;
+    char[] arrayOfChar = k;
+    int i1 = arrayOfChar.length;
+    int i3 = l;
+    int i4 = i1 - i3;
+    if (i4 >= paramInt2)
+    {
+      System.arraycopy(paramArrayOfChar, paramInt1, arrayOfChar, i3, paramInt2);
+      l += paramInt2;
+      return;
+    }
+    int i2 = paramInt1;
+    i1 = paramInt2;
+    if (i4 > 0)
+    {
+      System.arraycopy(paramArrayOfChar, paramInt1, arrayOfChar, i3, i4);
+      i2 = paramInt1 + i4;
+      i1 = paramInt2 - i4;
+    }
+    do
+    {
+      c(i1);
+      paramInt1 = Math.min(k.length, i1);
+      System.arraycopy(paramArrayOfChar, i2, k, 0, paramInt1);
+      l += paramInt1;
+      i2 += paramInt1;
+      paramInt1 = i1 - paramInt1;
+      i1 = paramInt1;
+    } while (paramInt1 > 0);
+  }
+  
+  public char[] a()
+  {
+    char[] arrayOfChar2 = n;
+    char[] arrayOfChar1 = arrayOfChar2;
+    if (arrayOfChar2 == null)
+    {
+      arrayOfChar1 = q();
+      n = arrayOfChar1;
+    }
+    return arrayOfChar1;
+  }
+  
+  public BigDecimal b()
+    throws NumberFormatException
+  {
+    char[] arrayOfChar = n;
+    if (arrayOfChar != null) {
+      return new BigDecimal(arrayOfChar);
+    }
+    int i1 = f;
+    if (i1 >= 0) {
+      return new BigDecimal(e, i1, g);
+    }
+    if (j == 0) {
+      return new BigDecimal(k, 0, l);
+    }
+    return new BigDecimal(a());
+  }
+  
+  public void b(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+  {
+    e = null;
+    f = -1;
+    g = 0;
+    m = null;
+    n = null;
+    if (i) {
+      r();
+    } else if (k == null) {
+      k = d(paramInt2);
+    }
+    j = 0;
+    l = 0;
+    a(paramArrayOfChar, paramInt1, paramInt2);
+  }
+  
+  public double c()
+    throws NumberFormatException
+  {
+    return h.a(d());
+  }
+  
+  public void c(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+  {
+    m = null;
+    n = null;
+    e = paramArrayOfChar;
+    f = paramInt1;
+    g = paramInt2;
+    if (i) {
+      r();
+    }
+  }
+  
+  public String d()
+  {
+    if (m == null)
+    {
+      Object localObject1 = n;
+      if (localObject1 != null)
+      {
+        m = new String((char[])localObject1);
+      }
+      else
+      {
+        int i1 = f;
+        localObject1 = "";
+        int i2;
+        if (i1 >= 0)
+        {
+          i2 = g;
+          if (i2 < 1)
+          {
+            m = "";
+            return "";
+          }
+          m = new String(e, i1, i2);
+        }
+        else
+        {
+          i1 = j;
+          i2 = l;
+          if (i1 == 0)
+          {
+            if (i2 != 0) {
+              localObject1 = new String(k, 0, i2);
+            }
+            m = ((String)localObject1);
+          }
+          else
+          {
+            localObject1 = new StringBuilder(i1 + i2);
+            Object localObject2 = h;
+            if (localObject2 != null)
+            {
+              i2 = ((ArrayList)localObject2).size();
+              i1 = 0;
+              while (i1 < i2)
+              {
+                localObject2 = (char[])h.get(i1);
+                ((StringBuilder)localObject1).append((char[])localObject2, 0, localObject2.length);
+                i1 += 1;
+              }
+            }
+            ((StringBuilder)localObject1).append(k, 0, l);
+            m = ((StringBuilder)localObject1).toString();
+          }
+        }
+      }
+    }
+    return m;
+  }
+  
+  public char[] e()
+  {
+    f = -1;
+    l = 0;
+    g = 0;
+    e = null;
+    m = null;
+    n = null;
+    if (i) {
+      r();
+    }
+    char[] arrayOfChar2 = k;
+    char[] arrayOfChar1 = arrayOfChar2;
+    if (arrayOfChar2 == null)
+    {
+      arrayOfChar1 = d(0);
+      k = arrayOfChar1;
+    }
+    return arrayOfChar1;
+  }
+  
+  public void f()
+  {
+    if (f >= 0) {
+      e(16);
+    }
+  }
+  
+  public char[] g()
+  {
+    char[] arrayOfChar = k;
+    int i2 = arrayOfChar.length;
+    int i1;
+    if (i2 == 262144) {
+      i1 = 262145;
+    } else {
+      i1 = Math.min(262144, (i2 >> 1) + i2);
+    }
+    k = new char[i1];
+    System.arraycopy(arrayOfChar, 0, k, 0, i2);
+    return k;
+  }
+  
+  public char[] h()
+  {
+    if (h == null) {
+      h = new ArrayList();
+    }
+    i = true;
+    h.add(k);
+    int i1 = k.length;
+    j += i1;
+    char[] arrayOfChar = new char[Math.min(i1 + (i1 >> 1), 262144)];
+    l = 0;
+    k = arrayOfChar;
+    return arrayOfChar;
+  }
+  
+  public char[] i()
+  {
+    if (f >= 0)
+    {
+      e(1);
+    }
+    else
+    {
+      char[] arrayOfChar = k;
+      if (arrayOfChar == null) {
+        k = d(0);
+      } else if (l >= arrayOfChar.length) {
+        c(1);
+      }
+    }
+    return k;
+  }
+  
+  public int j()
+  {
+    return l;
+  }
+  
+  public char[] k()
+  {
+    if (f >= 0) {
+      return e;
+    }
+    Object localObject = n;
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = m;
+    if (localObject != null)
+    {
+      localObject = ((String)localObject).toCharArray();
+      n = ((char[])localObject);
+      return localObject;
+    }
+    if (!i) {
+      return k;
+    }
+    return a();
+  }
+  
+  public int l()
+  {
+    int i1 = f;
+    if (i1 >= 0) {
+      return i1;
+    }
+    return 0;
+  }
+  
+  public boolean m()
+  {
+    if (f < 0)
+    {
+      if (n != null) {
+        return true;
+      }
+      if (m != null) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public void n()
+  {
+    if (d == null)
+    {
+      o();
+      return;
+    }
+    if (k != null)
+    {
+      o();
+      char[] arrayOfChar = k;
+      k = null;
+      d.a(a.b.c, arrayOfChar);
+    }
+  }
+  
+  public void o()
+  {
+    f = -1;
+    l = 0;
+    g = 0;
+    e = null;
+    m = null;
+    n = null;
+    if (i) {
+      r();
+    }
+  }
+  
+  public int p()
+  {
+    if (f >= 0) {
+      return g;
+    }
+    Object localObject = n;
+    if (localObject != null) {
+      return localObject.length;
+    }
+    localObject = m;
+    if (localObject != null) {
+      return ((String)localObject).length();
+    }
+    return j + l;
+  }
+  
+  public String toString()
+  {
+    return d();
+  }
+}

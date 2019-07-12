@@ -1,0 +1,246 @@
+package f.g.b.a.c;
+
+import f.a.a.a.a;
+import f.g.b.a.e.a.a.a.b.g;
+import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public final class v
+{
+  public static final Pattern a = Pattern.compile("[\\w!#$&.+\\-\\^_]+|[*]");
+  public static final Pattern b = Pattern.compile("[\\p{ASCII}&&[^\\p{Cntrl} ;/=\\[\\]\\(\\)\\<\\>\\@\\,\\:\\\"\\?\\=]]+");
+  public static final Pattern c;
+  public static final Pattern d;
+  public String e = "application";
+  public String f = "octet-stream";
+  public final SortedMap<String, String> g = new TreeMap();
+  public String h;
+  
+  static
+  {
+    int i = "[^\\s/=;\"]+".length();
+    int j = "[^\\s/=;\"]+".length();
+    Object localObject = new StringBuilder(";.*".length() + (j + (i + 14)));
+    a.b((StringBuilder)localObject, "\\s*(", "[^\\s/=;\"]+", ")/(", "[^\\s/=;\"]+");
+    c = Pattern.compile(a.a((StringBuilder)localObject, ")", "\\s*(", ";.*", ")?"), 32);
+    i = "\"([^\"]*)\"".length();
+    localObject = new StringBuilder("[^\\s;\"]*".length() + (i + 1));
+    ((StringBuilder)localObject).append("\"([^\"]*)\"");
+    ((StringBuilder)localObject).append("|");
+    ((StringBuilder)localObject).append("[^\\s;\"]*");
+    localObject = String.valueOf(((StringBuilder)localObject).toString());
+    i = "[^\\s/=;\"]+".length();
+    StringBuilder localStringBuilder = new StringBuilder(((String)localObject).length() + (i + 12));
+    a.b(localStringBuilder, "\\s*;\\s*(", "[^\\s/=;\"]+", ")", "=(");
+    localStringBuilder.append((String)localObject);
+    localStringBuilder.append(")");
+    d = Pattern.compile(localStringBuilder.toString());
+  }
+  
+  public v(String paramString)
+  {
+    g(paramString);
+  }
+  
+  public v(String paramString1, String paramString2)
+  {
+    f(paramString1);
+    e(paramString2);
+  }
+  
+  public static boolean a(String paramString1, String paramString2)
+  {
+    return ((paramString1 == null) && (paramString2 == null)) || ((paramString1 != null) && (paramString2 != null) && (new v(paramString1).a(new v(paramString2))));
+  }
+  
+  public static boolean b(String paramString)
+  {
+    return b.matcher(paramString).matches();
+  }
+  
+  public static String c(String paramString)
+  {
+    paramString = String.valueOf(paramString.replace("\\", "\\\\").replace("\"", "\\\""));
+    return a.a(new StringBuilder(paramString.length() + 2), "\"", paramString, "\"");
+  }
+  
+  private v g(String paramString)
+  {
+    paramString = c.matcher(paramString);
+    g.a(paramString.matches(), "Type must be in the 'maintype/subtype; parameter=value' format");
+    f(paramString.group(1));
+    e(paramString.group(2));
+    paramString = paramString.group(3);
+    if (paramString != null)
+    {
+      Matcher localMatcher = d.matcher(paramString);
+      while (localMatcher.find())
+      {
+        String str2 = localMatcher.group(1);
+        String str1 = localMatcher.group(3);
+        paramString = str1;
+        if (str1 == null) {
+          paramString = localMatcher.group(2);
+        }
+        b(str2, paramString);
+      }
+    }
+    return this;
+  }
+  
+  public v a(Charset paramCharset)
+  {
+    if (paramCharset == null) {
+      paramCharset = null;
+    } else {
+      paramCharset = paramCharset.name();
+    }
+    b("charset", paramCharset);
+    return this;
+  }
+  
+  public String a()
+  {
+    Object localObject = h;
+    if (localObject != null) {
+      return localObject;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(e);
+    localStringBuilder.append('/');
+    localStringBuilder.append(f);
+    localObject = g;
+    if (localObject != null)
+    {
+      Iterator localIterator = ((SortedMap)localObject).entrySet().iterator();
+      while (localIterator.hasNext())
+      {
+        localObject = (Map.Entry)localIterator.next();
+        String str = (String)((Map.Entry)localObject).getValue();
+        localStringBuilder.append("; ");
+        localStringBuilder.append((String)((Map.Entry)localObject).getKey());
+        localStringBuilder.append("=");
+        localObject = str;
+        if (!b(str)) {
+          localObject = c(str);
+        }
+        localStringBuilder.append((String)localObject);
+      }
+    }
+    h = localStringBuilder.toString();
+    return h;
+  }
+  
+  public String a(String paramString)
+  {
+    return (String)g.get(paramString.toLowerCase());
+  }
+  
+  public boolean a(v paramV)
+  {
+    return (paramV != null) && (f().equalsIgnoreCase(paramV.f())) && (e().equalsIgnoreCase(paramV.e()));
+  }
+  
+  public v b(String paramString1, String paramString2)
+  {
+    if (paramString2 == null)
+    {
+      d(paramString1);
+      return this;
+    }
+    g.a(b.matcher(paramString1).matches(), "Name contains reserved characters");
+    h = null;
+    g.put(paramString1.toLowerCase(), paramString2);
+    return this;
+  }
+  
+  public void b()
+  {
+    h = null;
+    g.clear();
+  }
+  
+  public Charset c()
+  {
+    String str = a("charset");
+    if (str == null) {
+      return null;
+    }
+    return Charset.forName(str);
+  }
+  
+  public v d(String paramString)
+  {
+    h = null;
+    g.remove(paramString.toLowerCase());
+    return this;
+  }
+  
+  public Map<String, String> d()
+  {
+    return Collections.unmodifiableMap(g);
+  }
+  
+  public v e(String paramString)
+  {
+    g.a(a.matcher(paramString).matches(), "Subtype contains reserved characters");
+    f = paramString;
+    h = null;
+    return this;
+  }
+  
+  public String e()
+  {
+    return f;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    boolean bool1 = paramObject instanceof v;
+    boolean bool2 = false;
+    if (!bool1) {
+      return false;
+    }
+    paramObject = (v)paramObject;
+    bool1 = bool2;
+    if (a(paramObject))
+    {
+      bool1 = bool2;
+      if (g.equals(g)) {
+        bool1 = true;
+      }
+    }
+    return bool1;
+  }
+  
+  public v f(String paramString)
+  {
+    g.a(a.matcher(paramString).matches(), "Type contains reserved characters");
+    e = paramString;
+    h = null;
+    return this;
+  }
+  
+  public String f()
+  {
+    return e;
+  }
+  
+  public int hashCode()
+  {
+    return a().hashCode();
+  }
+  
+  public String toString()
+  {
+    return a();
+  }
+}

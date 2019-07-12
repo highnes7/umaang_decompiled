@@ -1,0 +1,159 @@
+package b.b.x.o;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface.OnKeyListener;
+import android.os.Build.VERSION;
+import android.view.KeyEvent;
+import android.view.KeyEvent.DispatcherState;
+import android.view.View;
+import android.view.Window;
+import android.view.Window.Callback;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@N({b.b.a.N.a.b})
+public class j
+{
+  public static boolean a = false;
+  public static Method b;
+  public static boolean c = false;
+  public static Field d;
+  
+  public j() {}
+  
+  public static DialogInterface.OnKeyListener a(Dialog paramDialog)
+  {
+    if (!c) {}
+    try
+    {
+      d = Dialog.class.getDeclaredField("mOnKeyListener");
+      d.setAccessible(true);
+      c = true;
+      Field localField = d;
+      if (localField != null) {}
+      try
+      {
+        paramDialog = (DialogInterface.OnKeyListener)localField.get(paramDialog);
+        return paramDialog;
+      }
+      catch (IllegalAccessException paramDialog)
+      {
+        for (;;) {}
+      }
+      return null;
+    }
+    catch (NoSuchFieldException localNoSuchFieldException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public static boolean a(ActionBar paramActionBar, KeyEvent paramKeyEvent)
+  {
+    if (!a) {}
+    try
+    {
+      b = paramActionBar.getClass().getMethod("onMenuKeyEvent", new Class[] { KeyEvent.class });
+      a = true;
+      Method localMethod = b;
+      if (localMethod != null) {}
+      try
+      {
+        boolean bool = ((Boolean)localMethod.invoke(paramActionBar, new Object[] { paramKeyEvent })).booleanValue();
+        return bool;
+      }
+      catch (IllegalAccessException|InvocationTargetException paramActionBar) {}
+      return false;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public static boolean a(Activity paramActivity, KeyEvent paramKeyEvent)
+  {
+    paramActivity.onUserInteraction();
+    Object localObject = paramActivity.getWindow();
+    if (((Window)localObject).hasFeature(8))
+    {
+      ActionBar localActionBar = paramActivity.getActionBar();
+      if ((paramKeyEvent.getKeyCode() == 82) && (localActionBar != null) && (a(localActionBar, paramKeyEvent))) {
+        return true;
+      }
+    }
+    if (((Window)localObject).superDispatchKeyEvent(paramKeyEvent)) {
+      return true;
+    }
+    localObject = ((Window)localObject).getDecorView();
+    if (H.a((View)localObject, paramKeyEvent)) {
+      return true;
+    }
+    if (localObject != null) {
+      localObject = ((View)localObject).getKeyDispatcherState();
+    } else {
+      localObject = null;
+    }
+    return paramKeyEvent.dispatch(paramActivity, (KeyEvent.DispatcherState)localObject, paramActivity);
+  }
+  
+  public static boolean a(Dialog paramDialog, KeyEvent paramKeyEvent)
+  {
+    Object localObject = a(paramDialog);
+    if ((localObject != null) && (((DialogInterface.OnKeyListener)localObject).onKey(paramDialog, paramKeyEvent.getKeyCode(), paramKeyEvent))) {
+      return true;
+    }
+    localObject = paramDialog.getWindow();
+    if (((Window)localObject).superDispatchKeyEvent(paramKeyEvent)) {
+      return true;
+    }
+    localObject = ((Window)localObject).getDecorView();
+    if (H.a((View)localObject, paramKeyEvent)) {
+      return true;
+    }
+    if (localObject != null) {
+      localObject = ((View)localObject).getKeyDispatcherState();
+    } else {
+      localObject = null;
+    }
+    return paramKeyEvent.dispatch(paramDialog, (KeyEvent.DispatcherState)localObject, paramDialog);
+  }
+  
+  public static boolean a(@F View paramView, @F KeyEvent paramKeyEvent)
+  {
+    return H.b(paramView, paramKeyEvent);
+  }
+  
+  public static boolean a(@F a paramA, @G View paramView, @G Window.Callback paramCallback, @F KeyEvent paramKeyEvent)
+  {
+    boolean bool = false;
+    if (paramA == null) {
+      return false;
+    }
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramA.superDispatchKeyEvent(paramKeyEvent);
+    }
+    if ((paramCallback instanceof Activity)) {
+      return a((Activity)paramCallback, paramKeyEvent);
+    }
+    if ((paramCallback instanceof Dialog)) {
+      return a((Dialog)paramCallback, paramKeyEvent);
+    }
+    if (((paramView != null) && (H.a(paramView, paramKeyEvent))) || (paramA.superDispatchKeyEvent(paramKeyEvent))) {
+      bool = true;
+    }
+    return bool;
+  }
+  
+  public static abstract interface a
+  {
+    public abstract boolean superDispatchKeyEvent(KeyEvent paramKeyEvent);
+  }
+}

@@ -1,0 +1,178 @@
+package f.g.c.f;
+
+import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+public final class s
+  extends e
+  implements Serializable
+{
+  public static final long a = 0L;
+  public final int b;
+  
+  public s(int paramInt)
+  {
+    b = paramInt;
+  }
+  
+  public int a()
+  {
+    return 128;
+  }
+  
+  public o b()
+  {
+    return new a(b);
+  }
+  
+  private static final class a
+    extends e.a
+  {
+    public static final int d = 16;
+    public static final long e = -8663945395140668459L;
+    public static final long f = 5545529020109919103L;
+    public long g;
+    public long h;
+    public int i;
+    
+    public a(int paramInt)
+    {
+      super(16);
+      long l = paramInt;
+      g = l;
+      h = l;
+      i = 0;
+    }
+    
+    private void a(long paramLong1, long paramLong2)
+    {
+      long l = g;
+      g = (c(paramLong1) ^ l);
+      g = Long.rotateLeft(g, 27);
+      paramLong1 = g;
+      l = h;
+      g = (paramLong1 + l);
+      g = (g * 5L + 1390208809L);
+      h = (d(paramLong2) ^ l);
+      h = Long.rotateLeft(h, 31);
+      h += g;
+      h = (h * 5L + 944331445L);
+    }
+    
+    public static long b(long paramLong)
+    {
+      paramLong = (paramLong ^ paramLong >>> 33) * -49064778989728563L;
+      paramLong = (paramLong ^ paramLong >>> 33) * -4265267296055464877L;
+      return paramLong ^ paramLong >>> 33;
+    }
+    
+    public static long c(long paramLong)
+    {
+      return Long.rotateLeft(paramLong * -8663945395140668459L, 31) * 5545529020109919103L;
+    }
+    
+    public static long d(long paramLong)
+    {
+      return Long.rotateLeft(paramLong * 5545529020109919103L, 33) * -8663945395140668459L;
+    }
+    
+    public void a(ByteBuffer paramByteBuffer)
+    {
+      a(paramByteBuffer.getLong(), paramByteBuffer.getLong());
+      i += 16;
+    }
+    
+    public l b()
+    {
+      long l1 = g;
+      int j = i;
+      g = (l1 ^ j);
+      h ^= j;
+      long l2 = g;
+      l1 = h;
+      g = (l2 + l1);
+      l2 = g;
+      h = (l1 + l2);
+      g = b(l2);
+      h = b(h);
+      l1 = g;
+      l2 = h;
+      g = (l1 + l2);
+      h = (l2 + g);
+      return new m.a(ByteBuffer.wrap(new byte[16]).order(ByteOrder.LITTLE_ENDIAN).putLong(g).putLong(h).array());
+    }
+    
+    public void b(ByteBuffer paramByteBuffer)
+    {
+      int j = i;
+      i = (paramByteBuffer.remaining() + j);
+      switch (paramByteBuffer.remaining())
+      {
+      default: 
+        throw new AssertionError("Should never get here.");
+      case 15: 
+        l1 = (paramByteBuffer.get(14) & 0xFF) << 48 ^ 0L;
+        break;
+      case 14: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(13) & 0xFF) << 40;
+        break;
+      case 13: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(12) & 0xFF) << 32;
+        break;
+      case 12: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(11) & 0xFF) << 24;
+        break;
+      case 11: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(10) & 0xFF) << 16;
+        break;
+      case 10: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(9) & 0xFF) << 8;
+        break;
+      case 9: 
+        l1 = 0L;
+        l1 ^= paramByteBuffer.get(8) & 0xFF;
+        break;
+      case 8: 
+        l1 = 0L;
+        l2 = paramByteBuffer.getLong() ^ 0L;
+        break;
+      case 7: 
+        l1 = (paramByteBuffer.get(6) & 0xFF) << 48 ^ 0L;
+        break;
+      case 6: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(5) & 0xFF) << 40;
+        break;
+      case 5: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(4) & 0xFF) << 32;
+        break;
+      case 4: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(3) & 0xFF) << 24;
+        break;
+      case 3: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(2) & 0xFF) << 16;
+        break;
+      case 2: 
+        l1 = 0L;
+        l1 ^= (paramByteBuffer.get(1) & 0xFF) << 8;
+        break;
+      }
+      long l1 = 0L;
+      long l2 = paramByteBuffer.get(0) & 0xFF ^ l1;
+      l1 = 0L;
+      long l3 = g;
+      g = (c(l2) ^ l3);
+      l2 = h;
+      h = (d(l1) ^ l2);
+    }
+  }
+}

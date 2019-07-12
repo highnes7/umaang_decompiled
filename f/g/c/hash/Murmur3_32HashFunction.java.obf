@@ -1,0 +1,133 @@
+package f.g.c.f;
+
+import java.io.Serializable;
+import java.nio.ByteBuffer;
+
+public final class t
+  extends e
+  implements Serializable
+{
+  public static final int a = -862048943;
+  public static final int b = 461845907;
+  public static final long c = 0L;
+  public final int d;
+  
+  public t(int paramInt)
+  {
+    d = paramInt;
+  }
+  
+  public static l c(int paramInt1, int paramInt2)
+  {
+    paramInt1 ^= paramInt2;
+    paramInt1 = (paramInt1 ^ paramInt1 >>> 16) * -2048144789;
+    paramInt1 = (paramInt1 ^ paramInt1 >>> 13) * -1028477387;
+    return new m.b(paramInt1 ^ paramInt1 >>> 16);
+  }
+  
+  public static int d(int paramInt)
+  {
+    return Integer.rotateLeft(paramInt * -862048943, 15) * 461845907;
+  }
+  
+  public static int d(int paramInt1, int paramInt2)
+  {
+    return Integer.rotateLeft(paramInt1 ^ paramInt2, 13) * 5 - 430675100;
+  }
+  
+  public int a()
+  {
+    return 32;
+  }
+  
+  public l a(long paramLong)
+  {
+    int j = (int)paramLong;
+    int i = (int)(paramLong >>> 32);
+    j = d(j);
+    return c(d(d(d, j), d(i)), 8);
+  }
+  
+  public l a(CharSequence paramCharSequence)
+  {
+    int i = d;
+    int j = 1;
+    while (j < paramCharSequence.length())
+    {
+      i = d(i, d(paramCharSequence.charAt(j - 1) | paramCharSequence.charAt(j) << '\020'));
+      j += 2;
+    }
+    j = i;
+    if ((paramCharSequence.length() & 0x1) == 1) {
+      j = i ^ d(paramCharSequence.charAt(paramCharSequence.length() - 1));
+    }
+    return c(j, paramCharSequence.length() * 2);
+  }
+  
+  public l b(int paramInt)
+  {
+    paramInt = d(paramInt);
+    return c(d(d, paramInt), 4);
+  }
+  
+  public o b()
+  {
+    return new a(d);
+  }
+  
+  private static final class a
+    extends e.a
+  {
+    public static final int d = 4;
+    public int e;
+    public int f;
+    
+    public a(int paramInt)
+    {
+      super(4);
+      e = paramInt;
+      f = 0;
+    }
+    
+    public void a(ByteBuffer paramByteBuffer)
+    {
+      int i = t.d(paramByteBuffer.getInt());
+      e = t.d(e, i);
+      f += 4;
+    }
+    
+    public l b()
+    {
+      return t.c(e, f);
+    }
+    
+    public void b(ByteBuffer paramByteBuffer)
+    {
+      int i = f;
+      f = (paramByteBuffer.remaining() + i);
+      i = paramByteBuffer.remaining();
+      if (i != 1)
+      {
+        if (i != 2)
+        {
+          if (i == 3) {
+            i = (paramByteBuffer.get(2) & 0xFF) << 16 ^ 0x0;
+          } else {
+            throw new AssertionError("Should never get here.");
+          }
+        }
+        else {
+          i = 0;
+        }
+        i ^= (paramByteBuffer.get(1) & 0xFF) << 8;
+      }
+      else
+      {
+        i = 0;
+      }
+      int j = paramByteBuffer.get(0);
+      int k = e;
+      e = (t.d(j & 0xFF ^ i) ^ k);
+    }
+  }
+}

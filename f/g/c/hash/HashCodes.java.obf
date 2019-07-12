@@ -1,0 +1,149 @@
+package f.g.c.f;
+
+import f.g.c.a.a;
+import f.g.c.b.ba;
+import java.io.Serializable;
+
+@a
+public final class m
+{
+  public m() {}
+  
+  public static l a(int paramInt)
+  {
+    return new b(paramInt);
+  }
+  
+  public static l a(long paramLong)
+  {
+    return new c(paramLong);
+  }
+  
+  public static l a(byte[] paramArrayOfByte)
+  {
+    boolean bool;
+    if (paramArrayOfByte.length >= 4) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "A HashCode must contain at least 4 bytes.");
+    return new a((byte[])paramArrayOfByte.clone());
+  }
+  
+  public static l b(byte[] paramArrayOfByte)
+  {
+    return new a(paramArrayOfByte);
+  }
+  
+  private static final class a
+    extends l
+    implements Serializable
+  {
+    public static final long b = 0L;
+    public final byte[] c;
+    
+    public a(byte[] paramArrayOfByte)
+    {
+      c = paramArrayOfByte;
+    }
+    
+    public byte[] a()
+    {
+      return (byte[])c.clone();
+    }
+    
+    public int b()
+    {
+      byte[] arrayOfByte = c;
+      int i = arrayOfByte[0];
+      int j = arrayOfByte[1];
+      int k = arrayOfByte[2];
+      return (arrayOfByte[3] & 0xFF) << 24 | i & 0xFF | (j & 0xFF) << 8 | (k & 0xFF) << 16;
+    }
+    
+    public long c()
+    {
+      byte[] arrayOfByte = c;
+      if (arrayOfByte.length >= 8)
+      {
+        long l = arrayOfByte[0];
+        return (arrayOfByte[1] & 0xFF) << 8 | l & 0xFF | (arrayOfByte[2] & 0xFF) << 16 | (arrayOfByte[3] & 0xFF) << 24 | (arrayOfByte[4] & 0xFF) << 32 | (arrayOfByte[5] & 0xFF) << 40 | (arrayOfByte[6] & 0xFF) << 48 | (arrayOfByte[7] & 0xFF) << 56;
+      }
+      throw new IllegalStateException("Not enough bytes");
+    }
+    
+    public int d()
+    {
+      return c.length * 8;
+    }
+  }
+  
+  private static final class b
+    extends l
+    implements Serializable
+  {
+    public static final long b = 0L;
+    public final int c;
+    
+    public b(int paramInt)
+    {
+      c = paramInt;
+    }
+    
+    public byte[] a()
+    {
+      int i = c;
+      return new byte[] { (byte)i, (byte)(i >> 8), (byte)(i >> 16), (byte)(i >> 24) };
+    }
+    
+    public int b()
+    {
+      return c;
+    }
+    
+    public long c()
+    {
+      throw new IllegalStateException("this HashCode only has 32 bits; cannot create a long");
+    }
+    
+    public int d()
+    {
+      return 32;
+    }
+  }
+  
+  private static final class c
+    extends l
+    implements Serializable
+  {
+    public static final long b = 0L;
+    public final long c;
+    
+    public c(long paramLong)
+    {
+      c = paramLong;
+    }
+    
+    public byte[] a()
+    {
+      long l = c;
+      return new byte[] { (byte)(int)l, (byte)(int)(l >> 8), (byte)(int)(l >> 16), (byte)(int)(l >> 24), (byte)(int)(l >> 32), (byte)(int)(l >> 40), (byte)(int)(l >> 48), (byte)(int)(l >> 56) };
+    }
+    
+    public int b()
+    {
+      return (int)c;
+    }
+    
+    public long c()
+    {
+      return c;
+    }
+    
+    public int d()
+    {
+      return 64;
+    }
+  }
+}

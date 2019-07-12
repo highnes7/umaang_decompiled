@@ -1,0 +1,58 @@
+package f.c.a.a;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import l.a.a.a.a.b.D;
+import l.a.a.a.a.d.p;
+import l.a.a.a.a.e.d;
+import l.a.a.a.a.e.m;
+import l.a.a.a.a.e.o;
+import l.a.a.a.g;
+import l.a.a.a.n;
+import l.a.a.a.q;
+
+public class T
+  extends l.a.a.a.a.b.a
+  implements p
+{
+  public static final String s = "session_analytics_file_";
+  public static final String t = "application/vnd.crashlytics.android.events";
+  public final String u;
+  
+  public T(n paramN, String paramString1, String paramString2, o paramO, String paramString3)
+  {
+    super(paramN, paramString1, paramString2, paramO, d.b);
+    u = paramString3;
+  }
+  
+  public boolean a(List<File> paramList)
+  {
+    Object localObject1 = a().d("X-CRASHLYTICS-API-CLIENT-TYPE", "android").d("X-CRASHLYTICS-API-CLIENT-VERSION", r.j()).d("X-CRASHLYTICS-API-KEY", u);
+    Object localObject2 = paramList.iterator();
+    boolean bool = false;
+    int i = 0;
+    while (((Iterator)localObject2).hasNext())
+    {
+      localObject3 = (File)((Iterator)localObject2).next();
+      ((m)localObject1).a(f.a.a.a.a.a("session_analytics_file_", i), ((File)localObject3).getName(), "application/vnd.crashlytics.android.events", (File)localObject3);
+      i += 1;
+    }
+    localObject2 = g.h();
+    Object localObject3 = f.a.a.a.a.b("Sending ");
+    ((StringBuilder)localObject3).append(paramList.size());
+    ((StringBuilder)localObject3).append(" analytics files to ");
+    ((StringBuilder)localObject3).append(b());
+    ((q)localObject2).d("Answers", ((StringBuilder)localObject3).toString());
+    i = ((m)localObject1).n();
+    paramList = g.h();
+    localObject1 = new StringBuilder();
+    ((StringBuilder)localObject1).append("Response code for analytics file send is ");
+    ((StringBuilder)localObject1).append(i);
+    paramList.d("Answers", ((StringBuilder)localObject1).toString());
+    if (D.a(i) == 0) {
+      bool = true;
+    }
+    return bool;
+  }
+}

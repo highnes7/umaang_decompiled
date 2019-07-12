@@ -1,0 +1,31 @@
+package b.b.v;
+
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.util.Property;
+
+public final class c
+  extends Property<Drawable, PointF>
+{
+  public Rect a = new Rect();
+  
+  public c(Class paramClass, String paramString)
+  {
+    super(paramClass, paramString);
+  }
+  
+  public PointF a(Drawable paramDrawable)
+  {
+    paramDrawable.copyBounds(a);
+    paramDrawable = a;
+    return new PointF(left, top);
+  }
+  
+  public void a(Drawable paramDrawable, PointF paramPointF)
+  {
+    paramDrawable.copyBounds(a);
+    a.offsetTo(Math.round(x), Math.round(y));
+    paramDrawable.setBounds(a);
+  }
+}

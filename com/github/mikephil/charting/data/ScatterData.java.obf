@@ -1,0 +1,61 @@
+package com.github.mikephil.charting.data;
+
+import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
+import f.a.a.a.a;
+import java.util.Iterator;
+import java.util.List;
+
+public class ScatterData
+  extends BarLineScatterCandleBubbleData<IScatterDataSet>
+{
+  public ScatterData() {}
+  
+  public ScatterData(List<String> paramList)
+  {
+    super(paramList);
+  }
+  
+  public ScatterData(List<String> paramList, IScatterDataSet paramIScatterDataSet)
+  {
+    super(paramList, toList(paramIScatterDataSet));
+  }
+  
+  public ScatterData(List<String> paramList, List<IScatterDataSet> paramList1)
+  {
+    super(paramList, paramList1);
+  }
+  
+  public ScatterData(String[] paramArrayOfString)
+  {
+    super(paramArrayOfString);
+  }
+  
+  public ScatterData(String[] paramArrayOfString, IScatterDataSet paramIScatterDataSet)
+  {
+    super(paramArrayOfString, toList(paramIScatterDataSet));
+  }
+  
+  public ScatterData(String[] paramArrayOfString, List<IScatterDataSet> paramList)
+  {
+    super(paramArrayOfString, paramList);
+  }
+  
+  public static List<IScatterDataSet> toList(IScatterDataSet paramIScatterDataSet)
+  {
+    return a.a(paramIScatterDataSet);
+  }
+  
+  public float getGreatestShapeSize()
+  {
+    Iterator localIterator = mDataSets.iterator();
+    float f1 = 0.0F;
+    while (localIterator.hasNext())
+    {
+      float f2 = ((IScatterDataSet)localIterator.next()).getScatterShapeSize();
+      if (f2 > f1) {
+        f1 = f2;
+      }
+    }
+    return f1;
+  }
+}

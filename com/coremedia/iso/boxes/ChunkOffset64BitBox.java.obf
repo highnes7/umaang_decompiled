@@ -1,0 +1,66 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.h;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class ChunkOffset64BitBox
+  extends ChunkOffsetBox
+{
+  public static final String TYPE = "co64";
+  public long[] chunkOffsets;
+  
+  static {}
+  
+  public ChunkOffset64BitBox()
+  {
+    super("co64");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    int j = f.h.a.g.c.a(h.j(paramByteBuffer));
+    chunkOffsets = new long[j];
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return;
+      }
+      chunkOffsets[i] = h.l(paramByteBuffer);
+      i += 1;
+    }
+  }
+  
+  public long[] getChunkOffsets()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return chunkOffsets;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.putInt((int)chunkOffsets.length);
+    long[] arrayOfLong = chunkOffsets;
+    int j = arrayOfLong.length;
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return;
+      }
+      paramByteBuffer.putLong(arrayOfLong[i]);
+      i += 1;
+    }
+  }
+  
+  public long getContentSize()
+  {
+    return chunkOffsets.length * 8 + 8;
+  }
+}

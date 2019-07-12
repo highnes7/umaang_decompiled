@@ -1,0 +1,64 @@
+package com.coremedia.iso.boxes.vodafone;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class CoverUriBox
+  extends c
+{
+  public static final String TYPE = "cvru";
+  public String coverUri;
+  
+  static {}
+  
+  public CoverUriBox()
+  {
+    super("cvru");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    coverUri = h.f(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.put(m.a(coverUri));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public long getContentSize()
+  {
+    return m.b(coverUri) + 5;
+  }
+  
+  public String getCoverUri()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return coverUri;
+  }
+  
+  public void setCoverUri(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramString);
+    j.b().a(localJoinPoint);
+    coverUri = paramString;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_2, this, this), "CoverUriBox[coverUri=");
+    localStringBuilder.append(getCoverUri());
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+}

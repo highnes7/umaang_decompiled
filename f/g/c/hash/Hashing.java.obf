@@ -1,0 +1,253 @@
+package f.g.c.f;
+
+import f.g.c.a.a;
+import f.g.c.a.d;
+import f.g.c.b.ba;
+import java.nio.ByteBuffer;
+import java.util.Iterator;
+
+@a
+public final class p
+{
+  public static final int a = (int)System.currentTimeMillis();
+  public static final n b = new t(a);
+  public static final n c = new s(a);
+  public static final t d = new t(0);
+  public static final s e = new s(0);
+  public static final n f = new r("MD5");
+  public static final n g = new r("SHA-1");
+  public static final n h = new r("SHA-256");
+  public static final n i = new r("SHA-512");
+  
+  public p() {}
+  
+  public static int a(int paramInt)
+  {
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "Number of bits must be positive");
+    return paramInt + 31 & 0xFFFFFFE0;
+  }
+  
+  public static int a(long paramLong, int paramInt)
+  {
+    int j = 0;
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "buckets must be positive: %s", new Object[] { Integer.valueOf(paramInt) });
+    for (;;)
+    {
+      double d1 = j + 1;
+      paramLong = paramLong * 2862933555777941757L + 1L;
+      double d2 = (int)(paramLong >>> 33) + 1;
+      Double.isNaN(d2);
+      Double.isNaN(d2);
+      d2 /= 2.147483648E9D;
+      Double.isNaN(d1);
+      int k = (int)(d1 / d2);
+      if ((k < 0) || (k >= paramInt)) {
+        break;
+      }
+      j = k;
+    }
+    return j;
+  }
+  
+  public static int a(l paramL, int paramInt)
+  {
+    return a(a(paramL), paramInt);
+  }
+  
+  public static long a(l paramL)
+  {
+    if (paramL.d() < 64) {
+      return f.g.c.j.p.b(paramL.b());
+    }
+    return paramL.c();
+  }
+  
+  public static l a(Iterable<l> paramIterable)
+  {
+    Object localObject = paramIterable.iterator();
+    ba.a(((Iterator)localObject).hasNext(), "Must be at least 1 hash code to combine.");
+    localObject = new byte[((l)((Iterator)localObject).next()).d() / 8];
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext())
+    {
+      byte[] arrayOfByte = ((l)paramIterable.next()).a();
+      int k = arrayOfByte.length;
+      int m = localObject.length;
+      int j = 0;
+      boolean bool;
+      if (k == m) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "All hashcodes must have the same bit length.");
+      while (j < arrayOfByte.length)
+      {
+        localObject[j] = ((byte)(localObject[j] * 37 ^ arrayOfByte[j]));
+        j += 1;
+      }
+    }
+    return new m.a((byte[])localObject);
+  }
+  
+  public static n a()
+  {
+    return f;
+  }
+  
+  public static l b(Iterable<l> paramIterable)
+  {
+    Object localObject = paramIterable.iterator();
+    ba.a(((Iterator)localObject).hasNext(), "Must be at least 1 hash code to combine.");
+    localObject = new byte[((l)((Iterator)localObject).next()).d() / 8];
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext())
+    {
+      byte[] arrayOfByte = ((l)paramIterable.next()).a();
+      int k = arrayOfByte.length;
+      int m = localObject.length;
+      int j = 0;
+      boolean bool;
+      if (k == m) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "All hashcodes must have the same bit length.");
+      while (j < arrayOfByte.length)
+      {
+        localObject[j] = ((byte)(localObject[j] + arrayOfByte[j]));
+        j += 1;
+      }
+    }
+    return new m.a((byte[])localObject);
+  }
+  
+  public static n b()
+  {
+    return e;
+  }
+  
+  public static n b(int paramInt)
+  {
+    paramInt = a(paramInt);
+    if (paramInt == 32) {
+      return b;
+    }
+    if (paramInt <= 128) {
+      return c;
+    }
+    int k = (paramInt + 127) / 128;
+    n[] arrayOfN = new n[k];
+    arrayOfN[0] = c;
+    int j = a;
+    paramInt = 1;
+    while (paramInt < k)
+    {
+      j += 1500450271;
+      arrayOfN[paramInt] = new s(j);
+      paramInt += 1;
+    }
+    return new a(arrayOfN);
+  }
+  
+  public static n c()
+  {
+    return d;
+  }
+  
+  public static n c(int paramInt)
+  {
+    return new s(paramInt);
+  }
+  
+  public static n d()
+  {
+    return g;
+  }
+  
+  public static n d(int paramInt)
+  {
+    return new t(paramInt);
+  }
+  
+  public static n e()
+  {
+    return h;
+  }
+  
+  public static n f()
+  {
+    return i;
+  }
+  
+  @d
+  public static final class a
+    extends b
+  {
+    public final int c;
+    
+    public a(n... paramVarArgs)
+    {
+      super();
+      int k = paramVarArgs.length;
+      int i = 0;
+      int j = 0;
+      while (i < k)
+      {
+        j += paramVarArgs[i].a();
+        i += 1;
+      }
+      c = j;
+    }
+    
+    public int a()
+    {
+      return c;
+    }
+    
+    public l a(o[] paramArrayOfO)
+    {
+      byte[] arrayOfByte = new byte[c / 8];
+      ByteBuffer localByteBuffer = ByteBuffer.wrap(arrayOfByte);
+      int j = paramArrayOfO.length;
+      int i = 0;
+      while (i < j)
+      {
+        localByteBuffer.put(paramArrayOfO[i].a().a());
+        i += 1;
+      }
+      return new m.a(arrayOfByte);
+    }
+  }
+  
+  private static final class b
+  {
+    public long a;
+    
+    public b(long paramLong)
+    {
+      a = paramLong;
+    }
+    
+    public double a()
+    {
+      a = (a * 2862933555777941757L + 1L);
+      double d = (int)(a >>> 33) + 1;
+      Double.isNaN(d);
+      return d / 2.147483648E9D;
+    }
+  }
+}

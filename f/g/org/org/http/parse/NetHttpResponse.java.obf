@@ -1,0 +1,193 @@
+package f.g.b.a.c.b;
+
+import f.g.b.a.c.J;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class d
+  extends J
+{
+  public final HttpURLConnection a;
+  public final int b;
+  public final String c;
+  public final ArrayList<String> d = new ArrayList();
+  public final ArrayList<String> e = new ArrayList();
+  
+  public d(HttpURLConnection paramHttpURLConnection)
+    throws IOException
+  {
+    a = paramHttpURLConnection;
+    int j = paramHttpURLConnection.getResponseCode();
+    int i = j;
+    if (j == -1) {
+      i = 0;
+    }
+    b = i;
+    c = paramHttpURLConnection.getResponseMessage();
+    ArrayList localArrayList1 = d;
+    ArrayList localArrayList2 = e;
+    paramHttpURLConnection = paramHttpURLConnection.getHeaderFields().entrySet().iterator();
+    while (paramHttpURLConnection.hasNext())
+    {
+      Object localObject = (Map.Entry)paramHttpURLConnection.next();
+      String str1 = (String)((Map.Entry)localObject).getKey();
+      if (str1 != null)
+      {
+        localObject = ((List)((Map.Entry)localObject).getValue()).iterator();
+        while (((Iterator)localObject).hasNext())
+        {
+          String str2 = (String)((Iterator)localObject).next();
+          if (str2 != null)
+          {
+            localArrayList1.add(str1);
+            localArrayList2.add(str2);
+          }
+        }
+      }
+    }
+  }
+  
+  public String a(int paramInt)
+  {
+    return (String)d.get(paramInt);
+  }
+  
+  public void a()
+  {
+    a.disconnect();
+  }
+  
+  public InputStream b()
+    throws IOException
+  {
+    try
+    {
+      localInputStream = a.getInputStream();
+    }
+    catch (IOException localIOException)
+    {
+      InputStream localInputStream;
+      for (;;) {}
+    }
+    localInputStream = a.getErrorStream();
+    if (localInputStream == null) {
+      return null;
+    }
+    return new a(localInputStream);
+  }
+  
+  public String b(int paramInt)
+  {
+    return (String)e.get(paramInt);
+  }
+  
+  public String c()
+  {
+    return a.getContentEncoding();
+  }
+  
+  public long d()
+  {
+    String str = a.getHeaderField("Content-Length");
+    if (str == null) {
+      return -1L;
+    }
+    return Long.parseLong(str);
+  }
+  
+  public String e()
+  {
+    return a.getHeaderField("Content-Type");
+  }
+  
+  public int f()
+  {
+    return d.size();
+  }
+  
+  public String g()
+  {
+    return c;
+  }
+  
+  public int h()
+  {
+    return b;
+  }
+  
+  public String i()
+  {
+    String str = a.getHeaderField(0);
+    if ((str != null) && (str.startsWith("HTTP/1."))) {
+      return str;
+    }
+    return null;
+  }
+  
+  private final class a
+    extends FilterInputStream
+  {
+    public long a = 0L;
+    
+    public a(InputStream paramInputStream)
+    {
+      super();
+    }
+    
+    private void u()
+      throws IOException
+    {
+      long l1 = d();
+      if (l1 == -1L) {
+        return;
+      }
+      long l2 = a;
+      if (l2 != 0L)
+      {
+        if (l2 >= l1) {
+          return;
+        }
+        StringBuilder localStringBuilder = new StringBuilder(102);
+        localStringBuilder.append("Connection closed prematurely: bytesRead = ");
+        localStringBuilder.append(l2);
+        localStringBuilder.append(", Content-Length = ");
+        localStringBuilder.append(l1);
+        throw new IOException(localStringBuilder.toString());
+      }
+    }
+    
+    public int read()
+      throws IOException
+    {
+      int i = in.read();
+      if (i == -1)
+      {
+        u();
+        return i;
+      }
+      a += 1L;
+      return i;
+    }
+    
+    public int read(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+      throws IOException
+    {
+      paramInt1 = in.read(paramArrayOfByte, paramInt1, paramInt2);
+      if (paramInt1 == -1)
+      {
+        u();
+        return paramInt1;
+      }
+      a += paramInt1;
+      return paramInt1;
+    }
+  }
+}

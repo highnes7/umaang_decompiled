@@ -1,0 +1,820 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public class Zc<K, V>
+  implements cd<K, V>, Serializable
+{
+  @c("java serialization not supported")
+  public static final long a = 0L;
+  public transient c<K, V> b;
+  public transient c<K, V> c;
+  public transient Ye<K> d;
+  public transient Map<K, c<K, V>> e;
+  public transient Map<K, c<K, V>> f;
+  public transient Set<K> g;
+  public transient Ye<K> h;
+  public transient List<V> i;
+  public transient List<Map.Entry<K, V>> j;
+  public transient Map<K, Collection<V>> k;
+  
+  public Zc()
+  {
+    d = new Oc();
+    e = fe.b();
+    f = fe.b();
+  }
+  
+  public Zc(int paramInt)
+  {
+    d = new Oc(paramInt);
+    e = fe.b(paramInt);
+    f = fe.b(paramInt);
+  }
+  
+  public Zc(ve<? extends K, ? extends V> paramVe)
+  {
+    this(paramVe.keySet().size());
+    a(paramVe);
+  }
+  
+  private c<K, V> a(@h K paramK, @h V paramV, @h c<K, V> paramC)
+  {
+    paramV = new c(paramK, paramV);
+    if (b == null)
+    {
+      c = paramV;
+      b = paramV;
+      e.put(paramK, paramV);
+      f.put(paramK, paramV);
+    }
+    else if (paramC == null)
+    {
+      paramC = c;
+      c = paramV;
+      d = paramC;
+      paramC = (c)f.get(paramK);
+      if (paramC == null)
+      {
+        e.put(paramK, paramV);
+      }
+      else
+      {
+        e = paramV;
+        f = paramC;
+      }
+      f.put(paramK, paramV);
+      c = paramV;
+    }
+    else
+    {
+      d = d;
+      f = f;
+      c = paramC;
+      e = paramC;
+      c localC = f;
+      if (localC == null) {
+        e.put(paramK, paramV);
+      } else {
+        e = paramV;
+      }
+      localC = d;
+      if (localC == null) {
+        b = paramV;
+      } else {
+        c = paramV;
+      }
+      d = paramV;
+      f = paramV;
+    }
+    d.add(paramK);
+    return paramV;
+  }
+  
+  public static <K, V> Zc<K, V> a(int paramInt)
+  {
+    return new Zc(paramInt);
+  }
+  
+  @c("java.io.ObjectInputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    d = new Oc();
+    e = fe.b();
+    f = fe.b();
+    int n = paramObjectInputStream.readInt();
+    int m = 0;
+    while (m < n)
+    {
+      put(paramObjectInputStream.readObject(), paramObjectInputStream.readObject());
+      m += 1;
+    }
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeInt(size());
+    Iterator localIterator = entries().iterator();
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      paramObjectOutputStream.writeObject(localEntry.getKey());
+      paramObjectOutputStream.writeObject(localEntry.getValue());
+    }
+  }
+  
+  public static <K, V> Zc<K, V> b(ve<? extends K, ? extends V> paramVe)
+  {
+    return new Zc(paramVe);
+  }
+  
+  public static <K, V> Map.Entry<K, V> b(c<K, V> paramC)
+  {
+    return new Tc(paramC);
+  }
+  
+  public static void b(@h Object paramObject)
+  {
+    if (paramObject != null) {
+      return;
+    }
+    throw new NoSuchElementException();
+  }
+  
+  public static <K, V> Zc<K, V> c()
+  {
+    return new Zc();
+  }
+  
+  private List<V> c(@h Object paramObject)
+  {
+    return Collections.unmodifiableList(fd.a(new e(paramObject)));
+  }
+  
+  private void c(c<K, V> paramC)
+  {
+    c localC = d;
+    if (localC != null) {
+      c = c;
+    } else {
+      b = c;
+    }
+    localC = c;
+    if (localC != null) {
+      d = d;
+    } else {
+      c = d;
+    }
+    localC = f;
+    if (localC != null)
+    {
+      e = e;
+    }
+    else
+    {
+      localC = e;
+      if (localC != null) {
+        e.put(a, localC);
+      } else {
+        e.remove(a);
+      }
+    }
+    localC = e;
+    if (localC != null)
+    {
+      f = f;
+    }
+    else
+    {
+      localC = f;
+      if (localC != null) {
+        f.put(a, localC);
+      } else {
+        f.remove(a);
+      }
+    }
+    d.remove(a);
+  }
+  
+  private void e(@h Object paramObject)
+  {
+    paramObject = new e(paramObject);
+    while (paramObject.hasNext())
+    {
+      paramObject.next();
+      paramObject.remove();
+    }
+  }
+  
+  public Map<K, Collection<V>> a()
+  {
+    Map localMap = k;
+    Object localObject = localMap;
+    if (localMap == null)
+    {
+      localObject = new Yc(this);
+      k = ((Map)localObject);
+    }
+    return localObject;
+  }
+  
+  public boolean a(ve<? extends K, ? extends V> paramVe)
+  {
+    paramVe = paramVe.entries().iterator();
+    boolean bool = false;
+    while (paramVe.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramVe.next();
+      bool |= put(localEntry.getKey(), localEntry.getValue());
+    }
+    return bool;
+  }
+  
+  public boolean a(@h K paramK, Iterable<? extends V> paramIterable)
+  {
+    paramIterable = paramIterable.iterator();
+    boolean bool = false;
+    while (paramIterable.hasNext()) {
+      bool |= put(paramK, paramIterable.next());
+    }
+    return bool;
+  }
+  
+  public Ye<K> b()
+  {
+    Ye localYe = h;
+    Object localObject = localYe;
+    if (localYe == null)
+    {
+      localObject = new b(null);
+      h = ((Ye)localObject);
+    }
+    return localObject;
+  }
+  
+  public List<V> b(@h K paramK, Iterable<? extends V> paramIterable)
+  {
+    List localList = c(paramK);
+    paramK = new e(paramK);
+    paramIterable = paramIterable.iterator();
+    while ((paramK.hasNext()) && (paramIterable.hasNext()))
+    {
+      paramK.next();
+      paramK.set(paramIterable.next());
+    }
+    while (paramK.hasNext())
+    {
+      paramK.next();
+      paramK.remove();
+    }
+    while (paramIterable.hasNext()) {
+      paramK.add(paramIterable.next());
+    }
+    return localList;
+  }
+  
+  public boolean b(@h Object paramObject1, @h Object paramObject2)
+  {
+    paramObject1 = new e(paramObject1);
+    while (paramObject1.hasNext()) {
+      if (U.a(paramObject1.next(), paramObject2)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public void clear()
+  {
+    b = null;
+    c = null;
+    d.clear();
+    e.clear();
+    f.clear();
+  }
+  
+  public boolean containsKey(@h Object paramObject)
+  {
+    return e.containsKey(paramObject);
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    d localD = new d();
+    while (localD.hasNext()) {
+      if (U.a(nextb, paramObject)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public List<V> d(@h Object paramObject)
+  {
+    List localList = c(paramObject);
+    e(paramObject);
+    return localList;
+  }
+  
+  public List<Map.Entry<K, V>> entries()
+  {
+    List localList = j;
+    Object localObject = localList;
+    if (localList == null)
+    {
+      localObject = new Vc(this);
+      j = ((List)localObject);
+    }
+    return localObject;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof ve))
+    {
+      paramObject = (ve)paramObject;
+      return a().equals(paramObject.a());
+    }
+    return false;
+  }
+  
+  public List<V> get(@h K paramK)
+  {
+    return new Pc(this, paramK);
+  }
+  
+  public int hashCode()
+  {
+    return a().hashCode();
+  }
+  
+  public boolean isEmpty()
+  {
+    return b == null;
+  }
+  
+  public Set<K> keySet()
+  {
+    Set localSet = g;
+    Object localObject = localSet;
+    if (localSet == null)
+    {
+      localObject = new Qc(this);
+      g = ((Set)localObject);
+    }
+    return localObject;
+  }
+  
+  public boolean put(@h K paramK, @h V paramV)
+  {
+    a(paramK, paramV, null);
+    return true;
+  }
+  
+  public boolean remove(@h Object paramObject1, @h Object paramObject2)
+  {
+    paramObject1 = new e(paramObject1);
+    while (paramObject1.hasNext()) {
+      if (U.a(paramObject1.next(), paramObject2))
+      {
+        paramObject1.remove();
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public int size()
+  {
+    return d.size();
+  }
+  
+  public String toString()
+  {
+    return a().toString();
+  }
+  
+  public List<V> values()
+  {
+    List localList = i;
+    Object localObject = localList;
+    if (localList == null)
+    {
+      localObject = new Sc(this);
+      i = ((List)localObject);
+    }
+    return localObject;
+  }
+  
+  private class a
+    implements Iterator<K>
+  {
+    public final Set<K> a = gg.a(keySet().size());
+    public Zc.c<K, V> b = b;
+    public Zc.c<K, V> c;
+    
+    public a() {}
+    
+    public boolean hasNext()
+    {
+      return b != null;
+    }
+    
+    public K next()
+    {
+      Zc.b(b);
+      c = b;
+      a.add(c.a);
+      Zc.c localC;
+      do
+      {
+        b = b.c;
+        localC = b;
+      } while ((localC != null) && (!a.add(a)));
+      return c.a;
+    }
+    
+    public void remove()
+    {
+      boolean bool;
+      if (c != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool);
+      Zc.a(Zc.this, c.a);
+      c = null;
+    }
+  }
+  
+  private class b
+    extends t<K>
+  {
+    public b() {}
+    
+    public int a(Object paramObject)
+    {
+      return d.a(paramObject);
+    }
+    
+    public int b(@h Object paramObject, int paramInt)
+    {
+      boolean bool;
+      if (paramInt >= 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool);
+      int i = a(paramObject);
+      paramObject = new Zc.e(Zc.this, paramObject);
+      while ((paramInt > 0) && (paramObject.hasNext()))
+      {
+        paramObject.next();
+        paramObject.remove();
+        paramInt -= 1;
+      }
+      return i;
+    }
+    
+    public int c()
+    {
+      return u().size();
+    }
+    
+    public Iterator<Ye.a<K>> d()
+    {
+      return new ad(this, new Zc.a(Zc.this));
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      return d.equals(paramObject);
+    }
+    
+    public int hashCode()
+    {
+      return d.hashCode();
+    }
+    
+    public Iterator<K> iterator()
+    {
+      return new bd(this, new Zc.d(Zc.this));
+    }
+    
+    public int size()
+    {
+      return d.size();
+    }
+    
+    public String toString()
+    {
+      return d.toString();
+    }
+    
+    public Set<K> u()
+    {
+      return keySet();
+    }
+  }
+  
+  private static final class c<K, V>
+  {
+    public final K a;
+    public V b;
+    public c<K, V> c;
+    public c<K, V> d;
+    public c<K, V> e;
+    public c<K, V> f;
+    
+    public c(@h K paramK, @h V paramV)
+    {
+      a = paramK;
+      b = paramV;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(a);
+      localStringBuilder.append("=");
+      localStringBuilder.append(b);
+      return localStringBuilder.toString();
+    }
+  }
+  
+  private class d
+    implements ListIterator<Zc.c<K, V>>
+  {
+    public int a;
+    public Zc.c<K, V> b;
+    public Zc.c<K, V> c;
+    public Zc.c<K, V> d;
+    
+    public d()
+    {
+      b = b;
+    }
+    
+    public d(int paramInt)
+    {
+      int i = size();
+      ba.d(paramInt, i, "index");
+      if (paramInt >= i / 2)
+      {
+        d = c;
+        a = i;
+        while (paramInt < i)
+        {
+          previous();
+          paramInt += 1;
+        }
+      }
+      b = b;
+      while (paramInt > 0)
+      {
+        next();
+        paramInt -= 1;
+      }
+      c = null;
+    }
+    
+    public void a(Zc.c<K, V> paramC)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(V paramV)
+    {
+      boolean bool;
+      if (c != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool);
+      c.b = paramV;
+    }
+    
+    public void b(Zc.c<K, V> paramC)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean hasNext()
+    {
+      return b != null;
+    }
+    
+    public boolean hasPrevious()
+    {
+      return d != null;
+    }
+    
+    public Zc.c<K, V> next()
+    {
+      Zc.b(b);
+      Zc.c localC = b;
+      c = localC;
+      d = localC;
+      b = c;
+      a += 1;
+      return c;
+    }
+    
+    public int nextIndex()
+    {
+      return a;
+    }
+    
+    public Zc.c<K, V> previous()
+    {
+      Zc.b(d);
+      Zc.c localC = d;
+      c = localC;
+      b = localC;
+      d = d;
+      a -= 1;
+      return c;
+    }
+    
+    public int previousIndex()
+    {
+      return a - 1;
+    }
+    
+    public void remove()
+    {
+      boolean bool;
+      if (c != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool);
+      Zc.c localC = c;
+      if (localC != b)
+      {
+        d = d;
+        a -= 1;
+      }
+      else
+      {
+        b = c;
+      }
+      Zc.a(Zc.this, c);
+      c = null;
+    }
+  }
+  
+  private class e
+    implements ListIterator<V>
+  {
+    public final Object a;
+    public int b;
+    public Zc.c<K, V> c;
+    public Zc.c<K, V> d;
+    public Zc.c<K, V> e;
+    
+    public e(Object paramObject)
+    {
+      a = paramObject;
+      c = ((Zc.c)e.get(paramObject));
+    }
+    
+    public e(Object paramObject, int paramInt)
+    {
+      int i = d.a(paramObject);
+      ba.d(paramInt, i, "index");
+      if (paramInt >= i / 2)
+      {
+        e = ((Zc.c)f.get(paramObject));
+        b = i;
+        while (paramInt < i)
+        {
+          previous();
+          paramInt += 1;
+        }
+      }
+      c = ((Zc.c)e.get(paramObject));
+      while (paramInt > 0)
+      {
+        next();
+        paramInt -= 1;
+      }
+      a = paramObject;
+      d = null;
+    }
+    
+    public void add(V paramV)
+    {
+      e = Zc.a(Zc.this, a, paramV, c);
+      b += 1;
+      d = null;
+    }
+    
+    public boolean hasNext()
+    {
+      return c != null;
+    }
+    
+    public boolean hasPrevious()
+    {
+      return e != null;
+    }
+    
+    public V next()
+    {
+      Zc.b(c);
+      Zc.c localC = c;
+      d = localC;
+      e = localC;
+      c = e;
+      b += 1;
+      return d.b;
+    }
+    
+    public int nextIndex()
+    {
+      return b;
+    }
+    
+    public V previous()
+    {
+      Zc.b(e);
+      Zc.c localC = e;
+      d = localC;
+      c = localC;
+      e = f;
+      b -= 1;
+      return d.b;
+    }
+    
+    public int previousIndex()
+    {
+      return b - 1;
+    }
+    
+    public void remove()
+    {
+      boolean bool;
+      if (d != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool);
+      Zc.c localC = d;
+      if (localC != c)
+      {
+        e = f;
+        b -= 1;
+      }
+      else
+      {
+        c = e;
+      }
+      Zc.a(Zc.this, d);
+      d = null;
+    }
+    
+    public void set(V paramV)
+    {
+      boolean bool;
+      if (d != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool);
+      d.b = paramV;
+    }
+  }
+}

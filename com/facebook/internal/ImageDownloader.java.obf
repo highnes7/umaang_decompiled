@@ -1,0 +1,544 @@
+package com.facebook.internal;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import java.io.Closeable;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ImageDownloader
+{
+  public static final int CACHE_READ_QUEUE_MAX_CONCURRENT = 2;
+  public static final int DOWNLOAD_QUEUE_MAX_CONCURRENT = 8;
+  public static WorkQueue cacheReadQueue = new WorkQueue(2);
+  public static WorkQueue downloadQueue = new WorkQueue(8);
+  public static Handler handler;
+  public static final Map<RequestKey, DownloaderContext> pendingRequests = new HashMap();
+  
+  public ImageDownloader() {}
+  
+  public static boolean cancelRequest(ImageRequest arg0)
+  {
+    RequestKey localRequestKey = new RequestKey(???.getImageUri(), ???.getCallerTag());
+    for (;;)
+    {
+      synchronized (pendingRequests)
+      {
+        DownloaderContext localDownloaderContext = (DownloaderContext)pendingRequests.get(localRequestKey);
+        bool = true;
+        if (localDownloaderContext != null)
+        {
+          if (workItem.cancel()) {
+            pendingRequests.remove(localRequestKey);
+          } else {
+            isCancelled = true;
+          }
+          return bool;
+        }
+      }
+      boolean bool = false;
+    }
+  }
+  
+  public static void clearCache(Context paramContext)
+  {
+    ImageResponseCache.clearCache(paramContext);
+    UrlRedirectCache.clearCache();
+  }
+  
+  /* Error */
+  public static void download(RequestKey paramRequestKey, Context paramContext)
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 6
+    //   3: aconst_null
+    //   4: astore 8
+    //   6: aconst_null
+    //   7: astore 5
+    //   9: iconst_1
+    //   10: istore_3
+    //   11: iconst_1
+    //   12: istore_2
+    //   13: new 113	java/net/URL
+    //   16: dup
+    //   17: aload_0
+    //   18: getfield 117	com/facebook/internal/ImageDownloader$RequestKey:uri	Landroid/net/Uri;
+    //   21: invokevirtual 123	android/net/Uri:toString	()Ljava/lang/String;
+    //   24: invokespecial 126	java/net/URL:<init>	(Ljava/lang/String;)V
+    //   27: invokevirtual 130	java/net/URL:openConnection	()Ljava/net/URLConnection;
+    //   30: checkcast 132	java/net/HttpURLConnection
+    //   33: astore 7
+    //   35: aload 7
+    //   37: iconst_0
+    //   38: invokevirtual 136	java/net/HttpURLConnection:setInstanceFollowRedirects	(Z)V
+    //   41: aload 7
+    //   43: invokevirtual 140	java/net/HttpURLConnection:getResponseCode	()I
+    //   46: istore 4
+    //   48: iload 4
+    //   50: sipush 200
+    //   53: if_icmpeq +238 -> 291
+    //   56: iload 4
+    //   58: sipush 301
+    //   61: if_icmpeq +142 -> 203
+    //   64: iload 4
+    //   66: sipush 302
+    //   69: if_icmpeq +134 -> 203
+    //   72: aload 7
+    //   74: invokevirtual 144	java/net/HttpURLConnection:getErrorStream	()Ljava/io/InputStream;
+    //   77: astore 5
+    //   79: new 146	java/lang/StringBuilder
+    //   82: dup
+    //   83: invokespecial 147	java/lang/StringBuilder:<init>	()V
+    //   86: astore 6
+    //   88: aload 5
+    //   90: ifnull +58 -> 148
+    //   93: new 149	java/io/InputStreamReader
+    //   96: dup
+    //   97: aload 5
+    //   99: invokespecial 152	java/io/InputStreamReader:<init>	(Ljava/io/InputStream;)V
+    //   102: astore_1
+    //   103: sipush 128
+    //   106: newarray char
+    //   108: astore 9
+    //   110: aload_1
+    //   111: aload 9
+    //   113: iconst_0
+    //   114: aload 9
+    //   116: arraylength
+    //   117: invokevirtual 156	java/io/InputStreamReader:read	([CII)I
+    //   120: istore 4
+    //   122: iload 4
+    //   124: ifle +17 -> 141
+    //   127: aload 6
+    //   129: aload 9
+    //   131: iconst_0
+    //   132: iload 4
+    //   134: invokevirtual 160	java/lang/StringBuilder:append	([CII)Ljava/lang/StringBuilder;
+    //   137: pop
+    //   138: goto -28 -> 110
+    //   141: aload_1
+    //   142: invokestatic 166	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   145: goto +16 -> 161
+    //   148: aload 6
+    //   150: aload_1
+    //   151: getstatic 171	com/facebook/R$string:com_facebook_image_download_unknown_error	I
+    //   154: invokevirtual 177	android/content/Context:getString	(I)Ljava/lang/String;
+    //   157: invokevirtual 180	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   160: pop
+    //   161: new 182	com/facebook/FacebookException
+    //   164: dup
+    //   165: aload 6
+    //   167: invokevirtual 183	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   170: invokespecial 184	com/facebook/FacebookException:<init>	(Ljava/lang/String;)V
+    //   173: astore_1
+    //   174: aload 5
+    //   176: astore 6
+    //   178: aconst_null
+    //   179: astore 8
+    //   181: aload_1
+    //   182: astore 5
+    //   184: aload 8
+    //   186: astore_1
+    //   187: goto +123 -> 310
+    //   190: astore_0
+    //   191: aload 5
+    //   193: astore_1
+    //   194: goto +169 -> 363
+    //   197: astore_1
+    //   198: iload_3
+    //   199: istore_2
+    //   200: goto +184 -> 384
+    //   203: aload 7
+    //   205: ldc -70
+    //   207: invokevirtual 190	java/net/HttpURLConnection:getHeaderField	(Ljava/lang/String;)Ljava/lang/String;
+    //   210: astore_1
+    //   211: aload_1
+    //   212: invokestatic 194	com/facebook/internal/Utility:isNullOrEmpty	(Ljava/lang/String;)Z
+    //   215: ifne +56 -> 271
+    //   218: aload_1
+    //   219: invokestatic 198	android/net/Uri:parse	(Ljava/lang/String;)Landroid/net/Uri;
+    //   222: astore_1
+    //   223: aload_0
+    //   224: getfield 117	com/facebook/internal/ImageDownloader$RequestKey:uri	Landroid/net/Uri;
+    //   227: aload_1
+    //   228: invokestatic 202	com/facebook/internal/UrlRedirectCache:cacheUriRedirect	(Landroid/net/Uri;Landroid/net/Uri;)V
+    //   231: aload_0
+    //   232: invokestatic 206	com/facebook/internal/ImageDownloader:removePendingRequest	(Lcom/facebook/internal/ImageDownloader$RequestKey;)Lcom/facebook/internal/ImageDownloader$DownloaderContext;
+    //   235: astore 9
+    //   237: aload 9
+    //   239: ifnull +32 -> 271
+    //   242: aload 9
+    //   244: getfield 99	com/facebook/internal/ImageDownloader$DownloaderContext:isCancelled	Z
+    //   247: ifne +24 -> 271
+    //   250: aload 9
+    //   252: getfield 210	com/facebook/internal/ImageDownloader$DownloaderContext:request	Lcom/facebook/internal/ImageRequest;
+    //   255: new 17	com/facebook/internal/ImageDownloader$RequestKey
+    //   258: dup
+    //   259: aload_1
+    //   260: aload_0
+    //   261: getfield 214	com/facebook/internal/ImageDownloader$RequestKey:tag	Ljava/lang/Object;
+    //   264: invokespecial 76	com/facebook/internal/ImageDownloader$RequestKey:<init>	(Landroid/net/Uri;Ljava/lang/Object;)V
+    //   267: iconst_0
+    //   268: invokestatic 218	com/facebook/internal/ImageDownloader:enqueueCacheRead	(Lcom/facebook/internal/ImageRequest;Lcom/facebook/internal/ImageDownloader$RequestKey;Z)V
+    //   271: aconst_null
+    //   272: astore 6
+    //   274: aload 6
+    //   276: astore_1
+    //   277: iconst_0
+    //   278: istore_2
+    //   279: goto +31 -> 310
+    //   282: astore_1
+    //   283: aconst_null
+    //   284: astore 5
+    //   286: iconst_0
+    //   287: istore_2
+    //   288: goto +96 -> 384
+    //   291: aload_1
+    //   292: aload 7
+    //   294: invokestatic 222	com/facebook/internal/ImageResponseCache:interceptAndCacheImageStream	(Landroid/content/Context;Ljava/net/HttpURLConnection;)Ljava/io/InputStream;
+    //   297: astore_1
+    //   298: aload_1
+    //   299: invokestatic 228	android/graphics/BitmapFactory:decodeStream	(Ljava/io/InputStream;)Landroid/graphics/Bitmap;
+    //   302: astore 9
+    //   304: aload_1
+    //   305: astore 6
+    //   307: aload 9
+    //   309: astore_1
+    //   310: aload 6
+    //   312: invokestatic 166	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   315: aload 7
+    //   317: invokestatic 232	com/facebook/internal/Utility:disconnectQuietly	(Ljava/net/URLConnection;)V
+    //   320: goto +80 -> 400
+    //   323: astore_0
+    //   324: goto +39 -> 363
+    //   327: astore 6
+    //   329: iload_3
+    //   330: istore_2
+    //   331: aload_1
+    //   332: astore 5
+    //   334: aload 6
+    //   336: astore_1
+    //   337: goto +47 -> 384
+    //   340: astore_0
+    //   341: aload 6
+    //   343: astore_1
+    //   344: goto +19 -> 363
+    //   347: astore_1
+    //   348: aconst_null
+    //   349: astore 5
+    //   351: iload_3
+    //   352: istore_2
+    //   353: goto +31 -> 384
+    //   356: astore_0
+    //   357: aconst_null
+    //   358: astore 7
+    //   360: aload 6
+    //   362: astore_1
+    //   363: aload_1
+    //   364: invokestatic 166	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   367: aload 7
+    //   369: invokestatic 232	com/facebook/internal/Utility:disconnectQuietly	(Ljava/net/URLConnection;)V
+    //   372: aload_0
+    //   373: athrow
+    //   374: astore_1
+    //   375: aconst_null
+    //   376: astore 7
+    //   378: aload 7
+    //   380: astore 5
+    //   382: iload_3
+    //   383: istore_2
+    //   384: aload 5
+    //   386: invokestatic 166	com/facebook/internal/Utility:closeQuietly	(Ljava/io/Closeable;)V
+    //   389: aload 7
+    //   391: invokestatic 232	com/facebook/internal/Utility:disconnectQuietly	(Ljava/net/URLConnection;)V
+    //   394: aload_1
+    //   395: astore 5
+    //   397: aload 8
+    //   399: astore_1
+    //   400: iload_2
+    //   401: ifeq +11 -> 412
+    //   404: aload_0
+    //   405: aload 5
+    //   407: aload_1
+    //   408: iconst_0
+    //   409: invokestatic 236	com/facebook/internal/ImageDownloader:issueResponse	(Lcom/facebook/internal/ImageDownloader$RequestKey;Ljava/lang/Exception;Landroid/graphics/Bitmap;Z)V
+    //   412: return
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	413	0	paramRequestKey	RequestKey
+    //   0	413	1	paramContext	Context
+    //   12	389	2	i	int
+    //   10	373	3	j	int
+    //   46	87	4	k	int
+    //   7	399	5	localObject1	Object
+    //   1	310	6	localObject2	Object
+    //   327	34	6	localIOException	java.io.IOException
+    //   33	357	7	localHttpURLConnection	java.net.HttpURLConnection
+    //   4	394	8	localObject3	Object
+    //   108	200	9	localObject4	Object
+    // Exception table:
+    //   from	to	target	type
+    //   79	88	190	finally
+    //   93	110	190	finally
+    //   110	122	190	finally
+    //   127	138	190	finally
+    //   141	145	190	finally
+    //   148	161	190	finally
+    //   161	174	190	finally
+    //   79	88	197	java/io/IOException
+    //   93	110	197	java/io/IOException
+    //   110	122	197	java/io/IOException
+    //   127	138	197	java/io/IOException
+    //   141	145	197	java/io/IOException
+    //   148	161	197	java/io/IOException
+    //   161	174	197	java/io/IOException
+    //   203	237	282	java/io/IOException
+    //   242	271	282	java/io/IOException
+    //   298	304	323	finally
+    //   298	304	327	java/io/IOException
+    //   35	48	340	finally
+    //   72	79	340	finally
+    //   203	237	340	finally
+    //   242	271	340	finally
+    //   291	298	340	finally
+    //   35	48	347	java/io/IOException
+    //   72	79	347	java/io/IOException
+    //   291	298	347	java/io/IOException
+    //   13	35	356	finally
+    //   13	35	374	java/io/IOException
+  }
+  
+  public static void downloadAsync(ImageRequest paramImageRequest)
+  {
+    if (paramImageRequest == null) {
+      return;
+    }
+    RequestKey localRequestKey = new RequestKey(paramImageRequest.getImageUri(), paramImageRequest.getCallerTag());
+    synchronized (pendingRequests)
+    {
+      DownloaderContext localDownloaderContext = (DownloaderContext)pendingRequests.get(localRequestKey);
+      if (localDownloaderContext != null)
+      {
+        request = paramImageRequest;
+        isCancelled = false;
+        workItem.moveToFront();
+      }
+      else
+      {
+        enqueueCacheRead(paramImageRequest, localRequestKey, paramImageRequest.isCachedRedirectAllowed());
+      }
+      return;
+    }
+  }
+  
+  public static void enqueueCacheRead(ImageRequest paramImageRequest, RequestKey paramRequestKey, boolean paramBoolean)
+  {
+    enqueueRequest(paramImageRequest, paramRequestKey, cacheReadQueue, new CacheReadWorkItem(paramImageRequest.getContext(), paramRequestKey, paramBoolean));
+  }
+  
+  public static void enqueueDownload(ImageRequest paramImageRequest, RequestKey paramRequestKey)
+  {
+    enqueueRequest(paramImageRequest, paramRequestKey, downloadQueue, new DownloadImageWorkItem(paramImageRequest.getContext(), paramRequestKey));
+  }
+  
+  public static void enqueueRequest(ImageRequest paramImageRequest, RequestKey paramRequestKey, WorkQueue paramWorkQueue, Runnable paramRunnable)
+  {
+    synchronized (pendingRequests)
+    {
+      DownloaderContext localDownloaderContext = new DownloaderContext(null);
+      request = paramImageRequest;
+      pendingRequests.put(paramRequestKey, localDownloaderContext);
+      workItem = paramWorkQueue.addActiveWorkItem(paramRunnable);
+      return;
+    }
+  }
+  
+  public static Handler getHandler()
+  {
+    try
+    {
+      if (handler == null) {
+        handler = new Handler(Looper.getMainLooper());
+      }
+      Handler localHandler = handler;
+      return localHandler;
+    }
+    finally {}
+  }
+  
+  public static void issueResponse(RequestKey paramRequestKey, final Exception paramException, final Bitmap paramBitmap, final boolean paramBoolean)
+  {
+    paramRequestKey = removePendingRequest(paramRequestKey);
+    if ((paramRequestKey != null) && (!isCancelled))
+    {
+      paramRequestKey = request;
+      final ImageRequest.Callback localCallback = paramRequestKey.getCallback();
+      if (localCallback != null) {
+        getHandler().post(new Runnable()
+        {
+          public void run()
+          {
+            ImageResponse localImageResponse = new ImageResponse(val$request, paramException, paramBoolean, paramBitmap);
+            localCallback.onCompleted(localImageResponse);
+          }
+        });
+      }
+    }
+  }
+  
+  public static void prioritizeRequest(ImageRequest arg0)
+  {
+    Object localObject1 = new RequestKey(???.getImageUri(), ???.getCallerTag());
+    synchronized (pendingRequests)
+    {
+      localObject1 = (DownloaderContext)pendingRequests.get(localObject1);
+      if (localObject1 != null) {
+        workItem.moveToFront();
+      }
+      return;
+    }
+  }
+  
+  public static void readFromCache(RequestKey paramRequestKey, Context paramContext, boolean paramBoolean)
+  {
+    boolean bool = false;
+    if (paramBoolean)
+    {
+      localObject = UrlRedirectCache.getRedirectedUri(uri);
+      if (localObject != null)
+      {
+        InputStream localInputStream = ImageResponseCache.getCachedImageStream((Uri)localObject, paramContext);
+        paramBoolean = bool;
+        localObject = localInputStream;
+        if (localInputStream == null) {
+          break label53;
+        }
+        paramBoolean = true;
+        localObject = localInputStream;
+        break label53;
+      }
+    }
+    Object localObject = null;
+    paramBoolean = bool;
+    label53:
+    if (!paramBoolean) {
+      localObject = ImageResponseCache.getCachedImageStream(uri, paramContext);
+    }
+    if (localObject != null)
+    {
+      paramContext = BitmapFactory.decodeStream((InputStream)localObject);
+      Utility.closeQuietly((Closeable)localObject);
+      issueResponse(paramRequestKey, null, paramContext, paramBoolean);
+      return;
+    }
+    paramContext = removePendingRequest(paramRequestKey);
+    if ((paramContext != null) && (!isCancelled)) {
+      enqueueDownload(request, paramRequestKey);
+    }
+  }
+  
+  public static DownloaderContext removePendingRequest(RequestKey paramRequestKey)
+  {
+    synchronized (pendingRequests)
+    {
+      paramRequestKey = (DownloaderContext)pendingRequests.remove(paramRequestKey);
+      return paramRequestKey;
+    }
+  }
+  
+  private static class CacheReadWorkItem
+    implements Runnable
+  {
+    public boolean allowCachedRedirects;
+    public Context context;
+    public ImageDownloader.RequestKey key;
+    
+    public CacheReadWorkItem(Context paramContext, ImageDownloader.RequestKey paramRequestKey, boolean paramBoolean)
+    {
+      context = paramContext;
+      key = paramRequestKey;
+      allowCachedRedirects = paramBoolean;
+    }
+    
+    public void run()
+    {
+      ImageDownloader.readFromCache(key, context, allowCachedRedirects);
+    }
+  }
+  
+  private static class DownloadImageWorkItem
+    implements Runnable
+  {
+    public Context context;
+    public ImageDownloader.RequestKey key;
+    
+    public DownloadImageWorkItem(Context paramContext, ImageDownloader.RequestKey paramRequestKey)
+    {
+      context = paramContext;
+      key = paramRequestKey;
+    }
+    
+    public void run()
+    {
+      ImageDownloader.download(key, context);
+    }
+  }
+  
+  private static class DownloaderContext
+  {
+    public boolean isCancelled;
+    public ImageRequest request;
+    public WorkQueue.WorkItem workItem;
+    
+    public DownloaderContext() {}
+  }
+  
+  private static class RequestKey
+  {
+    public static final int HASH_MULTIPLIER = 37;
+    public static final int HASH_SEED = 29;
+    public Object tag;
+    public Uri uri;
+    
+    public RequestKey(Uri paramUri, Object paramObject)
+    {
+      uri = paramUri;
+      tag = paramObject;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (paramObject != null)
+      {
+        bool1 = bool2;
+        if ((paramObject instanceof RequestKey))
+        {
+          paramObject = (RequestKey)paramObject;
+          bool1 = bool2;
+          if (uri == uri)
+          {
+            bool1 = bool2;
+            if (tag == tag) {
+              bool1 = true;
+            }
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      int i = uri.hashCode();
+      return tag.hashCode() + (i + 1073) * 37;
+    }
+  }
+}

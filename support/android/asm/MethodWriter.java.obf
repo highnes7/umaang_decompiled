@@ -1,0 +1,46 @@
+package b.b.v;
+
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.a.K;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@K(18)
+public class ra
+{
+  public static final String a = "ViewUtilsApi18";
+  public static Method b;
+  public static boolean c;
+  
+  public ra() {}
+  
+  public static void a()
+  {
+    if (!c) {}
+    try
+    {
+      b = ViewGroup.class.getDeclaredMethod("suppressLayout", new Class[] { Boolean.TYPE });
+      b.setAccessible(true);
+      c = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public static void a(@F ViewGroup paramViewGroup, boolean paramBoolean)
+  {
+    a();
+    Method localMethod = b;
+    if (localMethod != null) {}
+    try
+    {
+      localMethod.invoke(paramViewGroup, new Object[] { Boolean.valueOf(paramBoolean) });
+      return;
+    }
+    catch (IllegalAccessException|InvocationTargetException paramViewGroup) {}
+  }
+}

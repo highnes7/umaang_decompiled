@@ -1,0 +1,48 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Looper;
+import b.b.a.G;
+import com.google.android.gms.auth.api.Auth.AuthCredentialsOptions;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.internal.zzaa;
+import com.google.android.gms.common.internal.zzq;
+
+public final class zzasp
+  extends zzaa<zzasu>
+{
+  @G
+  public final Auth.AuthCredentialsOptions zzebl;
+  
+  public zzasp(Context paramContext, Looper paramLooper, zzq paramZzq, Auth.AuthCredentialsOptions paramAuthCredentialsOptions, GoogleApiClient.ConnectionCallbacks paramConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener paramOnConnectionFailedListener)
+  {
+    super(paramContext, paramLooper, 68, paramZzq, paramConnectionCallbacks, paramOnConnectionFailedListener);
+    zzebl = paramAuthCredentialsOptions;
+  }
+  
+  public final Auth.AuthCredentialsOptions zzaab()
+  {
+    return zzebl;
+  }
+  
+  public final String zzhc()
+  {
+    return "com.google.android.gms.auth.api.credentials.service.START";
+  }
+  
+  public final String zzhd()
+  {
+    return "com.google.android.gms.auth.api.credentials.internal.ICredentialsService";
+  }
+  
+  public final Bundle zzzu()
+  {
+    Auth.AuthCredentialsOptions localAuthCredentialsOptions = zzebl;
+    if (localAuthCredentialsOptions == null) {
+      return new Bundle();
+    }
+    return localAuthCredentialsOptions.zzzu();
+  }
+}

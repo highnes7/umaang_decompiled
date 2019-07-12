@@ -1,0 +1,209 @@
+package b.b.x.o;
+
+import android.content.Context;
+import android.os.Handler;
+import android.os.Handler.Callback;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.A;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.V;
+import b.b.x.n.r.c;
+import java.util.concurrent.ArrayBlockingQueue;
+
+public final class e
+{
+  public static final String a = "AsyncLayoutInflater";
+  public LayoutInflater b;
+  public Handler c;
+  public c d;
+  public Handler.Callback e = new d(this);
+  
+  public e(@F Context paramContext)
+  {
+    b = new a(paramContext);
+    c = new Handler(e);
+    d = c.a;
+  }
+  
+  @V
+  public void a(@A int paramInt, @G ViewGroup paramViewGroup, @F d paramD)
+  {
+    if (paramD != null)
+    {
+      b localB = d.b();
+      a = this;
+      c = paramInt;
+      b = paramViewGroup;
+      e = paramD;
+      d.a(localB);
+      return;
+    }
+    throw new NullPointerException("callback argument may not be null!");
+  }
+  
+  private static class a
+    extends LayoutInflater
+  {
+    public static final String[] a = { "android.widget.", "android.webkit.", "android.app." };
+    
+    public a(Context paramContext)
+    {
+      super();
+    }
+    
+    public LayoutInflater cloneInContext(Context paramContext)
+    {
+      return new a(paramContext);
+    }
+    
+    public View onCreateView(String paramString, AttributeSet paramAttributeSet)
+      throws ClassNotFoundException
+    {
+      String[] arrayOfString = a;
+      int j = arrayOfString.length;
+      int i = 0;
+      while (i < j)
+      {
+        Object localObject = arrayOfString[i];
+        try
+        {
+          localObject = createView(paramString, (String)localObject, paramAttributeSet);
+          if (localObject != null) {
+            return localObject;
+          }
+        }
+        catch (ClassNotFoundException localClassNotFoundException)
+        {
+          for (;;) {}
+        }
+        i += 1;
+      }
+      return super.onCreateView(paramString, paramAttributeSet);
+    }
+  }
+  
+  private static class b
+  {
+    public e a;
+    public ViewGroup b;
+    public int c;
+    public View d;
+    public e.d e;
+    
+    public b() {}
+  }
+  
+  private static class c
+    extends Thread
+  {
+    public static final c a = new c();
+    public ArrayBlockingQueue<e.b> b = new ArrayBlockingQueue(10);
+    public r.c<e.b> c = new r.c(10);
+    
+    static
+    {
+      a.start();
+    }
+    
+    public c() {}
+    
+    public static c a()
+    {
+      return a;
+    }
+    
+    public void a(e.b paramB)
+    {
+      try
+      {
+        b.put(paramB);
+        return;
+      }
+      catch (InterruptedException paramB)
+      {
+        throw new RuntimeException("Failed to enqueue async inflate request", paramB);
+      }
+    }
+    
+    public e.b b()
+    {
+      e.b localB2 = (e.b)c.a();
+      e.b localB1 = localB2;
+      if (localB2 == null) {
+        localB1 = new e.b();
+      }
+      return localB1;
+    }
+    
+    public void b(e.b paramB)
+    {
+      e = null;
+      a = null;
+      b = null;
+      c = 0;
+      d = null;
+      c.a(paramB);
+    }
+    
+    /* Error */
+    public void c()
+    {
+      // Byte code:
+      //   0: aload_0
+      //   1: getfield 33	b/b/x/o/e$c:b	Ljava/util/concurrent/ArrayBlockingQueue;
+      //   4: invokevirtual 83	java/util/concurrent/ArrayBlockingQueue:take	()Ljava/lang/Object;
+      //   7: checkcast 59	b/b/x/o/e$b
+      //   10: astore_1
+      //   11: aload_1
+      //   12: aload_1
+      //   13: getfield 67	b/b/x/o/e$b:a	Lb/b/x/o/e;
+      //   16: getfield 86	b/b/x/o/e:b	Landroid/view/LayoutInflater;
+      //   19: aload_1
+      //   20: getfield 73	b/b/x/o/e$b:c	I
+      //   23: aload_1
+      //   24: getfield 70	b/b/x/o/e$b:b	Landroid/view/ViewGroup;
+      //   27: iconst_0
+      //   28: invokevirtual 92	android/view/LayoutInflater:inflate	(ILandroid/view/ViewGroup;Z)Landroid/view/View;
+      //   31: putfield 77	b/b/x/o/e$b:d	Landroid/view/View;
+      //   34: aload_1
+      //   35: getfield 67	b/b/x/o/e$b:a	Lb/b/x/o/e;
+      //   38: getfield 95	b/b/x/o/e:c	Landroid/os/Handler;
+      //   41: iconst_0
+      //   42: aload_1
+      //   43: invokestatic 101	android/os/Message:obtain	(Landroid/os/Handler;ILjava/lang/Object;)Landroid/os/Message;
+      //   46: invokevirtual 104	android/os/Message:sendToTarget	()V
+      //   49: return
+      //   50: astore_1
+      //   51: return
+      //   52: astore_2
+      //   53: goto -19 -> 34
+      // Local variable table:
+      //   start	length	slot	name	signature
+      //   0	56	0	this	c
+      //   10	33	1	localB	e.b
+      //   50	1	1	localInterruptedException	InterruptedException
+      //   52	1	2	localRuntimeException	RuntimeException
+      // Exception table:
+      //   from	to	target	type
+      //   0	11	50	java/lang/InterruptedException
+      //   11	34	52	java/lang/RuntimeException
+    }
+    
+    public void run()
+    {
+      for (;;)
+      {
+        c();
+      }
+    }
+  }
+  
+  public static abstract interface d
+  {
+    public abstract void a(@F View paramView, @A int paramInt, @G ViewGroup paramViewGroup);
+  }
+}

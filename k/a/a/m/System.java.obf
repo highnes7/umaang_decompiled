@@ -1,0 +1,1016 @@
+package k.a.a.m;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.widget.TextView;
+import b.b.a.F;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.Builder;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import e.a.a.i;
+import f.u.a.a.a.n;
+import f.u.a.a.a.y;
+import f.u.a.a.c;
+import in.spicedigital.umang.activities.InfoHomeScreen;
+import java.util.Locale;
+import k.a.a.c.W;
+import k.a.a.c.X;
+import k.a.a.l.h;
+import k.a.a.l.r;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.yaxim.androidclient.data.ChatProvider;
+
+public class Wa
+  implements GoogleApiClient.OnConnectionFailedListener
+{
+  public String a = "UserProfileHandler";
+  public Context b;
+  public V c;
+  public i d;
+  
+  public Wa(Context paramContext)
+  {
+    b = paramContext;
+    c = new V(b);
+  }
+  
+  public static void a(Context paramContext)
+  {
+    try
+    {
+      if (Build.VERSION.SDK_INT >= 22)
+      {
+        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().flush();
+        return;
+      }
+      paramContext = CookieSyncManager.createInstance(paramContext);
+      paramContext.startSync();
+      CookieManager localCookieManager = CookieManager.getInstance();
+      localCookieManager.removeAllCookie();
+      localCookieManager.removeSessionCookie();
+      paramContext.stopSync();
+      paramContext.sync();
+      return;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  private void c(Context paramContext)
+  {
+    try
+    {
+      FacebookSdk.sdkInitialize(paramContext.getApplicationContext());
+      LoginManager.getInstance().logOut();
+      return;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  private void d(Context paramContext)
+  {
+    try
+    {
+      GoogleSignInOptions localGoogleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile().build();
+      paramContext = new GoogleApiClient.Builder(paramContext).enableAutoManage((AppCompatActivity)paramContext, this).addApi(Auth.GOOGLE_SIGN_IN_API, localGoogleSignInOptions).build();
+      paramContext.registerConnectionCallbacks(new Ua(this, paramContext));
+      return;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  private String m(String paramString)
+  {
+    try
+    {
+      JSONArray localJSONArray = new JSONObject(c.a(V.Za, "")).getJSONArray("occuList");
+      int i = 0;
+      while (i < localJSONArray.length())
+      {
+        JSONObject localJSONObject = localJSONArray.getJSONObject(i);
+        if (paramString.equalsIgnoreCase(localJSONObject.getString("occuId")))
+        {
+          paramString = localJSONObject.getString("occuName");
+          return paramString;
+        }
+        i += 1;
+      }
+      return "";
+    }
+    catch (Exception paramString) {}
+    return "";
+  }
+  
+  private String n(String paramString)
+  {
+    try
+    {
+      JSONArray localJSONArray = new JSONObject(c.a(V.Za, "")).getJSONArray("qualList");
+      int i = 0;
+      while (i < localJSONArray.length())
+      {
+        JSONObject localJSONObject = localJSONArray.getJSONObject(i);
+        if (paramString.equalsIgnoreCase(localJSONObject.getString("qualId")))
+        {
+          paramString = localJSONObject.getString("qualName");
+          return paramString;
+        }
+        i += 1;
+      }
+      return "";
+    }
+    catch (Exception paramString) {}
+    return "";
+  }
+  
+  private String o(String paramString)
+  {
+    Object localObject = a;
+    f.a.a.a.a.f("State Name index for ", paramString);
+    try
+    {
+      localObject = new JSONObject(c.a(V.Za, "")).getJSONArray("statesList");
+      int i = 0;
+      while (i < ((JSONArray)localObject).length())
+      {
+        JSONObject localJSONObject = ((JSONArray)localObject).getJSONObject(i);
+        if (paramString.equalsIgnoreCase(localJSONObject.getString("stateId")))
+        {
+          paramString = localJSONObject.getString("stateName");
+          return paramString;
+        }
+        i += 1;
+      }
+      return "";
+    }
+    catch (Exception paramString) {}
+    return "";
+  }
+  
+  private int p(String paramString)
+  {
+    String[] arrayOfString = b.getResources().getStringArray(2130903046);
+    int i = 0;
+    while (i < arrayOfString.length)
+    {
+      if (arrayOfString[i].equalsIgnoreCase(paramString.trim())) {
+        return i;
+      }
+      i += 1;
+    }
+    return -1;
+  }
+  
+  private int q(String paramString)
+  {
+    Object localObject = a;
+    f.a.a.a.a.f("State index for ", paramString);
+    localObject = b.getResources().getStringArray(2130903065);
+    int i = 0;
+    while (i < localObject.length)
+    {
+      if (localObject[i].equalsIgnoreCase(paramString.trim())) {
+        return i;
+      }
+      i += 1;
+    }
+    return -1;
+  }
+  
+  private void s()
+  {
+    Object localObject1 = a;
+    localObject1 = c.a(V.Ob, "");
+    Object localObject3 = null;
+    try
+    {
+      JSONObject localJSONObject2 = new JSONObject((String)localObject1);
+      localObject1 = localObject3;
+      if (localJSONObject2.optJSONObject("epfoData") != null)
+      {
+        JSONObject localJSONObject1 = new JSONObject();
+        Object localObject4 = b.getResources().getConfiguration().locale.toString();
+        localObject1 = "en";
+        if (((String)localObject4).contains("GB")) {
+          localObject1 = ((String)localObject4).substring(0, ((String)localObject4).length() - 3);
+        }
+        localObject1 = c.a(V.c, (String)localObject1);
+        localObject4 = new StringBuilder();
+        ((StringBuilder)localObject4).append("");
+        ((StringBuilder)localObject4).append(System.currentTimeMillis());
+        localJSONObject1.put("trkr", ((StringBuilder)localObject4).toString());
+        localJSONObject1.put("tkn", c.a(V.ma, ""));
+        localJSONObject1.put("lac", Ea.m(b));
+        localJSONObject1.put("lat", "");
+        localJSONObject1.put("lon", "");
+        localJSONObject1.put("lang", localObject1);
+        localJSONObject1.put("lac", Ea.m(b));
+        localJSONObject1.put("usag", "12");
+        localJSONObject1.put("usrid", "12");
+        localJSONObject1.put("pltfrm", "app");
+        localJSONObject1.put("srvid", "12");
+        localJSONObject1.put("mode", "android");
+        localJSONObject1.put("uan", localJSONObject2.optJSONObject("epfoData").optJSONObject("value").optString("uid"));
+        localObject1 = localJSONObject1;
+      }
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localObject2 = localObject3;
+    }
+    if (localObject2 != null)
+    {
+      new h(new Sa(this), "https://app.umang.gov.in/umang/depttapi/epfoApi/ws1/flogout", (JSONObject)localObject2, b).execute(new Object[0]);
+      return;
+    }
+    Object localObject2 = a;
+  }
+  
+  private void t()
+  {
+    Object localObject1 = a;
+    localObject1 = c.a(V.Ob, "");
+    Object localObject3 = null;
+    try
+    {
+      JSONObject localJSONObject2 = new JSONObject((String)localObject1);
+      localObject1 = localObject3;
+      if (localJSONObject2.optJSONObject("npsData") != null)
+      {
+        JSONObject localJSONObject1 = new JSONObject();
+        Object localObject4 = b.getResources().getConfiguration().locale.toString();
+        localObject1 = "en";
+        if (((String)localObject4).contains("GB")) {
+          localObject1 = ((String)localObject4).substring(0, ((String)localObject4).length() - 3);
+        }
+        localObject4 = new StringBuilder();
+        ((StringBuilder)localObject4).append("==>");
+        ((StringBuilder)localObject4).append((String)localObject1);
+        ((StringBuilder)localObject4).toString();
+        localObject1 = c.a(V.c, (String)localObject1);
+        localObject4 = new StringBuilder();
+        ((StringBuilder)localObject4).append("");
+        ((StringBuilder)localObject4).append(System.currentTimeMillis());
+        localJSONObject1.put("trkr", ((StringBuilder)localObject4).toString());
+        localJSONObject1.put("tkn", c.a(V.ma, ""));
+        localJSONObject1.put("lac", Ea.m(b));
+        localJSONObject1.put("lat", "21");
+        localJSONObject1.put("lon", "12");
+        localJSONObject1.put("lang", localObject1);
+        localJSONObject1.put("imei", Ea.j(b));
+        localJSONObject1.put("lac", Ea.m(b));
+        localJSONObject1.put("usag", "12");
+        localJSONObject1.put("usrid", "12");
+        localJSONObject1.put("srvid", "12");
+        localJSONObject1.put("mode", "android");
+        localJSONObject1.put("pltfrm", "app");
+        localJSONObject1.put("did", "12");
+        localJSONObject1.put("os", "Android");
+        localJSONObject1.put("acesstkn", "");
+        localJSONObject1.put("userid", localJSONObject2.optJSONObject("npsData").optString("value"));
+        localJSONObject1.put("maver", "4.0.1");
+        localJSONObject1.put("mosver", "6.0");
+        localJSONObject1.put("uid", g());
+        localObject1 = localJSONObject1;
+      }
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localObject2 = localObject3;
+    }
+    if (localObject2 != null)
+    {
+      new r(new Ra(this), "https://app.umang.gov.in/umang/depttapi/npsApi/ws1/flogout", (JSONObject)localObject2, b).execute(new Object[0]);
+      return;
+    }
+    Object localObject2 = a;
+  }
+  
+  private void u()
+  {
+    Object localObject = a;
+    localObject = PreferenceManager.getDefaultSharedPreferences(b).edit();
+    ((SharedPreferences.Editor)localObject).putBoolean("is_already_connected", false);
+    ((SharedPreferences.Editor)localObject).putString("account_jabberID", "");
+    ((SharedPreferences.Editor)localObject).apply();
+    org.yaxim.androidclient.util.PreferenceConstants.isExistingUser = false;
+    new Thread(new Va(this)).start();
+  }
+  
+  public String a(String paramString)
+  {
+    if (paramString != null) {
+      return paramString;
+    }
+    return "";
+  }
+  
+  public void a()
+  {
+    m();
+  }
+  
+  public void b()
+  {
+    try
+    {
+      Dialog localDialog = new Dialog(b);
+      localDialog.getWindow();
+      localDialog.requestWindowFeature(1);
+      localDialog.setContentView(2131493031);
+      localDialog.setCancelable(false);
+      localDialog.setCanceledOnTouchOutside(false);
+      localDialog.show();
+      ((TextView)localDialog.findViewById(2131296634)).setText(b.getResources().getString(2131756350));
+      ((TextView)localDialog.findViewById(2131297214)).setOnClickListener(new Oa(this, localDialog));
+      return;
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      m();
+    }
+  }
+  
+  public void b(Context paramContext)
+  {
+    try
+    {
+      if ((y)f.u.a.a.a.u.s().u().c() != null)
+      {
+        a(paramContext);
+        paramContext = (y)f.u.a.a.a.u.s().u().c();
+        a(FacebookSdk.getApplicationContext());
+        c.q().a();
+        c.r();
+        return;
+      }
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  public void b(String paramString)
+  {
+    try
+    {
+      Dialog localDialog = new Dialog(b);
+      localDialog.getWindow();
+      localDialog.requestWindowFeature(1);
+      localDialog.setContentView(2131493031);
+      localDialog.setCancelable(false);
+      localDialog.setCanceledOnTouchOutside(false);
+      localDialog.show();
+      ((TextView)localDialog.findViewById(2131296634)).setText(paramString);
+      ((TextView)localDialog.findViewById(2131297214)).setOnClickListener(new Pa(this, localDialog));
+      return;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+      m();
+    }
+  }
+  
+  public String c(String paramString)
+  {
+    if (paramString.length() == 0) {
+      return "";
+    }
+    return b.getResources().getStringArray(2130903047)[Integer.parseInt(paramString)];
+  }
+  
+  public k.a.a.c.a c()
+    throws Exception
+  {
+    Object localObject1 = a;
+    localObject1 = c.a(V.Va, "");
+    Object localObject2 = a;
+    localObject2 = new StringBuilder();
+    ((StringBuilder)localObject2).append("==");
+    ((StringBuilder)localObject2).append((String)localObject1);
+    ((StringBuilder)localObject2).toString();
+    if (((String)localObject1).length() > 0)
+    {
+      localObject1 = new JSONObject((String)localObject1);
+      if (((JSONObject)localObject1).getString("aadhr").length() > 0)
+      {
+        localObject2 = new k.a.a.c.a();
+        ((k.a.a.c.a)localObject2).h(((JSONObject)localObject1).getString("aadhr"));
+        ((k.a.a.c.a)localObject2).r(((JSONObject)localObject1).getString("uidai_pia_name"));
+        ((k.a.a.c.a)localObject2).m(((JSONObject)localObject1).getString("uidai_pia_email"));
+        if (((JSONObject)localObject1).getString("uidai_pia_gender").equalsIgnoreCase("M"))
+        {
+          ((k.a.a.c.a)localObject2).n(b.getResources().getString(2131755773));
+          ((k.a.a.c.a)localObject2).a("Male");
+        }
+        else if (((JSONObject)localObject1).getString("uidai_pia_gender").equalsIgnoreCase("F"))
+        {
+          ((k.a.a.c.a)localObject2).n(b.getResources().getString(2131755772));
+          ((k.a.a.c.a)localObject2).a("Female");
+        }
+        else if (((JSONObject)localObject1).getString("uidai_pia_gender").equalsIgnoreCase("T"))
+        {
+          ((k.a.a.c.a)localObject2).n(b.getResources().getString(2131755774));
+          ((k.a.a.c.a)localObject2).a("Other");
+        }
+        else
+        {
+          ((k.a.a.c.a)localObject2).n("");
+        }
+        ((k.a.a.c.a)localObject2).i(((JSONObject)localObject1).getString("uidai_poa_co"));
+        ((k.a.a.c.a)localObject2).l(((JSONObject)localObject1).getString("uidai_pia_dob"));
+        ((k.a.a.c.a)localObject2).t(((JSONObject)localObject1).getString("uidai_poa_state"));
+        ((k.a.a.c.a)localObject2).k(((JSONObject)localObject1).getString("uidai_poa_dist"));
+        ((k.a.a.c.a)localObject2).j(((JSONObject)localObject1).getString("uidai_poa_vtc"));
+        ((k.a.a.c.a)localObject2).s(((JSONObject)localObject1).getString("uidai_poa_pc"));
+        ((k.a.a.c.a)localObject2).o(((JSONObject)localObject1).getString("uidai_poa_house"));
+        ((k.a.a.c.a)localObject2).q(((JSONObject)localObject1).getString("uidai_poa_loc"));
+        ((k.a.a.c.a)localObject2).p(((JSONObject)localObject1).getString("consent_approve_pic_path"));
+        ((k.a.a.c.a)localObject2).f(((JSONObject)localObject1).getString("adhraddr"));
+        ((k.a.a.c.a)localObject2).e(a(((JSONObject)localObject1).getString("uidai_ldata_name")));
+        ((k.a.a.c.a)localObject2).c(a(((JSONObject)localObject1).getString("uidai_ldata_co")));
+        ((k.a.a.c.a)localObject2).b(a(((JSONObject)localObject1).getString("consent_status")));
+        ((k.a.a.c.a)localObject2).d(a(((JSONObject)localObject1).getString("uidai_ldata_lang")));
+        return localObject2;
+      }
+    }
+    return null;
+  }
+  
+  public String d()
+  {
+    return c.a(V.Wa, "");
+  }
+  
+  public String d(String paramString)
+  {
+    if (paramString.length() == 0) {
+      return "";
+    }
+    return b.getResources().getStringArray(2130903051)[Integer.parseInt(paramString)];
+  }
+  
+  public String e()
+  {
+    return c.a(V.Xa, "101");
+  }
+  
+  public void e(String paramString)
+  {
+    c.c(V.ca, paramString);
+  }
+  
+  public String f()
+    throws Exception
+  {
+    return i().s();
+  }
+  
+  public void f(String paramString)
+  {
+    String str = a;
+    f.a.a.a.a.f("calling saveAadhaarProfileInfo ==", paramString);
+    c.c(V.Va, paramString);
+  }
+  
+  public String g()
+    throws Exception
+  {
+    return i().t();
+  }
+  
+  public void g(String paramString)
+  {
+    String str = a;
+    f.a.a.a.a.f("calling saveAadhaarRegionalLabels ==", paramString);
+    c.c(V.Wa, paramString);
+  }
+  
+  public String h()
+  {
+    String str = a;
+    return c.a(V.ya, "");
+  }
+  
+  public void h(String paramString)
+  {
+    String str = a;
+    f.a.a.a.a.f("calling saveProfileCompleteness ==", paramString);
+    c.c(V.Xa, paramString);
+  }
+  
+  public W i()
+    throws Exception
+  {
+    Object localObject1 = c.a(V.ya, "");
+    if ((localObject1 != null) && (((String)localObject1).length() > 0))
+    {
+      Object localObject2 = a;
+      localObject2 = new StringBuilder();
+      ((StringBuilder)localObject2).append("calling getUserProfileObj ==== ");
+      ((StringBuilder)localObject2).append((String)localObject1);
+      ((StringBuilder)localObject2).toString();
+      localObject2 = new W();
+      JSONObject localJSONObject = new JSONObject((String)localObject1);
+      ((W)localObject2).s(a(localJSONObject.getString("uid")));
+      ((W)localObject2).g(a(localJSONObject.getString("mno")));
+      ((W)localObject2).t(a(localJSONObject.getString("nam")));
+      ((W)localObject2).p(a(localJSONObject.getString("email")));
+      ((W)localObject2).r(a(localJSONObject.getString("gndr")));
+      if (localJSONObject.getString("gndr").equalsIgnoreCase("M")) {
+        localObject1 = b.getResources().getString(2131755773);
+      } else if (localJSONObject.getString("gndr").equalsIgnoreCase("F")) {
+        localObject1 = b.getResources().getString(2131755772);
+      } else if (localJSONObject.getString("gndr").equalsIgnoreCase("T")) {
+        localObject1 = b.getResources().getString(2131755774);
+      } else {
+        localObject1 = "";
+      }
+      ((W)localObject2).q((String)localObject1);
+      ((W)localObject2).o(a(localJSONObject.getString("dob")));
+      ((W)localObject2).m(a(localJSONObject.getString("cty")));
+      ((W)localObject2).w(a(localJSONObject.getString("qual")));
+      ((W)localObject2).l(a(localJSONObject.getString("amno")));
+      if (a(localJSONObject.getString("gcmid")).length() > 0)
+      {
+        ((W)localObject2).b(Integer.parseInt(localJSONObject.getString("gcmid")));
+        ((W)localObject2).x(o(localJSONObject.getString("gcmid")));
+      }
+      else
+      {
+        ((W)localObject2).x("");
+        ((W)localObject2).b(-1);
+      }
+      ((W)localObject2).n(a(localJSONObject.getString("dist")));
+      ((W)localObject2).a(a(localJSONObject.getString("addr")));
+      if (a(localJSONObject.getString("qual")).length() > 0)
+      {
+        ((W)localObject2).j(localJSONObject.getString("qual"));
+        ((W)localObject2).v(localJSONObject.getString("qual"));
+        ((W)localObject2).w(n(localJSONObject.getString("qual")));
+      }
+      else
+      {
+        ((W)localObject2).j("");
+        ((W)localObject2).w("");
+      }
+      if (a(localJSONObject.getString("occup")).length() > 0)
+      {
+        ((W)localObject2).i(localJSONObject.getString("occup"));
+        ((W)localObject2).h(m(localJSONObject.getString("occup")));
+      }
+      else
+      {
+        ((W)localObject2).i("");
+        ((W)localObject2).h("");
+      }
+      if (!localJSONObject.isNull("mstatus")) {
+        ((W)localObject2).f(localJSONObject.getString("mstatus"));
+      }
+      ((W)localObject2).u(a(localJSONObject.getString("pic")));
+      localObject1 = localObject2;
+      if (!localJSONObject.isNull("dlink"))
+      {
+        ((W)localObject2).b(localJSONObject.getString("dlink"));
+        return localObject2;
+      }
+    }
+    else
+    {
+      localObject1 = null;
+    }
+    return localObject1;
+  }
+  
+  public void i(String paramString)
+  {
+    String str = a;
+    f.a.a.a.a.f("calling saveUserInfo ==", paramString);
+    c.c(V.ya, paramString);
+    r();
+  }
+  
+  public String j()
+    throws Exception
+  {
+    return i().v();
+  }
+  
+  public void j(String paramString)
+  {
+    c.c(V.gb, paramString);
+  }
+  
+  public String k()
+  {
+    return c.a(V.gb, "");
+  }
+  
+  public void k(String paramString)
+  {
+    c.c(V.fb, paramString);
+  }
+  
+  public X l()
+    throws Exception
+  {
+    Object localObject1 = a;
+    localObject1 = c.a(V.Ua, "");
+    Object localObject2 = a;
+    localObject2 = new StringBuilder();
+    ((StringBuilder)localObject2).append("userSocialInfoStrObj === ");
+    ((StringBuilder)localObject2).append((String)localObject1);
+    ((StringBuilder)localObject2).toString();
+    ((String)localObject1).length();
+    localObject2 = new X();
+    localObject1 = new JSONObject((String)localObject1);
+    ((X)localObject2).a(a(((JSONObject)localObject1).getString("fbid")));
+    ((X)localObject2).b(a(((JSONObject)localObject1).getString("fbimg")));
+    ((X)localObject2).c(a(((JSONObject)localObject1).getString("fbname")));
+    ((X)localObject2).d(a(((JSONObject)localObject1).getString("goid")));
+    ((X)localObject2).e(a(((JSONObject)localObject1).getString("goimg")));
+    ((X)localObject2).f(a(((JSONObject)localObject1).getString("goname")));
+    ((X)localObject2).g(a(((JSONObject)localObject1).getString("twitid")));
+    ((X)localObject2).h(a(((JSONObject)localObject1).getString("twitimg")));
+    ((X)localObject2).i(a(((JSONObject)localObject1).getString("twitname")));
+    return localObject2;
+  }
+  
+  public void l(String paramString)
+  {
+    String str = a;
+    f.a.a.a.a.f("calling saveUserSocialAcctInfo ==", paramString);
+    c.c(V.Ua, paramString);
+  }
+  
+  public void m()
+  {
+    k.a.a.e.b localB = k.a.a.e.b.a(b);
+    String str2;
+    try
+    {
+      String str1 = new Wa(b).g();
+    }
+    catch (Exception localException1)
+    {
+      b.a(localException1);
+      str2 = "";
+    }
+    String str3 = str2;
+    if (str2 == null) {
+      str3 = "";
+    }
+    t();
+    s();
+    Ea.a(b);
+    localB.b(str3);
+    try
+    {
+      u();
+    }
+    catch (Exception localException2)
+    {
+      b.a(localException2);
+    }
+    new ChatProvider().deleteDataBase(b);
+    SharedPreferences.Editor localEditor = PreferenceManager.getDefaultSharedPreferences(b).edit();
+    localEditor.putBoolean("is_already_connected", false);
+    localEditor.putString("account_jabberID", "");
+    localEditor.apply();
+    org.yaxim.androidclient.util.PreferenceConstants.isExistingUser = false;
+    c.a();
+    c.c(V.g, "true");
+    c.c(V.h, "true");
+    c.c(V.q, "true");
+    c.c(V.r, "true");
+    try
+    {
+      ((NotificationManager)b.getSystemService("notification")).cancelAll();
+    }
+    catch (Exception localException3)
+    {
+      b.a(localException3);
+    }
+    d(b);
+    c(b);
+    b(b);
+    ((Activity)b).finish();
+    Intent localIntent = new Intent(b, InfoHomeScreen.class);
+    localIntent.setFlags(268468224);
+    b.startActivity(localIntent);
+  }
+  
+  public String n()
+    throws Exception
+  {
+    String str = c.a(V.ya, "");
+    Object localObject = a;
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("calling getUserProfileObj ==== ");
+    ((StringBuilder)localObject).append(str);
+    ((StringBuilder)localObject).toString();
+    str.length();
+    return new JSONObject(str).getString("amnos");
+  }
+  
+  public String o()
+    throws Exception
+  {
+    String str = c.a(V.ya, "");
+    str.length();
+    return new JSONObject(str).getString("emails");
+  }
+  
+  public void onConnectionFailed(@F ConnectionResult paramConnectionResult) {}
+  
+  public void p()
+  {
+    Object localObject1 = a;
+    t();
+    s();
+    Ea.a(b);
+    try
+    {
+      localObject1 = Ea.e(b);
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localObject2 = null;
+    }
+    if (localObject2 != null)
+    {
+      new k.a.a.l.u(new Qa(this), "https://app.umang.gov.in/umang/coreapi/ws2/logout", (JSONObject)localObject2, b).execute(new Object[0]);
+      return;
+    }
+    Object localObject2 = a;
+  }
+  
+  public void q()
+  {
+    t();
+    s();
+    Ea.a(b);
+    c.a();
+    c.c(V.g, "true");
+    c.c(V.h, "true");
+    c.c(V.q, "true");
+    c.c(V.r, "true");
+    try
+    {
+      ((NotificationManager)b.getSystemService("notification")).cancelAll();
+    }
+    catch (Exception localException1)
+    {
+      b.a(localException1);
+    }
+    try
+    {
+      u();
+    }
+    catch (Exception localException2)
+    {
+      b.a(localException2);
+    }
+    new ChatProvider().deleteDataBase(b);
+    d(b);
+    c(b);
+    b(b);
+    ((Activity)b).finish();
+    Intent localIntent = new Intent(b, InfoHomeScreen.class);
+    localIntent.setFlags(268468224);
+    b.startActivity(localIntent);
+  }
+  
+  /* Error */
+  public void r()
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   4: getstatic 689	k/a/a/m/V:ya	Ljava/lang/String;
+    //   7: ldc -80
+    //   9: invokevirtual 179	k/a/a/m/V:a	(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    //   12: astore_2
+    //   13: aload_2
+    //   14: ifnull +360 -> 374
+    //   17: aload_2
+    //   18: invokevirtual 289	java/lang/String:length	()I
+    //   21: ifle +353 -> 374
+    //   24: new 171	org/json/JSONObject
+    //   27: dup
+    //   28: aload_2
+    //   29: invokespecial 182	org/json/JSONObject:<init>	(Ljava/lang/String;)V
+    //   32: astore 4
+    //   34: aload 4
+    //   36: ldc_w 725
+    //   39: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   42: astore_2
+    //   43: aload_0
+    //   44: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   47: getstatic 896	k/a/a/m/V:k	Ljava/lang/String;
+    //   50: ldc -80
+    //   52: invokevirtual 179	k/a/a/m/V:a	(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    //   55: ldc -80
+    //   57: invokevirtual 209	java/lang/String:equalsIgnoreCase	(Ljava/lang/String;)Z
+    //   60: ifeq +117 -> 177
+    //   63: aload_0
+    //   64: getfield 23	k/a/a/m/Wa:a	Ljava/lang/String;
+    //   67: astore_3
+    //   68: new 297	java/lang/StringBuilder
+    //   71: dup
+    //   72: invokespecial 298	java/lang/StringBuilder:<init>	()V
+    //   75: astore_3
+    //   76: aload_3
+    //   77: ldc_w 898
+    //   80: invokevirtual 302	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   83: pop
+    //   84: aload_3
+    //   85: aload_2
+    //   86: invokevirtual 302	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   89: pop
+    //   90: aload_3
+    //   91: invokevirtual 314	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   94: pop
+    //   95: aload_0
+    //   96: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   99: getstatic 896	k/a/a/m/V:k	Ljava/lang/String;
+    //   102: aload 4
+    //   104: ldc_w 900
+    //   107: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   110: invokevirtual 673	k/a/a/m/V:c	(Ljava/lang/String;Ljava/lang/String;)V
+    //   113: aload_0
+    //   114: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   117: getstatic 902	k/a/a/m/V:m	Ljava/lang/String;
+    //   120: aload 4
+    //   122: ldc_w 904
+    //   125: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   128: invokevirtual 673	k/a/a/m/V:c	(Ljava/lang/String;Ljava/lang/String;)V
+    //   131: aload_0
+    //   132: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   135: getstatic 906	k/a/a/m/V:n	Ljava/lang/String;
+    //   138: aload 4
+    //   140: ldc_w 908
+    //   143: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   146: invokevirtual 673	k/a/a/m/V:c	(Ljava/lang/String;Ljava/lang/String;)V
+    //   149: getstatic 913	k/a/a/h/Xb:a	Landroid/os/Handler;
+    //   152: invokevirtual 919	android/os/Handler:obtainMessage	()Landroid/os/Message;
+    //   155: astore_2
+    //   156: aload_2
+    //   157: bipush 100
+    //   159: putfield 924	android/os/Message:what	I
+    //   162: aload_2
+    //   163: ldc_w 926
+    //   166: putfield 930	android/os/Message:obj	Ljava/lang/Object;
+    //   169: getstatic 913	k/a/a/h/Xb:a	Landroid/os/Handler;
+    //   172: aload_2
+    //   173: invokevirtual 934	android/os/Handler:sendMessage	(Landroid/os/Message;)Z
+    //   176: pop
+    //   177: aload 4
+    //   179: ldc_w 936
+    //   182: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   185: astore_2
+    //   186: aload 4
+    //   188: ldc_w 938
+    //   191: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   194: astore 5
+    //   196: aload_2
+    //   197: ldc_w 940
+    //   200: invokevirtual 209	java/lang/String:equalsIgnoreCase	(Ljava/lang/String;)Z
+    //   203: istore_1
+    //   204: ldc_w 835
+    //   207: astore_3
+    //   208: iload_1
+    //   209: ifeq +25 -> 234
+    //   212: aload 5
+    //   214: ldc_w 940
+    //   217: invokevirtual 209	java/lang/String:equalsIgnoreCase	(Ljava/lang/String;)Z
+    //   220: ifeq +14 -> 234
+    //   223: ldc_w 942
+    //   226: astore_3
+    //   227: ldc_w 944
+    //   230: astore_2
+    //   231: goto +61 -> 292
+    //   234: aload_2
+    //   235: ldc_w 940
+    //   238: invokevirtual 209	java/lang/String:equalsIgnoreCase	(Ljava/lang/String;)Z
+    //   241: istore_1
+    //   242: iload_1
+    //   243: ifeq +21 -> 264
+    //   246: aload 5
+    //   248: ldc_w 946
+    //   251: invokevirtual 209	java/lang/String:equalsIgnoreCase	(Ljava/lang/String;)Z
+    //   254: ifeq +10 -> 264
+    //   257: ldc_w 948
+    //   260: astore_2
+    //   261: goto +31 -> 292
+    //   264: aload_2
+    //   265: ldc_w 946
+    //   268: invokevirtual 209	java/lang/String:equalsIgnoreCase	(Ljava/lang/String;)Z
+    //   271: ifeq +108 -> 379
+    //   274: aload 5
+    //   276: ldc_w 940
+    //   279: invokevirtual 209	java/lang/String:equalsIgnoreCase	(Ljava/lang/String;)Z
+    //   282: ifeq +97 -> 379
+    //   285: ldc_w 950
+    //   288: astore_2
+    //   289: goto +3 -> 292
+    //   292: aload_0
+    //   293: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   296: getstatic 953	k/a/a/m/V:qb	Ljava/lang/String;
+    //   299: aload 4
+    //   301: ldc_w 762
+    //   304: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   307: invokevirtual 673	k/a/a/m/V:c	(Ljava/lang/String;Ljava/lang/String;)V
+    //   310: aload_0
+    //   311: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   314: getstatic 956	k/a/a/m/V:Lb	Ljava/lang/String;
+    //   317: aload 4
+    //   319: ldc_w 958
+    //   322: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   325: invokevirtual 673	k/a/a/m/V:c	(Ljava/lang/String;Ljava/lang/String;)V
+    //   328: aload_0
+    //   329: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   332: getstatic 961	k/a/a/m/V:Mb	Ljava/lang/String;
+    //   335: aload 4
+    //   337: ldc_w 963
+    //   340: invokevirtual 203	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   343: invokevirtual 673	k/a/a/m/V:c	(Ljava/lang/String;Ljava/lang/String;)V
+    //   346: aload_0
+    //   347: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   350: getstatic 965	k/a/a/m/V:d	Ljava/lang/String;
+    //   353: aload_3
+    //   354: invokevirtual 673	k/a/a/m/V:c	(Ljava/lang/String;Ljava/lang/String;)V
+    //   357: aload_0
+    //   358: getfield 31	k/a/a/m/Wa:c	Lk/a/a/m/V;
+    //   361: getstatic 967	k/a/a/m/V:i	Ljava/lang/String;
+    //   364: aload_2
+    //   365: invokevirtual 673	k/a/a/m/V:c	(Ljava/lang/String;Ljava/lang/String;)V
+    //   368: return
+    //   369: astore_2
+    //   370: aload_2
+    //   371: invokestatic 83	k/a/a/m/b:a	(Ljava/lang/Exception;)V
+    //   374: return
+    //   375: astore_2
+    //   376: goto -199 -> 177
+    //   379: ldc_w 969
+    //   382: astore_2
+    //   383: goto -91 -> 292
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	386	0	this	Wa
+    //   203	40	1	bool	boolean
+    //   12	353	2	localObject1	Object
+    //   369	2	2	localException1	Exception
+    //   375	1	2	localException2	Exception
+    //   382	1	2	str1	String
+    //   67	287	3	localObject2	Object
+    //   32	304	4	localJSONObject	JSONObject
+    //   194	81	5	str2	String
+    // Exception table:
+    //   from	to	target	type
+    //   0	13	369	java/lang/Exception
+    //   17	149	369	java/lang/Exception
+    //   177	204	369	java/lang/Exception
+    //   212	223	369	java/lang/Exception
+    //   234	242	369	java/lang/Exception
+    //   246	257	369	java/lang/Exception
+    //   264	285	369	java/lang/Exception
+    //   292	368	369	java/lang/Exception
+    //   149	177	375	java/lang/Exception
+  }
+}

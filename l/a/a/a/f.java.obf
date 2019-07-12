@@ -1,0 +1,512 @@
+package l.a.a.a;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+import l.a.a.a.a.b.y;
+import l.a.a.a.a.c.j;
+import l.a.a.a.a.c.m;
+import l.a.a.a.a.c.s;
+import l.a.a.a.a.c.u;
+
+public class g
+{
+  public static final String a = "Fabric";
+  public static final String b = ".Fabric";
+  public static final String c = "com.crashlytics.sdk.android:crashlytics";
+  public static final String d = "com.crashlytics.sdk.android:answers";
+  public static volatile g e;
+  public static final q f = new d();
+  public static final boolean g = false;
+  public final Context h;
+  public final Map<Class<? extends n>, n> i;
+  public final ExecutorService j;
+  public final Handler k;
+  public final k<g> l;
+  public final k<?> m;
+  public final y n;
+  public b o;
+  public WeakReference<Activity> p;
+  public AtomicBoolean q;
+  public final q r;
+  public final boolean s;
+  
+  public g(Context paramContext, Map<Class<? extends n>, n> paramMap, s paramS, Handler paramHandler, q paramQ, boolean paramBoolean, k paramK, y paramY, Activity paramActivity)
+  {
+    h = paramContext;
+    i = paramMap;
+    j = paramS;
+    k = paramHandler;
+    r = paramQ;
+    s = paramBoolean;
+    l = paramK;
+    q = new AtomicBoolean(false);
+    m = a(paramMap.size());
+    n = paramY;
+    a(paramActivity);
+  }
+  
+  public static g a(Context paramContext, n... paramVarArgs)
+  {
+    if (e == null) {
+      try
+      {
+        if (e == null)
+        {
+          paramContext = new a(paramContext).a(paramVarArgs).a();
+          e = paramContext;
+          paramContext.n();
+        }
+      }
+      finally {}
+    }
+    return e;
+  }
+  
+  public static <T extends n> T a(Class<T> paramClass)
+  {
+    return (n)mi.get(paramClass);
+  }
+  
+  public static void a(Map<Class<? extends n>, n> paramMap, Collection<? extends n> paramCollection)
+  {
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext())
+    {
+      n localN = (n)paramCollection.next();
+      paramMap.put(localN.getClass(), localN);
+      if ((localN instanceof o)) {
+        a(paramMap, ((o)localN).b());
+      }
+    }
+  }
+  
+  public static Activity b(Context paramContext)
+  {
+    if ((paramContext instanceof Activity)) {
+      return (Activity)paramContext;
+    }
+    return null;
+  }
+  
+  public static Map<Class<? extends n>, n> b(Collection<? extends n> paramCollection)
+  {
+    HashMap localHashMap = new HashMap(paramCollection.size());
+    a(localHashMap, paramCollection);
+    return localHashMap;
+  }
+  
+  public static void c(g paramG)
+  {
+    e = paramG;
+    paramG.n();
+  }
+  
+  public static g d(g paramG)
+  {
+    if (e == null) {
+      try
+      {
+        if (e == null)
+        {
+          e = paramG;
+          paramG.n();
+        }
+      }
+      finally {}
+    }
+    return e;
+  }
+  
+  public static q h()
+  {
+    if (e == null) {
+      return f;
+    }
+    return er;
+  }
+  
+  public static boolean k()
+  {
+    if (e == null) {
+      return false;
+    }
+    return es;
+  }
+  
+  public static boolean l()
+  {
+    return (e != null) && (eq.get());
+  }
+  
+  public static g m()
+  {
+    if (e != null) {
+      return e;
+    }
+    throw new IllegalStateException("Must Initialize Fabric before using singleton()");
+  }
+  
+  private void n()
+  {
+    o = new b(h);
+    o.a(new e(this));
+    d(h);
+  }
+  
+  public b a()
+  {
+    return o;
+  }
+  
+  public g a(Activity paramActivity)
+  {
+    p = new WeakReference(paramActivity);
+    return this;
+  }
+  
+  public k<?> a(int paramInt)
+  {
+    return new f(this, paramInt);
+  }
+  
+  public void a(Map<Class<? extends n>, n> paramMap, n paramN)
+  {
+    Object localObject1 = f;
+    if (localObject1 != null)
+    {
+      localObject1 = ((j)localObject1).value();
+      int i2 = localObject1.length;
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        Object localObject2 = localObject1[i1];
+        if (localObject2.isInterface())
+        {
+          Iterator localIterator = paramMap.values().iterator();
+          while (localIterator.hasNext())
+          {
+            n localN = (n)localIterator.next();
+            if (localObject2.isAssignableFrom(localN.getClass())) {
+              b.a(b);
+            }
+          }
+        }
+        if ((n)paramMap.get(localObject2) != null)
+        {
+          b.a(getb);
+          i1 += 1;
+        }
+        else
+        {
+          throw new u("Referenced Kit was null, does the kit exist?");
+        }
+      }
+    }
+  }
+  
+  public String b()
+  {
+    return n.e();
+  }
+  
+  public String c()
+  {
+    return n.f();
+  }
+  
+  public Future<Map<String, p>> c(Context paramContext)
+  {
+    paramContext = new i(paramContext.getPackageCodePath());
+    return e().submit(paramContext);
+  }
+  
+  public Activity d()
+  {
+    WeakReference localWeakReference = p;
+    if (localWeakReference != null) {
+      return (Activity)localWeakReference.get();
+    }
+    return null;
+  }
+  
+  public void d(Context paramContext)
+  {
+    Object localObject1 = c(paramContext);
+    Object localObject2 = g();
+    localObject1 = new r((Future)localObject1, (Collection)localObject2);
+    localObject2 = new ArrayList((Collection)localObject2);
+    Collections.sort((List)localObject2);
+    ((n)localObject1).a(paramContext, this, k.a, n);
+    Object localObject3 = ((List)localObject2).iterator();
+    while (((Iterator)localObject3).hasNext()) {
+      ((n)((Iterator)localObject3).next()).a(paramContext, this, m, n);
+    }
+    ((n)localObject1).l();
+    if (h().a("Fabric", 3))
+    {
+      paramContext = new StringBuilder("Initializing ");
+      paramContext.append(f());
+      paramContext.append(" [Version: ");
+      paramContext.append(j());
+      paramContext.append("], with the following kits:\n");
+    }
+    else
+    {
+      paramContext = null;
+    }
+    localObject2 = ((List)localObject2).iterator();
+    while (((Iterator)localObject2).hasNext())
+    {
+      localObject3 = (n)((Iterator)localObject2).next();
+      b.a(b);
+      a(i, (n)localObject3);
+      ((n)localObject3).l();
+      if (paramContext != null)
+      {
+        paramContext.append(((n)localObject3).h());
+        paramContext.append(" [Version: ");
+        paramContext.append(((n)localObject3).j());
+        paramContext.append("]\n");
+      }
+    }
+    if (paramContext != null) {
+      h().d("Fabric", paramContext.toString());
+    }
+  }
+  
+  public ExecutorService e()
+  {
+    return j;
+  }
+  
+  public String f()
+  {
+    return "io.fabric.sdk.android:fabric";
+  }
+  
+  public Collection<n> g()
+  {
+    return i.values();
+  }
+  
+  public Handler i()
+  {
+    return k;
+  }
+  
+  public String j()
+  {
+    return "1.4.8.32";
+  }
+  
+  public static class a
+  {
+    public final Context a;
+    public n[] b;
+    public s c;
+    public Handler d;
+    public q e;
+    public boolean f;
+    public String g;
+    public String h;
+    public k<g> i;
+    
+    public a(Context paramContext)
+    {
+      if (paramContext != null)
+      {
+        a = paramContext;
+        return;
+      }
+      throw new IllegalArgumentException("Context must not be null.");
+    }
+    
+    @Deprecated
+    public a a(Handler paramHandler)
+    {
+      return this;
+    }
+    
+    public a a(String paramString)
+    {
+      if (paramString != null)
+      {
+        if (h == null)
+        {
+          h = paramString;
+          return this;
+        }
+        throw new IllegalStateException("appIdentifier already set.");
+      }
+      throw new IllegalArgumentException("appIdentifier must not be null.");
+    }
+    
+    @Deprecated
+    public a a(ExecutorService paramExecutorService)
+    {
+      return this;
+    }
+    
+    public a a(s paramS)
+    {
+      if (paramS != null)
+      {
+        if (c == null)
+        {
+          c = paramS;
+          return this;
+        }
+        throw new IllegalStateException("PriorityThreadPoolExecutor already set.");
+      }
+      throw new IllegalArgumentException("PriorityThreadPoolExecutor must not be null.");
+    }
+    
+    public a a(k<g> paramK)
+    {
+      if (paramK != null)
+      {
+        if (i == null)
+        {
+          i = paramK;
+          return this;
+        }
+        throw new IllegalStateException("initializationCallback already set.");
+      }
+      throw new IllegalArgumentException("initializationCallback must not be null.");
+    }
+    
+    public a a(q paramQ)
+    {
+      if (paramQ != null)
+      {
+        if (e == null)
+        {
+          e = paramQ;
+          return this;
+        }
+        throw new IllegalStateException("Logger already set.");
+      }
+      throw new IllegalArgumentException("Logger must not be null.");
+    }
+    
+    public a a(boolean paramBoolean)
+    {
+      f = paramBoolean;
+      return this;
+    }
+    
+    public a a(n... paramVarArgs)
+    {
+      if (b == null)
+      {
+        Object localObject = paramVarArgs;
+        if (!l.a.a.a.a.b.o.a(a).a())
+        {
+          localObject = new ArrayList();
+          int n = paramVarArgs.length;
+          int k = 0;
+          int j;
+          for (int m = 0; k < n; m = j)
+          {
+            n localN = paramVarArgs[k];
+            String str = localN.h();
+            j = -1;
+            int i1 = str.hashCode();
+            if (i1 != 607220212)
+            {
+              if ((i1 == 1830452504) && (str.equals("com.crashlytics.sdk.android:crashlytics"))) {
+                j = 0;
+              }
+            }
+            else if (str.equals("com.crashlytics.sdk.android:answers")) {
+              j = 1;
+            }
+            if ((j != 0) && (j != 1))
+            {
+              j = m;
+              if (m == 0)
+              {
+                g.h().a("Fabric", "Fabric will not initialize any kits when Firebase automatic data collection is disabled; to use Third-party kits with automatic data collection disabled, initialize these kits via non-Fabric means.");
+                j = 1;
+              }
+            }
+            else
+            {
+              ((List)localObject).add(localN);
+              j = m;
+            }
+            k += 1;
+          }
+          localObject = (n[])((List)localObject).toArray(new n[0]);
+        }
+        b = ((n[])localObject);
+        return this;
+      }
+      paramVarArgs = new IllegalStateException("Kits already set.");
+      for (;;)
+      {
+        throw paramVarArgs;
+      }
+    }
+    
+    public g a()
+    {
+      if (c == null) {
+        c = s.a();
+      }
+      if (d == null) {
+        d = new Handler(Looper.getMainLooper());
+      }
+      if (e == null) {
+        if (f) {
+          e = new d(3);
+        } else {
+          e = new d();
+        }
+      }
+      if (h == null) {
+        h = a.getPackageName();
+      }
+      if (i == null) {
+        i = k.a;
+      }
+      Object localObject = b;
+      if (localObject == null) {
+        localObject = new HashMap();
+      } else {
+        localObject = g.b(Arrays.asList((Object[])localObject));
+      }
+      Context localContext = a.getApplicationContext();
+      y localY = new y(localContext, h, g, ((Map)localObject).values());
+      return new g(localContext, (Map)localObject, c, d, e, f, i, localY, g.b(a));
+    }
+    
+    public a b(String paramString)
+    {
+      if (paramString != null)
+      {
+        if (g == null)
+        {
+          g = paramString;
+          return this;
+        }
+        throw new IllegalStateException("appInstallIdentifier already set.");
+      }
+      throw new IllegalArgumentException("appInstallIdentifier must not be null.");
+    }
+  }
+}

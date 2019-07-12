@@ -1,0 +1,53 @@
+package f.g.b.a.b.c;
+
+import f.g.b.a.c.a;
+import f.g.b.a.c.k;
+import f.g.b.a.c.p;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
+public class e
+  extends a
+{
+  public static final String c = "\r\n";
+  public final y d;
+  
+  public e(y paramY)
+  {
+    super("application/http");
+    d = paramY;
+  }
+  
+  public void writeTo(OutputStream paramOutputStream)
+    throws IOException
+  {
+    OutputStreamWriter localOutputStreamWriter = new OutputStreamWriter(paramOutputStream, c());
+    localOutputStreamWriter.write(d.o());
+    localOutputStreamWriter.write(" ");
+    localOutputStreamWriter.write(d.x().g());
+    localOutputStreamWriter.write("\r\n");
+    t localT = new t();
+    localT.a(d.i());
+    localT.d(null).z(null).h(null).k(null).b(null);
+    p localP = d.e();
+    if (localP != null)
+    {
+      localT.k(localP.getType());
+      long l = localP.getLength();
+      if (l != -1L) {
+        localT.b(Long.valueOf(l));
+      }
+    }
+    t.a(localT, null, null, localOutputStreamWriter);
+    if (localP != null)
+    {
+      localOutputStreamWriter.write("\r\n");
+      localOutputStreamWriter.flush();
+      localP.writeTo(paramOutputStream);
+    }
+  }
+}

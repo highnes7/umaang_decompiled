@@ -1,0 +1,51 @@
+package com.google.android.gms.internal;
+
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import java.util.Iterator;
+
+public final class zzcbh
+  extends zzbck
+  implements Iterable<String>
+{
+  public static final Parcelable.Creator<zzcbh> CREATOR = new zzcbj();
+  public final Bundle zzino;
+  
+  public zzcbh(Bundle paramBundle)
+  {
+    zzino = paramBundle;
+  }
+  
+  public final Object get(String paramString)
+  {
+    return zzino.get(paramString);
+  }
+  
+  public final Iterator<String> iterator()
+  {
+    return new zzcbi(this);
+  }
+  
+  public final int size()
+  {
+    return zzino.size();
+  }
+  
+  public final String toString()
+  {
+    return zzino.toString();
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zza(paramParcel, 2, zzaxz(), false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+  
+  public final Bundle zzaxz()
+  {
+    return new Bundle(zzino);
+  }
+}

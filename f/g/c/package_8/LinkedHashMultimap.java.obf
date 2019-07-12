@@ -1,0 +1,472 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.a.d;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public final class Mc<K, V>
+  extends v<K, V>
+{
+  public static final int j = 16;
+  public static final int k = 2;
+  public static final int l = 1073741824;
+  @c("java serialization not supported")
+  public static final long m = 1L;
+  @d
+  public transient int n = 2;
+  public transient a<K, V> o;
+  
+  public Mc(int paramInt1, int paramInt2)
+  {
+    super(new LinkedHashMap(paramInt1));
+    boolean bool;
+    if (paramInt2 >= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "expectedValuesPerKey must be >= 0 but was %s", new Object[] { Integer.valueOf(paramInt2) });
+    n = paramInt2;
+    o = new a(null, null, 0, null);
+    a localA = o;
+    localA.b(localA);
+    localA.a(localA);
+  }
+  
+  public static <K, V> Mc<K, V> a(int paramInt1, int paramInt2)
+  {
+    return new Mc(fe.a(paramInt1), fe.a(paramInt2));
+  }
+  
+  @c("java.io.ObjectInputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    int i1 = 0;
+    o = new a(null, null, 0, null);
+    Object localObject1 = o;
+    ((a)localObject1).b((a)localObject1);
+    ((a)localObject1).a((a)localObject1);
+    n = paramObjectInputStream.readInt();
+    int i2 = paramObjectInputStream.readInt();
+    localObject1 = new LinkedHashMap(fe.a(i2));
+    int i = 0;
+    Object localObject2;
+    while (i < i2)
+    {
+      localObject2 = paramObjectInputStream.readObject();
+      ((Map)localObject1).put(localObject2, a(localObject2));
+      i += 1;
+    }
+    i2 = paramObjectInputStream.readInt();
+    i = i1;
+    while (i < i2)
+    {
+      localObject2 = paramObjectInputStream.readObject();
+      Object localObject3 = paramObjectInputStream.readObject();
+      ((Collection)((Map)localObject1).get(localObject2)).add(localObject3);
+      i += 1;
+    }
+    a((Map)localObject1);
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeInt(n);
+    paramObjectOutputStream.writeInt(keySet().size());
+    Iterator localIterator = keySet().iterator();
+    while (localIterator.hasNext()) {
+      paramObjectOutputStream.writeObject(localIterator.next());
+    }
+    paramObjectOutputStream.writeInt(size());
+    localIterator = entries().iterator();
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      paramObjectOutputStream.writeObject(localEntry.getKey());
+      paramObjectOutputStream.writeObject(localEntry.getValue());
+    }
+  }
+  
+  public static <K, V> Mc<K, V> b(ve<? extends K, ? extends V> paramVe)
+  {
+    Mc localMc = a(paramVe.keySet().size(), 2);
+    localMc.a(paramVe);
+    return localMc;
+  }
+  
+  public static <K, V> void b(a<K, V> paramA)
+  {
+    a localA = paramA.c();
+    paramA = paramA.d();
+    localA.b(paramA);
+    paramA.a(localA);
+  }
+  
+  public static <K, V> void b(a<K, V> paramA1, a<K, V> paramA2)
+  {
+    paramA1.b(paramA2);
+    paramA2.a(paramA1);
+  }
+  
+  public static <K, V> void b(c<K, V> paramC)
+  {
+    c localC = paramC.a();
+    paramC = paramC.b();
+    localC.a(paramC);
+    paramC.b(localC);
+  }
+  
+  public static <K, V> void b(c<K, V> paramC1, c<K, V> paramC2)
+  {
+    paramC1.a(paramC2);
+    paramC2.b(paramC1);
+  }
+  
+  public static <K, V> Mc<K, V> h()
+  {
+    return new Mc(16, 2);
+  }
+  
+  public Collection<V> a(K paramK)
+  {
+    return new b(paramK, n);
+  }
+  
+  public Set<V> b(K paramK, Iterable<? extends V> paramIterable)
+  {
+    return super.b(paramK, paramIterable);
+  }
+  
+  public void clear()
+  {
+    super.clear();
+    a localA = o;
+    localA.b(localA);
+    localA.a(localA);
+  }
+  
+  public boolean containsKey(Object paramObject)
+  {
+    return b.containsKey(paramObject);
+  }
+  
+  public Set<V> e()
+  {
+    return new LinkedHashSet(n);
+  }
+  
+  public Set<Map.Entry<K, V>> entries()
+  {
+    return super.entries();
+  }
+  
+  public Iterator<Map.Entry<K, V>> g()
+  {
+    return new Lc(this);
+  }
+  
+  public int size()
+  {
+    return c;
+  }
+  
+  public Collection<V> values()
+  {
+    return super.values();
+  }
+  
+  private static final class a<K, V>
+    extends m<K, V>
+    implements Mc.c<K, V>
+  {
+    public final K a;
+    public final V b;
+    public final int c;
+    @h
+    public a<K, V> d;
+    public Mc.c<K, V> e;
+    public Mc.c<K, V> f;
+    public a<K, V> g;
+    public a<K, V> h;
+    
+    public a(@h K paramK, @h V paramV, int paramInt, @h a<K, V> paramA)
+    {
+      a = paramK;
+      b = paramV;
+      c = paramInt;
+      d = paramA;
+    }
+    
+    public Mc.c<K, V> a()
+    {
+      return e;
+    }
+    
+    public void a(a<K, V> paramA)
+    {
+      g = paramA;
+    }
+    
+    public void a(Mc.c<K, V> paramC)
+    {
+      f = paramC;
+    }
+    
+    public Mc.c<K, V> b()
+    {
+      return f;
+    }
+    
+    public void b(a<K, V> paramA)
+    {
+      h = paramA;
+    }
+    
+    public void b(Mc.c<K, V> paramC)
+    {
+      e = paramC;
+    }
+    
+    public a<K, V> c()
+    {
+      return g;
+    }
+    
+    public a<K, V> d()
+    {
+      return h;
+    }
+    
+    public K getKey()
+    {
+      return a;
+    }
+    
+    public V getValue()
+    {
+      return b;
+    }
+  }
+  
+  @d
+  public final class b
+    extends gg.d<V>
+    implements Mc.c<K, V>
+  {
+    public final K a;
+    public Mc.a<K, V>[] b;
+    public int c = 0;
+    public int d = 0;
+    public Mc.c<K, V> e;
+    public Mc.c<K, V> f;
+    
+    public b(int paramInt)
+    {
+      a = paramInt;
+      e = this;
+      f = this;
+      int j = Integer.highestOneBit(Math.max(i, 2) - 1) << 1;
+      int i = j;
+      if (j < 0) {
+        i = 1073741824;
+      }
+      b = new Mc.a[i];
+    }
+    
+    private void d()
+    {
+      if (c > c())
+      {
+        Object localObject = b;
+        if (localObject.length < 1073741824)
+        {
+          Mc.a[] arrayOfA = new Mc.a[localObject.length * 2];
+          b = arrayOfA;
+          int i = arrayOfA.length;
+          for (localObject = e; localObject != this; localObject = ((Mc.c)localObject).b())
+          {
+            Mc.a localA = (Mc.a)localObject;
+            int j = lb.a(c) & i - 1;
+            d = arrayOfA[j];
+            arrayOfA[j] = localA;
+          }
+        }
+      }
+    }
+    
+    public Mc.c<K, V> a()
+    {
+      return f;
+    }
+    
+    public void a(Mc.c<K, V> paramC)
+    {
+      e = paramC;
+    }
+    
+    public boolean add(@h V paramV)
+    {
+      int i;
+      if (paramV == null) {
+        i = 0;
+      } else {
+        i = paramV.hashCode();
+      }
+      int j = lb.a(i);
+      Object localObject = b;
+      j &= localObject.length - 1;
+      Mc.a localA = localObject[j];
+      for (localObject = localA; localObject != null; localObject = d) {
+        if ((i == c) && (U.a(paramV, ((Mc.a)localObject).getValue()))) {
+          return false;
+        }
+      }
+      paramV = new Mc.a(a, paramV, i, localA);
+      localObject = f;
+      ((Mc.c)localObject).a(paramV);
+      paramV.b((Mc.c)localObject);
+      paramV.a(this);
+      b(paramV);
+      localObject = o.c();
+      ((Mc.a)localObject).b(paramV);
+      paramV.a((Mc.a)localObject);
+      localObject = o;
+      paramV.b((Mc.a)localObject);
+      ((Mc.a)localObject).a(paramV);
+      b[j] = paramV;
+      c += 1;
+      d += 1;
+      d();
+      return true;
+    }
+    
+    public Mc.c<K, V> b()
+    {
+      return e;
+    }
+    
+    public void b(Mc.c<K, V> paramC)
+    {
+      f = paramC;
+    }
+    
+    @d
+    public int c()
+    {
+      return b.length;
+    }
+    
+    public void clear()
+    {
+      Arrays.fill(b, null);
+      c = 0;
+      for (Mc.c localC = e; localC != this; localC = localC.b()) {
+        Mc.a((Mc.a)localC);
+      }
+      a(this);
+      b(this);
+      d += 1;
+    }
+    
+    public boolean contains(@h Object paramObject)
+    {
+      int i;
+      if (paramObject == null) {
+        i = 0;
+      } else {
+        i = paramObject.hashCode();
+      }
+      int j = lb.a(i);
+      Object localObject = b;
+      for (localObject = localObject[(j & localObject.length - 1)]; localObject != null; localObject = d) {
+        if ((i == c) && (U.a(paramObject, ((Mc.a)localObject).getValue()))) {
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    public Iterator<V> iterator()
+    {
+      return new Nc(this);
+    }
+    
+    public boolean remove(@h Object paramObject)
+    {
+      int i;
+      if (paramObject == null) {
+        i = 0;
+      } else {
+        i = paramObject.hashCode();
+      }
+      int j = lb.a(i);
+      Object localObject1 = b;
+      j &= localObject1.length - 1;
+      Object localObject2 = null;
+      for (localObject1 = localObject1[j];; localObject1 = d)
+      {
+        Object localObject3 = localObject2;
+        localObject2 = localObject1;
+        if (localObject2 == null) {
+          break;
+        }
+        if ((i == c) && (U.a(paramObject, localObject2.getValue())))
+        {
+          if (localObject3 == null) {
+            b[j] = d;
+          } else {
+            d = d;
+          }
+          paramObject = localObject2.a();
+          localObject1 = localObject2.b();
+          paramObject.a((Mc.c)localObject1);
+          ((Mc.c)localObject1).b(paramObject);
+          paramObject = localObject2.c();
+          localObject1 = localObject2.d();
+          paramObject.b((Mc.a)localObject1);
+          ((Mc.a)localObject1).a(paramObject);
+          c -= 1;
+          d += 1;
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    public int size()
+    {
+      return c;
+    }
+  }
+  
+  private static abstract interface c<K, V>
+  {
+    public abstract c<K, V> a();
+    
+    public abstract void a(c<K, V> paramC);
+    
+    public abstract c<K, V> b();
+    
+    public abstract void b(c<K, V> paramC);
+  }
+}

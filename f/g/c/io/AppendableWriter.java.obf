@@ -1,0 +1,99 @@
+package f.g.c.g;
+
+import java.io.Closeable;
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.Writer;
+
+public class a
+  extends Writer
+{
+  public final Appendable a;
+  public boolean b;
+  
+  public a(Appendable paramAppendable)
+  {
+    a = paramAppendable;
+  }
+  
+  private void u()
+    throws IOException
+  {
+    if (!b) {
+      return;
+    }
+    throw new IOException("Cannot write to a closed writer.");
+  }
+  
+  public Writer append(char paramChar)
+    throws IOException
+  {
+    u();
+    a.append(paramChar);
+    return this;
+  }
+  
+  public Writer append(CharSequence paramCharSequence)
+    throws IOException
+  {
+    u();
+    a.append(paramCharSequence);
+    return this;
+  }
+  
+  public Writer append(CharSequence paramCharSequence, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    u();
+    a.append(paramCharSequence, paramInt1, paramInt2);
+    return this;
+  }
+  
+  public void close()
+    throws IOException
+  {
+    b = true;
+    Appendable localAppendable = a;
+    if ((localAppendable instanceof Closeable)) {
+      ((Closeable)localAppendable).close();
+    }
+  }
+  
+  public void flush()
+    throws IOException
+  {
+    u();
+    Appendable localAppendable = a;
+    if ((localAppendable instanceof Flushable)) {
+      ((Flushable)localAppendable).flush();
+    }
+  }
+  
+  public void write(int paramInt)
+    throws IOException
+  {
+    u();
+    a.append((char)paramInt);
+  }
+  
+  public void write(String paramString)
+    throws IOException
+  {
+    u();
+    a.append(paramString);
+  }
+  
+  public void write(String paramString, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    u();
+    a.append(paramString, paramInt1, paramInt2 + paramInt1);
+  }
+  
+  public void write(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    u();
+    a.append(new String(paramArrayOfChar, paramInt1, paramInt2));
+  }
+}

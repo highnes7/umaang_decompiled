@@ -1,0 +1,74 @@
+package android.support.v7.widget;
+
+import android.content.Context;
+import android.support.v7.content.res.AppCompatResources;
+import android.util.AttributeSet;
+import android.view.ActionMode.Callback;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.widget.CheckedTextView;
+import android.widget.TextView;
+import support.android.v4.widget.f;
+
+public class AppCompatCheckedTextView
+  extends CheckedTextView
+{
+  public static final int[] TINT_ATTRS = { 16843016 };
+  public final AppCompatTextHelper mTextHelper = new AppCompatTextHelper(this);
+  
+  public AppCompatCheckedTextView(Context paramContext)
+  {
+    this(paramContext, null, 16843720);
+  }
+  
+  public AppCompatCheckedTextView(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    this(paramContext, paramAttributeSet, 16843720);
+  }
+  
+  public AppCompatCheckedTextView(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(TintContextWrapper.wrap(paramContext), paramAttributeSet, paramInt);
+    mTextHelper.loadFromAttributes(paramAttributeSet, paramInt);
+    mTextHelper.applyCompoundDrawablesTints();
+    paramContext = TintTypedArray.obtainStyledAttributes(getContext(), paramAttributeSet, TINT_ATTRS, paramInt, 0);
+    setCheckMarkDrawable(paramContext.getDrawable(0));
+    paramContext.recycle();
+  }
+  
+  public void drawableStateChanged()
+  {
+    super.drawableStateChanged();
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.applyCompoundDrawablesTints();
+    }
+  }
+  
+  public InputConnection onCreateInputConnection(EditorInfo paramEditorInfo)
+  {
+    InputConnection localInputConnection = super.onCreateInputConnection(paramEditorInfo);
+    AppCompatHintHelper.onCreateInputConnection(localInputConnection, paramEditorInfo, this);
+    return localInputConnection;
+  }
+  
+  public void setCheckMarkDrawable(int paramInt)
+  {
+    setCheckMarkDrawable(AppCompatResources.getDrawable(getContext(), paramInt));
+  }
+  
+  public void setCustomSelectionActionModeCallback(ActionMode.Callback paramCallback)
+  {
+    super.setCustomSelectionActionModeCallback(f.a(this, paramCallback));
+  }
+  
+  public void setTextAppearance(Context paramContext, int paramInt)
+  {
+    super.setTextAppearance(paramContext, paramInt);
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.onSetTextAppearance(paramContext, paramInt);
+    }
+  }
+}

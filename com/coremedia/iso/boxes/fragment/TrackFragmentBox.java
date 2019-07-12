@@ -1,0 +1,32 @@
+package com.coremedia.iso.boxes.fragment;
+
+import com.coremedia.iso.boxes.Box;
+import f.h.a.b;
+import f.h.a.e;
+import java.util.Iterator;
+import java.util.List;
+
+public class TrackFragmentBox
+  extends b
+{
+  public static final String TYPE = "traf";
+  
+  public TrackFragmentBox()
+  {
+    super("traf");
+  }
+  
+  public TrackFragmentHeaderBox getTrackFragmentHeaderBox()
+  {
+    Iterator localIterator = ((e)this).getBoxes().iterator();
+    Box localBox;
+    do
+    {
+      if (!localIterator.hasNext()) {
+        return null;
+      }
+      localBox = (Box)localIterator.next();
+    } while (!(localBox instanceof TrackFragmentHeaderBox));
+    return (TrackFragmentHeaderBox)localBox;
+  }
+}

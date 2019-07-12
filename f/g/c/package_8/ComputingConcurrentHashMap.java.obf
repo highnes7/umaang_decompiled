@@ -1,0 +1,635 @@
+package f.g.c.d;
+
+import f.g.c.b.Aa;
+import f.g.c.b.C;
+import f.g.c.b.J;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.ref.ReferenceQueue;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.locks.ReentrantLock;
+import m.a.a.a;
+import m.a.h;
+
+public class ba<K, V>
+  extends Cd<K, V>
+{
+  public static final long C = 4L;
+  public final J<? super K, ? extends V> D;
+  
+  public ba(ud paramUd, J<? super K, ? extends V> paramJ)
+  {
+    super(paramUd);
+    if (paramJ != null)
+    {
+      D = paramJ;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public Cd.n<K, V> a(int paramInt1, int paramInt2)
+  {
+    return new d(this, paramInt1, paramInt2);
+  }
+  
+  public d<K, V> c(int paramInt)
+  {
+    return (d)m[(paramInt >>> l & k)];
+  }
+  
+  public V d(K paramK)
+    throws ExecutionException
+  {
+    if (paramK != null)
+    {
+      int i = c(paramK);
+      return c(i).a(paramK, i, D);
+    }
+    throw new NullPointerException();
+  }
+  
+  public Object l()
+  {
+    return new e(q, r, o, p, u, t, s, n, w, this, D);
+  }
+  
+  private static final class a<K, V>
+    implements Cd.B<K, V>
+  {
+    public final Throwable a;
+    
+    public a(Throwable paramThrowable)
+    {
+      a = paramThrowable;
+    }
+    
+    public Cd.B<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, Cd.m<K, V> paramM)
+    {
+      return this;
+    }
+    
+    public Cd.m<K, V> a()
+    {
+      return null;
+    }
+    
+    public void a(Cd.B<K, V> paramB) {}
+    
+    public V b()
+      throws ExecutionException
+    {
+      throw new ExecutionException(a);
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+    
+    public V get()
+    {
+      return null;
+    }
+  }
+  
+  private static final class b<K, V>
+    implements Cd.B<K, V>
+  {
+    public final V a;
+    
+    public b(@h V paramV)
+    {
+      a = paramV;
+    }
+    
+    public Cd.B<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, Cd.m<K, V> paramM)
+    {
+      return this;
+    }
+    
+    public Cd.m<K, V> a()
+    {
+      return null;
+    }
+    
+    public void a(Cd.B<K, V> paramB) {}
+    
+    public V b()
+    {
+      return get();
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+    
+    public V get()
+    {
+      return a;
+    }
+  }
+  
+  public static final class c<K, V>
+    extends ba<K, V>
+    implements Serializable
+  {
+    public static final long E = 0L;
+    
+    public c(ud paramUd, J<? super K, ? extends V> paramJ)
+    {
+      super(paramJ);
+    }
+    
+    public V get(Object paramObject)
+    {
+      try
+      {
+        Object localObject = d(paramObject);
+        if (localObject != null) {
+          return localObject;
+        }
+        localObject = new StringBuilder();
+        ((StringBuilder)localObject).append(D);
+        ((StringBuilder)localObject).append(" returned null for key ");
+        ((StringBuilder)localObject).append(paramObject);
+        ((StringBuilder)localObject).append(".");
+        throw new NullPointerException(((StringBuilder)localObject).toString());
+      }
+      catch (ExecutionException paramObject)
+      {
+        paramObject = paramObject.getCause();
+        Aa.a(paramObject, aa.class);
+        throw new aa(paramObject);
+      }
+    }
+  }
+  
+  public static final class d<K, V>
+    extends Cd.n<K, V>
+  {
+    public d(Cd<K, V> paramCd, int paramInt1, int paramInt2)
+    {
+      super(paramInt1, paramInt2);
+    }
+    
+    public V a(K paramK, int paramInt, J<? super K, ? extends V> paramJ)
+      throws ExecutionException
+    {
+      for (;;)
+      {
+        try
+        {
+          localObject1 = c(paramK, paramInt);
+          if (localObject1 != null)
+          {
+            localObject2 = a((Cd.m)localObject1);
+            if (localObject2 != null)
+            {
+              d((Cd.m)localObject1);
+              l();
+              return localObject2;
+            }
+          }
+          bool = false;
+          if (localObject1 != null)
+          {
+            localObject2 = localObject1;
+            if (((Cd.m)localObject1).a().c()) {}
+          }
+          else
+          {
+            localObject2 = null;
+            lock();
+          }
+        }
+        finally
+        {
+          Object localObject1;
+          Object localObject2;
+          boolean bool;
+          AtomicReferenceArray localAtomicReferenceArray;
+          int j;
+          Object localObject3;
+          l();
+          continue;
+          throw paramK;
+          continue;
+          int i = 1;
+          continue;
+        }
+        try
+        {
+          n();
+          i = b;
+          localAtomicReferenceArray = e;
+          j = localAtomicReferenceArray.length() - 1 & paramInt;
+          localObject3 = (Cd.m)localAtomicReferenceArray.get(j);
+          localObject1 = localObject3;
+          if (localObject1 != null)
+          {
+            Object localObject4 = ((Cd.m)localObject1).getKey();
+            if ((((Cd.m)localObject1).b() == paramInt) && (localObject4 != null) && (a.o.b(paramK, localObject4)))
+            {
+              if (((Cd.m)localObject1).a().c())
+              {
+                i = 0;
+              }
+              else
+              {
+                Object localObject5 = ((Cd.m)localObject1).a().get();
+                if (localObject5 == null)
+                {
+                  a(localObject4, paramInt, localObject5, ud.c.c);
+                }
+                else
+                {
+                  if ((!a.c()) || (!a.b((Cd.m)localObject1))) {
+                    continue;
+                  }
+                  a(localObject4, paramInt, localObject5, ud.c.d);
+                }
+                k.remove(localObject1);
+                l.remove(localObject1);
+                b = (i - 1);
+                continue;
+                c((Cd.m)localObject1);
+                unlock();
+                return localObject5;
+              }
+            }
+            else
+            {
+              localObject1 = ((Cd.m)localObject1).c();
+              continue;
+            }
+            if (i != 0)
+            {
+              localObject2 = new ba.f(paramJ);
+              if (localObject1 == null)
+              {
+                localObject1 = a(paramK, paramInt, (Cd.m)localObject3);
+                ((Cd.m)localObject1).a((Cd.B)localObject2);
+                localAtomicReferenceArray.set(j, localObject1);
+                localObject3 = localObject2;
+              }
+              else
+              {
+                ((Cd.m)localObject1).a((Cd.B)localObject2);
+              }
+            }
+            else
+            {
+              localObject3 = localObject2;
+            }
+            unlock();
+            m();
+            localObject2 = localObject1;
+            if (i != 0)
+            {
+              paramK = a(paramK, paramInt, (Cd.m)localObject1, (ba.f)localObject3);
+              l();
+              return paramK;
+            }
+            if (!Thread.holdsLock(localObject2)) {
+              bool = true;
+            }
+            f.g.c.b.ba.b(bool, "Recursive computation");
+            localObject1 = ((Cd.m)localObject2).a().b();
+            if (localObject1 == null) {
+              continue;
+            }
+            d((Cd.m)localObject2);
+            l();
+            return localObject1;
+          }
+        }
+        finally
+        {
+          unlock();
+          m();
+        }
+      }
+    }
+    
+    /* Error */
+    public V a(K paramK, int paramInt, Cd.m<K, V> paramM, ba.f<K, V> paramF)
+      throws ExecutionException
+    {
+      // Byte code:
+      //   0: invokestatic 168	java/lang/System:nanoTime	()J
+      //   3: pop2
+      //   4: aconst_null
+      //   5: astore 12
+      //   7: aconst_null
+      //   8: astore 11
+      //   10: aload_3
+      //   11: monitorenter
+      //   12: aload 11
+      //   14: astore 12
+      //   16: aload 4
+      //   18: aload_1
+      //   19: iload_2
+      //   20: invokevirtual 171	f/g/c/d/ba$f:a	(Ljava/lang/Object;I)Ljava/lang/Object;
+      //   23: astore 11
+      //   25: aload 11
+      //   27: astore 12
+      //   29: invokestatic 168	java/lang/System:nanoTime	()J
+      //   32: lstore 7
+      //   34: aload 11
+      //   36: astore 13
+      //   38: lload 7
+      //   40: lstore 9
+      //   42: aload_3
+      //   43: monitorexit
+      //   44: aload 11
+      //   46: ifnull +42 -> 88
+      //   49: aload 11
+      //   51: astore 12
+      //   53: lload 7
+      //   55: lstore 5
+      //   57: aload_0
+      //   58: aload_1
+      //   59: iload_2
+      //   60: aload 11
+      //   62: iconst_1
+      //   63: invokevirtual 174	f/g/c/d/Cd$n:a	(Ljava/lang/Object;ILjava/lang/Object;Z)Ljava/lang/Object;
+      //   66: ifnull +22 -> 88
+      //   69: aload 11
+      //   71: astore 12
+      //   73: lload 7
+      //   75: lstore 5
+      //   77: aload_0
+      //   78: aload_1
+      //   79: iload_2
+      //   80: aload 11
+      //   82: getstatic 176	f/g/c/d/ud$c:b	Lf/g/c/d/ud$c;
+      //   85: invokevirtual 99	f/g/c/d/Cd$n:a	(Ljava/lang/Object;ILjava/lang/Object;Lf/g/c/d/ud$c;)V
+      //   88: lload 7
+      //   90: lconst_0
+      //   91: lcmp
+      //   92: ifne +7 -> 99
+      //   95: invokestatic 168	java/lang/System:nanoTime	()J
+      //   98: pop2
+      //   99: aload 11
+      //   101: ifnonnull +12 -> 113
+      //   104: aload_0
+      //   105: aload_1
+      //   106: iload_2
+      //   107: aload 4
+      //   109: invokevirtual 179	f/g/c/d/Cd$n:a	(Ljava/lang/Object;ILf/g/c/d/Cd$B;)Z
+      //   112: pop
+      //   113: aload 11
+      //   115: areturn
+      //   116: astore 11
+      //   118: lconst_0
+      //   119: lstore 5
+      //   121: aload 12
+      //   123: astore 13
+      //   125: lload 5
+      //   127: lstore 9
+      //   129: aload_3
+      //   130: monitorexit
+      //   131: aload 11
+      //   133: athrow
+      //   134: astore_3
+      //   135: goto +20 -> 155
+      //   138: astore 11
+      //   140: aload 13
+      //   142: astore 12
+      //   144: lload 9
+      //   146: lstore 5
+      //   148: goto -27 -> 121
+      //   151: astore_3
+      //   152: lconst_0
+      //   153: lstore 5
+      //   155: lload 5
+      //   157: lconst_0
+      //   158: lcmp
+      //   159: ifne +7 -> 166
+      //   162: invokestatic 168	java/lang/System:nanoTime	()J
+      //   165: pop2
+      //   166: aload 12
+      //   168: ifnonnull +12 -> 180
+      //   171: aload_0
+      //   172: aload_1
+      //   173: iload_2
+      //   174: aload 4
+      //   176: invokevirtual 179	f/g/c/d/Cd$n:a	(Ljava/lang/Object;ILf/g/c/d/Cd$B;)Z
+      //   179: pop
+      //   180: goto +5 -> 185
+      //   183: aload_3
+      //   184: athrow
+      //   185: goto -2 -> 183
+      // Local variable table:
+      //   start	length	slot	name	signature
+      //   0	188	0	this	d
+      //   0	188	1	paramK	K
+      //   0	188	2	paramInt	int
+      //   0	188	3	paramM	Cd.m<K, V>
+      //   0	188	4	paramF	ba.f<K, V>
+      //   55	101	5	l1	long
+      //   32	57	7	l2	long
+      //   40	105	9	l3	long
+      //   8	106	11	localObject1	Object
+      //   116	16	11	localObject2	Object
+      //   138	1	11	localObject3	Object
+      //   5	162	12	localObject4	Object
+      //   36	105	13	localObject5	Object
+      // Exception table:
+      //   from	to	target	type
+      //   16	25	116	finally
+      //   29	34	116	finally
+      //   57	69	134	finally
+      //   77	88	134	finally
+      //   131	134	134	finally
+      //   42	44	138	finally
+      //   129	131	138	finally
+      //   10	12	151	finally
+    }
+  }
+  
+  public static final class e<K, V>
+    extends Cd.b<K, V>
+  {
+    public static final long l = 4L;
+    public final J<? super K, ? extends V> m;
+    
+    public e(Cd.u paramU1, Cd.u paramU2, C<Object> paramC1, C<Object> paramC2, long paramLong1, long paramLong2, int paramInt1, int paramInt2, ud.d<? super K, ? super V> paramD, ConcurrentMap<K, V> paramConcurrentMap, J<? super K, ? extends V> paramJ)
+    {
+      super(paramU2, paramC1, paramC2, paramLong1, paramLong2, paramInt1, paramInt2, paramD, paramConcurrentMap);
+      m = paramJ;
+    }
+    
+    private void b(ObjectOutputStream paramObjectOutputStream)
+      throws IOException
+    {
+      paramObjectOutputStream.defaultWriteObject();
+      a(paramObjectOutputStream);
+    }
+    
+    private void c(ObjectInputStream paramObjectInputStream)
+      throws IOException, ClassNotFoundException
+    {
+      paramObjectInputStream.defaultReadObject();
+      k = b(paramObjectInputStream).a(m);
+      a(paramObjectInputStream);
+    }
+    
+    public Object x()
+    {
+      return k;
+    }
+  }
+  
+  private static final class f<K, V>
+    implements Cd.B<K, V>
+  {
+    public final J<? super K, ? extends V> a;
+    @a("ComputingValueReference.this")
+    public volatile Cd.B<K, V> b = Cd.h;
+    
+    public f(J<? super K, ? extends V> paramJ)
+    {
+      a = paramJ;
+    }
+    
+    public Cd.B<K, V> a(ReferenceQueue<V> paramReferenceQueue, @h V paramV, Cd.m<K, V> paramM)
+    {
+      return this;
+    }
+    
+    public Cd.m<K, V> a()
+    {
+      return null;
+    }
+    
+    public V a(K paramK, int paramInt)
+      throws ExecutionException
+    {
+      try
+      {
+        paramK = a.apply(paramK);
+        b(new ba.b(paramK));
+        return paramK;
+      }
+      catch (Throwable paramK)
+      {
+        b(new ba.a(paramK));
+        throw new ExecutionException(paramK);
+      }
+    }
+    
+    public void a(Cd.B<K, V> paramB)
+    {
+      b(paramB);
+    }
+    
+    /* Error */
+    public V b()
+      throws ExecutionException
+    {
+      // Byte code:
+      //   0: aload_0
+      //   1: getfield 31	f/g/c/d/ba$f:b	Lf/g/c/d/Cd$B;
+      //   4: getstatic 29	f/g/c/d/Cd:h	Lf/g/c/d/Cd$B;
+      //   7: if_acmpne +72 -> 79
+      //   10: aload_0
+      //   11: monitorenter
+      //   12: iconst_0
+      //   13: istore_1
+      //   14: aload_0
+      //   15: getfield 31	f/g/c/d/ba$f:b	Lf/g/c/d/Cd$B;
+      //   18: astore_2
+      //   19: getstatic 29	f/g/c/d/Cd:h	Lf/g/c/d/Cd$B;
+      //   22: astore_3
+      //   23: aload_2
+      //   24: aload_3
+      //   25: if_acmpne +15 -> 40
+      //   28: aload_0
+      //   29: invokevirtual 76	java/lang/Object:wait	()V
+      //   32: goto -18 -> 14
+      //   35: iconst_1
+      //   36: istore_1
+      //   37: goto -23 -> 14
+      //   40: aload_0
+      //   41: monitorexit
+      //   42: iload_1
+      //   43: ifeq +36 -> 79
+      //   46: invokestatic 82	java/lang/Thread:currentThread	()Ljava/lang/Thread;
+      //   49: invokevirtual 85	java/lang/Thread:interrupt	()V
+      //   52: goto +27 -> 79
+      //   55: astore_2
+      //   56: aload_0
+      //   57: monitorexit
+      //   58: aload_2
+      //   59: athrow
+      //   60: astore_2
+      //   61: goto +6 -> 67
+      //   64: astore_2
+      //   65: iconst_0
+      //   66: istore_1
+      //   67: iload_1
+      //   68: ifeq +9 -> 77
+      //   71: invokestatic 82	java/lang/Thread:currentThread	()Ljava/lang/Thread;
+      //   74: invokevirtual 85	java/lang/Thread:interrupt	()V
+      //   77: aload_2
+      //   78: athrow
+      //   79: aload_0
+      //   80: getfield 31	f/g/c/d/ba$f:b	Lf/g/c/d/Cd$B;
+      //   83: invokeinterface 87 1 0
+      //   88: areturn
+      //   89: astore_2
+      //   90: goto -55 -> 35
+      // Local variable table:
+      //   start	length	slot	name	signature
+      //   0	93	0	this	f
+      //   13	55	1	i	int
+      //   18	6	2	localB1	Cd.B
+      //   55	4	2	localObject1	Object
+      //   60	1	2	localObject2	Object
+      //   64	14	2	localObject3	Object
+      //   89	1	2	localInterruptedException	InterruptedException
+      //   22	3	3	localB2	Cd.B
+      // Exception table:
+      //   from	to	target	type
+      //   14	23	55	finally
+      //   28	32	55	finally
+      //   40	42	55	finally
+      //   56	58	55	finally
+      //   58	60	60	finally
+      //   10	12	64	finally
+      //   28	32	89	java/lang/InterruptedException
+    }
+    
+    public void b(Cd.B<K, V> paramB)
+    {
+      try
+      {
+        if (b == Cd.h)
+        {
+          b = paramB;
+          notifyAll();
+        }
+        return;
+      }
+      finally {}
+    }
+    
+    public boolean c()
+    {
+      return true;
+    }
+    
+    public V get()
+    {
+      return null;
+    }
+  }
+}

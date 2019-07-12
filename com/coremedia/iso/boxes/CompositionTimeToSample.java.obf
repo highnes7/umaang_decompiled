@@ -1,0 +1,145 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class CompositionTimeToSample
+  extends f.h.a.c
+{
+  public static final String TYPE = "ctts";
+  public List<Entry> entries = Collections.emptyList();
+  
+  static {}
+  
+  public CompositionTimeToSample()
+  {
+    super("ctts");
+  }
+  
+  public static int[] blowupCompositionTimes(List<Entry> paramList)
+  {
+    Object localObject = paramList.iterator();
+    for (long l = 0L;; l += ((Entry)((Iterator)localObject).next()).getCount()) {
+      if (!((Iterator)localObject).hasNext())
+      {
+        localObject = new int[(int)l];
+        paramList = paramList.iterator();
+        int i = 0;
+        for (;;)
+        {
+          if (!paramList.hasNext()) {
+            return localObject;
+          }
+          Entry localEntry = (Entry)paramList.next();
+          int j = 0;
+          while (j < localEntry.getCount())
+          {
+            localObject[i] = localEntry.getOffset();
+            j += 1;
+            i += 1;
+          }
+        }
+      }
+    }
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    int j = f.h.a.g.c.a(h.j(paramByteBuffer));
+    entries = new ArrayList(j);
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return;
+      }
+      Entry localEntry = new Entry(f.h.a.g.c.a(h.j(paramByteBuffer)), paramByteBuffer.getInt());
+      entries.add(localEntry);
+      i += 1;
+    }
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.putInt((int)entries.size());
+    Iterator localIterator = entries.iterator();
+    for (;;)
+    {
+      if (!localIterator.hasNext()) {
+        return;
+      }
+      Entry localEntry = (Entry)localIterator.next();
+      paramByteBuffer.putInt((int)localEntry.getCount());
+      paramByteBuffer.putInt(localEntry.getOffset());
+    }
+  }
+  
+  public long getContentSize()
+  {
+    return entries.size() * 8 + 8;
+  }
+  
+  public List<Entry> getEntries()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return entries;
+  }
+  
+  public void setEntries(List<Entry> paramList)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramList);
+    j.b().a(localJoinPoint);
+    entries = paramList;
+  }
+  
+  public static class Entry
+  {
+    public int count;
+    public int offset;
+    
+    public Entry(int paramInt1, int paramInt2)
+    {
+      count = paramInt1;
+      offset = paramInt2;
+    }
+    
+    public int getCount()
+    {
+      return count;
+    }
+    
+    public int getOffset()
+    {
+      return offset;
+    }
+    
+    public void setCount(int paramInt)
+    {
+      count = paramInt;
+    }
+    
+    public void setOffset(int paramInt)
+    {
+      offset = paramInt;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder("Entry{count=");
+      localStringBuilder.append(count);
+      localStringBuilder.append(", offset=");
+      return a.a(localStringBuilder, offset, '}');
+    }
+  }
+}

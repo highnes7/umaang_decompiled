@@ -1,0 +1,57 @@
+package com.google.android.gms.auth.api.signin.internal;
+
+import android.content.Context;
+import b.b.x.b.a;
+import b.b.x.b.f;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.internal.zzcv;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+
+public final class zzb
+  extends a<Void>
+  implements zzcv
+{
+  public Semaphore zzecq = new Semaphore(0);
+  public Set<GoogleApiClient> zzecr;
+  
+  public zzb(Context paramContext, Set<GoogleApiClient> paramSet)
+  {
+    super(paramContext);
+    zzecr = paramSet;
+  }
+  
+  private final Void zzaaj()
+  {
+    Iterator localIterator = zzecr.iterator();
+    int i = 0;
+    while (localIterator.hasNext()) {
+      if (((GoogleApiClient)localIterator.next()).zza(this)) {
+        i += 1;
+      }
+    }
+    try
+    {
+      zzecq.tryAcquire(i, 5L, TimeUnit.SECONDS);
+    }
+    catch (InterruptedException localInterruptedException)
+    {
+      for (;;) {}
+    }
+    Thread.currentThread().interrupt();
+    return null;
+  }
+  
+  public final void onStartLoading()
+  {
+    zzecq.drainPermits();
+    forceLoad();
+  }
+  
+  public final void zzaak()
+  {
+    zzecq.release();
+  }
+}

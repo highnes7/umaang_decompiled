@@ -1,0 +1,42 @@
+package com.google.android.gms.common.data;
+
+import com.google.android.gms.common.internal.zzbp;
+import f.a.a.a.a;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class zzb<T>
+  implements Iterator<T>
+{
+  public final DataBuffer<T> zzfqe;
+  public int zzfqf;
+  
+  public zzb(DataBuffer<T> paramDataBuffer)
+  {
+    zzbp.zzu(paramDataBuffer);
+    zzfqe = ((DataBuffer)paramDataBuffer);
+    zzfqf = -1;
+  }
+  
+  public boolean hasNext()
+  {
+    return zzfqf < zzfqe.getCount() - 1;
+  }
+  
+  public T next()
+  {
+    if (hasNext())
+    {
+      DataBuffer localDataBuffer = zzfqe;
+      int i = zzfqf + 1;
+      zzfqf = i;
+      return localDataBuffer.get(i);
+    }
+    throw new NoSuchElementException(a.a(46, "Cannot advance the iterator beyond ", zzfqf));
+  }
+  
+  public void remove()
+  {
+    throw new UnsupportedOperationException("Cannot remove elements from a DataBufferIterator");
+  }
+}

@@ -1,0 +1,258 @@
+package com.google.android.gms.analytics;
+
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Application;
+import android.app.Application.ActivityLifecycleCallbacks;
+import android.content.Context;
+import android.os.Bundle;
+import b.b.a.M;
+import com.google.android.gms.internal.zzamj;
+import com.google.android.gms.internal.zzams;
+import com.google.android.gms.internal.zzamu;
+import com.google.android.gms.internal.zzant;
+import com.google.android.gms.internal.zzaod;
+import com.google.android.gms.internal.zzaoe;
+import com.google.android.gms.internal.zzaom;
+import com.google.android.gms.internal.zzapa;
+import com.google.android.gms.internal.zzapc;
+import com.google.android.gms.internal.zzape;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+public final class GoogleAnalytics
+  extends zza
+{
+  public static List<Runnable> zzdjw = new ArrayList();
+  public boolean zzaqf;
+  public Set<zza> zzdjx = new HashSet();
+  public boolean zzdjy;
+  public boolean zzdjz;
+  public volatile boolean zzdka;
+  public boolean zzdkb;
+  
+  public GoogleAnalytics(zzamu paramZzamu)
+  {
+    super(paramZzamu);
+  }
+  
+  @M(allOf={"android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE"})
+  public static GoogleAnalytics getInstance(Context paramContext)
+  {
+    return zzamu.zzbg(paramContext).zzwn();
+  }
+  
+  public static void zztw()
+  {
+    try
+    {
+      if (zzdjw != null)
+      {
+        Iterator localIterator = zzdjw.iterator();
+        while (localIterator.hasNext()) {
+          ((Runnable)localIterator.next()).run();
+        }
+        zzdjw = null;
+      }
+      return;
+    }
+    finally {}
+    for (;;)
+    {
+      throw localObject;
+    }
+  }
+  
+  public final void dispatchLocalHits()
+  {
+    zztr().zzwc().zzvs();
+  }
+  
+  @TargetApi(14)
+  public final void enableAutoActivityReports(Application paramApplication)
+  {
+    if (!zzdjy)
+    {
+      paramApplication.registerActivityLifecycleCallbacks(new zzb());
+      zzdjy = true;
+    }
+  }
+  
+  public final boolean getAppOptOut()
+  {
+    return zzdka;
+  }
+  
+  @Deprecated
+  public final Logger getLogger()
+  {
+    return zzaom.zzdth;
+  }
+  
+  public final void initialize()
+  {
+    zzape localZzape = zztr().zzwe();
+    localZzape.zzzn();
+    if (localZzape.zzzo()) {
+      setDryRun(localZzape.zzzp());
+    }
+    localZzape.zzzn();
+    zzaqf = true;
+  }
+  
+  public final boolean isDryRunEnabled()
+  {
+    return zzdjz;
+  }
+  
+  public final boolean isInitialized()
+  {
+    return zzaqf;
+  }
+  
+  public final Tracker newTracker(int paramInt)
+  {
+    try
+    {
+      Tracker localTracker = new Tracker(zztr(), null, null);
+      if (paramInt > 0)
+      {
+        zzapc localZzapc = (zzapc)new zzapa(zztr()).zzat(paramInt);
+        if (localZzapc != null) {
+          localTracker.zza(localZzapc);
+        }
+      }
+      localTracker.initialize();
+      return localTracker;
+    }
+    finally {}
+  }
+  
+  public final Tracker newTracker(String paramString)
+  {
+    try
+    {
+      paramString = new Tracker(zztr(), paramString, null);
+      paramString.initialize();
+      return paramString;
+    }
+    finally {}
+  }
+  
+  public final void reportActivityStart(Activity paramActivity)
+  {
+    if (!zzdjy) {
+      zzj(paramActivity);
+    }
+  }
+  
+  public final void reportActivityStop(Activity paramActivity)
+  {
+    if (!zzdjy) {
+      zzk(paramActivity);
+    }
+  }
+  
+  public final void setAppOptOut(boolean paramBoolean)
+  {
+    zzdka = paramBoolean;
+    if (zzdka) {
+      zztr().zzwc().zzvr();
+    }
+  }
+  
+  public final void setDryRun(boolean paramBoolean)
+  {
+    zzdjz = paramBoolean;
+  }
+  
+  public final void setLocalDispatchPeriod(int paramInt)
+  {
+    zztr().zzwc().setLocalDispatchPeriod(paramInt);
+  }
+  
+  @Deprecated
+  public final void setLogger(Logger paramLogger)
+  {
+    zzaom.zzdth = paramLogger;
+    if (!zzdkb)
+    {
+      paramLogger = (String)zzaod.zzdrb.get();
+      paramLogger = (String)zzaod.zzdrb.get();
+      StringBuilder localStringBuilder = new StringBuilder(a.a(paramLogger, 112));
+      localStringBuilder.append("GoogleAnalytics.setLogger() is deprecated. To enable debug logging, please run:\nadb shell setprop log.tag.");
+      localStringBuilder.append(paramLogger);
+      localStringBuilder.append(" DEBUG");
+      localStringBuilder.toString();
+      zzdkb = true;
+    }
+  }
+  
+  public final void zza(zza paramZza)
+  {
+    zzdjx.add(paramZza);
+    paramZza = zztr().getContext();
+    if ((paramZza instanceof Application)) {
+      enableAutoActivityReports((Application)paramZza);
+    }
+  }
+  
+  public final void zzb(zza paramZza)
+  {
+    zzdjx.remove(paramZza);
+  }
+  
+  public final void zzj(Activity paramActivity)
+  {
+    Iterator localIterator = zzdjx.iterator();
+    while (localIterator.hasNext()) {
+      ((zza)localIterator.next()).zzl(paramActivity);
+    }
+  }
+  
+  public final void zzk(Activity paramActivity)
+  {
+    Iterator localIterator = zzdjx.iterator();
+    while (localIterator.hasNext()) {
+      ((zza)localIterator.next()).zzm(paramActivity);
+    }
+  }
+  
+  public static abstract interface zza
+  {
+    public abstract void zzl(Activity paramActivity);
+    
+    public abstract void zzm(Activity paramActivity);
+  }
+  
+  @TargetApi(14)
+  public final class zzb
+    implements Application.ActivityLifecycleCallbacks
+  {
+    public zzb() {}
+    
+    public final void onActivityCreated(Activity paramActivity, Bundle paramBundle) {}
+    
+    public final void onActivityDestroyed(Activity paramActivity) {}
+    
+    public final void onActivityPaused(Activity paramActivity) {}
+    
+    public final void onActivityResumed(Activity paramActivity) {}
+    
+    public final void onActivitySaveInstanceState(Activity paramActivity, Bundle paramBundle) {}
+    
+    public final void onActivityStarted(Activity paramActivity)
+    {
+      zzj(paramActivity);
+    }
+    
+    public final void onActivityStopped(Activity paramActivity)
+    {
+      zzk(paramActivity);
+    }
+  }
+}

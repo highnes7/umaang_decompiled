@@ -1,0 +1,108 @@
+package b.b.x.h.b;
+
+import android.media.session.PlaybackState;
+import android.media.session.PlaybackState.Builder;
+import android.media.session.PlaybackState.CustomAction;
+import android.media.session.PlaybackState.CustomAction.Builder;
+import android.os.Bundle;
+import b.b.a.K;
+import java.util.Iterator;
+import java.util.List;
+
+@K(21)
+public class w
+{
+  public w() {}
+  
+  public static long a(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getActions();
+  }
+  
+  public static Object a(int paramInt, long paramLong1, long paramLong2, float paramFloat, long paramLong3, CharSequence paramCharSequence, long paramLong4, List<Object> paramList, long paramLong5)
+  {
+    PlaybackState.Builder localBuilder = new PlaybackState.Builder();
+    localBuilder.setState(paramInt, paramLong1, paramFloat, paramLong4);
+    localBuilder.setBufferedPosition(paramLong2);
+    localBuilder.setActions(paramLong3);
+    localBuilder.setErrorMessage(paramCharSequence);
+    paramCharSequence = paramList.iterator();
+    while (paramCharSequence.hasNext()) {
+      localBuilder.addCustomAction((PlaybackState.CustomAction)paramCharSequence.next());
+    }
+    localBuilder.setActiveQueueItemId(paramLong5);
+    return localBuilder.build();
+  }
+  
+  public static long b(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getActiveQueueItemId();
+  }
+  
+  public static long c(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getBufferedPosition();
+  }
+  
+  public static List<Object> d(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getCustomActions();
+  }
+  
+  public static CharSequence e(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getErrorMessage();
+  }
+  
+  public static long f(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getLastPositionUpdateTime();
+  }
+  
+  public static float g(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getPlaybackSpeed();
+  }
+  
+  public static long h(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getPosition();
+  }
+  
+  public static int i(Object paramObject)
+  {
+    return ((PlaybackState)paramObject).getState();
+  }
+  
+  public static final class a
+  {
+    public a() {}
+    
+    public static Object a(String paramString, CharSequence paramCharSequence, int paramInt, Bundle paramBundle)
+    {
+      paramString = new PlaybackState.CustomAction.Builder(paramString, paramCharSequence, paramInt);
+      paramString.setExtras(paramBundle);
+      return paramString.build();
+    }
+    
+    public static String a(Object paramObject)
+    {
+      return ((PlaybackState.CustomAction)paramObject).getAction();
+    }
+    
+    public static Bundle b(Object paramObject)
+    {
+      return ((PlaybackState.CustomAction)paramObject).getExtras();
+    }
+    
+    public static int c(Object paramObject)
+    {
+      return ((PlaybackState.CustomAction)paramObject).getIcon();
+    }
+    
+    public static CharSequence d(Object paramObject)
+    {
+      return ((PlaybackState.CustomAction)paramObject).getName();
+    }
+  }
+}

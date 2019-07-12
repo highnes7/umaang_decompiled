@@ -1,0 +1,151 @@
+package b.b.x.h;
+
+import android.os.Bundle;
+import android.support.v4.media.AudioAttributesCompat;
+import b.b.a.F;
+import java.util.Arrays;
+
+public class c
+  implements a
+{
+  public int a = 0;
+  public int b = 0;
+  public int c = 0;
+  public int d = -1;
+  
+  public c() {}
+  
+  public c(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    b = paramInt1;
+    c = paramInt2;
+    a = paramInt3;
+    d = paramInt4;
+  }
+  
+  public static a a(Bundle paramBundle)
+  {
+    if (paramBundle == null) {
+      return null;
+    }
+    int i = paramBundle.getInt("android.support.v4.media.audio_attrs.USAGE", 0);
+    return new c(paramBundle.getInt("android.support.v4.media.audio_attrs.CONTENT_TYPE", 0), paramBundle.getInt("android.support.v4.media.audio_attrs.FLAGS", 0), i, paramBundle.getInt("android.support.v4.media.audio_attrs.LEGACY_STREAM_TYPE", -1));
+  }
+  
+  public int a()
+  {
+    return d;
+  }
+  
+  public int b()
+  {
+    return a;
+  }
+  
+  public int c()
+  {
+    return AudioAttributesCompat.a(true, c, a);
+  }
+  
+  public int d()
+  {
+    int i = d;
+    if (i != -1) {
+      return i;
+    }
+    return AudioAttributesCompat.a(false, c, a);
+  }
+  
+  public Object e()
+  {
+    return null;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    boolean bool1 = paramObject instanceof c;
+    boolean bool2 = false;
+    if (!bool1) {
+      return false;
+    }
+    paramObject = (c)paramObject;
+    bool1 = bool2;
+    if (b == paramObject.getContentType())
+    {
+      bool1 = bool2;
+      if (c == paramObject.getFlags())
+      {
+        bool1 = bool2;
+        if (a == paramObject.b())
+        {
+          bool1 = bool2;
+          if (d == d) {
+            bool1 = true;
+          }
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public int getContentType()
+  {
+    return b;
+  }
+  
+  public int getFlags()
+  {
+    int j = c;
+    int k = d();
+    int i;
+    if (k == 6)
+    {
+      i = j | 0x4;
+    }
+    else
+    {
+      i = j;
+      if (k == 7) {
+        i = j | 0x1;
+      }
+    }
+    return i & 0x111;
+  }
+  
+  public int hashCode()
+  {
+    return Arrays.hashCode(new Object[] { Integer.valueOf(b), Integer.valueOf(c), Integer.valueOf(a), Integer.valueOf(d) });
+  }
+  
+  @F
+  public Bundle toBundle()
+  {
+    Bundle localBundle = new Bundle();
+    localBundle.putInt("android.support.v4.media.audio_attrs.USAGE", a);
+    localBundle.putInt("android.support.v4.media.audio_attrs.CONTENT_TYPE", b);
+    localBundle.putInt("android.support.v4.media.audio_attrs.FLAGS", c);
+    int i = d;
+    if (i != -1) {
+      localBundle.putInt("android.support.v4.media.audio_attrs.LEGACY_STREAM_TYPE", i);
+    }
+    return localBundle;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder("AudioAttributesCompat:");
+    if (d != -1)
+    {
+      localStringBuilder.append(" stream=");
+      localStringBuilder.append(d);
+      localStringBuilder.append(" derived");
+    }
+    localStringBuilder.append(" usage=");
+    localStringBuilder.append(AudioAttributesCompat.b(a));
+    localStringBuilder.append(" content=");
+    localStringBuilder.append(b);
+    localStringBuilder.append(" flags=0x");
+    localStringBuilder.append(Integer.toHexString(c).toUpperCase());
+    return localStringBuilder.toString();
+  }
+}

@@ -1,0 +1,102 @@
+package b.b.v;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.TimeInterpolator;
+import android.os.Build.VERSION;
+import android.view.View;
+
+public class ka
+{
+  public ka() {}
+  
+  public static Animator a(View paramView, ia paramIa, int paramInt1, int paramInt2, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, TimeInterpolator paramTimeInterpolator)
+  {
+    float f1 = paramView.getTranslationX();
+    float f2 = paramView.getTranslationY();
+    Object localObject = (int[])b.getTag(M.e.transition_position);
+    if (localObject != null)
+    {
+      paramFloat1 = localObject[0] - paramInt1 + f1;
+      paramFloat2 = localObject[1] - paramInt2 + f2;
+    }
+    int i = Math.round(paramFloat1 - f1);
+    int j = Math.round(paramFloat2 - f2);
+    paramView.setTranslationX(paramFloat1);
+    paramView.setTranslationY(paramFloat2);
+    if ((paramFloat1 == paramFloat3) && (paramFloat2 == paramFloat4)) {
+      return null;
+    }
+    localObject = ObjectAnimator.ofPropertyValuesHolder(paramView, new PropertyValuesHolder[] { PropertyValuesHolder.ofFloat(View.TRANSLATION_X, new float[] { paramFloat1, paramFloat3 }), PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, new float[] { paramFloat2, paramFloat4 }) });
+    paramView = new a(paramView, b, i + paramInt1, j + paramInt2, f1, f2);
+    ((ObjectAnimator)localObject).addListener(paramView);
+    paramInt1 = Build.VERSION.SDK_INT;
+    ((Animator)localObject).addPauseListener(paramView);
+    ((ObjectAnimator)localObject).setInterpolator(paramTimeInterpolator);
+    return localObject;
+  }
+  
+  private static class a
+    extends AnimatorListenerAdapter
+  {
+    public final View a;
+    public final View b;
+    public final int c;
+    public final int d;
+    public int[] e;
+    public float f;
+    public float g;
+    public final float h;
+    public final float i;
+    
+    public a(View paramView1, View paramView2, int paramInt1, int paramInt2, float paramFloat1, float paramFloat2)
+    {
+      b = paramView1;
+      a = paramView2;
+      c = (paramInt1 - Math.round(b.getTranslationX()));
+      d = (paramInt2 - Math.round(b.getTranslationY()));
+      h = paramFloat1;
+      i = paramFloat2;
+      e = ((int[])a.getTag(M.e.transition_position));
+      if (e != null) {
+        a.setTag(M.e.transition_position, null);
+      }
+    }
+    
+    public void onAnimationCancel(Animator paramAnimator)
+    {
+      if (e == null) {
+        e = new int[2];
+      }
+      paramAnimator = e;
+      float f1 = c;
+      paramAnimator[0] = Math.round(b.getTranslationX() + f1);
+      paramAnimator = e;
+      f1 = d;
+      paramAnimator[1] = Math.round(b.getTranslationY() + f1);
+      a.setTag(M.e.transition_position, e);
+    }
+    
+    public void onAnimationEnd(Animator paramAnimator)
+    {
+      b.setTranslationX(h);
+      b.setTranslationY(i);
+    }
+    
+    public void onAnimationPause(Animator paramAnimator)
+    {
+      f = b.getTranslationX();
+      g = b.getTranslationY();
+      b.setTranslationX(h);
+      b.setTranslationY(i);
+    }
+    
+    public void onAnimationResume(Animator paramAnimator)
+    {
+      b.setTranslationX(f);
+      b.setTranslationY(g);
+    }
+  }
+}

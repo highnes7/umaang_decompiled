@@ -1,0 +1,74 @@
+package com.github.mikephil.charting.charts;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.data.BubbleData;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.interfaces.dataprovider.BubbleDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.IBubbleDataSet;
+import com.github.mikephil.charting.renderer.BubbleChartRenderer;
+import java.util.Iterator;
+import java.util.List;
+
+public class BubbleChart
+  extends BarLineChartBase<BubbleData>
+  implements BubbleDataProvider
+{
+  public BubbleChart(Context paramContext)
+  {
+    super(paramContext);
+  }
+  
+  public BubbleChart(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+  }
+  
+  public BubbleChart(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+  }
+  
+  public void calcMinMax()
+  {
+    super.calcMinMax();
+    if ((mXAxis.mAxisRange == 0.0F) && (((BubbleData)mData).getYValCount() > 0)) {
+      mXAxis.mAxisRange = 1.0F;
+    }
+    Object localObject1 = mXAxis;
+    mAxisMinimum = -0.5F;
+    mAxisMaximum = (((BubbleData)mData).getXValCount() - 0.5F);
+    if (mRenderer != null)
+    {
+      localObject1 = ((BubbleData)mData).getDataSets().iterator();
+      while (((Iterator)localObject1).hasNext())
+      {
+        Object localObject2 = (IBubbleDataSet)((Iterator)localObject1).next();
+        float f1 = ((IBubbleDataSet)localObject2).getXMin();
+        float f2 = ((IBubbleDataSet)localObject2).getXMax();
+        localObject2 = mXAxis;
+        if (f1 < mAxisMinimum) {
+          mAxisMinimum = f1;
+        }
+        localObject2 = mXAxis;
+        if (f2 > mAxisMaximum) {
+          mAxisMaximum = f2;
+        }
+      }
+    }
+    localObject1 = mXAxis;
+    mAxisRange = Math.abs(mAxisMaximum - mAxisMinimum);
+  }
+  
+  public BubbleData getBubbleData()
+  {
+    return (BubbleData)mData;
+  }
+  
+  public void init()
+  {
+    super.init();
+    mRenderer = new BubbleChartRenderer(this, mAnimator, mViewPortHandler);
+  }
+}

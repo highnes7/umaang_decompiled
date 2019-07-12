@@ -1,0 +1,2256 @@
+package android.support.v4.widget;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.os.SystemClock;
+import android.support.v4.view.AbsSavedState;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.AccessibilityDelegate;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.view.ViewParent;
+import android.view.WindowInsets;
+import android.view.accessibility.AccessibilityEvent;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.k;
+import b.b.a.p;
+import b.b.x.o.H;
+import b.b.x.o.a.c.a;
+import b.b.x.o.b;
+import b.b.x.o.h;
+import b.b.x.p.T;
+import b.b.x.p.T.a;
+import b.b.x.p.m;
+import b.b.x.p.n;
+import b.b.x.p.o;
+import java.util.ArrayList;
+import java.util.List;
+
+public class DrawerLayout
+  extends ViewGroup
+{
+  public static final String a = "DrawerLayout";
+  public static final int[] b;
+  public static final int c = 0;
+  public static final int d = 1;
+  public static final int e = 2;
+  public static final int f = 0;
+  public static final int g = 1;
+  public static final int h = 2;
+  public static final int i = 3;
+  public static final int j = 64;
+  public static final int k = 10;
+  public static final int l = -1728053248;
+  public static final int m = 160;
+  public static final int n = 400;
+  public static final boolean o = false;
+  public static final boolean p = true;
+  public static final float q = 1.0F;
+  public static final int[] r;
+  public static final boolean s;
+  public static final boolean t;
+  public final T A;
+  public final T B;
+  public final e C;
+  public final e D;
+  public int E;
+  public boolean F;
+  public boolean G = true;
+  public int H = 3;
+  public int I = 3;
+  public int J = 3;
+  public int K = 3;
+  public boolean L;
+  public boolean M;
+  @G
+  public c N;
+  public List<c> O;
+  public float P;
+  public float Q;
+  public Drawable R;
+  public Drawable S;
+  public Drawable T;
+  public CharSequence U;
+  public CharSequence V;
+  public Object W;
+  public boolean aa;
+  public Drawable ba = null;
+  public Drawable ca = null;
+  public Drawable da = null;
+  public Drawable ea = null;
+  public final ArrayList<View> fa;
+  public Rect ga;
+  public Matrix ha;
+  public final b u = new b();
+  public float v;
+  public int w;
+  public int x = -1728053248;
+  public float y;
+  public Paint z = new Paint();
+  
+  static
+  {
+    boolean bool = true;
+    b = new int[] { 16843828 };
+    r = new int[] { 16842931 };
+    int i1 = Build.VERSION.SDK_INT;
+    s = true;
+    if (i1 < 21) {
+      bool = false;
+    }
+    t = bool;
+  }
+  
+  public DrawerLayout(@F Context paramContext)
+  {
+    this(paramContext, null, 0);
+  }
+  
+  public DrawerLayout(@F Context paramContext, @G AttributeSet paramAttributeSet)
+  {
+    this(paramContext, paramAttributeSet, 0);
+  }
+  
+  public DrawerLayout(@F Context paramContext, @G AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+    setDescendantFocusability(262144);
+    float f1 = getResourcesgetDisplayMetricsdensity;
+    w = ((int)(64.0F * f1 + 0.5F));
+    float f2 = 400.0F * f1;
+    C = new e(3);
+    D = new e(5);
+    A = T.a(this, 1.0F, C);
+    A.e(1);
+    A.a(f2);
+    C.a(A);
+    B = T.a(this, 1.0F, D);
+    B.e(2);
+    B.a(f2);
+    D.a(B);
+    setFocusableInTouchMode(true);
+    H.j(this, 1);
+    H.a(this, new a());
+    setMotionEventSplittingEnabled(false);
+    if (H.m(this))
+    {
+      if (Build.VERSION.SDK_INT >= 21)
+      {
+        setOnApplyWindowInsetsListener(new m(this));
+        setSystemUiVisibility(1280);
+        paramContext = paramContext.obtainStyledAttributes(b);
+      }
+      try
+      {
+        R = paramContext.getDrawable(0);
+        paramContext.recycle();
+      }
+      finally
+      {
+        paramContext.recycle();
+      }
+    }
+    v = (f1 * 10.0F);
+    fa = new ArrayList();
+  }
+  
+  private boolean a(float paramFloat1, float paramFloat2, View paramView)
+  {
+    if (ga == null) {
+      ga = new Rect();
+    }
+    paramView.getHitRect(ga);
+    return ga.contains((int)paramFloat1, (int)paramFloat2);
+  }
+  
+  private boolean a(MotionEvent paramMotionEvent, View paramView)
+  {
+    if (!paramView.getMatrix().isIdentity())
+    {
+      paramMotionEvent = b(paramMotionEvent, paramView);
+      bool = paramView.dispatchGenericMotionEvent(paramMotionEvent);
+      paramMotionEvent.recycle();
+      return bool;
+    }
+    float f1 = getScrollX() - paramView.getLeft();
+    float f2 = getScrollY() - paramView.getTop();
+    paramMotionEvent.offsetLocation(f1, f2);
+    boolean bool = paramView.dispatchGenericMotionEvent(paramMotionEvent);
+    paramMotionEvent.offsetLocation(-f1, -f2);
+    return bool;
+  }
+  
+  private MotionEvent b(MotionEvent paramMotionEvent, View paramView)
+  {
+    float f1 = getScrollX() - paramView.getLeft();
+    float f2 = getScrollY() - paramView.getTop();
+    paramMotionEvent = MotionEvent.obtain(paramMotionEvent);
+    paramMotionEvent.offsetLocation(f1, f2);
+    paramView = paramView.getMatrix();
+    if (!paramView.isIdentity())
+    {
+      if (ha == null) {
+        ha = new Matrix();
+      }
+      paramView.invert(ha);
+      paramMotionEvent.transform(ha);
+    }
+    return paramMotionEvent;
+  }
+  
+  private boolean b(Drawable paramDrawable, int paramInt)
+  {
+    if ((paramDrawable != null) && (b.b.x.d.a.a.f(paramDrawable)))
+    {
+      b.b.x.d.a.a.a(paramDrawable, paramInt);
+      return true;
+    }
+    return false;
+  }
+  
+  private void c(View paramView, boolean paramBoolean)
+  {
+    int i2 = getChildCount();
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      View localView = getChildAt(i1);
+      if (((!paramBoolean) && (!k(localView))) || ((paramBoolean) && (localView == paramView))) {
+        H.j(localView, 1);
+      } else {
+        H.j(localView, 4);
+      }
+      i1 += 1;
+    }
+  }
+  
+  public static String e(int paramInt)
+  {
+    if ((paramInt & 0x3) == 3) {
+      return "LEFT";
+    }
+    if ((paramInt & 0x5) == 5) {
+      return "RIGHT";
+    }
+    return Integer.toHexString(paramInt);
+  }
+  
+  private boolean e()
+  {
+    int i2 = getChildCount();
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      if (getChildAtgetLayoutParamsf) {
+        return true;
+      }
+      i1 += 1;
+    }
+    return false;
+  }
+  
+  private boolean f()
+  {
+    return d() != null;
+  }
+  
+  private Drawable g()
+  {
+    int i1 = H.r(this);
+    Drawable localDrawable;
+    if (i1 == 0)
+    {
+      localDrawable = ba;
+      if (localDrawable != null)
+      {
+        b(localDrawable, i1);
+        return ba;
+      }
+    }
+    else
+    {
+      localDrawable = ca;
+      if (localDrawable != null)
+      {
+        b(localDrawable, i1);
+        return ca;
+      }
+    }
+    return da;
+  }
+  
+  public static boolean g(View paramView)
+  {
+    paramView = paramView.getBackground();
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (paramView != null)
+    {
+      bool1 = bool2;
+      if (paramView.getOpacity() == -1) {
+        bool1 = true;
+      }
+    }
+    return bool1;
+  }
+  
+  private Drawable h()
+  {
+    int i1 = H.r(this);
+    Drawable localDrawable;
+    if (i1 == 0)
+    {
+      localDrawable = ca;
+      if (localDrawable != null)
+      {
+        b(localDrawable, i1);
+        return ca;
+      }
+    }
+    else
+    {
+      localDrawable = ba;
+      if (localDrawable != null)
+      {
+        b(localDrawable, i1);
+        return ba;
+      }
+    }
+    return ea;
+  }
+  
+  public static boolean h(View paramView)
+  {
+    return (H.n(paramView) != 4) && (H.n(paramView) != 2);
+  }
+  
+  private void i()
+  {
+    if (t) {
+      return;
+    }
+    S = g();
+    T = h();
+  }
+  
+  public void a()
+  {
+    if (!M)
+    {
+      long l1 = SystemClock.uptimeMillis();
+      MotionEvent localMotionEvent = MotionEvent.obtain(l1, l1, 3, 0.0F, 0.0F, 0);
+      int i2 = getChildCount();
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        getChildAt(i1).dispatchTouchEvent(localMotionEvent);
+        i1 += 1;
+      }
+      localMotionEvent.recycle();
+      M = true;
+    }
+  }
+  
+  public void a(int paramInt)
+  {
+    a(paramInt, true);
+  }
+  
+  public void a(int paramInt1, int paramInt2)
+  {
+    int i1 = h.a(paramInt2, H.r(this));
+    if (paramInt2 != 3)
+    {
+      if (paramInt2 != 5)
+      {
+        if (paramInt2 != 8388611)
+        {
+          if (paramInt2 == 8388613) {
+            K = paramInt1;
+          }
+        }
+        else {
+          J = paramInt1;
+        }
+      }
+      else {
+        I = paramInt1;
+      }
+    }
+    else {
+      H = paramInt1;
+    }
+    Object localObject;
+    if (paramInt1 != 0)
+    {
+      if (i1 == 3) {
+        localObject = A;
+      } else {
+        localObject = B;
+      }
+      ((T)localObject).b();
+    }
+    if (paramInt1 != 1)
+    {
+      if (paramInt1 != 2) {
+        return;
+      }
+      localObject = b(i1);
+      if (localObject != null) {
+        m((View)localObject);
+      }
+    }
+    else
+    {
+      localObject = b(i1);
+      if (localObject != null) {
+        a((View)localObject);
+      }
+    }
+  }
+  
+  public void a(int paramInt1, int paramInt2, View paramView)
+  {
+    int i2 = A.h();
+    int i3 = B.h();
+    int i1 = 2;
+    if ((i2 != 1) && (i3 != 1))
+    {
+      paramInt1 = i1;
+      if (i2 != 2) {
+        if (i3 == 2) {
+          paramInt1 = i1;
+        } else {
+          paramInt1 = 0;
+        }
+      }
+    }
+    else
+    {
+      paramInt1 = 1;
+    }
+    if ((paramView != null) && (paramInt2 == 0))
+    {
+      float f1 = getLayoutParamse;
+      if (f1 == 0.0F) {
+        b(paramView);
+      } else if (f1 == 1.0F) {
+        c(paramView);
+      }
+    }
+    if (paramInt1 != E)
+    {
+      E = paramInt1;
+      paramView = O;
+      if (paramView != null)
+      {
+        paramInt2 = paramView.size() - 1;
+        while (paramInt2 >= 0)
+        {
+          ((c)O.get(paramInt2)).onDrawerStateChanged(paramInt1);
+          paramInt2 -= 1;
+        }
+      }
+    }
+  }
+  
+  public void a(int paramInt, @F View paramView)
+  {
+    if (k(paramView))
+    {
+      a(paramInt, getLayoutParamsd);
+      return;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("View ");
+    localStringBuilder.append(paramView);
+    localStringBuilder.append(" is not a ");
+    localStringBuilder.append("drawer with appropriate layout_gravity");
+    throw new IllegalArgumentException(localStringBuilder.toString());
+  }
+  
+  public void a(int paramInt, @G CharSequence paramCharSequence)
+  {
+    paramInt = h.a(paramInt, H.r(this));
+    if (paramInt == 3)
+    {
+      U = paramCharSequence;
+      return;
+    }
+    if (paramInt == 5) {
+      V = paramCharSequence;
+    }
+  }
+  
+  public void a(int paramInt, boolean paramBoolean)
+  {
+    Object localObject = b(paramInt);
+    if (localObject != null)
+    {
+      a((View)localObject, paramBoolean);
+      return;
+    }
+    localObject = f.a.a.a.a.b("No drawer view found with gravity ");
+    ((StringBuilder)localObject).append(e(paramInt));
+    throw new IllegalArgumentException(((StringBuilder)localObject).toString());
+  }
+  
+  public void a(Drawable paramDrawable, int paramInt)
+  {
+    if (t) {
+      return;
+    }
+    if ((paramInt & 0x800003) == 8388611)
+    {
+      ba = paramDrawable;
+    }
+    else if ((paramInt & 0x800005) == 8388613)
+    {
+      ca = paramDrawable;
+    }
+    else if ((paramInt & 0x3) == 3)
+    {
+      da = paramDrawable;
+    }
+    else
+    {
+      if ((paramInt & 0x5) != 5) {
+        return;
+      }
+      ea = paramDrawable;
+    }
+    i();
+    invalidate();
+  }
+  
+  public void a(@F c paramC)
+  {
+    if (paramC == null) {
+      return;
+    }
+    if (O == null) {
+      O = new ArrayList();
+    }
+    O.add(paramC);
+  }
+  
+  public void a(@F View paramView)
+  {
+    a(paramView, true);
+  }
+  
+  public void a(View paramView, float paramFloat)
+  {
+    List localList = O;
+    if (localList != null)
+    {
+      int i1 = localList.size() - 1;
+      while (i1 >= 0)
+      {
+        ((c)O.get(i1)).onDrawerSlide(paramView, paramFloat);
+        i1 -= 1;
+      }
+    }
+  }
+  
+  public void a(@F View paramView, boolean paramBoolean)
+  {
+    if (k(paramView))
+    {
+      LayoutParams localLayoutParams = (LayoutParams)paramView.getLayoutParams();
+      if (G)
+      {
+        e = 0.0F;
+        g = 0;
+      }
+      else if (paramBoolean)
+      {
+        g |= 0x4;
+        if (a(paramView, 3)) {
+          A.b(paramView, -paramView.getWidth(), paramView.getTop());
+        } else {
+          B.b(paramView, getWidth(), paramView.getTop());
+        }
+      }
+      else
+      {
+        b(paramView, 0.0F);
+        a(d, 0, paramView);
+        paramView.setVisibility(4);
+      }
+      invalidate();
+      return;
+    }
+    throw new IllegalArgumentException(f.a.a.a.a.a("View ", paramView, " is not a sliding drawer"));
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void a(Object paramObject, boolean paramBoolean)
+  {
+    W = paramObject;
+    aa = paramBoolean;
+    if ((!paramBoolean) && (getBackground() == null)) {
+      paramBoolean = true;
+    } else {
+      paramBoolean = false;
+    }
+    setWillNotDraw(paramBoolean);
+    requestLayout();
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    int i4 = getChildCount();
+    int i1 = 0;
+    int i3;
+    for (int i2 = 0; i1 < i4; i2 = i3)
+    {
+      View localView = getChildAt(i1);
+      LayoutParams localLayoutParams = (LayoutParams)localView.getLayoutParams();
+      i3 = i2;
+      if (k(localView)) {
+        if ((paramBoolean) && (!f))
+        {
+          i3 = i2;
+        }
+        else
+        {
+          i3 = localView.getWidth();
+          boolean bool;
+          if (a(localView, 3)) {
+            bool = A.b(localView, -i3, localView.getTop());
+          } else {
+            bool = B.b(localView, getWidth(), localView.getTop());
+          }
+          i3 = i2 | bool;
+          f = false;
+        }
+      }
+      i1 += 1;
+    }
+    C.b();
+    D.b();
+    if (i2 != 0) {
+      invalidate();
+    }
+  }
+  
+  public boolean a(View paramView, int paramInt)
+  {
+    return (e(paramView) & paramInt) == paramInt;
+  }
+  
+  public void addFocusables(ArrayList<View> paramArrayList, int paramInt1, int paramInt2)
+  {
+    if (getDescendantFocusability() == 393216) {
+      return;
+    }
+    int i4 = getChildCount();
+    int i3 = 0;
+    int i1 = 0;
+    int i2 = 0;
+    View localView;
+    while (i1 < i4)
+    {
+      localView = getChildAt(i1);
+      if (k(localView))
+      {
+        if (j(localView))
+        {
+          localView.addFocusables(paramArrayList, paramInt1, paramInt2);
+          i2 = 1;
+        }
+      }
+      else {
+        fa.add(localView);
+      }
+      i1 += 1;
+    }
+    if (i2 == 0)
+    {
+      i2 = fa.size();
+      i1 = i3;
+      while (i1 < i2)
+      {
+        localView = (View)fa.get(i1);
+        if (localView.getVisibility() == 0) {
+          localView.addFocusables(paramArrayList, paramInt1, paramInt2);
+        }
+        i1 += 1;
+      }
+    }
+    fa.clear();
+  }
+  
+  public void addView(View paramView, int paramInt, ViewGroup.LayoutParams paramLayoutParams)
+  {
+    super.addView(paramView, paramInt, paramLayoutParams);
+    if ((c() == null) && (!k(paramView))) {
+      H.j(paramView, 1);
+    } else {
+      H.j(paramView, 4);
+    }
+    if (!s) {
+      H.a(paramView, u);
+    }
+  }
+  
+  public View b(int paramInt)
+  {
+    int i1 = h.a(paramInt, H.r(this));
+    int i2 = getChildCount();
+    paramInt = 0;
+    while (paramInt < i2)
+    {
+      View localView = getChildAt(paramInt);
+      if ((e(localView) & 0x7) == (i1 & 0x7)) {
+        return localView;
+      }
+      paramInt += 1;
+    }
+    return null;
+  }
+  
+  public void b()
+  {
+    a(false);
+  }
+  
+  public void b(@p int paramInt1, int paramInt2)
+  {
+    a(b.b.x.b.c.getDrawable(getContext(), paramInt1), paramInt2);
+  }
+  
+  public void b(int paramInt, boolean paramBoolean)
+  {
+    Object localObject = b(paramInt);
+    if (localObject != null)
+    {
+      b((View)localObject, paramBoolean);
+      return;
+    }
+    localObject = f.a.a.a.a.b("No drawer view found with gravity ");
+    ((StringBuilder)localObject).append(e(paramInt));
+    throw new IllegalArgumentException(((StringBuilder)localObject).toString());
+  }
+  
+  public void b(@F c paramC)
+  {
+    if (paramC == null) {
+      return;
+    }
+    List localList = O;
+    if (localList == null) {
+      return;
+    }
+    localList.remove(paramC);
+  }
+  
+  public void b(View paramView)
+  {
+    Object localObject = (LayoutParams)paramView.getLayoutParams();
+    if ((g & 0x1) == 1)
+    {
+      g = 0;
+      localObject = O;
+      if (localObject != null)
+      {
+        int i1 = ((List)localObject).size() - 1;
+        while (i1 >= 0)
+        {
+          ((c)O.get(i1)).onDrawerClosed(paramView);
+          i1 -= 1;
+        }
+      }
+      c(paramView, false);
+      if (hasWindowFocus())
+      {
+        paramView = getRootView();
+        if (paramView != null) {
+          paramView.sendAccessibilityEvent(32);
+        }
+      }
+    }
+  }
+  
+  public void b(View paramView, float paramFloat)
+  {
+    float f1 = f(paramView);
+    float f2 = paramView.getWidth();
+    int i1 = (int)(f1 * f2);
+    i1 = (int)(f2 * paramFloat) - i1;
+    if (!a(paramView, 3)) {
+      i1 = -i1;
+    }
+    paramView.offsetLeftAndRight(i1);
+    c(paramView, paramFloat);
+  }
+  
+  public void b(@F View paramView, boolean paramBoolean)
+  {
+    if (k(paramView))
+    {
+      LayoutParams localLayoutParams = (LayoutParams)paramView.getLayoutParams();
+      if (G)
+      {
+        e = 1.0F;
+        g = 1;
+        c(paramView, true);
+      }
+      else if (paramBoolean)
+      {
+        g |= 0x2;
+        if (a(paramView, 3)) {
+          A.b(paramView, 0, paramView.getTop());
+        } else {
+          B.b(paramView, getWidth() - paramView.getWidth(), paramView.getTop());
+        }
+      }
+      else
+      {
+        b(paramView, 1.0F);
+        a(d, 0, paramView);
+        paramView.setVisibility(0);
+      }
+      invalidate();
+      return;
+    }
+    throw new IllegalArgumentException(f.a.a.a.a.a("View ", paramView, " is not a sliding drawer"));
+  }
+  
+  public int c(int paramInt)
+  {
+    int i1 = H.r(this);
+    if (paramInt != 3)
+    {
+      if (paramInt != 5)
+      {
+        if (paramInt != 8388611)
+        {
+          if (paramInt == 8388613)
+          {
+            paramInt = K;
+            if (paramInt != 3) {
+              return paramInt;
+            }
+            if (i1 == 0) {
+              paramInt = I;
+            } else {
+              paramInt = H;
+            }
+            if (paramInt != 3) {
+              return paramInt;
+            }
+          }
+        }
+        else
+        {
+          paramInt = J;
+          if (paramInt != 3) {
+            return paramInt;
+          }
+          if (i1 == 0) {
+            paramInt = H;
+          } else {
+            paramInt = I;
+          }
+          if (paramInt != 3) {
+            return paramInt;
+          }
+        }
+      }
+      else
+      {
+        paramInt = I;
+        if (paramInt != 3) {
+          return paramInt;
+        }
+        if (i1 == 0) {
+          paramInt = K;
+        } else {
+          paramInt = J;
+        }
+        if (paramInt != 3) {
+          return paramInt;
+        }
+      }
+    }
+    else
+    {
+      paramInt = H;
+      if (paramInt != 3) {
+        return paramInt;
+      }
+      if (i1 == 0) {
+        paramInt = J;
+      } else {
+        paramInt = K;
+      }
+      if (paramInt != 3) {
+        return paramInt;
+      }
+    }
+    return 0;
+  }
+  
+  public View c()
+  {
+    int i2 = getChildCount();
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      View localView = getChildAt(i1);
+      if ((getLayoutParamsg & 0x1) == 1) {
+        return localView;
+      }
+      i1 += 1;
+    }
+    return null;
+  }
+  
+  public void c(View paramView)
+  {
+    Object localObject = (LayoutParams)paramView.getLayoutParams();
+    if ((g & 0x1) == 0)
+    {
+      g = 1;
+      localObject = O;
+      if (localObject != null)
+      {
+        int i1 = ((List)localObject).size() - 1;
+        while (i1 >= 0)
+        {
+          ((c)O.get(i1)).onDrawerOpened(paramView);
+          i1 -= 1;
+        }
+      }
+      c(paramView, true);
+      if (hasWindowFocus()) {
+        sendAccessibilityEvent(32);
+      }
+    }
+  }
+  
+  public void c(View paramView, float paramFloat)
+  {
+    LayoutParams localLayoutParams = (LayoutParams)paramView.getLayoutParams();
+    if (paramFloat == e) {
+      return;
+    }
+    e = paramFloat;
+    a(paramView, paramFloat);
+  }
+  
+  public boolean checkLayoutParams(ViewGroup.LayoutParams paramLayoutParams)
+  {
+    return ((paramLayoutParams instanceof LayoutParams)) && (super.checkLayoutParams(paramLayoutParams));
+  }
+  
+  public void computeScroll()
+  {
+    int i2 = getChildCount();
+    float f1 = 0.0F;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      f1 = Math.max(f1, getChildAtgetLayoutParamse);
+      i1 += 1;
+    }
+    y = f1;
+    boolean bool1 = A.a(true);
+    boolean bool2 = B.a(true);
+    if ((bool1) || (bool2)) {
+      H.la(this);
+    }
+  }
+  
+  public int d(@F View paramView)
+  {
+    if (k(paramView)) {
+      return c(getLayoutParamsd);
+    }
+    throw new IllegalArgumentException(f.a.a.a.a.a("View ", paramView, " is not a drawer"));
+  }
+  
+  public View d()
+  {
+    int i2 = getChildCount();
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      View localView = getChildAt(i1);
+      if ((k(localView)) && (l(localView))) {
+        return localView;
+      }
+      i1 += 1;
+    }
+    return null;
+  }
+  
+  @G
+  public CharSequence d(int paramInt)
+  {
+    paramInt = h.a(paramInt, H.r(this));
+    if (paramInt == 3) {
+      return U;
+    }
+    if (paramInt == 5) {
+      return V;
+    }
+    return null;
+  }
+  
+  public boolean dispatchGenericMotionEvent(MotionEvent paramMotionEvent)
+  {
+    if (((paramMotionEvent.getSource() & 0x2) != 0) && (paramMotionEvent.getAction() != 10) && (y > 0.0F))
+    {
+      int i1 = getChildCount();
+      if (i1 != 0)
+      {
+        float f1 = paramMotionEvent.getX();
+        float f2 = paramMotionEvent.getY();
+        i1 -= 1;
+        while (i1 >= 0)
+        {
+          View localView = getChildAt(i1);
+          if ((a(f1, f2, localView)) && (!i(localView)) && (a(paramMotionEvent, localView))) {
+            return true;
+          }
+          i1 -= 1;
+        }
+      }
+      return false;
+    }
+    return super.dispatchGenericMotionEvent(paramMotionEvent);
+  }
+  
+  public boolean drawChild(Canvas paramCanvas, View paramView, long paramLong)
+  {
+    int i8 = getHeight();
+    boolean bool1 = i(paramView);
+    int i1 = getWidth();
+    int i7 = paramCanvas.save();
+    int i2 = 0;
+    int i3;
+    int i4;
+    if (bool1)
+    {
+      int i9 = getChildCount();
+      i3 = 0;
+      i2 = 0;
+      while (i3 < i9)
+      {
+        View localView = getChildAt(i3);
+        i4 = i2;
+        int i5 = i1;
+        if (localView != paramView)
+        {
+          i4 = i2;
+          i5 = i1;
+          if (localView.getVisibility() == 0)
+          {
+            i4 = i2;
+            i5 = i1;
+            if (g(localView))
+            {
+              i4 = i2;
+              i5 = i1;
+              if (k(localView)) {
+                if (localView.getHeight() < i8)
+                {
+                  i4 = i2;
+                  i5 = i1;
+                }
+                else
+                {
+                  int i6;
+                  if (a(localView, 3))
+                  {
+                    i6 = localView.getRight();
+                    i4 = i2;
+                    i5 = i1;
+                    if (i6 > i2)
+                    {
+                      i4 = i6;
+                      i5 = i1;
+                    }
+                  }
+                  else
+                  {
+                    i6 = localView.getLeft();
+                    i4 = i2;
+                    i5 = i1;
+                    if (i6 < i1)
+                    {
+                      i5 = i6;
+                      i4 = i2;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        i3 += 1;
+        i2 = i4;
+        i1 = i5;
+      }
+      paramCanvas.clipRect(i2, 0, i1, getHeight());
+    }
+    boolean bool2 = super.drawChild(paramCanvas, paramView, paramLong);
+    paramCanvas.restoreToCount(i7);
+    float f1 = y;
+    if ((f1 > 0.0F) && (bool1))
+    {
+      i3 = x;
+      i4 = (int)(((0xFF000000 & i3) >>> 24) * f1);
+      z.setColor(i3 & 0xFFFFFF | i4 << 24);
+      paramCanvas.drawRect(i2, 0.0F, i1, getHeight(), z);
+      return bool2;
+    }
+    if ((S != null) && (a(paramView, 3)))
+    {
+      i1 = S.getIntrinsicWidth();
+      i2 = paramView.getRight();
+      i3 = A.e();
+      f1 = Math.max(0.0F, Math.min(i2 / i3, 1.0F));
+      S.setBounds(i2, paramView.getTop(), i1 + i2, paramView.getBottom());
+      S.setAlpha((int)(f1 * 255.0F));
+      S.draw(paramCanvas);
+      return bool2;
+    }
+    if ((T != null) && (a(paramView, 5)))
+    {
+      i1 = T.getIntrinsicWidth();
+      i2 = paramView.getLeft();
+      i3 = getWidth();
+      i4 = B.e();
+      f1 = Math.max(0.0F, Math.min((i3 - i2) / i4, 1.0F));
+      T.setBounds(i2 - i1, paramView.getTop(), i2, paramView.getBottom());
+      T.setAlpha((int)(f1 * 255.0F));
+      T.draw(paramCanvas);
+    }
+    return bool2;
+  }
+  
+  public int e(View paramView)
+  {
+    return h.a(getLayoutParamsd, H.r(this));
+  }
+  
+  public float f(View paramView)
+  {
+    return getLayoutParamse;
+  }
+  
+  public boolean f(int paramInt)
+  {
+    View localView = b(paramInt);
+    if (localView != null) {
+      return j(localView);
+    }
+    return false;
+  }
+  
+  public boolean g(int paramInt)
+  {
+    View localView = b(paramInt);
+    if (localView != null) {
+      return l(localView);
+    }
+    return false;
+  }
+  
+  public ViewGroup.LayoutParams generateDefaultLayoutParams()
+  {
+    return new LayoutParams(-1, -1);
+  }
+  
+  public ViewGroup.LayoutParams generateLayoutParams(AttributeSet paramAttributeSet)
+  {
+    return new LayoutParams(getContext(), paramAttributeSet);
+  }
+  
+  public ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams paramLayoutParams)
+  {
+    if ((paramLayoutParams instanceof LayoutParams)) {
+      return new LayoutParams((LayoutParams)paramLayoutParams);
+    }
+    if ((paramLayoutParams instanceof ViewGroup.MarginLayoutParams)) {
+      return new LayoutParams((ViewGroup.MarginLayoutParams)paramLayoutParams);
+    }
+    return new LayoutParams(paramLayoutParams);
+  }
+  
+  public float getDrawerElevation()
+  {
+    if (t) {
+      return v;
+    }
+    return 0.0F;
+  }
+  
+  @G
+  public Drawable getStatusBarBackgroundDrawable()
+  {
+    return R;
+  }
+  
+  public void h(int paramInt)
+  {
+    b(paramInt, true);
+  }
+  
+  public boolean i(View paramView)
+  {
+    return getLayoutParamsd == 0;
+  }
+  
+  public boolean j(@F View paramView)
+  {
+    if (k(paramView)) {
+      return (getLayoutParamsg & 0x1) == 1;
+    }
+    throw new IllegalArgumentException(f.a.a.a.a.a("View ", paramView, " is not a drawer"));
+  }
+  
+  public boolean k(View paramView)
+  {
+    int i1 = h.a(getLayoutParamsd, H.r(paramView));
+    if ((i1 & 0x3) != 0) {
+      return true;
+    }
+    return (i1 & 0x5) != 0;
+  }
+  
+  public boolean l(@F View paramView)
+  {
+    if (k(paramView)) {
+      return getLayoutParamse > 0.0F;
+    }
+    throw new IllegalArgumentException(f.a.a.a.a.a("View ", paramView, " is not a drawer"));
+  }
+  
+  public void m(@F View paramView)
+  {
+    b(paramView, true);
+  }
+  
+  public void onAttachedToWindow()
+  {
+    super.onAttachedToWindow();
+    G = true;
+  }
+  
+  public void onDetachedFromWindow()
+  {
+    super.onDetachedFromWindow();
+    G = true;
+  }
+  
+  public void onDraw(Canvas paramCanvas)
+  {
+    super.onDraw(paramCanvas);
+    if ((aa) && (R != null))
+    {
+      if (Build.VERSION.SDK_INT >= 21)
+      {
+        Object localObject = W;
+        if (localObject != null)
+        {
+          i1 = ((WindowInsets)localObject).getSystemWindowInsetTop();
+          break label49;
+        }
+      }
+      int i1 = 0;
+      label49:
+      if (i1 > 0)
+      {
+        R.setBounds(0, 0, getWidth(), i1);
+        R.draw(paramCanvas);
+      }
+    }
+  }
+  
+  public boolean onInterceptTouchEvent(MotionEvent paramMotionEvent)
+  {
+    int i1 = paramMotionEvent.getActionMasked();
+    boolean bool3 = A.b(paramMotionEvent);
+    boolean bool4 = B.b(paramMotionEvent);
+    boolean bool2 = true;
+    if (i1 != 0)
+    {
+      if (i1 != 1) {
+        if (i1 != 2)
+        {
+          if (i1 != 3) {
+            break label98;
+          }
+        }
+        else
+        {
+          if (!A.a(3)) {
+            break label98;
+          }
+          C.b();
+          D.b();
+          break label98;
+        }
+      }
+      a(true);
+      L = false;
+      M = false;
+      label98:
+      i1 = 0;
+    }
+    else
+    {
+      float f1 = paramMotionEvent.getX();
+      float f2 = paramMotionEvent.getY();
+      P = f1;
+      Q = f2;
+      if (y > 0.0F)
+      {
+        paramMotionEvent = A.b((int)f1, (int)f2);
+        if ((paramMotionEvent != null) && (i(paramMotionEvent)))
+        {
+          i1 = 1;
+          break label166;
+        }
+      }
+      i1 = 0;
+      label166:
+      L = false;
+      M = false;
+    }
+    boolean bool1 = bool2;
+    if (!(bool3 | bool4))
+    {
+      bool1 = bool2;
+      if (i1 == 0)
+      {
+        bool1 = bool2;
+        if (!e())
+        {
+          if (M) {
+            return true;
+          }
+          bool1 = false;
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent)
+  {
+    if ((paramInt == 4) && (f()))
+    {
+      paramKeyEvent.startTracking();
+      return true;
+    }
+    return super.onKeyDown(paramInt, paramKeyEvent);
+  }
+  
+  public boolean onKeyUp(int paramInt, KeyEvent paramKeyEvent)
+  {
+    if (paramInt == 4)
+    {
+      paramKeyEvent = d();
+      if ((paramKeyEvent != null) && (d(paramKeyEvent) == 0)) {
+        b();
+      }
+      return paramKeyEvent != null;
+    }
+    return super.onKeyUp(paramInt, paramKeyEvent);
+  }
+  
+  public void onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    F = true;
+    int i4 = paramInt3 - paramInt1;
+    int i5 = getChildCount();
+    paramInt3 = 0;
+    while (paramInt3 < i5)
+    {
+      View localView = getChildAt(paramInt3);
+      if (localView.getVisibility() != 8)
+      {
+        LayoutParams localLayoutParams = (LayoutParams)localView.getLayoutParams();
+        int i1;
+        int i2;
+        int i3;
+        if (i(localView))
+        {
+          paramInt1 = leftMargin;
+          i1 = topMargin;
+          i2 = localView.getMeasuredWidth();
+          i3 = topMargin;
+          localView.layout(paramInt1, i1, i2 + paramInt1, localView.getMeasuredHeight() + i3);
+        }
+        else
+        {
+          int i6 = localView.getMeasuredWidth();
+          int i7 = localView.getMeasuredHeight();
+          float f1;
+          if (a(localView, 3))
+          {
+            paramInt1 = -i6;
+            f1 = i6;
+            i1 = paramInt1 + (int)(e * f1);
+            f1 = (i6 + i1) / f1;
+          }
+          else
+          {
+            f1 = i6;
+            i1 = i4 - (int)(e * f1);
+            f1 = (i4 - i1) / f1;
+          }
+          if (f1 != e) {
+            i2 = 1;
+          } else {
+            i2 = 0;
+          }
+          paramInt1 = d & 0x70;
+          if (paramInt1 != 16)
+          {
+            if (paramInt1 != 80)
+            {
+              paramInt1 = topMargin;
+              localView.layout(i1, paramInt1, i6 + i1, i7 + paramInt1);
+            }
+            else
+            {
+              paramInt1 = paramInt4 - paramInt2;
+              localView.layout(i1, paramInt1 - bottomMargin - localView.getMeasuredHeight(), i6 + i1, paramInt1 - bottomMargin);
+            }
+          }
+          else
+          {
+            int i8 = paramInt4 - paramInt2;
+            i3 = (i8 - i7) / 2;
+            paramInt1 = topMargin;
+            if (i3 >= paramInt1)
+            {
+              int i9 = bottomMargin;
+              paramInt1 = i3;
+              if (i3 + i7 > i8 - i9) {
+                paramInt1 = i8 - i9 - i7;
+              }
+            }
+            localView.layout(i1, paramInt1, i6 + i1, i7 + paramInt1);
+          }
+          if (i2 != 0) {
+            c(localView, f1);
+          }
+          if (e > 0.0F) {
+            paramInt1 = 0;
+          } else {
+            paramInt1 = 4;
+          }
+          if (localView.getVisibility() != paramInt1) {
+            localView.setVisibility(paramInt1);
+          }
+        }
+      }
+      paramInt3 += 1;
+    }
+    F = false;
+    G = false;
+  }
+  
+  @SuppressLint({"WrongConstant"})
+  public void onMeasure(int paramInt1, int paramInt2)
+  {
+    int i6 = View.MeasureSpec.getMode(paramInt1);
+    int i5 = View.MeasureSpec.getMode(paramInt2);
+    int i1 = View.MeasureSpec.getSize(paramInt1);
+    int i2 = View.MeasureSpec.getSize(paramInt2);
+    int i3;
+    int i4;
+    if (i6 == 1073741824)
+    {
+      i3 = i1;
+      i4 = i2;
+      if (i5 == 1073741824) {}
+    }
+    else
+    {
+      if (!isInEditMode()) {
+        break label809;
+      }
+      if ((i6 != Integer.MIN_VALUE) && (i6 == 0)) {
+        i1 = 300;
+      }
+      if (i5 == Integer.MIN_VALUE)
+      {
+        i3 = i1;
+        i4 = i2;
+      }
+      else
+      {
+        i3 = i1;
+        i4 = i2;
+        if (i5 == 0)
+        {
+          i4 = 300;
+          i3 = i1;
+        }
+      }
+    }
+    setMeasuredDimension(i3, i4);
+    if ((W != null) && (H.m(this))) {
+      i5 = 1;
+    } else {
+      i5 = 0;
+    }
+    int i8 = H.r(this);
+    int i9 = getChildCount();
+    i6 = 0;
+    i2 = 0;
+    i1 = 0;
+    while (i6 < i9)
+    {
+      View localView = getChildAt(i6);
+      LayoutParams localLayoutParams;
+      int i7;
+      if (localView.getVisibility() != 8)
+      {
+        localLayoutParams = (LayoutParams)localView.getLayoutParams();
+        if (i5 != 0)
+        {
+          i7 = h.a(d, i8);
+          WindowInsets localWindowInsets;
+          if (H.m(localView))
+          {
+            if (Build.VERSION.SDK_INT >= 21)
+            {
+              localWindowInsets = (WindowInsets)W;
+              if (i7 == 3)
+              {
+                localObject = localWindowInsets.replaceSystemWindowInsets(localWindowInsets.getSystemWindowInsetLeft(), localWindowInsets.getSystemWindowInsetTop(), 0, localWindowInsets.getSystemWindowInsetBottom());
+              }
+              else
+              {
+                localObject = localWindowInsets;
+                if (i7 == 5) {
+                  localObject = localWindowInsets.replaceSystemWindowInsets(0, localWindowInsets.getSystemWindowInsetTop(), localWindowInsets.getSystemWindowInsetRight(), localWindowInsets.getSystemWindowInsetBottom());
+                }
+              }
+              localView.dispatchApplyWindowInsets((WindowInsets)localObject);
+            }
+          }
+          else if (Build.VERSION.SDK_INT >= 21)
+          {
+            localWindowInsets = (WindowInsets)W;
+            if (i7 == 3)
+            {
+              localObject = localWindowInsets.replaceSystemWindowInsets(localWindowInsets.getSystemWindowInsetLeft(), localWindowInsets.getSystemWindowInsetTop(), 0, localWindowInsets.getSystemWindowInsetBottom());
+            }
+            else
+            {
+              localObject = localWindowInsets;
+              if (i7 == 5) {
+                localObject = localWindowInsets.replaceSystemWindowInsets(0, localWindowInsets.getSystemWindowInsetTop(), localWindowInsets.getSystemWindowInsetRight(), localWindowInsets.getSystemWindowInsetBottom());
+              }
+            }
+            leftMargin = ((WindowInsets)localObject).getSystemWindowInsetLeft();
+            topMargin = ((WindowInsets)localObject).getSystemWindowInsetTop();
+            rightMargin = ((WindowInsets)localObject).getSystemWindowInsetRight();
+            bottomMargin = ((WindowInsets)localObject).getSystemWindowInsetBottom();
+          }
+        }
+        if (i(localView)) {
+          localView.measure(View.MeasureSpec.makeMeasureSpec(i3 - leftMargin - rightMargin, 1073741824), View.MeasureSpec.makeMeasureSpec(i4 - topMargin - bottomMargin, 1073741824));
+        }
+      }
+      else
+      {
+        break label725;
+      }
+      if (k(localView))
+      {
+        if (t)
+        {
+          float f1 = H.l(localView);
+          float f2 = v;
+          if (f1 != f2) {
+            H.b(localView, f2);
+          }
+        }
+        int i10 = e(localView) & 0x7;
+        if (i10 == 3) {
+          i7 = 1;
+        } else {
+          i7 = 0;
+        }
+        if (((i7 != 0) && (i2 != 0)) || ((i7 == 0) && (i1 != 0)))
+        {
+          localObject = f.a.a.a.a.b("Child drawer has absolute gravity ");
+          ((StringBuilder)localObject).append(e(i10));
+          ((StringBuilder)localObject).append(" but this ");
+          ((StringBuilder)localObject).append("DrawerLayout");
+          ((StringBuilder)localObject).append(" already has a ");
+          ((StringBuilder)localObject).append("drawer view along that edge");
+          throw new IllegalStateException(((StringBuilder)localObject).toString());
+        }
+        if (i7 != 0) {
+          i2 = 1;
+        } else {
+          i1 = 1;
+        }
+        localView.measure(ViewGroup.getChildMeasureSpec(paramInt1, w + leftMargin + rightMargin, width), ViewGroup.getChildMeasureSpec(paramInt2, topMargin + bottomMargin, height));
+        label725:
+        i6 += 1;
+      }
+      else
+      {
+        localObject = new StringBuilder();
+        ((StringBuilder)localObject).append("Child ");
+        ((StringBuilder)localObject).append(localView);
+        ((StringBuilder)localObject).append(" at index ");
+        ((StringBuilder)localObject).append(i6);
+        ((StringBuilder)localObject).append(" does not have a valid layout_gravity - must be Gravity.LEFT, ");
+        ((StringBuilder)localObject).append("Gravity.RIGHT or Gravity.NO_GRAVITY");
+        throw new IllegalStateException(((StringBuilder)localObject).toString());
+      }
+    }
+    return;
+    label809:
+    Object localObject = new IllegalArgumentException("DrawerLayout must be measured with MeasureSpec.EXACTLY.");
+    for (;;)
+    {
+      throw ((Throwable)localObject);
+    }
+  }
+  
+  public void onRestoreInstanceState(Parcelable paramParcelable)
+  {
+    if (!(paramParcelable instanceof SavedState))
+    {
+      super.onRestoreInstanceState(paramParcelable);
+      return;
+    }
+    paramParcelable = (SavedState)paramParcelable;
+    super.onRestoreInstanceState(paramParcelable.getSuperState());
+    int i1 = a;
+    if (i1 != 0)
+    {
+      View localView = b(i1);
+      if (localView != null) {
+        m(localView);
+      }
+    }
+    i1 = b;
+    if (i1 != 3) {
+      a(i1, 3);
+    }
+    i1 = c;
+    if (i1 != 3) {
+      a(i1, 5);
+    }
+    i1 = d;
+    if (i1 != 3) {
+      a(i1, 8388611);
+    }
+    i1 = e;
+    if (i1 != 3) {
+      a(i1, 8388613);
+    }
+  }
+  
+  public void onRtlPropertiesChanged(int paramInt)
+  {
+    i();
+  }
+  
+  public Parcelable onSaveInstanceState()
+  {
+    SavedState localSavedState = new SavedState(super.onSaveInstanceState());
+    int i4 = getChildCount();
+    int i1 = 0;
+    while (i1 < i4)
+    {
+      LayoutParams localLayoutParams = (LayoutParams)getChildAt(i1).getLayoutParams();
+      int i2 = g;
+      int i3 = 1;
+      if (i2 == 1) {
+        i2 = 1;
+      } else {
+        i2 = 0;
+      }
+      if (g != 2) {
+        i3 = 0;
+      }
+      if ((i2 == 0) && (i3 == 0)) {
+        i1 += 1;
+      } else {
+        a = d;
+      }
+    }
+    b = H;
+    c = I;
+    d = J;
+    e = K;
+    return localSavedState;
+  }
+  
+  public boolean onTouchEvent(MotionEvent paramMotionEvent)
+  {
+    A.a(paramMotionEvent);
+    B.a(paramMotionEvent);
+    int i1 = paramMotionEvent.getAction() & 0xFF;
+    if (i1 != 0)
+    {
+      if (i1 != 1)
+      {
+        if (i1 != 3) {
+          return true;
+        }
+        a(true);
+        L = false;
+        M = false;
+        return true;
+      }
+      f2 = paramMotionEvent.getX();
+      f1 = paramMotionEvent.getY();
+      paramMotionEvent = A.b((int)f2, (int)f1);
+      if ((paramMotionEvent != null) && (i(paramMotionEvent)))
+      {
+        f2 -= P;
+        f1 -= Q;
+        i1 = A.g();
+        if (f1 * f1 + f2 * f2 < i1 * i1)
+        {
+          paramMotionEvent = c();
+          if ((paramMotionEvent != null) && (d(paramMotionEvent) != 2))
+          {
+            bool = false;
+            break label166;
+          }
+        }
+      }
+      boolean bool = true;
+      label166:
+      a(bool);
+      L = false;
+      return true;
+    }
+    float f1 = paramMotionEvent.getX();
+    float f2 = paramMotionEvent.getY();
+    P = f1;
+    Q = f2;
+    L = false;
+    M = false;
+    return true;
+  }
+  
+  public void requestDisallowInterceptTouchEvent(boolean paramBoolean)
+  {
+    super.requestDisallowInterceptTouchEvent(paramBoolean);
+    L = paramBoolean;
+    if (paramBoolean) {
+      a(true);
+    }
+  }
+  
+  public void requestLayout()
+  {
+    if (!F) {
+      super.requestLayout();
+    }
+  }
+  
+  public void setDrawerElevation(float paramFloat)
+  {
+    v = paramFloat;
+    int i1 = 0;
+    while (i1 < getChildCount())
+    {
+      View localView = getChildAt(i1);
+      if (k(localView)) {
+        H.b(localView, v);
+      }
+      i1 += 1;
+    }
+  }
+  
+  @Deprecated
+  public void setDrawerListener(c paramC)
+  {
+    c localC = N;
+    if (localC != null) {
+      b(localC);
+    }
+    if (paramC != null) {
+      a(paramC);
+    }
+    N = paramC;
+  }
+  
+  public void setDrawerLockMode(int paramInt)
+  {
+    a(paramInt, 3);
+    a(paramInt, 5);
+  }
+  
+  public void setScrimColor(@k int paramInt)
+  {
+    x = paramInt;
+    invalidate();
+  }
+  
+  public void setStatusBarBackground(int paramInt)
+  {
+    Drawable localDrawable;
+    if (paramInt != 0) {
+      localDrawable = b.b.x.b.c.getDrawable(getContext(), paramInt);
+    } else {
+      localDrawable = null;
+    }
+    R = localDrawable;
+    invalidate();
+  }
+  
+  public void setStatusBarBackground(@G Drawable paramDrawable)
+  {
+    R = paramDrawable;
+    invalidate();
+  }
+  
+  public void setStatusBarBackgroundColor(@k int paramInt)
+  {
+    R = new ColorDrawable(paramInt);
+    invalidate();
+  }
+  
+  public static class LayoutParams
+    extends ViewGroup.MarginLayoutParams
+  {
+    public static final int a = 1;
+    public static final int b = 2;
+    public static final int c = 4;
+    public int d = 0;
+    public float e;
+    public boolean f;
+    public int g;
+    
+    public LayoutParams(int paramInt1, int paramInt2)
+    {
+      super(paramInt2);
+    }
+    
+    public LayoutParams(int paramInt1, int paramInt2, int paramInt3)
+    {
+      super(paramInt2);
+      d = paramInt3;
+    }
+    
+    public LayoutParams(@F Context paramContext, @G AttributeSet paramAttributeSet)
+    {
+      super(paramAttributeSet);
+      paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, DrawerLayout.r);
+      d = paramContext.getInt(0, 0);
+      paramContext.recycle();
+    }
+    
+    public LayoutParams(@F LayoutParams paramLayoutParams)
+    {
+      super();
+      d = d;
+    }
+    
+    public LayoutParams(@F ViewGroup.LayoutParams paramLayoutParams)
+    {
+      super();
+    }
+    
+    public LayoutParams(@F ViewGroup.MarginLayoutParams paramMarginLayoutParams)
+    {
+      super();
+    }
+  }
+  
+  protected static class SavedState
+    extends AbsSavedState
+  {
+    public static final Parcelable.Creator<SavedState> CREATOR = new n();
+    public int a = 0;
+    public int b;
+    public int c;
+    public int d;
+    public int e;
+    
+    public SavedState(@F Parcel paramParcel, @G ClassLoader paramClassLoader)
+    {
+      super(paramClassLoader);
+      a = paramParcel.readInt();
+      b = paramParcel.readInt();
+      c = paramParcel.readInt();
+      d = paramParcel.readInt();
+      e = paramParcel.readInt();
+    }
+    
+    public SavedState(@F Parcelable paramParcelable)
+    {
+      super();
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramParcel.writeParcelable(mSuperState, paramInt);
+      paramParcel.writeInt(a);
+      paramParcel.writeInt(b);
+      paramParcel.writeInt(c);
+      paramParcel.writeInt(d);
+      paramParcel.writeInt(e);
+    }
+  }
+  
+  public class a
+    extends b
+  {
+    public final Rect a = new Rect();
+    
+    public a() {}
+    
+    private void a(b.b.x.o.a.c paramC, ViewGroup paramViewGroup)
+    {
+      int j = paramViewGroup.getChildCount();
+      int i = 0;
+      while (i < j)
+      {
+        View localView = paramViewGroup.getChildAt(i);
+        if (DrawerLayout.h(localView)) {
+          paramC.a(localView);
+        }
+        i += 1;
+      }
+    }
+    
+    private void a(b.b.x.o.a.c paramC1, b.b.x.o.a.c paramC2)
+    {
+      Rect localRect = a;
+      paramC2.a(localRect);
+      paramC1.c(localRect);
+      paramC2.b(localRect);
+      paramC1.d(localRect);
+      paramC1.v(paramC2.ba());
+      paramC1.e(paramC2.t());
+      paramC1.a(paramC2.e());
+      paramC1.b(paramC2.h());
+      paramC1.j(paramC2.P());
+      paramC1.e(paramC2.K());
+      paramC1.k(paramC2.Q());
+      paramC1.l(paramC2.R());
+      paramC1.a(paramC2.H());
+      paramC1.t(paramC2.Z());
+      paramC1.o(paramC2.U());
+      paramC1.a(paramC2.c());
+    }
+    
+    public boolean dispatchPopulateAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      if (paramAccessibilityEvent.getEventType() == 32)
+      {
+        paramView = paramAccessibilityEvent.getText();
+        paramAccessibilityEvent = d();
+        if (paramAccessibilityEvent != null)
+        {
+          int i = e(paramAccessibilityEvent);
+          paramAccessibilityEvent = d(i);
+          if (paramAccessibilityEvent != null) {
+            paramView.add(paramAccessibilityEvent);
+          }
+        }
+        return true;
+      }
+      return super.dispatchPopulateAccessibilityEvent(paramView, paramAccessibilityEvent);
+    }
+    
+    public void onInitializeAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      b.DEFAULT_DELEGATE.onInitializeAccessibilityEvent(paramView, paramAccessibilityEvent);
+      paramAccessibilityEvent.setClassName(DrawerLayout.class.getName());
+    }
+    
+    public void onInitializeAccessibilityNodeInfo(View paramView, b.b.x.o.a.c paramC)
+    {
+      if (DrawerLayout.s)
+      {
+        super.onInitializeAccessibilityNodeInfo(paramView, paramC);
+      }
+      else
+      {
+        b.b.x.o.a.c localC = b.b.x.o.a.c.a(paramC);
+        super.onInitializeAccessibilityNodeInfo(paramView, localC);
+        paramC.g(paramView);
+        ViewParent localViewParent = H.C(paramView);
+        if ((localViewParent instanceof View)) {
+          paramC.f((View)localViewParent);
+        }
+        a(paramC, localC);
+        localC.da();
+        a(paramC, (ViewGroup)paramView);
+      }
+      paramC.a(DrawerLayout.class.getName());
+      paramC.k(false);
+      paramC.l(false);
+      paramC.b(c.a.a);
+      paramC.b(c.a.b);
+    }
+    
+    public boolean onRequestSendAccessibilityEvent(ViewGroup paramViewGroup, View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      if ((!DrawerLayout.s) && (!DrawerLayout.h(paramView))) {
+        return false;
+      }
+      return super.onRequestSendAccessibilityEvent(paramViewGroup, paramView, paramAccessibilityEvent);
+    }
+  }
+  
+  public static final class b
+    extends b
+  {
+    public b() {}
+    
+    public void onInitializeAccessibilityNodeInfo(View paramView, b.b.x.o.a.c paramC)
+    {
+      super.onInitializeAccessibilityNodeInfo(paramView, paramC);
+      if (!DrawerLayout.h(paramView)) {
+        paramC.f(null);
+      }
+    }
+  }
+  
+  public static abstract interface c
+  {
+    public abstract void onDrawerClosed(@F View paramView);
+    
+    public abstract void onDrawerOpened(@F View paramView);
+    
+    public abstract void onDrawerSlide(@F View paramView, float paramFloat);
+    
+    public abstract void onDrawerStateChanged(int paramInt);
+  }
+  
+  public static abstract class d
+    implements DrawerLayout.c
+  {
+    public d() {}
+    
+    public void onDrawerClosed(View paramView) {}
+    
+    public void onDrawerOpened(View paramView) {}
+    
+    public void onDrawerSlide(View paramView, float paramFloat) {}
+    
+    public void onDrawerStateChanged(int paramInt) {}
+  }
+  
+  private class e
+    extends T.a
+  {
+    public final int a;
+    public T b;
+    public final Runnable c = new o(this);
+    
+    public e(int paramInt)
+    {
+      a = paramInt;
+    }
+    
+    private void c()
+    {
+      int j = a;
+      int i = 3;
+      if (j == 3) {
+        i = 5;
+      }
+      View localView = b(i);
+      if (localView != null) {
+        a(localView);
+      }
+    }
+    
+    public void a()
+    {
+      int k = b.e();
+      int i = a;
+      int j = 0;
+      if (i == 3) {
+        i = 1;
+      } else {
+        i = 0;
+      }
+      View localView;
+      if (i != 0)
+      {
+        localView = b(3);
+        if (localView != null) {
+          j = -localView.getWidth();
+        }
+        j += k;
+      }
+      else
+      {
+        localView = b(5);
+        j = getWidth() - k;
+      }
+      if ((localView != null) && (((i != 0) && (localView.getLeft() < j)) || ((i == 0) && (localView.getLeft() > j) && (d(localView) == 0))))
+      {
+        DrawerLayout.LayoutParams localLayoutParams = (DrawerLayout.LayoutParams)localView.getLayoutParams();
+        b.b(localView, j, localView.getTop());
+        f = true;
+        invalidate();
+        c();
+        DrawerLayout.this.a();
+      }
+    }
+    
+    public void a(T paramT)
+    {
+      b = paramT;
+    }
+    
+    public void b()
+    {
+      removeCallbacks(c);
+    }
+    
+    public int clampViewPositionHorizontal(View paramView, int paramInt1, int paramInt2)
+    {
+      if (a(paramView, 3)) {
+        return Math.max(-paramView.getWidth(), Math.min(paramInt1, 0));
+      }
+      paramInt2 = getWidth();
+      return Math.max(paramInt2 - paramView.getWidth(), Math.min(paramInt1, paramInt2));
+    }
+    
+    public int clampViewPositionVertical(View paramView, int paramInt1, int paramInt2)
+    {
+      return paramView.getTop();
+    }
+    
+    public int getViewHorizontalDragRange(View paramView)
+    {
+      if (k(paramView)) {
+        return paramView.getWidth();
+      }
+      return 0;
+    }
+    
+    public void onEdgeDragStarted(int paramInt1, int paramInt2)
+    {
+      View localView;
+      if ((paramInt1 & 0x1) == 1) {
+        localView = b(3);
+      } else {
+        localView = b(5);
+      }
+      if ((localView != null) && (d(localView) == 0)) {
+        b.a(localView, paramInt2);
+      }
+    }
+    
+    public boolean onEdgeLock(int paramInt)
+    {
+      return false;
+    }
+    
+    public void onEdgeTouched(int paramInt1, int paramInt2)
+    {
+      postDelayed(c, 160L);
+    }
+    
+    public void onViewCaptured(View paramView, int paramInt)
+    {
+      getLayoutParamsf = false;
+      c();
+    }
+    
+    public void onViewDragStateChanged(int paramInt)
+    {
+      a(a, paramInt, b.d());
+    }
+    
+    public void onViewPositionChanged(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+    {
+      paramInt2 = paramView.getWidth();
+      float f;
+      if (a(paramView, 3)) {
+        f = paramInt1 + paramInt2;
+      } else {
+        f = getWidth() - paramInt1;
+      }
+      f /= paramInt2;
+      c(paramView, f);
+      if (f == 0.0F) {
+        paramInt1 = 4;
+      } else {
+        paramInt1 = 0;
+      }
+      paramView.setVisibility(paramInt1);
+      invalidate();
+    }
+    
+    public void onViewReleased(View paramView, float paramFloat1, float paramFloat2)
+    {
+      paramFloat2 = f(paramView);
+      int k = paramView.getWidth();
+      int i;
+      if (a(paramView, 3))
+      {
+        if ((paramFloat1 <= 0.0F) && ((paramFloat1 != 0.0F) || (paramFloat2 <= 0.5F))) {
+          i = -k;
+        } else {
+          i = 0;
+        }
+      }
+      else
+      {
+        int j = getWidth();
+        if (paramFloat1 >= 0.0F)
+        {
+          i = j;
+          if (paramFloat1 == 0.0F)
+          {
+            i = j;
+            if (paramFloat2 <= 0.5F) {}
+          }
+        }
+        else
+        {
+          i = j - k;
+        }
+      }
+      b.e(i, paramView.getTop());
+      invalidate();
+    }
+    
+    public boolean tryCaptureView(View paramView, int paramInt)
+    {
+      return (k(paramView)) && (a(paramView, a)) && (d(paramView) == 0);
+    }
+  }
+}

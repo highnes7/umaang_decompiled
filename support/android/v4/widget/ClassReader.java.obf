@@ -1,0 +1,420 @@
+package b.b.x.p;
+
+import android.graphics.Rect;
+import b.b.a.F;
+import b.b.a.G;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class t
+{
+  public t() {}
+  
+  public static int a(int paramInt1, int paramInt2)
+  {
+    return paramInt2 * paramInt2 + paramInt1 * 13 * paramInt1;
+  }
+  
+  public static <L, T> T a(@F L paramL, @F b<L, T> paramB, @F a<T> paramA, @G T paramT, int paramInt, boolean paramBoolean1, boolean paramBoolean2)
+  {
+    int j = paramB.a(paramL);
+    ArrayList localArrayList = new ArrayList(j);
+    int i = 0;
+    while (i < j)
+    {
+      localArrayList.add(paramB.a(paramL, i));
+      i += 1;
+    }
+    Collections.sort(localArrayList, new c(paramBoolean1, paramA));
+    if (paramInt != 1)
+    {
+      if (paramInt == 2) {
+        return a(paramT, localArrayList, paramBoolean2);
+      }
+      throw new IllegalArgumentException("direction must be one of {FOCUS_FORWARD, FOCUS_BACKWARD}.");
+    }
+    return b(paramT, localArrayList, paramBoolean2);
+  }
+  
+  public static <L, T> T a(@F L paramL, @F b<L, T> paramB, @F a<T> paramA, @G T paramT, @F Rect paramRect, int paramInt)
+  {
+    Rect localRect1 = new Rect(paramRect);
+    int i = 0;
+    if (paramInt != 17)
+    {
+      if (paramInt != 33)
+      {
+        if (paramInt != 66)
+        {
+          if (paramInt == 130) {
+            localRect1.offset(0, -(paramRect.height() + 1));
+          } else {
+            throw new IllegalArgumentException("direction must be one of {FOCUS_UP, FOCUS_DOWN, FOCUS_LEFT, FOCUS_RIGHT}.");
+          }
+        }
+        else {
+          localRect1.offset(-(paramRect.width() + 1), 0);
+        }
+      }
+      else {
+        localRect1.offset(0, paramRect.height() + 1);
+      }
+    }
+    else {
+      localRect1.offset(paramRect.width() + 1, 0);
+    }
+    Object localObject1 = null;
+    int j = paramB.a(paramL);
+    Rect localRect2 = new Rect();
+    while (i < j)
+    {
+      Object localObject2 = paramB.a(paramL, i);
+      if (localObject2 != paramT)
+      {
+        paramA.a(localObject2, localRect2);
+        if (b(paramInt, paramRect, localRect2, localRect1))
+        {
+          localRect1.set(localRect2);
+          localObject1 = localObject2;
+        }
+      }
+      i += 1;
+    }
+    return localObject1;
+  }
+  
+  public static <T> T a(T paramT, ArrayList<T> paramArrayList, boolean paramBoolean)
+  {
+    int j = paramArrayList.size();
+    int i;
+    if (paramT == null) {
+      i = -1;
+    } else {
+      i = paramArrayList.lastIndexOf(paramT);
+    }
+    i += 1;
+    if (i < j) {
+      return paramArrayList.get(i);
+    }
+    if ((paramBoolean) && (j > 0)) {
+      return paramArrayList.get(0);
+    }
+    return null;
+  }
+  
+  public static boolean a(int paramInt, @F Rect paramRect1, @F Rect paramRect2)
+  {
+    if (paramInt != 17)
+    {
+      if (paramInt != 33)
+      {
+        if (paramInt == 66) {
+          break label64;
+        }
+        if (paramInt != 130) {
+          throw new IllegalArgumentException("direction must be one of {FOCUS_UP, FOCUS_DOWN, FOCUS_LEFT, FOCUS_RIGHT}.");
+        }
+      }
+      return (right >= left) && (left <= right);
+    }
+    label64:
+    return (bottom >= top) && (top <= bottom);
+  }
+  
+  public static boolean a(int paramInt, @F Rect paramRect1, @F Rect paramRect2, @F Rect paramRect3)
+  {
+    boolean bool1 = a(paramInt, paramRect1, paramRect2);
+    if (!a(paramInt, paramRect1, paramRect3))
+    {
+      if (!bool1) {
+        return false;
+      }
+      boolean bool2 = b(paramInt, paramRect1, paramRect3);
+      bool1 = true;
+      if (!bool2) {
+        return true;
+      }
+      if (paramInt != 17)
+      {
+        if (paramInt == 66) {
+          return true;
+        }
+        if (c(paramInt, paramRect1, paramRect2) < e(paramInt, paramRect1, paramRect3)) {
+          return true;
+        }
+        bool1 = false;
+      }
+      return bool1;
+    }
+    return false;
+  }
+  
+  public static boolean a(@F Rect paramRect1, @F Rect paramRect2, int paramInt)
+  {
+    if (paramInt != 17)
+    {
+      if (paramInt != 33)
+      {
+        if (paramInt != 66)
+        {
+          if (paramInt == 130)
+          {
+            paramInt = top;
+            i = top;
+            return ((paramInt < i) || (bottom <= i)) && (bottom < bottom);
+          }
+          throw new IllegalArgumentException("direction must be one of {FOCUS_UP, FOCUS_DOWN, FOCUS_LEFT, FOCUS_RIGHT}.");
+        }
+        paramInt = left;
+        i = left;
+        return ((paramInt < i) || (right <= i)) && (right < right);
+      }
+      paramInt = bottom;
+      i = bottom;
+      return ((paramInt > i) || (top >= i)) && (top > top);
+    }
+    paramInt = right;
+    int i = right;
+    return ((paramInt > i) || (left >= i)) && (left > left);
+  }
+  
+  public static <T> T b(T paramT, ArrayList<T> paramArrayList, boolean paramBoolean)
+  {
+    int j = paramArrayList.size();
+    int i;
+    if (paramT == null) {
+      i = j;
+    } else {
+      i = paramArrayList.indexOf(paramT);
+    }
+    i -= 1;
+    if (i >= 0) {
+      return paramArrayList.get(i);
+    }
+    if ((paramBoolean) && (j > 0)) {
+      return paramArrayList.get(j - 1);
+    }
+    return null;
+  }
+  
+  public static boolean b(int paramInt, @F Rect paramRect1, @F Rect paramRect2)
+  {
+    if (paramInt != 17)
+    {
+      if (paramInt != 33)
+      {
+        if (paramInt != 66)
+        {
+          if (paramInt == 130) {
+            return bottom <= top;
+          }
+          throw new IllegalArgumentException("direction must be one of {FOCUS_UP, FOCUS_DOWN, FOCUS_LEFT, FOCUS_RIGHT}.");
+        }
+        return right <= left;
+      }
+      return top >= bottom;
+    }
+    return left >= right;
+  }
+  
+  public static boolean b(int paramInt, @F Rect paramRect1, @F Rect paramRect2, @F Rect paramRect3)
+  {
+    boolean bool2 = a(paramRect1, paramRect2, paramInt);
+    boolean bool1 = false;
+    if (!bool2) {
+      return false;
+    }
+    if (!a(paramRect1, paramRect3, paramInt)) {
+      return true;
+    }
+    if (a(paramInt, paramRect1, paramRect2, paramRect3)) {
+      return true;
+    }
+    if (a(paramInt, paramRect1, paramRect3, paramRect2)) {
+      return false;
+    }
+    if (a(c(paramInt, paramRect1, paramRect2), g(paramInt, paramRect1, paramRect2)) < a(c(paramInt, paramRect1, paramRect3), g(paramInt, paramRect1, paramRect3))) {
+      bool1 = true;
+    }
+    return bool1;
+  }
+  
+  public static int c(int paramInt, @F Rect paramRect1, @F Rect paramRect2)
+  {
+    return Math.max(0, d(paramInt, paramRect1, paramRect2));
+  }
+  
+  public static int d(int paramInt, @F Rect paramRect1, @F Rect paramRect2)
+  {
+    int i;
+    if (paramInt != 17) {
+      if (paramInt != 33) {
+        if (paramInt != 66) {
+          if (paramInt == 130)
+          {
+            paramInt = top;
+            i = bottom;
+          }
+        }
+      }
+    }
+    for (;;)
+    {
+      return paramInt - i;
+      throw new IllegalArgumentException("direction must be one of {FOCUS_UP, FOCUS_DOWN, FOCUS_LEFT, FOCUS_RIGHT}.");
+      paramInt = left;
+      i = right;
+      continue;
+      paramInt = top;
+      i = bottom;
+      continue;
+      paramInt = left;
+      i = right;
+    }
+  }
+  
+  public static int e(int paramInt, @F Rect paramRect1, @F Rect paramRect2)
+  {
+    return Math.max(1, f(paramInt, paramRect1, paramRect2));
+  }
+  
+  public static int f(int paramInt, @F Rect paramRect1, @F Rect paramRect2)
+  {
+    int i;
+    if (paramInt != 17) {
+      if (paramInt != 33) {
+        if (paramInt != 66) {
+          if (paramInt == 130)
+          {
+            paramInt = bottom;
+            i = bottom;
+          }
+        }
+      }
+    }
+    for (;;)
+    {
+      return paramInt - i;
+      throw new IllegalArgumentException("direction must be one of {FOCUS_UP, FOCUS_DOWN, FOCUS_LEFT, FOCUS_RIGHT}.");
+      paramInt = right;
+      i = right;
+      continue;
+      paramInt = top;
+      i = top;
+      continue;
+      paramInt = left;
+      i = left;
+    }
+  }
+  
+  public static int g(int paramInt, @F Rect paramRect1, @F Rect paramRect2)
+  {
+    if (paramInt != 17)
+    {
+      if (paramInt != 33)
+      {
+        if (paramInt == 66) {
+          break label73;
+        }
+        if (paramInt != 130) {
+          throw new IllegalArgumentException("direction must be one of {FOCUS_UP, FOCUS_DOWN, FOCUS_LEFT, FOCUS_RIGHT}.");
+        }
+      }
+      paramInt = left;
+      i = paramRect1.width() / 2;
+      j = left;
+      return Math.abs(i + paramInt - (paramRect2.width() / 2 + j));
+    }
+    label73:
+    paramInt = top;
+    int i = paramRect1.height() / 2;
+    int j = top;
+    return Math.abs(i + paramInt - (paramRect2.height() / 2 + j));
+  }
+  
+  public static abstract interface a<T>
+  {
+    public abstract void a(T paramT, Rect paramRect);
+  }
+  
+  public static abstract interface b<T, V>
+  {
+    public abstract int a(T paramT);
+    
+    public abstract V a(T paramT, int paramInt);
+  }
+  
+  private static class c<T>
+    implements Comparator<T>
+  {
+    public final Rect a = new Rect();
+    public final Rect b = new Rect();
+    public final boolean c;
+    public final t.a<T> d;
+    
+    public c(boolean paramBoolean, t.a<T> paramA)
+    {
+      c = paramBoolean;
+      d = paramA;
+    }
+    
+    public int compare(T paramT1, T paramT2)
+    {
+      Rect localRect1 = a;
+      Rect localRect2 = b;
+      d.a(paramT1, localRect1);
+      d.a(paramT2, localRect2);
+      int j = top;
+      int k = top;
+      int i = -1;
+      if (j < k) {
+        return -1;
+      }
+      if (j > k) {
+        return 1;
+      }
+      j = left;
+      k = left;
+      if (j < k)
+      {
+        if (c) {
+          i = 1;
+        }
+        return i;
+      }
+      if (j > k)
+      {
+        if (c) {
+          return -1;
+        }
+        return 1;
+      }
+      j = bottom;
+      k = bottom;
+      if (j < k) {
+        return -1;
+      }
+      if (j > k) {
+        return 1;
+      }
+      j = right;
+      k = right;
+      if (j < k)
+      {
+        if (c) {
+          i = 1;
+        }
+        return i;
+      }
+      if (j > k)
+      {
+        if (c) {
+          return -1;
+        }
+        return 1;
+      }
+      return 0;
+    }
+  }
+}

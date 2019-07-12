@@ -1,0 +1,42 @@
+package f.g.b.a.a.a;
+
+import f.g.b.a.e.b.a.a.a.a.a;
+import f.g.b.a.g.W;
+import java.security.GeneralSecurityException;
+import java.security.Key;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+@f.g.b.a.g.h
+public final class g
+  implements j
+{
+  public String a;
+  public String b;
+  
+  public g() {}
+  
+  public String a()
+  {
+    return "HMAC-SHA1";
+  }
+  
+  public String a(String paramString)
+    throws GeneralSecurityException
+  {
+    Object localObject1 = new StringBuilder();
+    Object localObject2 = a;
+    if (localObject2 != null) {
+      ((StringBuilder)localObject1).append(h.a((String)localObject2));
+    }
+    ((StringBuilder)localObject1).append('&');
+    localObject2 = b;
+    if (localObject2 != null) {
+      ((StringBuilder)localObject1).append(h.a((String)localObject2));
+    }
+    localObject1 = new SecretKeySpec(W.a(((StringBuilder)localObject1).toString()), "HmacSHA1");
+    localObject2 = Mac.getInstance("HmacSHA1");
+    ((Mac)localObject2).init((Key)localObject1);
+    return a.i(((Mac)localObject2).doFinal(W.a(paramString)));
+  }
+}

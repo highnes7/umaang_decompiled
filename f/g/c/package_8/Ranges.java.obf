@@ -1,0 +1,145 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.util.Iterator;
+
+@a
+@b
+public final class vf
+{
+  public vf() {}
+  
+  public static <C extends Comparable<?>> qf<C> a()
+  {
+    return new qf(la.b(), la.a());
+  }
+  
+  public static <C extends Comparable<?>> qf<C> a(la<C> paramLa1, la<C> paramLa2)
+  {
+    return new qf(paramLa1, paramLa2);
+  }
+  
+  public static <C extends Comparable<?>> qf<C> a(C paramC)
+  {
+    return new qf(la.b(paramC), la.a());
+  }
+  
+  public static <C extends Comparable<?>> qf<C> a(C paramC, O paramO)
+  {
+    int i = paramO.ordinal();
+    if (i != 0)
+    {
+      if (i == 1) {
+        return a(paramC);
+      }
+      throw new AssertionError();
+    }
+    return c(paramC);
+  }
+  
+  public static <C extends Comparable<?>> qf<C> a(C paramC1, O paramO1, C paramC2, O paramO2)
+  {
+    if (paramO1 != null)
+    {
+      if (paramO2 != null)
+      {
+        if (paramO1 == O.a) {
+          paramC1 = la.a(paramC1);
+        } else {
+          paramC1 = la.b(paramC1);
+        }
+        if (paramO2 == O.a) {
+          paramO1 = la.b(paramC2);
+        } else {
+          paramO1 = la.a(paramC2);
+        }
+        return new qf(paramC1, paramO1);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <C extends Comparable<?>> qf<C> a(C paramC1, C paramC2)
+  {
+    return new qf(la.b(paramC1), la.a(paramC2));
+  }
+  
+  public static <C extends Comparable<?>> qf<C> a(Iterable<C> paramIterable)
+  {
+    if (paramIterable != null)
+    {
+      if ((paramIterable instanceof ia)) {
+        return ((ia)paramIterable).l();
+      }
+      Iterator localIterator = paramIterable.iterator();
+      paramIterable = localIterator.next();
+      ba.a(paramIterable);
+      Comparable localComparable = (Comparable)paramIterable;
+      Object localObject;
+      for (paramIterable = localComparable; localIterator.hasNext(); paramIterable = (Comparable)mf.d().a(paramIterable, localObject))
+      {
+        localObject = localIterator.next();
+        ba.a(localObject);
+        localObject = (Comparable)localObject;
+        localComparable = (Comparable)mf.d().b(localComparable, localObject);
+      }
+      return a(localComparable, paramIterable);
+    }
+    paramIterable = new NullPointerException();
+    for (;;)
+    {
+      throw paramIterable;
+    }
+  }
+  
+  public static <C extends Comparable<?>> qf<C> b(C paramC)
+  {
+    return new qf(la.b(), la.a(paramC));
+  }
+  
+  public static <C extends Comparable<?>> qf<C> b(C paramC, O paramO)
+  {
+    int i = paramO.ordinal();
+    if (i != 0)
+    {
+      if (i == 1) {
+        return b(paramC);
+      }
+      throw new AssertionError();
+    }
+    return d(paramC);
+  }
+  
+  public static <C extends Comparable<?>> qf<C> b(C paramC1, C paramC2)
+  {
+    return new qf(la.b(paramC1), la.b(paramC2));
+  }
+  
+  public static <C extends Comparable<?>> qf<C> c(C paramC)
+  {
+    return new qf(la.a(paramC), la.a());
+  }
+  
+  public static <C extends Comparable<?>> qf<C> c(C paramC1, C paramC2)
+  {
+    return new qf(la.a(paramC1), la.b(paramC2));
+  }
+  
+  public static <C extends Comparable<?>> qf<C> d(C paramC)
+  {
+    return new qf(la.b(), la.b(paramC));
+  }
+  
+  public static <C extends Comparable<?>> qf<C> d(C paramC1, C paramC2)
+  {
+    return new qf(la.a(paramC1), la.a(paramC2));
+  }
+  
+  public static <C extends Comparable<?>> qf<C> e(C paramC)
+  {
+    return a(paramC, paramC);
+  }
+}

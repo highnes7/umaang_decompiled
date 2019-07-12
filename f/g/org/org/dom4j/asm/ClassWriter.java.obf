@@ -1,0 +1,615 @@
+package f.g.b.a.a.b;
+
+import f.g.b.a.c.A;
+import f.g.b.a.c.B;
+import f.g.b.a.c.F;
+import f.g.b.a.c.G;
+import f.g.b.a.c.s;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.d.d;
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.M;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class j
+  implements s, A, G
+{
+  public static final Logger a = Logger.getLogger(j.class.getName());
+  public final Lock b = new ReentrantLock();
+  public final a c;
+  public final f.g.b.a.g.p d;
+  public String e;
+  public Long f;
+  public String g;
+  public final F h;
+  public final s i;
+  public final d j;
+  public final String k;
+  public final Collection<k> l;
+  public final A m;
+  
+  public j(a paramA)
+  {
+    this(new b(paramA));
+  }
+  
+  public j(b paramB)
+  {
+    Object localObject = a;
+    M.a(localObject);
+    c = ((a)localObject);
+    h = b;
+    j = c;
+    localObject = d;
+    if (localObject == null) {
+      localObject = null;
+    } else {
+      localObject = ((f.g.b.a.c.k)localObject).g();
+    }
+    k = ((String)localObject);
+    i = f;
+    m = g;
+    l = Collections.unmodifiableCollection(h);
+    paramB = e;
+    M.a(paramB);
+    d = ((f.g.b.a.g.p)paramB);
+  }
+  
+  public j a(v paramV)
+  {
+    a(paramV.i());
+    if (paramV.k() != null) {
+      b(paramV.k());
+    }
+    b(paramV.j());
+    return this;
+  }
+  
+  public j a(Long paramLong)
+  {
+    b.lock();
+    try
+    {
+      f = paramLong;
+      return this;
+    }
+    finally
+    {
+      b.unlock();
+    }
+  }
+  
+  public j a(String paramString)
+  {
+    b.lock();
+    try
+    {
+      e = paramString;
+      return this;
+    }
+    finally
+    {
+      b.unlock();
+    }
+  }
+  
+  public v a()
+    throws IOException
+  {
+    if (g == null) {
+      return null;
+    }
+    return new p(h, j, new f.g.b.a.c.k(k), g).a(i).a(m).execute();
+  }
+  
+  public void a(y paramY)
+    throws IOException
+  {
+    b.lock();
+    try
+    {
+      Object localObject = f();
+      if ((e == null) || ((localObject != null) && (((Long)localObject).longValue() <= 60L)))
+      {
+        n();
+        localObject = e;
+        if (localObject == null) {
+          return;
+        }
+      }
+      c.a(paramY, e);
+      return;
+    }
+    finally
+    {
+      b.unlock();
+    }
+  }
+  
+  public boolean a(y paramY, B paramB, boolean paramBoolean)
+  {
+    Object localObject = paramB.g().k();
+    boolean bool = true;
+    if (localObject != null)
+    {
+      localObject = ((List)localObject).iterator();
+      while (((Iterator)localObject).hasNext())
+      {
+        String str = (String)((Iterator)localObject).next();
+        if (str.startsWith("Bearer "))
+        {
+          paramBoolean = f.b.matcher(str).find();
+          n = 1;
+          break label81;
+        }
+      }
+    }
+    int n = 0;
+    paramBoolean = false;
+    label81:
+    if (n == 0) {
+      if (paramB.j() == 401) {
+        paramBoolean = true;
+      } else {
+        paramBoolean = false;
+      }
+    }
+    if (paramBoolean) {
+      try
+      {
+        b.lock();
+        paramBoolean = bool;
+        try
+        {
+          if (f.g.b.a.e.a.a.a.b.f.a(e, c.a(paramY)))
+          {
+            paramBoolean = n();
+            if (paramBoolean) {
+              paramBoolean = bool;
+            } else {
+              paramBoolean = false;
+            }
+          }
+          return paramBoolean;
+        }
+        finally
+        {
+          b.unlock();
+        }
+        return false;
+      }
+      catch (IOException paramY)
+      {
+        a.log(Level.SEVERE, "unable to refresh token", paramY);
+      }
+    }
+  }
+  
+  public j b(Long paramLong)
+  {
+    if (paramLong == null)
+    {
+      paramLong = null;
+    }
+    else
+    {
+      long l1 = d.currentTimeMillis();
+      paramLong = Long.valueOf(paramLong.longValue() * 1000L + l1);
+    }
+    return a(paramLong);
+  }
+  
+  public j b(String paramString)
+  {
+    b.lock();
+    if (paramString != null) {}
+    for (;;)
+    {
+      try
+      {
+        if ((j != null) && (h != null) && (i != null) && (k != null))
+        {
+          bool = true;
+          g.a(bool, "Please use the Builder and call setJsonFactory, setTransport, setClientAuthentication and setTokenServerUrl/setTokenServerEncodedUrl");
+          g = paramString;
+          return this;
+        }
+      }
+      finally
+      {
+        b.unlock();
+      }
+      boolean bool = false;
+    }
+  }
+  
+  public final String b()
+  {
+    b.lock();
+    try
+    {
+      String str = e;
+      return str;
+    }
+    finally
+    {
+      b.unlock();
+    }
+  }
+  
+  public void b(y paramY)
+    throws IOException
+  {
+    paramY.a(this);
+    paramY.a(this);
+  }
+  
+  public final s c()
+  {
+    return i;
+  }
+  
+  public final f.g.b.a.g.p d()
+  {
+    return d;
+  }
+  
+  public final Long e()
+  {
+    b.lock();
+    try
+    {
+      Long localLong = f;
+      return localLong;
+    }
+    finally
+    {
+      b.unlock();
+    }
+  }
+  
+  public final Long f()
+  {
+    b.lock();
+    try
+    {
+      Long localLong = f;
+      if (localLong == null) {}
+      for (localLong = null;; localLong = Long.valueOf((f.longValue() - d.currentTimeMillis()) / 1000L))
+      {
+        b.unlock();
+        return localLong;
+      }
+      throw localObject;
+    }
+    finally
+    {
+      b.unlock();
+    }
+    for (;;) {}
+  }
+  
+  public final d g()
+  {
+    return j;
+  }
+  
+  public final a h()
+  {
+    return c;
+  }
+  
+  public final Collection<k> i()
+  {
+    return l;
+  }
+  
+  public final String j()
+  {
+    b.lock();
+    try
+    {
+      String str = g;
+      return str;
+    }
+    finally
+    {
+      b.unlock();
+    }
+  }
+  
+  public final A k()
+  {
+    return m;
+  }
+  
+  public final String l()
+  {
+    return k;
+  }
+  
+  public final F m()
+  {
+    return h;
+  }
+  
+  /* Error */
+  public final boolean n()
+    throws IOException
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: getfield 70	f/g/b/a/a/b/j:b	Ljava/util/concurrent/locks/Lock;
+    //   4: invokeinterface 143 1 0
+    //   9: iconst_1
+    //   10: istore_1
+    //   11: aload_0
+    //   12: invokevirtual 305	f/g/b/a/a/b/j:a	()Lf/g/b/a/a/b/v;
+    //   15: astore_2
+    //   16: aload_2
+    //   17: ifnull +154 -> 171
+    //   20: aload_0
+    //   21: aload_2
+    //   22: invokevirtual 307	f/g/b/a/a/b/j:a	(Lf/g/b/a/a/b/v;)Lf/g/b/a/a/b/j;
+    //   25: pop
+    //   26: aload_0
+    //   27: getfield 114	f/g/b/a/a/b/j:l	Ljava/util/Collection;
+    //   30: invokeinterface 310 1 0
+    //   35: astore_3
+    //   36: aload_3
+    //   37: invokeinterface 215 1 0
+    //   42: ifeq +22 -> 64
+    //   45: aload_3
+    //   46: invokeinterface 219 1 0
+    //   51: checkcast 312	f/g/b/a/a/b/k
+    //   54: aload_0
+    //   55: aload_2
+    //   56: invokeinterface 315 3 0
+    //   61: goto -25 -> 36
+    //   64: aload_0
+    //   65: getfield 70	f/g/b/a/a/b/j:b	Ljava/util/concurrent/locks/Lock;
+    //   68: invokeinterface 148 1 0
+    //   73: iconst_1
+    //   74: ireturn
+    //   75: astore_2
+    //   76: goto +108 -> 184
+    //   79: astore_2
+    //   80: sipush 400
+    //   83: aload_2
+    //   84: invokevirtual 319	f/g/b/a/c/C:c	()I
+    //   87: if_icmpgt +114 -> 201
+    //   90: aload_2
+    //   91: invokevirtual 319	f/g/b/a/c/C:c	()I
+    //   94: sipush 500
+    //   97: if_icmpge +104 -> 201
+    //   100: goto +3 -> 103
+    //   103: aload_2
+    //   104: invokevirtual 322	f/g/b/a/a/b/w:f	()Lf/g/b/a/a/b/r;
+    //   107: ifnull +19 -> 126
+    //   110: iload_1
+    //   111: ifeq +15 -> 126
+    //   114: aload_0
+    //   115: aconst_null
+    //   116: invokevirtual 128	f/g/b/a/a/b/j:a	(Ljava/lang/String;)Lf/g/b/a/a/b/j;
+    //   119: pop
+    //   120: aload_0
+    //   121: aconst_null
+    //   122: invokevirtual 138	f/g/b/a/a/b/j:b	(Ljava/lang/Long;)Lf/g/b/a/a/b/j;
+    //   125: pop
+    //   126: aload_0
+    //   127: getfield 114	f/g/b/a/a/b/j:l	Ljava/util/Collection;
+    //   130: invokeinterface 310 1 0
+    //   135: astore_3
+    //   136: aload_3
+    //   137: invokeinterface 215 1 0
+    //   142: ifeq +25 -> 167
+    //   145: aload_3
+    //   146: invokeinterface 219 1 0
+    //   151: checkcast 312	f/g/b/a/a/b/k
+    //   154: aload_0
+    //   155: aload_2
+    //   156: invokevirtual 322	f/g/b/a/a/b/w:f	()Lf/g/b/a/a/b/r;
+    //   159: invokeinterface 325 3 0
+    //   164: goto -28 -> 136
+    //   167: iload_1
+    //   168: ifne +14 -> 182
+    //   171: aload_0
+    //   172: getfield 70	f/g/b/a/a/b/j:b	Ljava/util/concurrent/locks/Lock;
+    //   175: invokeinterface 148 1 0
+    //   180: iconst_0
+    //   181: ireturn
+    //   182: aload_2
+    //   183: athrow
+    //   184: aload_0
+    //   185: getfield 70	f/g/b/a/a/b/j:b	Ljava/util/concurrent/locks/Lock;
+    //   188: invokeinterface 148 1 0
+    //   193: goto +5 -> 198
+    //   196: aload_2
+    //   197: athrow
+    //   198: goto -2 -> 196
+    //   201: iconst_0
+    //   202: istore_1
+    //   203: goto -100 -> 103
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	206	0	this	j
+    //   10	193	1	n	int
+    //   15	41	2	localV	v
+    //   75	1	2	localObject	Object
+    //   79	118	2	localW	w
+    //   35	111	3	localIterator	Iterator
+    // Exception table:
+    //   from	to	target	type
+    //   11	16	75	finally
+    //   20	36	75	finally
+    //   36	61	75	finally
+    //   80	100	75	finally
+    //   103	110	75	finally
+    //   114	126	75	finally
+    //   126	136	75	finally
+    //   136	164	75	finally
+    //   182	184	75	finally
+    //   11	16	79	f/g/b/a/a/b/w
+    //   20	36	79	f/g/b/a/a/b/w
+    //   36	61	79	f/g/b/a/a/b/w
+  }
+  
+  public static abstract interface a
+  {
+    public abstract String a(y paramY);
+    
+    public abstract void a(y paramY, String paramString)
+      throws IOException;
+  }
+  
+  public static class b
+  {
+    public final j.a a;
+    public F b;
+    public d c;
+    public f.g.b.a.c.k d;
+    public f.g.b.a.g.p e = f.g.b.a.g.p.a;
+    public s f;
+    public A g;
+    public Collection<k> h = new ArrayList();
+    
+    public b(j.a paramA)
+    {
+      if (paramA != null)
+      {
+        a = paramA;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public b a(k paramK)
+    {
+      Collection localCollection = h;
+      if (paramK != null)
+      {
+        localCollection.add(paramK);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public b a(A paramA)
+    {
+      g = paramA;
+      return this;
+    }
+    
+    public b a(F paramF)
+    {
+      b = paramF;
+      return this;
+    }
+    
+    public b a(f.g.b.a.c.k paramK)
+    {
+      d = paramK;
+      return this;
+    }
+    
+    public b a(s paramS)
+    {
+      f = paramS;
+      return this;
+    }
+    
+    public b a(d paramD)
+    {
+      c = paramD;
+      return this;
+    }
+    
+    public b a(f.g.b.a.g.p paramP)
+    {
+      if (paramP != null)
+      {
+        e = paramP;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public b a(String paramString)
+    {
+      if (paramString == null) {
+        paramString = null;
+      } else {
+        paramString = new f.g.b.a.c.k(paramString);
+      }
+      d = paramString;
+      return this;
+    }
+    
+    public b a(Collection<k> paramCollection)
+    {
+      if (paramCollection != null)
+      {
+        h = paramCollection;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public j a()
+    {
+      return new j(this);
+    }
+    
+    public final s b()
+    {
+      return f;
+    }
+    
+    public final f.g.b.a.g.p c()
+    {
+      return e;
+    }
+    
+    public final d d()
+    {
+      return c;
+    }
+    
+    public final j.a e()
+    {
+      return a;
+    }
+    
+    public final Collection<k> f()
+    {
+      return h;
+    }
+    
+    public final A g()
+    {
+      return g;
+    }
+    
+    public final f.g.b.a.c.k h()
+    {
+      return d;
+    }
+    
+    public final F i()
+    {
+      return b;
+    }
+  }
+}

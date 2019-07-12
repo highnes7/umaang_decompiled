@@ -1,0 +1,1193 @@
+package b.b.x.p;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.animation.Interpolator;
+import android.widget.OverScroller;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.I;
+import b.b.x.o.H;
+import f.a.a.a.a;
+import java.util.Arrays;
+
+public class T
+{
+  public static final String a = "ViewDragHelper";
+  public static final int b = -1;
+  public static final int c = 0;
+  public static final int d = 1;
+  public static final int e = 2;
+  public static final int f = 1;
+  public static final int g = 2;
+  public static final int h = 4;
+  public static final int i = 8;
+  public static final int j = 15;
+  public static final int k = 1;
+  public static final int l = 2;
+  public static final int m = 3;
+  public static final int n = 20;
+  public static final int o = 256;
+  public static final int p = 600;
+  public static final Interpolator q = new Q();
+  public int[] A;
+  public int B;
+  public VelocityTracker C;
+  public float D;
+  public float E;
+  public int F;
+  public int G;
+  public OverScroller H;
+  public final a I;
+  public View J;
+  public boolean K;
+  public final ViewGroup L;
+  public final Runnable M = new S(this);
+  public int r;
+  public int s;
+  public int t = -1;
+  public float[] u;
+  public float[] v;
+  public float[] w;
+  public float[] x;
+  public int[] y;
+  public int[] z;
+  
+  public T(@F Context paramContext, @F ViewGroup paramViewGroup, @F a paramA)
+  {
+    if (paramViewGroup != null)
+    {
+      if (paramA != null)
+      {
+        L = paramViewGroup;
+        I = paramA;
+        paramViewGroup = ViewConfiguration.get(paramContext);
+        F = ((int)(getResourcesgetDisplayMetricsdensity * 20.0F + 0.5F));
+        s = paramViewGroup.getScaledTouchSlop();
+        D = paramViewGroup.getScaledMaximumFlingVelocity();
+        E = paramViewGroup.getScaledMinimumFlingVelocity();
+        H = new OverScroller(paramContext, q);
+        return;
+      }
+      throw new IllegalArgumentException("Callback may not be null");
+    }
+    throw new IllegalArgumentException("Parent view may not be null");
+  }
+  
+  private float a(float paramFloat1, float paramFloat2, float paramFloat3)
+  {
+    float f1 = Math.abs(paramFloat1);
+    if (f1 < paramFloat2) {
+      return 0.0F;
+    }
+    if (f1 > paramFloat3)
+    {
+      if (paramFloat1 > 0.0F) {
+        return paramFloat3;
+      }
+      return -paramFloat3;
+    }
+    return paramFloat1;
+  }
+  
+  private int a(int paramInt1, int paramInt2, int paramInt3)
+  {
+    int i1 = Math.abs(paramInt1);
+    if (i1 < paramInt2) {
+      return 0;
+    }
+    if (i1 > paramInt3)
+    {
+      if (paramInt1 > 0) {
+        return paramInt3;
+      }
+      return -paramInt3;
+    }
+    return paramInt1;
+  }
+  
+  private int a(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    paramInt3 = a(paramInt3, (int)E, (int)D);
+    paramInt4 = a(paramInt4, (int)E, (int)D);
+    int i1 = Math.abs(paramInt1);
+    int i2 = Math.abs(paramInt2);
+    int i3 = Math.abs(paramInt3);
+    int i4 = Math.abs(paramInt4);
+    int i5 = i3 + i4;
+    int i6 = i1 + i2;
+    float f1;
+    if (paramInt3 != 0)
+    {
+      f1 = i3;
+      f2 = i5;
+    }
+    else
+    {
+      f1 = i1;
+      f2 = i6;
+    }
+    float f3 = f1 / f2;
+    if (paramInt4 != 0)
+    {
+      f1 = i4;
+      f2 = i5;
+    }
+    else
+    {
+      f1 = i2;
+      f2 = i6;
+    }
+    f1 /= f2;
+    paramInt1 = b(paramInt1, paramInt3, I.getViewHorizontalDragRange(paramView));
+    paramInt2 = b(paramInt2, paramInt4, I.getViewVerticalDragRange(paramView));
+    float f2 = paramInt1;
+    return (int)(paramInt2 * f1 + f2 * f3);
+  }
+  
+  public static T a(@F ViewGroup paramViewGroup, float paramFloat, @F a paramA)
+  {
+    paramViewGroup = a(paramViewGroup, paramA);
+    float f1 = s;
+    s = ((int)(1.0F / paramFloat * f1));
+    return paramViewGroup;
+  }
+  
+  public static T a(@F ViewGroup paramViewGroup, @F a paramA)
+  {
+    return new T(paramViewGroup.getContext(), paramViewGroup, paramA);
+  }
+  
+  private void a(float paramFloat1, float paramFloat2)
+  {
+    K = true;
+    I.onViewReleased(J, paramFloat1, paramFloat2);
+    K = false;
+    if (r == 1) {
+      d(0);
+    }
+  }
+  
+  private void a(float paramFloat1, float paramFloat2, int paramInt)
+  {
+    int i2 = 1;
+    if (!a(paramFloat1, paramFloat2, paramInt, 1)) {
+      i2 = 0;
+    }
+    int i1 = i2;
+    if (a(paramFloat2, paramFloat1, paramInt, 4)) {
+      i1 = i2 | 0x4;
+    }
+    i2 = i1;
+    if (a(paramFloat1, paramFloat2, paramInt, 2)) {
+      i2 = i1 | 0x2;
+    }
+    i1 = i2;
+    if (a(paramFloat2, paramFloat1, paramInt, 8)) {
+      i1 = i2 | 0x8;
+    }
+    if (i1 != 0)
+    {
+      int[] arrayOfInt = z;
+      arrayOfInt[paramInt] |= i1;
+      I.onEdgeDragStarted(i1, paramInt);
+    }
+  }
+  
+  private boolean a(float paramFloat1, float paramFloat2, int paramInt1, int paramInt2)
+  {
+    paramFloat1 = Math.abs(paramFloat1);
+    paramFloat2 = Math.abs(paramFloat2);
+    int i1 = y[paramInt1];
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if ((i1 & paramInt2) == paramInt2)
+    {
+      bool1 = bool2;
+      if ((G & paramInt2) != 0)
+      {
+        bool1 = bool2;
+        if ((A[paramInt1] & paramInt2) != paramInt2)
+        {
+          bool1 = bool2;
+          if ((z[paramInt1] & paramInt2) != paramInt2)
+          {
+            i1 = s;
+            if ((paramFloat1 <= i1) && (paramFloat2 <= i1)) {
+              return false;
+            }
+            if ((paramFloat1 < paramFloat2 * 0.5F) && (I.onEdgeLock(paramInt2)))
+            {
+              int[] arrayOfInt = A;
+              arrayOfInt[paramInt1] |= paramInt2;
+              return false;
+            }
+            bool1 = bool2;
+            if ((z[paramInt1] & paramInt2) == 0)
+            {
+              bool1 = bool2;
+              if (paramFloat1 > s) {
+                bool1 = true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  private boolean a(View paramView, float paramFloat1, float paramFloat2)
+  {
+    boolean bool3 = false;
+    boolean bool2 = false;
+    boolean bool1 = false;
+    if (paramView == null) {
+      return false;
+    }
+    int i1;
+    if (I.getViewHorizontalDragRange(paramView) > 0) {
+      i1 = 1;
+    } else {
+      i1 = 0;
+    }
+    int i2;
+    if (I.getViewVerticalDragRange(paramView) > 0) {
+      i2 = 1;
+    } else {
+      i2 = 0;
+    }
+    if ((i1 != 0) && (i2 != 0))
+    {
+      i1 = s;
+      if (paramFloat2 * paramFloat2 + paramFloat1 * paramFloat1 > i1 * i1) {
+        bool1 = true;
+      }
+      return bool1;
+    }
+    if (i1 != 0)
+    {
+      bool1 = bool3;
+      if (Math.abs(paramFloat1) > s) {
+        bool1 = true;
+      }
+      return bool1;
+    }
+    bool1 = bool2;
+    if (i2 != 0)
+    {
+      bool1 = bool2;
+      if (Math.abs(paramFloat2) > s) {
+        bool1 = true;
+      }
+    }
+    return bool1;
+  }
+  
+  private float b(float paramFloat)
+  {
+    return (float)Math.sin((paramFloat - 0.5F) * 0.47123894F);
+  }
+  
+  private int b(int paramInt1, int paramInt2, int paramInt3)
+  {
+    if (paramInt1 == 0) {
+      return 0;
+    }
+    int i1 = L.getWidth();
+    int i2 = i1 / 2;
+    float f2 = Math.min(1.0F, Math.abs(paramInt1) / i1);
+    float f1 = i2;
+    f2 = b(f2);
+    paramInt2 = Math.abs(paramInt2);
+    if (paramInt2 > 0) {
+      paramInt1 = Math.round(Math.abs((f2 * f1 + f1) / paramInt2) * 1000.0F) * 4;
+    } else {
+      paramInt1 = (int)((Math.abs(paramInt1) / paramInt3 + 1.0F) * 256.0F);
+    }
+    return Math.min(paramInt1, 600);
+  }
+  
+  private void b(float paramFloat1, float paramFloat2, int paramInt)
+  {
+    g(paramInt);
+    float[] arrayOfFloat = u;
+    w[paramInt] = paramFloat1;
+    arrayOfFloat[paramInt] = paramFloat1;
+    arrayOfFloat = v;
+    x[paramInt] = paramFloat2;
+    arrayOfFloat[paramInt] = paramFloat2;
+    y[paramInt] = f((int)paramFloat1, (int)paramFloat2);
+    B |= 1 << paramInt;
+  }
+  
+  private void b(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    int i2 = J.getLeft();
+    int i3 = J.getTop();
+    int i1 = paramInt1;
+    if (paramInt3 != 0)
+    {
+      i1 = I.clampViewPositionHorizontal(J, paramInt1, paramInt3);
+      H.f(J, i1 - i2);
+    }
+    paramInt1 = paramInt2;
+    if (paramInt4 != 0)
+    {
+      paramInt1 = I.clampViewPositionVertical(J, paramInt2, paramInt4);
+      H.g(J, paramInt1 - i3);
+    }
+    if ((paramInt3 != 0) || (paramInt4 != 0)) {
+      I.onViewPositionChanged(J, i1, paramInt1, i1 - i2, paramInt1 - i3);
+    }
+  }
+  
+  private void c(MotionEvent paramMotionEvent)
+  {
+    int i2 = paramMotionEvent.getPointerCount();
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      int i3 = paramMotionEvent.getPointerId(i1);
+      if (h(i3))
+      {
+        float f1 = paramMotionEvent.getX(i1);
+        float f2 = paramMotionEvent.getY(i1);
+        w[i3] = f1;
+        x[i3] = f2;
+      }
+      i1 += 1;
+    }
+  }
+  
+  private boolean c(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    int i1 = J.getLeft();
+    int i2 = J.getTop();
+    paramInt1 -= i1;
+    paramInt2 -= i2;
+    if ((paramInt1 == 0) && (paramInt2 == 0))
+    {
+      H.abortAnimation();
+      d(0);
+      return false;
+    }
+    paramInt3 = a(J, paramInt1, paramInt2, paramInt3, paramInt4);
+    H.startScroll(i1, i2, paramInt1, paramInt2, paramInt3);
+    d(2);
+    return true;
+  }
+  
+  private int f(int paramInt1, int paramInt2)
+  {
+    if (paramInt1 < L.getLeft() + F) {
+      i2 = 1;
+    } else {
+      i2 = 0;
+    }
+    int i1 = i2;
+    if (paramInt2 < L.getTop() + F) {
+      i1 = i2 | 0x4;
+    }
+    int i2 = i1;
+    if (paramInt1 > L.getRight() - F) {
+      i2 = i1 | 0x2;
+    }
+    paramInt1 = i2;
+    if (paramInt2 > L.getBottom() - F) {
+      paramInt1 = i2 | 0x8;
+    }
+    return paramInt1;
+  }
+  
+  private void f(int paramInt)
+  {
+    if (u != null)
+    {
+      if (!c(paramInt)) {
+        return;
+      }
+      u[paramInt] = 0.0F;
+      v[paramInt] = 0.0F;
+      w[paramInt] = 0.0F;
+      x[paramInt] = 0.0F;
+      y[paramInt] = 0;
+      z[paramInt] = 0;
+      A[paramInt] = 0;
+      B = ((1 << paramInt ^ 0xFFFFFFFF) & B);
+    }
+  }
+  
+  private void g(int paramInt)
+  {
+    float[] arrayOfFloat1 = u;
+    if ((arrayOfFloat1 == null) || (arrayOfFloat1.length <= paramInt))
+    {
+      paramInt += 1;
+      arrayOfFloat1 = new float[paramInt];
+      float[] arrayOfFloat2 = new float[paramInt];
+      float[] arrayOfFloat3 = new float[paramInt];
+      float[] arrayOfFloat4 = new float[paramInt];
+      int[] arrayOfInt1 = new int[paramInt];
+      int[] arrayOfInt2 = new int[paramInt];
+      int[] arrayOfInt3 = new int[paramInt];
+      Object localObject = u;
+      if (localObject != null)
+      {
+        System.arraycopy(localObject, 0, arrayOfFloat1, 0, localObject.length);
+        localObject = v;
+        System.arraycopy(localObject, 0, arrayOfFloat2, 0, localObject.length);
+        localObject = w;
+        System.arraycopy(localObject, 0, arrayOfFloat3, 0, localObject.length);
+        localObject = x;
+        System.arraycopy(localObject, 0, arrayOfFloat4, 0, localObject.length);
+        localObject = y;
+        System.arraycopy(localObject, 0, arrayOfInt1, 0, localObject.length);
+        localObject = z;
+        System.arraycopy(localObject, 0, arrayOfInt2, 0, localObject.length);
+        localObject = A;
+        System.arraycopy(localObject, 0, arrayOfInt3, 0, localObject.length);
+      }
+      u = arrayOfFloat1;
+      v = arrayOfFloat2;
+      w = arrayOfFloat3;
+      x = arrayOfFloat4;
+      y = arrayOfInt1;
+      z = arrayOfInt2;
+      A = arrayOfInt3;
+    }
+  }
+  
+  private boolean h(int paramInt)
+  {
+    if (!c(paramInt))
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Ignoring pointerId=");
+      localStringBuilder.append(paramInt);
+      localStringBuilder.append(" because ACTION_DOWN was not received ");
+      localStringBuilder.append("for this pointer before ACTION_MOVE. It likely happened because ");
+      localStringBuilder.append(" ViewDragHelper did not receive all the events in the event stream.");
+      localStringBuilder.toString();
+      return false;
+    }
+    return true;
+  }
+  
+  private void i()
+  {
+    float[] arrayOfFloat = u;
+    if (arrayOfFloat == null) {
+      return;
+    }
+    Arrays.fill(arrayOfFloat, 0.0F);
+    Arrays.fill(v, 0.0F);
+    Arrays.fill(w, 0.0F);
+    Arrays.fill(x, 0.0F);
+    Arrays.fill(y, 0);
+    Arrays.fill(z, 0);
+    Arrays.fill(A, 0);
+    B = 0;
+  }
+  
+  private void j()
+  {
+    C.computeCurrentVelocity(1000, D);
+    a(a(C.getXVelocity(t), E, D), a(C.getYVelocity(t), E, D));
+  }
+  
+  public void a()
+  {
+    b();
+    if (r == 2)
+    {
+      int i1 = H.getCurrX();
+      int i2 = H.getCurrY();
+      H.abortAnimation();
+      int i3 = H.getCurrX();
+      int i4 = H.getCurrY();
+      I.onViewPositionChanged(J, i3, i4, i3 - i1, i4 - i2);
+    }
+    d(0);
+  }
+  
+  public void a(float paramFloat)
+  {
+    E = paramFloat;
+  }
+  
+  public void a(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    if (K)
+    {
+      H.fling(J.getLeft(), J.getTop(), (int)C.getXVelocity(t), (int)C.getYVelocity(t), paramInt1, paramInt3, paramInt2, paramInt4);
+      d(2);
+      return;
+    }
+    throw new IllegalStateException("Cannot flingCapturedView outside of a call to Callback#onViewReleased");
+  }
+  
+  public void a(@F MotionEvent paramMotionEvent)
+  {
+    int i4 = paramMotionEvent.getActionMasked();
+    int i3 = paramMotionEvent.getActionIndex();
+    if (i4 == 0) {
+      b();
+    }
+    if (C == null) {
+      C = VelocityTracker.obtain();
+    }
+    C.addMovement(paramMotionEvent);
+    int i2 = 0;
+    int i1 = 0;
+    float f1;
+    float f2;
+    if (i4 != 0)
+    {
+      if (i4 != 1)
+      {
+        Object localObject;
+        if (i4 != 2)
+        {
+          if (i4 != 3)
+          {
+            if (i4 != 5)
+            {
+              if (i4 != 6) {
+                return;
+              }
+              i2 = paramMotionEvent.getPointerId(i3);
+              if ((r == 1) && (i2 == t))
+              {
+                i3 = paramMotionEvent.getPointerCount();
+                while (i1 < i3)
+                {
+                  i4 = paramMotionEvent.getPointerId(i1);
+                  if (i4 != t)
+                  {
+                    f1 = paramMotionEvent.getX(i1);
+                    f2 = paramMotionEvent.getY(i1);
+                    localObject = b((int)f1, (int)f2);
+                    View localView = J;
+                    if ((localObject == localView) && (b(localView, i4)))
+                    {
+                      i1 = t;
+                      break label213;
+                    }
+                  }
+                  i1 += 1;
+                }
+                i1 = -1;
+                label213:
+                if (i1 == -1) {
+                  j();
+                }
+              }
+              f(i2);
+              return;
+            }
+            i1 = paramMotionEvent.getPointerId(i3);
+            f1 = paramMotionEvent.getX(i3);
+            f2 = paramMotionEvent.getY(i3);
+            b(f1, f2, i1);
+            if (r == 0)
+            {
+              b(b((int)f1, (int)f2), i1);
+              i2 = y[i1];
+              i3 = G;
+              if ((i2 & i3) != 0) {
+                I.onEdgeTouched(i2 & i3, i1);
+              }
+            }
+            else if (c((int)f1, (int)f2))
+            {
+              b(J, i1);
+            }
+          }
+          else
+          {
+            if (r == 1) {
+              a(0.0F, 0.0F);
+            }
+            b();
+          }
+        }
+        else
+        {
+          if (r == 1)
+          {
+            if (!h(t)) {
+              return;
+            }
+            i1 = paramMotionEvent.findPointerIndex(t);
+            f1 = paramMotionEvent.getX(i1);
+            f2 = paramMotionEvent.getY(i1);
+            localObject = w;
+            i2 = t;
+            i1 = (int)(f1 - localObject[i2]);
+            i2 = (int)(f2 - x[i2]);
+            b(J.getLeft() + i1, J.getTop() + i2, i1, i2);
+            c(paramMotionEvent);
+            return;
+          }
+          i3 = paramMotionEvent.getPointerCount();
+          i1 = i2;
+          while (i1 < i3)
+          {
+            i2 = paramMotionEvent.getPointerId(i1);
+            if (h(i2))
+            {
+              f1 = paramMotionEvent.getX(i1);
+              f2 = paramMotionEvent.getY(i1);
+              float f3 = f1 - u[i2];
+              float f4 = f2 - v[i2];
+              a(f3, f4, i2);
+              if (r == 1) {
+                break;
+              }
+              localObject = b((int)f1, (int)f2);
+              if ((a((View)localObject, f3, f4)) && (b((View)localObject, i2))) {
+                break;
+              }
+            }
+            i1 += 1;
+          }
+          c(paramMotionEvent);
+        }
+      }
+      else
+      {
+        if (r == 1) {
+          j();
+        }
+        b();
+      }
+    }
+    else
+    {
+      f1 = paramMotionEvent.getX();
+      f2 = paramMotionEvent.getY();
+      i1 = paramMotionEvent.getPointerId(0);
+      paramMotionEvent = b((int)f1, (int)f2);
+      b(f1, f2, i1);
+      b(paramMotionEvent, i1);
+      i2 = y[i1];
+      i3 = G;
+      if ((i2 & i3) != 0) {
+        I.onEdgeTouched(i2 & i3, i1);
+      }
+    }
+  }
+  
+  public void a(@F View paramView, int paramInt)
+  {
+    if (paramView.getParent() == L)
+    {
+      J = paramView;
+      t = paramInt;
+      I.onViewCaptured(paramView, paramInt);
+      d(1);
+      return;
+    }
+    throw new IllegalArgumentException(a.a(a.b("captureChildView: parameter must be a descendant of the ViewDragHelper's tracked parent view ("), L, ")"));
+  }
+  
+  public boolean a(int paramInt)
+  {
+    int i2 = u.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      if (a(paramInt, i1)) {
+        return true;
+      }
+      i1 += 1;
+    }
+    return false;
+  }
+  
+  public boolean a(int paramInt1, int paramInt2)
+  {
+    boolean bool4 = c(paramInt2);
+    boolean bool3 = false;
+    boolean bool2 = false;
+    boolean bool1 = false;
+    if (!bool4) {
+      return false;
+    }
+    int i1;
+    if ((paramInt1 & 0x1) == 1) {
+      i1 = 1;
+    } else {
+      i1 = 0;
+    }
+    if ((paramInt1 & 0x2) == 2) {
+      paramInt1 = 1;
+    } else {
+      paramInt1 = 0;
+    }
+    float f1 = w[paramInt2] - u[paramInt2];
+    float f2 = x[paramInt2] - v[paramInt2];
+    if ((i1 != 0) && (paramInt1 != 0))
+    {
+      paramInt1 = s;
+      if (f2 * f2 + f1 * f1 > paramInt1 * paramInt1) {
+        bool1 = true;
+      }
+      return bool1;
+    }
+    if (i1 != 0)
+    {
+      bool1 = bool3;
+      if (Math.abs(f1) > s) {
+        bool1 = true;
+      }
+      return bool1;
+    }
+    bool1 = bool2;
+    if (paramInt1 != 0)
+    {
+      bool1 = bool2;
+      if (Math.abs(f2) > s) {
+        bool1 = true;
+      }
+    }
+    return bool1;
+  }
+  
+  public boolean a(@G View paramView, int paramInt1, int paramInt2)
+  {
+    boolean bool2 = false;
+    if (paramView == null) {
+      return false;
+    }
+    boolean bool1 = bool2;
+    if (paramInt1 >= paramView.getLeft())
+    {
+      bool1 = bool2;
+      if (paramInt1 < paramView.getRight())
+      {
+        bool1 = bool2;
+        if (paramInt2 >= paramView.getTop())
+        {
+          bool1 = bool2;
+          if (paramInt2 < paramView.getBottom()) {
+            bool1 = true;
+          }
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public boolean a(@F View paramView, boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    boolean bool2 = paramView instanceof ViewGroup;
+    boolean bool1 = true;
+    if (bool2)
+    {
+      ViewGroup localViewGroup = (ViewGroup)paramView;
+      int i2 = paramView.getScrollX();
+      int i3 = paramView.getScrollY();
+      int i1 = localViewGroup.getChildCount() - 1;
+      while (i1 >= 0)
+      {
+        View localView = localViewGroup.getChildAt(i1);
+        int i4 = paramInt3 + i2;
+        if ((i4 >= localView.getLeft()) && (i4 < localView.getRight()))
+        {
+          int i5 = paramInt4 + i3;
+          if ((i5 >= localView.getTop()) && (i5 < localView.getBottom()) && (a(localView, true, paramInt1, paramInt2, i4 - localView.getLeft(), i5 - localView.getTop()))) {
+            return true;
+          }
+        }
+        i1 -= 1;
+      }
+    }
+    if (paramBoolean)
+    {
+      paramBoolean = bool1;
+      if (paramView.canScrollHorizontally(-paramInt1)) {
+        return paramBoolean;
+      }
+      if (paramView.canScrollVertically(-paramInt2)) {
+        return true;
+      }
+    }
+    paramBoolean = false;
+    return paramBoolean;
+  }
+  
+  public boolean a(boolean paramBoolean)
+  {
+    int i1 = r;
+    boolean bool2 = false;
+    if (i1 == 2)
+    {
+      boolean bool3 = H.computeScrollOffset();
+      i1 = H.getCurrX();
+      int i2 = H.getCurrY();
+      int i3 = i1 - J.getLeft();
+      int i4 = i2 - J.getTop();
+      if (i3 != 0) {
+        H.f(J, i3);
+      }
+      if (i4 != 0) {
+        H.g(J, i4);
+      }
+      if ((i3 != 0) || (i4 != 0)) {
+        I.onViewPositionChanged(J, i1, i2, i3, i4);
+      }
+      boolean bool1 = bool3;
+      if (bool3)
+      {
+        bool1 = bool3;
+        if (i1 == H.getFinalX())
+        {
+          bool1 = bool3;
+          if (i2 == H.getFinalY())
+          {
+            H.abortAnimation();
+            bool1 = false;
+          }
+        }
+      }
+      if (!bool1) {
+        if (paramBoolean) {
+          L.post(M);
+        } else {
+          d(0);
+        }
+      }
+    }
+    paramBoolean = bool2;
+    if (r == 2) {
+      paramBoolean = true;
+    }
+    return paramBoolean;
+  }
+  
+  @G
+  public View b(int paramInt1, int paramInt2)
+  {
+    int i1 = L.getChildCount() - 1;
+    while (i1 >= 0)
+    {
+      View localView = L.getChildAt(I.getOrderedChildIndex(i1));
+      if ((paramInt1 >= localView.getLeft()) && (paramInt1 < localView.getRight()) && (paramInt2 >= localView.getTop()) && (paramInt2 < localView.getBottom())) {
+        return localView;
+      }
+      i1 -= 1;
+    }
+    return null;
+  }
+  
+  public void b()
+  {
+    t = -1;
+    i();
+    VelocityTracker localVelocityTracker = C;
+    if (localVelocityTracker != null)
+    {
+      localVelocityTracker.recycle();
+      C = null;
+    }
+  }
+  
+  public boolean b(int paramInt)
+  {
+    int i2 = y.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      if (d(paramInt, i1)) {
+        return true;
+      }
+      i1 += 1;
+    }
+    return false;
+  }
+  
+  public boolean b(@F MotionEvent paramMotionEvent)
+  {
+    int i1 = paramMotionEvent.getActionMasked();
+    int i2 = paramMotionEvent.getActionIndex();
+    if (i1 == 0) {
+      b();
+    }
+    if (C == null) {
+      C = VelocityTracker.obtain();
+    }
+    C.addMovement(paramMotionEvent);
+    float f1;
+    float f2;
+    int i3;
+    if (i1 != 0)
+    {
+      if (i1 != 1) {
+        if (i1 != 2)
+        {
+          if (i1 == 3) {
+            break label517;
+          }
+          if (i1 != 5) {
+            if (i1 != 6) {
+              break label619;
+            }
+          }
+        }
+      }
+      for (;;)
+      {
+        f(paramMotionEvent.getPointerId(i2));
+        continue;
+        i1 = paramMotionEvent.getPointerId(i2);
+        f1 = paramMotionEvent.getX(i2);
+        f2 = paramMotionEvent.getY(i2);
+        b(f1, f2, i1);
+        i2 = r;
+        if (i2 == 0)
+        {
+          i2 = y[i1];
+          i3 = G;
+          if ((i2 & i3) != 0) {
+            I.onEdgeTouched(i2 & i3, i1);
+          }
+        }
+        else if (i2 == 2)
+        {
+          paramMotionEvent = b((int)f1, (int)f2);
+          if (paramMotionEvent == J)
+          {
+            b(paramMotionEvent, i1);
+            continue;
+            if ((u != null) && (v != null))
+            {
+              i3 = paramMotionEvent.getPointerCount();
+              i1 = 0;
+              while (i1 < i3)
+              {
+                int i4 = paramMotionEvent.getPointerId(i1);
+                if (h(i4))
+                {
+                  f1 = paramMotionEvent.getX(i1);
+                  f2 = paramMotionEvent.getY(i1);
+                  float f3 = f1 - u[i4];
+                  float f4 = f2 - v[i4];
+                  View localView = b((int)f1, (int)f2);
+                  if ((localView != null) && (a(localView, f3, f4))) {
+                    i2 = 1;
+                  } else {
+                    i2 = 0;
+                  }
+                  if (i2 != 0)
+                  {
+                    int i5 = localView.getLeft();
+                    int i6 = (int)f3;
+                    i6 = I.clampViewPositionHorizontal(localView, i5 + i6, i6);
+                    int i7 = localView.getTop();
+                    int i8 = (int)f4;
+                    i8 = I.clampViewPositionVertical(localView, i7 + i8, i8);
+                    int i9 = I.getViewHorizontalDragRange(localView);
+                    int i10 = I.getViewVerticalDragRange(localView);
+                    if (((i9 == 0) || ((i9 > 0) && (i6 == i5))) && ((i10 == 0) || ((i10 > 0) && (i8 == i7)))) {
+                      break;
+                    }
+                  }
+                  else
+                  {
+                    a(f3, f4, i4);
+                    if ((r == 1) || ((i2 != 0) && (b(localView, i4)))) {
+                      break;
+                    }
+                  }
+                }
+                i1 += 1;
+              }
+              c(paramMotionEvent);
+              continue;
+              label517:
+              b();
+            }
+          }
+        }
+      }
+    }
+    else
+    {
+      f1 = paramMotionEvent.getX();
+      f2 = paramMotionEvent.getY();
+      i1 = paramMotionEvent.getPointerId(0);
+      b(f1, f2, i1);
+      paramMotionEvent = b((int)f1, (int)f2);
+      if ((paramMotionEvent == J) && (r == 2)) {
+        b(paramMotionEvent, i1);
+      }
+      i2 = y[i1];
+      i3 = G;
+      if ((i2 & i3) != 0) {
+        I.onEdgeTouched(i2 & i3, i1);
+      }
+    }
+    label619:
+    boolean bool = false;
+    if (r == 1) {
+      bool = true;
+    }
+    return bool;
+  }
+  
+  public boolean b(View paramView, int paramInt)
+  {
+    if ((paramView == J) && (t == paramInt)) {
+      return true;
+    }
+    if ((paramView != null) && (I.tryCaptureView(paramView, paramInt)))
+    {
+      t = paramInt;
+      a(paramView, paramInt);
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean b(@F View paramView, int paramInt1, int paramInt2)
+  {
+    J = paramView;
+    t = -1;
+    boolean bool = c(paramInt1, paramInt2, 0, 0);
+    if ((!bool) && (r == 0) && (J != null)) {
+      J = null;
+    }
+    return bool;
+  }
+  
+  public int c()
+  {
+    return t;
+  }
+  
+  public boolean c(int paramInt)
+  {
+    return (1 << paramInt & B) != 0;
+  }
+  
+  public boolean c(int paramInt1, int paramInt2)
+  {
+    return a(J, paramInt1, paramInt2);
+  }
+  
+  @G
+  public View d()
+  {
+    return J;
+  }
+  
+  public void d(int paramInt)
+  {
+    L.removeCallbacks(M);
+    if (r != paramInt)
+    {
+      r = paramInt;
+      I.onViewDragStateChanged(paramInt);
+      if (r == 0) {
+        J = null;
+      }
+    }
+  }
+  
+  public boolean d(int paramInt1, int paramInt2)
+  {
+    return (c(paramInt2)) && ((paramInt1 & y[paramInt2]) != 0);
+  }
+  
+  @I
+  public int e()
+  {
+    return F;
+  }
+  
+  public void e(int paramInt)
+  {
+    G = paramInt;
+  }
+  
+  public boolean e(int paramInt1, int paramInt2)
+  {
+    if (K) {
+      return c(paramInt1, paramInt2, (int)C.getXVelocity(t), (int)C.getYVelocity(t));
+    }
+    throw new IllegalStateException("Cannot settleCapturedViewAt outside of a call to Callback#onViewReleased");
+  }
+  
+  public float f()
+  {
+    return E;
+  }
+  
+  @I
+  public int g()
+  {
+    return s;
+  }
+  
+  public int h()
+  {
+    return r;
+  }
+  
+  public static abstract class a
+  {
+    public a() {}
+    
+    public int clampViewPositionHorizontal(@F View paramView, int paramInt1, int paramInt2)
+    {
+      return 0;
+    }
+    
+    public int clampViewPositionVertical(@F View paramView, int paramInt1, int paramInt2)
+    {
+      return 0;
+    }
+    
+    public int getOrderedChildIndex(int paramInt)
+    {
+      return paramInt;
+    }
+    
+    public int getViewHorizontalDragRange(@F View paramView)
+    {
+      return 0;
+    }
+    
+    public int getViewVerticalDragRange(@F View paramView)
+    {
+      return 0;
+    }
+    
+    public void onEdgeDragStarted(int paramInt1, int paramInt2) {}
+    
+    public boolean onEdgeLock(int paramInt)
+    {
+      return false;
+    }
+    
+    public void onEdgeTouched(int paramInt1, int paramInt2) {}
+    
+    public void onViewCaptured(@F View paramView, int paramInt) {}
+    
+    public void onViewDragStateChanged(int paramInt) {}
+    
+    public void onViewPositionChanged(@F View paramView, int paramInt1, int paramInt2, @I int paramInt3, @I int paramInt4) {}
+    
+    public void onViewReleased(@F View paramView, float paramFloat1, float paramFloat2) {}
+    
+    public abstract boolean tryCaptureView(@F View paramView, int paramInt);
+  }
+}

@@ -1,0 +1,81 @@
+package b.b.x.b;
+
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Binder;
+import android.os.Process;
+import android.support.v4.app.AppOpsManagerCompat;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+public final class o
+{
+  public static final int a = 0;
+  public static final int b = -1;
+  public static final int c = -2;
+  
+  public o() {}
+  
+  public static int a(@F Context paramContext, @F String paramString)
+  {
+    String str;
+    if (Binder.getCallingPid() == Process.myPid()) {
+      str = paramContext.getPackageName();
+    } else {
+      str = null;
+    }
+    return a(paramContext, paramString, Binder.getCallingPid(), Binder.getCallingUid(), str);
+  }
+  
+  public static int a(@F Context paramContext, @F String paramString1, int paramInt1, int paramInt2, @G String paramString2)
+  {
+    if (paramContext.checkPermission(paramString1, paramInt1, paramInt2) == -1) {
+      return -1;
+    }
+    String str = AppOpsManagerCompat.permissionToOp(paramString1);
+    if (str == null) {
+      return 0;
+    }
+    paramString1 = paramString2;
+    if (paramString2 == null)
+    {
+      paramString1 = paramContext.getPackageManager().getPackagesForUid(paramInt2);
+      if (paramString1 != null)
+      {
+        if (paramString1.length <= 0) {
+          return -1;
+        }
+        paramString1 = paramString1[0];
+      }
+      else
+      {
+        return -1;
+      }
+    }
+    if (AppOpsManagerCompat.noteProxyOpNoThrow(paramContext, str, paramString1) != 0) {
+      return -2;
+    }
+    return 0;
+  }
+  
+  public static int a(@F Context paramContext, @F String paramString1, @G String paramString2)
+  {
+    if (Binder.getCallingPid() == Process.myPid()) {
+      return -1;
+    }
+    return a(paramContext, paramString1, Binder.getCallingPid(), Binder.getCallingUid(), paramString2);
+  }
+  
+  public static int b(@F Context paramContext, @F String paramString)
+  {
+    return a(paramContext, paramString, Process.myPid(), Process.myUid(), paramContext.getPackageName());
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface a {}
+}

@@ -1,0 +1,173 @@
+package f.g.c.d;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class ag
+{
+  public ag() {}
+  
+  public static int a(ObjectInputStream paramObjectInputStream)
+    throws IOException
+  {
+    return paramObjectInputStream.readInt();
+  }
+  
+  public static <T> a<T> a(Class<T> paramClass, String paramString)
+  {
+    try
+    {
+      paramClass = new a(paramClass.getDeclaredField(paramString), null);
+      return paramClass;
+    }
+    catch (NoSuchFieldException paramClass)
+    {
+      throw new AssertionError(paramClass);
+    }
+  }
+  
+  public static <E> void a(Ye<E> paramYe, ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    a(paramYe, paramObjectInputStream, paramObjectInputStream.readInt());
+  }
+  
+  public static <E> void a(Ye<E> paramYe, ObjectInputStream paramObjectInputStream, int paramInt)
+    throws IOException, ClassNotFoundException
+  {
+    int i = 0;
+    while (i < paramInt)
+    {
+      paramYe.c(paramObjectInputStream.readObject(), paramObjectInputStream.readInt());
+      i += 1;
+    }
+  }
+  
+  public static <E> void a(Ye<E> paramYe, ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.writeInt(paramYe.entrySet().size());
+    paramYe = paramYe.entrySet().iterator();
+    while (paramYe.hasNext())
+    {
+      Ye.a localA = (Ye.a)paramYe.next();
+      paramObjectOutputStream.writeObject(localA.a());
+      paramObjectOutputStream.writeInt(localA.getCount());
+    }
+  }
+  
+  public static <K, V> void a(ve<K, V> paramVe, ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    a(paramVe, paramObjectInputStream, paramObjectInputStream.readInt());
+  }
+  
+  public static <K, V> void a(ve<K, V> paramVe, ObjectInputStream paramObjectInputStream, int paramInt)
+    throws IOException, ClassNotFoundException
+  {
+    int i = 0;
+    while (i < paramInt)
+    {
+      Collection localCollection = paramVe.get(paramObjectInputStream.readObject());
+      int k = paramObjectInputStream.readInt();
+      int j = 0;
+      while (j < k)
+      {
+        localCollection.add(paramObjectInputStream.readObject());
+        j += 1;
+      }
+      i += 1;
+    }
+  }
+  
+  public static <K, V> void a(ve<K, V> paramVe, ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.writeInt(paramVe.a().size());
+    paramVe = paramVe.a().entrySet().iterator();
+    while (paramVe.hasNext())
+    {
+      Object localObject = (Map.Entry)paramVe.next();
+      paramObjectOutputStream.writeObject(((Map.Entry)localObject).getKey());
+      paramObjectOutputStream.writeInt(((Collection)((Map.Entry)localObject).getValue()).size());
+      localObject = ((Collection)((Map.Entry)localObject).getValue()).iterator();
+      while (((Iterator)localObject).hasNext()) {
+        paramObjectOutputStream.writeObject(((Iterator)localObject).next());
+      }
+    }
+  }
+  
+  public static <K, V> void a(Map<K, V> paramMap, ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    a(paramMap, paramObjectInputStream, paramObjectInputStream.readInt());
+  }
+  
+  public static <K, V> void a(Map<K, V> paramMap, ObjectInputStream paramObjectInputStream, int paramInt)
+    throws IOException, ClassNotFoundException
+  {
+    int i = 0;
+    while (i < paramInt)
+    {
+      paramMap.put(paramObjectInputStream.readObject(), paramObjectInputStream.readObject());
+      i += 1;
+    }
+  }
+  
+  public static <K, V> void a(Map<K, V> paramMap, ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.writeInt(paramMap.size());
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramMap.next();
+      paramObjectOutputStream.writeObject(localEntry.getKey());
+      paramObjectOutputStream.writeObject(localEntry.getValue());
+    }
+  }
+  
+  public static final class a<T>
+  {
+    public final Field a;
+    
+    public a(Field paramField)
+    {
+      a = paramField;
+      paramField.setAccessible(true);
+    }
+    
+    public void a(T paramT, int paramInt)
+    {
+      try
+      {
+        a.set(paramT, Integer.valueOf(paramInt));
+        return;
+      }
+      catch (IllegalAccessException paramT)
+      {
+        throw new AssertionError(paramT);
+      }
+    }
+    
+    public void a(T paramT, Object paramObject)
+    {
+      try
+      {
+        a.set(paramT, paramObject);
+        return;
+      }
+      catch (IllegalAccessException paramT)
+      {
+        throw new AssertionError(paramT);
+      }
+    }
+  }
+}

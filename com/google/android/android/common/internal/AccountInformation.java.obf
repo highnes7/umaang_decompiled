@@ -1,0 +1,165 @@
+package com.google.android.gms.common.internal;
+
+import android.accounts.Account;
+import android.content.Context;
+import android.view.View;
+import b.b.x.n.b;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.internal.zzcpp;
+import com.google.android.gms.internal.zzcpt;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+public final class zzq
+{
+  public final Account zzduz;
+  public final String zzdxc;
+  public final Set<Scope> zzfhb;
+  public final int zzfhd;
+  public final View zzfhe;
+  public final String zzfhf;
+  public final Set<Scope> zzftr;
+  public final Map<Api<?>, zzs> zzfts;
+  public final zzcpt zzftt;
+  public Integer zzftu;
+  
+  public zzq(Account paramAccount, Set<Scope> paramSet, Map<Api<?>, zzs> paramMap, int paramInt, View paramView, String paramString1, String paramString2, zzcpt paramZzcpt)
+  {
+    zzduz = paramAccount;
+    if (paramSet == null) {
+      paramAccount = Collections.EMPTY_SET;
+    } else {
+      paramAccount = Collections.unmodifiableSet(paramSet);
+    }
+    zzfhb = paramAccount;
+    paramAccount = paramMap;
+    if (paramMap == null) {
+      paramAccount = Collections.EMPTY_MAP;
+    }
+    zzfts = paramAccount;
+    zzfhe = paramView;
+    zzfhd = paramInt;
+    zzdxc = paramString1;
+    zzfhf = paramString2;
+    zzftt = paramZzcpt;
+    paramAccount = new HashSet(zzfhb);
+    paramSet = zzfts.values().iterator();
+    while (paramSet.hasNext()) {
+      paramAccount.addAll(nextzzecm);
+    }
+    zzftr = Collections.unmodifiableSet(paramAccount);
+  }
+  
+  public static zzq zzcc(Context paramContext)
+  {
+    HashSet localHashSet = new HashSet();
+    new HashSet();
+    b localB1 = new b();
+    b localB2 = new b();
+    Object localObject = GoogleApiAvailability.zzffi;
+    localObject = zzcpp.zzdwq;
+    new ArrayList();
+    new ArrayList();
+    paramContext.getMainLooper();
+    localObject = paramContext.getPackageName();
+    String str = paramContext.getClass().getName();
+    paramContext = zzcpt.zzjno;
+    if (localB2.containsKey(zzcpp.API)) {
+      paramContext = (zzcpt)localB2.get(zzcpp.API);
+    }
+    return new zzq(null, localHashSet, localB1, 0, null, (String)localObject, str, paramContext);
+  }
+  
+  public final Account getAccount()
+  {
+    return zzduz;
+  }
+  
+  @Deprecated
+  public final String getAccountName()
+  {
+    Account localAccount = zzduz;
+    if (localAccount != null) {
+      return name;
+    }
+    return null;
+  }
+  
+  public final Account zzajp()
+  {
+    Account localAccount = zzduz;
+    if (localAccount != null) {
+      return localAccount;
+    }
+    return new Account("<<default account>>", "com.google");
+  }
+  
+  public final int zzajq()
+  {
+    return zzfhd;
+  }
+  
+  public final Set<Scope> zzajr()
+  {
+    return zzfhb;
+  }
+  
+  public final Set<Scope> zzajs()
+  {
+    return zzftr;
+  }
+  
+  public final Map<Api<?>, zzs> zzajt()
+  {
+    return zzfts;
+  }
+  
+  public final String zzaju()
+  {
+    return zzdxc;
+  }
+  
+  public final String zzajv()
+  {
+    return zzfhf;
+  }
+  
+  public final View zzajw()
+  {
+    return zzfhe;
+  }
+  
+  public final zzcpt zzajx()
+  {
+    return zzftt;
+  }
+  
+  public final Integer zzajy()
+  {
+    return zzftu;
+  }
+  
+  public final Set<Scope> zzc(Api<?> paramApi)
+  {
+    paramApi = (zzs)zzfts.get(paramApi);
+    if ((paramApi != null) && (!zzecm.isEmpty()))
+    {
+      HashSet localHashSet = new HashSet(zzfhb);
+      localHashSet.addAll(zzecm);
+      return localHashSet;
+    }
+    return zzfhb;
+  }
+  
+  public final void zzc(Integer paramInteger)
+  {
+    zzftu = paramInteger;
+  }
+}

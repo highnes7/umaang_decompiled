@@ -1,0 +1,49 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.IBinder;
+import android.os.IBinder.DeathRecipient;
+import com.google.android.gms.common.api.zze;
+import java.lang.ref.WeakReference;
+import java.util.NoSuchElementException;
+
+public final class zzdl
+  implements IBinder.DeathRecipient, zzdm
+{
+  public final WeakReference<zzs<?>> zzfpv;
+  public final WeakReference<zze> zzfpw;
+  public final WeakReference<IBinder> zzfpx;
+  
+  public zzdl(zzs<?> paramZzs, zze paramZze, IBinder paramIBinder)
+  {
+    zzfpw = new WeakReference(paramZze);
+    zzfpv = new WeakReference(paramZzs);
+    zzfpx = new WeakReference(paramIBinder);
+  }
+  
+  private final void zzair()
+  {
+    Object localObject = (zzs)zzfpv.get();
+    zze localZze = (zze)zzfpw.get();
+    if ((localZze != null) && (localObject != null)) {
+      localZze.remove(((zzs)localObject).zzafs().intValue());
+    }
+    localObject = (IBinder)zzfpx.get();
+    if (localObject != null) {}
+    try
+    {
+      ((IBinder)localObject).unlinkToDeath(this, 0);
+      return;
+    }
+    catch (NoSuchElementException localNoSuchElementException) {}
+  }
+  
+  public final void binderDied()
+  {
+    zzair();
+  }
+  
+  public final void zzc(zzs<?> paramZzs)
+  {
+    zzair();
+  }
+}

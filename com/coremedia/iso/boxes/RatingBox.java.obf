@@ -1,0 +1,125 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.g;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class RatingBox
+  extends c
+{
+  public static final String TYPE = "rtng";
+  public String language;
+  public String ratingCriteria;
+  public String ratingEntity;
+  public String ratingInfo;
+  
+  static {}
+  
+  public RatingBox()
+  {
+    super("rtng");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    ratingEntity = h.a(paramByteBuffer);
+    ratingCriteria = h.a(paramByteBuffer);
+    language = h.e(paramByteBuffer);
+    ratingInfo = h.f(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.put(g.b(ratingEntity));
+    paramByteBuffer.put(g.b(ratingCriteria));
+    f.b.a.j.a(paramByteBuffer, language);
+    paramByteBuffer.put(m.a(ratingInfo));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public long getContentSize()
+  {
+    return m.b(ratingInfo) + 15;
+  }
+  
+  public String getLanguage()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return language;
+  }
+  
+  public String getRatingCriteria()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_6, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return ratingCriteria;
+  }
+  
+  public String getRatingEntity()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return ratingEntity;
+  }
+  
+  public String getRatingInfo()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_7, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return ratingInfo;
+  }
+  
+  public void setLanguage(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    language = paramString;
+  }
+  
+  public void setRatingCriteria(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    ratingCriteria = paramString;
+  }
+  
+  public void setRatingEntity(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    ratingEntity = paramString;
+  }
+  
+  public void setRatingInfo(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    ratingInfo = paramString;
+  }
+  
+  public String toString()
+  {
+    Object localObject = Factory.makeJP(ajc$tjp_8, this, this);
+    f.h.a.j.b().a((JoinPoint)localObject);
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("RatingBox[language=");
+    ((StringBuilder)localObject).append(getLanguage());
+    ((StringBuilder)localObject).append("ratingEntity=");
+    ((StringBuilder)localObject).append(getRatingEntity());
+    ((StringBuilder)localObject).append(";ratingCriteria=");
+    ((StringBuilder)localObject).append(getRatingCriteria());
+    ((StringBuilder)localObject).append(";language=");
+    ((StringBuilder)localObject).append(getLanguage());
+    ((StringBuilder)localObject).append(";ratingInfo=");
+    ((StringBuilder)localObject).append(getRatingInfo());
+    ((StringBuilder)localObject).append("]");
+    return ((StringBuilder)localObject).toString();
+  }
+}

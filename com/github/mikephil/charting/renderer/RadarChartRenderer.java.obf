@@ -1,0 +1,284 @@
+package com.github.mikephil.charting.renderer;
+
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Path;
+import android.graphics.Path.Direction;
+import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
+import com.github.mikephil.charting.animation.ChartAnimator;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.PieRadarChartBase;
+import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineRadarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import java.util.Iterator;
+import java.util.List;
+
+public class RadarChartRenderer
+  extends LineRadarRenderer
+{
+  public RadarChart mChart;
+  public Paint mHighlightCirclePaint;
+  public Paint mWebPaint;
+  
+  public RadarChartRenderer(RadarChart paramRadarChart, ChartAnimator paramChartAnimator, ViewPortHandler paramViewPortHandler)
+  {
+    super(paramChartAnimator, paramViewPortHandler);
+    mChart = paramRadarChart;
+    mHighlightPaint = new Paint(1);
+    mHighlightPaint.setStyle(Paint.Style.STROKE);
+    mHighlightPaint.setStrokeWidth(2.0F);
+    mHighlightPaint.setColor(Color.rgb(255, 187, 115));
+    mWebPaint = new Paint(1);
+    mWebPaint.setStyle(Paint.Style.STROKE);
+    mHighlightCirclePaint = new Paint(1);
+  }
+  
+  public void drawData(Canvas paramCanvas)
+  {
+    Object localObject1 = (RadarData)mChart.getData();
+    Object localObject2 = ((ChartData)localObject1).getDataSets().iterator();
+    int i = 0;
+    while (((Iterator)localObject2).hasNext())
+    {
+      IRadarDataSet localIRadarDataSet = (IRadarDataSet)((Iterator)localObject2).next();
+      if (localIRadarDataSet.getEntryCount() > i) {
+        i = localIRadarDataSet.getEntryCount();
+      }
+    }
+    localObject1 = ((ChartData)localObject1).getDataSets().iterator();
+    while (((Iterator)localObject1).hasNext())
+    {
+      localObject2 = (IRadarDataSet)((Iterator)localObject1).next();
+      if ((((IDataSet)localObject2).isVisible()) && (((IDataSet)localObject2).getEntryCount() > 0)) {
+        drawDataSet(paramCanvas, (IRadarDataSet)localObject2, i);
+      }
+    }
+  }
+  
+  public void drawDataSet(Canvas paramCanvas, IRadarDataSet paramIRadarDataSet, int paramInt)
+  {
+    float f1 = mAnimator.getPhaseX();
+    float f2 = mAnimator.getPhaseY();
+    float f3 = mChart.getSliceAngle();
+    float f4 = mChart.getFactor();
+    Object localObject = mChart.getCenterOffsets();
+    Path localPath = new Path();
+    int i = 0;
+    int j = 0;
+    while (i < paramIRadarDataSet.getEntryCount())
+    {
+      mRenderPaint.setColor(paramIRadarDataSet.getColor(i));
+      float f5 = paramIRadarDataSet.getEntryForIndex(i).getVal();
+      float f6 = mChart.getYChartMin();
+      float f7 = i;
+      PointF localPointF = Utils.getPosition((PointF)localObject, (f5 - f6) * f4 * f2, mChart.getRotationAngle() + f7 * f3 * f1);
+      if (!Float.isNaN(x)) {
+        if (j == 0)
+        {
+          localPath.moveTo(x, y);
+          j = 1;
+        }
+        else
+        {
+          localPath.lineTo(x, y);
+        }
+      }
+      i += 1;
+    }
+    if (paramIRadarDataSet.getEntryCount() > paramInt) {
+      localPath.lineTo(x, y);
+    }
+    localPath.close();
+    if (paramIRadarDataSet.isDrawFilledEnabled())
+    {
+      localObject = paramIRadarDataSet.getFillDrawable();
+      if (localObject != null) {
+        drawFilledPath(paramCanvas, localPath, (Drawable)localObject);
+      } else {
+        drawFilledPath(paramCanvas, localPath, paramIRadarDataSet.getFillColor(), paramIRadarDataSet.getFillAlpha());
+      }
+    }
+    mRenderPaint.setStrokeWidth(paramIRadarDataSet.getLineWidth());
+    mRenderPaint.setStyle(Paint.Style.STROKE);
+    if ((!paramIRadarDataSet.isDrawFilledEnabled()) || (paramIRadarDataSet.getFillAlpha() < 255)) {
+      paramCanvas.drawPath(localPath, mRenderPaint);
+    }
+  }
+  
+  public void drawExtras(Canvas paramCanvas)
+  {
+    drawWeb(paramCanvas);
+  }
+  
+  public void drawHighlightCircle(Canvas paramCanvas, PointF paramPointF, float paramFloat1, float paramFloat2, int paramInt1, int paramInt2, float paramFloat3)
+  {
+    paramCanvas.save();
+    paramFloat2 = Utils.convertDpToPixel(paramFloat2);
+    paramFloat1 = Utils.convertDpToPixel(paramFloat1);
+    if (paramInt1 != 1122867)
+    {
+      Path localPath = new Path();
+      localPath.addCircle(x, y, paramFloat2, Path.Direction.CW);
+      if (paramFloat1 > 0.0F) {
+        localPath.addCircle(x, y, paramFloat1, Path.Direction.CCW);
+      }
+      mHighlightCirclePaint.setColor(paramInt1);
+      mHighlightCirclePaint.setStyle(Paint.Style.FILL);
+      paramCanvas.drawPath(localPath, mHighlightCirclePaint);
+    }
+    if (paramInt2 != 1122867)
+    {
+      mHighlightCirclePaint.setColor(paramInt2);
+      mHighlightCirclePaint.setStyle(Paint.Style.STROKE);
+      mHighlightCirclePaint.setStrokeWidth(Utils.convertDpToPixel(paramFloat3));
+      paramCanvas.drawCircle(x, y, paramFloat2, mHighlightCirclePaint);
+    }
+    paramCanvas.restore();
+  }
+  
+  public void drawHighlighted(Canvas paramCanvas, Highlight[] paramArrayOfHighlight)
+  {
+    float f1 = mAnimator.getPhaseX();
+    float f2 = mAnimator.getPhaseY();
+    float f3 = mChart.getSliceAngle();
+    float f4 = mChart.getFactor();
+    PointF localPointF = mChart.getCenterOffsets();
+    int j = 0;
+    while (j < paramArrayOfHighlight.length)
+    {
+      IRadarDataSet localIRadarDataSet = (IRadarDataSet)((RadarData)mChart.getData()).getDataSetByIndex(paramArrayOfHighlight[j].getDataSetIndex());
+      if ((localIRadarDataSet != null) && (localIRadarDataSet.isHighlightEnabled()))
+      {
+        int i = paramArrayOfHighlight[j].getXIndex();
+        Object localObject = localIRadarDataSet.getEntryForXIndex(i);
+        if ((localObject != null) && (((Entry)localObject).getXIndex() == i))
+        {
+          i = localIRadarDataSet.getEntryIndex((Entry)localObject);
+          float f5 = ((Entry)localObject).getVal() - mChart.getYChartMin();
+          if (!Float.isNaN(f5))
+          {
+            float f6 = i;
+            localObject = Utils.getPosition(localPointF, f5 * f4 * f2, mChart.getRotationAngle() + f6 * f3 * f1);
+            float[] arrayOfFloat = new float[2];
+            arrayOfFloat[0] = x;
+            arrayOfFloat[1] = y;
+            drawHighlightLines(paramCanvas, arrayOfFloat, localIRadarDataSet);
+            if ((localIRadarDataSet.isDrawHighlightCircleEnabled()) && (!Float.isNaN(arrayOfFloat[0])) && (!Float.isNaN(arrayOfFloat[1])))
+            {
+              int k = localIRadarDataSet.getHighlightCircleStrokeColor();
+              i = k;
+              if (k == 1122867) {
+                i = localIRadarDataSet.getColor(0);
+              }
+              k = i;
+              if (localIRadarDataSet.getHighlightCircleStrokeAlpha() < 255) {
+                k = ColorTemplate.getColorWithAlphaComponent(i, localIRadarDataSet.getHighlightCircleStrokeAlpha());
+              }
+              drawHighlightCircle(paramCanvas, (PointF)localObject, localIRadarDataSet.getHighlightCircleInnerRadius(), localIRadarDataSet.getHighlightCircleOuterRadius(), localIRadarDataSet.getHighlightCircleFillColor(), k, localIRadarDataSet.getHighlightCircleStrokeWidth());
+            }
+          }
+        }
+      }
+      j += 1;
+    }
+  }
+  
+  public void drawValues(Canvas paramCanvas)
+  {
+    float f1 = mAnimator.getPhaseX();
+    float f2 = mAnimator.getPhaseY();
+    float f3 = mChart.getSliceAngle();
+    float f4 = mChart.getFactor();
+    PointF localPointF1 = mChart.getCenterOffsets();
+    float f5 = Utils.convertDpToPixel(5.0F);
+    int k;
+    for (int i = 0; i < ((RadarData)mChart.getData()).getDataSetCount(); i = k + 1)
+    {
+      IRadarDataSet localIRadarDataSet = (IRadarDataSet)((RadarData)mChart.getData()).getDataSetByIndex(i);
+      k = i;
+      if (localIRadarDataSet.isDrawValuesEnabled()) {
+        if (localIRadarDataSet.getEntryCount() == 0)
+        {
+          k = i;
+        }
+        else
+        {
+          applyValueTextStyle(localIRadarDataSet);
+          int j = 0;
+          for (;;)
+          {
+            k = i;
+            if (j >= localIRadarDataSet.getEntryCount()) {
+              break;
+            }
+            Entry localEntry = localIRadarDataSet.getEntryForIndex(j);
+            float f6 = localEntry.getVal();
+            float f7 = mChart.getYChartMin();
+            float f8 = j;
+            PointF localPointF2 = Utils.getPosition(localPointF1, (f6 - f7) * f4 * f2, mChart.getRotationAngle() + f8 * f3 * f1);
+            drawValue(paramCanvas, localIRadarDataSet.getValueFormatter(), localEntry.getVal(), localEntry, i, x, y - f5, localIRadarDataSet.getValueTextColor(j));
+            j += 1;
+          }
+        }
+      }
+    }
+  }
+  
+  public void drawWeb(Canvas paramCanvas)
+  {
+    float f1 = mChart.getSliceAngle();
+    float f2 = mChart.getFactor();
+    float f3 = mChart.getRotationAngle();
+    PointF localPointF1 = mChart.getCenterOffsets();
+    mWebPaint.setStrokeWidth(mChart.getWebLineWidth());
+    mWebPaint.setColor(mChart.getWebColor());
+    mWebPaint.setAlpha(mChart.getWebAlpha());
+    int j = mChart.getSkipWebLineCount();
+    int i = 0;
+    PointF localPointF2;
+    while (i < ((RadarData)mChart.getData()).getXValCount())
+    {
+      localPointF2 = Utils.getPosition(localPointF1, mChart.getYRange() * f2, i * f1 + f3);
+      paramCanvas.drawLine(x, y, x, y, mWebPaint);
+      i += j + 1;
+    }
+    mWebPaint.setStrokeWidth(mChart.getWebLineWidthInner());
+    mWebPaint.setColor(mChart.getWebColorInner());
+    mWebPaint.setAlpha(mChart.getWebAlpha());
+    int k = mChart.getYAxis().mEntryCount;
+    i = 0;
+    while (i < k)
+    {
+      j = 0;
+      while (j < ((RadarData)mChart.getData()).getXValCount())
+      {
+        float f4 = (mChart.getYAxis().mEntries[i] - mChart.getYChartMin()) * f2;
+        localPointF2 = Utils.getPosition(localPointF1, f4, j * f1 + f3);
+        j += 1;
+        PointF localPointF3 = Utils.getPosition(localPointF1, f4, j * f1 + f3);
+        paramCanvas.drawLine(x, y, x, y, mWebPaint);
+      }
+      i += 1;
+    }
+  }
+  
+  public Paint getWebPaint()
+  {
+    return mWebPaint;
+  }
+  
+  public void initBuffers() {}
+}

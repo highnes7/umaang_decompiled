@@ -1,0 +1,148 @@
+package f.d.a.a.c;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public final class g
+  extends InputStream
+{
+  public final d a;
+  public final InputStream b;
+  public byte[] c;
+  public int d;
+  public final int e;
+  
+  public g(d paramD, InputStream paramInputStream, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    a = paramD;
+    b = paramInputStream;
+    c = paramArrayOfByte;
+    d = paramInt1;
+    e = paramInt2;
+  }
+  
+  private void u()
+  {
+    byte[] arrayOfByte = c;
+    if (arrayOfByte != null)
+    {
+      c = null;
+      d localD = a;
+      if (localD != null) {
+        localD.b(arrayOfByte);
+      }
+    }
+  }
+  
+  public int available()
+    throws IOException
+  {
+    if (c != null) {
+      return e - d;
+    }
+    return b.available();
+  }
+  
+  public void close()
+    throws IOException
+  {
+    u();
+    b.close();
+  }
+  
+  public void mark(int paramInt)
+  {
+    if (c == null) {
+      b.mark(paramInt);
+    }
+  }
+  
+  public boolean markSupported()
+  {
+    return (c == null) && (b.markSupported());
+  }
+  
+  public int read()
+    throws IOException
+  {
+    byte[] arrayOfByte = c;
+    if (arrayOfByte != null)
+    {
+      int i = d;
+      d = (i + 1);
+      i = arrayOfByte[i];
+      if (d >= e) {
+        u();
+      }
+      return i & 0xFF;
+    }
+    return b.read();
+  }
+  
+  public int read(byte[] paramArrayOfByte)
+    throws IOException
+  {
+    return read(paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public int read(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    if (c != null)
+    {
+      int j = e - d;
+      int i = paramInt2;
+      if (paramInt2 > j) {
+        i = j;
+      }
+      System.arraycopy(c, d, paramArrayOfByte, paramInt1, i);
+      d += i;
+      if (d >= e) {
+        u();
+      }
+      return i;
+    }
+    return b.read(paramArrayOfByte, paramInt1, paramInt2);
+  }
+  
+  public void reset()
+    throws IOException
+  {
+    if (c == null) {
+      b.reset();
+    }
+  }
+  
+  public long skip(long paramLong)
+    throws IOException
+  {
+    long l1;
+    if (c != null)
+    {
+      int i = e;
+      int j = d;
+      l2 = i - j;
+      if (l2 > paramLong)
+      {
+        d = (j + (int)paramLong);
+        return paramLong;
+      }
+      u();
+      l1 = l2 + 0L;
+      l2 = paramLong - l2;
+      paramLong = l1;
+      l1 = l2;
+    }
+    else
+    {
+      l2 = 0L;
+      l1 = paramLong;
+      paramLong = l2;
+    }
+    long l2 = paramLong;
+    if (l1 > 0L) {
+      l2 = paramLong + b.skip(l1);
+    }
+    return l2;
+  }
+}

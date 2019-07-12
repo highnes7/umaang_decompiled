@@ -1,0 +1,948 @@
+package android.support.v4.graphics.drawable;
+
+import android.app.ActivityManager;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.Intent.ShortcutIconResource;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Shader;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.TextUtils;
+import androidx.versionedparcelable.CustomVersionedParcelable;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.a.W;
+import b.b.a.k;
+import b.b.a.p;
+import b.b.a.v;
+import b.b.x.b.b.i;
+import b.b.x.b.c;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.charset.Charset;
+
+public class IconCompat
+  extends CustomVersionedParcelable
+{
+  public static final String a = "IconCompat";
+  public static final int b = -1;
+  public static final float c = 0.25F;
+  public static final float d = 0.6666667F;
+  public static final float e = 0.9166667F;
+  public static final float f = 0.010416667F;
+  public static final float g = 0.020833334F;
+  public static final int h = 61;
+  public static final int i = 30;
+  public static final String j = "type";
+  public static final String k = "obj";
+  public static final String l = "int1";
+  public static final String m = "int2";
+  public static final String n = "tint_list";
+  public static final String o = "tint_mode";
+  public static final PorterDuff.Mode p = PorterDuff.Mode.SRC_IN;
+  @N({b.b.a.N.a.a})
+  public int q;
+  public Object r;
+  @N({b.b.a.N.a.a})
+  public byte[] s;
+  @N({b.b.a.N.a.a})
+  public Parcelable t;
+  @N({b.b.a.N.a.a})
+  public int u;
+  @N({b.b.a.N.a.a})
+  public int v;
+  @N({b.b.a.N.a.a})
+  public ColorStateList w = null;
+  public PorterDuff.Mode x = p;
+  @N({b.b.a.N.a.a})
+  public String y;
+  
+  @N({b.b.a.N.a.a})
+  public IconCompat() {}
+  
+  public IconCompat(int paramInt)
+  {
+    q = paramInt;
+  }
+  
+  public static Resources a(Context paramContext, String paramString)
+  {
+    if ("android".equals(paramString)) {
+      return Resources.getSystem();
+    }
+    paramContext = paramContext.getPackageManager();
+    try
+    {
+      ApplicationInfo localApplicationInfo = paramContext.getApplicationInfo(paramString, 8192);
+      if (localApplicationInfo != null)
+      {
+        paramContext = paramContext.getResourcesForApplication(localApplicationInfo);
+        return paramContext;
+      }
+      return null;
+    }
+    catch (PackageManager.NameNotFoundException paramContext)
+    {
+      for (;;) {}
+    }
+    String.format("Unable to find pkg=%s for icon", new Object[] { paramString });
+    return null;
+  }
+  
+  @W
+  public static Bitmap a(Bitmap paramBitmap, boolean paramBoolean)
+  {
+    int i1 = (int)(Math.min(paramBitmap.getWidth(), paramBitmap.getHeight()) * 0.6666667F);
+    Bitmap localBitmap = Bitmap.createBitmap(i1, i1, Bitmap.Config.ARGB_8888);
+    Canvas localCanvas = new Canvas(localBitmap);
+    Paint localPaint = new Paint(3);
+    float f1 = i1;
+    float f2 = 0.5F * f1;
+    float f3 = 0.9166667F * f2;
+    if (paramBoolean)
+    {
+      float f4 = 0.010416667F * f1;
+      localPaint.setColor(0);
+      localPaint.setShadowLayer(f4, 0.0F, f1 * 0.020833334F, 1023410176);
+      localCanvas.drawCircle(f2, f2, f3, localPaint);
+      localPaint.setShadowLayer(f4, 0.0F, 0.0F, 503316480);
+      localCanvas.drawCircle(f2, f2, f3, localPaint);
+      localPaint.clearShadowLayer();
+    }
+    localPaint.setColor(-16777216);
+    Object localObject = Shader.TileMode.CLAMP;
+    localObject = new BitmapShader(paramBitmap, (Shader.TileMode)localObject, (Shader.TileMode)localObject);
+    Matrix localMatrix = new Matrix();
+    localMatrix.setTranslate(-(paramBitmap.getWidth() - i1) / 2, -(paramBitmap.getHeight() - i1) / 2);
+    ((BitmapShader)localObject).setLocalMatrix(localMatrix);
+    localPaint.setShader((Shader)localObject);
+    localCanvas.drawCircle(f2, f2, f3, localPaint);
+    localCanvas.setBitmap(null);
+    return localBitmap;
+  }
+  
+  public static IconCompat a(Context paramContext, @p int paramInt)
+  {
+    if (paramContext != null) {
+      return a(paramContext.getResources(), paramContext.getPackageName(), paramInt);
+    }
+    throw new IllegalArgumentException("Context must not be null.");
+  }
+  
+  @G
+  @K(23)
+  public static IconCompat a(@F Context paramContext, @F Icon paramIcon)
+  {
+    String str;
+    if (paramIcon != null)
+    {
+      int i1 = d(paramIcon);
+      if (i1 != 2)
+      {
+        if (i1 != 4)
+        {
+          paramContext = new IconCompat(-1);
+          r = paramIcon;
+          return paramContext;
+        }
+        return a(e(paramIcon));
+      }
+      str = c(paramIcon);
+    }
+    try
+    {
+      paramContext = a(a(paramContext, str), str, b(paramIcon));
+      return paramContext;
+    }
+    catch (Resources.NotFoundException paramContext)
+    {
+      for (;;) {}
+    }
+    throw new IllegalArgumentException("Icon resource cannot be found");
+    throw new NullPointerException();
+  }
+  
+  @N({b.b.a.N.a.a})
+  public static IconCompat a(Resources paramResources, String paramString, @p int paramInt)
+  {
+    IconCompat localIconCompat;
+    if (paramString != null) {
+      if (paramInt != 0)
+      {
+        localIconCompat = new IconCompat(2);
+        u = paramInt;
+        if (paramResources == null) {}
+      }
+    }
+    try
+    {
+      r = paramResources.getResourceName(paramInt);
+      return localIconCompat;
+    }
+    catch (Resources.NotFoundException paramResources)
+    {
+      for (;;) {}
+    }
+    throw new IllegalArgumentException("Icon resource cannot be found");
+    r = paramString;
+    return localIconCompat;
+    throw new IllegalArgumentException("Drawable resource ID must not be 0");
+    throw new IllegalArgumentException("Package must not be null.");
+  }
+  
+  public static IconCompat a(Bitmap paramBitmap)
+  {
+    if (paramBitmap != null)
+    {
+      IconCompat localIconCompat = new IconCompat(5);
+      r = paramBitmap;
+      return localIconCompat;
+    }
+    throw new IllegalArgumentException("Bitmap must not be null.");
+  }
+  
+  @G
+  @K(23)
+  @N({b.b.a.N.a.b})
+  public static IconCompat a(@F Icon paramIcon)
+  {
+    if (paramIcon != null)
+    {
+      int i1 = d(paramIcon);
+      if (i1 != 2)
+      {
+        if (i1 != 4)
+        {
+          IconCompat localIconCompat = new IconCompat(-1);
+          r = paramIcon;
+          return localIconCompat;
+        }
+        return a(e(paramIcon));
+      }
+      return a(null, c(paramIcon), b(paramIcon));
+    }
+    throw new NullPointerException();
+  }
+  
+  public static IconCompat a(Uri paramUri)
+  {
+    if (paramUri != null) {
+      return a(paramUri.toString());
+    }
+    throw new IllegalArgumentException("Uri must not be null.");
+  }
+  
+  @G
+  public static IconCompat a(@F Bundle paramBundle)
+  {
+    int i1 = paramBundle.getInt("type");
+    IconCompat localIconCompat = new IconCompat(i1);
+    u = paramBundle.getInt("int1");
+    v = paramBundle.getInt("int2");
+    if (paramBundle.containsKey("tint_list")) {
+      w = ((ColorStateList)paramBundle.getParcelable("tint_list"));
+    }
+    if (paramBundle.containsKey("tint_mode")) {
+      x = PorterDuff.Mode.valueOf(paramBundle.getString("tint_mode"));
+    }
+    if ((i1 != -1) && (i1 != 1))
+    {
+      if (i1 != 2) {
+        if (i1 != 3)
+        {
+          if (i1 != 4)
+          {
+            if (i1 == 5) {
+              break label143;
+            }
+            f.a.a.a.a.b("Unknown type ", i1);
+            return null;
+          }
+        }
+        else
+        {
+          r = paramBundle.getByteArray("obj");
+          return localIconCompat;
+        }
+      }
+      r = paramBundle.getString("obj");
+      return localIconCompat;
+    }
+    label143:
+    r = paramBundle.getParcelable("obj");
+    return localIconCompat;
+  }
+  
+  public static IconCompat a(String paramString)
+  {
+    if (paramString != null)
+    {
+      IconCompat localIconCompat = new IconCompat(4);
+      r = paramString;
+      return localIconCompat;
+    }
+    throw new IllegalArgumentException("Uri must not be null.");
+  }
+  
+  public static IconCompat a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    if (paramArrayOfByte != null)
+    {
+      IconCompat localIconCompat = new IconCompat(3);
+      r = paramArrayOfByte;
+      u = paramInt1;
+      v = paramInt2;
+      return localIconCompat;
+    }
+    throw new IllegalArgumentException("Data must not be null.");
+  }
+  
+  @K(23)
+  @p
+  @v
+  public static int b(@F Icon paramIcon)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramIcon.getResId();
+    }
+    try
+    {
+      int i1 = ((Integer)paramIcon.getClass().getMethod("getResId", new Class[0]).invoke(paramIcon, new Object[0])).intValue();
+      return i1;
+    }
+    catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException paramIcon) {}
+    return 0;
+  }
+  
+  public static IconCompat b(Bitmap paramBitmap)
+  {
+    if (paramBitmap != null)
+    {
+      IconCompat localIconCompat = new IconCompat(1);
+      r = paramBitmap;
+      return localIconCompat;
+    }
+    throw new IllegalArgumentException("Bitmap must not be null.");
+  }
+  
+  public static String b(int paramInt)
+  {
+    if (paramInt != 1)
+    {
+      if (paramInt != 2)
+      {
+        if (paramInt != 3)
+        {
+          if (paramInt != 4)
+          {
+            if (paramInt != 5) {
+              return "UNKNOWN";
+            }
+            return "BITMAP_MASKABLE";
+          }
+          return "URI";
+        }
+        return "DATA";
+      }
+      return "RESOURCE";
+    }
+    return "BITMAP";
+  }
+  
+  private Drawable c(Context paramContext)
+  {
+    int i1 = q;
+    Object localObject2;
+    if (i1 != 1) {
+      if (i1 != 2) {
+        if (i1 != 3)
+        {
+          if (i1 != 4)
+          {
+            if (i1 != 5) {
+              return null;
+            }
+            return new BitmapDrawable(paramContext.getResources(), a((Bitmap)r, false));
+          }
+          localObject2 = Uri.parse((String)r);
+          localObject1 = ((Uri)localObject2).getScheme();
+          if (("content".equals(localObject1)) || ("file".equals(localObject1))) {}
+        }
+      }
+    }
+    try
+    {
+      localObject1 = new FileInputStream(new File((String)r));
+    }
+    catch (FileNotFoundException localFileNotFoundException)
+    {
+      for (;;) {}
+    }
+    f.a.a.a.a.b("Unable to load image from path: ", localObject2);
+    try
+    {
+      localObject1 = paramContext.getContentResolver().openInputStream((Uri)localObject2);
+    }
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
+    f.a.a.a.a.b("Unable to load image from URI: ", localObject2);
+    Object localObject1 = null;
+    if (localObject1 != null)
+    {
+      return new BitmapDrawable(paramContext.getResources(), BitmapFactory.decodeStream((InputStream)localObject1));
+      return new BitmapDrawable(paramContext.getResources(), BitmapFactory.decodeByteArray((byte[])r, u, v));
+      localObject2 = h();
+      localObject1 = localObject2;
+      if (TextUtils.isEmpty((CharSequence)localObject2)) {
+        localObject1 = paramContext.getPackageName();
+      }
+      localObject1 = a(paramContext, (String)localObject1);
+    }
+    try
+    {
+      paramContext = i.c((Resources)localObject1, u, paramContext.getTheme());
+      return paramContext;
+    }
+    catch (RuntimeException paramContext)
+    {
+      for (;;) {}
+    }
+    String.format("Unable to load resource 0x%08x from pkg=%s", new Object[] { Integer.valueOf(u), r });
+    return null;
+    return new BitmapDrawable(paramContext.getResources(), (Bitmap)r);
+  }
+  
+  @G
+  @K(23)
+  public static String c(@F Icon paramIcon)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramIcon.getResPackage();
+    }
+    try
+    {
+      paramIcon = (String)paramIcon.getClass().getMethod("getResPackage", new Class[0]).invoke(paramIcon, new Object[0]);
+      return paramIcon;
+    }
+    catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException paramIcon) {}
+    return null;
+  }
+  
+  @K(23)
+  public static int d(@F Icon paramIcon)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramIcon.getType();
+    }
+    try
+    {
+      int i1 = ((Integer)paramIcon.getClass().getMethod("getType", new Class[0]).invoke(paramIcon, new Object[0])).intValue();
+      return i1;
+    }
+    catch (IllegalAccessException localIllegalAccessException)
+    {
+      for (;;) {}
+    }
+    catch (InvocationTargetException localInvocationTargetException)
+    {
+      for (;;) {}
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+    f.a.a.a.a.b("Unable to get icon type ", paramIcon);
+    return -1;
+    f.a.a.a.a.b("Unable to get icon type ", paramIcon);
+    return -1;
+    f.a.a.a.a.b("Unable to get icon type ", paramIcon);
+    return -1;
+  }
+  
+  @G
+  @K(23)
+  public static Uri e(@F Icon paramIcon)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramIcon.getUri();
+    }
+    try
+    {
+      paramIcon = (Uri)paramIcon.getClass().getMethod("getUri", new Class[0]).invoke(paramIcon, new Object[0]);
+      return paramIcon;
+    }
+    catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException paramIcon) {}
+    return null;
+  }
+  
+  public IconCompat a(@k int paramInt)
+  {
+    return a(ColorStateList.valueOf(paramInt));
+  }
+  
+  public IconCompat a(ColorStateList paramColorStateList)
+  {
+    w = paramColorStateList;
+    return this;
+  }
+  
+  public IconCompat a(PorterDuff.Mode paramMode)
+  {
+    x = paramMode;
+    return this;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void a(Context paramContext)
+  {
+    if (q == 2)
+    {
+      String str3 = (String)r;
+      if (!str3.contains(":")) {
+        return;
+      }
+      String str2 = str3.split(":", -1)[1];
+      String str1 = str2.split("/", -1)[0];
+      str2 = str2.split("/", -1)[1];
+      str3 = str3.split(":", -1)[0];
+      int i1 = a(paramContext, str3).getIdentifier(str2, str1, str3);
+      if (u != i1)
+      {
+        paramContext = new StringBuilder();
+        paramContext.append("Id has changed for ");
+        paramContext.append(str3);
+        paramContext.append("/");
+        paramContext.append(str2);
+        paramContext.toString();
+        u = i1;
+      }
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void a(@F Intent paramIntent, @G Drawable paramDrawable, @F Context paramContext)
+  {
+    a(paramContext);
+    int i1 = q;
+    Object localObject;
+    if (i1 != 1)
+    {
+      if (i1 != 2)
+      {
+        if (i1 == 5) {
+          paramContext = a((Bitmap)r, true);
+        } else {
+          throw new IllegalArgumentException("Icon type not supported for intent shortcuts");
+        }
+      }
+      else {
+        try
+        {
+          paramContext = paramContext.createPackageContext(h(), 0);
+          if (paramDrawable == null)
+          {
+            paramIntent.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(paramContext, u));
+            return;
+          }
+          localObject = c.getDrawable(paramContext, u);
+          if ((((Drawable)localObject).getIntrinsicWidth() > 0) && (((Drawable)localObject).getIntrinsicHeight() > 0))
+          {
+            paramContext = Bitmap.createBitmap(((Drawable)localObject).getIntrinsicWidth(), ((Drawable)localObject).getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+          }
+          else
+          {
+            i1 = ((ActivityManager)paramContext.getSystemService("activity")).getLauncherLargeIconSize();
+            paramContext = Bitmap.createBitmap(i1, i1, Bitmap.Config.ARGB_8888);
+          }
+          ((Drawable)localObject).setBounds(0, 0, paramContext.getWidth(), paramContext.getHeight());
+          ((Drawable)localObject).draw(new Canvas(paramContext));
+        }
+        catch (PackageManager.NameNotFoundException paramIntent)
+        {
+          paramDrawable = f.a.a.a.a.b("Can't find package ");
+          paramDrawable.append(r);
+          throw new IllegalArgumentException(paramDrawable.toString(), paramIntent);
+        }
+      }
+    }
+    else
+    {
+      localObject = (Bitmap)r;
+      paramContext = (Context)localObject;
+      if (paramDrawable != null) {
+        paramContext = ((Bitmap)localObject).copy(((Bitmap)localObject).getConfig(), true);
+      }
+    }
+    if (paramDrawable != null)
+    {
+      i1 = paramContext.getWidth();
+      int i2 = paramContext.getHeight();
+      paramDrawable.setBounds(i1 / 2, i2 / 2, i1, i2);
+      paramDrawable.draw(new Canvas(paramContext));
+    }
+    paramIntent.putExtra("android.intent.extra.shortcut.ICON", paramContext);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    y = x.name();
+    int i1 = q;
+    if (i1 != -1)
+    {
+      if (i1 != 1) {
+        if (i1 != 2)
+        {
+          if (i1 != 3)
+          {
+            if (i1 != 4)
+            {
+              if (i1 == 5) {}
+            }
+            else {
+              s = r.toString().getBytes(Charset.forName("UTF-16"));
+            }
+          }
+          else {
+            s = ((byte[])r);
+          }
+        }
+        else
+        {
+          s = ((String)r).getBytes(Charset.forName("UTF-16"));
+          return;
+        }
+      }
+      if (paramBoolean)
+      {
+        Bitmap localBitmap = (Bitmap)r;
+        ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+        localBitmap.compress(Bitmap.CompressFormat.PNG, 90, localByteArrayOutputStream);
+        s = localByteArrayOutputStream.toByteArray();
+        return;
+      }
+      t = ((Parcelable)r);
+      return;
+    }
+    if (!paramBoolean)
+    {
+      t = ((Parcelable)r);
+      return;
+    }
+    throw new IllegalArgumentException("Can't serialize Icon created with IconCompat#createFromIcon");
+  }
+  
+  public Drawable b(Context paramContext)
+  {
+    a(paramContext);
+    if (Build.VERSION.SDK_INT >= 23) {
+      return k().loadDrawable(paramContext);
+    }
+    paramContext = c(paramContext);
+    if ((paramContext != null) && ((w != null) || (x != p)))
+    {
+      paramContext.mutate();
+      b.b.x.d.a.a.a(paramContext, w);
+      b.b.x.d.a.a.a(paramContext, x);
+    }
+    return paramContext;
+  }
+  
+  public void f()
+  {
+    x = PorterDuff.Mode.valueOf(y);
+    int i1 = q;
+    if (i1 != -1)
+    {
+      if (i1 != 1)
+      {
+        if (i1 != 2) {
+          if (i1 != 3)
+          {
+            if (i1 != 4) {
+              if (i1 == 5) {
+                break label78;
+              }
+            }
+          }
+          else
+          {
+            r = s;
+            return;
+          }
+        }
+        r = new String(s, Charset.forName("UTF-16"));
+        return;
+      }
+      label78:
+      localObject = t;
+      if (localObject != null)
+      {
+        r = localObject;
+        return;
+      }
+      localObject = s;
+      r = localObject;
+      q = 3;
+      u = 0;
+      v = localObject.length;
+      return;
+    }
+    Object localObject = t;
+    if (localObject != null)
+    {
+      r = localObject;
+      return;
+    }
+    throw new IllegalArgumentException("Invalid icon");
+  }
+  
+  @v
+  public int g()
+  {
+    if ((q == -1) && (Build.VERSION.SDK_INT >= 23)) {
+      return b((Icon)r);
+    }
+    if (q == 2) {
+      return u;
+    }
+    throw new IllegalStateException(f.a.a.a.a.a("called getResId() on ", this));
+  }
+  
+  @F
+  public String h()
+  {
+    if ((q == -1) && (Build.VERSION.SDK_INT >= 23)) {
+      return c((Icon)r);
+    }
+    if (q == 2) {
+      return ((String)r).split(":", -1)[0];
+    }
+    throw new IllegalStateException(f.a.a.a.a.a("called getResPackage() on ", this));
+  }
+  
+  public int i()
+  {
+    if ((q == -1) && (Build.VERSION.SDK_INT >= 23)) {
+      return d((Icon)r);
+    }
+    return q;
+  }
+  
+  @F
+  public Uri j()
+  {
+    if ((q == -1) && (Build.VERSION.SDK_INT >= 23)) {
+      return e((Icon)r);
+    }
+    return Uri.parse((String)r);
+  }
+  
+  @K(23)
+  public Icon k()
+  {
+    int i1 = q;
+    if (i1 != -1)
+    {
+      Icon localIcon;
+      if (i1 != 1)
+      {
+        if (i1 != 2)
+        {
+          if (i1 != 3)
+          {
+            if (i1 != 4)
+            {
+              if (i1 == 5)
+              {
+                if (Build.VERSION.SDK_INT >= 26) {
+                  localIcon = Icon.createWithAdaptiveBitmap((Bitmap)r);
+                } else {
+                  localIcon = Icon.createWithBitmap(a((Bitmap)r, false));
+                }
+              }
+              else {
+                throw new IllegalArgumentException("Unknown type");
+              }
+            }
+            else {
+              localIcon = Icon.createWithContentUri((String)r);
+            }
+          }
+          else {
+            localIcon = Icon.createWithData((byte[])r, u, v);
+          }
+        }
+        else {
+          localIcon = Icon.createWithResource(h(), u);
+        }
+      }
+      else {
+        localIcon = Icon.createWithBitmap((Bitmap)r);
+      }
+      Object localObject = w;
+      if (localObject != null) {
+        localIcon.setTintList((ColorStateList)localObject);
+      }
+      localObject = x;
+      if (localObject != p) {
+        localIcon.setTintMode((PorterDuff.Mode)localObject);
+      }
+      return localIcon;
+    }
+    return (Icon)r;
+  }
+  
+  public Bundle toBundle()
+  {
+    Bundle localBundle = new Bundle();
+    int i1 = q;
+    if (i1 != -1)
+    {
+      if (i1 != 1)
+      {
+        if (i1 != 2) {
+          if (i1 != 3)
+          {
+            if (i1 != 4)
+            {
+              if (i1 == 5) {
+                break label89;
+              }
+              throw new IllegalArgumentException("Invalid icon");
+            }
+          }
+          else
+          {
+            localBundle.putByteArray("obj", (byte[])r);
+            break label118;
+          }
+        }
+        localBundle.putString("obj", (String)r);
+        break label118;
+      }
+      label89:
+      localBundle.putParcelable("obj", (Bitmap)r);
+    }
+    else
+    {
+      localBundle.putParcelable("obj", (Parcelable)r);
+    }
+    label118:
+    localBundle.putInt("type", q);
+    localBundle.putInt("int1", u);
+    localBundle.putInt("int2", v);
+    Object localObject = w;
+    if (localObject != null) {
+      localBundle.putParcelable("tint_list", (Parcelable)localObject);
+    }
+    localObject = x;
+    if (localObject != p) {
+      localBundle.putString("tint_mode", ((PorterDuff.Mode)localObject).name());
+    }
+    return localBundle;
+  }
+  
+  public String toString()
+  {
+    if (q == -1) {
+      return String.valueOf(r);
+    }
+    StringBuilder localStringBuilder = new StringBuilder("Icon(typ=");
+    localStringBuilder.append(b(q));
+    int i1 = q;
+    if (i1 != 1) {
+      if (i1 != 2)
+      {
+        if (i1 != 3)
+        {
+          if (i1 != 4)
+          {
+            if (i1 != 5) {
+              break label235;
+            }
+          }
+          else
+          {
+            localStringBuilder.append(" uri=");
+            localStringBuilder.append(r);
+            break label235;
+          }
+        }
+        else
+        {
+          localStringBuilder.append(" len=");
+          localStringBuilder.append(u);
+          if (v == 0) {
+            break label235;
+          }
+          localStringBuilder.append(" off=");
+          localStringBuilder.append(v);
+          break label235;
+        }
+      }
+      else
+      {
+        localStringBuilder.append(" pkg=");
+        localStringBuilder.append(h());
+        localStringBuilder.append(" id=");
+        localStringBuilder.append(String.format("0x%08x", new Object[] { Integer.valueOf(g()) }));
+        break label235;
+      }
+    }
+    localStringBuilder.append(" size=");
+    localStringBuilder.append(((Bitmap)r).getWidth());
+    localStringBuilder.append("x");
+    localStringBuilder.append(((Bitmap)r).getHeight());
+    label235:
+    if (w != null)
+    {
+      localStringBuilder.append(" tint=");
+      localStringBuilder.append(w);
+    }
+    if (x != p)
+    {
+      localStringBuilder.append(" mode=");
+      localStringBuilder.append(x);
+    }
+    localStringBuilder.append(")");
+    return localStringBuilder.toString();
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.a})
+  public static @interface a {}
+}

@@ -1,0 +1,63 @@
+package com.google.android.gms.internal;
+
+public final class zzdoz<K, V>
+  extends zzdpf<K, V>
+{
+  public int size = -1;
+  
+  public zzdoz(K paramK, V paramV, zzdpb<K, V> paramZzdpb1, zzdpb<K, V> paramZzdpb2)
+  {
+    super(paramK, paramV, paramZzdpb1, paramZzdpb2);
+  }
+  
+  public final int size()
+  {
+    if (size == -1)
+    {
+      int i = zzbqm().size();
+      size = (zzbqn().size() + (i + 1));
+    }
+    return size;
+  }
+  
+  public final zzdpf<K, V> zza(K paramK, V paramV, zzdpb<K, V> paramZzdpb1, zzdpb<K, V> paramZzdpb2)
+  {
+    Object localObject = paramK;
+    if (paramK == null) {
+      localObject = getKey();
+    }
+    paramK = paramV;
+    if (paramV == null) {
+      paramK = getValue();
+    }
+    paramV = paramZzdpb1;
+    if (paramZzdpb1 == null) {
+      paramV = zzbqm();
+    }
+    paramZzdpb1 = paramZzdpb2;
+    if (paramZzdpb2 == null) {
+      paramZzdpb1 = zzbqn();
+    }
+    return new zzdoz(localObject, paramK, paramV, paramZzdpb1);
+  }
+  
+  public final void zza(zzdpb<K, V> paramZzdpb)
+  {
+    if (size == -1)
+    {
+      zzlst = paramZzdpb;
+      return;
+    }
+    throw new IllegalStateException("Can't set left after using size");
+  }
+  
+  public final int zzbqj()
+  {
+    return zzdpc.zzlsq;
+  }
+  
+  public final boolean zzbqk()
+  {
+    return false;
+  }
+}

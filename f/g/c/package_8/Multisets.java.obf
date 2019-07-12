@@ -1,0 +1,884 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import f.g.c.j.g;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.SortedSet;
+import m.a.h;
+
+@b
+public final class bf
+{
+  public static final mf<Ye.a<?>> a = new af();
+  
+  public bf() {}
+  
+  public static <E> int a(Ye<E> paramYe, E paramE, int paramInt)
+  {
+    a(paramInt, "count");
+    int i = paramYe.a(paramE);
+    paramInt -= i;
+    if (paramInt > 0)
+    {
+      paramYe.c(paramE, paramInt);
+      return i;
+    }
+    if (paramInt < 0) {
+      paramYe.b(paramE, -paramInt);
+    }
+    return i;
+  }
+  
+  @a
+  public static <E> Ag<E> a(Ag<E> paramAg)
+  {
+    if (paramAg != null) {
+      return new h(paramAg, null);
+    }
+    throw new NullPointerException();
+  }
+  
+  @a
+  public static <E> Mb<E> a(Ye<E> paramYe)
+  {
+    return Mb.a(a.g(paramYe.entrySet()));
+  }
+  
+  public static <E> Ye.a<E> a(@h E paramE, int paramInt)
+  {
+    return new d(paramE, paramInt);
+  }
+  
+  @Deprecated
+  public static <E> Ye<E> a(Mb<E> paramMb)
+  {
+    if (paramMb != null) {
+      return paramMb;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> Ye<T> a(Iterable<T> paramIterable)
+  {
+    return (Ye)paramIterable;
+  }
+  
+  public static <E> Ye<E> a(Set<E> paramSet)
+  {
+    return new f(paramSet);
+  }
+  
+  public static void a(int paramInt, String paramString)
+  {
+    boolean bool;
+    if (paramInt >= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "%s cannot be negative: %s", new Object[] { paramString, Integer.valueOf(paramInt) });
+  }
+  
+  public static boolean a(Ye<?> paramYe1, Ye<?> paramYe2)
+  {
+    if (paramYe1 != null)
+    {
+      if (paramYe2 != null)
+      {
+        paramYe2 = paramYe2.entrySet().iterator();
+        while (paramYe2.hasNext())
+        {
+          Ye.a localA = (Ye.a)paramYe2.next();
+          if (paramYe1.a(localA.a()) < localA.getCount()) {
+            return false;
+          }
+        }
+        return true;
+      }
+      throw new NullPointerException();
+    }
+    paramYe1 = new NullPointerException();
+    for (;;)
+    {
+      throw paramYe1;
+    }
+  }
+  
+  public static boolean a(Ye<?> paramYe, @h Object paramObject)
+  {
+    if (paramObject == paramYe) {
+      return true;
+    }
+    if ((paramObject instanceof Ye))
+    {
+      paramObject = (Ye)paramObject;
+      if (paramYe.size() == paramObject.size())
+      {
+        if (paramYe.entrySet().size() != paramObject.entrySet().size()) {
+          return false;
+        }
+        paramObject = paramObject.entrySet().iterator();
+        while (paramObject.hasNext())
+        {
+          Ye.a localA = (Ye.a)paramObject.next();
+          if (paramYe.a(localA.a()) != localA.getCount()) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public static <E> boolean a(Ye<E> paramYe, E paramE, int paramInt1, int paramInt2)
+  {
+    a(paramInt1, "oldCount");
+    a(paramInt2, "newCount");
+    if (paramYe.a(paramE) == paramInt1)
+    {
+      paramYe.a(paramE, paramInt2);
+      return true;
+    }
+    return false;
+  }
+  
+  public static <E> boolean a(Ye<E> paramYe, Collection<? extends E> paramCollection)
+  {
+    if (paramCollection.isEmpty()) {
+      return false;
+    }
+    if ((paramCollection instanceof Ye))
+    {
+      paramCollection = ((Ye)paramCollection).entrySet().iterator();
+      while (paramCollection.hasNext())
+      {
+        Ye.a localA = (Ye.a)paramCollection.next();
+        paramYe.c(localA.a(), localA.getCount());
+      }
+    }
+    Jc.a(paramYe, paramCollection.iterator());
+    return true;
+  }
+  
+  public static int b(Iterable<?> paramIterable)
+  {
+    if ((paramIterable instanceof Ye)) {
+      return ((Ye)paramIterable).u().size();
+    }
+    return 11;
+  }
+  
+  public static <E> Ye<E> b(Ye<E> paramYe, Ye<?> paramYe1)
+  {
+    if (paramYe != null)
+    {
+      if (paramYe1 != null) {
+        return new _e(paramYe, paramYe1);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> Iterator<E> b(Ye<E> paramYe)
+  {
+    return new e(paramYe, paramYe.entrySet().iterator());
+  }
+  
+  public static boolean b(Ye<?> paramYe, Collection<?> paramCollection)
+  {
+    Object localObject = paramCollection;
+    if ((paramCollection instanceof Ye)) {
+      localObject = ((Ye)paramCollection).u();
+    }
+    return paramYe.u().removeAll((Collection)localObject);
+  }
+  
+  public static int c(Ye<?> paramYe)
+  {
+    paramYe = paramYe.entrySet().iterator();
+    for (long l = 0L; paramYe.hasNext(); l += ((Ye.a)paramYe.next()).getCount()) {}
+    return g.b(l);
+  }
+  
+  public static boolean c(Ye<?> paramYe1, Ye<?> paramYe2)
+  {
+    return d(paramYe1, paramYe2);
+  }
+  
+  public static boolean c(Ye<?> paramYe, Collection<?> paramCollection)
+  {
+    if (paramCollection != null)
+    {
+      Object localObject = paramCollection;
+      if ((paramCollection instanceof Ye)) {
+        localObject = ((Ye)paramCollection).u();
+      }
+      return paramYe.u().retainAll((Collection)localObject);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> Ye<E> d(Ye<? extends E> paramYe)
+  {
+    if (!(paramYe instanceof g))
+    {
+      if ((paramYe instanceof Mb)) {
+        return paramYe;
+      }
+      if (paramYe != null) {
+        return new g(paramYe);
+      }
+      throw new NullPointerException();
+    }
+    return paramYe;
+  }
+  
+  public static <E> boolean d(Ye<E> paramYe, Ye<?> paramYe1)
+  {
+    if (paramYe != null)
+    {
+      if (paramYe1 != null)
+      {
+        boolean bool = false;
+        Iterator localIterator = paramYe.entrySet().iterator();
+        if (localIterator.hasNext())
+        {
+          Ye.a localA = (Ye.a)localIterator.next();
+          int i = paramYe1.a(localA.a());
+          if (i >= localA.getCount()) {
+            localIterator.remove();
+          }
+          for (;;)
+          {
+            bool = true;
+            break;
+            if (i <= 0) {
+              break;
+            }
+            paramYe.b(localA.a(), i);
+          }
+        }
+        return bool;
+      }
+      throw new NullPointerException();
+    }
+    paramYe = new NullPointerException();
+    for (;;)
+    {
+      throw paramYe;
+    }
+  }
+  
+  public static boolean e(Ye<?> paramYe1, Ye<?> paramYe2)
+  {
+    return f(paramYe1, paramYe2);
+  }
+  
+  public static <E> boolean f(Ye<E> paramYe, Ye<?> paramYe1)
+  {
+    if (paramYe != null)
+    {
+      if (paramYe1 != null)
+      {
+        Iterator localIterator = paramYe.entrySet().iterator();
+        boolean bool = false;
+        if (localIterator.hasNext())
+        {
+          Ye.a localA = (Ye.a)localIterator.next();
+          int i = paramYe1.a(localA.a());
+          if (i == 0) {
+            localIterator.remove();
+          }
+          for (;;)
+          {
+            bool = true;
+            break;
+            if (i >= localA.getCount()) {
+              break;
+            }
+            paramYe.a(localA.a(), i);
+          }
+        }
+        return bool;
+      }
+      throw new NullPointerException();
+    }
+    paramYe = new NullPointerException();
+    for (;;)
+    {
+      throw paramYe;
+    }
+  }
+  
+  public static abstract class a<E>
+    implements Ye.a<E>
+  {
+    public a() {}
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof Ye.a;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (Ye.a)paramObject;
+        bool1 = bool2;
+        if (getCount() == paramObject.getCount())
+        {
+          bool1 = bool2;
+          if (U.a(a(), paramObject.a())) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      Object localObject = a();
+      int i;
+      if (localObject == null) {
+        i = 0;
+      } else {
+        i = localObject.hashCode();
+      }
+      return i ^ getCount();
+    }
+    
+    public String toString()
+    {
+      String str = String.valueOf(a());
+      int i = getCount();
+      if (i == 1) {
+        return str;
+      }
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(str);
+      localStringBuilder.append(" x ");
+      localStringBuilder.append(i);
+      return localStringBuilder.toString();
+    }
+  }
+  
+  public static abstract class b<E>
+    extends gg.d<E>
+  {
+    public b() {}
+    
+    public abstract Ye<E> c();
+    
+    public void clear()
+    {
+      c().clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return c().contains(paramObject);
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      return c().containsAll(paramCollection);
+    }
+    
+    public boolean isEmpty()
+    {
+      return c().isEmpty();
+    }
+    
+    public Iterator<E> iterator()
+    {
+      return new cf(this, c().entrySet().iterator());
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      int i = c().a(paramObject);
+      if (i > 0)
+      {
+        c().b(paramObject, i);
+        return true;
+      }
+      return false;
+    }
+    
+    public int size()
+    {
+      return c().entrySet().size();
+    }
+  }
+  
+  public static abstract class c<E>
+    extends gg.d<Ye.a<E>>
+  {
+    public c() {}
+    
+    public abstract Ye<E> c();
+    
+    public void clear()
+    {
+      c().clear();
+    }
+    
+    public boolean contains(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof Ye.a;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (Ye.a)paramObject;
+        if (paramObject.getCount() <= 0) {
+          return false;
+        }
+        bool1 = bool2;
+        if (c().a(paramObject.a()) == paramObject.getCount()) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      return (contains(paramObject)) && (c().u().remove(((Ye.a)paramObject).a()));
+    }
+  }
+  
+  public static final class d<E>
+    extends bf.a<E>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    @h
+    public final E b;
+    public final int c;
+    
+    public d(@h E paramE, int paramInt)
+    {
+      b = paramE;
+      c = paramInt;
+      boolean bool;
+      if (paramInt >= 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool);
+    }
+    
+    @h
+    public E a()
+    {
+      return b;
+    }
+    
+    public int getCount()
+    {
+      return c;
+    }
+  }
+  
+  public static final class e<E>
+    implements Iterator<E>
+  {
+    public final Ye<E> a;
+    public final Iterator<Ye.a<E>> b;
+    public Ye.a<E> c;
+    public int d;
+    public int e;
+    public boolean f;
+    
+    public e(Ye<E> paramYe, Iterator<Ye.a<E>> paramIterator)
+    {
+      a = paramYe;
+      b = paramIterator;
+    }
+    
+    public boolean hasNext()
+    {
+      return (d > 0) || (b.hasNext());
+    }
+    
+    public E next()
+    {
+      if (hasNext())
+      {
+        if (d == 0)
+        {
+          c = ((Ye.a)b.next());
+          int i = c.getCount();
+          d = i;
+          e = i;
+        }
+        d -= 1;
+        f = true;
+        return c.a();
+      }
+      throw new NoSuchElementException();
+    }
+    
+    public void remove()
+    {
+      Jc.a(f);
+      if (e == 1) {
+        b.remove();
+      } else {
+        a.remove(c.a());
+      }
+      e -= 1;
+      f = false;
+    }
+  }
+  
+  private static class f<E>
+    extends Ja<E>
+    implements Ye<E>, Serializable
+  {
+    public static final long a = 0L;
+    public final Set<E> b;
+    public transient Set<E> c;
+    public transient Set<Ye.a<E>> d;
+    
+    public f(Set<E> paramSet)
+    {
+      if (paramSet != null)
+      {
+        b = paramSet;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public int a(Object paramObject)
+    {
+      throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:659)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+    }
+    
+    public int a(E paramE, int paramInt)
+    {
+      bf.a(paramInt, "count");
+      if (paramInt == a(paramE)) {
+        return paramInt;
+      }
+      if (paramInt == 0)
+      {
+        remove(paramE);
+        return 1;
+      }
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean a(E paramE, int paramInt1, int paramInt2)
+    {
+      return bf.a(this, paramE, paramInt1, paramInt2);
+    }
+    
+    public boolean add(E paramE)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean addAll(Collection<? extends E> paramCollection)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int b(Object paramObject, int paramInt)
+    {
+      throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:659)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+    }
+    
+    public int c(E paramE, int paramInt)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Set<Ye.a<E>> entrySet()
+    {
+      Set localSet = d;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new ef(this);
+        d = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof Ye;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (Ye)paramObject;
+        bool1 = bool2;
+        if (size() == paramObject.size())
+        {
+          bool1 = bool2;
+          if (b.equals(paramObject.u())) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      Iterator localIterator = iterator();
+      int i = 0;
+      while (localIterator.hasNext())
+      {
+        Object localObject = localIterator.next();
+        int j;
+        if (localObject == null) {
+          j = 0;
+        } else {
+          j = localObject.hashCode();
+        }
+        i += (j ^ 0x1);
+      }
+      return i;
+    }
+    
+    public Set<E> q()
+    {
+      return b;
+    }
+    
+    public Set<E> u()
+    {
+      Set localSet = c;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new a();
+        c = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    public class a
+      extends Ya<E>
+    {
+      public a() {}
+      
+      public boolean add(E paramE)
+      {
+        throw new UnsupportedOperationException();
+      }
+      
+      public boolean addAll(Collection<? extends E> paramCollection)
+      {
+        throw new UnsupportedOperationException();
+      }
+      
+      public Set<E> q()
+      {
+        return b;
+      }
+    }
+  }
+  
+  public static class g<E>
+    extends Va<E>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final Ye<? extends E> b;
+    public transient Set<E> c;
+    public transient Set<Ye.a<E>> d;
+    
+    public g(Ye<? extends E> paramYe)
+    {
+      b = paramYe;
+    }
+    
+    public Set<E> A()
+    {
+      return Collections.unmodifiableSet(b.u());
+    }
+    
+    public int a(E paramE, int paramInt)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean a(E paramE, int paramInt1, int paramInt2)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean add(E paramE)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean addAll(Collection<? extends E> paramCollection)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int b(Object paramObject, int paramInt)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int c(E paramE, int paramInt)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void clear()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Set<Ye.a<E>> entrySet()
+    {
+      Set localSet2 = d;
+      Set localSet1 = localSet2;
+      if (localSet2 == null)
+      {
+        localSet1 = Collections.unmodifiableSet(b.entrySet());
+        d = localSet1;
+      }
+      return localSet1;
+    }
+    
+    public Iterator<E> iterator()
+    {
+      return Jc.k(b.iterator());
+    }
+    
+    public Ye<E> q()
+    {
+      return b;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Set<E> u()
+    {
+      Set localSet2 = c;
+      Set localSet1 = localSet2;
+      if (localSet2 == null)
+      {
+        localSet1 = A();
+        c = localSet1;
+      }
+      return localSet1;
+    }
+  }
+  
+  private static final class h<E>
+    extends bf.g<E>
+    implements Ag<E>
+  {
+    public static final long e = 0L;
+    public transient h<E> f;
+    
+    public h(Ag<E> paramAg)
+    {
+      super();
+    }
+    
+    public SortedSet<E> A()
+    {
+      return Collections.unmodifiableSortedSet(q().u());
+    }
+    
+    public Ag<E> a(E paramE, O paramO)
+    {
+      return bf.a(q().a(paramE, paramO));
+    }
+    
+    public Ag<E> a(E paramE1, O paramO1, E paramE2, O paramO2)
+    {
+      return bf.a(q().a(paramE1, paramO1, paramE2, paramO2));
+    }
+    
+    public Ag<E> b(E paramE, O paramO)
+    {
+      return bf.a(q().b(paramE, paramO));
+    }
+    
+    public Comparator<? super E> comparator()
+    {
+      return q().comparator();
+    }
+    
+    public Ye.a<E> firstEntry()
+    {
+      return q().firstEntry();
+    }
+    
+    public Ye.a<E> lastEntry()
+    {
+      return q().lastEntry();
+    }
+    
+    public Ye.a<E> pollFirstEntry()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Ye.a<E> pollLastEntry()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Ag<E> q()
+    {
+      return (Ag)b;
+    }
+    
+    public SortedSet<E> u()
+    {
+      return (SortedSet)super.u();
+    }
+    
+    public Ag<E> v()
+    {
+      h localH2 = f;
+      h localH1 = localH2;
+      if (localH2 == null)
+      {
+        localH1 = new h(q().v());
+        f = this;
+        f = localH1;
+      }
+      return localH1;
+    }
+  }
+}

@@ -1,0 +1,94 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.Iterator;
+
+@b(emulated=true)
+public final class Fa<E extends Enum<E>>
+  extends l<E>
+{
+  @c("Not needed in emulated source")
+  public static final long f = 0L;
+  public transient Class<E> g;
+  
+  public Fa(Class<E> paramClass)
+  {
+    super(new zh(new EnumMap(paramClass)));
+    g = paramClass;
+  }
+  
+  public static <E extends Enum<E>> Fa<E> a(Class<E> paramClass)
+  {
+    return new Fa(paramClass);
+  }
+  
+  public static <E extends Enum<E>> Fa<E> a(Iterable<E> paramIterable)
+  {
+    Object localObject = paramIterable.iterator();
+    ba.a(((Iterator)localObject).hasNext(), "EnumMultiset constructor passed empty Iterable");
+    localObject = new Fa(((Enum)((Iterator)localObject).next()).getDeclaringClass());
+    rc.a((Collection)localObject, paramIterable);
+    return localObject;
+  }
+  
+  @c("java.io.ObjectInputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    g = ((Class)paramObjectInputStream.readObject());
+    a(new zh(new EnumMap(g)));
+    ag.a(this, paramObjectInputStream, paramObjectInputStream.readInt());
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeObject(g);
+    ag.a(this, paramObjectOutputStream);
+  }
+  
+  public boolean addAll(Collection paramCollection)
+  {
+    return bf.a(this, paramCollection);
+  }
+  
+  public boolean contains(Object paramObject)
+  {
+    return a(paramObject) > 0;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    return bf.a(this, paramObject);
+  }
+  
+  public Iterator iterator()
+  {
+    return new l.b(this);
+  }
+  
+  public boolean remove(Object paramObject)
+  {
+    return b(paramObject, 1) > 0;
+  }
+  
+  public boolean removeAll(Collection paramCollection)
+  {
+    return bf.b(this, paramCollection);
+  }
+  
+  public boolean retainAll(Collection paramCollection)
+  {
+    return bf.c(this, paramCollection);
+  }
+}

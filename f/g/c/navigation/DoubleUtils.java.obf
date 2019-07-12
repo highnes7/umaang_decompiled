@@ -1,0 +1,120 @@
+package f.g.c.h;
+
+import f.g.c.b.ba;
+import java.math.BigInteger;
+
+public final class e
+{
+  public static final long a = 4503599627370495L;
+  public static final long b = 9218868437227405312L;
+  public static final long c = Long.MIN_VALUE;
+  public static final int d = 1023;
+  public static final int e = -1022;
+  public static final int f = 52;
+  public static final int g = 1023;
+  public static final long h = 4503599627370496L;
+  public static final long i = Double.doubleToRawLongBits(1.0D);
+  
+  public e() {}
+  
+  public static double a(double paramDouble)
+  {
+    ba.a(Double.isNaN(paramDouble) ^ true);
+    if (paramDouble > 0.0D) {
+      return paramDouble;
+    }
+    return 0.0D;
+  }
+  
+  public static double a(double paramDouble1, double paramDouble2)
+  {
+    return Double.longBitsToDouble(Double.doubleToRawLongBits(paramDouble1) & 0x7FFFFFFFFFFFFFFF | Double.doubleToRawLongBits(paramDouble2) & 0x8000000000000000);
+  }
+  
+  public static double a(BigInteger paramBigInteger)
+  {
+    BigInteger localBigInteger = paramBigInteger.abs();
+    int j = localBigInteger.bitLength();
+    int k = 1;
+    int m = j - 1;
+    if (m < 63) {
+      return paramBigInteger.longValue();
+    }
+    if (m > 1023)
+    {
+      double d1 = paramBigInteger.signum();
+      Double.isNaN(d1);
+      return d1 * Double.POSITIVE_INFINITY;
+    }
+    int n = m - 52 - 1;
+    long l1 = localBigInteger.shiftRight(n).longValue();
+    long l2 = l1 >> 1 & 0xFFFFFFFFFFFFF;
+    if ((l1 & 1L) != 0L)
+    {
+      j = k;
+      if ((l2 & 1L) != 0L) {
+        break label128;
+      }
+      if (localBigInteger.getLowestSetBit() < n)
+      {
+        j = k;
+        break label128;
+      }
+    }
+    j = 0;
+    label128:
+    l1 = l2;
+    if (j != 0) {
+      l1 = l2 + 1L;
+    }
+    return Double.longBitsToDouble((m + 1023 << 52) + l1 | paramBigInteger.signum() & 0x8000000000000000);
+  }
+  
+  public static int b(double paramDouble)
+  {
+    return (int)((Double.doubleToRawLongBits(paramDouble) & 0x7FF0000000000000) >>> 52) - 1023;
+  }
+  
+  public static long c(double paramDouble)
+  {
+    ba.a(d(paramDouble), "not a normal value");
+    int j = b(paramDouble);
+    long l = Double.doubleToRawLongBits(paramDouble) & 0xFFFFFFFFFFFFF;
+    if (j == 64513) {
+      return l << 1;
+    }
+    return l | 0x10000000000000;
+  }
+  
+  public static boolean d(double paramDouble)
+  {
+    return b(paramDouble) <= 1023;
+  }
+  
+  public static boolean e(double paramDouble)
+  {
+    return b(paramDouble) >= 64514;
+  }
+  
+  public static double f(double paramDouble)
+  {
+    return -g(-paramDouble);
+  }
+  
+  public static double g(double paramDouble)
+  {
+    if (!d(paramDouble)) {
+      return paramDouble;
+    }
+    if (paramDouble == 0.0D) {
+      return Double.MIN_VALUE;
+    }
+    long l = Double.doubleToRawLongBits(paramDouble);
+    return Double.longBitsToDouble(l + (l >> 63 | 1L));
+  }
+  
+  public static double h(double paramDouble)
+  {
+    return Double.longBitsToDouble(Double.doubleToRawLongBits(paramDouble) & 0xFFFFFFFFFFFFF | i);
+  }
+}

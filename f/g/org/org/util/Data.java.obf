@@ -1,0 +1,395 @@
+package f.g.b.a.g;
+
+import f.g.b.a.e.a.a.a.b.g;
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class r
+{
+  public static final Boolean a = new Boolean(true);
+  public static final String b = new String();
+  public static final Character c = new Character('\000');
+  public static final Byte d = new Byte((byte)0);
+  public static final Short e = new Short((short)0);
+  public static final Integer f = new Integer(0);
+  public static final Float g = new Float(0.0F);
+  public static final Long h = new Long(0L);
+  public static final Double i = new Double(0.0D);
+  public static final BigInteger j = new BigInteger("0");
+  public static final BigDecimal k = new BigDecimal("0");
+  public static final t l = new t(0L);
+  public static final ConcurrentHashMap<Class<?>, Object> m = new ConcurrentHashMap();
+  
+  static
+  {
+    m.put(Boolean.class, a);
+    m.put(String.class, b);
+    m.put(Character.class, c);
+    m.put(Byte.class, d);
+    m.put(Short.class, e);
+    m.put(Integer.class, f);
+    m.put(Float.class, g);
+    m.put(Long.class, h);
+    m.put(Double.class, i);
+    m.put(BigInteger.class, j);
+    m.put(BigDecimal.class, k);
+    m.put(t.class, l);
+  }
+  
+  public r() {}
+  
+  public static <T> T a(T paramT)
+  {
+    if (paramT != null)
+    {
+      if (a(paramT.getClass())) {
+        return paramT;
+      }
+      if ((paramT instanceof w)) {
+        return ((w)paramT).clone();
+      }
+      Object localObject = paramT.getClass();
+      if (((Class)localObject).isArray()) {
+        localObject = Array.newInstance(((Class)localObject).getComponentType(), Array.getLength(paramT));
+      } else if ((paramT instanceof a)) {
+        localObject = ((a)paramT).clone();
+      } else {
+        localObject = ba.a((Class)localObject);
+      }
+      a(paramT, localObject);
+      return localObject;
+    }
+    return paramT;
+  }
+  
+  public static Object a(Type paramType, String paramString)
+  {
+    Class localClass;
+    if ((paramType instanceof Class)) {
+      localClass = (Class)paramType;
+    } else {
+      localClass = null;
+    }
+    if ((paramType == null) || (localClass != null))
+    {
+      if (localClass == Void.class) {
+        return null;
+      }
+      if ((paramString == null) || (localClass == null)) {
+        return paramString;
+      }
+      if (localClass.isAssignableFrom(String.class)) {
+        return paramString;
+      }
+      if ((localClass == Character.class) || (localClass == Character.TYPE)) {
+        break label308;
+      }
+      if ((localClass == Boolean.class) || (localClass == Boolean.TYPE)) {
+        break label303;
+      }
+      if ((localClass == Byte.class) || (localClass == Byte.TYPE)) {
+        break label298;
+      }
+      if ((localClass == Short.class) || (localClass == Short.TYPE)) {
+        break label293;
+      }
+      if ((localClass == Integer.class) || (localClass == Integer.TYPE)) {
+        break label288;
+      }
+      if ((localClass == Long.class) || (localClass == Long.TYPE)) {
+        break label283;
+      }
+      if ((localClass == Float.class) || (localClass == Float.TYPE)) {
+        break label278;
+      }
+      if ((localClass == Double.class) || (localClass == Double.TYPE)) {
+        break label273;
+      }
+      if (localClass == t.class) {
+        return t.a(paramString);
+      }
+      if (localClass == BigInteger.class) {
+        return new BigInteger(paramString);
+      }
+      if (localClass == BigDecimal.class) {
+        return new BigDecimal(paramString);
+      }
+      if (localClass.isEnum()) {
+        return n.a(localClass).b(paramString).a();
+      }
+    }
+    paramType = String.valueOf(paramType);
+    throw new IllegalArgumentException(f.a.a.a.a.a(new StringBuilder(paramType.length() + 35), "expected primitive class, but got: ", paramType));
+    label273:
+    return Double.valueOf(paramString);
+    label278:
+    return Float.valueOf(paramString);
+    label283:
+    return Long.valueOf(paramString);
+    label288:
+    return Integer.valueOf(paramString);
+    label293:
+    return Short.valueOf(paramString);
+    label298:
+    return Byte.valueOf(paramString);
+    label303:
+    return Boolean.valueOf(paramString);
+    label308:
+    if (paramString.length() == 1) {
+      return Character.valueOf(paramString.charAt(0));
+    }
+    paramType = String.valueOf(localClass);
+    throw new IllegalArgumentException(f.a.a.a.a.a(new StringBuilder(paramType.length() + 37), "expected type Character/char but got ", paramType));
+    return paramString;
+  }
+  
+  public static Type a(List<Type> paramList, Type paramType)
+  {
+    Type localType1 = paramType;
+    if ((paramType instanceof WildcardType)) {
+      localType1 = ba.a((WildcardType)paramType);
+    }
+    while ((localType1 instanceof TypeVariable))
+    {
+      Type localType2 = ba.a(paramList, (TypeVariable)localType1);
+      paramType = localType1;
+      if (localType2 != null) {
+        paramType = localType2;
+      }
+      localType1 = paramType;
+      if ((paramType instanceof TypeVariable)) {
+        localType1 = ((TypeVariable)paramType).getBounds()[0];
+      }
+    }
+    return localType1;
+  }
+  
+  public static Map<String, Object> a(Class<?> paramClass)
+  {
+    if ((paramClass != null) && (!paramClass.isAssignableFrom(a.class)))
+    {
+      if (paramClass.isAssignableFrom(TreeMap.class)) {
+        return new TreeMap();
+      }
+      return (Map)ba.a(paramClass);
+    }
+    return new a();
+  }
+  
+  public static void a(Object paramObject1, Object paramObject2)
+  {
+    Object localObject1 = paramObject1.getClass();
+    Object localObject2 = paramObject2.getClass();
+    boolean bool2 = true;
+    int n = 0;
+    int i1 = 0;
+    if (localObject1 == localObject2) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    g.a(bool1);
+    if (((Class)localObject1).isArray())
+    {
+      if (Array.getLength(paramObject1) == Array.getLength(paramObject2)) {
+        bool1 = bool2;
+      } else {
+        bool1 = false;
+      }
+      g.a(bool1);
+      paramObject1 = ba.a(paramObject1).iterator();
+      n = i1;
+      while (paramObject1.hasNext())
+      {
+        Array.set(paramObject2, n, a(paramObject1.next()));
+        n += 1;
+      }
+    }
+    if (Collection.class.isAssignableFrom((Class)localObject1))
+    {
+      paramObject1 = (Collection)paramObject1;
+      if (ArrayList.class.isAssignableFrom((Class)localObject1)) {
+        ((ArrayList)paramObject2).ensureCapacity(paramObject1.size());
+      }
+      paramObject2 = (Collection)paramObject2;
+      paramObject1 = paramObject1.iterator();
+      while (paramObject1.hasNext()) {
+        paramObject2.add(a(paramObject1.next()));
+      }
+    }
+    boolean bool1 = w.class.isAssignableFrom((Class)localObject1);
+    if ((!bool1) && (Map.class.isAssignableFrom((Class)localObject1)))
+    {
+      if (a.class.isAssignableFrom((Class)localObject1))
+      {
+        paramObject2 = (a)paramObject2;
+        paramObject1 = (a)paramObject1;
+        i1 = paramObject1.size();
+        while (n < i1)
+        {
+          paramObject2.a(n, a(paramObject1.d(n)));
+          n += 1;
+        }
+      }
+      paramObject2 = (Map)paramObject2;
+      paramObject1 = ((Map)paramObject1).entrySet().iterator();
+    }
+    while (paramObject1.hasNext())
+    {
+      localObject1 = (Map.Entry)paramObject1.next();
+      paramObject2.put(((Map.Entry)localObject1).getKey(), a(((Map.Entry)localObject1).getValue()));
+      continue;
+      if (bool1) {
+        localObject1 = b;
+      } else {
+        localObject1 = n.a((Class)localObject1);
+      }
+      localObject2 = f.iterator();
+      while (((Iterator)localObject2).hasNext())
+      {
+        v localV = ((n)localObject1).b((String)((Iterator)localObject2).next());
+        if ((!localV.g()) && ((!bool1) || (!localV.h())))
+        {
+          Object localObject3 = localV.a(paramObject1);
+          if (localObject3 != null) {
+            localV.a(paramObject2, a(localObject3));
+          }
+        }
+      }
+    }
+  }
+  
+  public static boolean a(Type paramType)
+  {
+    Type localType = paramType;
+    if ((paramType instanceof WildcardType)) {
+      localType = ba.a((WildcardType)paramType);
+    }
+    boolean bool2 = localType instanceof Class;
+    boolean bool1 = false;
+    if (!bool2) {
+      return false;
+    }
+    paramType = (Class)localType;
+    if ((paramType.isPrimitive()) || (paramType == Character.class) || (paramType == String.class) || (paramType == Integer.class) || (paramType == Long.class) || (paramType == Short.class) || (paramType == Byte.class) || (paramType == Float.class) || (paramType == Double.class) || (paramType == BigInteger.class) || (paramType == BigDecimal.class) || (paramType == t.class) || (paramType == Boolean.class)) {
+      bool1 = true;
+    }
+    return bool1;
+  }
+  
+  public static <T> T b(Class<?> paramClass)
+  {
+    Object localObject1 = m.get(paramClass);
+    if (localObject1 == null) {
+      synchronized (m)
+      {
+        Object localObject2 = m.get(paramClass);
+        localObject1 = localObject2;
+        if (localObject2 == null)
+        {
+          boolean bool = paramClass.isArray();
+          int n = 0;
+          if (bool)
+          {
+            localObject1 = paramClass;
+            int i1;
+            do
+            {
+              localObject2 = ((Class)localObject1).getComponentType();
+              i1 = n + 1;
+              localObject1 = localObject2;
+              n = i1;
+            } while (((Class)localObject2).isArray());
+            localObject1 = Array.newInstance((Class)localObject2, new int[i1]);
+          }
+          else if (paramClass.isEnum())
+          {
+            localObject1 = n.a(paramClass).b(null);
+            g.a(localObject1, "enum missing constant with @NullValue annotation: %s", new Object[] { paramClass });
+            localObject1 = ((v)localObject1).a();
+          }
+          else
+          {
+            localObject1 = ba.a(paramClass);
+          }
+          m.put(paramClass, localObject1);
+        }
+        return localObject1;
+      }
+    }
+    return localObject1;
+  }
+  
+  public static Collection<Object> b(Type paramType)
+  {
+    Object localObject = paramType;
+    if ((paramType instanceof WildcardType)) {
+      localObject = ba.a((WildcardType)paramType);
+    }
+    paramType = (Type)localObject;
+    if ((localObject instanceof ParameterizedType)) {
+      paramType = ((ParameterizedType)localObject).getRawType();
+    }
+    if ((paramType instanceof Class)) {
+      localObject = (Class)paramType;
+    } else {
+      localObject = null;
+    }
+    if ((paramType != null) && (!(paramType instanceof GenericArrayType)) && ((localObject == null) || ((!((Class)localObject).isArray()) && (!((Class)localObject).isAssignableFrom(ArrayList.class)))))
+    {
+      if (localObject != null)
+      {
+        if (((Class)localObject).isAssignableFrom(HashSet.class)) {
+          return new HashSet();
+        }
+        if (((Class)localObject).isAssignableFrom(TreeSet.class)) {
+          return new TreeSet();
+        }
+        return (Collection)ba.a((Class)localObject);
+      }
+      paramType = String.valueOf(paramType);
+      throw new IllegalArgumentException(f.a.a.a.a.a(new StringBuilder(paramType.length() + 39), "unable to create new instance of type: ", paramType));
+    }
+    return new ArrayList();
+  }
+  
+  public static boolean b(Object paramObject)
+  {
+    return (paramObject != null) && (paramObject == m.get(paramObject.getClass()));
+  }
+  
+  public static boolean c(Object paramObject)
+  {
+    return (paramObject == null) || (a(paramObject.getClass()));
+  }
+  
+  public static Map<String, Object> d(Object paramObject)
+  {
+    if ((paramObject != null) && (!b(paramObject)))
+    {
+      if ((paramObject instanceof Map)) {
+        return (Map)paramObject;
+      }
+      return new s(paramObject, false);
+    }
+    return Collections.emptyMap();
+  }
+}

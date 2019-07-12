@@ -1,0 +1,313 @@
+package com.google.android.gms.common.api.internal;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import b.b.a.F;
+import b.b.a.G;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.zza;
+import com.google.android.gms.common.api.Api.zzb;
+import com.google.android.gms.common.api.Api.zzc;
+import com.google.android.gms.common.api.Api.zze;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.internal.zzq;
+import com.google.android.gms.common.zze;
+import com.google.android.gms.internal.zzcps;
+import com.google.android.gms.internal.zzcpt;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+
+public final class zzbl
+  implements zzcd, zzx
+{
+  public final Context mContext;
+  public Api.zza<? extends zzcps, zzcpt> zzfhm;
+  public final zzbd zzfju;
+  public final Lock zzfke;
+  public zzq zzfkj;
+  public Map<Api<?>, Boolean> zzfkm;
+  public final zze zzfko;
+  public final Map<Api.zzc<?>, Api.zze> zzfmn;
+  public final Condition zzfna;
+  public final zzbn zzfnb;
+  public final Map<Api.zzc<?>, ConnectionResult> zzfnc = new HashMap();
+  public volatile zzbk zzfnd;
+  public ConnectionResult zzfne = null;
+  public int zzfnf;
+  public final zzce zzfng;
+  
+  public zzbl(Context paramContext, zzbd paramZzbd, Lock paramLock, Looper paramLooper, zze paramZze, Map<Api.zzc<?>, Api.zze> paramMap, zzq paramZzq, Map<Api<?>, Boolean> paramMap1, Api.zza<? extends zzcps, zzcpt> paramZza, ArrayList<zzw> paramArrayList, zzce paramZzce)
+  {
+    mContext = paramContext;
+    zzfke = paramLock;
+    zzfko = paramZze;
+    zzfmn = paramMap;
+    zzfkj = paramZzq;
+    zzfkm = paramMap1;
+    zzfhm = paramZza;
+    zzfju = paramZzbd;
+    zzfng = paramZzce;
+    int j = paramArrayList.size();
+    int i = 0;
+    while (i < j)
+    {
+      paramContext = paramArrayList.get(i);
+      i += 1;
+      ((zzw)paramContext).zza(this);
+    }
+    zzfnb = new zzbn(this, paramLooper);
+    zzfna = paramLock.newCondition();
+    zzfnd = new zzbc(this);
+  }
+  
+  public final ConnectionResult blockingConnect()
+  {
+    connect();
+    for (;;)
+    {
+      if (!isConnecting()) {
+        break label40;
+      }
+      try
+      {
+        zzfna.await();
+      }
+      catch (InterruptedException localInterruptedException)
+      {
+        ConnectionResult localConnectionResult;
+        for (;;) {}
+      }
+    }
+    Thread.currentThread().interrupt();
+    return new ConnectionResult(15, null);
+    label40:
+    if (isConnected()) {
+      return ConnectionResult.zzfff;
+    }
+    localConnectionResult = zzfne;
+    if (localConnectionResult != null) {
+      return localConnectionResult;
+    }
+    return new ConnectionResult(13, null);
+  }
+  
+  public final ConnectionResult blockingConnect(long paramLong, TimeUnit paramTimeUnit)
+  {
+    connect();
+    for (paramLong = paramTimeUnit.toNanos(paramLong);; paramLong = zzfna.awaitNanos(paramLong))
+    {
+      if ((!isConnecting()) || (paramLong <= 0L)) {}
+      try
+      {
+        disconnect();
+        return new ConnectionResult(14, null);
+      }
+      catch (InterruptedException paramTimeUnit)
+      {
+        for (;;) {}
+      }
+    }
+    Thread.currentThread().interrupt();
+    return new ConnectionResult(15, null);
+    if (isConnected()) {
+      return ConnectionResult.zzfff;
+    }
+    paramTimeUnit = zzfne;
+    if (paramTimeUnit != null) {
+      return paramTimeUnit;
+    }
+    return new ConnectionResult(13, null);
+  }
+  
+  public final void connect()
+  {
+    zzfnd.connect();
+  }
+  
+  public final void disconnect()
+  {
+    if (zzfnd.disconnect()) {
+      zzfnc.clear();
+    }
+  }
+  
+  public final void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+  {
+    String str = String.valueOf(paramString).concat("  ");
+    paramPrintWriter.append(paramString).append("mState=").println(zzfnd);
+    Iterator localIterator = zzfkm.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Api localApi = (Api)localIterator.next();
+      paramPrintWriter.append(paramString).append(localApi.getName()).println(":");
+      ((Api.zze)zzfmn.get(localApi.zzafe())).dump(str, paramFileDescriptor, paramPrintWriter, paramArrayOfString);
+    }
+  }
+  
+  @G
+  public final ConnectionResult getConnectionResult(@F Api<?> paramApi)
+  {
+    paramApi = paramApi.zzafe();
+    if (zzfmn.containsKey(paramApi))
+    {
+      if (((Api.zze)zzfmn.get(paramApi)).isConnected()) {
+        return ConnectionResult.zzfff;
+      }
+      if (zzfnc.containsKey(paramApi)) {
+        return (ConnectionResult)zzfnc.get(paramApi);
+      }
+    }
+    return null;
+  }
+  
+  public final boolean isConnected()
+  {
+    return zzfnd instanceof zzao;
+  }
+  
+  public final boolean isConnecting()
+  {
+    return zzfnd instanceof zzar;
+  }
+  
+  public final void onConnected(@G Bundle paramBundle)
+  {
+    zzfke.lock();
+    try
+    {
+      zzfnd.onConnected(paramBundle);
+      return;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final void onConnectionSuspended(int paramInt)
+  {
+    zzfke.lock();
+    try
+    {
+      zzfnd.onConnectionSuspended(paramInt);
+      return;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final void zza(@F ConnectionResult paramConnectionResult, @F Api<?> paramApi, boolean paramBoolean)
+  {
+    zzfke.lock();
+    try
+    {
+      zzfnd.zza(paramConnectionResult, paramApi, paramBoolean);
+      return;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final void zza(zzbm paramZzbm)
+  {
+    paramZzbm = zzfnb.obtainMessage(1, paramZzbm);
+    zzfnb.sendMessage(paramZzbm);
+  }
+  
+  public final void zza(RuntimeException paramRuntimeException)
+  {
+    paramRuntimeException = zzfnb.obtainMessage(2, paramRuntimeException);
+    zzfnb.sendMessage(paramRuntimeException);
+  }
+  
+  public final boolean zza(zzcv paramZzcv)
+  {
+    return false;
+  }
+  
+  public final void zzafp() {}
+  
+  public final void zzagi()
+  {
+    if (isConnected()) {
+      ((zzao)zzfnd).zzagy();
+    }
+  }
+  
+  public final void zzahl()
+  {
+    zzfke.lock();
+    try
+    {
+      zzfnd = new zzar(this, zzfkj, zzfkm, zzfko, zzfhm, zzfke, mContext);
+      zzfnd.begin();
+      zzfna.signalAll();
+      return;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final void zzahm()
+  {
+    zzfke.lock();
+    try
+    {
+      zzfju.zzahi();
+      zzfnd = new zzao(this);
+      zzfnd.begin();
+      zzfna.signalAll();
+      return;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final <A extends Api.zzb, R extends Result, T extends zzm<R, A>> T zzd(@F T paramT)
+  {
+    paramT.zzagg();
+    return zzfnd.zzd(paramT);
+  }
+  
+  public final <A extends Api.zzb, T extends zzm<? extends Result, A>> T zze(@F T paramT)
+  {
+    paramT.zzagg();
+    return zzfnd.zze(paramT);
+  }
+  
+  public final void zzg(ConnectionResult paramConnectionResult)
+  {
+    zzfke.lock();
+    try
+    {
+      zzfne = paramConnectionResult;
+      zzfnd = new zzbc(this);
+      zzfnd.begin();
+      zzfna.signalAll();
+      return;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+}

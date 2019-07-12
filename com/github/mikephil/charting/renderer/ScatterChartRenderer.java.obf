@@ -1,0 +1,358 @@
+package com.github.mikephil.charting.renderer;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Path;
+import com.github.mikephil.charting.animation.ChartAnimator;
+import com.github.mikephil.charting.buffer.AbstractBuffer;
+import com.github.mikephil.charting.buffer.ScatterBuffer;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.ScatterData;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.dataprovider.BarLineScatterCandleBubbleDataProvider;
+import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface;
+import com.github.mikephil.charting.interfaces.dataprovider.ScatterDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
+import com.github.mikephil.charting.utils.Transformer;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import java.util.Iterator;
+import java.util.List;
+
+public class ScatterChartRenderer
+  extends LineScatterCandleRadarRenderer
+{
+  public ScatterDataProvider mChart;
+  public ScatterBuffer[] mScatterBuffers;
+  
+  public ScatterChartRenderer(ScatterDataProvider paramScatterDataProvider, ChartAnimator paramChartAnimator, ViewPortHandler paramViewPortHandler)
+  {
+    super(paramChartAnimator, paramViewPortHandler);
+    mChart = paramScatterDataProvider;
+  }
+  
+  public void drawData(Canvas paramCanvas)
+  {
+    Iterator localIterator = mChart.getScatterData().getDataSets().iterator();
+    while (localIterator.hasNext())
+    {
+      IScatterDataSet localIScatterDataSet = (IScatterDataSet)localIterator.next();
+      if (localIScatterDataSet.isVisible()) {
+        drawDataSet(paramCanvas, localIScatterDataSet);
+      }
+    }
+  }
+  
+  public void drawDataSet(Canvas paramCanvas, IScatterDataSet paramIScatterDataSet)
+  {
+    Object localObject1 = mChart.getTransformer(paramIScatterDataSet.getAxisDependency());
+    float f6 = mAnimator.getPhaseX();
+    float f7 = mAnimator.getPhaseY();
+    float f4 = Utils.convertDpToPixel(paramIScatterDataSet.getScatterShapeSize());
+    float f1 = f4 / 2.0F;
+    float f2 = Utils.convertDpToPixel(paramIScatterDataSet.getScatterShapeHoleRadius());
+    float f3 = f2 * 2.0F;
+    int k = paramIScatterDataSet.getScatterShapeHoleColor();
+    f4 = (f4 - f3) / 2.0F;
+    float f5 = f4 / 2.0F;
+    Object localObject2 = paramIScatterDataSet.getScatterShape();
+    ScatterBuffer localScatterBuffer = mScatterBuffers[mChart.getScatterData().getIndexOfDataSet(paramIScatterDataSet)];
+    localScatterBuffer.setPhases(f6, f7);
+    localScatterBuffer.feed(paramIScatterDataSet);
+    ((Transformer)localObject1).pointValuesToPixel(buffer);
+    int m = ((Enum)localObject2).ordinal();
+    int i = 0;
+    int j = 0;
+    if (m != 0)
+    {
+      if (m != 1)
+      {
+        if (m != 2)
+        {
+          if (m != 3)
+          {
+            if (m != 4) {
+              return;
+            }
+            mRenderPaint.setStyle(Paint.Style.STROKE);
+            mRenderPaint.setStrokeWidth(Utils.convertDpToPixel(1.0F));
+            i = 0;
+            while (i < localScatterBuffer.size())
+            {
+              if (!mViewPortHandler.isInBoundsRight(buffer[i])) {
+                return;
+              }
+              if (mViewPortHandler.isInBoundsLeft(buffer[i]))
+              {
+                localObject1 = mViewPortHandler;
+                localObject2 = buffer;
+                j = i + 1;
+                if (((ViewPortHandler)localObject1).isInBoundsY(localObject2[j]))
+                {
+                  mRenderPaint.setColor(paramIScatterDataSet.getColor(i / 2));
+                  localObject1 = buffer;
+                  paramCanvas.drawLine(localObject1[i] - f1, localObject1[j] - f1, localObject1[i] + f1, localObject1[j] + f1, mRenderPaint);
+                  localObject1 = buffer;
+                  paramCanvas.drawLine(localObject1[i] + f1, localObject1[j] - f1, localObject1[i] - f1, localObject1[j] + f1, mRenderPaint);
+                }
+              }
+              i += 2;
+            }
+          }
+          mRenderPaint.setStyle(Paint.Style.STROKE);
+          mRenderPaint.setStrokeWidth(Utils.convertDpToPixel(1.0F));
+          i = 0;
+          while (i < localScatterBuffer.size())
+          {
+            if (!mViewPortHandler.isInBoundsRight(buffer[i])) {
+              return;
+            }
+            if (mViewPortHandler.isInBoundsLeft(buffer[i]))
+            {
+              localObject1 = mViewPortHandler;
+              localObject2 = buffer;
+              j = i + 1;
+              if (((ViewPortHandler)localObject1).isInBoundsY(localObject2[j]))
+              {
+                mRenderPaint.setColor(paramIScatterDataSet.getColor(i / 2));
+                localObject1 = buffer;
+                paramCanvas.drawLine(localObject1[i] - f1, localObject1[j], localObject1[i] + f1, localObject1[j], mRenderPaint);
+                localObject1 = buffer;
+                paramCanvas.drawLine(localObject1[i], localObject1[j] - f1, localObject1[i], localObject1[j] + f1, mRenderPaint);
+              }
+            }
+            i += 2;
+          }
+        }
+        mRenderPaint.setStyle(Paint.Style.FILL);
+        localObject1 = new Path();
+        i = j;
+        while (i < localScatterBuffer.size())
+        {
+          if (!mViewPortHandler.isInBoundsRight(buffer[i])) {
+            return;
+          }
+          if (mViewPortHandler.isInBoundsLeft(buffer[i]))
+          {
+            localObject2 = mViewPortHandler;
+            float[] arrayOfFloat = buffer;
+            j = i + 1;
+            if (((ViewPortHandler)localObject2).isInBoundsY(arrayOfFloat[j]))
+            {
+              mRenderPaint.setColor(paramIScatterDataSet.getColor(i / 2));
+              localObject2 = buffer;
+              ((Path)localObject1).moveTo(localObject2[i], localObject2[j] - f1);
+              localObject2 = buffer;
+              ((Path)localObject1).lineTo(localObject2[i] + f1, localObject2[j] + f1);
+              localObject2 = buffer;
+              ((Path)localObject1).lineTo(localObject2[i] - f1, localObject2[j] + f1);
+              double d = f3;
+              if (d > 0.0D)
+              {
+                localObject2 = buffer;
+                ((Path)localObject1).lineTo(localObject2[i], localObject2[j] - f1);
+                localObject2 = buffer;
+                ((Path)localObject1).moveTo(localObject2[i] - f1 + f4, localObject2[j] + f1 - f4);
+                localObject2 = buffer;
+                ((Path)localObject1).lineTo(localObject2[i] + f1 - f4, localObject2[j] + f1 - f4);
+                localObject2 = buffer;
+                ((Path)localObject1).lineTo(localObject2[i], localObject2[j] - f1 + f4);
+                localObject2 = buffer;
+                ((Path)localObject1).lineTo(localObject2[i] - f1 + f4, localObject2[j] + f1 - f4);
+              }
+              ((Path)localObject1).close();
+              paramCanvas.drawPath((Path)localObject1, mRenderPaint);
+              ((Path)localObject1).reset();
+              if ((d > 0.0D) && (k != 1122867))
+              {
+                mRenderPaint.setColor(k);
+                localObject2 = buffer;
+                ((Path)localObject1).moveTo(localObject2[i], localObject2[j] - f1 + f4);
+                localObject2 = buffer;
+                ((Path)localObject1).lineTo(localObject2[i] + f1 - f4, localObject2[j] + f1 - f4);
+                localObject2 = buffer;
+                ((Path)localObject1).lineTo(localObject2[i] - f1 + f4, localObject2[j] + f1 - f4);
+                ((Path)localObject1).close();
+                paramCanvas.drawPath((Path)localObject1, mRenderPaint);
+                ((Path)localObject1).reset();
+              }
+            }
+          }
+          i += 2;
+        }
+      }
+      while (i < localScatterBuffer.size())
+      {
+        if (!mViewPortHandler.isInBoundsRight(buffer[i])) {
+          return;
+        }
+        if (mViewPortHandler.isInBoundsLeft(buffer[i]))
+        {
+          localObject1 = mViewPortHandler;
+          localObject2 = buffer;
+          j = i + 1;
+          if (((ViewPortHandler)localObject1).isInBoundsY(localObject2[j]))
+          {
+            mRenderPaint.setColor(paramIScatterDataSet.getColor(i / 2));
+            if (f3 > 0.0D)
+            {
+              mRenderPaint.setStyle(Paint.Style.STROKE);
+              mRenderPaint.setStrokeWidth(f4);
+              localObject1 = buffer;
+              paramCanvas.drawCircle(localObject1[i], localObject1[j], f2 + f5, mRenderPaint);
+              if (k != 1122867)
+              {
+                mRenderPaint.setStyle(Paint.Style.FILL);
+                mRenderPaint.setColor(k);
+                localObject1 = buffer;
+                paramCanvas.drawCircle(localObject1[i], localObject1[j], f2, mRenderPaint);
+              }
+            }
+            else
+            {
+              mRenderPaint.setStyle(Paint.Style.FILL);
+              localObject1 = buffer;
+              paramCanvas.drawCircle(localObject1[i], localObject1[j], f1, mRenderPaint);
+            }
+          }
+        }
+        i += 2;
+      }
+    }
+    i = 0;
+    while (i < localScatterBuffer.size())
+    {
+      if (!mViewPortHandler.isInBoundsRight(buffer[i])) {
+        return;
+      }
+      if (mViewPortHandler.isInBoundsLeft(buffer[i]))
+      {
+        localObject1 = mViewPortHandler;
+        localObject2 = buffer;
+        m = i + 1;
+        if (((ViewPortHandler)localObject1).isInBoundsY(localObject2[m]))
+        {
+          mRenderPaint.setColor(paramIScatterDataSet.getColor(i / 2));
+          if (f3 > 0.0D)
+          {
+            mRenderPaint.setStyle(Paint.Style.STROKE);
+            mRenderPaint.setStrokeWidth(f4);
+            localObject1 = buffer;
+            f6 = localObject1[i];
+            f7 = localObject1[m];
+            float f8 = localObject1[i];
+            float f9 = localObject1[m];
+            localObject1 = mRenderPaint;
+            j = i;
+            paramCanvas.drawRect(f6 - f2 - f5, f7 - f2 - f5, f8 + f2 + f5, f9 + f2 + f5, (Paint)localObject1);
+            if (k != 1122867)
+            {
+              mRenderPaint.setStyle(Paint.Style.FILL);
+              mRenderPaint.setColor(k);
+              localObject1 = buffer;
+              paramCanvas.drawRect(localObject1[j] - f2, localObject1[m] - f2, localObject1[j] + f2, localObject1[m] + f2, mRenderPaint);
+            }
+          }
+          else
+          {
+            j = i;
+            mRenderPaint.setStyle(Paint.Style.FILL);
+            localObject1 = buffer;
+            paramCanvas.drawRect(localObject1[j] - f1, localObject1[m] - f1, localObject1[j] + f1, localObject1[m] + f1, mRenderPaint);
+          }
+        }
+      }
+      i += 2;
+    }
+  }
+  
+  public void drawExtras(Canvas paramCanvas) {}
+  
+  public void drawHighlighted(Canvas paramCanvas, Highlight[] paramArrayOfHighlight)
+  {
+    int i = 0;
+    while (i < paramArrayOfHighlight.length)
+    {
+      IScatterDataSet localIScatterDataSet = (IScatterDataSet)mChart.getScatterData().getDataSetByIndex(paramArrayOfHighlight[i].getDataSetIndex());
+      if ((localIScatterDataSet != null) && (localIScatterDataSet.isHighlightEnabled()))
+      {
+        int j = paramArrayOfHighlight[i].getXIndex();
+        float f1 = j;
+        float f2 = mChart.getXChartMax();
+        if (f1 <= mAnimator.getPhaseX() * f2)
+        {
+          f2 = localIScatterDataSet.getYValForXIndex(j);
+          if (f2 != NaN.0F)
+          {
+            float f3 = mAnimator.getPhaseY();
+            float[] arrayOfFloat = new float[2];
+            arrayOfFloat[0] = f1;
+            arrayOfFloat[1] = (f3 * f2);
+            mChart.getTransformer(localIScatterDataSet.getAxisDependency()).pointValuesToPixel(arrayOfFloat);
+            drawHighlightLines(paramCanvas, arrayOfFloat, localIScatterDataSet);
+          }
+        }
+      }
+      i += 1;
+    }
+  }
+  
+  public void drawValues(Canvas paramCanvas)
+  {
+    float f1 = mChart.getScatterData().getYValCount();
+    float f2 = mChart.getMaxVisibleCount();
+    if (f1 < mViewPortHandler.getScaleX() * f2)
+    {
+      List localList = mChart.getScatterData().getDataSets();
+      int i = 0;
+      while (i < mChart.getScatterData().getDataSetCount())
+      {
+        IScatterDataSet localIScatterDataSet = (IScatterDataSet)localList.get(i);
+        if ((localIScatterDataSet.isDrawValuesEnabled()) && (localIScatterDataSet.getEntryCount() != 0))
+        {
+          applyValueTextStyle(localIScatterDataSet);
+          float[] arrayOfFloat = mChart.getTransformer(localIScatterDataSet.getAxisDependency()).generateTransformedValuesScatter(localIScatterDataSet, mAnimator.getPhaseY());
+          f1 = Utils.convertDpToPixel(localIScatterDataSet.getScatterShapeSize());
+          int j = 0;
+          for (;;)
+          {
+            f2 = j;
+            float f3 = arrayOfFloat.length;
+            if ((f2 >= mAnimator.getPhaseX() * f3) || (!mViewPortHandler.isInBoundsRight(arrayOfFloat[j]))) {
+              break;
+            }
+            if (mViewPortHandler.isInBoundsLeft(arrayOfFloat[j]))
+            {
+              Object localObject = mViewPortHandler;
+              int k = j + 1;
+              if (((ViewPortHandler)localObject).isInBoundsY(arrayOfFloat[k]))
+              {
+                int m = j / 2;
+                localObject = localIScatterDataSet.getEntryForIndex(m);
+                drawValue(paramCanvas, localIScatterDataSet.getValueFormatter(), ((Entry)localObject).getVal(), (Entry)localObject, i, arrayOfFloat[j], arrayOfFloat[k] - f1, localIScatterDataSet.getValueTextColor(m));
+              }
+            }
+            j += 2;
+          }
+        }
+        i += 1;
+      }
+    }
+  }
+  
+  public void initBuffers()
+  {
+    ScatterData localScatterData = mChart.getScatterData();
+    mScatterBuffers = new ScatterBuffer[localScatterData.getDataSetCount()];
+    int i = 0;
+    while (i < mScatterBuffers.length)
+    {
+      IScatterDataSet localIScatterDataSet = (IScatterDataSet)localScatterData.getDataSetByIndex(i);
+      mScatterBuffers[i] = new ScatterBuffer(localIScatterDataSet.getEntryCount() * 2);
+      i += 1;
+    }
+  }
+}

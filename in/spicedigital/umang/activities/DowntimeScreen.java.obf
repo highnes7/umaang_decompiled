@@ -1,0 +1,60 @@
+package in.spicedigital.umang.activities;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import b.b.a.G;
+import k.a.a.a.mf;
+import k.a.a.a.nf;
+import k.a.a.l.o;
+import k.a.a.m.Ea;
+import k.a.a.m.V;
+import k.a.a.m.b;
+import org.json.JSONObject;
+
+public class DowntimeScreen
+  extends BaseActivity
+{
+  public final String TAG = "DowntimeScreen";
+  public Button b;
+  public ProgressBar c;
+  public V d;
+  
+  public DowntimeScreen() {}
+  
+  private void e()
+  {
+    JSONObject localJSONObject2;
+    try
+    {
+      JSONObject localJSONObject1 = Ea.e(this);
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localJSONObject2 = null;
+    }
+    if (localJSONObject2 != null) {
+      new o(new nf(this), localJSONObject2, this).execute(new Object[0]);
+    }
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131493067);
+    d = new V(this);
+    b = ((Button)findViewById(2131297431));
+    c = ((ProgressBar)findViewById(2131297314));
+    b.setOnClickListener(new mf(this));
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    e();
+  }
+}

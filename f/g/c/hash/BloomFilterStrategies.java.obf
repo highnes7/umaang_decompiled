@@ -1,0 +1,93 @@
+package f.g.c.f;
+
+import f.g.c.b.ba;
+import f.g.c.h.g;
+import java.math.RoundingMode;
+import java.util.Arrays;
+
+public enum i
+  implements g.b
+{
+  public i() {}
+  
+  public static class a
+  {
+    public final long[] a;
+    public int b;
+    
+    public a(int paramInt)
+    {
+      this(new long[g.a(paramInt, 64, RoundingMode.CEILING)]);
+    }
+    
+    public a(long[] paramArrayOfLong)
+    {
+      int j = paramArrayOfLong.length;
+      int i = 0;
+      boolean bool;
+      if (j > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "data length is zero!");
+      a = paramArrayOfLong;
+      int k = paramArrayOfLong.length;
+      j = 0;
+      while (i < k)
+      {
+        j += Long.bitCount(paramArrayOfLong[i]);
+        i += 1;
+      }
+      b = j;
+    }
+    
+    public int a()
+    {
+      return b;
+    }
+    
+    public boolean a(int paramInt)
+    {
+      return (a[(paramInt >> 6)] & 1L << paramInt) != 0L;
+    }
+    
+    public a b()
+    {
+      return new a((long[])a.clone());
+    }
+    
+    public boolean b(int paramInt)
+    {
+      if (!a(paramInt))
+      {
+        long[] arrayOfLong = a;
+        int i = paramInt >> 6;
+        arrayOfLong[i] |= 1L << paramInt;
+        b += 1;
+        return true;
+      }
+      return false;
+    }
+    
+    public int c()
+    {
+      return a.length * 64;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if ((paramObject instanceof a))
+      {
+        paramObject = (a)paramObject;
+        return Arrays.equals(a, a);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return Arrays.hashCode(a);
+    }
+  }
+}

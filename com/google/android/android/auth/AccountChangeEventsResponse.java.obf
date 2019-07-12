@@ -1,0 +1,43 @@
+package com.google.android.gms.auth;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+import java.util.List;
+
+public class AccountChangeEventsResponse
+  extends zzbck
+{
+  public static final Parcelable.Creator<AccountChangeEventsResponse> CREATOR = new zzc();
+  public int mVersion;
+  public List<AccountChangeEvent> zzaoc;
+  
+  public AccountChangeEventsResponse(int paramInt, List<AccountChangeEvent> paramList)
+  {
+    mVersion = paramInt;
+    zzbp.zzu(paramList);
+    zzaoc = ((List)paramList);
+  }
+  
+  public AccountChangeEventsResponse(List<AccountChangeEvent> paramList)
+  {
+    mVersion = 1;
+    zzbp.zzu(paramList);
+    zzaoc = ((List)paramList);
+  }
+  
+  public List<AccountChangeEvent> getEvents()
+  {
+    return zzaoc;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, mVersion);
+    zzbcn.zzc(paramParcel, 2, zzaoc, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+}

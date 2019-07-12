@@ -1,0 +1,110 @@
+package b.b.x.l;
+
+import android.content.Context;
+import android.net.Uri;
+import android.os.Build.VERSION;
+import android.provider.DocumentsContract;
+import b.b.a.F;
+import b.b.a.G;
+import java.io.File;
+
+public abstract class a
+{
+  public static final String a = "DocumentFile";
+  @G
+  public final a b;
+  
+  public a(@G a paramA)
+  {
+    b = paramA;
+  }
+  
+  @G
+  public static a a(@F Context paramContext, @F Uri paramUri)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return new y(null, paramContext, paramUri);
+  }
+  
+  @F
+  public static a a(@F File paramFile)
+  {
+    return new s(null, paramFile);
+  }
+  
+  @G
+  public static a b(@F Context paramContext, @F Uri paramUri)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return new z(null, paramContext, DocumentsContract.buildDocumentUriUsingTree(paramUri, DocumentsContract.getTreeDocumentId(paramUri)));
+    }
+    return null;
+  }
+  
+  public static boolean c(@F Context paramContext, @G Uri paramUri)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return DocumentsContract.isDocumentUri(paramContext, paramUri);
+  }
+  
+  @G
+  public abstract a a(@F String paramString);
+  
+  @G
+  public abstract a a(@F String paramString1, @F String paramString2);
+  
+  public abstract boolean a();
+  
+  @G
+  public a b(@F String paramString)
+  {
+    a[] arrayOfA = n();
+    int j = arrayOfA.length;
+    int i = 0;
+    while (i < j)
+    {
+      a localA = arrayOfA[i];
+      if (paramString.equals(localA.e())) {
+        return localA;
+      }
+      i += 1;
+    }
+    return null;
+  }
+  
+  public abstract boolean b();
+  
+  public abstract boolean c();
+  
+  public abstract boolean c(@F String paramString);
+  
+  public abstract boolean d();
+  
+  @G
+  public abstract String e();
+  
+  @G
+  public a f()
+  {
+    return b;
+  }
+  
+  @G
+  public abstract String g();
+  
+  @F
+  public abstract Uri h();
+  
+  public abstract boolean i();
+  
+  public abstract boolean j();
+  
+  public abstract boolean k();
+  
+  public abstract long l();
+  
+  public abstract long m();
+  
+  @F
+  public abstract a[] n();
+}

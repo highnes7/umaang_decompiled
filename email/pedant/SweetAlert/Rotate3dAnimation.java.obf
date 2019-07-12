@@ -1,0 +1,174 @@
+package cn.pedant.SweetAlert;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Camera;
+import android.graphics.Matrix;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
+import e.a.a.d.k;
+import f.a.a.a.a;
+
+public class Rotate3dAnimation
+  extends Animation
+{
+  public static final int a = 0;
+  public static final int b = 1;
+  public static final int c = 2;
+  public int d = 0;
+  public int e = 0;
+  public float f = 0.0F;
+  public float g = 0.0F;
+  public float h;
+  public float i;
+  public float j;
+  public float k;
+  public Camera l;
+  public int m;
+  
+  public Rotate3dAnimation(int paramInt, float paramFloat1, float paramFloat2)
+  {
+    m = paramInt;
+    h = paramFloat1;
+    i = paramFloat2;
+    j = 0.0F;
+    k = 0.0F;
+  }
+  
+  public Rotate3dAnimation(int paramInt, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4)
+  {
+    m = paramInt;
+    h = paramFloat1;
+    i = paramFloat2;
+    d = 0;
+    e = 0;
+    f = paramFloat3;
+    g = paramFloat4;
+    b();
+  }
+  
+  public Rotate3dAnimation(int paramInt1, float paramFloat1, float paramFloat2, int paramInt2, float paramFloat3, int paramInt3, float paramFloat4)
+  {
+    m = paramInt1;
+    h = paramFloat1;
+    i = paramFloat2;
+    f = paramFloat3;
+    d = paramInt2;
+    g = paramFloat4;
+    e = paramInt3;
+    b();
+  }
+  
+  public Rotate3dAnimation(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, d.k.Rotate3dAnimation);
+    h = paramContext.getFloat(d.k.Rotate3dAnimation_fromDeg, 0.0F);
+    i = paramContext.getFloat(d.k.Rotate3dAnimation_toDeg, 0.0F);
+    m = paramContext.getInt(d.k.Rotate3dAnimation_rollType, 0);
+    paramAttributeSet = a(paramContext.peekValue(d.k.Rotate3dAnimation_pivotX));
+    d = a;
+    f = b;
+    paramAttributeSet = a(paramContext.peekValue(d.k.Rotate3dAnimation_pivotY));
+    e = a;
+    g = b;
+    paramContext.recycle();
+    b();
+  }
+  
+  private void b()
+  {
+    if (d == 0) {
+      j = f;
+    }
+    if (e == 0) {
+      k = g;
+    }
+  }
+  
+  public a a(TypedValue paramTypedValue)
+  {
+    a localA = new a();
+    if (paramTypedValue == null)
+    {
+      a = 0;
+      b = 0.0F;
+    }
+    else
+    {
+      int n = type;
+      if (n == 6)
+      {
+        int i1 = data;
+        n = 1;
+        if ((i1 & 0xF) == 1) {
+          n = 2;
+        }
+        a = n;
+        b = TypedValue.complexToFloat(data);
+        return localA;
+      }
+      if (n == 4)
+      {
+        a = 0;
+        b = paramTypedValue.getFloat();
+        return localA;
+      }
+      if ((n >= 16) && (n <= 31))
+      {
+        a = 0;
+        b = data;
+        return localA;
+      }
+    }
+    a = 0;
+    b = 0.0F;
+    return localA;
+  }
+  
+  public void applyTransformation(float paramFloat, Transformation paramTransformation)
+  {
+    float f1 = h;
+    paramFloat = a.a(i, f1, paramFloat, f1);
+    paramTransformation = paramTransformation.getMatrix();
+    l.save();
+    int n = m;
+    if (n != 0)
+    {
+      if (n != 1)
+      {
+        if (n == 2) {
+          l.rotateZ(paramFloat);
+        }
+      }
+      else {
+        l.rotateY(paramFloat);
+      }
+    }
+    else {
+      l.rotateX(paramFloat);
+    }
+    l.getMatrix(paramTransformation);
+    l.restore();
+    paramTransformation.preTranslate(-j, -k);
+    paramTransformation.postTranslate(j, k);
+  }
+  
+  public void initialize(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    super.initialize(paramInt1, paramInt2, paramInt3, paramInt4);
+    l = new Camera();
+    j = resolveSize(d, f, paramInt1, paramInt3);
+    k = resolveSize(e, g, paramInt2, paramInt4);
+  }
+  
+  protected static class a
+  {
+    public int a;
+    public float b;
+    
+    public a() {}
+  }
+}

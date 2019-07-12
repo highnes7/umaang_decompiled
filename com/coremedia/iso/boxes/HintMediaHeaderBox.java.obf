@@ -1,0 +1,92 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class HintMediaHeaderBox
+  extends AbstractMediaHeaderBox
+{
+  public static final String TYPE = "hmhd";
+  public long avgBitrate;
+  public int avgPduSize;
+  public long maxBitrate;
+  public int maxPduSize;
+  
+  static {}
+  
+  public HintMediaHeaderBox()
+  {
+    super("hmhd");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    maxPduSize = h.g(paramByteBuffer);
+    avgPduSize = h.g(paramByteBuffer);
+    maxBitrate = h.j(paramByteBuffer);
+    avgBitrate = h.j(paramByteBuffer);
+    h.j(paramByteBuffer);
+  }
+  
+  public long getAvgBitrate()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return avgBitrate;
+  }
+  
+  public int getAvgPduSize()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return avgPduSize;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    f.b.a.j.a(paramByteBuffer, maxPduSize);
+    f.b.a.j.a(paramByteBuffer, avgPduSize);
+    paramByteBuffer.putInt((int)maxBitrate);
+    paramByteBuffer.putInt((int)avgBitrate);
+    paramByteBuffer.putInt((int)0L);
+  }
+  
+  public long getContentSize()
+  {
+    return 20L;
+  }
+  
+  public long getMaxBitrate()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return maxBitrate;
+  }
+  
+  public int getMaxPduSize()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return maxPduSize;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_4, this, this), "HintMediaHeaderBox{maxPduSize=");
+    localStringBuilder.append(maxPduSize);
+    localStringBuilder.append(", avgPduSize=");
+    localStringBuilder.append(avgPduSize);
+    localStringBuilder.append(", maxBitrate=");
+    localStringBuilder.append(maxBitrate);
+    localStringBuilder.append(", avgBitrate=");
+    localStringBuilder.append(avgBitrate);
+    localStringBuilder.append('}');
+    return localStringBuilder.toString();
+  }
+}

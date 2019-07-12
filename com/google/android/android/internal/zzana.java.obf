@@ -1,0 +1,151 @@
+package com.google.android.gms.internal;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.RemoteException;
+import com.google.android.gms.analytics.zzj;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.stats.zza;
+
+public final class zzana
+  implements ServiceConnection
+{
+  public volatile zzaoj zzdpf;
+  public volatile boolean zzdpg;
+  
+  public zzana(zzamy paramZzamy) {}
+  
+  public final void onServiceConnected(ComponentName paramComponentName, IBinder paramIBinder)
+  {
+    zzbp.zzfy("AnalyticsServiceConnection.onServiceConnected");
+    if (paramIBinder == null) {
+      try
+      {
+        zzdpe.zzdq("Service connected with null binder");
+        localObject = null;
+      }
+      finally
+      {
+        try
+        {
+          notifyAll();
+          return;
+        }
+        finally {}
+        paramComponentName = finally;
+        break label224;
+      }
+    }
+    Object localObject;
+    IInterface localIInterface = null;
+    paramComponentName = localObject;
+    try
+    {
+      String str = paramIBinder.getInterfaceDescriptor();
+      paramComponentName = localObject;
+      if ("com.google.android.gms.analytics.internal.IAnalyticsService".equals(str))
+      {
+        paramComponentName = localObject;
+        localIInterface = paramIBinder.queryLocalInterface("com.google.android.gms.analytics.internal.IAnalyticsService");
+        paramComponentName = localObject;
+        if ((localIInterface instanceof zzaoj))
+        {
+          paramComponentName = localObject;
+          paramIBinder = (zzaoj)localIInterface;
+        }
+        else
+        {
+          paramComponentName = localObject;
+          paramIBinder = new zzaok(paramIBinder);
+        }
+        paramComponentName = paramIBinder;
+        zzdpe.zzdm("Bound to IAnalyticsService interface");
+        paramComponentName = paramIBinder;
+      }
+      else
+      {
+        paramComponentName = localObject;
+        zzdpe.zze("Got binder with a wrong descriptor", str);
+        paramComponentName = localIInterface;
+      }
+    }
+    catch (RemoteException paramIBinder)
+    {
+      for (;;) {}
+    }
+    zzdpe.zzdq("Service connect failed to get IAnalyticsService");
+    if (paramComponentName == null) {}
+    try
+    {
+      zza.zzaky();
+      zzdpe.getContext().unbindService(zzdpe.zzdpa);
+    }
+    catch (IllegalArgumentException paramComponentName)
+    {
+      for (;;) {}
+    }
+    if (!zzdpg)
+    {
+      zzdpe.zzdp("onServiceConnected received after the timeout limit");
+      zzdpe.zzwa().zzc(new zzanb(this, paramComponentName));
+    }
+    else
+    {
+      zzdpf = paramComponentName;
+    }
+    notifyAll();
+    return;
+    label224:
+    notifyAll();
+    throw paramComponentName;
+  }
+  
+  public final void onServiceDisconnected(ComponentName paramComponentName)
+  {
+    zzbp.zzfy("AnalyticsServiceConnection.onServiceDisconnected");
+    zzdpe.zzwa().zzc(new zzanc(this, paramComponentName));
+  }
+  
+  public final zzaoj zzwy()
+  {
+    zzj.zzuj();
+    Object localObject1 = new Intent("com.google.android.gms.analytics.service.START");
+    ((Intent)localObject1).setComponent(new ComponentName("com.google.android.gms", "com.google.android.gms.analytics.service.AnalyticsService"));
+    Context localContext = zzdpe.getContext();
+    ((Intent)localObject1).putExtra("app_package_name", localContext.getPackageName());
+    zza localZza = zza.zzaky();
+    for (;;)
+    {
+      try
+      {
+        zzdpf = null;
+        zzdpg = true;
+        boolean bool = localZza.zza(localContext, (Intent)localObject1, zzdpe.zzdpa, 129);
+        zzdpe.zza("Bind to service requested", Boolean.valueOf(bool));
+        if (!bool)
+        {
+          zzdpg = false;
+          return null;
+        }
+      }
+      finally {}
+      try
+      {
+        wait(((Long)zzaod.zzdsk.get()).longValue());
+      }
+      catch (InterruptedException localInterruptedException) {}
+    }
+    zzdpe.zzdp("Wait for service connect was interrupted");
+    zzdpg = false;
+    localObject1 = zzdpf;
+    zzdpf = null;
+    if (localObject1 == null) {
+      zzdpe.zzdq("Successfully bound to service but never got onServiceConnected callback");
+    }
+    return localObject1;
+  }
+}

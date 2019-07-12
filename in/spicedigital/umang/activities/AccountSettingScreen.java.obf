@@ -1,0 +1,388 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.KeyguardManager;
+import android.content.Intent;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import b.b.a.G;
+import b.b.x.b.c;
+import e.a.a.i;
+import f.a.a.a.a;
+import k.a.a.a.S;
+import k.a.a.a.T;
+import k.a.a.a.U;
+import k.a.a.a.X;
+import k.a.a.a.Y;
+import k.a.a.a.Z;
+import k.a.a.a.aa;
+import k.a.a.a.ba;
+import k.a.a.a.ca;
+import k.a.a.a.da;
+import k.a.a.a.ea;
+import k.a.a.a.fa;
+import k.a.a.a.ga;
+import k.a.a.a.ha;
+import k.a.a.a.ia;
+import k.a.a.l.u;
+import k.a.a.m.Ea;
+import k.a.a.m.Ma;
+import k.a.a.m.N;
+import k.a.a.m.Wa;
+import org.json.JSONObject;
+
+public class AccountSettingScreen
+  extends BaseActivity
+{
+  public String TAG = "AccountSettingScreen";
+  public Toolbar b;
+  public View c;
+  public TextView d;
+  public TextView e;
+  public ImageView f;
+  public LinearLayout g;
+  public LinearLayout h;
+  public LinearLayout i;
+  public LinearLayout j;
+  public LinearLayout k;
+  public LinearLayout l;
+  public TextView m;
+  public ImageView n;
+  public ImageView o;
+  public int p = 2;
+  public int q = 12;
+  public int r = 2001;
+  public k.a.a.m.V s;
+  public boolean t = false;
+  public LinearLayout u;
+  public View v;
+  public KeyguardManager w;
+  public FingerprintManager x;
+  public i y;
+  
+  public AccountSettingScreen() {}
+  
+  private void c(String paramString1, String paramString2)
+  {
+    Object localObject = TAG;
+    try
+    {
+      Ma localMa = new Ma();
+      localObject = Ea.e(this);
+      ((JSONObject)localObject).put("mpin", localMa.a(Ea.i(this, paramString1)));
+      ((JSONObject)localObject).put("mno", Ea.y(this));
+      ((JSONObject)localObject).put("nmno", paramString2);
+      ((JSONObject)localObject).put("type", "null");
+      ((JSONObject)localObject).put("ort", "updtmob");
+      paramString1 = (String)localObject;
+    }
+    catch (Exception paramString1)
+    {
+      k.a.a.m.b.a(paramString1);
+      paramString1 = null;
+    }
+    if (paramString1 != null)
+    {
+      new u(new k.a.a.a.V(this), "https://app.umang.gov.in/umang/coreapi/ws2/umobile", paramString1, this).execute(new Object[0]);
+      return;
+    }
+    paramString1 = TAG;
+  }
+  
+  private void e()
+  {
+    if (Build.VERSION.SDK_INT > 22)
+    {
+      Object localObject = (KeyguardManager)getSystemService("keyguard");
+      FingerprintManager localFingerprintManager = (FingerprintManager)getSystemService("fingerprint");
+      if (!((KeyguardManager)localObject).isKeyguardSecure())
+      {
+        Toast.makeText(this, "Secure lock screen hasn't set up.\nGo to 'Settings -> Security -> Fingerprint' to set up a fingerprint", 1).show();
+        return;
+      }
+      if (!localFingerprintManager.hasEnrolledFingerprints())
+      {
+        Toast.makeText(this, "Go to 'Settings -> Security -> Fingerprint' and register at least one fingerprint", 1).show();
+        return;
+      }
+      Ea.a(this, null, "Toggle Fingerprint Authentication button", "clicked", "On Account Setting Screen");
+      if ("false".equalsIgnoreCase(s.a(k.a.a.m.V.y, "false")))
+      {
+        Ea.a(this, null, "Fingerprint Authentication clicked On", "clicked", "On Account Setting Screen");
+        localObject = new Intent(this, VerifyMpinScreen.class);
+        ((Intent)localObject).putExtra("from", "fingerprint");
+        startActivityForResult((Intent)localObject, r);
+        return;
+      }
+      Ea.a(this, null, "Fingerprint Authentication clicked Off", "clicked", "On Account Setting Screen");
+      o.setImageResource(2131231475);
+      s.c(k.a.a.m.V.y, "false");
+    }
+  }
+  
+  private void f()
+  {
+    s = new k.a.a.m.V(this);
+    g = ((LinearLayout)findViewById(2131296485));
+    h = ((LinearLayout)findViewById(2131296482));
+    m = ((TextView)findViewById(2131296349));
+    i = ((LinearLayout)findViewById(2131296605));
+    n = ((ImageView)findViewById(2131297764));
+    o = ((ImageView)findViewById(2131297763));
+    j = ((LinearLayout)findViewById(2131296488));
+    k = ((LinearLayout)findViewById(2131296823));
+    l = ((LinearLayout)findViewById(2131297974));
+    u = ((LinearLayout)findViewById(2131296800));
+    v = findViewById(2131296801);
+    try
+    {
+      Wa localWa = new Wa(this);
+      if (localWa.i().l().length() > 0) {
+        m.setText(localWa.i().l());
+      }
+    }
+    catch (Exception localException1)
+    {
+      k.a.a.m.b.a(localException1);
+    }
+    if ("true".equalsIgnoreCase(s.a(k.a.a.m.V.x, "true"))) {
+      n.setImageResource(2131231477);
+    } else {
+      n.setImageResource(2131231475);
+    }
+    if ("true".equalsIgnoreCase(s.a(k.a.a.m.V.y, "false"))) {
+      o.setImageResource(2131231477);
+    } else {
+      o.setImageResource(2131231475);
+    }
+    if (Build.VERSION.SDK_INT > 22)
+    {
+      w = ((KeyguardManager)getSystemService("keyguard"));
+      x = ((FingerprintManager)getSystemService("fingerprint"));
+      if (c.checkSelfPermission(this, "android.permission.USE_FINGERPRINT") != 0)
+      {
+        Toast.makeText(this, "Fingerprint authentication permission not enabled", 1).show();
+        return;
+      }
+      try
+      {
+        if ((x == null) || (x.isHardwareDetected())) {
+          return;
+        }
+        u.setVisibility(8);
+        v.setVisibility(8);
+        return;
+      }
+      catch (Exception localException2)
+      {
+        k.a.a.m.b.a(localException2);
+        return;
+      }
+    }
+    else
+    {
+      u.setVisibility(8);
+      v.setVisibility(8);
+    }
+  }
+  
+  private void g()
+  {
+    Dialog localDialog = a.a(this, 1, 2131492950, false);
+    ((TextView)localDialog.findViewById(2131296456)).setOnClickListener(new Y(this, localDialog));
+    ((TextView)localDialog.findViewById(2131297214)).setOnClickListener(new Z(this, localDialog));
+  }
+  
+  private void g(String paramString)
+  {
+    try
+    {
+      Ma localMa = new Ma();
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("mpin", localMa.a(Ea.i(this, paramString)));
+      paramString = localJSONObject;
+    }
+    catch (Exception paramString)
+    {
+      k.a.a.m.b.a(paramString);
+      paramString = null;
+    }
+    if (paramString != null)
+    {
+      new u(new U(this), "https://app.umang.gov.in/umang/coreapi/ws2/delete", paramString, this).execute(new Object[0]);
+      return;
+    }
+    paramString = TAG;
+  }
+  
+  private void h()
+  {
+    Dialog localDialog = a.a(this, 1, 2131492996, false);
+    ((TextView)localDialog.findViewById(2131296456)).setOnClickListener(new k.a.a.a.W(this, localDialog));
+    ((TextView)localDialog.findViewById(2131297214)).setOnClickListener(new X(this, localDialog));
+  }
+  
+  private void h(String paramString)
+  {
+    JSONObject localJSONObject2;
+    try
+    {
+      JSONObject localJSONObject1 = Ea.e(this);
+      localJSONObject1.put("amno", paramString);
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localJSONObject2 = null;
+    }
+    if (localJSONObject2 != null)
+    {
+      new u(new T(this, paramString), "https://app.umang.gov.in/umang/coreapi/ws2/uam", localJSONObject2, this).execute(new Object[0]);
+      return;
+    }
+    paramString = TAG;
+  }
+  
+  public void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
+  {
+    super.onActivityResult(paramInt1, paramInt2, paramIntent);
+    Object localObject = TAG;
+    if (paramIntent != null) {
+      if (paramInt1 == p)
+      {
+        if (paramIntent.getStringExtra("ALT_NUM").length() > 0) {
+          c(paramIntent.getStringExtra("MPIN"), paramIntent.getStringExtra("ALT_NUM"));
+        }
+      }
+      else if (paramInt1 == q)
+      {
+        if (paramIntent.getStringExtra("NEW_NUM").length() > 0)
+        {
+          s.c(k.a.a.m.V.da, paramIntent.getStringExtra("NEW_NUM"));
+          a.a(this, MyProfileGeneral.class);
+        }
+      }
+      else if (paramInt1 == r) {
+        if (paramIntent.getStringExtra("from").equalsIgnoreCase("delete"))
+        {
+          t = false;
+          if (paramIntent.getStringExtra("MPIN_TXT").length() > 2)
+          {
+            g(paramIntent.getStringExtra("MPIN_TXT"));
+            return;
+          }
+          if (paramIntent.getStringExtra("MPIN_TXT").length() == 0) {
+            a.a(this, 2131755673, this, 1);
+          }
+        }
+        else if (paramIntent.getStringExtra("from").equalsIgnoreCase("fingerprint"))
+        {
+          if (paramIntent.getStringExtra("MPIN_TXT").length() > 2)
+          {
+            paramIntent = paramIntent.getStringExtra("MPIN_TXT");
+            s.d(k.a.a.m.V.sc, N.b("umang_al_n", paramIntent));
+            o.setImageResource(2131231477);
+            s.c(k.a.a.m.V.y, "true");
+            return;
+          }
+          if (paramIntent.getStringExtra("MPIN_TXT").length() == 0) {
+            a.a(this, 2131755673, this, 1);
+          }
+        }
+        else if (paramIntent.getStringExtra("MPIN_TXT").length() > 2)
+        {
+          paramIntent = paramIntent.getStringExtra("MPIN_TXT");
+          localObject = new Intent(this, EnterNewMobScreen.class);
+          a.a(this, 2131755378, (Intent)localObject, "titletext");
+          ((Intent)localObject).putExtra("mpin", paramIntent);
+          startActivityForResult((Intent)localObject, q);
+        }
+      }
+    }
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    b = ((Toolbar)a.a(this, 2131492897, this, "Account Settings Screen", 2131297768));
+    a.a(this, b, true);
+    c = b.getRootView();
+    d = ((TextView)c.findViewById(2131297758));
+    a.a(this, 2131755228, d);
+    f = ((ImageView)c.findViewById(2131296872));
+    f();
+    try
+    {
+      paramBundle = getIntent().getStringExtra("notifId");
+      if (paramBundle != null)
+      {
+        k.a.a.e.b.a(this).E(paramBundle);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      k.a.a.m.b.a(paramBundle);
+    }
+    f.setOnClickListener(new aa(this));
+    g.setOnClickListener(new ba(this));
+    h.setOnClickListener(new ca(this));
+    i.setOnClickListener(new da(this));
+    j.setOnClickListener(new ea(this));
+    n.setOnClickListener(new fa(this));
+    o.setOnClickListener(new ga(this));
+    k.setOnClickListener(new ha(this));
+    l.setOnClickListener(new ia(this));
+    findViewById(2131297034).setOnClickListener(new S(this));
+  }
+  
+  public void onNewIntent(Intent paramIntent)
+  {
+    super.onNewIntent(paramIntent);
+    setIntent(paramIntent);
+    try
+    {
+      paramIntent = getIntent().getStringExtra("notifId");
+      if (paramIntent != null)
+      {
+        k.a.a.e.b.a(this).E(paramIntent);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+        return;
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      try
+      {
+        onBackPressed();
+      }
+      catch (Exception paramMenuItem)
+      {
+        k.a.a.m.b.a(paramMenuItem);
+      }
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+}

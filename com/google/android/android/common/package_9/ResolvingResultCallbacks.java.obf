@@ -1,0 +1,43 @@
+package com.google.android.gms.common.api;
+
+import android.app.Activity;
+import android.content.IntentSender.SendIntentException;
+import b.b.a.F;
+import com.google.android.gms.common.annotation.KeepForSdk;
+import com.google.android.gms.common.internal.zzbp;
+
+public abstract class ResolvingResultCallbacks<R extends Result>
+  extends ResultCallbacks<R>
+{
+  public final Activity mActivity;
+  public final int zzfhs;
+  
+  public ResolvingResultCallbacks(@F Activity paramActivity, int paramInt)
+  {
+    zzbp.zzb(paramActivity, "Activity must not be null");
+    mActivity = ((Activity)paramActivity);
+    zzfhs = paramInt;
+  }
+  
+  @KeepForSdk
+  public final void onFailure(@F Status paramStatus)
+  {
+    if (paramStatus.hasResolution()) {}
+    try
+    {
+      paramStatus.startResolutionForResult(mActivity, zzfhs);
+      return;
+    }
+    catch (IntentSender.SendIntentException paramStatus)
+    {
+      for (;;) {}
+    }
+    onUnresolvableFailure(new Status(8));
+    return;
+    onUnresolvableFailure(paramStatus);
+  }
+  
+  public abstract void onSuccess(@F R paramR);
+  
+  public abstract void onUnresolvableFailure(@F Status paramStatus);
+}

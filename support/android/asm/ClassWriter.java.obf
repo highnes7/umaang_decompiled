@@ -1,0 +1,265 @@
+package b.b.v;
+
+import android.support.transition.AutoTransition;
+import android.support.transition.Transition;
+import android.view.View;
+import android.view.View.OnAttachStateChangeListener;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.x.n.b;
+import b.b.x.n.t;
+import b.b.x.o.H;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class ea
+{
+  public static final String a = "TransitionManager";
+  public static Transition b = new AutoTransition();
+  public static ThreadLocal<WeakReference<b<ViewGroup, ArrayList<Transition>>>> c = new ThreadLocal();
+  public static ArrayList<ViewGroup> d = new ArrayList();
+  public b<O, Transition> e = new b();
+  public b<O, b<O, Transition>> f = new b();
+  
+  public ea() {}
+  
+  public static b<ViewGroup, ArrayList<Transition>> a()
+  {
+    Object localObject = (WeakReference)c.get();
+    if (localObject != null)
+    {
+      localObject = (b)((WeakReference)localObject).get();
+      if (localObject != null) {
+        return localObject;
+      }
+    }
+    localObject = new b();
+    WeakReference localWeakReference = new WeakReference(localObject);
+    c.set(localWeakReference);
+    return localObject;
+  }
+  
+  public static void a(@F ViewGroup paramViewGroup)
+  {
+    a(paramViewGroup, null);
+  }
+  
+  public static void a(@F ViewGroup paramViewGroup, @G Transition paramTransition)
+  {
+    if ((!d.contains(paramViewGroup)) && (H.fa(paramViewGroup)))
+    {
+      d.add(paramViewGroup);
+      Transition localTransition = paramTransition;
+      if (paramTransition == null) {
+        localTransition = b;
+      }
+      paramTransition = localTransition.clone();
+      c(paramViewGroup, paramTransition);
+      paramViewGroup.setTag(M.e.transition_current_scene, null);
+      b(paramViewGroup, paramTransition);
+    }
+  }
+  
+  public static void a(@F O paramO)
+  {
+    a(paramO, b);
+  }
+  
+  public static void a(O paramO, Transition paramTransition)
+  {
+    ViewGroup localViewGroup = paramO.c();
+    if (!d.contains(localViewGroup))
+    {
+      if (paramTransition == null)
+      {
+        paramO.a();
+        return;
+      }
+      d.add(localViewGroup);
+      paramTransition = paramTransition.clone();
+      paramTransition.setSceneRoot(localViewGroup);
+      O localO = O.a(localViewGroup);
+      if ((localO != null) && (localO.d())) {
+        paramTransition.setCanRemoveViews(true);
+      }
+      c(localViewGroup, paramTransition);
+      paramO.a();
+      b(localViewGroup, paramTransition);
+    }
+  }
+  
+  public static void b(ViewGroup paramViewGroup)
+  {
+    d.remove(paramViewGroup);
+    ArrayList localArrayList = (ArrayList)a().get(paramViewGroup);
+    if ((localArrayList != null) && (!localArrayList.isEmpty()))
+    {
+      localArrayList = new ArrayList(localArrayList);
+      int i = localArrayList.size() - 1;
+      while (i >= 0)
+      {
+        ((Transition)localArrayList.get(i)).forceToEnd(paramViewGroup);
+        i -= 1;
+      }
+    }
+  }
+  
+  public static void b(ViewGroup paramViewGroup, Transition paramTransition)
+  {
+    if ((paramTransition != null) && (paramViewGroup != null))
+    {
+      paramTransition = new a(paramTransition, paramViewGroup);
+      paramViewGroup.addOnAttachStateChangeListener(paramTransition);
+      paramViewGroup.getViewTreeObserver().addOnPreDrawListener(paramTransition);
+    }
+  }
+  
+  public static void b(@F O paramO, @G Transition paramTransition)
+  {
+    a(paramO, paramTransition);
+  }
+  
+  private Transition c(O paramO)
+  {
+    Object localObject = paramO.c();
+    if (localObject != null)
+    {
+      localObject = O.a((View)localObject);
+      if (localObject != null)
+      {
+        b localB = (b)f.get(paramO);
+        if (localB != null)
+        {
+          localObject = (Transition)localB.get(localObject);
+          if (localObject != null) {
+            return localObject;
+          }
+        }
+      }
+    }
+    paramO = (Transition)e.get(paramO);
+    if (paramO != null) {
+      return paramO;
+    }
+    return b;
+  }
+  
+  public static void c(ViewGroup paramViewGroup, Transition paramTransition)
+  {
+    Object localObject = (ArrayList)a().get(paramViewGroup);
+    if ((localObject != null) && (((ArrayList)localObject).size() > 0))
+    {
+      localObject = ((ArrayList)localObject).iterator();
+      while (((Iterator)localObject).hasNext()) {
+        ((Transition)((Iterator)localObject).next()).pause(paramViewGroup);
+      }
+    }
+    if (paramTransition != null) {
+      paramTransition.captureValues(paramViewGroup, true);
+    }
+    paramViewGroup = O.a(paramViewGroup);
+    if (paramViewGroup != null) {
+      paramViewGroup.b();
+    }
+  }
+  
+  public void a(@F O paramO1, @F O paramO2, @G Transition paramTransition)
+  {
+    b localB2 = (b)f.get(paramO2);
+    b localB1 = localB2;
+    if (localB2 == null)
+    {
+      localB1 = new b();
+      f.put(paramO2, localB1);
+    }
+    localB1.put(paramO1, paramTransition);
+  }
+  
+  public void b(@F O paramO)
+  {
+    a(paramO, c(paramO));
+  }
+  
+  public void c(@F O paramO, @G Transition paramTransition)
+  {
+    e.put(paramO, paramTransition);
+  }
+  
+  private static class a
+    implements ViewTreeObserver.OnPreDrawListener, View.OnAttachStateChangeListener
+  {
+    public Transition a;
+    public ViewGroup b;
+    
+    public a(Transition paramTransition, ViewGroup paramViewGroup)
+    {
+      a = paramTransition;
+      b = paramViewGroup;
+    }
+    
+    private void a()
+    {
+      b.getViewTreeObserver().removeOnPreDrawListener(this);
+      b.removeOnAttachStateChangeListener(this);
+    }
+    
+    public boolean onPreDraw()
+    {
+      a();
+      if (!ea.d.remove(b)) {
+        return true;
+      }
+      b localB = ea.a();
+      ArrayList localArrayList2 = (ArrayList)localB.get(b);
+      ArrayList localArrayList1 = null;
+      Object localObject;
+      if (localArrayList2 == null)
+      {
+        localObject = new ArrayList();
+        localB.put(b, localObject);
+      }
+      else
+      {
+        localObject = localArrayList2;
+        if (localArrayList2.size() > 0)
+        {
+          localArrayList1 = new ArrayList(localArrayList2);
+          localObject = localArrayList2;
+        }
+      }
+      ((ArrayList)localObject).add(a);
+      a.addListener(new da(this, localB));
+      a.captureValues(b, false);
+      if (localArrayList1 != null)
+      {
+        localObject = localArrayList1.iterator();
+        while (((Iterator)localObject).hasNext()) {
+          ((Transition)((Iterator)localObject).next()).resume(b);
+        }
+      }
+      a.playTransition(b);
+      return true;
+    }
+    
+    public void onViewAttachedToWindow(View paramView) {}
+    
+    public void onViewDetachedFromWindow(View paramView)
+    {
+      a();
+      ea.d.remove(b);
+      paramView = (ArrayList)ea.a().get(b);
+      if ((paramView != null) && (paramView.size() > 0))
+      {
+        paramView = paramView.iterator();
+        while (paramView.hasNext()) {
+          ((Transition)paramView.next()).resume(b);
+        }
+      }
+      a.clearValues(true);
+    }
+  }
+}

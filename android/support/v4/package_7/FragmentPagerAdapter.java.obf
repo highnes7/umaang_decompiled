@@ -1,0 +1,123 @@
+package android.support.v4.app;
+
+import android.os.Parcelable;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.x.o.y;
+import f.a.a.a.a;
+
+public abstract class FragmentPagerAdapter
+  extends y
+{
+  public static final boolean DEBUG = false;
+  public static final String TAG = "FragmentPagerAdapter";
+  public FragmentTransaction mCurTransaction = null;
+  public Fragment mCurrentPrimaryItem = null;
+  public final FragmentManager mFragmentManager;
+  
+  public FragmentPagerAdapter(FragmentManager paramFragmentManager)
+  {
+    mFragmentManager = paramFragmentManager;
+  }
+  
+  public static String makeFragmentName(int paramInt, long paramLong)
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("android:switcher:");
+    localStringBuilder.append(paramInt);
+    localStringBuilder.append(":");
+    localStringBuilder.append(paramLong);
+    return localStringBuilder.toString();
+  }
+  
+  public void destroyItem(@F ViewGroup paramViewGroup, int paramInt, @F Object paramObject)
+  {
+    if (mCurTransaction == null) {
+      mCurTransaction = mFragmentManager.beginTransaction();
+    }
+    mCurTransaction.detach((Fragment)paramObject);
+  }
+  
+  public void finishUpdate(@F ViewGroup paramViewGroup)
+  {
+    paramViewGroup = mCurTransaction;
+    if (paramViewGroup != null)
+    {
+      paramViewGroup.commitNowAllowingStateLoss();
+      mCurTransaction = null;
+    }
+  }
+  
+  public abstract Fragment getItem(int paramInt);
+  
+  public long getItemId(int paramInt)
+  {
+    return paramInt;
+  }
+  
+  @F
+  public Object instantiateItem(@F ViewGroup paramViewGroup, int paramInt)
+  {
+    if (mCurTransaction == null) {
+      mCurTransaction = mFragmentManager.beginTransaction();
+    }
+    long l = getItemId(paramInt);
+    Object localObject = makeFragmentName(paramViewGroup.getId(), l);
+    localObject = mFragmentManager.findFragmentByTag((String)localObject);
+    if (localObject != null)
+    {
+      mCurTransaction.attach((Fragment)localObject);
+      paramViewGroup = (ViewGroup)localObject;
+    }
+    else
+    {
+      localObject = getItem(paramInt);
+      mCurTransaction.add(paramViewGroup.getId(), (Fragment)localObject, makeFragmentName(paramViewGroup.getId(), l));
+      paramViewGroup = (ViewGroup)localObject;
+    }
+    if (paramViewGroup != mCurrentPrimaryItem)
+    {
+      paramViewGroup.setMenuVisibility(false);
+      paramViewGroup.setUserVisibleHint(false);
+    }
+    return paramViewGroup;
+  }
+  
+  public boolean isViewFromObject(@F View paramView, @F Object paramObject)
+  {
+    return ((Fragment)paramObject).getView() == paramView;
+  }
+  
+  public void restoreState(Parcelable paramParcelable, ClassLoader paramClassLoader) {}
+  
+  public Parcelable saveState()
+  {
+    return null;
+  }
+  
+  public void setPrimaryItem(@F ViewGroup paramViewGroup, int paramInt, @F Object paramObject)
+  {
+    paramViewGroup = (Fragment)paramObject;
+    paramObject = mCurrentPrimaryItem;
+    if (paramViewGroup != paramObject)
+    {
+      if (paramObject != null)
+      {
+        paramObject.setMenuVisibility(false);
+        mCurrentPrimaryItem.setUserVisibleHint(false);
+      }
+      paramViewGroup.setMenuVisibility(true);
+      paramViewGroup.setUserVisibleHint(true);
+      mCurrentPrimaryItem = paramViewGroup;
+    }
+  }
+  
+  public void startUpdate(@F ViewGroup paramViewGroup)
+  {
+    if (paramViewGroup.getId() != -1) {
+      return;
+    }
+    throw new IllegalStateException(a.a("ViewPager with adapter ", this, " requires a view id"));
+  }
+}

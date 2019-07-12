@@ -1,0 +1,35 @@
+package com.google.android.gms.internal;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzarx
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzarx> CREATOR = new zzary();
+  public String accountType;
+  public int zzdxs = 1;
+  public int zzdzy;
+  
+  public zzarx(int paramInt1, String paramString, int paramInt2)
+  {
+    zzbp.zzu(paramString);
+    accountType = ((String)paramString);
+    zzdzy = paramInt2;
+  }
+  
+  public zzarx(String paramString, int paramInt)
+  {
+    this(1, paramString, paramInt);
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    zzbcn.zza(paramParcel, 2, accountType, false);
+    zzbcn.zzc(paramParcel, 3, zzdzy);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+}

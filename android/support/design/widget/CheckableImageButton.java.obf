@@ -1,0 +1,97 @@
+package android.support.design.widget;
+
+import android.content.Context;
+import android.support.v7.appcompat.R.attr;
+import android.support.v7.widget.AppCompatImageButton;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.View.AccessibilityDelegate;
+import android.view.accessibility.AccessibilityEvent;
+import android.widget.Checkable;
+import android.widget.ImageButton;
+import b.b.a.N;
+import b.b.x.o.H;
+import b.b.x.o.a.c;
+import b.b.x.o.b;
+
+@N({b.b.a.N.a.b})
+public class CheckableImageButton
+  extends AppCompatImageButton
+  implements Checkable
+{
+  public static final int[] DRAWABLE_STATE_CHECKED = { 16842912 };
+  public boolean checked;
+  
+  public CheckableImageButton(Context paramContext)
+  {
+    this(paramContext, null);
+  }
+  
+  public CheckableImageButton(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet, R.attr.imageButtonStyle);
+    H.a(this, new b()
+    {
+      public void onInitializeAccessibilityEvent(View paramAnonymousView, AccessibilityEvent paramAnonymousAccessibilityEvent)
+      {
+        b.DEFAULT_DELEGATE.onInitializeAccessibilityEvent(paramAnonymousView, paramAnonymousAccessibilityEvent);
+        paramAnonymousAccessibilityEvent.setChecked(isChecked());
+      }
+      
+      public void onInitializeAccessibilityNodeInfo(View paramAnonymousView, c paramAnonymousC)
+      {
+        super.onInitializeAccessibilityNodeInfo(paramAnonymousView, paramAnonymousC);
+        paramAnonymousC.c(true);
+        paramAnonymousC.d(isChecked());
+      }
+    });
+  }
+  
+  public CheckableImageButton(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+    H.a(this, new b()
+    {
+      public void onInitializeAccessibilityEvent(View paramAnonymousView, AccessibilityEvent paramAnonymousAccessibilityEvent)
+      {
+        b.DEFAULT_DELEGATE.onInitializeAccessibilityEvent(paramAnonymousView, paramAnonymousAccessibilityEvent);
+        paramAnonymousAccessibilityEvent.setChecked(isChecked());
+      }
+      
+      public void onInitializeAccessibilityNodeInfo(View paramAnonymousView, c paramAnonymousC)
+      {
+        super.onInitializeAccessibilityNodeInfo(paramAnonymousView, paramAnonymousC);
+        paramAnonymousC.c(true);
+        paramAnonymousC.d(isChecked());
+      }
+    });
+  }
+  
+  public boolean isChecked()
+  {
+    return checked;
+  }
+  
+  public int[] onCreateDrawableState(int paramInt)
+  {
+    if (checked) {
+      return ImageButton.mergeDrawableStates(super.onCreateDrawableState(paramInt + DRAWABLE_STATE_CHECKED.length), DRAWABLE_STATE_CHECKED);
+    }
+    return super.onCreateDrawableState(paramInt);
+  }
+  
+  public void setChecked(boolean paramBoolean)
+  {
+    if (checked != paramBoolean)
+    {
+      checked = paramBoolean;
+      refreshDrawableState();
+      sendAccessibilityEvent(2048);
+    }
+  }
+  
+  public void toggle()
+  {
+    setChecked(checked ^ true);
+  }
+}

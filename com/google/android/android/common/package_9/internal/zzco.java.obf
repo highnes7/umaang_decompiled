@@ -1,0 +1,64 @@
+package com.google.android.gms.common.api.internal;
+
+import android.app.Activity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.zzb;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import java.util.concurrent.CancellationException;
+
+public class zzco
+  extends zzo
+{
+  public TaskCompletionSource<Void> zzdzc = new TaskCompletionSource();
+  
+  public zzco(zzcg paramZzcg)
+  {
+    super(paramZzcg, GoogleApiAvailability.zzffi);
+    zzfoo.zza("GmsAvailabilityHelper", this);
+  }
+  
+  public static zzco zzp(Activity paramActivity)
+  {
+    paramActivity = LifecycleCallback.zzn(paramActivity);
+    zzco localZzco = (zzco)paramActivity.zza("GmsAvailabilityHelper", zzco.class);
+    if (localZzco != null)
+    {
+      if (zzdzc.getTask().isComplete()) {
+        zzdzc = new TaskCompletionSource();
+      }
+      return localZzco;
+    }
+    return new zzco(paramActivity);
+  }
+  
+  public final Task<Void> getTask()
+  {
+    return zzdzc.getTask();
+  }
+  
+  public final void onDestroy()
+  {
+    zzdzc.trySetException(new CancellationException("Host activity was destroyed before Google Play services could be made available."));
+  }
+  
+  public final void zza(ConnectionResult paramConnectionResult, int paramInt)
+  {
+    zzdzc.setException(zzb.zzx(new Status(1, paramConnectionResult.getErrorCode(), paramConnectionResult.getErrorMessage(), paramConnectionResult.getResolution())));
+  }
+  
+  public final void zzafw()
+  {
+    int i = zzfhl.isGooglePlayServicesAvailable(zzfoo.zzaij());
+    if (i == 0)
+    {
+      zzdzc.setResult(null);
+      return;
+    }
+    if (!zzdzc.getTask().isComplete()) {
+      zzb(new ConnectionResult(i, null), 0);
+    }
+  }
+}

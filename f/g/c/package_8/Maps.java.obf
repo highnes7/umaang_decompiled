@@ -1,0 +1,1863 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.C;
+import f.g.c.b.C.a;
+import f.g.c.b.J;
+import f.g.c.b.Q;
+import f.g.c.b.Q.a;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import f.g.c.b.ca;
+import f.g.c.b.ea;
+import java.io.Serializable;
+import java.util.AbstractCollection;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentMap;
+import m.a.h;
+
+@b(emulated=true)
+public final class fe
+{
+  public static final Q.a a = V.a.c("=");
+  
+  public fe() {}
+  
+  public static int a(int paramInt)
+  {
+    if (paramInt < 3)
+    {
+      boolean bool;
+      if (paramInt >= 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool);
+      return paramInt + 1;
+    }
+    if (paramInt < 1073741824) {
+      return paramInt / 3 + paramInt;
+    }
+    return Integer.MAX_VALUE;
+  }
+  
+  public static int a(Map<?, ?> paramMap)
+  {
+    return gg.a(paramMap.entrySet());
+  }
+  
+  public static <K, V> Ab<K, V> a(Iterable<V> paramIterable, J<? super V, K> paramJ)
+  {
+    return a(paramIterable.iterator(), paramJ);
+  }
+  
+  public static <K, V> Ab<K, V> a(Iterator<V> paramIterator, J<? super V, K> paramJ)
+  {
+    if (paramJ != null)
+    {
+      Ab.a localA = Ab.a();
+      while (paramIterator.hasNext())
+      {
+        Object localObject = paramIterator.next();
+        localA.a(paramJ.apply(localObject), localObject);
+      }
+      return localA.a();
+    }
+    paramIterator = new NullPointerException();
+    for (;;)
+    {
+      throw paramIterator;
+    }
+  }
+  
+  @c("java.util.Properties")
+  public static Ab<String, String> a(Properties paramProperties)
+  {
+    Ab.a localA = Ab.a();
+    Enumeration localEnumeration = paramProperties.propertyNames();
+    while (localEnumeration.hasMoreElements())
+    {
+      String str = (String)localEnumeration.nextElement();
+      localA.a(str, paramProperties.getProperty(str));
+    }
+    return localA.a();
+  }
+  
+  public static <K, V> L<K, V> a(L<K, V> paramL)
+  {
+    return Ug.a(paramL, null);
+  }
+  
+  public static <K, V1, V2> d<K, V1, V2> a(J<? super V1, V2> paramJ)
+  {
+    if (paramJ != null) {
+      return new Xd(paramJ);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> sd<K, V> a(Map<? extends K, ? extends V> paramMap1, Map<? extends K, ? extends V> paramMap2)
+  {
+    if ((paramMap1 instanceof SortedMap)) {
+      return a((SortedMap)paramMap1, paramMap2);
+    }
+    return a(paramMap1, paramMap2, C.a.a);
+  }
+  
+  @f.g.c.a.a
+  public static <K, V> sd<K, V> a(Map<? extends K, ? extends V> paramMap1, Map<? extends K, ? extends V> paramMap2, C<? super V> paramC)
+  {
+    if (paramC != null)
+    {
+      HashMap localHashMap1 = new HashMap();
+      HashMap localHashMap2 = new HashMap(paramMap2);
+      HashMap localHashMap3 = new HashMap();
+      HashMap localHashMap4 = new HashMap();
+      paramMap1 = paramMap1.entrySet().iterator();
+      boolean bool = true;
+      int i = 1;
+      while (paramMap1.hasNext())
+      {
+        Object localObject2 = (Map.Entry)paramMap1.next();
+        Object localObject1 = ((Map.Entry)localObject2).getKey();
+        localObject2 = ((Map.Entry)localObject2).getValue();
+        if (paramMap2.containsKey(localObject1))
+        {
+          Object localObject3 = localHashMap2.remove(localObject1);
+          if (paramC.b(localObject2, localObject3)) {
+            localHashMap3.put(localObject1, localObject2);
+          } else {
+            localHashMap4.put(localObject1, new r(localObject2, localObject3));
+          }
+        }
+        else
+        {
+          for (;;)
+          {
+            i = 0;
+            break;
+            localHashMap1.put(localObject1, localObject2);
+          }
+        }
+      }
+      if ((i == 0) || (!localHashMap2.isEmpty())) {
+        bool = false;
+      }
+      return a(bool, localHashMap1, localHashMap2, localHashMap3, localHashMap4);
+    }
+    paramMap1 = new NullPointerException();
+    for (;;)
+    {
+      throw paramMap1;
+    }
+  }
+  
+  public static <K, V> sd<K, V> a(boolean paramBoolean, Map<K, V> paramMap1, Map<K, V> paramMap2, Map<K, V> paramMap3, Map<K, sd.a<V>> paramMap)
+  {
+    return new j(paramBoolean, Collections.unmodifiableMap(paramMap1), Collections.unmodifiableMap(paramMap2), Collections.unmodifiableMap(paramMap3), Collections.unmodifiableMap(paramMap));
+  }
+  
+  public static <K, V> th<V> a(th<Map.Entry<K, V>> paramTh)
+  {
+    return new de(paramTh);
+  }
+  
+  public static <K, V> zg<K, V> a(SortedMap<K, ? extends V> paramSortedMap, Map<? extends K, ? extends V> paramMap)
+  {
+    if (paramSortedMap != null)
+    {
+      if (paramMap != null)
+      {
+        Object localObject1 = b(paramSortedMap.comparator());
+        TreeMap localTreeMap1 = new TreeMap((Comparator)localObject1);
+        TreeMap localTreeMap2 = new TreeMap((Comparator)localObject1);
+        localTreeMap2.putAll(paramMap);
+        TreeMap localTreeMap3 = new TreeMap((Comparator)localObject1);
+        localObject1 = new TreeMap((Comparator)localObject1);
+        paramSortedMap = paramSortedMap.entrySet().iterator();
+        boolean bool = true;
+        int i = 1;
+        while (paramSortedMap.hasNext())
+        {
+          Object localObject3 = (Map.Entry)paramSortedMap.next();
+          Object localObject2 = ((Map.Entry)localObject3).getKey();
+          localObject3 = ((Map.Entry)localObject3).getValue();
+          if (paramMap.containsKey(localObject2))
+          {
+            Object localObject4 = localTreeMap2.remove(localObject2);
+            if (U.a(localObject3, localObject4)) {
+              localTreeMap3.put(localObject2, localObject3);
+            } else {
+              ((SortedMap)localObject1).put(localObject2, new r(localObject3, localObject4));
+            }
+          }
+          else
+          {
+            for (;;)
+            {
+              i = 0;
+              break;
+              localTreeMap1.put(localObject2, localObject3);
+            }
+          }
+        }
+        if ((i == 0) || (!localTreeMap2.isEmpty())) {
+          bool = false;
+        }
+        return a(bool, localTreeMap1, localTreeMap2, localTreeMap3, (SortedMap)localObject1);
+      }
+      throw new NullPointerException();
+    }
+    paramSortedMap = new NullPointerException();
+    for (;;)
+    {
+      throw paramSortedMap;
+    }
+  }
+  
+  public static <K, V> zg<K, V> a(boolean paramBoolean, SortedMap<K, V> paramSortedMap1, SortedMap<K, V> paramSortedMap2, SortedMap<K, V> paramSortedMap3, SortedMap<K, sd.a<V>> paramSortedMap)
+  {
+    return new l(paramBoolean, Collections.unmodifiableSortedMap(paramSortedMap1), Collections.unmodifiableSortedMap(paramSortedMap2), Collections.unmodifiableSortedMap(paramSortedMap3), Collections.unmodifiableSortedMap(paramSortedMap));
+  }
+  
+  @h
+  public static <K> K a(@h Map.Entry<K, ?> paramEntry)
+  {
+    if (paramEntry == null) {
+      return null;
+    }
+    return paramEntry.getKey();
+  }
+  
+  public static <K extends Enum<K>, V> EnumMap<K, V> a(Class<K> paramClass)
+  {
+    if (paramClass != null) {
+      return new EnumMap(paramClass);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> Iterator<K> a(Iterator<Map.Entry<K, V>> paramIterator)
+  {
+    return new be(paramIterator);
+  }
+  
+  @b(serializable=true)
+  public static <K, V> Map.Entry<K, V> a(@h K paramK, @h V paramV)
+  {
+    return new sb(paramK, paramV);
+  }
+  
+  public static <K, V> Map<K, V> a(a<K, V> paramA, ca<? super Map.Entry<K, V>> paramCa)
+  {
+    paramCa = ea.a(b, paramCa);
+    return new e(a, paramCa);
+  }
+  
+  public static <K, V1, V2> Map<K, V2> a(Map<K, V1> paramMap, J<? super V1, V2> paramJ)
+  {
+    if (paramJ != null) {
+      return a(paramMap, new Xd(paramJ));
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> Map<K, V> a(Map<K, V> paramMap, ca<? super Map.Entry<K, V>> paramCa)
+  {
+    if ((paramMap instanceof SortedMap)) {
+      return a((SortedMap)paramMap, paramCa);
+    }
+    if (paramCa != null)
+    {
+      if ((paramMap instanceof a)) {
+        return a((a)paramMap, paramCa);
+      }
+      if (paramMap != null) {
+        return new e(paramMap, paramCa);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V1, V2> Map<K, V2> a(Map<K, V1> paramMap, d<? super K, ? super V1, V2> paramD)
+  {
+    if ((paramMap instanceof SortedMap)) {
+      return new n((SortedMap)paramMap, paramD);
+    }
+    return new m(paramMap, paramD);
+  }
+  
+  @f.g.c.a.a
+  public static <K, V> Map<K, V> a(Set<K> paramSet, J<? super K, V> paramJ)
+  {
+    if ((paramSet instanceof SortedSet)) {
+      return new k((SortedSet)paramSet, paramJ);
+    }
+    return new b(paramSet, paramJ);
+  }
+  
+  public static <K, V> Set<Map.Entry<K, V>> a(Set<Map.Entry<K, V>> paramSet)
+  {
+    return new q(Collections.unmodifiableSet(paramSet));
+  }
+  
+  public static <K, V> SortedMap<K, V> a(f<K, V> paramF, ca<? super Map.Entry<K, V>> paramCa)
+  {
+    paramCa = ea.a(b, paramCa);
+    return new f(paramF.a(), paramCa);
+  }
+  
+  @f.g.c.a.a
+  public static <K, V1, V2> SortedMap<K, V2> a(SortedMap<K, V1> paramSortedMap, J<? super V1, V2> paramJ)
+  {
+    if (paramJ != null) {
+      return new n(paramSortedMap, new Xd(paramJ));
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> SortedMap<K, V> a(SortedMap<K, V> paramSortedMap, ca<? super Map.Entry<K, V>> paramCa)
+  {
+    if (paramCa != null)
+    {
+      if ((paramSortedMap instanceof f)) {
+        return a((f)paramSortedMap, paramCa);
+      }
+      if (paramSortedMap != null) {
+        return new f(paramSortedMap, paramCa);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  @f.g.c.a.a
+  public static <K, V1, V2> SortedMap<K, V2> a(SortedMap<K, V1> paramSortedMap, d<? super K, ? super V1, V2> paramD)
+  {
+    return new n(paramSortedMap, paramD);
+  }
+  
+  @f.g.c.a.a
+  public static <K, V> SortedMap<K, V> a(SortedSet<K> paramSortedSet, J<? super K, V> paramJ)
+  {
+    return new k(paramSortedSet, paramJ);
+  }
+  
+  public static <C, K extends C, V> TreeMap<K, V> a(@h Comparator<C> paramComparator)
+  {
+    return new TreeMap(paramComparator);
+  }
+  
+  public static <K, V> TreeMap<K, V> a(SortedMap<K, ? extends V> paramSortedMap)
+  {
+    return new TreeMap(paramSortedMap);
+  }
+  
+  public static <K, V> ConcurrentMap<K, V> a()
+  {
+    return new ud().c();
+  }
+  
+  public static <K, V> boolean a(Collection<Map.Entry<K, V>> paramCollection, Object paramObject)
+  {
+    if (!(paramObject instanceof Map.Entry)) {
+      return false;
+    }
+    return paramCollection.contains(b((Map.Entry)paramObject));
+  }
+  
+  public static boolean a(Map<?, ?> paramMap, @h Object paramObject)
+  {
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext()) {
+      if (U.a(((Map.Entry)paramMap.next()).getKey(), paramObject)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public static <K, V> L<K, V> b(L<? extends K, ? extends V> paramL)
+  {
+    return new o(paramL, null);
+  }
+  
+  public static <E> Comparator<? super E> b(@h Comparator<? super E> paramComparator)
+  {
+    if (paramComparator != null) {
+      return paramComparator;
+    }
+    return mf.d();
+  }
+  
+  public static <K extends Enum<K>, V> EnumMap<K, V> b(Map<K, ? extends V> paramMap)
+  {
+    return new EnumMap(paramMap);
+  }
+  
+  public static <K, V> HashMap<K, V> b()
+  {
+    return new HashMap();
+  }
+  
+  public static <K, V> HashMap<K, V> b(int paramInt)
+  {
+    return new HashMap(a(paramInt));
+  }
+  
+  public static <K, V> Iterator<V> b(Iterator<Map.Entry<K, V>> paramIterator)
+  {
+    return new ce(paramIterator);
+  }
+  
+  public static <K, V> Map.Entry<K, V> b(Map.Entry<K, V> paramEntry)
+  {
+    if (paramEntry != null) {
+      return new Wd(paramEntry);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> Map<K, V> b(Map<K, V> paramMap, ca<? super K> paramCa)
+  {
+    if ((paramMap instanceof SortedMap)) {
+      return b((SortedMap)paramMap, paramCa);
+    }
+    if (paramCa != null)
+    {
+      Yd localYd = new Yd(paramCa);
+      if ((paramMap instanceof a)) {
+        return a((a)paramMap, localYd);
+      }
+      if (paramMap != null) {
+        return new g(paramMap, paramCa, localYd);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> SortedMap<K, V> b(SortedMap<K, V> paramSortedMap, ca<? super K> paramCa)
+  {
+    if (paramCa != null) {
+      return a(paramSortedMap, new Zd(paramCa));
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> void b(Map<K, V> paramMap, Map<? extends K, ? extends V> paramMap1)
+  {
+    paramMap1 = paramMap1.entrySet().iterator();
+    while (paramMap1.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramMap1.next();
+      paramMap.put(localEntry.getKey(), localEntry.getValue());
+    }
+  }
+  
+  public static <K, V> boolean b(Collection<Map.Entry<K, V>> paramCollection, Object paramObject)
+  {
+    if (!(paramObject instanceof Map.Entry)) {
+      return false;
+    }
+    return paramCollection.remove(b((Map.Entry)paramObject));
+  }
+  
+  public static boolean b(Map<?, ?> paramMap, @h Object paramObject)
+  {
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext()) {
+      if (U.a(((Map.Entry)paramMap.next()).getValue(), paramObject)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public static <K, V> HashMap<K, V> c(Map<? extends K, ? extends V> paramMap)
+  {
+    return new HashMap(paramMap);
+  }
+  
+  public static <K, V> IdentityHashMap<K, V> c()
+  {
+    return new IdentityHashMap();
+  }
+  
+  @h
+  public static <K, V> Map.Entry<K, V> c(@h Map.Entry<K, V> paramEntry)
+  {
+    if (paramEntry == null) {
+      return null;
+    }
+    return new Wd(paramEntry);
+  }
+  
+  public static <K, V> Map<K, V> c(Map<K, V> paramMap, ca<? super V> paramCa)
+  {
+    if ((paramMap instanceof SortedMap)) {
+      return c((SortedMap)paramMap, paramCa);
+    }
+    if (paramCa != null) {
+      return a(paramMap, new _d(paramCa));
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> SortedMap<K, V> c(SortedMap<K, V> paramSortedMap, ca<? super V> paramCa)
+  {
+    if (paramCa != null) {
+      return a(paramSortedMap, new ae(paramCa));
+    }
+    throw new NullPointerException();
+  }
+  
+  public static boolean c(Map<?, ?> paramMap, Object paramObject)
+  {
+    if (paramMap == paramObject) {
+      return true;
+    }
+    if ((paramObject instanceof Map))
+    {
+      paramObject = (Map)paramObject;
+      return paramMap.entrySet().equals(paramObject.entrySet());
+    }
+    return false;
+  }
+  
+  public static <K, V> LinkedHashMap<K, V> d()
+  {
+    return new LinkedHashMap();
+  }
+  
+  public static <K, V> LinkedHashMap<K, V> d(Map<? extends K, ? extends V> paramMap)
+  {
+    return new LinkedHashMap(paramMap);
+  }
+  
+  public static boolean d(Map<?, ?> paramMap, Object paramObject)
+  {
+    try
+    {
+      boolean bool = paramMap.containsKey(paramObject);
+      return bool;
+    }
+    catch (ClassCastException paramMap)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public static <V> V e(Map<?, V> paramMap, Object paramObject)
+  {
+    try
+    {
+      paramMap = paramMap.get(paramObject);
+      return paramMap;
+    }
+    catch (ClassCastException paramMap)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static String e(Map<?, ?> paramMap)
+  {
+    StringBuilder localStringBuilder = V.a(paramMap.size());
+    localStringBuilder.append('{');
+    a.a(localStringBuilder, paramMap);
+    localStringBuilder.append('}');
+    return localStringBuilder.toString();
+  }
+  
+  public static <K extends Comparable, V> TreeMap<K, V> e()
+  {
+    return new TreeMap();
+  }
+  
+  private static abstract class a<K, V>
+    extends AbstractMap<K, V>
+  {
+    public final Map<K, V> a;
+    public final ca<? super Map.Entry<K, V>> b;
+    public Collection<V> c;
+    
+    public a(Map<K, V> paramMap, ca<? super Map.Entry<K, V>> paramCa)
+    {
+      a = paramMap;
+      b = paramCa;
+    }
+    
+    public boolean b(Object paramObject, V paramV)
+    {
+      return b.apply(fe.a(paramObject, paramV));
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      return (a.containsKey(paramObject)) && (b(paramObject, a.get(paramObject)));
+    }
+    
+    public V get(Object paramObject)
+    {
+      Object localObject = a.get(paramObject);
+      if ((localObject != null) && (b(paramObject, localObject))) {
+        return localObject;
+      }
+      return null;
+    }
+    
+    public boolean isEmpty()
+    {
+      return entrySet().isEmpty();
+    }
+    
+    public V put(K paramK, V paramV)
+    {
+      ba.a(b(paramK, paramV));
+      return a.put(paramK, paramV);
+    }
+    
+    public void putAll(Map<? extends K, ? extends V> paramMap)
+    {
+      Iterator localIterator = paramMap.entrySet().iterator();
+      while (localIterator.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)localIterator.next();
+        ba.a(b(localEntry.getKey(), localEntry.getValue()));
+      }
+      a.putAll(paramMap);
+    }
+    
+    public V remove(Object paramObject)
+    {
+      if (containsKey(paramObject)) {
+        return a.remove(paramObject);
+      }
+      return null;
+    }
+    
+    public Collection<V> values()
+    {
+      Collection localCollection = c;
+      Object localObject = localCollection;
+      if (localCollection == null)
+      {
+        localObject = new a();
+        c = ((Collection)localObject);
+      }
+      return localObject;
+    }
+    
+    public class a
+      extends AbstractCollection<V>
+    {
+      public a() {}
+      
+      public void clear()
+      {
+        entrySet().clear();
+      }
+      
+      public boolean isEmpty()
+      {
+        return entrySet().isEmpty();
+      }
+      
+      public Iterator<V> iterator()
+      {
+        return new ee(this, entrySet().iterator());
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        Iterator localIterator = a.entrySet().iterator();
+        while (localIterator.hasNext())
+        {
+          Map.Entry localEntry = (Map.Entry)localIterator.next();
+          if ((U.a(paramObject, localEntry.getValue())) && (b.apply(localEntry)))
+          {
+            localIterator.remove();
+            return true;
+          }
+        }
+        return false;
+      }
+      
+      public boolean removeAll(Collection<?> paramCollection)
+      {
+        if (paramCollection != null)
+        {
+          boolean bool = false;
+          Iterator localIterator = a.entrySet().iterator();
+          while (localIterator.hasNext())
+          {
+            Map.Entry localEntry = (Map.Entry)localIterator.next();
+            if ((paramCollection.contains(localEntry.getValue())) && (b.apply(localEntry)))
+            {
+              localIterator.remove();
+              bool = true;
+            }
+          }
+          return bool;
+        }
+        paramCollection = new NullPointerException();
+        for (;;)
+        {
+          throw paramCollection;
+        }
+      }
+      
+      public boolean retainAll(Collection<?> paramCollection)
+      {
+        if (paramCollection != null)
+        {
+          boolean bool = false;
+          Iterator localIterator = a.entrySet().iterator();
+          while (localIterator.hasNext())
+          {
+            Map.Entry localEntry = (Map.Entry)localIterator.next();
+            if ((!paramCollection.contains(localEntry.getValue())) && (b.apply(localEntry)))
+            {
+              localIterator.remove();
+              bool = true;
+            }
+          }
+          return bool;
+        }
+        paramCollection = new NullPointerException();
+        for (;;)
+        {
+          throw paramCollection;
+        }
+      }
+      
+      public int size()
+      {
+        return entrySet().size();
+      }
+      
+      public Object[] toArray()
+      {
+        return fd.a(iterator()).toArray();
+      }
+      
+      public <T> T[] toArray(T[] paramArrayOfT)
+      {
+        return fd.a(iterator()).toArray(paramArrayOfT);
+      }
+    }
+  }
+  
+  private static class b<K, V>
+    extends fe.h<K, V>
+  {
+    public final Set<K> d;
+    public final J<? super K, V> e;
+    
+    public b(Set<K> paramSet, J<? super K, V> paramJ)
+    {
+      if (paramSet != null)
+      {
+        d = paramSet;
+        if (paramJ != null)
+        {
+          e = paramJ;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public Set<Map.Entry<K, V>> a()
+    {
+      return new ie(this);
+    }
+    
+    public Set<K> b()
+    {
+      return d;
+    }
+    
+    public void clear()
+    {
+      d.clear();
+    }
+    
+    public boolean containsKey(@h Object paramObject)
+    {
+      return d.contains(paramObject);
+    }
+    
+    public V get(@h Object paramObject)
+    {
+      if (d.contains(paramObject)) {
+        return e.apply(paramObject);
+      }
+      return null;
+    }
+    
+    public Set<K> keySet()
+    {
+      return new ge(this);
+    }
+    
+    public V remove(@h Object paramObject)
+    {
+      if (d.remove(paramObject)) {
+        return e.apply(paramObject);
+      }
+      return null;
+    }
+    
+    public int size()
+    {
+      return d.size();
+    }
+    
+    public Collection<V> values()
+    {
+      return V.a(d, e);
+    }
+  }
+  
+  public static abstract class c<K, V>
+    extends gg.d<Map.Entry<K, V>>
+  {
+    public c() {}
+    
+    public abstract Map<K, V> c();
+    
+    public void clear()
+    {
+      c().clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof Map.Entry;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (Map.Entry)paramObject;
+        Object localObject1 = paramObject.getKey();
+        Object localObject2 = c().get(localObject1);
+        bool1 = bool2;
+        if (U.a(localObject2, paramObject.getValue())) {
+          if (localObject2 == null)
+          {
+            bool1 = bool2;
+            if (!c().containsKey(localObject1)) {}
+          }
+          else
+          {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public boolean isEmpty()
+    {
+      return c().isEmpty();
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      if (contains(paramObject))
+      {
+        paramObject = (Map.Entry)paramObject;
+        return c().keySet().remove(paramObject.getKey());
+      }
+      return false;
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      if (paramCollection != null) {}
+      try
+      {
+        return gg.a(this, paramCollection);
+      }
+      catch (UnsupportedOperationException localUnsupportedOperationException)
+      {
+        boolean bool;
+        for (;;) {}
+      }
+      throw new NullPointerException();
+      bool = true;
+      paramCollection = paramCollection.iterator();
+      while (paramCollection.hasNext()) {
+        bool |= remove(paramCollection.next());
+      }
+      return bool;
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      if (paramCollection != null) {}
+      try
+      {
+        return super.retainAll(paramCollection);
+      }
+      catch (UnsupportedOperationException localUnsupportedOperationException)
+      {
+        HashSet localHashSet;
+        for (;;) {}
+      }
+      throw new NullPointerException();
+      localHashSet = gg.a(paramCollection.size());
+      paramCollection = paramCollection.iterator();
+      while (paramCollection.hasNext())
+      {
+        Object localObject = paramCollection.next();
+        if (contains(localObject)) {
+          localHashSet.add(((Map.Entry)localObject).getKey());
+        }
+      }
+      return c().keySet().retainAll(localHashSet);
+    }
+    
+    public int size()
+    {
+      return c().size();
+    }
+  }
+  
+  public static abstract interface d<K, V1, V2>
+  {
+    public abstract V2 a(@h K paramK, @h V1 paramV1);
+  }
+  
+  public static class e<K, V>
+    extends fe.a<K, V>
+  {
+    public final Set<Map.Entry<K, V>> d = gg.a(paramMap.entrySet(), b);
+    public Set<Map.Entry<K, V>> e;
+    public Set<K> f;
+    
+    public e(Map<K, V> paramMap, ca<? super Map.Entry<K, V>> paramCa)
+    {
+      super(paramCa);
+    }
+    
+    public Set<Map.Entry<K, V>> entrySet()
+    {
+      Set localSet = e;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new a(null);
+        e = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    public Set<K> keySet()
+    {
+      Set localSet = f;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new b(null);
+        f = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    private class a
+      extends Ya<Map.Entry<K, V>>
+    {
+      public a() {}
+      
+      public Iterator<Map.Entry<K, V>> iterator()
+      {
+        return new ke(this, d.iterator());
+      }
+      
+      public Set<Map.Entry<K, V>> q()
+      {
+        return d;
+      }
+    }
+    
+    private class b
+      extends gg.d<K>
+    {
+      public b() {}
+      
+      public void clear()
+      {
+        d.clear();
+      }
+      
+      public boolean contains(Object paramObject)
+      {
+        return containsKey(paramObject);
+      }
+      
+      public Iterator<K> iterator()
+      {
+        return new le(this, d.iterator());
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        if (containsKey(paramObject))
+        {
+          a.remove(paramObject);
+          return true;
+        }
+        return false;
+      }
+      
+      public boolean retainAll(Collection<?> paramCollection)
+      {
+        if (paramCollection != null)
+        {
+          boolean bool = false;
+          Iterator localIterator = a.entrySet().iterator();
+          while (localIterator.hasNext())
+          {
+            Map.Entry localEntry = (Map.Entry)localIterator.next();
+            if ((b.apply(localEntry)) && (!paramCollection.contains(localEntry.getKey())))
+            {
+              localIterator.remove();
+              bool = true;
+            }
+          }
+          return bool;
+        }
+        paramCollection = new NullPointerException();
+        for (;;)
+        {
+          throw paramCollection;
+        }
+      }
+      
+      public int size()
+      {
+        return d.size();
+      }
+      
+      public Object[] toArray()
+      {
+        return fd.a(iterator()).toArray();
+      }
+      
+      public <T> T[] toArray(T[] paramArrayOfT)
+      {
+        return fd.a(iterator()).toArray(paramArrayOfT);
+      }
+    }
+  }
+  
+  private static class f<K, V>
+    extends fe.e<K, V>
+    implements SortedMap<K, V>
+  {
+    public f(SortedMap<K, V> paramSortedMap, ca<? super Map.Entry<K, V>> paramCa)
+    {
+      super(paramCa);
+    }
+    
+    public SortedMap<K, V> a()
+    {
+      return (SortedMap)a;
+    }
+    
+    public Comparator<? super K> comparator()
+    {
+      return a().comparator();
+    }
+    
+    public K firstKey()
+    {
+      return keySet().iterator().next();
+    }
+    
+    public SortedMap<K, V> headMap(K paramK)
+    {
+      return new f(a().headMap(paramK), b);
+    }
+    
+    public K lastKey()
+    {
+      for (Object localObject = a();; localObject = a().headMap(localObject))
+      {
+        localObject = ((SortedMap)localObject).lastKey();
+        if (b(localObject, a.get(localObject))) {
+          return localObject;
+        }
+      }
+    }
+    
+    public SortedMap<K, V> subMap(K paramK1, K paramK2)
+    {
+      return new f(a().subMap(paramK1, paramK2), b);
+    }
+    
+    public SortedMap<K, V> tailMap(K paramK)
+    {
+      return new f(a().tailMap(paramK), b);
+    }
+  }
+  
+  private static class g<K, V>
+    extends fe.a<K, V>
+  {
+    public ca<? super K> d;
+    public Set<Map.Entry<K, V>> e;
+    public Set<K> f;
+    
+    public g(Map<K, V> paramMap, ca<? super K> paramCa, ca<Map.Entry<K, V>> paramCa1)
+    {
+      super(paramCa1);
+      d = paramCa;
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      return (a.containsKey(paramObject)) && (d.apply(paramObject));
+    }
+    
+    public Set<Map.Entry<K, V>> entrySet()
+    {
+      Set localSet2 = e;
+      Set localSet1 = localSet2;
+      if (localSet2 == null)
+      {
+        localSet1 = gg.a(a.entrySet(), b);
+        e = localSet1;
+      }
+      return localSet1;
+    }
+    
+    public Set<K> keySet()
+    {
+      Set localSet2 = f;
+      Set localSet1 = localSet2;
+      if (localSet2 == null)
+      {
+        localSet1 = gg.a(a.keySet(), d);
+        f = localSet1;
+      }
+      return localSet1;
+    }
+  }
+  
+  @b
+  public static abstract class h<K, V>
+    extends AbstractMap<K, V>
+  {
+    public Set<Map.Entry<K, V>> a;
+    public Set<K> b;
+    public Collection<V> c;
+    
+    public h() {}
+    
+    public abstract Set<Map.Entry<K, V>> a();
+    
+    public Set<Map.Entry<K, V>> entrySet()
+    {
+      Set localSet2 = a;
+      Set localSet1 = localSet2;
+      if (localSet2 == null)
+      {
+        localSet1 = a();
+        a = localSet1;
+      }
+      return localSet1;
+    }
+    
+    public Set<K> keySet()
+    {
+      Set localSet = b;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new me(this);
+        b = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    public Collection<V> values()
+    {
+      Collection localCollection = c;
+      Object localObject = localCollection;
+      if (localCollection == null)
+      {
+        localObject = new ne(this);
+        c = ((Collection)localObject);
+      }
+      return localObject;
+    }
+  }
+  
+  public static abstract class i<K, V>
+    extends gg.d<K>
+  {
+    public i() {}
+    
+    public abstract Map<K, V> c();
+    
+    public void clear()
+    {
+      c().clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return c().containsKey(paramObject);
+    }
+    
+    public boolean isEmpty()
+    {
+      return c().isEmpty();
+    }
+    
+    public Iterator<K> iterator()
+    {
+      return fe.a(c().entrySet().iterator());
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      if (contains(paramObject))
+      {
+        c().remove(paramObject);
+        return true;
+      }
+      return false;
+    }
+    
+    public int size()
+    {
+      return c().size();
+    }
+  }
+  
+  public static class j<K, V>
+    implements sd<K, V>
+  {
+    public final boolean a;
+    public final Map<K, V> b;
+    public final Map<K, V> c;
+    public final Map<K, V> d;
+    public final Map<K, sd.a<V>> e;
+    
+    public j(boolean paramBoolean, Map<K, V> paramMap1, Map<K, V> paramMap2, Map<K, V> paramMap3, Map<K, sd.a<V>> paramMap)
+    {
+      a = paramBoolean;
+      b = paramMap1;
+      c = paramMap2;
+      d = paramMap3;
+      e = paramMap;
+    }
+    
+    public boolean a()
+    {
+      return a;
+    }
+    
+    public Map<K, V> b()
+    {
+      return c;
+    }
+    
+    public Map<K, V> c()
+    {
+      return b;
+    }
+    
+    public Map<K, sd.a<V>> d()
+    {
+      return e;
+    }
+    
+    public Map<K, V> e()
+    {
+      return d;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      if ((paramObject instanceof sd))
+      {
+        paramObject = (sd)paramObject;
+        return (c().equals(paramObject.c())) && (b().equals(paramObject.b())) && (e().equals(paramObject.e())) && (d().equals(paramObject.d()));
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return Arrays.hashCode(new Object[] { c(), b(), e(), d() });
+    }
+    
+    public String toString()
+    {
+      if (a) {
+        return "equal";
+      }
+      StringBuilder localStringBuilder = new StringBuilder("not equal");
+      if (!b.isEmpty())
+      {
+        localStringBuilder.append(": only on left=");
+        localStringBuilder.append(b);
+      }
+      if (!c.isEmpty())
+      {
+        localStringBuilder.append(": only on right=");
+        localStringBuilder.append(c);
+      }
+      if (!e.isEmpty())
+      {
+        localStringBuilder.append(": value differences=");
+        localStringBuilder.append(e);
+      }
+      return localStringBuilder.toString();
+    }
+  }
+  
+  private static final class k<K, V>
+    extends fe.b<K, V>
+    implements SortedMap<K, V>
+  {
+    public k(SortedSet<K> paramSortedSet, J<? super K, V> paramJ)
+    {
+      super(paramJ);
+    }
+    
+    public SortedSet<K> b()
+    {
+      return (SortedSet)d;
+    }
+    
+    public Comparator<? super K> comparator()
+    {
+      return b().comparator();
+    }
+    
+    public K firstKey()
+    {
+      return b().first();
+    }
+    
+    public SortedMap<K, V> headMap(K paramK)
+    {
+      return fe.a(b().headSet(paramK), e);
+    }
+    
+    public K lastKey()
+    {
+      return b().last();
+    }
+    
+    public SortedMap<K, V> subMap(K paramK1, K paramK2)
+    {
+      return fe.a(b().subSet(paramK1, paramK2), e);
+    }
+    
+    public SortedMap<K, V> tailMap(K paramK)
+    {
+      return fe.a(b().tailSet(paramK), e);
+    }
+  }
+  
+  public static class l<K, V>
+    extends fe.j<K, V>
+    implements zg<K, V>
+  {
+    public l(boolean paramBoolean, SortedMap<K, V> paramSortedMap1, SortedMap<K, V> paramSortedMap2, SortedMap<K, V> paramSortedMap3, SortedMap<K, sd.a<V>> paramSortedMap)
+    {
+      super(paramSortedMap1, paramSortedMap2, paramSortedMap3, paramSortedMap);
+    }
+    
+    public SortedMap<K, V> b()
+    {
+      return (SortedMap)c;
+    }
+    
+    public SortedMap<K, V> c()
+    {
+      return (SortedMap)b;
+    }
+    
+    public SortedMap<K, sd.a<V>> d()
+    {
+      return (SortedMap)e;
+    }
+    
+    public SortedMap<K, V> e()
+    {
+      return (SortedMap)d;
+    }
+  }
+  
+  public static class m<K, V1, V2>
+    extends AbstractMap<K, V2>
+  {
+    public final Map<K, V1> a;
+    public final fe.d<? super K, ? super V1, V2> b;
+    public Set<Map.Entry<K, V2>> c;
+    public Collection<V2> d;
+    
+    public m(Map<K, V1> paramMap, fe.d<? super K, ? super V1, V2> paramD)
+    {
+      if (paramMap != null)
+      {
+        a = paramMap;
+        if (paramD != null)
+        {
+          b = paramD;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public void clear()
+    {
+      a.clear();
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      return a.containsKey(paramObject);
+    }
+    
+    public Set<Map.Entry<K, V2>> entrySet()
+    {
+      Set localSet = c;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new qe(this);
+        c = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    public V2 get(Object paramObject)
+    {
+      Object localObject = a.get(paramObject);
+      if ((localObject == null) && (!a.containsKey(paramObject))) {
+        return null;
+      }
+      return b.a(paramObject, localObject);
+    }
+    
+    public Set<K> keySet()
+    {
+      return a.keySet();
+    }
+    
+    public V2 remove(Object paramObject)
+    {
+      if (a.containsKey(paramObject)) {
+        return b.a(paramObject, a.remove(paramObject));
+      }
+      return null;
+    }
+    
+    public int size()
+    {
+      return a.size();
+    }
+    
+    public Collection<V2> values()
+    {
+      Collection localCollection = d;
+      Object localObject = localCollection;
+      if (localCollection == null)
+      {
+        localObject = new re(this);
+        d = ((Collection)localObject);
+      }
+      return localObject;
+    }
+  }
+  
+  public static class n<K, V1, V2>
+    extends fe.m<K, V1, V2>
+    implements SortedMap<K, V2>
+  {
+    public n(SortedMap<K, V1> paramSortedMap, fe.d<? super K, ? super V1, V2> paramD)
+    {
+      super(paramD);
+    }
+    
+    public SortedMap<K, V1> a()
+    {
+      return (SortedMap)a;
+    }
+    
+    public Comparator<? super K> comparator()
+    {
+      return a().comparator();
+    }
+    
+    public K firstKey()
+    {
+      return a().firstKey();
+    }
+    
+    public SortedMap<K, V2> headMap(K paramK)
+    {
+      return fe.a(a().headMap(paramK), b);
+    }
+    
+    public K lastKey()
+    {
+      return a().lastKey();
+    }
+    
+    public SortedMap<K, V2> subMap(K paramK1, K paramK2)
+    {
+      return fe.a(a().subMap(paramK1, paramK2), b);
+    }
+    
+    public SortedMap<K, V2> tailMap(K paramK)
+    {
+      return fe.a(a().tailMap(paramK), b);
+    }
+  }
+  
+  private static class o<K, V>
+    extends Sa<K, V>
+    implements L<K, V>, Serializable
+  {
+    public static final long a = 0L;
+    public final Map<K, V> b;
+    public final L<? extends K, ? extends V> c;
+    public L<V, K> d;
+    public transient Set<V> e;
+    
+    public o(L<? extends K, ? extends V> paramL, @h L<V, K> paramL1)
+    {
+      b = Collections.unmodifiableMap(paramL);
+      c = paramL;
+      d = paramL1;
+    }
+    
+    public V a(K paramK, V paramV)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public L<V, K> f()
+    {
+      L localL = d;
+      Object localObject = localL;
+      if (localL == null)
+      {
+        localObject = new o(c.f(), this);
+        d = ((L)localObject);
+      }
+      return localObject;
+    }
+    
+    public Map<K, V> q()
+    {
+      return b;
+    }
+    
+    public Set<V> values()
+    {
+      Set localSet2 = e;
+      Set localSet1 = localSet2;
+      if (localSet2 == null)
+      {
+        localSet1 = Collections.unmodifiableSet(c.values());
+        e = localSet1;
+      }
+      return localSet1;
+    }
+  }
+  
+  public static class p<K, V>
+    extends Ja<Map.Entry<K, V>>
+  {
+    public final Collection<Map.Entry<K, V>> a;
+    
+    public p(Collection<Map.Entry<K, V>> paramCollection)
+    {
+      a = paramCollection;
+    }
+    
+    public boolean a(Map.Entry<K, V> paramEntry)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean addAll(Collection<? extends Map.Entry<K, V>> paramCollection)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void clear()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Iterator<Map.Entry<K, V>> iterator()
+    {
+      return new se(this, super.iterator());
+    }
+    
+    public Collection<Map.Entry<K, V>> q()
+    {
+      return a;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Object[] toArray()
+    {
+      return t();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return a(paramArrayOfT);
+    }
+  }
+  
+  public static class q<K, V>
+    extends fe.p<K, V>
+    implements Set<Map.Entry<K, V>>
+  {
+    public q(Set<Map.Entry<K, V>> paramSet)
+    {
+      super();
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      return gg.a(this, paramObject);
+    }
+    
+    public int hashCode()
+    {
+      return gg.a(this);
+    }
+  }
+  
+  public static class r<V>
+    implements sd.a<V>
+  {
+    public final V a;
+    public final V b;
+    
+    public r(@h V paramV1, @h V paramV2)
+    {
+      a = paramV1;
+      b = paramV2;
+    }
+    
+    public static <V> sd.a<V> a(@h V paramV1, @h V paramV2)
+    {
+      return new r(paramV1, paramV2);
+    }
+    
+    public V a()
+    {
+      return a;
+    }
+    
+    public V b()
+    {
+      return b;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof sd.a;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (sd.a)paramObject;
+        bool1 = bool2;
+        if (U.a(a, paramObject.a()))
+        {
+          bool1 = bool2;
+          if (U.a(b, paramObject.b())) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      return Arrays.hashCode(new Object[] { a, b });
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("(");
+      localStringBuilder.append(a);
+      localStringBuilder.append(", ");
+      return f.a.a.a.a.a(localStringBuilder, b, ")");
+    }
+  }
+  
+  public static abstract class s<K, V>
+    extends AbstractCollection<V>
+  {
+    public s() {}
+    
+    public abstract Map<K, V> a();
+    
+    public void clear()
+    {
+      a().clear();
+    }
+    
+    public boolean contains(@h Object paramObject)
+    {
+      return a().containsValue(paramObject);
+    }
+    
+    public boolean isEmpty()
+    {
+      return a().isEmpty();
+    }
+    
+    public Iterator<V> iterator()
+    {
+      return fe.b(a().entrySet().iterator());
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      try
+      {
+        boolean bool = super.remove(paramObject);
+        return bool;
+      }
+      catch (UnsupportedOperationException localUnsupportedOperationException)
+      {
+        Iterator localIterator;
+        Map.Entry localEntry;
+        for (;;) {}
+      }
+      localIterator = a().entrySet().iterator();
+      do
+      {
+        if (!localIterator.hasNext()) {
+          break;
+        }
+        localEntry = (Map.Entry)localIterator.next();
+      } while (!U.a(paramObject, localEntry.getValue()));
+      a().remove(localEntry.getKey());
+      return true;
+      return false;
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      if (paramCollection != null) {}
+      try
+      {
+        return super.removeAll(paramCollection);
+      }
+      catch (UnsupportedOperationException localUnsupportedOperationException)
+      {
+        HashSet localHashSet;
+        Iterator localIterator;
+        for (;;) {}
+      }
+      throw new NullPointerException();
+      localHashSet = new HashSet();
+      localIterator = a().entrySet().iterator();
+      while (localIterator.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)localIterator.next();
+        if (paramCollection.contains(localEntry.getValue())) {
+          localHashSet.add(localEntry.getKey());
+        }
+      }
+      return a().keySet().removeAll(localHashSet);
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      if (paramCollection != null) {}
+      try
+      {
+        return super.retainAll(paramCollection);
+      }
+      catch (UnsupportedOperationException localUnsupportedOperationException)
+      {
+        HashSet localHashSet;
+        Iterator localIterator;
+        for (;;) {}
+      }
+      throw new NullPointerException();
+      localHashSet = new HashSet();
+      localIterator = a().entrySet().iterator();
+      while (localIterator.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)localIterator.next();
+        if (paramCollection.contains(localEntry.getValue())) {
+          localHashSet.add(localEntry.getKey());
+        }
+      }
+      return a().keySet().retainAll(localHashSet);
+    }
+    
+    public int size()
+    {
+      return a().size();
+    }
+  }
+}

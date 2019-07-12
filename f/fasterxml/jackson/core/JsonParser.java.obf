@@ -1,0 +1,452 @@
+package f.d.a.a;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Iterator;
+
+public abstract class k
+  implements Closeable, t
+{
+  public static final int a = -128;
+  public static final int b = 255;
+  public static final int c = -32768;
+  public static final int d = 32767;
+  public int e;
+  
+  public k() {}
+  
+  public k(int paramInt)
+  {
+    e = paramInt;
+  }
+  
+  public byte A()
+    throws IOException, i
+  {
+    int i = K();
+    if ((i >= -128) && (i <= 255)) {
+      return (byte)i;
+    }
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Numeric value (");
+    localStringBuilder.append(S());
+    localStringBuilder.append(") out of range of Java byte");
+    throw b(localStringBuilder.toString());
+  }
+  
+  public abstract o B();
+  
+  public abstract h C();
+  
+  public abstract String D()
+    throws IOException, i;
+  
+  public abstract n E();
+  
+  public abstract BigDecimal F()
+    throws IOException, i;
+  
+  public abstract double G()
+    throws IOException, i;
+  
+  public abstract Object H()
+    throws IOException, i;
+  
+  public abstract float I()
+    throws IOException, i;
+  
+  public Object J()
+  {
+    return null;
+  }
+  
+  public abstract int K()
+    throws IOException, i;
+  
+  public abstract n L();
+  
+  public abstract long M()
+    throws IOException, i;
+  
+  public abstract b N()
+    throws IOException, i;
+  
+  public abstract Number O()
+    throws IOException, i;
+  
+  public abstract m P();
+  
+  public c Q()
+  {
+    return null;
+  }
+  
+  public short R()
+    throws IOException, i
+  {
+    int i = K();
+    if ((i >= 32768) && (i <= 32767)) {
+      return (short)i;
+    }
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Numeric value (");
+    localStringBuilder.append(S());
+    localStringBuilder.append(") out of range of Java short");
+    throw b(localStringBuilder.toString());
+  }
+  
+  public abstract String S()
+    throws IOException, i;
+  
+  public abstract char[] T()
+    throws IOException, i;
+  
+  public abstract int U()
+    throws IOException, i;
+  
+  public abstract int V()
+    throws IOException, i;
+  
+  public abstract h W();
+  
+  public boolean X()
+    throws IOException, i
+  {
+    return a(false);
+  }
+  
+  public double Y()
+    throws IOException, i
+  {
+    return a(0.0D);
+  }
+  
+  public int Z()
+    throws IOException, i
+  {
+    return d(0);
+  }
+  
+  public double a(double paramDouble)
+    throws IOException, i
+  {
+    return paramDouble;
+  }
+  
+  public int a(a paramA, OutputStream paramOutputStream)
+    throws IOException, i
+  {
+    v();
+    return 0;
+  }
+  
+  public int a(OutputStream paramOutputStream)
+    throws IOException, i
+  {
+    return a(b.c, paramOutputStream);
+  }
+  
+  public int a(Writer paramWriter)
+    throws IOException
+  {
+    return -1;
+  }
+  
+  public k a(a paramA)
+  {
+    int i = e;
+    e = ((paramA.c() ^ 0xFFFFFFFF) & i);
+    return this;
+  }
+  
+  public k a(a paramA, boolean paramBoolean)
+  {
+    if (paramBoolean)
+    {
+      b(paramA);
+      return this;
+    }
+    a(paramA);
+    return this;
+  }
+  
+  public <T> T a(f.d.a.a.f.b<?> paramB)
+    throws IOException, l
+  {
+    o localO = B();
+    if (localO != null) {
+      return localO.a(this, paramB);
+    }
+    throw new IllegalStateException("No ObjectCodec defined for the parser, can not deserialize JSON into Java objects");
+  }
+  
+  public <T> T a(Class<T> paramClass)
+    throws IOException, l
+  {
+    o localO = B();
+    if (localO != null) {
+      return localO.a(this, paramClass);
+    }
+    throw new IllegalStateException("No ObjectCodec defined for the parser, can not deserialize JSON into Java objects");
+  }
+  
+  public abstract void a(o paramO);
+  
+  public boolean a(c paramC)
+  {
+    return false;
+  }
+  
+  public boolean a(q paramQ)
+    throws IOException, i
+  {
+    return (ha() == n.f) && (paramQ.getValue().equals(D()));
+  }
+  
+  public boolean a(boolean paramBoolean)
+    throws IOException, i
+  {
+    return paramBoolean;
+  }
+  
+  public abstract byte[] a(a paramA)
+    throws IOException, i;
+  
+  public long aa()
+    throws IOException, i
+  {
+    return h(0L);
+  }
+  
+  public int b(OutputStream paramOutputStream)
+    throws IOException
+  {
+    return -1;
+  }
+  
+  public i b(String paramString)
+  {
+    return new i(paramString, C());
+  }
+  
+  public k b(a paramA)
+  {
+    int i = e;
+    e = (paramA.c() | i);
+    return this;
+  }
+  
+  public <T> Iterator<T> b(f.d.a.a.f.b<?> paramB)
+    throws IOException, l
+  {
+    o localO = B();
+    if (localO != null) {
+      return localO.b(this, paramB);
+    }
+    throw new IllegalStateException("No ObjectCodec defined for the parser, can not deserialize JSON into Java objects");
+  }
+  
+  public <T> Iterator<T> b(Class<T> paramClass)
+    throws IOException, l
+  {
+    o localO = B();
+    if (localO != null) {
+      return localO.b(this, paramClass);
+    }
+    throw new IllegalStateException("No ObjectCodec defined for the parser, can not deserialize JSON into Java objects");
+  }
+  
+  public void b(c paramC)
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Parser of type ");
+    localStringBuilder.append(getClass().getName());
+    localStringBuilder.append(" does not support schema of type '");
+    localStringBuilder.append(paramC.a());
+    localStringBuilder.append("'");
+    throw new UnsupportedOperationException(localStringBuilder.toString());
+  }
+  
+  public String ba()
+    throws IOException, i
+  {
+    return c(null);
+  }
+  
+  public abstract String c(String paramString)
+    throws IOException, i;
+  
+  public boolean c(a paramA)
+  {
+    int i = e;
+    return (paramA.c() & i) != 0;
+  }
+  
+  public abstract boolean ca();
+  
+  public abstract void close()
+    throws IOException;
+  
+  public int d(int paramInt)
+    throws IOException, i
+  {
+    return paramInt;
+  }
+  
+  public abstract void d(String paramString);
+  
+  public abstract boolean da();
+  
+  public int e(int paramInt)
+    throws IOException, i
+  {
+    if (ha() == n.i) {
+      paramInt = K();
+    }
+    return paramInt;
+  }
+  
+  public boolean ea()
+  {
+    return E() == n.d;
+  }
+  
+  public Boolean fa()
+    throws IOException, i
+  {
+    int i = ha().ordinal();
+    if (i != 10)
+    {
+      if (i != 11) {
+        return null;
+      }
+      return Boolean.FALSE;
+    }
+    return Boolean.TRUE;
+  }
+  
+  public String ga()
+    throws IOException, i
+  {
+    if (ha() == n.h) {
+      return S();
+    }
+    return null;
+  }
+  
+  public long h(long paramLong)
+    throws IOException, i
+  {
+    return paramLong;
+  }
+  
+  public abstract n ha()
+    throws IOException, i;
+  
+  public long i(long paramLong)
+    throws IOException, i
+  {
+    if (ha() == n.i) {
+      paramLong = M();
+    }
+    return paramLong;
+  }
+  
+  public abstract n ia()
+    throws IOException, i;
+  
+  public abstract boolean isClosed();
+  
+  public <T extends r> T ja()
+    throws IOException, l
+  {
+    o localO = B();
+    if (localO != null) {
+      return localO.a(this);
+    }
+    throw new IllegalStateException("No ObjectCodec defined for the parser, can not deserialize JSON into JsonNode tree");
+  }
+  
+  public boolean ka()
+  {
+    return false;
+  }
+  
+  public abstract k la()
+    throws IOException, i;
+  
+  public abstract s u();
+  
+  public void v()
+  {
+    throw new UnsupportedOperationException(f.a.a.a.a.a(this, f.a.a.a.a.b("Operation not supported by parser of type ")));
+  }
+  
+  public abstract void w();
+  
+  public abstract BigInteger x()
+    throws IOException, i;
+  
+  public byte[] y()
+    throws IOException, i
+  {
+    return a(b.c);
+  }
+  
+  public boolean z()
+    throws IOException, i
+  {
+    n localN = E();
+    if (localN == n.k) {
+      return true;
+    }
+    if (localN == n.l) {
+      return false;
+    }
+    throw new i(f.a.a.a.a.a("Current token (", localN, ") not of boolean type"), C());
+  }
+  
+  public static enum a
+  {
+    public final boolean j;
+    
+    public a(boolean paramBoolean)
+    {
+      j = paramBoolean;
+    }
+    
+    public static int a()
+    {
+      a[] arrayOfA = values();
+      int i1 = arrayOfA.length;
+      int k = 0;
+      int n;
+      for (int m = 0; k < i1; m = n)
+      {
+        a localA = arrayOfA[k];
+        n = m;
+        if (localA.b()) {
+          n = m | localA.c();
+        }
+        k += 1;
+      }
+      return m;
+    }
+    
+    public boolean b()
+    {
+      return j;
+    }
+    
+    public int c()
+    {
+      return 1 << ordinal();
+    }
+  }
+  
+  public static enum b
+  {
+    public b() {}
+  }
+}

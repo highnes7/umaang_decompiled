@@ -1,0 +1,82 @@
+package com.coremedia.iso.boxes.vodafone;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class AlbumArtistBox
+  extends c
+{
+  public static final String TYPE = "albr";
+  public String albumArtist;
+  public String language;
+  
+  static {}
+  
+  public AlbumArtistBox()
+  {
+    super("albr");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    language = h.e(paramByteBuffer);
+    albumArtist = h.f(paramByteBuffer);
+  }
+  
+  public String getAlbumArtist()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return albumArtist;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    f.b.a.j.a(paramByteBuffer, language);
+    paramByteBuffer.put(m.a(albumArtist));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public long getContentSize()
+  {
+    return m.b(albumArtist) + 6 + 1;
+  }
+  
+  public String getLanguage()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return language;
+  }
+  
+  public void setAlbumArtist(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    albumArtist = paramString;
+  }
+  
+  public void setLanguage(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    language = paramString;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_4, this, this), "AlbumArtistBox[language=");
+    localStringBuilder.append(getLanguage());
+    localStringBuilder.append(";albumArtist=");
+    localStringBuilder.append(getAlbumArtist());
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+}

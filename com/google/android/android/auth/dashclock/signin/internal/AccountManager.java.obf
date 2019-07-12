@@ -1,0 +1,114 @@
+package com.google.android.gms.auth.api.signin.internal;
+
+import android.accounts.Account;
+import android.content.Context;
+import android.content.Intent;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.PendingResults;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.internal.zzcp;
+import com.google.android.gms.internal.zzbde;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+public final class zze
+{
+  public static zzbde zzect = new zzbde("GoogleSignInCommon", new String[0]);
+  
+  public static GoogleSignInResult getSignInResultFromIntent(Intent paramIntent)
+  {
+    if ((paramIntent != null) && ((paramIntent.hasExtra("googleSignInStatus")) || (paramIntent.hasExtra("googleSignInAccount"))))
+    {
+      GoogleSignInAccount localGoogleSignInAccount = (GoogleSignInAccount)paramIntent.getParcelableExtra("googleSignInAccount");
+      paramIntent = (Status)paramIntent.getParcelableExtra("googleSignInStatus");
+      if (localGoogleSignInAccount != null) {
+        paramIntent = Status.zzfhv;
+      }
+      return new GoogleSignInResult(localGoogleSignInAccount, paramIntent);
+    }
+    return null;
+  }
+  
+  public static Intent zza(Context paramContext, GoogleSignInOptions paramGoogleSignInOptions)
+  {
+    zzect.zzb("GoogleSignInCommon", new Object[] { "getSignInIntent()" });
+    paramGoogleSignInOptions = new SignInConfiguration(paramContext.getPackageName(), paramGoogleSignInOptions);
+    Intent localIntent = new Intent("com.google.android.gms.auth.GOOGLE_SIGN_IN");
+    localIntent.setClass(paramContext, SignInHubActivity.class);
+    localIntent.putExtra("config", paramGoogleSignInOptions);
+    return localIntent;
+  }
+  
+  public static OptionalPendingResult<GoogleSignInResult> zza(GoogleApiClient paramGoogleApiClient, Context paramContext, GoogleSignInOptions paramGoogleSignInOptions)
+  {
+    zzy localZzy = zzy.zzbl(paramContext);
+    zzect.zzb("GoogleSignInCommon", new Object[] { "getEligibleSavedSignInResult()" });
+    com.google.android.gms.common.internal.zzbp.zzu(paramGoogleSignInOptions);
+    paramContext = localZzy.zzaat();
+    if (paramContext != null)
+    {
+      Account localAccount1 = paramContext.getAccount();
+      Account localAccount2 = paramGoogleSignInOptions.getAccount();
+      boolean bool;
+      if (localAccount1 == null)
+      {
+        if (localAccount2 == null) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+      }
+      else {
+        bool = localAccount1.equals(localAccount2);
+      }
+      if ((bool) && (!paramGoogleSignInOptions.zzaah()) && ((!paramGoogleSignInOptions.isIdTokenRequested()) || ((paramContext.isIdTokenRequested()) && (paramGoogleSignInOptions.getServerClientId().equals(paramContext.getServerClientId())))) && (new HashSet(paramContext.zzaag()).containsAll(new HashSet(paramGoogleSignInOptions.zzaag()))))
+      {
+        paramContext = localZzy.zzaas();
+        if ((paramContext != null) && (!paramContext.zzaad()))
+        {
+          paramContext = new GoogleSignInResult(paramContext, Status.zzfhv);
+          break label181;
+        }
+      }
+    }
+    paramContext = null;
+    label181:
+    if (paramContext != null)
+    {
+      zzect.zzb("GoogleSignInCommon", new Object[] { "Eligible saved sign in result found" });
+      return PendingResults.zzb(paramContext, paramGoogleApiClient);
+    }
+    zzect.zzb("GoogleSignInCommon", new Object[] { "trySilentSignIn()" });
+    return new zzcp(paramGoogleApiClient.zzd(new zzf(paramGoogleApiClient, localZzy, paramGoogleSignInOptions)));
+  }
+  
+  public static PendingResult<Status> zza(GoogleApiClient paramGoogleApiClient, Context paramContext)
+  {
+    zzect.zzb("GoogleSignInCommon", new Object[] { "Signing out" });
+    zzbk(paramContext);
+    return paramGoogleApiClient.zze(new zzh(paramGoogleApiClient));
+  }
+  
+  public static PendingResult<Status> zzb(GoogleApiClient paramGoogleApiClient, Context paramContext)
+  {
+    zzect.zzb("GoogleSignInCommon", new Object[] { "Revoking access" });
+    zzbk(paramContext);
+    return paramGoogleApiClient.zze(new zzj(paramGoogleApiClient));
+  }
+  
+  public static void zzbk(Context paramContext)
+  {
+    zzy.zzbl(paramContext).zzaau();
+    paramContext = GoogleApiClient.zzafo().iterator();
+    while (paramContext.hasNext()) {
+      ((GoogleApiClient)paramContext.next()).zzafp();
+    }
+    com.google.android.gms.common.api.internal.zzbp.zzahp();
+  }
+}

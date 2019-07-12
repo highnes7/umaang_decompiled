@@ -1,0 +1,79 @@
+package f.e.a;
+
+import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
+
+public class d
+{
+  public final ValueAnimator a;
+  public a b;
+  
+  public d()
+  {
+    this(false);
+  }
+  
+  public d(boolean paramBoolean)
+  {
+    if (paramBoolean)
+    {
+      a = ValueAnimator.ofFloat(new float[] { 1.0F, 0.0F });
+      return;
+    }
+    a = ValueAnimator.ofFloat(new float[] { 0.0F, 1.0F });
+  }
+  
+  public ValueAnimator a()
+  {
+    if (b != null) {
+      a.addListener(new c(this));
+    }
+    return a;
+  }
+  
+  public d a(int paramInt)
+  {
+    a.setRepeatCount(paramInt);
+    return this;
+  }
+  
+  public d a(long paramLong)
+  {
+    a.setStartDelay(paramLong);
+    return this;
+  }
+  
+  public d a(TimeInterpolator paramTimeInterpolator)
+  {
+    a.setInterpolator(paramTimeInterpolator);
+    return this;
+  }
+  
+  public d a(a paramA)
+  {
+    b = paramA;
+    return this;
+  }
+  
+  public d a(b paramB)
+  {
+    a.addUpdateListener(new b(this, paramB));
+    return this;
+  }
+  
+  public d b(long paramLong)
+  {
+    a.setDuration(paramLong);
+    return this;
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void a();
+  }
+  
+  public static abstract interface b
+  {
+    public abstract void a(float paramFloat);
+  }
+}

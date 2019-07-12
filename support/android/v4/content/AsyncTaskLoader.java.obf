@@ -1,0 +1,266 @@
+package b.b.x.b;
+
+import android.content.Context;
+import android.os.Handler;
+import android.os.SystemClock;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.x.j.k;
+import b.b.x.n.v;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+
+public abstract class a<D>
+  extends f<D>
+{
+  public static final boolean DEBUG = false;
+  public static final String TAG = "AsyncTaskLoader";
+  public volatile a<D>.a mCancellingTask;
+  public final Executor mExecutor;
+  public Handler mHandler;
+  public long mLastLoadCompleteTime = -10000L;
+  public volatile a<D>.a mTask;
+  public long mUpdateThrottle;
+  
+  public a(@F Context paramContext)
+  {
+    super(paramContext);
+    mExecutor = localExecutor;
+  }
+  
+  public a(@F Context paramContext, @F Executor paramExecutor)
+  {
+    super(paramContext);
+    mExecutor = paramExecutor;
+  }
+  
+  public void cancelLoadInBackground() {}
+  
+  public void dispatchOnCancelled(a<D>.a paramA, D paramD)
+  {
+    onCanceled(paramD);
+    if (mCancellingTask == paramA)
+    {
+      rollbackContentChanged();
+      mLastLoadCompleteTime = SystemClock.uptimeMillis();
+      mCancellingTask = null;
+      deliverCancellation();
+      executePendingTask();
+    }
+  }
+  
+  public void dispatchOnLoadComplete(a<D>.a paramA, D paramD)
+  {
+    if (mTask != paramA)
+    {
+      dispatchOnCancelled(paramA, paramD);
+      return;
+    }
+    if (isAbandoned())
+    {
+      onCanceled(paramD);
+      return;
+    }
+    commitContentChanged();
+    mLastLoadCompleteTime = SystemClock.uptimeMillis();
+    mTask = null;
+    deliverResult(paramD);
+  }
+  
+  @Deprecated
+  public void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+  {
+    super.dump(paramString, paramFileDescriptor, paramPrintWriter, paramArrayOfString);
+    if (mTask != null)
+    {
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mTask=");
+      paramPrintWriter.print(mTask);
+      paramPrintWriter.print(" waiting=");
+      paramPrintWriter.println(mTask.r);
+    }
+    if (mCancellingTask != null)
+    {
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mCancellingTask=");
+      paramPrintWriter.print(mCancellingTask);
+      paramPrintWriter.print(" waiting=");
+      paramPrintWriter.println(mCancellingTask.r);
+    }
+    if (mUpdateThrottle != 0L)
+    {
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mUpdateThrottle=");
+      v.a(mUpdateThrottle, paramPrintWriter, 0);
+      paramPrintWriter.print(" mLastLoadCompleteTime=");
+      v.a(mLastLoadCompleteTime, SystemClock.uptimeMillis(), paramPrintWriter);
+      paramPrintWriter.println();
+    }
+  }
+  
+  public void executePendingTask()
+  {
+    if ((mCancellingTask == null) && (mTask != null))
+    {
+      if (mTask.r)
+      {
+        mTask.r = false;
+        mHandler.removeCallbacks(mTask);
+      }
+      if ((mUpdateThrottle > 0L) && (SystemClock.uptimeMillis() < mLastLoadCompleteTime + mUpdateThrottle))
+      {
+        mTask.r = true;
+        mHandler.postAtTime(mTask, mLastLoadCompleteTime + mUpdateThrottle);
+        return;
+      }
+      mTask.a(mExecutor, null);
+    }
+  }
+  
+  public boolean isLoadInBackgroundCanceled()
+  {
+    return mCancellingTask != null;
+  }
+  
+  @G
+  public abstract D loadInBackground();
+  
+  public boolean onCancelLoad()
+  {
+    if (mTask != null)
+    {
+      if (!mStarted) {
+        mContentChanged = true;
+      }
+      if (mCancellingTask != null)
+      {
+        if (mTask.r)
+        {
+          mTask.r = false;
+          mHandler.removeCallbacks(mTask);
+        }
+        mTask = null;
+        return false;
+      }
+      if (mTask.r)
+      {
+        mTask.r = false;
+        mHandler.removeCallbacks(mTask);
+        mTask = null;
+        return false;
+      }
+      boolean bool = mTask.a(false);
+      if (bool)
+      {
+        mCancellingTask = mTask;
+        cancelLoadInBackground();
+      }
+      mTask = null;
+      return bool;
+    }
+    return false;
+  }
+  
+  public void onCanceled(@G D paramD) {}
+  
+  public void onForceLoad()
+  {
+    cancelLoad();
+    mTask = new a();
+    executePendingTask();
+  }
+  
+  @G
+  public D onLoadInBackground()
+  {
+    return loadInBackground();
+  }
+  
+  public void setUpdateThrottle(long paramLong)
+  {
+    mUpdateThrottle = paramLong;
+    if (paramLong != 0L) {
+      mHandler = new Handler();
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void waitForLoader()
+  {
+    a localA = mTask;
+    if (localA != null) {
+      localA.g();
+    }
+  }
+  
+  public final class a
+    extends n<Void, Void, D>
+    implements Runnable
+  {
+    public final CountDownLatch q = new CountDownLatch(1);
+    public boolean r;
+    
+    public a() {}
+    
+    public D a(Void... paramVarArgs)
+    {
+      try
+      {
+        paramVarArgs = onLoadInBackground();
+        return paramVarArgs;
+      }
+      catch (k paramVarArgs)
+      {
+        if (d()) {
+          return null;
+        }
+        throw paramVarArgs;
+      }
+    }
+    
+    public void b(D paramD)
+    {
+      try
+      {
+        dispatchOnCancelled(this, paramD);
+        return;
+      }
+      finally
+      {
+        q.countDown();
+      }
+    }
+    
+    public void c(D paramD)
+    {
+      try
+      {
+        dispatchOnLoadComplete(this, paramD);
+        return;
+      }
+      finally
+      {
+        q.countDown();
+      }
+    }
+    
+    public void g()
+    {
+      try
+      {
+        q.await();
+        return;
+      }
+      catch (InterruptedException localInterruptedException) {}
+    }
+    
+    public void run()
+    {
+      r = false;
+      executePendingTask();
+    }
+  }
+}

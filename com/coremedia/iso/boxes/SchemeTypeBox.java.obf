@@ -1,0 +1,112 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.g;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class SchemeTypeBox
+  extends c
+{
+  public static final String TYPE = "schm";
+  public String schemeType = "    ";
+  public String schemeUri = null;
+  public long schemeVersion;
+  
+  static {}
+  
+  public SchemeTypeBox()
+  {
+    super("schm");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    schemeType = h.a(paramByteBuffer);
+    schemeVersion = h.j(paramByteBuffer);
+    if ((getFlags() & 0x1) == 1) {
+      schemeUri = h.f(paramByteBuffer);
+    }
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.put(g.b(schemeType));
+    paramByteBuffer.putInt((int)schemeVersion);
+    if ((getFlags() & 0x1) == 1) {
+      paramByteBuffer.put(m.a(schemeUri));
+    }
+  }
+  
+  public long getContentSize()
+  {
+    int i;
+    if ((getFlags() & 0x1) == 1) {
+      i = m.b(schemeUri) + 1;
+    } else {
+      i = 0;
+    }
+    return i + 12;
+  }
+  
+  public String getSchemeType()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return schemeType;
+  }
+  
+  public String getSchemeUri()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    j.b().a(localJoinPoint);
+    return schemeUri;
+  }
+  
+  public long getSchemeVersion()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    j.b().a(localJoinPoint);
+    return schemeVersion;
+  }
+  
+  public void setSchemeType(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, paramString);
+    j.b().a(localJoinPoint);
+    schemeType = paramString;
+  }
+  
+  public void setSchemeUri(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this, paramString);
+    j.b().a(localJoinPoint);
+    schemeUri = paramString;
+  }
+  
+  public void setSchemeVersion(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this, new Integer(paramInt));
+    j.b().a(localJoinPoint);
+    schemeVersion = paramInt;
+  }
+  
+  public String toString()
+  {
+    Object localObject = Factory.makeJP(ajc$tjp_6, this, this);
+    j.b().a((JoinPoint)localObject);
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("Schema Type Box[");
+    ((StringBuilder)localObject).append("schemeUri=");
+    a.b((StringBuilder)localObject, schemeUri, "; ", "schemeType=");
+    a.b((StringBuilder)localObject, schemeType, "; ", "schemeVersion=");
+    return a.a((StringBuilder)localObject, schemeUri, "; ", "]");
+  }
+}

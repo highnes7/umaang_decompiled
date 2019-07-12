@@ -1,0 +1,87 @@
+package com.google.android.gms.internal;
+
+import android.net.TrafficStats;
+import android.os.Process;
+import android.os.SystemClock;
+import java.util.concurrent.BlockingQueue;
+
+public final class zzl
+  extends Thread
+{
+  public final zzb zzi;
+  public final zzw zzj;
+  public volatile boolean zzk = false;
+  public final BlockingQueue<zzp<?>> zzw;
+  public final zzk zzx;
+  
+  public zzl(BlockingQueue<zzp<?>> paramBlockingQueue, zzk paramZzk, zzb paramZzb, zzw paramZzw)
+  {
+    zzw = paramBlockingQueue;
+    zzx = paramZzk;
+    zzi = paramZzb;
+    zzj = paramZzw;
+  }
+  
+  public final void quit()
+  {
+    zzk = true;
+    interrupt();
+  }
+  
+  public final void run()
+  {
+    Process.setThreadPriority(10);
+    do
+    {
+      for (;;)
+      {
+        long l = SystemClock.elapsedRealtime();
+        try
+        {
+          zzp localZzp = (zzp)zzw.take();
+          try
+          {
+            localZzp.zzb("network-queue-take");
+            TrafficStats.setThreadStatsTag(localZzp.zzc());
+            Object localObject = zzx.zza(localZzp);
+            localZzp.zzb("network-http-complete");
+            if ((zzz) && (localZzp.zzl()))
+            {
+              localZzp.zzc("not-modified");
+            }
+            else
+            {
+              localObject = localZzp.zza((zzn)localObject);
+              localZzp.zzb("network-parse-complete");
+              if ((localZzp.zzh()) && (zzbe != null))
+              {
+                zzi.zza(localZzp.getUrl(), zzbe);
+                localZzp.zzb("network-cache-written");
+              }
+              localZzp.zzk();
+              zzj.zza(localZzp, (zzt)localObject);
+            }
+          }
+          catch (Exception localException)
+          {
+            String str1 = localException.toString();
+            String str2 = zzab.TAG;
+            zzab.zzd("Unhandled exception %s", new Object[] { str1 });
+            zzaa localZzaa1 = new zzaa(localException);
+            localZzaa1.zza(SystemClock.elapsedRealtime() - l);
+            zzj.zza(localZzp, localZzaa1);
+          }
+          catch (zzaa localZzaa2)
+          {
+            localZzaa2.zza(SystemClock.elapsedRealtime() - l);
+            zzj.zza(localZzp, localZzaa2);
+          }
+        }
+        catch (InterruptedException localInterruptedException)
+        {
+          for (;;) {}
+        }
+      }
+    } while (!zzk);
+  }
+}

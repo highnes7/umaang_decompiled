@@ -1,0 +1,422 @@
+package com.google.android.gms.internal;
+
+import java.lang.reflect.Field;
+import java.nio.Buffer;
+import java.nio.ByteOrder;
+import java.security.AccessController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sun.misc.Unsafe;
+
+public final class zzexm
+{
+  public static final Logger logger = Logger.getLogger(zzexm.class.getName());
+  public static final Unsafe zzlal = zzcvt();
+  public static final boolean zzonr;
+  public static final Class<?> zzorb = zztn("libcore.io.Memory");
+  public static final boolean zzorc;
+  public static final boolean zzord;
+  public static final boolean zzore;
+  public static final zzd zzorf;
+  public static final boolean zzorg;
+  public static final long zzorh;
+  public static final long zzori;
+  public static final long zzorj;
+  public static final long zzork;
+  public static final long zzorl;
+  public static final long zzorm;
+  public static final long zzorn;
+  public static final long zzoro;
+  public static final long zzorp;
+  public static final long zzorq;
+  public static final long zzorr;
+  public static final long zzors;
+  public static final long zzort;
+  public static final long zzoru;
+  public static final boolean zzorv;
+  
+  static
+  {
+    Object localObject1 = zztn("org.robolectric.Robolectric");
+    boolean bool2 = true;
+    boolean bool1;
+    if (localObject1 != null) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    zzorc = bool1;
+    zzord = zzk(Long.TYPE);
+    zzore = zzk(Integer.TYPE);
+    Object localObject2 = zzlal;
+    localObject1 = null;
+    if (localObject2 != null) {
+      if (zzcvw())
+      {
+        if (zzord) {
+          localObject1 = new zzb(zzlal);
+        } else if (zzore) {
+          localObject1 = new zza(zzlal);
+        }
+      }
+      else {
+        localObject1 = new zzc(zzlal);
+      }
+    }
+    zzorf = (zzd)localObject1;
+    zzorg = zzcvv();
+    zzonr = zzcvu();
+    zzorh = zzi([B.class);
+    zzori = zzi([Z.class);
+    zzorj = zzj([Z.class);
+    zzork = zzi([I.class);
+    zzorl = zzj([I.class);
+    zzorm = zzi([J.class);
+    zzorn = zzj([J.class);
+    zzoro = zzi([F.class);
+    zzorp = zzj([F.class);
+    zzorq = zzi([D.class);
+    zzorr = zzj([D.class);
+    zzors = zzi([Ljava.lang.Object.class);
+    zzort = zzj([Ljava.lang.Object.class);
+    if (zzcvw())
+    {
+      localObject1 = zza(Buffer.class, "effectiveDirectAddress");
+      if (localObject1 != null) {}
+    }
+    else
+    {
+      localObject1 = zza(Buffer.class, "address");
+    }
+    if (localObject1 != null)
+    {
+      localObject2 = zzorf;
+      if (localObject2 != null)
+      {
+        l = zzorw.objectFieldOffset((Field)localObject1);
+        break label346;
+      }
+    }
+    long l = -1L;
+    label346:
+    zzoru = l;
+    if (ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    zzorv = bool1;
+  }
+  
+  public zzexm() {}
+  
+  public static int zza(Object paramObject, long paramLong)
+  {
+    return zzorfzzorw.getInt(paramObject, paramLong);
+  }
+  
+  public static Field zza(Class<?> paramClass, String paramString)
+  {
+    try
+    {
+      paramClass = paramClass.getDeclaredField(paramString);
+      paramClass.setAccessible(true);
+      return paramClass;
+    }
+    catch (Throwable paramClass)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static void zza(Object paramObject, long paramLong, byte paramByte)
+  {
+    long l = 0xFFFFFFFFFFFFFFFC & paramLong;
+    int i = zza(paramObject, l);
+    int j = (((int)paramLong ^ 0xFFFFFFFF) & 0x3) << 3;
+    zza(paramObject, l, (0xFF & paramByte) << j | i & (255 << j ^ 0xFFFFFFFF));
+  }
+  
+  public static void zza(Object paramObject, long paramLong, int paramInt)
+  {
+    zzorfzzorw.putInt(paramObject, paramLong, paramInt);
+  }
+  
+  public static void zza(byte[] paramArrayOfByte, long paramLong, byte paramByte)
+  {
+    zzorf.zze(paramArrayOfByte, zzorh + paramLong, paramByte);
+  }
+  
+  public static byte zzb(Object paramObject, long paramLong)
+  {
+    return (byte)(zza(paramObject, 0xFFFFFFFFFFFFFFFC & paramLong) >>> (int)(((paramLong ^ 0xFFFFFFFFFFFFFFFF) & 0x3) << 3));
+  }
+  
+  public static byte zzb(byte[] paramArrayOfByte, long paramLong)
+  {
+    return zzorf.zzf(paramArrayOfByte, zzorh + paramLong);
+  }
+  
+  public static void zzb(Object paramObject, long paramLong, byte paramByte)
+  {
+    long l = 0xFFFFFFFFFFFFFFFC & paramLong;
+    int i = zza(paramObject, l);
+    int j = ((int)paramLong & 0x3) << 3;
+    zza(paramObject, l, (0xFF & paramByte) << j | i & (255 << j ^ 0xFFFFFFFF));
+  }
+  
+  public static byte zzc(Object paramObject, long paramLong)
+  {
+    return (byte)(zza(paramObject, 0xFFFFFFFFFFFFFFFC & paramLong) >>> (int)((paramLong & 0x3) << 3));
+  }
+  
+  public static boolean zzcvr()
+  {
+    return zzonr;
+  }
+  
+  public static boolean zzcvs()
+  {
+    return zzorg;
+  }
+  
+  public static Unsafe zzcvt()
+  {
+    try
+    {
+      Unsafe localUnsafe = (Unsafe)AccessController.doPrivileged(new zzexn());
+      return localUnsafe;
+    }
+    catch (Throwable localThrowable)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static boolean zzcvu()
+  {
+    Object localObject = zzlal;
+    if (localObject == null) {
+      return false;
+    }
+    try
+    {
+      localObject = localObject.getClass();
+      ((Class)localObject).getMethod("objectFieldOffset", new Class[] { Field.class });
+      ((Class)localObject).getMethod("arrayBaseOffset", new Class[] { Class.class });
+      ((Class)localObject).getMethod("arrayIndexScale", new Class[] { Class.class });
+      ((Class)localObject).getMethod("getInt", new Class[] { Object.class, Long.TYPE });
+      ((Class)localObject).getMethod("putInt", new Class[] { Object.class, Long.TYPE, Integer.TYPE });
+      ((Class)localObject).getMethod("getLong", new Class[] { Object.class, Long.TYPE });
+      ((Class)localObject).getMethod("putLong", new Class[] { Object.class, Long.TYPE, Long.TYPE });
+      ((Class)localObject).getMethod("getObject", new Class[] { Object.class, Long.TYPE });
+      ((Class)localObject).getMethod("putObject", new Class[] { Object.class, Long.TYPE, Object.class });
+      if (zzcvw()) {
+        return true;
+      }
+      ((Class)localObject).getMethod("getByte", new Class[] { Object.class, Long.TYPE });
+      ((Class)localObject).getMethod("putByte", new Class[] { Object.class, Long.TYPE, Byte.TYPE });
+      ((Class)localObject).getMethod("getBoolean", new Class[] { Object.class, Long.TYPE });
+      ((Class)localObject).getMethod("putBoolean", new Class[] { Object.class, Long.TYPE, Boolean.TYPE });
+      ((Class)localObject).getMethod("getFloat", new Class[] { Object.class, Long.TYPE });
+      ((Class)localObject).getMethod("putFloat", new Class[] { Object.class, Long.TYPE, Float.TYPE });
+      ((Class)localObject).getMethod("getDouble", new Class[] { Object.class, Long.TYPE });
+      ((Class)localObject).getMethod("putDouble", new Class[] { Object.class, Long.TYPE, Double.TYPE });
+      return true;
+    }
+    catch (Throwable localThrowable)
+    {
+      localObject = logger;
+      Level localLevel = Level.WARNING;
+      String str = String.valueOf(localThrowable);
+      StringBuilder localStringBuilder = new StringBuilder(str.length() + 71);
+      localStringBuilder.append("platform method missing - proto runtime falling back to safer methods: ");
+      localStringBuilder.append(str);
+      ((Logger)localObject).logp(localLevel, "com.google.protobuf.UnsafeUtil", "supportsUnsafeArrayOperations", localStringBuilder.toString());
+    }
+    return false;
+  }
+  
+  public static boolean zzcvv()
+  {
+    Object localObject = zzlal;
+    if (localObject == null) {
+      return false;
+    }
+    try
+    {
+      localObject = localObject.getClass();
+      ((Class)localObject).getMethod("objectFieldOffset", new Class[] { Field.class });
+      ((Class)localObject).getMethod("getLong", new Class[] { Object.class, Long.TYPE });
+      if (zzcvw()) {
+        return true;
+      }
+      ((Class)localObject).getMethod("getByte", new Class[] { Long.TYPE });
+      ((Class)localObject).getMethod("putByte", new Class[] { Long.TYPE, Byte.TYPE });
+      ((Class)localObject).getMethod("getInt", new Class[] { Long.TYPE });
+      ((Class)localObject).getMethod("putInt", new Class[] { Long.TYPE, Integer.TYPE });
+      ((Class)localObject).getMethod("getLong", new Class[] { Long.TYPE });
+      ((Class)localObject).getMethod("putLong", new Class[] { Long.TYPE, Long.TYPE });
+      ((Class)localObject).getMethod("copyMemory", new Class[] { Long.TYPE, Long.TYPE, Long.TYPE });
+      ((Class)localObject).getMethod("copyMemory", new Class[] { Object.class, Long.TYPE, Object.class, Long.TYPE, Long.TYPE });
+      return true;
+    }
+    catch (Throwable localThrowable)
+    {
+      localObject = logger;
+      Level localLevel = Level.WARNING;
+      String str = String.valueOf(localThrowable);
+      StringBuilder localStringBuilder = new StringBuilder(str.length() + 71);
+      localStringBuilder.append("platform method missing - proto runtime falling back to safer methods: ");
+      localStringBuilder.append(str);
+      ((Logger)localObject).logp(localLevel, "com.google.protobuf.UnsafeUtil", "supportsUnsafeByteBufferOperations", localStringBuilder.toString());
+    }
+    return false;
+  }
+  
+  public static boolean zzcvw()
+  {
+    return (zzorb != null) && (!zzorc);
+  }
+  
+  public static int zzi(Class<?> paramClass)
+  {
+    if (zzonr) {
+      return zzorfzzorw.arrayBaseOffset(paramClass);
+    }
+    return -1;
+  }
+  
+  public static int zzj(Class<?> paramClass)
+  {
+    if (zzonr) {
+      return zzorfzzorw.arrayIndexScale(paramClass);
+    }
+    return -1;
+  }
+  
+  public static boolean zzk(Class<?> paramClass)
+  {
+    if (!zzcvw()) {
+      return false;
+    }
+    try
+    {
+      Class localClass = zzorb;
+      localClass.getMethod("peekLong", new Class[] { paramClass, Boolean.TYPE });
+      localClass.getMethod("pokeLong", new Class[] { paramClass, Long.TYPE, Boolean.TYPE });
+      localClass.getMethod("pokeInt", new Class[] { paramClass, Integer.TYPE, Boolean.TYPE });
+      localClass.getMethod("peekInt", new Class[] { paramClass, Boolean.TYPE });
+      localClass.getMethod("pokeByte", new Class[] { paramClass, Byte.TYPE });
+      localClass.getMethod("peekByte", new Class[] { paramClass });
+      localClass.getMethod("pokeByteArray", new Class[] { paramClass, [B.class, Integer.TYPE, Integer.TYPE });
+      localClass.getMethod("peekByteArray", new Class[] { paramClass, [B.class, Integer.TYPE, Integer.TYPE });
+      return true;
+    }
+    catch (Throwable paramClass) {}
+    return false;
+  }
+  
+  public static <T> Class<T> zztn(String paramString)
+  {
+    try
+    {
+      paramString = Class.forName(paramString);
+      return paramString;
+    }
+    catch (Throwable paramString)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static final class zza
+    extends zzexm.zzd
+  {
+    public zza(Unsafe paramUnsafe)
+    {
+      super();
+    }
+    
+    public final void zze(Object paramObject, long paramLong, byte paramByte)
+    {
+      if (zzexm.zzorv)
+      {
+        zzexm.zza(paramObject, paramLong, paramByte);
+        return;
+      }
+      zzexm.zzb(paramObject, paramLong, paramByte);
+    }
+    
+    public final byte zzf(Object paramObject, long paramLong)
+    {
+      if (zzexm.zzorv) {
+        return zzexm.zzb(paramObject, paramLong);
+      }
+      return zzexm.zzc(paramObject, paramLong);
+    }
+  }
+  
+  public static final class zzb
+    extends zzexm.zzd
+  {
+    public zzb(Unsafe paramUnsafe)
+    {
+      super();
+    }
+    
+    public final void zze(Object paramObject, long paramLong, byte paramByte)
+    {
+      if (zzexm.zzorv)
+      {
+        zzexm.zza(paramObject, paramLong, paramByte);
+        return;
+      }
+      zzexm.zzb(paramObject, paramLong, paramByte);
+    }
+    
+    public final byte zzf(Object paramObject, long paramLong)
+    {
+      if (zzexm.zzorv) {
+        return zzexm.zzb(paramObject, paramLong);
+      }
+      return zzexm.zzc(paramObject, paramLong);
+    }
+  }
+  
+  public static final class zzc
+    extends zzexm.zzd
+  {
+    public zzc(Unsafe paramUnsafe)
+    {
+      super();
+    }
+    
+    public final void zze(Object paramObject, long paramLong, byte paramByte)
+    {
+      zzorw.putByte(paramObject, paramLong, paramByte);
+    }
+    
+    public final byte zzf(Object paramObject, long paramLong)
+    {
+      return zzorw.getByte(paramObject, paramLong);
+    }
+  }
+  
+  public static abstract class zzd
+  {
+    public Unsafe zzorw;
+    
+    public zzd(Unsafe paramUnsafe)
+    {
+      zzorw = paramUnsafe;
+    }
+    
+    public abstract void zze(Object paramObject, long paramLong, byte paramByte);
+    
+    public abstract byte zzf(Object paramObject, long paramLong);
+  }
+}

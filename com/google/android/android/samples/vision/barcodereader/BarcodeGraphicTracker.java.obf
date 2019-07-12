@@ -1,0 +1,40 @@
+package com.google.android.gms.samples.vision.barcodereader;
+
+import com.google.android.gms.samples.vision.barcodereader.ui.camera.GraphicOverlay;
+import com.google.android.gms.vision.Detector.Detections;
+import com.google.android.gms.vision.Tracker;
+import com.google.android.gms.vision.barcode.Barcode;
+
+public class BarcodeGraphicTracker
+  extends Tracker<Barcode>
+{
+  public BarcodeGraphic mGraphic;
+  public GraphicOverlay<BarcodeGraphic> mOverlay;
+  
+  public BarcodeGraphicTracker(GraphicOverlay<BarcodeGraphic> paramGraphicOverlay, BarcodeGraphic paramBarcodeGraphic)
+  {
+    mOverlay = paramGraphicOverlay;
+    mGraphic = paramBarcodeGraphic;
+  }
+  
+  public void onDone()
+  {
+    mOverlay.remove(mGraphic);
+  }
+  
+  public void onMissing(Detector.Detections<Barcode> paramDetections)
+  {
+    mOverlay.remove(mGraphic);
+  }
+  
+  public void onNewItem(int paramInt, Barcode paramBarcode)
+  {
+    mGraphic.setId(paramInt);
+  }
+  
+  public void onUpdate(Detector.Detections<Barcode> paramDetections, Barcode paramBarcode)
+  {
+    mOverlay.add(mGraphic);
+    mGraphic.updateItem(paramBarcode);
+  }
+}

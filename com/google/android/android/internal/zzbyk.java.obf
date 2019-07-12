@@ -1,0 +1,55 @@
+package com.google.android.gms.internal;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.internal.zzbf;
+
+public final class zzbyk
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzbyk> CREATOR = new zzbyl();
+  public String packageName;
+  public int uid;
+  
+  public zzbyk(int paramInt, String paramString)
+  {
+    uid = paramInt;
+    packageName = paramString;
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if (paramObject != null)
+    {
+      if (!(paramObject instanceof zzbyk)) {
+        return false;
+      }
+      paramObject = (zzbyk)paramObject;
+      if ((uid == uid) && (zzbf.equal(packageName, packageName))) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public final int hashCode()
+  {
+    return uid;
+  }
+  
+  public final String toString()
+  {
+    return String.format("%d:%s", new Object[] { Integer.valueOf(uid), packageName });
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, uid);
+    zzbcn.zza(paramParcel, 2, packageName, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+}

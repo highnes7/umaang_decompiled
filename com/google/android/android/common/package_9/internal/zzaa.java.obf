@@ -1,0 +1,65 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Bundle;
+import b.b.a.F;
+import b.b.a.G;
+import com.google.android.gms.common.ConnectionResult;
+import java.util.concurrent.locks.Lock;
+
+public final class zzaa
+  implements zzce
+{
+  public zzaa(zzy paramZzy) {}
+  
+  public final void zzc(@F ConnectionResult paramConnectionResult)
+  {
+    zzfkg.zzfke.lock();
+    try
+    {
+      zzfkg.zzfkb = paramConnectionResult;
+      zzy.zzb(zzfkg);
+      return;
+    }
+    finally
+    {
+      zzfkg.zzfke.unlock();
+    }
+  }
+  
+  public final void zzf(int paramInt, boolean paramBoolean)
+  {
+    zzfkg.zzfke.lock();
+    try
+    {
+      if ((!zzfkg.zzfkd) && (zzfkg.zzfkc != null) && (zzfkg.zzfkc.isSuccess()))
+      {
+        zzfkg.zzfkd = true;
+        zzfkg.zzfjw.onConnectionSuspended(paramInt);
+        return;
+      }
+      zzfkg.zzfkd = false;
+      zzy.zza(zzfkg, paramInt, paramBoolean);
+      return;
+    }
+    finally
+    {
+      zzfkg.zzfke.unlock();
+    }
+  }
+  
+  public final void zzj(@G Bundle paramBundle)
+  {
+    zzfkg.zzfke.lock();
+    try
+    {
+      zzy.zza(zzfkg, paramBundle);
+      zzfkg.zzfkb = ConnectionResult.zzfff;
+      zzy.zzb(zzfkg);
+      return;
+    }
+    finally
+    {
+      zzfkg.zzfke.unlock();
+    }
+  }
+}

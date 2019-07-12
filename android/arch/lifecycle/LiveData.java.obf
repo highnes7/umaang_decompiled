@@ -1,0 +1,326 @@
+package android.arch.lifecycle;
+
+import b.a.a.b.c.d;
+import b.a.b.h;
+import b.a.b.h.a;
+import b.a.b.h.b;
+import b.a.b.j;
+import b.a.b.o;
+import b.a.b.s;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+public abstract class LiveData<T>
+{
+  public static final Object NOT_SET = new Object();
+  public static final int START_VERSION = -1;
+  public int mActiveCount = 0;
+  public volatile Object mData;
+  public final Object mDataLock = new Object();
+  public boolean mDispatchInvalidated;
+  public boolean mDispatchingValue;
+  public b.a.a.b.c<s<T>, LiveData<T>.b> mObservers = new b.a.a.b.c();
+  public volatile Object mPendingData;
+  public final Runnable mPostValueRunnable;
+  public int mVersion;
+  
+  public LiveData()
+  {
+    Object localObject = NOT_SET;
+    mData = localObject;
+    mPendingData = localObject;
+    mVersion = -1;
+    mPostValueRunnable = new o(this);
+  }
+  
+  public static void assertMainThread(String paramString)
+  {
+    if (b.a.a.a.c.c().a()) {
+      return;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Cannot invoke ");
+    localStringBuilder.append(paramString);
+    localStringBuilder.append(" on a background");
+    localStringBuilder.append(" thread");
+    throw new IllegalStateException(localStringBuilder.toString());
+  }
+  
+  private void considerNotify(LiveData<T>.b paramLiveData)
+  {
+    if (!b) {
+      return;
+    }
+    if (!paramLiveData.b())
+    {
+      paramLiveData.a(false);
+      return;
+    }
+    int i = c;
+    int j = mVersion;
+    if (i >= j) {
+      return;
+    }
+    c = j;
+    a.onChanged(mData);
+  }
+  
+  private void dispatchingValue(@G LiveData<T>.b paramLiveData)
+  {
+    if (mDispatchingValue)
+    {
+      mDispatchInvalidated = true;
+      return;
+    }
+    mDispatchingValue = true;
+    do
+    {
+      mDispatchInvalidated = false;
+      LiveData<T>.b localLiveData;
+      if (paramLiveData != null)
+      {
+        considerNotify(paramLiveData);
+        localLiveData = null;
+      }
+      else
+      {
+        c.d localD = mObservers.b();
+        do
+        {
+          localLiveData = paramLiveData;
+          if (!localD.hasNext()) {
+            break;
+          }
+          considerNotify((b)((Map.Entry)localD.next()).getValue());
+        } while (!mDispatchInvalidated);
+        localLiveData = paramLiveData;
+      }
+      paramLiveData = localLiveData;
+    } while (mDispatchInvalidated);
+    mDispatchingValue = false;
+  }
+  
+  @G
+  public T getValue()
+  {
+    Object localObject = mData;
+    if (localObject != NOT_SET) {
+      return localObject;
+    }
+    return null;
+  }
+  
+  public int getVersion()
+  {
+    return mVersion;
+  }
+  
+  public boolean hasActiveObservers()
+  {
+    return mActiveCount > 0;
+  }
+  
+  public boolean hasObservers()
+  {
+    return mObservers.size() > 0;
+  }
+  
+  @C
+  public void observe(@F j paramJ, @F s<T> paramS)
+  {
+    if (paramJ.getLifecycle().a() == h.b.a) {
+      return;
+    }
+    LifecycleBoundObserver localLifecycleBoundObserver = new LifecycleBoundObserver(paramJ, paramS);
+    paramS = (b)mObservers.b(paramS, localLifecycleBoundObserver);
+    if ((paramS != null) && (!paramS.a(paramJ))) {
+      throw new IllegalArgumentException("Cannot add the same observer with different lifecycles");
+    }
+    if (paramS != null) {
+      return;
+    }
+    paramJ.getLifecycle().a(localLifecycleBoundObserver);
+  }
+  
+  @C
+  public void observeForever(@F s<T> paramS)
+  {
+    a localA = new a(paramS);
+    paramS = (b)mObservers.b(paramS, localA);
+    if ((paramS != null) && ((paramS instanceof LifecycleBoundObserver))) {
+      throw new IllegalArgumentException("Cannot add the same observer with different lifecycles");
+    }
+    if (paramS != null) {
+      return;
+    }
+    localA.a(true);
+  }
+  
+  public void onActive() {}
+  
+  public void onInactive() {}
+  
+  public void postValue(T paramT)
+  {
+    for (;;)
+    {
+      synchronized (mDataLock)
+      {
+        if (mPendingData == NOT_SET)
+        {
+          i = 1;
+          mPendingData = paramT;
+          if (i == 0) {
+            return;
+          }
+          b.a.a.a.c.c().c(mPostValueRunnable);
+          return;
+        }
+      }
+      int i = 0;
+    }
+  }
+  
+  @C
+  public void removeObserver(@F s<T> paramS)
+  {
+    assertMainThread("removeObserver");
+    paramS = (b)mObservers.remove(paramS);
+    if (paramS == null) {
+      return;
+    }
+    paramS.a();
+    paramS.a(false);
+  }
+  
+  @C
+  public void removeObservers(@F j paramJ)
+  {
+    assertMainThread("removeObservers");
+    Iterator localIterator = mObservers.iterator();
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      if (((b)localEntry.getValue()).a(paramJ)) {
+        removeObserver((s)localEntry.getKey());
+      }
+    }
+  }
+  
+  @C
+  public void setValue(T paramT)
+  {
+    assertMainThread("setValue");
+    mVersion += 1;
+    mData = paramT;
+    dispatchingValue(null);
+  }
+  
+  public class LifecycleBoundObserver
+    extends LiveData<T>.b
+    implements GenericLifecycleObserver
+  {
+    @F
+    public final j e;
+    
+    public LifecycleBoundObserver(s<T> paramS)
+    {
+      super(localS);
+      e = paramS;
+    }
+    
+    public void a()
+    {
+      e.getLifecycle().b(this);
+    }
+    
+    public void a(j paramJ, h.a paramA)
+    {
+      if (e.getLifecycle().a() == h.b.a)
+      {
+        removeObserver(a);
+        return;
+      }
+      a(b());
+    }
+    
+    public boolean a(j paramJ)
+    {
+      return e == paramJ;
+    }
+    
+    public boolean b()
+    {
+      return e.getLifecycle().a().a(h.b.d);
+    }
+  }
+  
+  private class a
+    extends LiveData<T>.b
+  {
+    public a()
+    {
+      super(localS);
+    }
+    
+    public boolean b()
+    {
+      return true;
+    }
+  }
+  
+  private abstract class b
+  {
+    public final s<T> a;
+    public boolean b;
+    public int c = -1;
+    
+    public b()
+    {
+      Object localObject;
+      a = localObject;
+    }
+    
+    public void a() {}
+    
+    public void a(boolean paramBoolean)
+    {
+      if (paramBoolean == b) {
+        return;
+      }
+      b = paramBoolean;
+      int i = LiveData.access$300(LiveData.this);
+      int j = 1;
+      if (i == 0) {
+        i = 1;
+      } else {
+        i = 0;
+      }
+      LiveData localLiveData = LiveData.this;
+      int k = LiveData.access$300(localLiveData);
+      if (!b) {
+        j = -1;
+      }
+      LiveData.access$302(localLiveData, k + j);
+      if ((i != 0) && (b)) {
+        onActive();
+      }
+      if ((LiveData.access$300(LiveData.this) == 0) && (!b)) {
+        onInactive();
+      }
+      if (b) {
+        LiveData.access$400(LiveData.this, this);
+      }
+    }
+    
+    public boolean a(j paramJ)
+    {
+      return false;
+    }
+    
+    public abstract boolean b();
+  }
+}

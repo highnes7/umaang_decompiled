@@ -1,0 +1,1053 @@
+package com.google.android.gms.internal;
+
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.text.TextUtils;
+import b.b.a.X;
+import b.b.x.n.b;
+import com.google.android.gms.common.internal.zzbp;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+public final class zzcau
+  extends zzcdu
+{
+  public zzcau(zzccw paramZzccw)
+  {
+    super(paramZzccw);
+  }
+  
+  private final Boolean zza(double paramDouble, zzcga paramZzcga)
+  {
+    try
+    {
+      paramZzcga = zza(new BigDecimal(paramDouble), paramZzcga, Math.ulp(paramDouble));
+      return paramZzcga;
+    }
+    catch (NumberFormatException paramZzcga)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  private final Boolean zza(long paramLong, zzcga paramZzcga)
+  {
+    try
+    {
+      paramZzcga = zza(new BigDecimal(paramLong), paramZzcga, 0.0D);
+      return paramZzcga;
+    }
+    catch (NumberFormatException paramZzcga)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  private final Boolean zza(zzcfy paramZzcfy, zzcgh paramZzcgh, long paramLong)
+  {
+    Object localObject1 = zzixr;
+    int j = 0;
+    Boolean localBoolean = Boolean.valueOf(false);
+    if (localObject1 != null)
+    {
+      localObject1 = zza(paramLong, (zzcga)localObject1);
+      if (localObject1 == null) {
+        return null;
+      }
+      if (!((Boolean)localObject1).booleanValue()) {
+        return localBoolean;
+      }
+    }
+    Object localObject2 = new HashSet();
+    localObject1 = zzixp;
+    int k = localObject1.length;
+    int i = 0;
+    while (i < k)
+    {
+      localB = localObject1[i];
+      if (TextUtils.isEmpty(zzixw))
+      {
+        zzaul().zzayf().zzj("null or empty param name in filter. event", zzaug().zzjc(name));
+        return null;
+      }
+      ((Set)localObject2).add(zzixw);
+      i += 1;
+    }
+    b localB = new b();
+    Object localObject3 = zziyx;
+    k = localObject3.length;
+    i = 0;
+    zzcgc localZzcgc;
+    while (i < k)
+    {
+      localZzcgc = localObject3[i];
+      if (((Set)localObject2).contains(name))
+      {
+        localObject1 = zzizb;
+        if (localObject1 != null) {}
+        do
+        {
+          do
+          {
+            localB.put(name, localObject1);
+            break;
+            localObject1 = zzixc;
+          } while (localObject1 != null);
+          localObject1 = zzfwo;
+        } while (localObject1 != null);
+        zzaul().zzayf().zze("Unknown value for param. event, param", zzaug().zzjc(name), zzaug().zzjd(name));
+        return null;
+      }
+      i += 1;
+    }
+    localObject1 = zzixp;
+    k = localObject1.length;
+    i = j;
+    while (i < k)
+    {
+      paramZzcfy = localObject1[i];
+      boolean bool = Boolean.TRUE.equals(zzixv);
+      localObject2 = zzixw;
+      if (TextUtils.isEmpty((CharSequence)localObject2))
+      {
+        zzaul().zzayf().zzj("Event has empty param name. event", zzaug().zzjc(name));
+        return null;
+      }
+      localObject3 = localB.get(localObject2);
+      if ((localObject3 instanceof Long))
+      {
+        if (zzixu == null)
+        {
+          zzaul().zzayf().zze("No number filter for long param. event, param", zzaug().zzjc(name), zzaug().zzjd((String)localObject2));
+          return null;
+        }
+        paramZzcfy = zza(((Long)localObject3).longValue(), zzixu);
+        if (paramZzcfy == null) {
+          return null;
+        }
+        if ((true ^ paramZzcfy.booleanValue() ^ bool)) {
+          return localBoolean;
+        }
+      }
+      else if ((localObject3 instanceof Double))
+      {
+        if (zzixu == null)
+        {
+          zzaul().zzayf().zze("No number filter for double param. event, param", zzaug().zzjc(name), zzaug().zzjd((String)localObject2));
+          return null;
+        }
+        paramZzcfy = zza(((Double)localObject3).doubleValue(), zzixu);
+        if (paramZzcfy == null) {
+          return null;
+        }
+        if ((true ^ paramZzcfy.booleanValue() ^ bool)) {
+          return localBoolean;
+        }
+      }
+      else
+      {
+        if (!(localObject3 instanceof String)) {
+          break label729;
+        }
+        localZzcgc = zzixt;
+        if (localZzcgc != null)
+        {
+          paramZzcfy = zza((String)localObject3, localZzcgc);
+        }
+        else
+        {
+          if (zzixu == null) {
+            break label695;
+          }
+          localObject3 = (String)localObject3;
+          if (!zzcfw.zzkf((String)localObject3)) {
+            break label661;
+          }
+          paramZzcfy = zza((String)localObject3, zzixu);
+        }
+        if (paramZzcfy == null) {
+          return null;
+        }
+        if ((true ^ paramZzcfy.booleanValue() ^ bool)) {
+          return localBoolean;
+        }
+      }
+      i += 1;
+      continue;
+      label661:
+      zzaul().zzayf().zze("Invalid param value for number filter. event, param", zzaug().zzjc(name), zzaug().zzjd((String)localObject2));
+      return null;
+      label695:
+      zzaul().zzayf().zze("No filter for String param. event, param", zzaug().zzjc(name), zzaug().zzjd((String)localObject2));
+      return null;
+      label729:
+      if (localObject3 == null)
+      {
+        zzaul().zzayj().zze("Missing param for filter. event, param", zzaug().zzjc(name), zzaug().zzjd((String)localObject2));
+        return localBoolean;
+      }
+      zzaul().zzayf().zze("Unknown param type. event, param", zzaug().zzjc(name), zzaug().zzjd((String)localObject2));
+      return null;
+    }
+    return Boolean.valueOf(true);
+  }
+  
+  public static Boolean zza(Boolean paramBoolean, boolean paramBoolean1)
+  {
+    if (paramBoolean == null) {
+      return null;
+    }
+    return Boolean.valueOf(paramBoolean.booleanValue() ^ paramBoolean1);
+  }
+  
+  private final Boolean zza(String paramString1, int paramInt, boolean paramBoolean, String paramString2, List<String> paramList, String paramString3)
+  {
+    if (paramString1 == null) {
+      return null;
+    }
+    if (paramInt == 6)
+    {
+      if ((paramList == null) || (paramList.size() == 0)) {
+        return null;
+      }
+    }
+    else if (paramString2 == null) {
+      return null;
+    }
+    String str = paramString1;
+    if (!paramBoolean) {
+      if (paramInt == 1) {
+        str = paramString1;
+      } else {
+        str = paramString1.toUpperCase(Locale.ENGLISH);
+      }
+    }
+    switch (paramInt)
+    {
+    default: 
+      return null;
+    case 6: 
+      paramBoolean = paramList.contains(str);
+    case 5: 
+    case 4: 
+    case 3: 
+    case 2: 
+      for (;;)
+      {
+        return Boolean.valueOf(paramBoolean);
+        paramBoolean = str.equals(paramString2);
+        continue;
+        paramBoolean = str.contains(paramString2);
+        continue;
+        paramBoolean = str.endsWith(paramString2);
+        continue;
+        paramBoolean = str.startsWith(paramString2);
+      }
+    }
+    if (paramBoolean) {
+      paramInt = 0;
+    } else {
+      paramInt = 66;
+    }
+    try
+    {
+      paramBoolean = Pattern.compile(paramString3, paramInt).matcher(str).matches();
+      return Boolean.valueOf(paramBoolean);
+    }
+    catch (PatternSyntaxException paramString1)
+    {
+      for (;;) {}
+    }
+    zzaul().zzayf().zzj("Invalid regular expression in REGEXP audience filter. expression", paramString3);
+    return null;
+  }
+  
+  private final Boolean zza(String paramString, zzcga paramZzcga)
+  {
+    if (!zzcfw.zzkf(paramString)) {
+      return null;
+    }
+    try
+    {
+      paramString = zza(new BigDecimal(paramString), paramZzcga, 0.0D);
+      return paramString;
+    }
+    catch (NumberFormatException paramString) {}
+    return null;
+  }
+  
+  private final Boolean zza(String paramString, zzcgc paramZzcgc)
+  {
+    zzbp.zzu(paramZzcgc);
+    if (paramString == null) {
+      return null;
+    }
+    Object localObject1 = zziyf;
+    if (localObject1 != null)
+    {
+      if (((Integer)localObject1).intValue() == 0) {
+        return null;
+      }
+      if (zziyf.intValue() == 6)
+      {
+        localObject1 = zziyi;
+        if ((localObject1 == null) || (localObject1.length == 0)) {
+          return null;
+        }
+      }
+      else if (zziyg == null)
+      {
+        return null;
+      }
+      int j = zziyf.intValue();
+      localObject1 = zziyh;
+      int i = 0;
+      boolean bool;
+      if ((localObject1 != null) && (((Boolean)localObject1).booleanValue())) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      if ((!bool) && (j != 1) && (j != 6)) {
+        localObject1 = zziyg.toUpperCase(Locale.ENGLISH);
+      } else {
+        localObject1 = zziyg;
+      }
+      Object localObject2 = zziyi;
+      if (localObject2 == null)
+      {
+        paramZzcgc = null;
+      }
+      else if (bool)
+      {
+        paramZzcgc = Arrays.asList((Object[])localObject2);
+      }
+      else
+      {
+        paramZzcgc = new ArrayList();
+        int k = localObject2.length;
+        while (i < k)
+        {
+          paramZzcgc.add(localObject2[i].toUpperCase(Locale.ENGLISH));
+          i += 1;
+        }
+      }
+      if (j == 1) {
+        localObject2 = localObject1;
+      } else {
+        localObject2 = null;
+      }
+      return zza(paramString, j, bool, (String)localObject1, paramZzcgc, (String)localObject2);
+    }
+    return null;
+  }
+  
+  /* Error */
+  public static Boolean zza(BigDecimal paramBigDecimal, zzcga paramZzcga, double paramDouble)
+  {
+    // Byte code:
+    //   0: aload_1
+    //   1: invokestatic 274	com/google/android/gms/common/internal/zzbp:zzu	(Ljava/lang/Object;)Ljava/lang/Object;
+    //   4: pop
+    //   5: aload_1
+    //   6: getfield 312	com/google/android/gms/internal/zzcga:zzixx	Ljava/lang/Integer;
+    //   9: astore 10
+    //   11: aload 10
+    //   13: ifnull +403 -> 416
+    //   16: aload 10
+    //   18: invokevirtual 285	java/lang/Integer:intValue	()I
+    //   21: ifne +5 -> 26
+    //   24: aconst_null
+    //   25: areturn
+    //   26: aload_1
+    //   27: getfield 312	com/google/android/gms/internal/zzcga:zzixx	Ljava/lang/Integer;
+    //   30: invokevirtual 285	java/lang/Integer:intValue	()I
+    //   33: iconst_4
+    //   34: if_icmpne +19 -> 53
+    //   37: aload_1
+    //   38: getfield 315	com/google/android/gms/internal/zzcga:zziya	Ljava/lang/String;
+    //   41: ifnull +10 -> 51
+    //   44: aload_1
+    //   45: getfield 318	com/google/android/gms/internal/zzcga:zziyb	Ljava/lang/String;
+    //   48: ifnonnull +14 -> 62
+    //   51: aconst_null
+    //   52: areturn
+    //   53: aload_1
+    //   54: getfield 321	com/google/android/gms/internal/zzcga:zzixz	Ljava/lang/String;
+    //   57: ifnonnull +5 -> 62
+    //   60: aconst_null
+    //   61: areturn
+    //   62: aload_1
+    //   63: getfield 312	com/google/android/gms/internal/zzcga:zzixx	Ljava/lang/Integer;
+    //   66: invokevirtual 285	java/lang/Integer:intValue	()I
+    //   69: istore 4
+    //   71: aload_1
+    //   72: getfield 312	com/google/android/gms/internal/zzcga:zzixx	Ljava/lang/Integer;
+    //   75: invokevirtual 285	java/lang/Integer:intValue	()I
+    //   78: iconst_4
+    //   79: if_icmpne +62 -> 141
+    //   82: aload_1
+    //   83: getfield 315	com/google/android/gms/internal/zzcga:zziya	Ljava/lang/String;
+    //   86: invokestatic 203	com/google/android/gms/internal/zzcfw:zzkf	(Ljava/lang/String;)Z
+    //   89: ifeq +50 -> 139
+    //   92: aload_1
+    //   93: getfield 318	com/google/android/gms/internal/zzcga:zziyb	Ljava/lang/String;
+    //   96: invokestatic 203	com/google/android/gms/internal/zzcfw:zzkf	(Ljava/lang/String;)Z
+    //   99: ifne +5 -> 104
+    //   102: aconst_null
+    //   103: areturn
+    //   104: new 15	java/math/BigDecimal
+    //   107: dup
+    //   108: aload_1
+    //   109: getfield 315	com/google/android/gms/internal/zzcga:zziya	Ljava/lang/String;
+    //   112: invokespecial 269	java/math/BigDecimal:<init>	(Ljava/lang/String;)V
+    //   115: astore 10
+    //   117: new 15	java/math/BigDecimal
+    //   120: dup
+    //   121: aload_1
+    //   122: getfield 318	com/google/android/gms/internal/zzcga:zziyb	Ljava/lang/String;
+    //   125: invokespecial 269	java/math/BigDecimal:<init>	(Ljava/lang/String;)V
+    //   128: astore 11
+    //   130: aload 10
+    //   132: astore_1
+    //   133: aconst_null
+    //   134: astore 10
+    //   136: goto +35 -> 171
+    //   139: aconst_null
+    //   140: areturn
+    //   141: aload_1
+    //   142: getfield 321	com/google/android/gms/internal/zzcga:zzixz	Ljava/lang/String;
+    //   145: invokestatic 203	com/google/android/gms/internal/zzcfw:zzkf	(Ljava/lang/String;)Z
+    //   148: ifne +5 -> 153
+    //   151: aconst_null
+    //   152: areturn
+    //   153: new 15	java/math/BigDecimal
+    //   156: dup
+    //   157: aload_1
+    //   158: getfield 321	com/google/android/gms/internal/zzcga:zzixz	Ljava/lang/String;
+    //   161: invokespecial 269	java/math/BigDecimal:<init>	(Ljava/lang/String;)V
+    //   164: astore 10
+    //   166: aconst_null
+    //   167: astore_1
+    //   168: aload_1
+    //   169: astore 11
+    //   171: iload 4
+    //   173: iconst_4
+    //   174: if_icmpne +9 -> 183
+    //   177: aload_1
+    //   178: ifnonnull +10 -> 188
+    //   181: aconst_null
+    //   182: areturn
+    //   183: aload 10
+    //   185: ifnull +231 -> 416
+    //   188: iconst_0
+    //   189: istore 7
+    //   191: iconst_0
+    //   192: istore 5
+    //   194: iconst_0
+    //   195: istore 8
+    //   197: iconst_0
+    //   198: istore 9
+    //   200: iconst_0
+    //   201: istore 6
+    //   203: iload 4
+    //   205: iconst_1
+    //   206: if_icmpeq +187 -> 393
+    //   209: iload 4
+    //   211: iconst_2
+    //   212: if_icmpeq +158 -> 370
+    //   215: iload 4
+    //   217: iconst_3
+    //   218: if_icmpeq +47 -> 265
+    //   221: iload 4
+    //   223: iconst_4
+    //   224: if_icmpeq +5 -> 229
+    //   227: aconst_null
+    //   228: areturn
+    //   229: iload 6
+    //   231: istore 5
+    //   233: aload_0
+    //   234: aload_1
+    //   235: invokevirtual 325	java/math/BigDecimal:compareTo	(Ljava/math/BigDecimal;)I
+    //   238: iconst_m1
+    //   239: if_icmpeq +20 -> 259
+    //   242: iload 6
+    //   244: istore 5
+    //   246: aload_0
+    //   247: aload 11
+    //   249: invokevirtual 325	java/math/BigDecimal:compareTo	(Ljava/math/BigDecimal;)I
+    //   252: iconst_1
+    //   253: if_icmpeq +6 -> 259
+    //   256: iconst_1
+    //   257: istore 5
+    //   259: iload 5
+    //   261: invokestatic 44	java/lang/Boolean:valueOf	(Z)Ljava/lang/Boolean;
+    //   264: areturn
+    //   265: dload_2
+    //   266: dconst_0
+    //   267: dcmpl
+    //   268: ifeq +84 -> 352
+    //   271: iload 7
+    //   273: istore 5
+    //   275: aload_0
+    //   276: aload 10
+    //   278: new 15	java/math/BigDecimal
+    //   281: dup
+    //   282: dload_2
+    //   283: invokespecial 18	java/math/BigDecimal:<init>	(D)V
+    //   286: new 15	java/math/BigDecimal
+    //   289: dup
+    //   290: iconst_2
+    //   291: invokespecial 328	java/math/BigDecimal:<init>	(I)V
+    //   294: invokevirtual 332	java/math/BigDecimal:multiply	(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;
+    //   297: invokevirtual 335	java/math/BigDecimal:subtract	(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;
+    //   300: invokevirtual 325	java/math/BigDecimal:compareTo	(Ljava/math/BigDecimal;)I
+    //   303: iconst_1
+    //   304: if_icmpne +42 -> 346
+    //   307: iload 7
+    //   309: istore 5
+    //   311: aload_0
+    //   312: aload 10
+    //   314: new 15	java/math/BigDecimal
+    //   317: dup
+    //   318: dload_2
+    //   319: invokespecial 18	java/math/BigDecimal:<init>	(D)V
+    //   322: new 15	java/math/BigDecimal
+    //   325: dup
+    //   326: iconst_2
+    //   327: invokespecial 328	java/math/BigDecimal:<init>	(I)V
+    //   330: invokevirtual 332	java/math/BigDecimal:multiply	(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;
+    //   333: invokevirtual 337	java/math/BigDecimal:add	(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;
+    //   336: invokevirtual 325	java/math/BigDecimal:compareTo	(Ljava/math/BigDecimal;)I
+    //   339: iconst_m1
+    //   340: if_icmpne +6 -> 346
+    //   343: iconst_1
+    //   344: istore 5
+    //   346: iload 5
+    //   348: invokestatic 44	java/lang/Boolean:valueOf	(Z)Ljava/lang/Boolean;
+    //   351: areturn
+    //   352: aload_0
+    //   353: aload 10
+    //   355: invokevirtual 325	java/math/BigDecimal:compareTo	(Ljava/math/BigDecimal;)I
+    //   358: ifne +6 -> 364
+    //   361: iconst_1
+    //   362: istore 5
+    //   364: iload 5
+    //   366: invokestatic 44	java/lang/Boolean:valueOf	(Z)Ljava/lang/Boolean;
+    //   369: areturn
+    //   370: iload 8
+    //   372: istore 5
+    //   374: aload_0
+    //   375: aload 10
+    //   377: invokevirtual 325	java/math/BigDecimal:compareTo	(Ljava/math/BigDecimal;)I
+    //   380: iconst_1
+    //   381: if_icmpne +6 -> 387
+    //   384: iconst_1
+    //   385: istore 5
+    //   387: iload 5
+    //   389: invokestatic 44	java/lang/Boolean:valueOf	(Z)Ljava/lang/Boolean;
+    //   392: areturn
+    //   393: iload 9
+    //   395: istore 5
+    //   397: aload_0
+    //   398: aload 10
+    //   400: invokevirtual 325	java/math/BigDecimal:compareTo	(Ljava/math/BigDecimal;)I
+    //   403: iconst_m1
+    //   404: if_icmpne +6 -> 410
+    //   407: iconst_1
+    //   408: istore 5
+    //   410: iload 5
+    //   412: invokestatic 44	java/lang/Boolean:valueOf	(Z)Ljava/lang/Boolean;
+    //   415: areturn
+    //   416: aconst_null
+    //   417: areturn
+    //   418: astore_0
+    //   419: aconst_null
+    //   420: areturn
+    //   421: astore_0
+    //   422: aconst_null
+    //   423: areturn
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	424	0	paramBigDecimal	BigDecimal
+    //   0	424	1	paramZzcga	zzcga
+    //   0	424	2	paramDouble	double
+    //   69	156	4	i	int
+    //   192	219	5	bool1	boolean
+    //   201	42	6	bool2	boolean
+    //   189	119	7	bool3	boolean
+    //   195	176	8	bool4	boolean
+    //   198	196	9	bool5	boolean
+    //   9	390	10	localObject1	Object
+    //   128	120	11	localObject2	Object
+    // Exception table:
+    //   from	to	target	type
+    //   104	130	418	java/lang/NumberFormatException
+    //   153	166	421	java/lang/NumberFormatException
+  }
+  
+  @X
+  public final zzcgg[] zza(String paramString, zzcgh[] paramArrayOfZzcgh, zzcgm[] paramArrayOfZzcgm)
+  {
+    Object localObject12 = paramString;
+    Object localObject10 = paramArrayOfZzcgh;
+    zzbp.zzgg(paramString);
+    HashSet localHashSet = new HashSet();
+    b localB = new b();
+    Object localObject5 = new b();
+    Object localObject1 = new b();
+    Object localObject2 = zzauf().zziz((String)localObject12);
+    Object localObject4 = localObject1;
+    int j;
+    if (localObject2 != null)
+    {
+      localObject3 = ((Map)localObject2).keySet().iterator();
+      for (;;)
+      {
+        localObject4 = localObject1;
+        if (!((Iterator)localObject3).hasNext()) {
+          break;
+        }
+        j = ((Integer)((Iterator)localObject3).next()).intValue();
+        localObject8 = (zzcgl)((Map)localObject2).get(Integer.valueOf(j));
+        localObject7 = (BitSet)((Map)localObject5).get(Integer.valueOf(j));
+        localObject6 = (BitSet)((Map)localObject1).get(Integer.valueOf(j));
+        localObject4 = localObject7;
+        if (localObject7 == null)
+        {
+          localObject4 = new BitSet();
+          ((Map)localObject5).put(Integer.valueOf(j), localObject4);
+          localObject6 = new BitSet();
+          ((Map)localObject1).put(Integer.valueOf(j), localObject6);
+        }
+        i = 0;
+        for (;;)
+        {
+          localObject7 = zzjag;
+          if (i >= localObject7.length << 6) {
+            break;
+          }
+          if (zzcfw.zza((long[])localObject7, i))
+          {
+            zzaul().zzayj().zze("Filter already evaluated. audience ID, filter ID", Integer.valueOf(j), Integer.valueOf(i));
+            ((BitSet)localObject6).set(i);
+            if (zzcfw.zza(zzjah, i)) {
+              ((BitSet)localObject4).set(i);
+            }
+          }
+          i += 1;
+        }
+        localObject7 = new zzcgg();
+        localB.put(Integer.valueOf(j), localObject7);
+        zziyv = Boolean.valueOf(false);
+        zziyu = ((zzcgl)localObject8);
+        zziyt = new zzcgl();
+        zziyt.zzjah = zzcfw.zza((BitSet)localObject4);
+        zziyt.zzjag = zzcfw.zza((BitSet)localObject6);
+      }
+    }
+    localObject2 = localObject4;
+    Object localObject3 = "Filter definition";
+    localObject1 = "Skipping failed audience ID";
+    Object localObject8 = localObject1;
+    Object localObject9 = localObject3;
+    Object localObject7 = localObject5;
+    Object localObject6 = localObject2;
+    int k;
+    Object localObject11;
+    Object localObject15;
+    Object localObject14;
+    if (localObject10 != null)
+    {
+      localObject6 = new b();
+      i = localObject10.length;
+      j = 0;
+      localObject4 = localObject5;
+      localObject5 = localObject6;
+      for (;;)
+      {
+        localObject8 = localObject1;
+        localObject9 = localObject3;
+        localObject7 = localObject4;
+        localObject6 = localObject2;
+        if (j >= i) {
+          break;
+        }
+        localObject13 = paramArrayOfZzcgh[j];
+        localObject6 = zzauf().zzaf((String)localObject12, name);
+        if (localObject6 == null)
+        {
+          zzaul().zzayf().zze("Event aggregate wasn't created during raw event logging. appId, event", zzcbw.zzjf(paramString), zzaug().zzjc(name));
+          localObject7 = new zzcbg(paramString, name, 1L, 1L, zziyy.longValue());
+        }
+        else
+        {
+          localObject7 = ((zzcbg)localObject6).zzaxy();
+        }
+        localObject6 = localObject1;
+        zzauf().zza((zzcbg)localObject7);
+        long l = zzinl;
+        localObject7 = name;
+        localObject1 = localObject5;
+        localObject7 = (Map)((Map)localObject1).get(localObject7);
+        localObject5 = localObject7;
+        if (localObject7 == null)
+        {
+          localObject7 = zzauf().zzak((String)localObject12, name);
+          localObject5 = localObject7;
+          if (localObject7 == null) {
+            localObject5 = new b();
+          }
+          ((Map)localObject1).put(name, localObject5);
+        }
+        localObject10 = ((Map)localObject5).keySet().iterator();
+        localObject9 = localObject5;
+        while (((Iterator)localObject10).hasNext())
+        {
+          k = ((Integer)((Iterator)localObject10).next()).intValue();
+          if (localHashSet.contains(Integer.valueOf(k)))
+          {
+            zzaul().zzayj().zzj((String)localObject6, Integer.valueOf(k));
+          }
+          else
+          {
+            localObject5 = (zzcgg)localB.get(Integer.valueOf(k));
+            localObject8 = (BitSet)((Map)localObject4).get(Integer.valueOf(k));
+            localObject7 = (BitSet)((Map)localObject2).get(Integer.valueOf(k));
+            if (localObject5 == null)
+            {
+              localObject5 = new zzcgg();
+              localB.put(Integer.valueOf(k), localObject5);
+              zziyv = Boolean.valueOf(true);
+              localObject8 = new BitSet();
+              ((Map)localObject4).put(Integer.valueOf(k), localObject8);
+              localObject7 = new BitSet();
+              ((Map)localObject2).put(Integer.valueOf(k), localObject7);
+            }
+            localObject11 = ((List)localObject9.get(Integer.valueOf(k))).iterator();
+            localObject5 = localObject4;
+            localObject4 = localObject2;
+            localObject2 = localObject11;
+            while (((Iterator)localObject2).hasNext())
+            {
+              localObject15 = (zzcfy)((Iterator)localObject2).next();
+              if (zzaul().zzad(2))
+              {
+                zzaul().zzayj().zzd("Evaluating filter. audience, filter, event", Integer.valueOf(k), zzixn, zzaug().zzjc(zzixo));
+                zzaul().zzayj().zzj((String)localObject3, zzaug().zza((zzcfy)localObject15));
+              }
+              localObject11 = zzixn;
+              if ((localObject11 != null) && (((Integer)localObject11).intValue() <= 256))
+              {
+                if (((BitSet)localObject8).get(zzixn.intValue()))
+                {
+                  zzaul().zzayj().zze("Event filter already evaluated true. audience ID, filter ID", Integer.valueOf(k), zzixn);
+                }
+                else
+                {
+                  localObject14 = zza((zzcfy)localObject15, (zzcgh)localObject13, l);
+                  zzcby localZzcby = zzaul().zzayj();
+                  if (localObject14 == null) {
+                    localObject11 = "null";
+                  } else {
+                    localObject11 = localObject14;
+                  }
+                  localZzcby.zzj("Event filter result", localObject11);
+                  if (localObject14 == null)
+                  {
+                    localHashSet.add(Integer.valueOf(k));
+                  }
+                  else
+                  {
+                    ((BitSet)localObject7).set(zzixn.intValue());
+                    if (((Boolean)localObject14).booleanValue()) {
+                      ((BitSet)localObject8).set(zzixn.intValue());
+                    }
+                  }
+                }
+              }
+              else {
+                zzaul().zzayf().zze("Invalid event filter ID. appId, id", zzcbw.zzjf(paramString), String.valueOf(zzixn));
+              }
+            }
+            localObject2 = localObject4;
+            localObject4 = localObject5;
+          }
+        }
+        j += 1;
+        localObject5 = localObject1;
+        localObject1 = localObject6;
+      }
+    }
+    Object localObject13 = this;
+    localObject1 = localObject7;
+    localObject4 = paramArrayOfZzcgm;
+    paramArrayOfZzcgh = (zzcgh[])localObject6;
+    localObject2 = paramArrayOfZzcgh;
+    localObject3 = localObject1;
+    if (localObject4 != null)
+    {
+      localObject7 = new b();
+      i = localObject4.length;
+      j = 0;
+      for (;;)
+      {
+        localObject2 = paramArrayOfZzcgh;
+        localObject3 = localObject1;
+        if (j >= i) {
+          break;
+        }
+        localObject14 = paramArrayOfZzcgm[j];
+        localObject2 = (Map)((Map)localObject7).get(name);
+        localObject3 = localObject2;
+        if (localObject2 == null)
+        {
+          localObject2 = zzauf().zzal(paramString, name);
+          localObject3 = localObject2;
+          if (localObject2 == null) {
+            localObject3 = new b();
+          }
+          ((Map)localObject7).put(name, localObject3);
+        }
+        localObject2 = ((Map)localObject3).keySet().iterator();
+        localObject6 = localObject1;
+        localObject1 = localObject2;
+        while (((Iterator)localObject1).hasNext())
+        {
+          k = ((Integer)((Iterator)localObject1).next()).intValue();
+          if (localHashSet.contains(Integer.valueOf(k)))
+          {
+            zzaul().zzayj().zzj((String)localObject8, Integer.valueOf(k));
+          }
+          else
+          {
+            localObject2 = (zzcgg)localB.get(Integer.valueOf(k));
+            localObject11 = (BitSet)((Map)localObject6).get(Integer.valueOf(k));
+            localObject10 = (BitSet)paramArrayOfZzcgh.get(Integer.valueOf(k));
+            if (localObject2 == null)
+            {
+              localObject2 = new zzcgg();
+              localB.put(Integer.valueOf(k), localObject2);
+              zziyv = Boolean.valueOf(true);
+              localObject11 = new BitSet();
+              ((Map)localObject6).put(Integer.valueOf(k), localObject11);
+              localObject10 = new BitSet();
+              paramArrayOfZzcgh.put(Integer.valueOf(k), localObject10);
+            }
+            localObject12 = ((List)((Map)localObject3).get(Integer.valueOf(k))).iterator();
+            if (((Iterator)localObject12).hasNext())
+            {
+              localObject15 = (zzcgb)((Iterator)localObject12).next();
+              if (zzaul().zzad(2))
+              {
+                zzaul().zzayj().zzd("Evaluating filter. audience, filter, property", Integer.valueOf(k), zzixn, zzaug().zzje(zziyd));
+                zzaul().zzayj().zzj(localObject9, zzaug().zza((zzcgb)localObject15));
+              }
+              localObject4 = paramArrayOfZzcgh;
+              localObject5 = localObject1;
+              paramArrayOfZzcgh = zzixn;
+              if ((paramArrayOfZzcgh != null) && (paramArrayOfZzcgh.intValue() <= 256))
+              {
+                if (((BitSet)localObject11).get(zzixn.intValue())) {
+                  zzaul().zzayj().zze("Property filter already evaluated true. audience ID, filter ID", Integer.valueOf(k), zzixn);
+                }
+                for (;;)
+                {
+                  localObject1 = localObject5;
+                  paramArrayOfZzcgh = (zzcgh[])localObject4;
+                  break;
+                  paramArrayOfZzcgh = zziye;
+                  if (paramArrayOfZzcgh == null)
+                  {
+                    paramArrayOfZzcgh = zzaul().zzayf();
+                    localObject1 = zzaug().zzje(name);
+                    localObject2 = "Missing property filter. property";
+                  }
+                  for (;;)
+                  {
+                    paramArrayOfZzcgh.zzj((String)localObject2, localObject1);
+                    label1834:
+                    paramArrayOfZzcgh = null;
+                    break;
+                    boolean bool = Boolean.TRUE.equals(zzixv);
+                    localObject1 = zzizb;
+                    if (localObject1 != null)
+                    {
+                      if (zzixu == null)
+                      {
+                        paramArrayOfZzcgh = zzaul().zzayf();
+                        localObject1 = zzaug().zzje(name);
+                        localObject2 = "No number filter for long property. property";
+                      }
+                      else
+                      {
+                        paramArrayOfZzcgh = ((zzcau)localObject13).zza(((Long)localObject1).longValue(), zzixu);
+                      }
+                    }
+                    else
+                    {
+                      for (;;)
+                      {
+                        paramArrayOfZzcgh = zza(paramArrayOfZzcgh, bool);
+                        break label2154;
+                        localObject1 = zzixc;
+                        if (localObject1 != null)
+                        {
+                          if (zzixu == null)
+                          {
+                            paramArrayOfZzcgh = zzaul().zzayf();
+                            localObject1 = zzaug().zzje(name);
+                            localObject2 = "No number filter for double property. property";
+                            break;
+                          }
+                          paramArrayOfZzcgh = ((zzcau)localObject13).zza(((Double)localObject1).doubleValue(), zzixu);
+                          continue;
+                        }
+                        localObject1 = zzfwo;
+                        if (localObject1 == null) {
+                          break label2124;
+                        }
+                        localObject2 = zzixt;
+                        if (localObject2 == null)
+                        {
+                          if (zzixu == null)
+                          {
+                            paramArrayOfZzcgh = zzaul().zzayf();
+                            localObject1 = zzaug().zzje(name);
+                            localObject2 = "No string or number filter defined. property";
+                            break;
+                          }
+                          if (zzcfw.zzkf((String)localObject1))
+                          {
+                            paramArrayOfZzcgh = ((zzcau)localObject13).zza(zzfwo, zzixu);
+                            continue;
+                          }
+                          zzaul().zzayf().zze("Invalid user property value for Numeric number filter. property, value", zzaug().zzje(name), zzfwo);
+                          break label1834;
+                        }
+                        paramArrayOfZzcgh = ((zzcau)localObject13).zza((String)localObject1, (zzcgc)localObject2);
+                      }
+                      label2124:
+                      paramArrayOfZzcgh = zzaul().zzayf();
+                      localObject1 = zzaug().zzje(name);
+                      localObject2 = "User property has no value, property";
+                    }
+                  }
+                  label2154:
+                  localObject2 = zzaul().zzayj();
+                  if (paramArrayOfZzcgh == null) {
+                    localObject1 = "null";
+                  } else {
+                    localObject1 = paramArrayOfZzcgh;
+                  }
+                  ((zzcby)localObject2).zzj("Property filter result", localObject1);
+                  if (paramArrayOfZzcgh == null)
+                  {
+                    localHashSet.add(Integer.valueOf(k));
+                  }
+                  else
+                  {
+                    ((BitSet)localObject10).set(zzixn.intValue());
+                    if (paramArrayOfZzcgh.booleanValue()) {
+                      ((BitSet)localObject11).set(zzixn.intValue());
+                    }
+                  }
+                }
+              }
+              zzaul().zzayf().zze("Invalid property filter ID. appId, id", zzcbw.zzjf(paramString), String.valueOf(zzixn));
+              localHashSet.add(Integer.valueOf(k));
+              localObject1 = localObject5;
+              paramArrayOfZzcgh = (zzcgh[])localObject4;
+            }
+          }
+        }
+        j += 1;
+        localObject1 = localObject6;
+      }
+    }
+    paramArrayOfZzcgm = (zzcgm[])localObject2;
+    localObject5 = new zzcgg[((Map)localObject3).size()];
+    localObject6 = ((Map)localObject3).keySet().iterator();
+    int i = 0;
+    while (((Iterator)localObject6).hasNext())
+    {
+      j = ((Integer)((Iterator)localObject6).next()).intValue();
+      if (!localHashSet.contains(Integer.valueOf(j)))
+      {
+        localObject1 = (zzcgg)localB.get(Integer.valueOf(j));
+        paramArrayOfZzcgh = (zzcgh[])localObject1;
+        if (localObject1 == null) {
+          paramArrayOfZzcgh = new zzcgg();
+        }
+        localObject5[i] = paramArrayOfZzcgh;
+        zzixj = Integer.valueOf(j);
+        zziyt = new zzcgl();
+        zziyt.zzjah = zzcfw.zza((BitSet)((Map)localObject3).get(Integer.valueOf(j)));
+        zziyt.zzjag = zzcfw.zza((BitSet)paramArrayOfZzcgm.get(Integer.valueOf(j)));
+        localObject1 = zzauf();
+        localObject2 = zziyt;
+        ((zzcdu)localObject1).zzwk();
+        ((zzcdt)localObject1).zzuj();
+        zzbp.zzgg(paramString);
+        zzbp.zzu(localObject2);
+        try
+        {
+          paramArrayOfZzcgh = new byte[((zzeyn)localObject2).zzhi()];
+          k = paramArrayOfZzcgh.length;
+          try
+          {
+            localObject4 = zzeyf.zzn(paramArrayOfZzcgh, 0, k);
+            ((zzcgl)localObject2).zza((zzeyf)localObject4);
+            ((zzeyf)localObject4).zzctn();
+            localObject2 = new ContentValues();
+            ((ContentValues)localObject2).put("app_id", paramString);
+            ((ContentValues)localObject2).put("audience_id", Integer.valueOf(j));
+            ((ContentValues)localObject2).put("current_results", paramArrayOfZzcgh);
+            try
+            {
+              paramArrayOfZzcgh = ((zzcay)localObject1).getWritableDatabase();
+              try
+              {
+                if (paramArrayOfZzcgh.insertWithOnConflict("audience_filter_values", null, (ContentValues)localObject2, 5) != -1L) {
+                  break label2704;
+                }
+                ((zzcdt)localObject1).zzaul().zzayd().zzj("Failed to insert filter results (got -1). appId", zzcbw.zzjf(paramString));
+              }
+              catch (SQLiteException paramArrayOfZzcgh) {}
+              localObject1 = ((zzcdt)localObject1).zzaul().zzayd();
+            }
+            catch (SQLiteException paramArrayOfZzcgh) {}
+            localObject2 = zzcbw.zzjf(paramString);
+            localObject4 = "Error storing filter results. appId";
+          }
+          catch (IOException paramArrayOfZzcgh) {}
+          localObject1 = ((zzcdt)localObject1).zzaul().zzayd();
+        }
+        catch (IOException paramArrayOfZzcgh) {}
+        localObject2 = zzcbw.zzjf(paramString);
+        localObject4 = "Configuration loss. Failed to serialize filter results. appId";
+        ((zzcby)localObject1).zze((String)localObject4, localObject2, paramArrayOfZzcgh);
+        label2704:
+        i += 1;
+      }
+    }
+    return (zzcgg[])Arrays.copyOf((Object[])localObject5, i);
+  }
+  
+  public final void zzuk() {}
+}

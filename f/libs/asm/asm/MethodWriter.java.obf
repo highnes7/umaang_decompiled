@@ -1,0 +1,317 @@
+package f.c.a.a;
+
+import android.content.Context;
+import f.a.a.a.a;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import l.a.a.a.a.b.i;
+import l.a.a.a.a.b.l;
+import l.a.a.a.a.d.e;
+import l.a.a.a.a.d.s;
+import l.a.a.a.a.e.o;
+import l.a.a.a.a.g.b;
+import l.a.a.a.g;
+import l.a.a.a.n;
+import l.a.a.a.q;
+
+public class x
+  implements V
+{
+  public static final int a = -1;
+  public final n b;
+  public final o c;
+  public final Context d;
+  public final S e;
+  public final ScheduledExecutorService f;
+  public final AtomicReference<ScheduledFuture<?>> g = new AtomicReference();
+  public final Y h;
+  public final A i;
+  public l.a.a.a.a.d.p j;
+  public i k = new i();
+  public y l = new E();
+  public boolean m = true;
+  public boolean n = true;
+  public volatile int o = -1;
+  public boolean p = false;
+  public boolean q = false;
+  
+  public x(n paramN, Context paramContext, ScheduledExecutorService paramScheduledExecutorService, S paramS, o paramO, Y paramY, A paramA)
+  {
+    b = paramN;
+    d = paramContext;
+    f = paramScheduledExecutorService;
+    e = paramS;
+    c = paramO;
+    h = paramY;
+    i = paramA;
+  }
+  
+  public void a()
+  {
+    if (j == null)
+    {
+      l.c(d, "skipping files send because we don't yet know the target endpoint");
+      return;
+    }
+    l.c(d, "Sending all files");
+    List localList = e.d();
+    int i1;
+    int i3;
+    boolean bool;
+    for (int i2 = 0;; i2 = i3)
+    {
+      i1 = i2;
+      i3 = i2;
+      try
+      {
+        if (localList.size() <= 0) {
+          break;
+        }
+        i1 = i2;
+        l.c(d, String.format(Locale.US, "attempt to send batch of %d files", new Object[] { Integer.valueOf(localList.size()) }));
+        i1 = i2;
+        bool = j.a(localList);
+        i3 = i2;
+        if (!bool) {
+          break label201;
+        }
+        i1 = i2;
+        i3 = i2 + localList.size();
+        i1 = i3;
+        e.a(localList);
+      }
+      catch (Exception localException)
+      {
+        localContext = d;
+        localStringBuilder = a.b("Failed to send batch of analytics files to server: ");
+        localStringBuilder.append(localException.getMessage());
+        l.a(localContext, localStringBuilder.toString(), localException);
+        i3 = i1;
+      }
+      i1 = i3;
+      localList = e.d();
+    }
+    for (;;)
+    {
+      Context localContext;
+      StringBuilder localStringBuilder;
+      if (i3 == 0) {
+        e.b();
+      }
+      return;
+      label201:
+      if (bool) {
+        break;
+      }
+    }
+  }
+  
+  public void a(long paramLong1, long paramLong2)
+  {
+    int i1;
+    if (g.get() == null) {
+      i1 = 1;
+    } else {
+      i1 = 0;
+    }
+    if (i1 != 0)
+    {
+      s localS = new s(d, this);
+      Context localContext = d;
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Scheduling time based file roll over every ");
+      localStringBuilder.append(paramLong2);
+      localStringBuilder.append(" seconds");
+      l.c(localContext, localStringBuilder.toString());
+      try
+      {
+        g.set(f.scheduleAtFixedRate(localS, paramLong1, paramLong2, TimeUnit.SECONDS));
+        return;
+      }
+      catch (RejectedExecutionException localRejectedExecutionException)
+      {
+        l.a(d, "Failed to schedule time based file roll over", localRejectedExecutionException);
+      }
+    }
+  }
+  
+  public void a(X.a paramA)
+  {
+    paramA = paramA.a(h);
+    q localQ;
+    Object localObject;
+    if ((!m) && (X.b.g.equals(g)))
+    {
+      localQ = g.h();
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("Custom events tracking disabled - skipping event: ");
+      ((StringBuilder)localObject).append(paramA);
+      localQ.d("Answers", ((StringBuilder)localObject).toString());
+      return;
+    }
+    if ((!n) && (X.b.h.equals(g)))
+    {
+      localQ = g.h();
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("Predefined events tracking disabled - skipping event: ");
+      ((StringBuilder)localObject).append(paramA);
+      localQ.d("Answers", ((StringBuilder)localObject).toString());
+      return;
+    }
+    if (l.a(paramA))
+    {
+      localQ = g.h();
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("Skipping filtered event: ");
+      ((StringBuilder)localObject).append(paramA);
+      localQ.d("Answers", ((StringBuilder)localObject).toString());
+      return;
+    }
+    StringBuilder localStringBuilder;
+    try
+    {
+      e.a(paramA);
+    }
+    catch (IOException localIOException)
+    {
+      localObject = g.h();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Failed to write event: ");
+      localStringBuilder.append(paramA);
+      ((q)localObject).c("Answers", localStringBuilder.toString(), localIOException);
+    }
+    e();
+    int i1;
+    if ((!X.b.g.equals(g)) && (!X.b.h.equals(g))) {
+      i1 = 0;
+    } else {
+      i1 = 1;
+    }
+    boolean bool = "purchase".equals(k);
+    if (p)
+    {
+      if (i1 == 0) {
+        return;
+      }
+      if ((bool) && (!q)) {
+        return;
+      }
+      try
+      {
+        i.a(paramA);
+        return;
+      }
+      catch (Exception localException)
+      {
+        localObject = g.h();
+        localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Failed to map event to Firebase: ");
+        localStringBuilder.append(paramA);
+        ((q)localObject).c("Answers", localStringBuilder.toString(), localException);
+      }
+    }
+  }
+  
+  public void a(b paramB, String paramString)
+  {
+    j = p.a(new T(b, paramString, b, c, k.e(d)));
+    e.a(paramB);
+    p = g;
+    q = h;
+    q localQ = g.h();
+    StringBuilder localStringBuilder = a.b("Firebase analytics forwarding ");
+    boolean bool = p;
+    String str = "enabled";
+    if (bool) {
+      paramString = "enabled";
+    } else {
+      paramString = "disabled";
+    }
+    localStringBuilder.append(paramString);
+    localQ.d("Answers", localStringBuilder.toString());
+    localQ = g.h();
+    localStringBuilder = a.b("Firebase analytics including purchase events ");
+    if (q) {
+      paramString = "enabled";
+    } else {
+      paramString = "disabled";
+    }
+    localStringBuilder.append(paramString);
+    localQ.d("Answers", localStringBuilder.toString());
+    m = i;
+    localQ = g.h();
+    localStringBuilder = a.b("Custom event tracking ");
+    if (m) {
+      paramString = "enabled";
+    } else {
+      paramString = "disabled";
+    }
+    localStringBuilder.append(paramString);
+    localQ.d("Answers", localStringBuilder.toString());
+    n = j;
+    localQ = g.h();
+    localStringBuilder = a.b("Predefined event tracking ");
+    if (n) {
+      paramString = str;
+    } else {
+      paramString = "disabled";
+    }
+    localStringBuilder.append(paramString);
+    localQ.d("Answers", localStringBuilder.toString());
+    if (l > 1)
+    {
+      g.h().d("Answers", "Event sampling enabled");
+      l = new P(l);
+    }
+    o = c;
+    a(0L, o);
+  }
+  
+  public void b()
+  {
+    e.a();
+  }
+  
+  public boolean c()
+  {
+    try
+    {
+      boolean bool = e.h();
+      return bool;
+    }
+    catch (IOException localIOException)
+    {
+      l.a(d, "Failed to roll file over.", localIOException);
+    }
+    return false;
+  }
+  
+  public void d()
+  {
+    if (g.get() != null)
+    {
+      l.c(d, "Cancelling time-based rollover because no events are currently being generated.");
+      ((ScheduledFuture)g.get()).cancel(false);
+      g.set(null);
+    }
+  }
+  
+  public void e()
+  {
+    int i1;
+    if (o != -1) {
+      i1 = 1;
+    } else {
+      i1 = 0;
+    }
+    if (i1 != 0) {
+      a(o, o);
+    }
+  }
+}

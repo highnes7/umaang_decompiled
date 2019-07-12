@@ -1,0 +1,66 @@
+package com.github.mikephil.charting.data;
+
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import f.a.a.a.a;
+import java.util.List;
+
+public class BarData
+  extends BarLineScatterCandleBubbleData<IBarDataSet>
+{
+  public float mGroupSpace = 0.8F;
+  
+  public BarData() {}
+  
+  public BarData(List<String> paramList)
+  {
+    super(paramList);
+  }
+  
+  public BarData(List<String> paramList, IBarDataSet paramIBarDataSet)
+  {
+    super(paramList, toList(paramIBarDataSet));
+  }
+  
+  public BarData(List<String> paramList, List<IBarDataSet> paramList1)
+  {
+    super(paramList, paramList1);
+  }
+  
+  public BarData(String[] paramArrayOfString)
+  {
+    super(paramArrayOfString);
+  }
+  
+  public BarData(String[] paramArrayOfString, IBarDataSet paramIBarDataSet)
+  {
+    super(paramArrayOfString, toList(paramIBarDataSet));
+  }
+  
+  public BarData(String[] paramArrayOfString, List<IBarDataSet> paramList)
+  {
+    super(paramArrayOfString, paramList);
+  }
+  
+  public static List<IBarDataSet> toList(IBarDataSet paramIBarDataSet)
+  {
+    return a.a(paramIBarDataSet);
+  }
+  
+  public float getGroupSpace()
+  {
+    if (mDataSets.size() <= 1) {
+      return 0.0F;
+    }
+    return mGroupSpace;
+  }
+  
+  public boolean isGrouped()
+  {
+    return mDataSets.size() > 1;
+  }
+  
+  public void setGroupSpace(float paramFloat)
+  {
+    mGroupSpace = (paramFloat / 100.0F);
+  }
+}

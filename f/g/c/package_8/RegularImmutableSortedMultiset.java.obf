@@ -1,0 +1,139 @@
+package f.g.c.d;
+
+import f.g.c.b.ba;
+import f.g.c.j.g;
+import java.util.List;
+import m.a.h;
+
+public final class Nf<E>
+  extends Ub<E>
+{
+  public final transient Of<E> g;
+  public final transient int[] h;
+  public final transient long[] i;
+  public final transient int j;
+  public final transient int k;
+  
+  public Nf(Of<E> paramOf, int[] paramArrayOfInt, long[] paramArrayOfLong, int paramInt1, int paramInt2)
+  {
+    g = paramOf;
+    h = paramArrayOfInt;
+    i = paramArrayOfLong;
+    j = paramInt1;
+    k = paramInt2;
+  }
+  
+  private Ye.a<E> a(int paramInt)
+  {
+    return bf.a(g.a().get(paramInt), h[(j + paramInt)]);
+  }
+  
+  public int a(@h Object paramObject)
+  {
+    int m = g.indexOf(paramObject);
+    if (m == -1) {
+      return 0;
+    }
+    return h[(m + j)];
+  }
+  
+  public Ub<E> a(int paramInt1, int paramInt2)
+  {
+    ba.b(paramInt1, paramInt2, k);
+    if (paramInt1 == paramInt2) {
+      return Ub.a(comparator());
+    }
+    if ((paramInt1 == 0) && (paramInt2 == k)) {
+      return this;
+    }
+    return new Nf((Of)g.a(paramInt1, paramInt2), h, i, j + paramInt1, paramInt2 - paramInt1);
+  }
+  
+  public Ub<E> a(E paramE, O paramO)
+  {
+    Of localOf = g;
+    if (paramO != null)
+    {
+      boolean bool;
+      if (paramO == O.b) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      return a(0, localOf.c(paramE, bool));
+    }
+    throw new NullPointerException();
+  }
+  
+  public Ub<E> b(E paramE, O paramO)
+  {
+    Of localOf = g;
+    if (paramO != null)
+    {
+      boolean bool;
+      if (paramO == O.b) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      return a(localOf.d(paramE, bool), k);
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean c()
+  {
+    return (j > 0) || (k < h.length);
+  }
+  
+  public Nb<Ye.a<E>> f()
+  {
+    return new a(null);
+  }
+  
+  public Ye.a<E> firstEntry()
+  {
+    return a(0);
+  }
+  
+  public Ye.a<E> lastEntry()
+  {
+    return a(k - 1);
+  }
+  
+  public int size()
+  {
+    long[] arrayOfLong = i;
+    int m = j;
+    return g.b(arrayOfLong[(k + m)] - arrayOfLong[m]);
+  }
+  
+  public Wb<E> u()
+  {
+    return g;
+  }
+  
+  private final class a
+    extends Mb.b
+  {
+    public a()
+    {
+      super();
+    }
+    
+    public vb<Ye.a<E>> b()
+    {
+      return new Mf(this);
+    }
+    
+    public th<Ye.a<E>> iterator()
+    {
+      return a().iterator();
+    }
+    
+    public int size()
+    {
+      return Nf.a(Nf.this);
+    }
+  }
+}

@@ -1,0 +1,79 @@
+package l.a.a.a.a.b;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.text.TextUtils;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class x
+{
+  public static final String a = "google_app_id";
+  public static final String b = "com.crashlytics.useFirebaseAppId";
+  public static final String c = "io.fabric.auto_initialize";
+  
+  public x() {}
+  
+  public String a(Context paramContext)
+  {
+    int i = l.a(paramContext, "google_app_id", "string");
+    if (i != 0)
+    {
+      g.h().d("Fabric", "Generating Crashlytics ApiKey from google_app_id in Strings");
+      return a(paramContext.getResources().getString(i));
+    }
+    return null;
+  }
+  
+  public String a(String paramString)
+  {
+    return l.e(paramString).substring(0, 40);
+  }
+  
+  public boolean b(Context paramContext)
+  {
+    if (!TextUtils.isEmpty(new i().c(paramContext))) {
+      return true;
+    }
+    return TextUtils.isEmpty(new i().d(paramContext)) ^ true;
+  }
+  
+  public boolean c(Context paramContext)
+  {
+    int i = l.a(paramContext, "google_app_id", "string");
+    if (i == 0) {
+      return false;
+    }
+    return TextUtils.isEmpty(paramContext.getResources().getString(i)) ^ true;
+  }
+  
+  public boolean d(Context paramContext)
+  {
+    int i = l.a(paramContext, "io.fabric.auto_initialize", "bool");
+    if (i == 0) {
+      return false;
+    }
+    boolean bool = paramContext.getResources().getBoolean(i);
+    if (bool) {
+      g.h().d("Fabric", "Found Fabric auto-initialization flag for joint Firebase/Fabric customers");
+    }
+    return bool;
+  }
+  
+  public boolean e(Context paramContext)
+  {
+    boolean bool2 = false;
+    if (l.a(paramContext, "com.crashlytics.useFirebaseAppId", false)) {
+      return true;
+    }
+    boolean bool1 = bool2;
+    if (c(paramContext))
+    {
+      bool1 = bool2;
+      if (!b(paramContext)) {
+        bool1 = true;
+      }
+    }
+    return bool1;
+  }
+}

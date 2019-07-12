@@ -1,0 +1,196 @@
+package com.google.android.gms.internal;
+
+import f.a.a.a.a;
+import java.io.IOException;
+
+public final class zzcgc
+  extends zzeyh<zzcgc>
+{
+  public Integer zziyf = null;
+  public String zziyg = null;
+  public Boolean zziyh = null;
+  public String[] zziyi = zzeyq.EMPTY_STRING_ARRAY;
+  
+  public zzcgc()
+  {
+    zzotl = null;
+    zzomu = -1;
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if (!(paramObject instanceof zzcgc)) {
+      return false;
+    }
+    paramObject = (zzcgc)paramObject;
+    Object localObject = zziyf;
+    if (localObject == null)
+    {
+      if (zziyf != null) {
+        return false;
+      }
+    }
+    else if (!((Integer)localObject).equals(zziyf)) {
+      return false;
+    }
+    localObject = zziyg;
+    if (localObject == null)
+    {
+      if (zziyg != null) {
+        return false;
+      }
+    }
+    else if (!((String)localObject).equals(zziyg)) {
+      return false;
+    }
+    localObject = zziyh;
+    if (localObject == null)
+    {
+      if (zziyh != null) {
+        return false;
+      }
+    }
+    else if (!((Boolean)localObject).equals(zziyh)) {
+      return false;
+    }
+    if (!zzeyl.equals(zziyi, zziyi)) {
+      return false;
+    }
+    localObject = zzotl;
+    if ((localObject != null) && (!((zzeyj)localObject).isEmpty())) {
+      return zzotl.equals(zzotl);
+    }
+    paramObject = zzotl;
+    if (paramObject != null) {
+      return paramObject.isEmpty();
+    }
+    return true;
+  }
+  
+  public final int hashCode()
+  {
+    int n = a.a(zzcgc.class, 527, 31);
+    Object localObject = zziyf;
+    int m = 0;
+    if (localObject == null) {
+      i = 0;
+    } else {
+      i = ((Integer)localObject).intValue();
+    }
+    localObject = zziyg;
+    if (localObject == null) {
+      j = 0;
+    } else {
+      j = ((String)localObject).hashCode();
+    }
+    localObject = zziyh;
+    int k;
+    if (localObject == null) {
+      k = 0;
+    } else {
+      k = ((Boolean)localObject).hashCode();
+    }
+    int j = a.a(zziyi, (((n + i) * 31 + j) * 31 + k) * 31, 31);
+    localObject = zzotl;
+    int i = m;
+    if (localObject != null) {
+      if (((zzeyj)localObject).isEmpty()) {
+        i = m;
+      } else {
+        i = zzotl.hashCode();
+      }
+    }
+    return j + i;
+  }
+  
+  public final void zza(zzeyf paramZzeyf)
+    throws IOException
+  {
+    Object localObject = zziyf;
+    if (localObject != null) {
+      paramZzeyf.zzx(1, ((Integer)localObject).intValue());
+    }
+    localObject = zziyg;
+    if (localObject != null) {
+      paramZzeyf.zzm(2, (String)localObject);
+    }
+    localObject = zziyh;
+    if (localObject != null) {
+      paramZzeyf.zzl(3, ((Boolean)localObject).booleanValue());
+    }
+    localObject = zziyi;
+    if ((localObject != null) && (localObject.length > 0))
+    {
+      int i = 0;
+      for (;;)
+      {
+        localObject = zziyi;
+        if (i >= localObject.length) {
+          break;
+        }
+        localObject = localObject[i];
+        if (localObject != null) {
+          paramZzeyf.zzm(4, (String)localObject);
+        }
+        i += 1;
+      }
+    }
+    super.zza(paramZzeyf);
+  }
+  
+  public final int zzn()
+  {
+    int j = super.zzn();
+    Object localObject = zziyf;
+    int i = j;
+    if (localObject != null) {
+      i = j + zzeyf.zzaa(1, ((Integer)localObject).intValue());
+    }
+    localObject = zziyg;
+    j = i;
+    if (localObject != null) {
+      j = i + zzeyf.zzn(2, (String)localObject);
+    }
+    localObject = zziyh;
+    i = j;
+    if (localObject != null)
+    {
+      ((Boolean)localObject).booleanValue();
+      i = j + (zzeyf.zzkb(3) + 1);
+    }
+    localObject = zziyi;
+    j = i;
+    if (localObject != null)
+    {
+      j = i;
+      if (localObject.length > 0)
+      {
+        j = 0;
+        int k = 0;
+        int n;
+        for (int m = 0;; m = n)
+        {
+          localObject = zziyi;
+          if (j >= localObject.length) {
+            break;
+          }
+          localObject = localObject[j];
+          int i1 = k;
+          n = m;
+          if (localObject != null)
+          {
+            n = m + 1;
+            i1 = zzeyf.zztk((String)localObject) + k;
+          }
+          j += 1;
+          k = i1;
+        }
+        j = i + k + m * 1;
+      }
+    }
+    return j;
+  }
+}

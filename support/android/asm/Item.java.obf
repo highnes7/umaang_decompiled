@@ -1,0 +1,43 @@
+package b.b.v;
+
+import android.graphics.Path;
+import android.graphics.PathMeasure;
+import android.graphics.PointF;
+import android.util.Property;
+
+public class K<T>
+  extends Property<T, Float>
+{
+  public final Property<T, PointF> a;
+  public final PathMeasure b;
+  public final float c;
+  public final float[] d = new float[2];
+  public final PointF e = new PointF();
+  public float f;
+  
+  public K(Property<T, PointF> paramProperty, Path paramPath)
+  {
+    super(Float.class, paramProperty.getName());
+    a = paramProperty;
+    b = new PathMeasure(paramPath, false);
+    c = b.getLength();
+  }
+  
+  public void a(T paramT, Float paramFloat)
+  {
+    f = paramFloat.floatValue();
+    Object localObject = b;
+    float f1 = c;
+    ((PathMeasure)localObject).getPosTan(paramFloat.floatValue() * f1, d, null);
+    paramFloat = e;
+    localObject = d;
+    x = localObject[0];
+    y = localObject[1];
+    a.set(paramT, paramFloat);
+  }
+  
+  public Float get(T paramT)
+  {
+    return Float.valueOf(f);
+  }
+}

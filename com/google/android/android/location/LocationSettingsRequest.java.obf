@@ -1,0 +1,88 @@
+package com.google.android.gms.location;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import b.b.a.F;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+public final class LocationSettingsRequest
+  extends zzbck
+{
+  public static final Parcelable.Creator<LocationSettingsRequest> CREATOR = new zzv();
+  public final List<LocationRequest> zzgzq;
+  public final boolean zzhyi;
+  public final boolean zzhyj;
+  public zzt zzhyk;
+  
+  public LocationSettingsRequest(List<LocationRequest> paramList, boolean paramBoolean1, boolean paramBoolean2, zzt paramZzt)
+  {
+    zzgzq = paramList;
+    zzhyi = paramBoolean1;
+    zzhyj = paramBoolean2;
+    zzhyk = paramZzt;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, Collections.unmodifiableList(zzgzq), false);
+    zzbcn.zza(paramParcel, 2, zzhyi);
+    zzbcn.zza(paramParcel, 3, zzhyj);
+    zzbcn.zza(paramParcel, 5, zzhyk, paramInt, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public static final class Builder
+  {
+    public boolean zzhyi = false;
+    public boolean zzhyj = false;
+    public zzt zzhyk = null;
+    public final ArrayList<LocationRequest> zzhyl = new ArrayList();
+    
+    public Builder() {}
+    
+    public final Builder addAllLocationRequests(Collection<LocationRequest> paramCollection)
+    {
+      paramCollection = paramCollection.iterator();
+      while (paramCollection.hasNext())
+      {
+        LocationRequest localLocationRequest = (LocationRequest)paramCollection.next();
+        if (localLocationRequest != null) {
+          zzhyl.add(localLocationRequest);
+        }
+      }
+      return this;
+    }
+    
+    public final Builder addLocationRequest(@F LocationRequest paramLocationRequest)
+    {
+      if (paramLocationRequest != null) {
+        zzhyl.add(paramLocationRequest);
+      }
+      return this;
+    }
+    
+    public final LocationSettingsRequest build()
+    {
+      return new LocationSettingsRequest(zzhyl, zzhyi, zzhyj, null);
+    }
+    
+    public final Builder setAlwaysShow(boolean paramBoolean)
+    {
+      zzhyi = paramBoolean;
+      return this;
+    }
+    
+    public final Builder setNeedBle(boolean paramBoolean)
+    {
+      zzhyj = paramBoolean;
+      return this;
+    }
+  }
+}

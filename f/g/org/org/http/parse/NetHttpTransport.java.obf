@@ -1,0 +1,169 @@
+package f.g.b.a.c.b;
+
+import f.g.b.a.c.F;
+import f.g.b.a.g.M;
+import f.g.b.a.g.N;
+import f.g.b.a.g.T;
+import f.g.b.a.g.U;
+import f.g.b.a.g.h;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.util.Arrays;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+
+public final class e
+  extends F
+{
+  public static final String[] c = { "DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT", "TRACE" };
+  public final a d;
+  public final SSLSocketFactory e;
+  public final HostnameVerifier f;
+  
+  static
+  {
+    Arrays.sort(c);
+  }
+  
+  public e()
+  {
+    this(null, null, null);
+  }
+  
+  public e(a paramA, SSLSocketFactory paramSSLSocketFactory, HostnameVerifier paramHostnameVerifier)
+  {
+    Object localObject = paramA;
+    if (paramA == null) {
+      localObject = new b();
+    }
+    d = ((a)localObject);
+    e = paramSSLSocketFactory;
+    f = paramHostnameVerifier;
+  }
+  
+  public e(Proxy paramProxy, SSLSocketFactory paramSSLSocketFactory, HostnameVerifier paramHostnameVerifier)
+  {
+    this(new b(paramProxy), paramSSLSocketFactory, paramHostnameVerifier);
+  }
+  
+  public c a(String paramString1, String paramString2)
+    throws IOException
+  {
+    M.a(a(paramString1), "HTTP method %s not supported", new Object[] { paramString1 });
+    paramString2 = new URL(paramString2);
+    paramString2 = d.a(paramString2);
+    paramString2.setRequestMethod(paramString1);
+    if ((paramString2 instanceof HttpsURLConnection))
+    {
+      paramString1 = (HttpsURLConnection)paramString2;
+      Object localObject = f;
+      if (localObject != null) {
+        paramString1.setHostnameVerifier((HostnameVerifier)localObject);
+      }
+      localObject = e;
+      if (localObject != null) {
+        paramString1.setSSLSocketFactory((SSLSocketFactory)localObject);
+      }
+    }
+    return new c(paramString2);
+  }
+  
+  public boolean a(String paramString)
+  {
+    return Arrays.binarySearch(c, paramString) >= 0;
+  }
+  
+  public static final class a
+  {
+    public SSLSocketFactory a;
+    public HostnameVerifier b;
+    public Proxy c;
+    public a d;
+    
+    public a() {}
+    
+    public a a(a paramA)
+    {
+      d = paramA;
+      return this;
+    }
+    
+    public a a(InputStream paramInputStream)
+      throws GeneralSecurityException, IOException
+    {
+      KeyStore localKeyStore = N.b();
+      localKeyStore.load(null, null);
+      N.a(localKeyStore, N.g(), paramInputStream);
+      return a(localKeyStore);
+    }
+    
+    public a a(InputStream paramInputStream, String paramString)
+      throws GeneralSecurityException, IOException
+    {
+      KeyStore localKeyStore = N.b();
+      N.a(localKeyStore, paramInputStream, paramString);
+      return a(localKeyStore);
+    }
+    
+    public a a(Proxy paramProxy)
+    {
+      c = paramProxy;
+      return this;
+    }
+    
+    public a a(KeyStore paramKeyStore)
+      throws GeneralSecurityException
+    {
+      SSLContext localSSLContext = U.f();
+      U.a(localSSLContext, paramKeyStore, U.d());
+      return a(localSSLContext.getSocketFactory());
+    }
+    
+    public a a(HostnameVerifier paramHostnameVerifier)
+    {
+      b = paramHostnameVerifier;
+      return this;
+    }
+    
+    public a a(SSLSocketFactory paramSSLSocketFactory)
+    {
+      a = paramSSLSocketFactory;
+      return this;
+    }
+    
+    public e a()
+    {
+      Proxy localProxy = c;
+      if (localProxy == null) {
+        return new e(d, a, b);
+      }
+      return new e(localProxy, a, b);
+    }
+    
+    @h
+    public a b()
+      throws GeneralSecurityException
+    {
+      b = new T();
+      a = U.h().getSocketFactory();
+      return this;
+    }
+    
+    public HostnameVerifier c()
+    {
+      return b;
+    }
+    
+    public SSLSocketFactory d()
+    {
+      return a;
+    }
+  }
+}

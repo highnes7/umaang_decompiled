@@ -1,0 +1,21 @@
+package android.support.v7.widget;
+
+import android.os.Build.VERSION;
+import android.view.View;
+import b.b.a.F;
+import b.b.a.G;
+
+public class TooltipCompat
+{
+  public TooltipCompat() {}
+  
+  public static void setTooltipText(@F View paramView, @G CharSequence paramCharSequence)
+  {
+    if (Build.VERSION.SDK_INT >= 26)
+    {
+      paramView.setTooltipText(paramCharSequence);
+      return;
+    }
+    TooltipCompatHandler.setTooltipText(paramView, paramCharSequence);
+  }
+}

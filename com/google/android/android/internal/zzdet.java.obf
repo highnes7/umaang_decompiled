@@ -1,0 +1,328 @@
+package com.google.android.gms.internal;
+
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
+
+public class zzdet
+{
+  public static Uri CONTENT_URI = Uri.parse("content://com.google.android.gsf.gservices");
+  public static Uri zzkxu = Uri.parse("content://com.google.android.gsf.gservices/prefix");
+  public static Pattern zzkxv = Pattern.compile("^(1|true|t|on|yes|y)$", 2);
+  public static Pattern zzkxw = Pattern.compile("^(0|false|f|off|no|n)$", 2);
+  public static final AtomicBoolean zzkxx = new AtomicBoolean();
+  public static HashMap<String, String> zzkxy;
+  public static HashMap<String, Boolean> zzkxz = new HashMap();
+  public static HashMap<String, Integer> zzkya = new HashMap();
+  public static HashMap<String, Long> zzkyb = new HashMap();
+  public static HashMap<String, Float> zzkyc = new HashMap();
+  public static Object zzkyd;
+  public static boolean zzkye;
+  public static String[] zzkyf = new String[0];
+  
+  public zzdet() {}
+  
+  public static long getLong(ContentResolver paramContentResolver, String paramString, long paramLong)
+  {
+    Object localObject2 = zzb(paramContentResolver);
+    localObject1 = zzkyb;
+    paramLong = 0L;
+    localObject1 = (Long)zza((HashMap)localObject1, paramString, Long.valueOf(0L));
+    if (localObject1 != null) {
+      return ((Long)localObject1).longValue();
+    }
+    paramContentResolver = zza(paramContentResolver, paramString, null);
+    if (paramContentResolver == null) {
+      paramContentResolver = (ContentResolver)localObject1;
+    }
+    try
+    {
+      long l = Long.parseLong(paramContentResolver);
+      paramContentResolver = Long.valueOf(l);
+      paramLong = l;
+    }
+    catch (NumberFormatException paramContentResolver)
+    {
+      for (;;)
+      {
+        paramContentResolver = (ContentResolver)localObject1;
+      }
+    }
+    localObject1 = zzkyb;
+    try
+    {
+      if (localObject2 == zzkyd)
+      {
+        ((HashMap)localObject1).put(paramString, paramContentResolver);
+        zzkxy.remove(paramString);
+      }
+      return paramLong;
+    }
+    finally {}
+  }
+  
+  public static <T> T zza(HashMap<String, T> paramHashMap, String paramString, T paramT)
+  {
+    for (;;)
+    {
+      try
+      {
+        if (paramHashMap.containsKey(paramString))
+        {
+          paramHashMap = paramHashMap.get(paramString);
+          if (paramHashMap != null) {
+            return paramHashMap;
+          }
+        }
+        else
+        {
+          return null;
+        }
+      }
+      finally {}
+      paramHashMap = paramT;
+    }
+  }
+  
+  public static String zza(ContentResolver paramContentResolver, String paramString1, String paramString2)
+  {
+    try
+    {
+      zza(paramContentResolver);
+      localObject = zzkyd;
+      if (!zzkxy.containsKey(paramString1)) {
+        break label45;
+      }
+      paramContentResolver = (String)zzkxy.get(paramString1);
+      if (paramContentResolver == null) {
+        break label272;
+      }
+    }
+    finally
+    {
+      for (;;)
+      {
+        Object localObject;
+        label45:
+        int j;
+        int i;
+        Cursor localCursor;
+        for (;;)
+        {
+          throw paramContentResolver;
+        }
+        label272:
+        paramContentResolver = null;
+        continue;
+        label277:
+        paramContentResolver = null;
+        continue;
+        label282:
+        i += 1;
+      }
+    }
+    return paramContentResolver;
+    paramString2 = zzkyf;
+    j = paramString2.length;
+    i = 0;
+    if (i < j)
+    {
+      if (!paramString1.startsWith(paramString2[i])) {
+        break label282;
+      }
+      if ((!zzkye) || (zzkxy.isEmpty()))
+      {
+        zzc(paramContentResolver, zzkyf);
+        if (zzkxy.containsKey(paramString1))
+        {
+          paramContentResolver = (String)zzkxy.get(paramString1);
+          if (paramContentResolver == null) {
+            break label277;
+          }
+          return paramContentResolver;
+        }
+      }
+      return null;
+    }
+    else
+    {
+      localCursor = paramContentResolver.query(CONTENT_URI, null, null, new String[] { paramString1 }, null);
+      if (localCursor != null) {}
+      try
+      {
+        if (localCursor.moveToFirst())
+        {
+          paramString2 = localCursor.getString(1);
+          paramContentResolver = paramString2;
+          if (paramString2 != null)
+          {
+            paramContentResolver = paramString2;
+            if (paramString2.equals(null)) {
+              paramContentResolver = null;
+            }
+          }
+          zza(localObject, paramString1, paramContentResolver);
+          if (paramContentResolver == null) {
+            paramContentResolver = null;
+          }
+          localCursor.close();
+          return paramContentResolver;
+        }
+        zza(localObject, paramString1, null);
+        return null;
+      }
+      finally
+      {
+        if (localCursor != null) {
+          localCursor.close();
+        }
+      }
+    }
+  }
+  
+  public static Map<String, String> zza(ContentResolver paramContentResolver, String... paramVarArgs)
+  {
+    paramContentResolver = paramContentResolver.query(zzkxu, null, null, paramVarArgs, null);
+    paramVarArgs = new TreeMap();
+    if (paramContentResolver == null) {
+      return paramVarArgs;
+    }
+    try
+    {
+      while (paramContentResolver.moveToNext()) {
+        paramVarArgs.put(paramContentResolver.getString(0), paramContentResolver.getString(1));
+      }
+      paramContentResolver.close();
+      return paramVarArgs;
+    }
+    finally
+    {
+      paramContentResolver.close();
+    }
+    for (;;)
+    {
+      throw paramVarArgs;
+    }
+  }
+  
+  public static void zza(ContentResolver paramContentResolver)
+  {
+    if (zzkxy == null)
+    {
+      zzkxx.set(false);
+      zzkxy = new HashMap();
+      zzkyd = new Object();
+      zzkye = false;
+      paramContentResolver.registerContentObserver(CONTENT_URI, true, new zzdeu(null));
+      return;
+    }
+    if (zzkxx.getAndSet(false))
+    {
+      zzkxy.clear();
+      zzkxz.clear();
+      zzkya.clear();
+      zzkyb.clear();
+      zzkyc.clear();
+      zzkyd = new Object();
+      zzkye = false;
+    }
+  }
+  
+  public static void zza(Object paramObject, String paramString1, String paramString2)
+  {
+    try
+    {
+      if (paramObject == zzkyd) {
+        zzkxy.put(paramString1, paramString2);
+      }
+      return;
+    }
+    finally {}
+  }
+  
+  public static Object zzb(ContentResolver paramContentResolver)
+  {
+    try
+    {
+      zza(paramContentResolver);
+      paramContentResolver = zzkyd;
+      return paramContentResolver;
+    }
+    finally {}
+  }
+  
+  public static void zzb(ContentResolver paramContentResolver, String... paramVarArgs)
+  {
+    if (paramVarArgs.length == 0) {
+      return;
+    }
+    try
+    {
+      zza(paramContentResolver);
+      localHashSet = new HashSet((zzkyf.length + paramVarArgs.length << 2) / 3 + 1);
+      localHashSet.addAll(Arrays.asList(zzkyf));
+      localArrayList = new ArrayList();
+      j = paramVarArgs.length;
+      i = 0;
+    }
+    finally
+    {
+      for (;;)
+      {
+        HashSet localHashSet;
+        ArrayList localArrayList;
+        int j;
+        int i;
+        String str;
+        for (;;)
+        {
+          throw paramContentResolver;
+        }
+        i += 1;
+      }
+    }
+    if (i < j)
+    {
+      str = paramVarArgs[i];
+      if (localHashSet.add(str)) {
+        localArrayList.add(str);
+      }
+    }
+    else
+    {
+      if (localArrayList.isEmpty())
+      {
+        paramVarArgs = new String[0];
+      }
+      else
+      {
+        zzkyf = (String[])localHashSet.toArray(new String[localHashSet.size()]);
+        paramVarArgs = (String[])localArrayList.toArray(new String[localArrayList.size()]);
+      }
+      if ((zzkye) && (!zzkxy.isEmpty()))
+      {
+        if (paramVarArgs.length != 0) {
+          zzc(paramContentResolver, paramVarArgs);
+        }
+      }
+      else {
+        zzc(paramContentResolver, zzkyf);
+      }
+      return;
+    }
+  }
+  
+  public static void zzc(ContentResolver paramContentResolver, String[] paramArrayOfString)
+  {
+    zzkxy.putAll(zza(paramContentResolver, paramArrayOfString));
+    zzkye = true;
+  }
+}

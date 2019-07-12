@@ -1,0 +1,707 @@
+package com.facebook;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import com.facebook.internal.Logger;
+import com.facebook.internal.Utility;
+import com.facebook.internal.Validate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public final class LegacyTokenHelper
+{
+  public static final String APPLICATION_ID_KEY = "com.facebook.TokenCachingStrategy.ApplicationId";
+  public static final String DECLINED_PERMISSIONS_KEY = "com.facebook.TokenCachingStrategy.DeclinedPermissions";
+  public static final String DEFAULT_CACHE_KEY = "com.facebook.SharedPreferencesTokenCachingStrategy.DEFAULT_KEY";
+  public static final String EXPIRATION_DATE_KEY = "com.facebook.TokenCachingStrategy.ExpirationDate";
+  public static final long INVALID_BUNDLE_MILLISECONDS = Long.MIN_VALUE;
+  public static final String IS_SSO_KEY = "com.facebook.TokenCachingStrategy.IsSSO";
+  public static final String JSON_VALUE = "value";
+  public static final String JSON_VALUE_ENUM_TYPE = "enumType";
+  public static final String JSON_VALUE_TYPE = "valueType";
+  public static final String LAST_REFRESH_DATE_KEY = "com.facebook.TokenCachingStrategy.LastRefreshDate";
+  public static final String PERMISSIONS_KEY = "com.facebook.TokenCachingStrategy.Permissions";
+  public static final String TAG = "LegacyTokenHelper";
+  public static final String TOKEN_KEY = "com.facebook.TokenCachingStrategy.Token";
+  public static final String TOKEN_SOURCE_KEY = "com.facebook.TokenCachingStrategy.AccessTokenSource";
+  public static final String TYPE_BOOLEAN = "bool";
+  public static final String TYPE_BOOLEAN_ARRAY = "bool[]";
+  public static final String TYPE_BYTE = "byte";
+  public static final String TYPE_BYTE_ARRAY = "byte[]";
+  public static final String TYPE_CHAR = "char";
+  public static final String TYPE_CHAR_ARRAY = "char[]";
+  public static final String TYPE_DOUBLE = "double";
+  public static final String TYPE_DOUBLE_ARRAY = "double[]";
+  public static final String TYPE_ENUM = "enum";
+  public static final String TYPE_FLOAT = "float";
+  public static final String TYPE_FLOAT_ARRAY = "float[]";
+  public static final String TYPE_INTEGER = "int";
+  public static final String TYPE_INTEGER_ARRAY = "int[]";
+  public static final String TYPE_LONG = "long";
+  public static final String TYPE_LONG_ARRAY = "long[]";
+  public static final String TYPE_SHORT = "short";
+  public static final String TYPE_SHORT_ARRAY = "short[]";
+  public static final String TYPE_STRING = "string";
+  public static final String TYPE_STRING_LIST = "stringList";
+  public SharedPreferences cache;
+  public String cacheKey;
+  
+  public LegacyTokenHelper(Context paramContext)
+  {
+    this(paramContext, null);
+  }
+  
+  public LegacyTokenHelper(Context paramContext, String paramString)
+  {
+    Validate.notNull(paramContext, "context");
+    String str = paramString;
+    if (Utility.isNullOrEmpty(paramString)) {
+      str = "com.facebook.SharedPreferencesTokenCachingStrategy.DEFAULT_KEY";
+    }
+    cacheKey = str;
+    paramString = paramContext.getApplicationContext();
+    if (paramString != null) {
+      paramContext = paramString;
+    }
+    cache = paramContext.getSharedPreferences(cacheKey, 0);
+  }
+  
+  private void deserializeKey(String paramString, Bundle paramBundle)
+    throws JSONException
+  {
+    Object localObject1 = new JSONObject(cache.getString(paramString, "{}"));
+    Object localObject2 = ((JSONObject)localObject1).getString("valueType");
+    if (((String)localObject2).equals("bool"))
+    {
+      paramBundle.putBoolean(paramString, ((JSONObject)localObject1).getBoolean("value"));
+      return;
+    }
+    boolean bool = ((String)localObject2).equals("bool[]");
+    int k = 0;
+    int m = 0;
+    int n = 0;
+    int i1 = 0;
+    int i2 = 0;
+    int i3 = 0;
+    int i = 0;
+    int j = 0;
+    if (bool)
+    {
+      localObject1 = ((JSONObject)localObject1).getJSONArray("value");
+      localObject2 = new boolean[((JSONArray)localObject1).length()];
+      i = j;
+      while (i < localObject2.length)
+      {
+        localObject2[i] = ((JSONArray)localObject1).getBoolean(i);
+        i += 1;
+      }
+      paramBundle.putBooleanArray(paramString, (boolean[])localObject2);
+      return;
+    }
+    if (((String)localObject2).equals("byte"))
+    {
+      paramBundle.putByte(paramString, (byte)((JSONObject)localObject1).getInt("value"));
+      return;
+    }
+    if (((String)localObject2).equals("byte[]"))
+    {
+      localObject1 = ((JSONObject)localObject1).getJSONArray("value");
+      localObject2 = new byte[((JSONArray)localObject1).length()];
+      i = k;
+      while (i < localObject2.length)
+      {
+        localObject2[i] = ((byte)((JSONArray)localObject1).getInt(i));
+        i += 1;
+      }
+      paramBundle.putByteArray(paramString, (byte[])localObject2);
+      return;
+    }
+    if (((String)localObject2).equals("short"))
+    {
+      paramBundle.putShort(paramString, (short)((JSONObject)localObject1).getInt("value"));
+      return;
+    }
+    if (((String)localObject2).equals("short[]"))
+    {
+      localObject1 = ((JSONObject)localObject1).getJSONArray("value");
+      localObject2 = new short[((JSONArray)localObject1).length()];
+      i = m;
+      while (i < localObject2.length)
+      {
+        localObject2[i] = ((short)((JSONArray)localObject1).getInt(i));
+        i += 1;
+      }
+      paramBundle.putShortArray(paramString, (short[])localObject2);
+      return;
+    }
+    if (((String)localObject2).equals("int"))
+    {
+      paramBundle.putInt(paramString, ((JSONObject)localObject1).getInt("value"));
+      return;
+    }
+    if (((String)localObject2).equals("int[]"))
+    {
+      localObject1 = ((JSONObject)localObject1).getJSONArray("value");
+      localObject2 = new int[((JSONArray)localObject1).length()];
+      i = n;
+      while (i < localObject2.length)
+      {
+        localObject2[i] = ((JSONArray)localObject1).getInt(i);
+        i += 1;
+      }
+      paramBundle.putIntArray(paramString, (int[])localObject2);
+      return;
+    }
+    if (((String)localObject2).equals("long"))
+    {
+      paramBundle.putLong(paramString, ((JSONObject)localObject1).getLong("value"));
+      return;
+    }
+    if (((String)localObject2).equals("long[]"))
+    {
+      localObject1 = ((JSONObject)localObject1).getJSONArray("value");
+      localObject2 = new long[((JSONArray)localObject1).length()];
+      i = i1;
+      while (i < localObject2.length)
+      {
+        localObject2[i] = ((JSONArray)localObject1).getLong(i);
+        i += 1;
+      }
+      paramBundle.putLongArray(paramString, (long[])localObject2);
+      return;
+    }
+    if (((String)localObject2).equals("float"))
+    {
+      paramBundle.putFloat(paramString, (float)((JSONObject)localObject1).getDouble("value"));
+      return;
+    }
+    if (((String)localObject2).equals("float[]"))
+    {
+      localObject1 = ((JSONObject)localObject1).getJSONArray("value");
+      localObject2 = new float[((JSONArray)localObject1).length()];
+      i = i2;
+      while (i < localObject2.length)
+      {
+        localObject2[i] = ((float)((JSONArray)localObject1).getDouble(i));
+        i += 1;
+      }
+      paramBundle.putFloatArray(paramString, (float[])localObject2);
+      return;
+    }
+    if (((String)localObject2).equals("double"))
+    {
+      paramBundle.putDouble(paramString, ((JSONObject)localObject1).getDouble("value"));
+      return;
+    }
+    if (((String)localObject2).equals("double[]"))
+    {
+      localObject1 = ((JSONObject)localObject1).getJSONArray("value");
+      localObject2 = new double[((JSONArray)localObject1).length()];
+      i = i3;
+      while (i < localObject2.length)
+      {
+        localObject2[i] = ((JSONArray)localObject1).getDouble(i);
+        i += 1;
+      }
+      paramBundle.putDoubleArray(paramString, (double[])localObject2);
+      return;
+    }
+    if (((String)localObject2).equals("char"))
+    {
+      localObject1 = ((JSONObject)localObject1).getString("value");
+      if ((localObject1 != null) && (((String)localObject1).length() == 1)) {
+        paramBundle.putChar(paramString, ((String)localObject1).charAt(0));
+      }
+    }
+    else
+    {
+      Object localObject3;
+      if (((String)localObject2).equals("char[]"))
+      {
+        localObject1 = ((JSONObject)localObject1).getJSONArray("value");
+        localObject2 = new char[((JSONArray)localObject1).length()];
+        i = 0;
+        while (i < localObject2.length)
+        {
+          localObject3 = ((JSONArray)localObject1).getString(i);
+          if ((localObject3 != null) && (((String)localObject3).length() == 1)) {
+            localObject2[i] = ((String)localObject3).charAt(0);
+          }
+          i += 1;
+        }
+        paramBundle.putCharArray(paramString, (char[])localObject2);
+        return;
+      }
+      if (((String)localObject2).equals("string"))
+      {
+        paramBundle.putString(paramString, ((JSONObject)localObject1).getString("value"));
+        return;
+      }
+      if (((String)localObject2).equals("stringList"))
+      {
+        localObject2 = ((JSONObject)localObject1).getJSONArray("value");
+        j = ((JSONArray)localObject2).length();
+        localObject3 = new ArrayList(j);
+        while (i < j)
+        {
+          localObject1 = ((JSONArray)localObject2).get(i);
+          if (localObject1 == JSONObject.NULL) {
+            localObject1 = null;
+          } else {
+            localObject1 = (String)localObject1;
+          }
+          ((ArrayList)localObject3).add(i, localObject1);
+          i += 1;
+        }
+        paramBundle.putStringArrayList(paramString, (ArrayList)localObject3);
+        return;
+      }
+      if (!((String)localObject2).equals("enum")) {}
+    }
+    try
+    {
+      paramBundle.putSerializable(paramString, Enum.valueOf(Class.forName(((JSONObject)localObject1).getString("enumType")), ((JSONObject)localObject1).getString("value")));
+      return;
+    }
+    catch (ClassNotFoundException|IllegalArgumentException paramString) {}
+  }
+  
+  public static String getApplicationId(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    return paramBundle.getString("com.facebook.TokenCachingStrategy.ApplicationId");
+  }
+  
+  public static Date getDate(Bundle paramBundle, String paramString)
+  {
+    if (paramBundle == null) {
+      return null;
+    }
+    long l = paramBundle.getLong(paramString, Long.MIN_VALUE);
+    if (l == Long.MIN_VALUE) {
+      return null;
+    }
+    return new Date(l);
+  }
+  
+  public static Date getExpirationDate(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    return getDate(paramBundle, "com.facebook.TokenCachingStrategy.ExpirationDate");
+  }
+  
+  public static long getExpirationMilliseconds(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    return paramBundle.getLong("com.facebook.TokenCachingStrategy.ExpirationDate");
+  }
+  
+  public static Date getLastRefreshDate(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    return getDate(paramBundle, "com.facebook.TokenCachingStrategy.LastRefreshDate");
+  }
+  
+  public static long getLastRefreshMilliseconds(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    return paramBundle.getLong("com.facebook.TokenCachingStrategy.LastRefreshDate");
+  }
+  
+  public static Set<String> getPermissions(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    paramBundle = paramBundle.getStringArrayList("com.facebook.TokenCachingStrategy.Permissions");
+    if (paramBundle == null) {
+      return null;
+    }
+    return new HashSet(paramBundle);
+  }
+  
+  public static AccessTokenSource getSource(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    if (paramBundle.containsKey("com.facebook.TokenCachingStrategy.AccessTokenSource")) {
+      return (AccessTokenSource)paramBundle.getSerializable("com.facebook.TokenCachingStrategy.AccessTokenSource");
+    }
+    if (paramBundle.getBoolean("com.facebook.TokenCachingStrategy.IsSSO")) {
+      return AccessTokenSource.FACEBOOK_APPLICATION_WEB;
+    }
+    return AccessTokenSource.WEB_VIEW;
+  }
+  
+  public static String getToken(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    return paramBundle.getString("com.facebook.TokenCachingStrategy.Token");
+  }
+  
+  public static boolean hasTokenInformation(Bundle paramBundle)
+  {
+    if (paramBundle == null) {
+      return false;
+    }
+    String str = paramBundle.getString("com.facebook.TokenCachingStrategy.Token");
+    if (str != null)
+    {
+      if (str.length() == 0) {
+        return false;
+      }
+      return paramBundle.getLong("com.facebook.TokenCachingStrategy.ExpirationDate", 0L) != 0L;
+    }
+    return false;
+  }
+  
+  public static void putApplicationId(Bundle paramBundle, String paramString)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    paramBundle.putString("com.facebook.TokenCachingStrategy.ApplicationId", paramString);
+  }
+  
+  public static void putDate(Bundle paramBundle, String paramString, Date paramDate)
+  {
+    paramBundle.putLong(paramString, paramDate.getTime());
+  }
+  
+  public static void putDeclinedPermissions(Bundle paramBundle, Collection<String> paramCollection)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    Validate.notNull(paramCollection, "value");
+    paramBundle.putStringArrayList("com.facebook.TokenCachingStrategy.DeclinedPermissions", new ArrayList(paramCollection));
+  }
+  
+  public static void putExpirationDate(Bundle paramBundle, Date paramDate)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    Validate.notNull(paramDate, "value");
+    paramBundle.putLong("com.facebook.TokenCachingStrategy.ExpirationDate", paramDate.getTime());
+  }
+  
+  public static void putExpirationMilliseconds(Bundle paramBundle, long paramLong)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    paramBundle.putLong("com.facebook.TokenCachingStrategy.ExpirationDate", paramLong);
+  }
+  
+  public static void putLastRefreshDate(Bundle paramBundle, Date paramDate)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    Validate.notNull(paramDate, "value");
+    paramBundle.putLong("com.facebook.TokenCachingStrategy.LastRefreshDate", paramDate.getTime());
+  }
+  
+  public static void putLastRefreshMilliseconds(Bundle paramBundle, long paramLong)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    paramBundle.putLong("com.facebook.TokenCachingStrategy.LastRefreshDate", paramLong);
+  }
+  
+  public static void putPermissions(Bundle paramBundle, Collection<String> paramCollection)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    Validate.notNull(paramCollection, "value");
+    paramBundle.putStringArrayList("com.facebook.TokenCachingStrategy.Permissions", new ArrayList(paramCollection));
+  }
+  
+  public static void putSource(Bundle paramBundle, AccessTokenSource paramAccessTokenSource)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    paramBundle.putSerializable("com.facebook.TokenCachingStrategy.AccessTokenSource", paramAccessTokenSource);
+  }
+  
+  public static void putToken(Bundle paramBundle, String paramString)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    Validate.notNull(paramString, "value");
+    paramBundle.putString("com.facebook.TokenCachingStrategy.Token", paramString);
+  }
+  
+  private void serializeKey(String paramString, Bundle paramBundle, SharedPreferences.Editor paramEditor)
+    throws JSONException
+  {
+    paramBundle = paramBundle.get(paramString);
+    if (paramBundle == null) {
+      return;
+    }
+    JSONObject localJSONObject = new JSONObject();
+    boolean bool = paramBundle instanceof Byte;
+    String str = null;
+    Object localObject;
+    if (bool)
+    {
+      localJSONObject.put("value", ((Byte)paramBundle).intValue());
+      paramBundle = "byte";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof Short))
+    {
+      localJSONObject.put("value", ((Short)paramBundle).intValue());
+      paramBundle = "short";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof Integer))
+    {
+      localJSONObject.put("value", ((Integer)paramBundle).intValue());
+      paramBundle = "int";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof Long))
+    {
+      localJSONObject.put("value", ((Long)paramBundle).longValue());
+      paramBundle = "long";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof Float))
+    {
+      localJSONObject.put("value", ((Float)paramBundle).doubleValue());
+      paramBundle = "float";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof Double))
+    {
+      localJSONObject.put("value", ((Double)paramBundle).doubleValue());
+      paramBundle = "double";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof Boolean))
+    {
+      localJSONObject.put("value", ((Boolean)paramBundle).booleanValue());
+      paramBundle = "bool";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof Character))
+    {
+      localJSONObject.put("value", paramBundle.toString());
+      paramBundle = "char";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof String))
+    {
+      localJSONObject.put("value", (String)paramBundle);
+      paramBundle = "string";
+      localObject = str;
+    }
+    else if ((paramBundle instanceof Enum))
+    {
+      localJSONObject.put("value", paramBundle.toString());
+      localJSONObject.put("enumType", paramBundle.getClass().getName());
+      paramBundle = "enum";
+      localObject = str;
+    }
+    else
+    {
+      localObject = new JSONArray();
+      bool = paramBundle instanceof byte[];
+      int j = 0;
+      int k = 0;
+      int m = 0;
+      int n = 0;
+      int i1 = 0;
+      int i2 = 0;
+      int i3 = 0;
+      int i = 0;
+      if (bool)
+      {
+        paramBundle = (byte[])paramBundle;
+        j = paramBundle.length;
+        while (i < j)
+        {
+          ((JSONArray)localObject).put(paramBundle[i]);
+          i += 1;
+        }
+        paramBundle = "byte[]";
+      }
+      for (;;)
+      {
+        break;
+        if ((paramBundle instanceof short[]))
+        {
+          paramBundle = (short[])paramBundle;
+          k = paramBundle.length;
+          i = j;
+          while (i < k)
+          {
+            ((JSONArray)localObject).put(paramBundle[i]);
+            i += 1;
+          }
+          paramBundle = "short[]";
+        }
+        else if ((paramBundle instanceof int[]))
+        {
+          paramBundle = (int[])paramBundle;
+          j = paramBundle.length;
+          i = k;
+          while (i < j)
+          {
+            ((JSONArray)localObject).put(paramBundle[i]);
+            i += 1;
+          }
+          paramBundle = "int[]";
+        }
+        else if ((paramBundle instanceof long[]))
+        {
+          paramBundle = (long[])paramBundle;
+          j = paramBundle.length;
+          i = m;
+          while (i < j)
+          {
+            ((JSONArray)localObject).put(paramBundle[i]);
+            i += 1;
+          }
+          paramBundle = "long[]";
+        }
+        else if ((paramBundle instanceof float[]))
+        {
+          paramBundle = (float[])paramBundle;
+          j = paramBundle.length;
+          i = n;
+          while (i < j)
+          {
+            ((JSONArray)localObject).put(paramBundle[i]);
+            i += 1;
+          }
+          paramBundle = "float[]";
+        }
+        else if ((paramBundle instanceof double[]))
+        {
+          paramBundle = (double[])paramBundle;
+          j = paramBundle.length;
+          i = i1;
+          while (i < j)
+          {
+            ((JSONArray)localObject).put(paramBundle[i]);
+            i += 1;
+          }
+          paramBundle = "double[]";
+        }
+        else if ((paramBundle instanceof boolean[]))
+        {
+          paramBundle = (boolean[])paramBundle;
+          j = paramBundle.length;
+          i = i2;
+          while (i < j)
+          {
+            ((JSONArray)localObject).put(paramBundle[i]);
+            i += 1;
+          }
+          paramBundle = "bool[]";
+        }
+        else if ((paramBundle instanceof char[]))
+        {
+          paramBundle = (char[])paramBundle;
+          j = paramBundle.length;
+          i = i3;
+          while (i < j)
+          {
+            ((JSONArray)localObject).put(String.valueOf(paramBundle[i]));
+            i += 1;
+          }
+          paramBundle = "char[]";
+        }
+        else if ((paramBundle instanceof List))
+        {
+          Iterator localIterator = ((List)paramBundle).iterator();
+          while (localIterator.hasNext())
+          {
+            str = (String)localIterator.next();
+            paramBundle = str;
+            if (str == null) {
+              paramBundle = JSONObject.NULL;
+            }
+            ((JSONArray)localObject).put(paramBundle);
+          }
+          paramBundle = "stringList";
+        }
+        else
+        {
+          paramBundle = null;
+          localObject = str;
+        }
+      }
+    }
+    if (paramBundle != null)
+    {
+      localJSONObject.put("valueType", paramBundle);
+      if (localObject != null) {
+        localJSONObject.putOpt("value", localObject);
+      }
+      paramEditor.putString(paramString, localJSONObject.toString());
+    }
+  }
+  
+  public void clear()
+  {
+    cache.edit().clear().apply();
+  }
+  
+  public Bundle load()
+  {
+    Bundle localBundle = new Bundle();
+    Object localObject2 = cache.getAll().keySet().iterator();
+    Object localObject1;
+    for (;;)
+    {
+      localObject1 = localBundle;
+      if (((Iterator)localObject2).hasNext())
+      {
+        localObject1 = (String)((Iterator)localObject2).next();
+        try
+        {
+          deserializeKey((String)localObject1, localBundle);
+        }
+        catch (JSONException localJSONException)
+        {
+          localObject2 = LoggingBehavior.CACHE;
+          String str = TAG;
+          StringBuilder localStringBuilder = new StringBuilder();
+          localStringBuilder.append("Error reading cached value for key: '");
+          localStringBuilder.append((String)localObject1);
+          localStringBuilder.append("' -- ");
+          localStringBuilder.append(localJSONException);
+          Logger.log((LoggingBehavior)localObject2, 5, str, localStringBuilder.toString());
+          localObject1 = null;
+        }
+      }
+    }
+    return localObject1;
+  }
+  
+  public void save(Bundle paramBundle)
+  {
+    Validate.notNull(paramBundle, "bundle");
+    Object localObject1 = cache.edit();
+    Object localObject2 = paramBundle.keySet().iterator();
+    while (((Iterator)localObject2).hasNext())
+    {
+      String str = (String)((Iterator)localObject2).next();
+      try
+      {
+        serializeKey(str, paramBundle, (SharedPreferences.Editor)localObject1);
+      }
+      catch (JSONException paramBundle)
+      {
+        localObject1 = LoggingBehavior.CACHE;
+        localObject2 = TAG;
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Error processing value for key: '");
+        localStringBuilder.append(str);
+        localStringBuilder.append("' -- ");
+        localStringBuilder.append(paramBundle);
+        Logger.log((LoggingBehavior)localObject1, 5, (String)localObject2, localStringBuilder.toString());
+        return;
+      }
+    }
+    ((SharedPreferences.Editor)localObject1).apply();
+  }
+}

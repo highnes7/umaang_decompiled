@@ -1,0 +1,778 @@
+package com.google.android.gms.internal;
+
+import android.os.SystemClock;
+import java.io.BufferedOutputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzag
+  implements zzb
+{
+  public final Map<String, zzai> zzbv = new LinkedHashMap(16, 0.75F, true);
+  public long zzbw = 0L;
+  public final File zzbx;
+  public final int zzby;
+  
+  public zzag(File paramFile)
+  {
+    this(paramFile, 5242880);
+  }
+  
+  public zzag(File paramFile, int paramInt)
+  {
+    zzbx = paramFile;
+    zzby = 5242880;
+  }
+  
+  private final void remove(String paramString)
+  {
+    try
+    {
+      boolean bool = zze(paramString).delete();
+      Object localObject = (zzai)zzbv.get(paramString);
+      if (localObject != null)
+      {
+        zzbw -= zzbz;
+        zzbv.remove(paramString);
+      }
+      if (!bool)
+      {
+        localObject = zzd(paramString);
+        String str = zzab.TAG;
+        zzab.zzd("Could not delete cache entry for key=%s, filename=%s", new Object[] { paramString, localObject });
+      }
+      return;
+    }
+    finally {}
+  }
+  
+  public static int zza(InputStream paramInputStream)
+    throws IOException
+  {
+    int i = paramInputStream.read();
+    if (i != -1) {
+      return i;
+    }
+    throw new EOFException();
+  }
+  
+  public static void zza(OutputStream paramOutputStream, int paramInt)
+    throws IOException
+  {
+    paramOutputStream.write(paramInt & 0xFF);
+    paramOutputStream.write(paramInt >> 8 & 0xFF);
+    paramOutputStream.write(paramInt >> 16 & 0xFF);
+    paramOutputStream.write(paramInt >>> 24);
+  }
+  
+  public static void zza(OutputStream paramOutputStream, long paramLong)
+    throws IOException
+  {
+    paramOutputStream.write((byte)(int)paramLong);
+    paramOutputStream.write((byte)(int)(paramLong >>> 8));
+    paramOutputStream.write((byte)(int)(paramLong >>> 16));
+    paramOutputStream.write((byte)(int)(paramLong >>> 24));
+    paramOutputStream.write((byte)(int)(paramLong >>> 32));
+    paramOutputStream.write((byte)(int)(paramLong >>> 40));
+    paramOutputStream.write((byte)(int)(paramLong >>> 48));
+    paramOutputStream.write((byte)(int)(paramLong >>> 56));
+  }
+  
+  public static void zza(OutputStream paramOutputStream, String paramString)
+    throws IOException
+  {
+    paramString = paramString.getBytes("UTF-8");
+    zza(paramOutputStream, paramString.length);
+    paramOutputStream.write(paramString, 0, paramString.length);
+  }
+  
+  private final void zza(String paramString, zzai paramZzai)
+  {
+    if (!zzbv.containsKey(paramString))
+    {
+      zzbw += zzbz;
+    }
+    else
+    {
+      zzai localZzai = (zzai)zzbv.get(paramString);
+      long l = zzbw;
+      zzbw = (zzbz - zzbz + l);
+    }
+    zzbv.put(paramString, paramZzai);
+  }
+  
+  public static byte[] zza(InputStream paramInputStream, int paramInt)
+    throws IOException
+  {
+    byte[] arrayOfByte = new byte[paramInt];
+    int i = 0;
+    while (i < paramInt)
+    {
+      int j = paramInputStream.read(arrayOfByte, i, paramInt - i);
+      if (j == -1) {
+        break;
+      }
+      i += j;
+    }
+    if (i == paramInt) {
+      return arrayOfByte;
+    }
+    paramInputStream = new StringBuilder(50);
+    paramInputStream.append("Expected ");
+    paramInputStream.append(paramInt);
+    paramInputStream.append(" bytes, read ");
+    paramInputStream.append(i);
+    paramInputStream.append(" bytes");
+    paramInputStream = new IOException(paramInputStream.toString());
+    for (;;)
+    {
+      throw paramInputStream;
+    }
+  }
+  
+  public static int zzb(InputStream paramInputStream)
+    throws IOException
+  {
+    int i = zza(paramInputStream);
+    int j = zza(paramInputStream);
+    int k = zza(paramInputStream);
+    return zza(paramInputStream) << 24 | i | 0x0 | j << 8 | k << 16;
+  }
+  
+  public static long zzc(InputStream paramInputStream)
+    throws IOException
+  {
+    return zza(paramInputStream) & 0xFF | 0L | (zza(paramInputStream) & 0xFF) << 8 | (zza(paramInputStream) & 0xFF) << 16 | (zza(paramInputStream) & 0xFF) << 24 | (zza(paramInputStream) & 0xFF) << 32 | (zza(paramInputStream) & 0xFF) << 40 | (zza(paramInputStream) & 0xFF) << 48 | (0xFF & zza(paramInputStream)) << 56;
+  }
+  
+  public static String zzd(InputStream paramInputStream)
+    throws IOException
+  {
+    return new String(zza(paramInputStream, (int)zzc(paramInputStream)), "UTF-8");
+  }
+  
+  public static String zzd(String paramString)
+  {
+    int i = paramString.length() / 2;
+    String str = String.valueOf(String.valueOf(paramString.substring(0, i).hashCode()));
+    paramString = String.valueOf(String.valueOf(paramString.substring(i).hashCode()));
+    if (paramString.length() != 0) {
+      return str.concat(paramString);
+    }
+    return new String(str);
+  }
+  
+  private final File zze(String paramString)
+  {
+    return new File(zzbx, zzd(paramString));
+  }
+  
+  public static Map<String, String> zze(InputStream paramInputStream)
+    throws IOException
+  {
+    int j = zzb(paramInputStream);
+    Object localObject;
+    if (j == 0) {
+      localObject = Collections.emptyMap();
+    } else {
+      localObject = new HashMap(j);
+    }
+    int i = 0;
+    while (i < j)
+    {
+      ((Map)localObject).put(zzd(paramInputStream).intern(), zzd(paramInputStream).intern());
+      i += 1;
+    }
+    return localObject;
+  }
+  
+  /* Error */
+  public final void initialize()
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: monitorenter
+    //   2: aload_0
+    //   3: getfield 37	com/google/android/gms/internal/zzag:zzbx	Ljava/io/File;
+    //   6: invokevirtual 215	java/io/File:exists	()Z
+    //   9: istore_3
+    //   10: iconst_0
+    //   11: istore_1
+    //   12: iload_3
+    //   13: ifne +45 -> 58
+    //   16: aload_0
+    //   17: getfield 37	com/google/android/gms/internal/zzag:zzbx	Ljava/io/File;
+    //   20: invokevirtual 218	java/io/File:mkdirs	()Z
+    //   23: ifne +32 -> 55
+    //   26: aload_0
+    //   27: getfield 37	com/google/android/gms/internal/zzag:zzbx	Ljava/io/File;
+    //   30: invokevirtual 221	java/io/File:getAbsolutePath	()Ljava/lang/String;
+    //   33: astore 4
+    //   35: getstatic 74	com/google/android/gms/internal/zzab:TAG	Ljava/lang/String;
+    //   38: astore 5
+    //   40: ldc -33
+    //   42: iconst_1
+    //   43: anewarray 4	java/lang/Object
+    //   46: dup
+    //   47: iconst_0
+    //   48: aload 4
+    //   50: aastore
+    //   51: invokestatic 79	com/google/android/gms/internal/zzab:zzd	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    //   54: pop
+    //   55: aload_0
+    //   56: monitorexit
+    //   57: return
+    //   58: aload_0
+    //   59: getfield 37	com/google/android/gms/internal/zzag:zzbx	Ljava/io/File;
+    //   62: invokevirtual 227	java/io/File:listFiles	()[Ljava/io/File;
+    //   65: astore 7
+    //   67: aload 7
+    //   69: ifnonnull +6 -> 75
+    //   72: aload_0
+    //   73: monitorexit
+    //   74: return
+    //   75: aload 7
+    //   77: arraylength
+    //   78: istore_2
+    //   79: iload_1
+    //   80: iload_2
+    //   81: if_icmpge +138 -> 219
+    //   84: aload 7
+    //   86: iload_1
+    //   87: aaload
+    //   88: astore 8
+    //   90: aconst_null
+    //   91: astore 6
+    //   93: aconst_null
+    //   94: astore 4
+    //   96: new 229	java/io/BufferedInputStream
+    //   99: dup
+    //   100: new 231	java/io/FileInputStream
+    //   103: dup
+    //   104: aload 8
+    //   106: invokespecial 233	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   109: invokespecial 236	java/io/BufferedInputStream:<init>	(Ljava/io/InputStream;)V
+    //   112: astore 5
+    //   114: aload 5
+    //   116: invokestatic 240	com/google/android/gms/internal/zzai:zzf	(Ljava/io/InputStream;)Lcom/google/android/gms/internal/zzai;
+    //   119: astore 4
+    //   121: aload 4
+    //   123: aload 8
+    //   125: invokevirtual 243	java/io/File:length	()J
+    //   128: putfield 62	com/google/android/gms/internal/zzai:zzbz	J
+    //   131: aload_0
+    //   132: aload 4
+    //   134: getfield 246	com/google/android/gms/internal/zzai:key	Ljava/lang/String;
+    //   137: aload 4
+    //   139: invokespecial 248	com/google/android/gms/internal/zzag:zza	(Ljava/lang/String;Lcom/google/android/gms/internal/zzai;)V
+    //   142: aload 5
+    //   144: invokevirtual 251	java/io/BufferedInputStream:close	()V
+    //   147: goto +65 -> 212
+    //   150: astore 6
+    //   152: aload 5
+    //   154: astore 4
+    //   156: aload 6
+    //   158: astore 5
+    //   160: goto +29 -> 189
+    //   163: goto +8 -> 171
+    //   166: astore 5
+    //   168: goto +21 -> 189
+    //   171: aload 8
+    //   173: ifnull +29 -> 202
+    //   176: aload 5
+    //   178: astore 4
+    //   180: aload 8
+    //   182: invokevirtual 51	java/io/File:delete	()Z
+    //   185: pop
+    //   186: goto +16 -> 202
+    //   189: aload 4
+    //   191: ifnull +8 -> 199
+    //   194: aload 4
+    //   196: invokevirtual 251	java/io/BufferedInputStream:close	()V
+    //   199: aload 5
+    //   201: athrow
+    //   202: aload 5
+    //   204: ifnull +8 -> 212
+    //   207: aload 5
+    //   209: invokevirtual 251	java/io/BufferedInputStream:close	()V
+    //   212: iload_1
+    //   213: iconst_1
+    //   214: iadd
+    //   215: istore_1
+    //   216: goto -137 -> 79
+    //   219: aload_0
+    //   220: monitorexit
+    //   221: return
+    //   222: astore 4
+    //   224: aload_0
+    //   225: monitorexit
+    //   226: goto +6 -> 232
+    //   229: aload 4
+    //   231: athrow
+    //   232: goto -3 -> 229
+    //   235: astore 4
+    //   237: aload 6
+    //   239: astore 5
+    //   241: goto -70 -> 171
+    //   244: astore 4
+    //   246: goto -83 -> 163
+    //   249: astore 4
+    //   251: goto -39 -> 212
+    //   254: astore 4
+    //   256: goto -57 -> 199
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	259	0	this	zzag
+    //   11	205	1	i	int
+    //   78	4	2	j	int
+    //   9	4	3	bool	boolean
+    //   33	162	4	localObject1	Object
+    //   222	8	4	localObject2	Object
+    //   235	1	4	localIOException1	IOException
+    //   244	1	4	localIOException2	IOException
+    //   249	1	4	localIOException3	IOException
+    //   254	1	4	localIOException4	IOException
+    //   38	121	5	localObject3	Object
+    //   166	42	5	localObject4	Object
+    //   239	1	5	localObject5	Object
+    //   91	1	6	localObject6	Object
+    //   150	88	6	localObject7	Object
+    //   65	20	7	arrayOfFile	File[]
+    //   88	93	8	localFile	File
+    // Exception table:
+    //   from	to	target	type
+    //   114	142	150	finally
+    //   96	114	166	finally
+    //   180	186	166	finally
+    //   2	10	222	finally
+    //   16	55	222	finally
+    //   58	67	222	finally
+    //   75	79	222	finally
+    //   142	147	222	finally
+    //   194	199	222	finally
+    //   199	202	222	finally
+    //   207	212	222	finally
+    //   96	114	235	java/io/IOException
+    //   114	142	244	java/io/IOException
+    //   142	147	249	java/io/IOException
+    //   207	212	249	java/io/IOException
+    //   194	199	254	java/io/IOException
+  }
+  
+  /* Error */
+  public final zzc zza(String paramString)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: monitorenter
+    //   2: aload_0
+    //   3: getfield 33	com/google/android/gms/internal/zzag:zzbv	Ljava/util/Map;
+    //   6: aload_1
+    //   7: invokeinterface 57 2 0
+    //   12: checkcast 59	com/google/android/gms/internal/zzai
+    //   15: astore 4
+    //   17: aload 4
+    //   19: ifnonnull +7 -> 26
+    //   22: aload_0
+    //   23: monitorexit
+    //   24: aconst_null
+    //   25: areturn
+    //   26: aload_0
+    //   27: aload_1
+    //   28: invokespecial 45	com/google/android/gms/internal/zzag:zze	(Ljava/lang/String;)Ljava/io/File;
+    //   31: astore 5
+    //   33: new 256	com/google/android/gms/internal/zzaj
+    //   36: dup
+    //   37: new 229	java/io/BufferedInputStream
+    //   40: dup
+    //   41: new 231	java/io/FileInputStream
+    //   44: dup
+    //   45: aload 5
+    //   47: invokespecial 233	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   50: invokespecial 236	java/io/BufferedInputStream:<init>	(Ljava/io/InputStream;)V
+    //   53: aconst_null
+    //   54: invokespecial 259	com/google/android/gms/internal/zzaj:<init>	(Ljava/io/InputStream;Lcom/google/android/gms/internal/zzah;)V
+    //   57: astore_3
+    //   58: aload_3
+    //   59: astore_2
+    //   60: aload_3
+    //   61: invokestatic 240	com/google/android/gms/internal/zzai:zzf	(Ljava/io/InputStream;)Lcom/google/android/gms/internal/zzai;
+    //   64: pop
+    //   65: aload_3
+    //   66: astore_2
+    //   67: aload_3
+    //   68: aload 5
+    //   70: invokevirtual 243	java/io/File:length	()J
+    //   73: aload_3
+    //   74: invokestatic 262	com/google/android/gms/internal/zzaj:zza	(Lcom/google/android/gms/internal/zzaj;)I
+    //   77: i2l
+    //   78: lsub
+    //   79: l2i
+    //   80: invokestatic 163	com/google/android/gms/internal/zzag:zza	(Ljava/io/InputStream;I)[B
+    //   83: astore 6
+    //   85: aload_3
+    //   86: astore_2
+    //   87: new 264	com/google/android/gms/internal/zzc
+    //   90: dup
+    //   91: invokespecial 265	com/google/android/gms/internal/zzc:<init>	()V
+    //   94: astore 7
+    //   96: aload_3
+    //   97: astore_2
+    //   98: aload 7
+    //   100: aload 6
+    //   102: putfield 269	com/google/android/gms/internal/zzc:data	[B
+    //   105: aload_3
+    //   106: astore_2
+    //   107: aload 7
+    //   109: aload 4
+    //   111: getfield 271	com/google/android/gms/internal/zzai:zza	Ljava/lang/String;
+    //   114: putfield 272	com/google/android/gms/internal/zzc:zza	Ljava/lang/String;
+    //   117: aload_3
+    //   118: astore_2
+    //   119: aload 7
+    //   121: aload 4
+    //   123: getfield 274	com/google/android/gms/internal/zzai:zzb	J
+    //   126: putfield 275	com/google/android/gms/internal/zzc:zzb	J
+    //   129: aload_3
+    //   130: astore_2
+    //   131: aload 7
+    //   133: aload 4
+    //   135: getfield 277	com/google/android/gms/internal/zzai:zzc	J
+    //   138: putfield 278	com/google/android/gms/internal/zzc:zzc	J
+    //   141: aload_3
+    //   142: astore_2
+    //   143: aload 7
+    //   145: aload 4
+    //   147: getfield 280	com/google/android/gms/internal/zzai:zzd	J
+    //   150: putfield 281	com/google/android/gms/internal/zzc:zzd	J
+    //   153: aload_3
+    //   154: astore_2
+    //   155: aload 7
+    //   157: aload 4
+    //   159: getfield 283	com/google/android/gms/internal/zzai:zze	J
+    //   162: putfield 284	com/google/android/gms/internal/zzc:zze	J
+    //   165: aload_3
+    //   166: astore_2
+    //   167: aload 7
+    //   169: aload 4
+    //   171: getfield 286	com/google/android/gms/internal/zzai:zzf	Ljava/util/Map;
+    //   174: putfield 287	com/google/android/gms/internal/zzc:zzf	Ljava/util/Map;
+    //   177: aload_3
+    //   178: invokevirtual 290	java/io/FilterInputStream:close	()V
+    //   181: aload_0
+    //   182: monitorexit
+    //   183: aload 7
+    //   185: areturn
+    //   186: aload_0
+    //   187: monitorexit
+    //   188: aconst_null
+    //   189: areturn
+    //   190: astore 4
+    //   192: goto +18 -> 210
+    //   195: astore 4
+    //   197: goto +91 -> 288
+    //   200: astore_1
+    //   201: aconst_null
+    //   202: astore_2
+    //   203: goto +160 -> 363
+    //   206: astore 4
+    //   208: aconst_null
+    //   209: astore_3
+    //   210: aload_3
+    //   211: astore_2
+    //   212: aload 5
+    //   214: invokevirtual 221	java/io/File:getAbsolutePath	()Ljava/lang/String;
+    //   217: astore 5
+    //   219: aload_3
+    //   220: astore_2
+    //   221: aload 4
+    //   223: invokevirtual 291	java/lang/NegativeArraySizeException:toString	()Ljava/lang/String;
+    //   226: astore 4
+    //   228: aload_3
+    //   229: astore_2
+    //   230: getstatic 74	com/google/android/gms/internal/zzab:TAG	Ljava/lang/String;
+    //   233: astore 6
+    //   235: aload_3
+    //   236: astore_2
+    //   237: ldc_w 293
+    //   240: iconst_2
+    //   241: anewarray 4	java/lang/Object
+    //   244: dup
+    //   245: iconst_0
+    //   246: aload 5
+    //   248: aastore
+    //   249: dup
+    //   250: iconst_1
+    //   251: aload 4
+    //   253: aastore
+    //   254: invokestatic 79	com/google/android/gms/internal/zzab:zzd	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    //   257: pop
+    //   258: aload_3
+    //   259: astore_2
+    //   260: aload_0
+    //   261: aload_1
+    //   262: invokespecial 295	com/google/android/gms/internal/zzag:remove	(Ljava/lang/String;)V
+    //   265: aload_3
+    //   266: ifnull +14 -> 280
+    //   269: aload_3
+    //   270: invokevirtual 290	java/io/FilterInputStream:close	()V
+    //   273: goto +7 -> 280
+    //   276: aload_0
+    //   277: monitorexit
+    //   278: aconst_null
+    //   279: areturn
+    //   280: aload_0
+    //   281: monitorexit
+    //   282: aconst_null
+    //   283: areturn
+    //   284: astore 4
+    //   286: aconst_null
+    //   287: astore_3
+    //   288: aload_3
+    //   289: astore_2
+    //   290: aload 5
+    //   292: invokevirtual 221	java/io/File:getAbsolutePath	()Ljava/lang/String;
+    //   295: astore 5
+    //   297: aload_3
+    //   298: astore_2
+    //   299: aload 4
+    //   301: invokevirtual 296	java/io/IOException:toString	()Ljava/lang/String;
+    //   304: astore 4
+    //   306: aload_3
+    //   307: astore_2
+    //   308: getstatic 74	com/google/android/gms/internal/zzab:TAG	Ljava/lang/String;
+    //   311: astore 6
+    //   313: aload_3
+    //   314: astore_2
+    //   315: ldc_w 293
+    //   318: iconst_2
+    //   319: anewarray 4	java/lang/Object
+    //   322: dup
+    //   323: iconst_0
+    //   324: aload 5
+    //   326: aastore
+    //   327: dup
+    //   328: iconst_1
+    //   329: aload 4
+    //   331: aastore
+    //   332: invokestatic 79	com/google/android/gms/internal/zzab:zzd	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    //   335: pop
+    //   336: aload_3
+    //   337: astore_2
+    //   338: aload_0
+    //   339: aload_1
+    //   340: invokespecial 295	com/google/android/gms/internal/zzag:remove	(Ljava/lang/String;)V
+    //   343: aload_3
+    //   344: ifnull +14 -> 358
+    //   347: aload_3
+    //   348: invokevirtual 290	java/io/FilterInputStream:close	()V
+    //   351: goto +7 -> 358
+    //   354: aload_0
+    //   355: monitorexit
+    //   356: aconst_null
+    //   357: areturn
+    //   358: aload_0
+    //   359: monitorexit
+    //   360: aconst_null
+    //   361: areturn
+    //   362: astore_1
+    //   363: aload_2
+    //   364: ifnull +14 -> 378
+    //   367: aload_2
+    //   368: invokevirtual 290	java/io/FilterInputStream:close	()V
+    //   371: goto +7 -> 378
+    //   374: aload_0
+    //   375: monitorexit
+    //   376: aconst_null
+    //   377: areturn
+    //   378: aload_1
+    //   379: athrow
+    //   380: astore_1
+    //   381: aload_0
+    //   382: monitorexit
+    //   383: aload_1
+    //   384: athrow
+    //   385: astore_1
+    //   386: goto -200 -> 186
+    //   389: astore_1
+    //   390: goto -114 -> 276
+    //   393: astore_1
+    //   394: goto -40 -> 354
+    //   397: astore_1
+    //   398: goto -24 -> 374
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	401	0	this	zzag
+    //   0	401	1	paramString	String
+    //   59	309	2	localZzaj1	zzaj
+    //   57	291	3	localZzaj2	zzaj
+    //   15	155	4	localZzai	zzai
+    //   190	1	4	localNegativeArraySizeException1	NegativeArraySizeException
+    //   195	1	4	localIOException1	IOException
+    //   206	16	4	localNegativeArraySizeException2	NegativeArraySizeException
+    //   226	26	4	str1	String
+    //   284	16	4	localIOException2	IOException
+    //   304	26	4	str2	String
+    //   31	294	5	localObject1	Object
+    //   83	229	6	localObject2	Object
+    //   94	90	7	localZzc	zzc
+    // Exception table:
+    //   from	to	target	type
+    //   60	65	190	java/lang/NegativeArraySizeException
+    //   67	85	190	java/lang/NegativeArraySizeException
+    //   87	96	190	java/lang/NegativeArraySizeException
+    //   98	105	190	java/lang/NegativeArraySizeException
+    //   107	117	190	java/lang/NegativeArraySizeException
+    //   119	129	190	java/lang/NegativeArraySizeException
+    //   131	141	190	java/lang/NegativeArraySizeException
+    //   143	153	190	java/lang/NegativeArraySizeException
+    //   155	165	190	java/lang/NegativeArraySizeException
+    //   167	177	190	java/lang/NegativeArraySizeException
+    //   60	65	195	java/io/IOException
+    //   67	85	195	java/io/IOException
+    //   87	96	195	java/io/IOException
+    //   98	105	195	java/io/IOException
+    //   107	117	195	java/io/IOException
+    //   119	129	195	java/io/IOException
+    //   131	141	195	java/io/IOException
+    //   143	153	195	java/io/IOException
+    //   155	165	195	java/io/IOException
+    //   167	177	195	java/io/IOException
+    //   33	58	200	finally
+    //   33	58	206	java/lang/NegativeArraySizeException
+    //   33	58	284	java/io/IOException
+    //   60	65	362	finally
+    //   67	85	362	finally
+    //   87	96	362	finally
+    //   98	105	362	finally
+    //   107	117	362	finally
+    //   119	129	362	finally
+    //   131	141	362	finally
+    //   143	153	362	finally
+    //   155	165	362	finally
+    //   167	177	362	finally
+    //   212	219	362	finally
+    //   221	228	362	finally
+    //   230	235	362	finally
+    //   237	258	362	finally
+    //   260	265	362	finally
+    //   290	297	362	finally
+    //   299	306	362	finally
+    //   308	313	362	finally
+    //   315	336	362	finally
+    //   338	343	362	finally
+    //   2	17	380	finally
+    //   26	33	380	finally
+    //   177	181	380	finally
+    //   269	273	380	finally
+    //   347	351	380	finally
+    //   367	371	380	finally
+    //   378	380	380	finally
+    //   177	181	385	java/io/IOException
+    //   269	273	389	java/io/IOException
+    //   347	351	393	java/io/IOException
+    //   367	371	397	java/io/IOException
+  }
+  
+  public final void zza(String paramString, zzc paramZzc)
+  {
+    try
+    {
+      i = data.length;
+      l1 = zzbw;
+      l2 = i;
+      if (l1 + l2 < zzby) {
+        break label261;
+      }
+      if (zzab.DEBUG) {
+        zzab.zza("Pruning old cache entries.", new Object[0]);
+      }
+      l1 = zzbw;
+      l3 = SystemClock.elapsedRealtime();
+      localObject1 = zzbv.entrySet().iterator();
+      i = 0;
+    }
+    finally
+    {
+      for (;;)
+      {
+        int i;
+        long l1;
+        long l2;
+        long l3;
+        Object localObject1;
+        Object localObject2;
+        Object localObject3;
+        String str;
+        for (;;)
+        {
+          label261:
+          throw paramString;
+        }
+      }
+    }
+    if (((Iterator)localObject1).hasNext())
+    {
+      localObject2 = (zzai)((Map.Entry)((Iterator)localObject1).next()).getValue();
+      if (zze(key).delete())
+      {
+        zzbw -= zzbz;
+      }
+      else
+      {
+        localObject2 = key;
+        localObject3 = zzd((String)localObject2);
+        str = zzab.TAG;
+        zzab.zzd("Could not delete cache entry for key=%s, filename=%s", new Object[] { localObject2, localObject3 });
+      }
+      ((Iterator)localObject1).remove();
+      i += 1;
+      if ((float)(zzbw + l2) < zzby * 0.9F)
+      {
+        if (zzab.DEBUG) {
+          zzab.zza("pruned %d files, %d bytes, %d ms", new Object[] { Integer.valueOf(i), Long.valueOf(zzbw - l1), Long.valueOf(SystemClock.elapsedRealtime() - l3) });
+        }
+        localObject1 = zze(paramString);
+        try
+        {
+          localObject2 = new BufferedOutputStream(new FileOutputStream((File)localObject1));
+          localObject3 = new zzai(paramString, paramZzc);
+          if (((zzai)localObject3).zza((OutputStream)localObject2))
+          {
+            ((BufferedOutputStream)localObject2).write(data);
+            ((BufferedOutputStream)localObject2).close();
+            zza(paramString, (zzai)localObject3);
+            return;
+          }
+          ((BufferedOutputStream)localObject2).close();
+          paramString = ((File)localObject1).getAbsolutePath();
+          paramZzc = zzab.TAG;
+          zzab.zzd("Failed to write header for %s", new Object[] { paramString });
+          throw new IOException();
+        }
+        catch (IOException paramString)
+        {
+          for (;;) {}
+        }
+        if (!((File)localObject1).delete())
+        {
+          paramString = ((File)localObject1).getAbsolutePath();
+          paramZzc = zzab.TAG;
+          zzab.zzd("Could not clean up file %s", new Object[] { paramString });
+        }
+        return;
+      }
+    }
+  }
+}

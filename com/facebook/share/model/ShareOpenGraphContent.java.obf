@@ -1,0 +1,106 @@
+package com.facebook.share.model;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import b.b.a.G;
+
+public final class ShareOpenGraphContent
+  extends ShareContent<ShareOpenGraphContent, Builder>
+{
+  public static final Parcelable.Creator<ShareOpenGraphContent> CREATOR = new Parcelable.Creator()
+  {
+    public ShareOpenGraphContent createFromParcel(Parcel paramAnonymousParcel)
+    {
+      return new ShareOpenGraphContent(paramAnonymousParcel);
+    }
+    
+    public ShareOpenGraphContent[] newArray(int paramAnonymousInt)
+    {
+      return new ShareOpenGraphContent[paramAnonymousInt];
+    }
+  };
+  public final ShareOpenGraphAction action;
+  public final String previewPropertyName;
+  
+  public ShareOpenGraphContent(Parcel paramParcel)
+  {
+    super(paramParcel);
+    action = new ShareOpenGraphAction.Builder().readFrom(paramParcel).build();
+    previewPropertyName = paramParcel.readString();
+  }
+  
+  public ShareOpenGraphContent(Builder paramBuilder)
+  {
+    super(paramBuilder);
+    action = action;
+    previewPropertyName = previewPropertyName;
+  }
+  
+  public int describeContents()
+  {
+    return 0;
+  }
+  
+  @G
+  public ShareOpenGraphAction getAction()
+  {
+    return action;
+  }
+  
+  @G
+  public String getPreviewPropertyName()
+  {
+    return previewPropertyName;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    super.writeToParcel(paramParcel, paramInt);
+    paramParcel.writeParcelable(action, 0);
+    paramParcel.writeString(previewPropertyName);
+  }
+  
+  public static final class Builder
+    extends ShareContent.Builder<ShareOpenGraphContent, Builder>
+  {
+    public ShareOpenGraphAction action;
+    public String previewPropertyName;
+    
+    public Builder() {}
+    
+    public ShareOpenGraphContent build()
+    {
+      return new ShareOpenGraphContent(this, null);
+    }
+    
+    public Builder readFrom(Parcel paramParcel)
+    {
+      return readFrom((ShareOpenGraphContent)paramParcel.readParcelable(ShareOpenGraphContent.class.getClassLoader()));
+    }
+    
+    public Builder readFrom(ShareOpenGraphContent paramShareOpenGraphContent)
+    {
+      if (paramShareOpenGraphContent == null) {
+        return this;
+      }
+      return ((Builder)super.readFrom(paramShareOpenGraphContent)).setAction(paramShareOpenGraphContent.getAction()).setPreviewPropertyName(paramShareOpenGraphContent.getPreviewPropertyName());
+    }
+    
+    public Builder setAction(@G ShareOpenGraphAction paramShareOpenGraphAction)
+    {
+      if (paramShareOpenGraphAction == null) {
+        paramShareOpenGraphAction = null;
+      } else {
+        paramShareOpenGraphAction = new ShareOpenGraphAction.Builder().readFrom(paramShareOpenGraphAction).build();
+      }
+      action = paramShareOpenGraphAction;
+      return this;
+    }
+    
+    public Builder setPreviewPropertyName(@G String paramString)
+    {
+      previewPropertyName = paramString;
+      return this;
+    }
+  }
+}

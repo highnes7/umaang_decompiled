@@ -1,0 +1,82 @@
+package com.google.android.gms.auth;
+
+import android.accounts.Account;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.text.TextUtils;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+public class AccountChangeEventsRequest
+  extends zzbck
+{
+  public static final Parcelable.Creator<AccountChangeEventsRequest> CREATOR = new zzb();
+  public int mVersion;
+  public Account zzduz;
+  @Deprecated
+  public String zzdxf;
+  public int zzdxh;
+  
+  public AccountChangeEventsRequest()
+  {
+    mVersion = 1;
+  }
+  
+  public AccountChangeEventsRequest(int paramInt1, int paramInt2, String paramString, Account paramAccount)
+  {
+    mVersion = paramInt1;
+    zzdxh = paramInt2;
+    zzdxf = paramString;
+    if ((paramAccount == null) && (!TextUtils.isEmpty(paramString)))
+    {
+      zzduz = new Account(paramString, "com.google");
+      return;
+    }
+    zzduz = paramAccount;
+  }
+  
+  public Account getAccount()
+  {
+    return zzduz;
+  }
+  
+  @Deprecated
+  public String getAccountName()
+  {
+    return zzdxf;
+  }
+  
+  public int getEventIndex()
+  {
+    return zzdxh;
+  }
+  
+  public AccountChangeEventsRequest setAccount(Account paramAccount)
+  {
+    zzduz = paramAccount;
+    return this;
+  }
+  
+  @Deprecated
+  public AccountChangeEventsRequest setAccountName(String paramString)
+  {
+    zzdxf = paramString;
+    return this;
+  }
+  
+  public AccountChangeEventsRequest setEventIndex(int paramInt)
+  {
+    zzdxh = paramInt;
+    return this;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, mVersion);
+    zzbcn.zzc(paramParcel, 2, zzdxh);
+    zzbcn.zza(paramParcel, 3, zzdxf, false);
+    zzbcn.zza(paramParcel, 4, zzduz, paramInt, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+}

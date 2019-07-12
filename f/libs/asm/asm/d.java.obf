@@ -1,0 +1,110 @@
+package f.c.a.a;
+
+import android.content.Context;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import l.a.a.a.a.e.o;
+import l.a.a.a.a.g.b;
+import l.a.a.a.n;
+import l.a.a.a.q;
+
+public class l
+  implements l.a.a.a.a.d.m
+{
+  public final n a;
+  public final Context b;
+  public final m c;
+  public final aa d;
+  public final o e;
+  public final A f;
+  public final ScheduledExecutorService g;
+  public V h = new w();
+  
+  public l(n paramN, Context paramContext, m paramM, aa paramAa, o paramO, ScheduledExecutorService paramScheduledExecutorService, A paramA)
+  {
+    a = paramN;
+    b = paramContext;
+    c = paramM;
+    d = paramAa;
+    e = paramO;
+    g = paramScheduledExecutorService;
+    f = paramA;
+  }
+  
+  private void a(Runnable paramRunnable)
+  {
+    try
+    {
+      g.submit(paramRunnable);
+      return;
+    }
+    catch (Exception paramRunnable)
+    {
+      l.a.a.a.g.h().c("Answers", "Failed to submit events task", paramRunnable);
+    }
+  }
+  
+  private void b(Runnable paramRunnable)
+  {
+    try
+    {
+      g.submit(paramRunnable).get();
+      return;
+    }
+    catch (Exception paramRunnable)
+    {
+      l.a.a.a.g.h().c("Answers", "Failed to run events task", paramRunnable);
+    }
+  }
+  
+  public void a()
+  {
+    a(new g(this));
+  }
+  
+  public void a(X.a paramA)
+  {
+    a(paramA, false, false);
+  }
+  
+  public void a(X.a paramA, boolean paramBoolean1, boolean paramBoolean2)
+  {
+    paramA = new k(this, paramA, paramBoolean2);
+    if (paramBoolean1)
+    {
+      b(paramA);
+      return;
+    }
+    a(paramA);
+  }
+  
+  public void a(String paramString)
+  {
+    a(new h(this));
+  }
+  
+  public void a(b paramB, String paramString)
+  {
+    a(new f(this, paramB, paramString));
+  }
+  
+  public void b()
+  {
+    a(new i(this));
+  }
+  
+  public void b(X.a paramA)
+  {
+    a(paramA, false, true);
+  }
+  
+  public void c()
+  {
+    a(new j(this));
+  }
+  
+  public void c(X.a paramA)
+  {
+    a(paramA, true, false);
+  }
+}

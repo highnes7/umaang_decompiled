@@ -1,0 +1,229 @@
+package com.google.android.gms.common.internal;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.text.TextUtils;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.x.n.t;
+import com.google.android.gms.R.string;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.util.zzi;
+import com.google.android.gms.internal.zzbec;
+import com.google.android.gms.internal.zzbed;
+
+public final class zzt
+{
+  public static final t<String, String> zzftw = new t();
+  
+  public static String zzcd(Context paramContext)
+  {
+    String str1 = paramContext.getPackageName();
+    try
+    {
+      String str2 = zzbed.zzcr(paramContext).zzgn(str1).toString();
+      return str2;
+    }
+    catch (PackageManager.NameNotFoundException|NullPointerException localNameNotFoundException)
+    {
+      for (;;) {}
+    }
+    paramContext = getApplicationInfoname;
+    if (TextUtils.isEmpty(paramContext)) {
+      return str1;
+    }
+    return paramContext;
+  }
+  
+  @G
+  public static String zzg(Context paramContext, int paramInt)
+  {
+    Resources localResources = paramContext.getResources();
+    switch (paramInt)
+    {
+    case 12: 
+    case 13: 
+    case 14: 
+    case 15: 
+    case 19: 
+    default: 
+      paramContext = new StringBuilder(33);
+      paramContext.append("Unexpected error code ");
+      paramContext.append(paramInt);
+      paramContext.toString();
+      return null;
+    case 20: 
+      return zzy(paramContext, "common_google_play_services_restricted_profile_title");
+    case 17: 
+      return zzy(paramContext, "common_google_play_services_sign_in_failed_title");
+    case 8: 
+    case 9: 
+    case 10: 
+    case 11: 
+    case 16: 
+      return null;
+    case 7: 
+      return zzy(paramContext, "common_google_play_services_network_error_title");
+    case 5: 
+      return zzy(paramContext, "common_google_play_services_invalid_account_title");
+    case 4: 
+    case 6: 
+    case 18: 
+      return null;
+    case 3: 
+      return localResources.getString(R.string.common_google_play_services_enable_title);
+    case 2: 
+      return localResources.getString(R.string.common_google_play_services_update_title);
+    }
+    return localResources.getString(R.string.common_google_play_services_install_title);
+  }
+  
+  @F
+  public static String zzh(Context paramContext, int paramInt)
+  {
+    String str1;
+    if (paramInt == 6) {
+      str1 = zzy(paramContext, "common_google_play_services_resolution_required_title");
+    } else {
+      str1 = zzg(paramContext, paramInt);
+    }
+    String str2 = str1;
+    if (str1 == null) {
+      str2 = paramContext.getResources().getString(R.string.common_google_play_services_notification_ticker);
+    }
+    return str2;
+  }
+  
+  @F
+  public static String zzi(Context paramContext, int paramInt)
+  {
+    Resources localResources = paramContext.getResources();
+    String str = zzcd(paramContext);
+    if (paramInt != 1)
+    {
+      if (paramInt != 2)
+      {
+        if (paramInt != 3)
+        {
+          if (paramInt != 5)
+          {
+            if (paramInt != 7)
+            {
+              if (paramInt != 9)
+              {
+                if (paramInt != 20)
+                {
+                  switch (paramInt)
+                  {
+                  default: 
+                    return localResources.getString(R.string.common_google_play_services_unknown_issue, new Object[] { str });
+                  case 18: 
+                    return localResources.getString(R.string.common_google_play_services_updating_text, new Object[] { str });
+                  case 17: 
+                    return zzl(paramContext, "common_google_play_services_sign_in_failed_text", str);
+                  }
+                  return zzl(paramContext, "common_google_play_services_api_unavailable_text", str);
+                }
+                return zzl(paramContext, "common_google_play_services_restricted_profile_text", str);
+              }
+              return localResources.getString(R.string.common_google_play_services_unsupported_text, new Object[] { str });
+            }
+            return zzl(paramContext, "common_google_play_services_network_error_text", str);
+          }
+          return zzl(paramContext, "common_google_play_services_invalid_account_text", str);
+        }
+        return localResources.getString(R.string.common_google_play_services_enable_text, new Object[] { str });
+      }
+      if (zzi.zzcj(paramContext)) {
+        return localResources.getString(R.string.common_google_play_services_wear_update_text);
+      }
+      return localResources.getString(R.string.common_google_play_services_update_text, new Object[] { str });
+    }
+    return localResources.getString(R.string.common_google_play_services_install_text, new Object[] { str });
+  }
+  
+  @F
+  public static String zzj(Context paramContext, int paramInt)
+  {
+    if (paramInt == 6) {
+      return zzl(paramContext, "common_google_play_services_resolution_required_text", zzcd(paramContext));
+    }
+    return zzi(paramContext, paramInt);
+  }
+  
+  @F
+  public static String zzk(Context paramContext, int paramInt)
+  {
+    paramContext = paramContext.getResources();
+    if (paramInt != 1) {
+      if (paramInt != 2) {
+        if (paramInt != 3) {
+          paramInt = 17039370;
+        }
+      }
+    }
+    for (;;)
+    {
+      return paramContext.getString(paramInt);
+      paramInt = R.string.common_google_play_services_enable_button;
+      continue;
+      paramInt = R.string.common_google_play_services_update_button;
+      continue;
+      paramInt = R.string.common_google_play_services_install_button;
+    }
+  }
+  
+  public static String zzl(Context paramContext, String paramString1, String paramString2)
+  {
+    Resources localResources = paramContext.getResources();
+    paramString1 = zzy(paramContext, paramString1);
+    paramContext = paramString1;
+    if (paramString1 == null) {
+      paramContext = localResources.getString(R.string.common_google_play_services_unknown_issue);
+    }
+    return String.format(getConfigurationlocale, paramContext, new Object[] { paramString2 });
+  }
+  
+  @G
+  public static String zzy(Context paramContext, String paramString)
+  {
+    synchronized (zzftw)
+    {
+      String str = (String)zzftw.get(paramString);
+      if (str != null) {
+        return str;
+      }
+      paramContext = GooglePlayServicesUtil.getRemoteResource(paramContext);
+      if (paramContext == null) {
+        return null;
+      }
+      int i = paramContext.getIdentifier(paramString, "string", "com.google.android.gms");
+      if (i == 0)
+      {
+        paramContext = String.valueOf(paramString);
+        if (paramContext.length() != 0) {
+          "Missing resource: ".concat(paramContext);
+        } else {
+          new String("Missing resource: ");
+        }
+        return null;
+      }
+      paramContext = paramContext.getString(i);
+      if (TextUtils.isEmpty(paramContext))
+      {
+        paramContext = String.valueOf(paramString);
+        if (paramContext.length() != 0) {
+          "Got empty resource: ".concat(paramContext);
+        } else {
+          new String("Got empty resource: ");
+        }
+        return null;
+      }
+      zzftw.put(paramString, paramContext);
+      return paramContext;
+    }
+  }
+}

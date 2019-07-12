@@ -1,0 +1,1177 @@
+package android.support.v4.media;
+
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Binder;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.IBinder.DeathRecipient;
+import android.os.IInterface;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.Parcel;
+import android.os.RemoteException;
+import android.service.media.MediaBrowserService;
+import android.support.v4.app.BundleCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.MediaSessionCompat.Token;
+import android.support.v4.os.ResultReceiver;
+import android.text.TextUtils;
+import android.util.Log;
+import b.b.x.h.A;
+import b.b.x.h.B;
+import b.b.x.h.C;
+import b.b.x.h.D;
+import b.b.x.h.E;
+import b.b.x.h.H;
+import b.b.x.h.I;
+import b.b.x.h.J;
+import b.b.x.h.L;
+import b.b.x.h.M;
+import b.b.x.h.O;
+import b.b.x.h.P;
+import b.b.x.h.Q;
+import b.b.x.h.S;
+import b.b.x.h.T;
+import b.b.x.h.U;
+import b.b.x.h.V;
+import b.b.x.h.W;
+import b.b.x.h.W.a;
+import b.b.x.h.W.b;
+import b.b.x.h.W.c;
+import b.b.x.h.W.d;
+import b.b.x.h.X.a;
+import b.b.x.h.X.b;
+import b.b.x.h.Y;
+import b.b.x.h.Y.b;
+import b.b.x.h.Y.c;
+import b.b.x.h.ea.b;
+import b.b.x.h.w;
+import b.b.x.h.y;
+import b.b.x.h.z;
+import b.b.x.n.b;
+import b.b.x.n.p;
+import f.a.a.a.a;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+public abstract class MediaBrowserServiceCompat
+  extends Service
+{
+  public static final String a = "MBServiceCompat";
+  public static final boolean b = Log.isLoggable("MBServiceCompat", 3);
+  public static final float c = 1.0E-5F;
+  public static final String d = "android.media.browse.MediaBrowserService";
+  @b.b.a.N({b.b.a.N.a.a})
+  public static final String e = "media_item";
+  @b.b.a.N({b.b.a.N.a.a})
+  public static final String f = "search_results";
+  public static final int g = 1;
+  public static final int h = 2;
+  public static final int i = 4;
+  @b.b.a.N({b.b.a.N.a.a})
+  public static final int j = -1;
+  @b.b.a.N({b.b.a.N.a.a})
+  public static final int k = 0;
+  @b.b.a.N({b.b.a.N.a.a})
+  public static final int l = 1;
+  public c m;
+  public final b<IBinder, b> n = new b();
+  public b o;
+  public final m p = new m();
+  public MediaSessionCompat.Token q;
+  
+  public MediaBrowserServiceCompat() {}
+  
+  public final Bundle a()
+  {
+    return m.b();
+  }
+  
+  @b.b.a.G
+  public abstract a a(@b.b.a.F String paramString, int paramInt, @b.b.a.G Bundle paramBundle);
+  
+  public List<MediaBrowserCompat.MediaItem> a(List<MediaBrowserCompat.MediaItem> paramList, Bundle paramBundle)
+  {
+    if (paramList == null) {
+      return null;
+    }
+    int i1 = paramBundle.getInt("android.media.browse.extra.PAGE", -1);
+    int i4 = paramBundle.getInt("android.media.browse.extra.PAGE_SIZE", -1);
+    if ((i1 == -1) && (i4 == -1)) {
+      return paramList;
+    }
+    int i3 = i4 * i1;
+    int i2 = i3 + i4;
+    if ((i1 >= 0) && (i4 >= 1) && (i3 < paramList.size()))
+    {
+      i1 = i2;
+      if (i2 > paramList.size()) {
+        i1 = paramList.size();
+      }
+      return paramList.subList(i3, i1);
+    }
+    return Collections.emptyList();
+  }
+  
+  @b.b.a.N({b.b.a.N.a.a})
+  public void a(Context paramContext)
+  {
+    attachBaseContext(paramContext);
+  }
+  
+  public void a(MediaSessionCompat.Token paramToken)
+  {
+    if (paramToken != null)
+    {
+      if (q == null)
+      {
+        q = paramToken;
+        m.a(paramToken);
+        return;
+      }
+      throw new IllegalStateException("The session token has already been set.");
+    }
+    throw new IllegalArgumentException("Session token may not be null.");
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void a(@b.b.a.F ea.b paramB, @b.b.a.F String paramString, @b.b.a.F Bundle paramBundle)
+  {
+    if (paramB != null)
+    {
+      if (paramString != null)
+      {
+        if (paramBundle != null)
+        {
+          m.a(paramB, paramString, paramBundle);
+          return;
+        }
+        throw new IllegalArgumentException("options cannot be null in notifyChildrenChanged");
+      }
+      throw new IllegalArgumentException("parentId cannot be null in notifyChildrenChanged");
+    }
+    throw new IllegalArgumentException("remoteUserInfo cannot be null in notifyChildrenChanged");
+  }
+  
+  public void a(@b.b.a.F String paramString)
+  {
+    if (paramString != null)
+    {
+      m.a(paramString, null);
+      return;
+    }
+    throw new IllegalArgumentException("parentId cannot be null in notifyChildrenChanged");
+  }
+  
+  public void a(@b.b.a.F String paramString, @b.b.a.F Bundle paramBundle)
+  {
+    if (paramString != null)
+    {
+      if (paramBundle != null)
+      {
+        m.a(paramString, paramBundle);
+        return;
+      }
+      throw new IllegalArgumentException("options cannot be null in notifyChildrenChanged");
+    }
+    throw new IllegalArgumentException("parentId cannot be null in notifyChildrenChanged");
+  }
+  
+  public void a(String paramString, Bundle paramBundle, b paramB, ResultReceiver paramResultReceiver)
+  {
+    paramResultReceiver = new B(this, paramString, paramResultReceiver);
+    o = paramB;
+    a(paramString, paramBundle, paramResultReceiver);
+    o = null;
+    if (paramResultReceiver.c()) {
+      return;
+    }
+    paramB = new StringBuilder();
+    paramB.append("onCustomAction must call detach() or sendResult() or sendError() before returning for action=");
+    paramB.append(paramString);
+    paramB.append(" extras=");
+    paramB.append(paramBundle);
+    throw new IllegalStateException(paramB.toString());
+  }
+  
+  public void a(@b.b.a.F String paramString, Bundle paramBundle, @b.b.a.F i<Bundle> paramI)
+  {
+    paramI.c(null);
+  }
+  
+  public void a(String paramString, b paramB, Bundle paramBundle1, Bundle paramBundle2)
+  {
+    paramBundle2 = new y(this, paramString, paramB, paramString, paramBundle1, paramBundle2);
+    o = paramB;
+    if (paramBundle1 == null) {
+      a(paramString, paramBundle2);
+    } else {
+      a(paramString, paramBundle2, paramBundle1);
+    }
+    o = null;
+    if (paramBundle2.c()) {
+      return;
+    }
+    throw new IllegalStateException(a.a(a.b("onLoadChildren must call detach() or sendResult() before returning for package="), a, " id=", paramString));
+  }
+  
+  public void a(String paramString, b paramB, IBinder paramIBinder, Bundle paramBundle)
+  {
+    Object localObject2 = (List)g.get(paramString);
+    Object localObject1 = localObject2;
+    if (localObject2 == null) {
+      localObject1 = new ArrayList();
+    }
+    localObject2 = ((List)localObject1).iterator();
+    while (((Iterator)localObject2).hasNext())
+    {
+      p localP = (p)((Iterator)localObject2).next();
+      if ((paramIBinder == a) && (w.a(paramBundle, (Bundle)b))) {
+        return;
+      }
+    }
+    ((List)localObject1).add(new p(paramIBinder, paramBundle));
+    g.put(paramString, localObject1);
+    a(paramString, paramB, paramBundle, null);
+    o = paramB;
+    b(paramString, paramBundle);
+    o = null;
+  }
+  
+  public void a(String paramString, b paramB, ResultReceiver paramResultReceiver)
+  {
+    paramResultReceiver = new z(this, paramString, paramResultReceiver);
+    o = paramB;
+    b(paramString, paramResultReceiver);
+    o = null;
+    if (paramResultReceiver.c()) {
+      return;
+    }
+    throw new IllegalStateException(a.c("onLoadItem must call detach() or sendResult() before returning for id=", paramString));
+  }
+  
+  public abstract void a(@b.b.a.F String paramString, @b.b.a.F i<List<MediaBrowserCompat.MediaItem>> paramI);
+  
+  public void a(@b.b.a.F String paramString, @b.b.a.F i<List<MediaBrowserCompat.MediaItem>> paramI, @b.b.a.F Bundle paramBundle)
+  {
+    paramI.a(1);
+    a(paramString, paramI);
+  }
+  
+  public boolean a(String paramString, int paramInt)
+  {
+    if (paramString == null) {
+      return false;
+    }
+    String[] arrayOfString = getPackageManager().getPackagesForUid(paramInt);
+    int i1 = arrayOfString.length;
+    paramInt = 0;
+    while (paramInt < i1)
+    {
+      if (arrayOfString[paramInt].equals(paramString)) {
+        return true;
+      }
+      paramInt += 1;
+    }
+    return false;
+  }
+  
+  public boolean a(String paramString, b paramB, IBinder paramIBinder)
+  {
+    boolean bool2 = true;
+    boolean bool3 = false;
+    boolean bool1 = false;
+    if (paramIBinder == null) {}
+    try
+    {
+      paramIBinder = g.remove(paramString);
+      if (paramIBinder != null) {
+        bool1 = bool2;
+      } else {
+        bool1 = false;
+      }
+      o = paramB;
+      b(paramString);
+      o = null;
+      return bool1;
+    }
+    finally
+    {
+      List localList;
+      Iterator localIterator;
+      o = paramB;
+      b(paramString);
+      o = null;
+      break label191;
+    }
+    localList = (List)g.get(paramString);
+    bool2 = bool3;
+    if (localList != null)
+    {
+      localIterator = localList.iterator();
+      while (localIterator.hasNext()) {
+        if (paramIBinder == nexta)
+        {
+          localIterator.remove();
+          bool1 = true;
+        }
+      }
+      bool2 = bool1;
+      if (localList.size() == 0)
+      {
+        g.remove(paramString);
+        bool2 = bool1;
+      }
+    }
+    o = paramB;
+    b(paramString);
+    o = null;
+    return bool2;
+    label191:
+    for (;;)
+    {
+      throw paramIBinder;
+    }
+  }
+  
+  @b.b.a.F
+  public final ea.b b()
+  {
+    return m.a();
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void b(String paramString) {}
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void b(String paramString, Bundle paramBundle) {}
+  
+  public void b(String paramString, Bundle paramBundle, b paramB, ResultReceiver paramResultReceiver)
+  {
+    paramResultReceiver = new A(this, paramString, paramResultReceiver);
+    o = paramB;
+    b(paramString, paramBundle, paramResultReceiver);
+    o = null;
+    if (paramResultReceiver.c()) {
+      return;
+    }
+    throw new IllegalStateException(a.c("onSearch must call detach() or sendResult() before returning for query=", paramString));
+  }
+  
+  public void b(@b.b.a.F String paramString, Bundle paramBundle, @b.b.a.F i<List<MediaBrowserCompat.MediaItem>> paramI)
+  {
+    paramI.a(4);
+    paramI.b(null);
+  }
+  
+  public void b(String paramString, @b.b.a.F i<MediaBrowserCompat.MediaItem> paramI)
+  {
+    paramI.a(2);
+    paramI.b(null);
+  }
+  
+  @b.b.a.G
+  public MediaSessionCompat.Token c()
+  {
+    return q;
+  }
+  
+  public void dump(FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString) {}
+  
+  public IBinder onBind(Intent paramIntent)
+  {
+    return m.a(paramIntent);
+  }
+  
+  public void onCreate()
+  {
+    super.onCreate();
+    int i1 = Build.VERSION.SDK_INT;
+    if (i1 >= 28) {
+      m = new g();
+    } else if (i1 >= 26) {
+      m = new f();
+    } else if (i1 >= 23) {
+      m = new e();
+    } else if (i1 >= 21) {
+      m = new d();
+    } else {
+      m = new h();
+    }
+    m.onCreate();
+  }
+  
+  public static final class a
+  {
+    public static final String a = "android.service.media.extra.RECENT";
+    public static final String b = "android.service.media.extra.OFFLINE";
+    public static final String c = "android.service.media.extra.SUGGESTED";
+    @Deprecated
+    public static final String d = "android.service.media.extra.SUGGESTION_KEYWORDS";
+    public final String e;
+    public final Bundle f;
+    
+    public a(@b.b.a.F String paramString, @b.b.a.G Bundle paramBundle)
+    {
+      if (paramString != null)
+      {
+        e = paramString;
+        f = paramBundle;
+        return;
+      }
+      throw new IllegalArgumentException("The root id in BrowserRoot cannot be null. Use null for BrowserRoot instead.");
+    }
+    
+    public Bundle a()
+    {
+      return f;
+    }
+    
+    public String b()
+    {
+      return e;
+    }
+  }
+  
+  private class b
+    implements IBinder.DeathRecipient
+  {
+    public final String a;
+    public final int b;
+    public final int c;
+    public final ea.b d;
+    public final Bundle e;
+    public final MediaBrowserServiceCompat.k f;
+    public final HashMap<String, List<p<IBinder, Bundle>>> g = new HashMap();
+    public MediaBrowserServiceCompat.a h;
+    
+    public b(String paramString, int paramInt1, int paramInt2, Bundle paramBundle, MediaBrowserServiceCompat.k paramK)
+    {
+      a = paramString;
+      b = paramInt1;
+      c = paramInt2;
+      d = new ea.b(paramString, paramInt1, paramInt2);
+      e = paramBundle;
+      f = paramK;
+    }
+    
+    public void binderDied()
+    {
+      p.post(new C(this));
+    }
+  }
+  
+  public static abstract interface c
+  {
+    public abstract IBinder a(Intent paramIntent);
+    
+    public abstract ea.b a();
+    
+    public abstract void a(MediaSessionCompat.Token paramToken);
+    
+    public abstract void a(ea.b paramB, String paramString, Bundle paramBundle);
+    
+    public abstract void a(String paramString, Bundle paramBundle);
+    
+    public abstract Bundle b();
+    
+    public abstract void onCreate();
+  }
+  
+  @b.b.a.K(21)
+  public class d
+    implements MediaBrowserServiceCompat.c, W.d
+  {
+    public final List<Bundle> a = new ArrayList();
+    public Object b;
+    public Messenger c;
+    
+    public d() {}
+    
+    public IBinder a(Intent paramIntent)
+    {
+      return W.a(b, paramIntent);
+    }
+    
+    public W.a a(String paramString, int paramInt, Bundle paramBundle)
+    {
+      Object localObject1;
+      if ((paramBundle != null) && (paramBundle.getInt("extra_client_version", 0) != 0))
+      {
+        paramBundle.remove("extra_client_version");
+        c = new Messenger(p);
+        localObject2 = new Bundle();
+        ((Bundle)localObject2).putInt("extra_service_version", 2);
+        localObject1 = c.getBinder();
+        int i = Build.VERSION.SDK_INT;
+        ((Bundle)localObject2).putBinder("extra_messenger", (IBinder)localObject1);
+        localObject1 = q;
+        if (localObject1 != null)
+        {
+          localObject1 = ((MediaSessionCompat.Token)localObject1).a();
+          if (localObject1 == null) {
+            localObject1 = null;
+          } else {
+            localObject1 = ((IInterface)localObject1).asBinder();
+          }
+          i = Build.VERSION.SDK_INT;
+          ((Bundle)localObject2).putBinder("extra_session_binder", (IBinder)localObject1);
+          localObject1 = localObject2;
+        }
+        else
+        {
+          a.add(localObject2);
+          localObject1 = localObject2;
+        }
+      }
+      else
+      {
+        localObject1 = null;
+      }
+      Object localObject2 = MediaBrowserServiceCompat.this;
+      o = new MediaBrowserServiceCompat.b((MediaBrowserServiceCompat)localObject2, paramString, -1, paramInt, paramBundle, null);
+      paramBundle = a(paramString, paramInt, paramBundle);
+      o = null;
+      if (paramBundle == null) {
+        return null;
+      }
+      if (localObject1 == null)
+      {
+        paramString = paramBundle.a();
+      }
+      else
+      {
+        paramString = (String)localObject1;
+        if (paramBundle.a() != null)
+        {
+          ((Bundle)localObject1).putAll(paramBundle.a());
+          paramString = (String)localObject1;
+        }
+      }
+      return new W.a(paramBundle.b(), paramString);
+    }
+    
+    public ea.b a()
+    {
+      MediaBrowserServiceCompat.b localB = o;
+      if (localB != null) {
+        return d;
+      }
+      throw new IllegalStateException("This should be called inside of onGetRoot, onLoadChildren, onLoadItem, onSearch, or onCustomAction methods");
+    }
+    
+    public void a(MediaBrowserServiceCompat.b paramB, String paramString, Bundle paramBundle)
+    {
+      Object localObject = (List)g.get(paramString);
+      if (localObject != null)
+      {
+        localObject = ((List)localObject).iterator();
+        while (((Iterator)localObject).hasNext())
+        {
+          p localP = (p)((Iterator)localObject).next();
+          if (w.b(paramBundle, (Bundle)b)) {
+            a(paramString, paramB, (Bundle)b, paramBundle);
+          }
+        }
+      }
+    }
+    
+    public void a(MediaSessionCompat.Token paramToken)
+    {
+      p.a(new D(this, paramToken));
+    }
+    
+    public void a(ea.b paramB, String paramString, Bundle paramBundle)
+    {
+      b(paramB, paramString, paramBundle);
+    }
+    
+    public void a(String paramString, Bundle paramBundle)
+    {
+      c(paramString, paramBundle);
+      b(paramString, paramBundle);
+    }
+    
+    public Bundle b()
+    {
+      if (c == null) {
+        return null;
+      }
+      Object localObject = o;
+      if (localObject != null)
+      {
+        localObject = e;
+        if (localObject == null) {
+          return null;
+        }
+        return new Bundle((Bundle)localObject);
+      }
+      throw new IllegalStateException("This should be called inside of onGetRoot, onLoadChildren, onLoadItem, onSearch, or onCustomAction methods");
+    }
+    
+    public void b(ea.b paramB, String paramString, Bundle paramBundle)
+    {
+      p.post(new b.b.x.h.G(this, paramB, paramString, paramBundle));
+    }
+    
+    public void b(String paramString, Bundle paramBundle)
+    {
+      p.post(new b.b.x.h.F(this, paramString, paramBundle));
+    }
+    
+    public void b(String paramString, W.c<List<Parcel>> paramC)
+    {
+      paramC = new E(this, paramString, paramC);
+      a(paramString, paramC);
+    }
+    
+    public void c(String paramString, Bundle paramBundle)
+    {
+      ((MediaBrowserService)b).notifyChildrenChanged(paramString);
+    }
+    
+    public void onCreate()
+    {
+      b = new W.b(MediaBrowserServiceCompat.this, this);
+      ((MediaBrowserService)b).onCreate();
+    }
+  }
+  
+  @b.b.a.K(23)
+  public class e
+    extends MediaBrowserServiceCompat.d
+    implements X.b
+  {
+    public e()
+    {
+      super();
+    }
+    
+    public void a(String paramString, W.c<Parcel> paramC)
+    {
+      paramC = new H(this, paramString, paramC);
+      b(paramString, paramC);
+    }
+    
+    public void onCreate()
+    {
+      b = new X.a(MediaBrowserServiceCompat.this, this);
+      ((MediaBrowserService)b).onCreate();
+    }
+  }
+  
+  @b.b.a.K(26)
+  public class f
+    extends MediaBrowserServiceCompat.e
+    implements Y.c
+  {
+    public f()
+    {
+      super();
+    }
+    
+    public void a(String paramString, Y.b paramB, Bundle paramBundle)
+    {
+      paramB = new I(this, paramString, paramB);
+      a(paramString, paramB, paramBundle);
+    }
+    
+    public Bundle b()
+    {
+      Object localObject = o;
+      if (localObject != null)
+      {
+        localObject = e;
+        if (localObject == null) {
+          return null;
+        }
+        return new Bundle((Bundle)localObject);
+      }
+      return Y.a(b);
+    }
+    
+    public void c(String paramString, Bundle paramBundle)
+    {
+      if (paramBundle != null)
+      {
+        Y.a(b, paramString, paramBundle);
+        return;
+      }
+      ((MediaBrowserService)b).notifyChildrenChanged(paramString);
+    }
+    
+    public void onCreate()
+    {
+      b = Y.a(MediaBrowserServiceCompat.this, this);
+      ((MediaBrowserService)b).onCreate();
+    }
+  }
+  
+  @b.b.a.K(28)
+  public class g
+    extends MediaBrowserServiceCompat.f
+  {
+    public g()
+    {
+      super();
+    }
+    
+    public ea.b a()
+    {
+      MediaBrowserServiceCompat.b localB = o;
+      if (localB != null) {
+        return d;
+      }
+      return new ea.b(((MediaBrowserService)b).getCurrentBrowserInfo());
+    }
+  }
+  
+  public class h
+    implements MediaBrowserServiceCompat.c
+  {
+    public Messenger a;
+    
+    public h() {}
+    
+    public IBinder a(Intent paramIntent)
+    {
+      if ("android.media.browse.MediaBrowserService".equals(paramIntent.getAction())) {
+        return a.getBinder();
+      }
+      return null;
+    }
+    
+    public ea.b a()
+    {
+      MediaBrowserServiceCompat.b localB = o;
+      if (localB != null) {
+        return d;
+      }
+      throw new IllegalStateException("This should be called inside of onLoadChildren, onLoadItem, onSearch, or onCustomAction methods");
+    }
+    
+    public void a(MediaBrowserServiceCompat.b paramB, String paramString, Bundle paramBundle)
+    {
+      Object localObject = (List)g.get(paramString);
+      if (localObject != null)
+      {
+        localObject = ((List)localObject).iterator();
+        while (((Iterator)localObject).hasNext())
+        {
+          p localP = (p)((Iterator)localObject).next();
+          if (w.b(paramBundle, (Bundle)b)) {
+            a(paramString, paramB, (Bundle)b, paramBundle);
+          }
+        }
+      }
+    }
+    
+    public void a(MediaSessionCompat.Token paramToken)
+    {
+      p.post(new J(this, paramToken));
+    }
+    
+    public void a(@b.b.a.F ea.b paramB, @b.b.a.F String paramString, Bundle paramBundle)
+    {
+      p.post(new L(this, paramB, paramString, paramBundle));
+    }
+    
+    public void a(@b.b.a.F String paramString, Bundle paramBundle)
+    {
+      p.post(new b.b.x.h.K(this, paramString, paramBundle));
+    }
+    
+    public Bundle b()
+    {
+      Object localObject = o;
+      if (localObject != null)
+      {
+        localObject = e;
+        if (localObject == null) {
+          return null;
+        }
+        return new Bundle((Bundle)localObject);
+      }
+      throw new IllegalStateException("This should be called inside of onLoadChildren, onLoadItem, onSearch, or onCustomAction methods");
+    }
+    
+    public void onCreate()
+    {
+      a = new Messenger(p);
+    }
+  }
+  
+  public static class i<T>
+  {
+    public final Object a;
+    public boolean b;
+    public boolean c;
+    public boolean d;
+    public boolean e;
+    public int f;
+    
+    public i(Object paramObject)
+    {
+      a = paramObject;
+    }
+    
+    private void e(Bundle paramBundle)
+    {
+      if (paramBundle == null) {
+        return;
+      }
+      if (paramBundle.containsKey("android.media.browse.extra.DOWNLOAD_PROGRESS"))
+      {
+        float f1 = paramBundle.getFloat("android.media.browse.extra.DOWNLOAD_PROGRESS");
+        if ((f1 >= -1.0E-5F) && (f1 <= 1.00001F)) {
+          return;
+        }
+        throw new IllegalArgumentException("The value of the EXTRA_DOWNLOAD_PROGRESS field must be a float number within [0.0, 1.0].");
+      }
+    }
+    
+    public void a()
+    {
+      if (!b)
+      {
+        if (!c)
+        {
+          if (!e)
+          {
+            b = true;
+            return;
+          }
+          localStringBuilder = a.b("detach() called when sendError() had already been called for: ");
+          localStringBuilder.append(a);
+          throw new IllegalStateException(localStringBuilder.toString());
+        }
+        localStringBuilder = a.b("detach() called when sendResult() had already been called for: ");
+        localStringBuilder.append(a);
+        throw new IllegalStateException(localStringBuilder.toString());
+      }
+      StringBuilder localStringBuilder = a.b("detach() called when detach() had already been called for: ");
+      localStringBuilder.append(a);
+      throw new IllegalStateException(localStringBuilder.toString());
+    }
+    
+    public void a(int paramInt)
+    {
+      f = paramInt;
+    }
+    
+    public void a(Bundle paramBundle)
+    {
+      paramBundle = a.b("It is not supported to send an error for ");
+      paramBundle.append(a);
+      throw new UnsupportedOperationException(paramBundle.toString());
+    }
+    
+    public void a(T paramT) {}
+    
+    public int b()
+    {
+      return f;
+    }
+    
+    public void b(Bundle paramBundle)
+    {
+      paramBundle = a.b("It is not supported to send an interim update for ");
+      paramBundle.append(a);
+      throw new UnsupportedOperationException(paramBundle.toString());
+    }
+    
+    public void b(T paramT)
+    {
+      if ((!c) && (!e))
+      {
+        c = true;
+        a(paramT);
+        return;
+      }
+      paramT = a.b("sendResult() called when either sendResult() or sendError() had already been called for: ");
+      paramT.append(a);
+      throw new IllegalStateException(paramT.toString());
+    }
+    
+    public void c(Bundle paramBundle)
+    {
+      if ((!c) && (!e))
+      {
+        e = true;
+        a(paramBundle);
+        return;
+      }
+      paramBundle = a.b("sendError() called when either sendResult() or sendError() had already been called for: ");
+      paramBundle.append(a);
+      throw new IllegalStateException(paramBundle.toString());
+    }
+    
+    public boolean c()
+    {
+      return (b) || (c) || (e);
+    }
+    
+    public void d(Bundle paramBundle)
+    {
+      if ((!c) && (!e))
+      {
+        e(paramBundle);
+        d = true;
+        b(paramBundle);
+        return;
+      }
+      paramBundle = a.b("sendProgressUpdate() called when either sendResult() or sendError() had already been called for: ");
+      paramBundle.append(a);
+      throw new IllegalStateException(paramBundle.toString());
+    }
+  }
+  
+  private class j
+  {
+    public j() {}
+    
+    public void a(MediaBrowserServiceCompat.k paramK)
+    {
+      p.a(new b.b.x.h.N(this, paramK));
+    }
+    
+    public void a(MediaBrowserServiceCompat.k paramK, String paramString, int paramInt1, int paramInt2, Bundle paramBundle)
+    {
+      p.a(new S(this, paramK, paramString, paramInt1, paramInt2, paramBundle));
+    }
+    
+    public void a(String paramString, int paramInt1, int paramInt2, Bundle paramBundle, MediaBrowserServiceCompat.k paramK)
+    {
+      if (a(paramString, paramInt2))
+      {
+        p.a(new M(this, paramK, paramString, paramInt1, paramInt2, paramBundle));
+        return;
+      }
+      paramBundle = new StringBuilder();
+      paramBundle.append("Package/uid mismatch: uid=");
+      paramBundle.append(paramInt2);
+      paramBundle.append(" package=");
+      paramBundle.append(paramString);
+      throw new IllegalArgumentException(paramBundle.toString());
+    }
+    
+    public void a(String paramString, Bundle paramBundle, ResultReceiver paramResultReceiver, MediaBrowserServiceCompat.k paramK)
+    {
+      if (!TextUtils.isEmpty(paramString))
+      {
+        if (paramResultReceiver == null) {
+          return;
+        }
+        p.a(new U(this, paramK, paramString, paramBundle, paramResultReceiver));
+      }
+    }
+    
+    public void a(String paramString, IBinder paramIBinder, Bundle paramBundle, MediaBrowserServiceCompat.k paramK)
+    {
+      p.a(new O(this, paramK, paramString, paramIBinder, paramBundle));
+    }
+    
+    public void a(String paramString, IBinder paramIBinder, MediaBrowserServiceCompat.k paramK)
+    {
+      p.a(new P(this, paramK, paramString, paramIBinder));
+    }
+    
+    public void a(String paramString, ResultReceiver paramResultReceiver, MediaBrowserServiceCompat.k paramK)
+    {
+      if (!TextUtils.isEmpty(paramString))
+      {
+        if (paramResultReceiver == null) {
+          return;
+        }
+        p.a(new Q(this, paramK, paramString, paramResultReceiver));
+      }
+    }
+    
+    public void b(MediaBrowserServiceCompat.k paramK)
+    {
+      p.a(new T(this, paramK));
+    }
+    
+    public void b(String paramString, Bundle paramBundle, ResultReceiver paramResultReceiver, MediaBrowserServiceCompat.k paramK)
+    {
+      if (!TextUtils.isEmpty(paramString))
+      {
+        if (paramResultReceiver == null) {
+          return;
+        }
+        p.a(new V(this, paramK, paramString, paramBundle, paramResultReceiver));
+      }
+    }
+  }
+  
+  private static abstract interface k
+  {
+    public abstract void a()
+      throws RemoteException;
+    
+    public abstract void a(String paramString, MediaSessionCompat.Token paramToken, Bundle paramBundle)
+      throws RemoteException;
+    
+    public abstract void a(String paramString, List<MediaBrowserCompat.MediaItem> paramList, Bundle paramBundle1, Bundle paramBundle2)
+      throws RemoteException;
+    
+    public abstract IBinder asBinder();
+  }
+  
+  private static class l
+    implements MediaBrowserServiceCompat.k
+  {
+    public final Messenger a;
+    
+    public l(Messenger paramMessenger)
+    {
+      a = paramMessenger;
+    }
+    
+    private void a(int paramInt, Bundle paramBundle)
+      throws RemoteException
+    {
+      Message localMessage = Message.obtain();
+      what = paramInt;
+      arg1 = 2;
+      localMessage.setData(paramBundle);
+      a.send(localMessage);
+    }
+    
+    public void a()
+      throws RemoteException
+    {
+      a(2, null);
+    }
+    
+    public void a(String paramString, MediaSessionCompat.Token paramToken, Bundle paramBundle)
+      throws RemoteException
+    {
+      Bundle localBundle = paramBundle;
+      if (paramBundle == null) {
+        localBundle = new Bundle();
+      }
+      localBundle.putInt("extra_service_version", 2);
+      paramBundle = new Bundle();
+      paramBundle.putString("data_media_item_id", paramString);
+      paramBundle.putParcelable("data_media_session_token", paramToken);
+      paramBundle.putBundle("data_root_hints", localBundle);
+      a(1, paramBundle);
+    }
+    
+    public void a(String paramString, List<MediaBrowserCompat.MediaItem> paramList, Bundle paramBundle1, Bundle paramBundle2)
+      throws RemoteException
+    {
+      Bundle localBundle = new Bundle();
+      localBundle.putString("data_media_item_id", paramString);
+      localBundle.putBundle("data_options", paramBundle1);
+      localBundle.putBundle("data_notify_children_changed_options", paramBundle2);
+      if (paramList != null)
+      {
+        if ((paramList instanceof ArrayList)) {
+          paramString = (ArrayList)paramList;
+        } else {
+          paramString = new ArrayList(paramList);
+        }
+        localBundle.putParcelableArrayList("data_media_item_list", paramString);
+      }
+      a(3, localBundle);
+    }
+    
+    public IBinder asBinder()
+    {
+      return a.getBinder();
+    }
+  }
+  
+  private final class m
+    extends Handler
+  {
+    public final MediaBrowserServiceCompat.j a = new MediaBrowserServiceCompat.j(MediaBrowserServiceCompat.this);
+    
+    public m() {}
+    
+    public void a(Runnable paramRunnable)
+    {
+      if (Thread.currentThread() == getLooper().getThread())
+      {
+        paramRunnable.run();
+        return;
+      }
+      post(paramRunnable);
+    }
+    
+    public void handleMessage(Message paramMessage)
+    {
+      Object localObject = paramMessage.getData();
+      switch (what)
+      {
+      default: 
+        localObject = new StringBuilder();
+        ((StringBuilder)localObject).append("Unhandled message: ");
+        ((StringBuilder)localObject).append(paramMessage);
+        ((StringBuilder)localObject).append("\n  Service version: ");
+        ((StringBuilder)localObject).append(2);
+        ((StringBuilder)localObject).append("\n  Client version: ");
+        ((StringBuilder)localObject).append(arg1);
+        ((StringBuilder)localObject).toString();
+        return;
+      case 9: 
+        localBundle = ((Bundle)localObject).getBundle("data_custom_action_extras");
+        MediaSessionCompat.a(localBundle);
+        a.b(((Bundle)localObject).getString("data_custom_action"), localBundle, (ResultReceiver)((Bundle)localObject).getParcelable("data_result_receiver"), new MediaBrowserServiceCompat.l(replyTo));
+        return;
+      case 8: 
+        localBundle = ((Bundle)localObject).getBundle("data_search_extras");
+        MediaSessionCompat.a(localBundle);
+        a.a(((Bundle)localObject).getString("data_search_query"), localBundle, (ResultReceiver)((Bundle)localObject).getParcelable("data_result_receiver"), new MediaBrowserServiceCompat.l(replyTo));
+        return;
+      case 7: 
+        a.b(new MediaBrowserServiceCompat.l(replyTo));
+        return;
+      case 6: 
+        localBundle = ((Bundle)localObject).getBundle("data_root_hints");
+        MediaSessionCompat.a(localBundle);
+        a.a(new MediaBrowserServiceCompat.l(replyTo), ((Bundle)localObject).getString("data_package_name"), ((Bundle)localObject).getInt("data_calling_pid"), ((Bundle)localObject).getInt("data_calling_uid"), localBundle);
+        return;
+      case 5: 
+        a.a(((Bundle)localObject).getString("data_media_item_id"), (ResultReceiver)((Bundle)localObject).getParcelable("data_result_receiver"), new MediaBrowserServiceCompat.l(replyTo));
+        return;
+      case 4: 
+        a.a(((Bundle)localObject).getString("data_media_item_id"), BundleCompat.getBinder((Bundle)localObject, "data_callback_token"), new MediaBrowserServiceCompat.l(replyTo));
+        return;
+      case 3: 
+        localBundle = ((Bundle)localObject).getBundle("data_options");
+        MediaSessionCompat.a(localBundle);
+        a.a(((Bundle)localObject).getString("data_media_item_id"), BundleCompat.getBinder((Bundle)localObject, "data_callback_token"), localBundle, new MediaBrowserServiceCompat.l(replyTo));
+        return;
+      case 2: 
+        a.a(new MediaBrowserServiceCompat.l(replyTo));
+        return;
+      }
+      Bundle localBundle = ((Bundle)localObject).getBundle("data_root_hints");
+      MediaSessionCompat.a(localBundle);
+      a.a(((Bundle)localObject).getString("data_package_name"), ((Bundle)localObject).getInt("data_calling_pid"), ((Bundle)localObject).getInt("data_calling_uid"), localBundle, new MediaBrowserServiceCompat.l(replyTo));
+    }
+    
+    public boolean sendMessageAtTime(Message paramMessage, long paramLong)
+    {
+      Bundle localBundle = paramMessage.getData();
+      localBundle.setClassLoader(MediaBrowserCompat.class.getClassLoader());
+      localBundle.putInt("data_calling_uid", Binder.getCallingUid());
+      localBundle.putInt("data_calling_pid", Binder.getCallingPid());
+      return super.sendMessageAtTime(paramMessage, paramLong);
+    }
+  }
+}

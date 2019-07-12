@@ -1,0 +1,32 @@
+package com.google.android.gms.common.api.internal;
+
+import com.google.android.gms.common.api.Releasable;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.data.DataHolder;
+
+public class zzam
+  implements Releasable, Result
+{
+  public Status mStatus;
+  public final DataHolder zzflf;
+  
+  public zzam(DataHolder paramDataHolder, Status paramStatus)
+  {
+    mStatus = paramStatus;
+    zzflf = paramDataHolder;
+  }
+  
+  public Status getStatus()
+  {
+    return mStatus;
+  }
+  
+  public void release()
+  {
+    DataHolder localDataHolder = zzflf;
+    if (localDataHolder != null) {
+      localDataHolder.close();
+    }
+  }
+}

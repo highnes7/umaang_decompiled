@@ -1,0 +1,53 @@
+package b.b.v;
+
+import android.annotation.SuppressLint;
+import android.view.View;
+import b.b.a.K;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@K(22)
+public class Aa
+  extends za
+{
+  public static final String n = "ViewUtilsApi22";
+  public static Method o;
+  public static boolean p;
+  
+  public Aa() {}
+  
+  @SuppressLint({"PrivateApi"})
+  private void f()
+  {
+    if (!p) {}
+    try
+    {
+      o = View.class.getDeclaredMethod("setLeftTopRightBottom", new Class[] { Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE });
+      o.setAccessible(true);
+      p = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void a(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    f();
+    Method localMethod = o;
+    if (localMethod != null) {}
+    try
+    {
+      localMethod.invoke(paramView, new Object[] { Integer.valueOf(paramInt1), Integer.valueOf(paramInt2), Integer.valueOf(paramInt3), Integer.valueOf(paramInt4) });
+      return;
+    }
+    catch (InvocationTargetException paramView)
+    {
+      throw new RuntimeException(paramView.getCause());
+      return;
+    }
+    catch (IllegalAccessException paramView) {}
+  }
+}

@@ -1,0 +1,94 @@
+package com.google.android.gms.auth.api.accounttransfer;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import b.b.a.G;
+import b.b.x.n.b;
+import b.b.x.n.t;
+import com.google.android.gms.internal.zzatt;
+import com.google.android.gms.internal.zzbcn;
+import com.google.android.gms.internal.zzbdm;
+import f.a.a.a.a;
+import java.util.List;
+import java.util.Map;
+
+public class zzp
+  extends zzatt
+{
+  public static final Parcelable.Creator<zzp> CREATOR = new zzq();
+  public static final b<String, zzbdm<?, ?>> zzdzk;
+  public int zzdxs;
+  public List<String> zzdzl;
+  public List<String> zzdzm;
+  public List<String> zzdzn;
+  public List<String> zzdzo;
+  public List<String> zzdzp;
+  
+  static
+  {
+    b localB = new b();
+    zzdzk = localB;
+    localB.put("registered", zzbdm.zzm("registered", 2));
+    zzdzk.put("in_progress", zzbdm.zzm("in_progress", 3));
+    zzdzk.put("success", zzbdm.zzm("success", 4));
+    zzdzk.put("failed", zzbdm.zzm("failed", 5));
+    zzdzk.put("escrowed", zzbdm.zzm("escrowed", 6));
+  }
+  
+  public zzp()
+  {
+    zzdxs = 1;
+  }
+  
+  public zzp(int paramInt, @G List<String> paramList1, @G List<String> paramList2, @G List<String> paramList3, @G List<String> paramList4, @G List<String> paramList5)
+  {
+    zzdxs = paramInt;
+    zzdzl = paramList1;
+    zzdzm = paramList2;
+    zzdzn = paramList3;
+    zzdzo = paramList4;
+    zzdzp = paramList5;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    zzbcn.zzb(paramParcel, 2, zzdzl, false);
+    zzbcn.zzb(paramParcel, 3, zzdzm, false);
+    zzbcn.zzb(paramParcel, 4, zzdzn, false);
+    zzbcn.zzb(paramParcel, 5, zzdzo, false);
+    zzbcn.zzb(paramParcel, 6, zzdzp, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+  
+  public final boolean zza(zzbdm paramZzbdm)
+  {
+    return true;
+  }
+  
+  public final Object zzb(zzbdm paramZzbdm)
+  {
+    switch (paramZzbdm.zzakq())
+    {
+    default: 
+      throw new IllegalStateException(a.a(37, "Unknown SafeParcelable id=", paramZzbdm.zzakq()));
+    case 6: 
+      return zzdzp;
+    case 5: 
+      return zzdzo;
+    case 4: 
+      return zzdzn;
+    case 3: 
+      return zzdzm;
+    case 2: 
+      return zzdzl;
+    }
+    return Integer.valueOf(zzdxs);
+  }
+  
+  public final Map<String, zzbdm<?, ?>> zzzz()
+  {
+    return zzdzk;
+  }
+}

@@ -1,0 +1,134 @@
+package b.a.b;
+
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import b.b.a.F;
+import f.a.a.a.a;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+public class B
+{
+  public static final String a = "android.arch.lifecycle.ViewModelProvider.DefaultKey";
+  public final b b;
+  public final C c;
+  
+  public B(@F C paramC, @F b paramB)
+  {
+    b = paramB;
+    c = paramC;
+  }
+  
+  public B(@F D paramD, @F b paramB)
+  {
+    this(paramD.getViewModelStore(), paramB);
+  }
+  
+  @b.b.a.C
+  @F
+  public <T extends A> T a(@F Class<T> paramClass)
+  {
+    String str = paramClass.getCanonicalName();
+    if (str != null)
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("android.arch.lifecycle.ViewModelProvider.DefaultKey:");
+      localStringBuilder.append(str);
+      return a(localStringBuilder.toString(), paramClass);
+    }
+    throw new IllegalArgumentException("Local and anonymous classes can not be ViewModels");
+  }
+  
+  @b.b.a.C
+  @F
+  public <T extends A> T a(@F String paramString, @F Class<T> paramClass)
+  {
+    A localA = c.a(paramString);
+    if (paramClass.isInstance(localA)) {
+      return localA;
+    }
+    paramClass = b.create(paramClass);
+    c.a(paramString, paramClass);
+    return paramClass;
+  }
+  
+  public static class a
+    extends B.c
+  {
+    public static a a;
+    public Application b;
+    
+    public a(@F Application paramApplication)
+    {
+      b = paramApplication;
+    }
+    
+    @F
+    public static a a(@F Application paramApplication)
+    {
+      if (a == null) {
+        a = new a(paramApplication);
+      }
+      return a;
+    }
+    
+    @F
+    public <T extends A> T create(@F Class<T> paramClass)
+    {
+      if (AndroidViewModel.class.isAssignableFrom(paramClass)) {
+        try
+        {
+          A localA = (A)paramClass.getConstructor(new Class[] { Application.class }).newInstance(new Object[] { b });
+          return localA;
+        }
+        catch (InvocationTargetException localInvocationTargetException)
+        {
+          throw new RuntimeException(a.a("Cannot create an instance of ", paramClass), localInvocationTargetException);
+        }
+        catch (InstantiationException localInstantiationException)
+        {
+          throw new RuntimeException(a.a("Cannot create an instance of ", paramClass), localInstantiationException);
+        }
+        catch (IllegalAccessException localIllegalAccessException)
+        {
+          throw new RuntimeException(a.a("Cannot create an instance of ", paramClass), localIllegalAccessException);
+        }
+        catch (NoSuchMethodException localNoSuchMethodException)
+        {
+          throw new RuntimeException(a.a("Cannot create an instance of ", paramClass), localNoSuchMethodException);
+        }
+      }
+      return super.create(paramClass);
+    }
+  }
+  
+  public static abstract interface b
+  {
+    @F
+    public abstract <T extends A> T create(@F Class<T> paramClass);
+  }
+  
+  public static class c
+    implements B.b
+  {
+    public c() {}
+    
+    @F
+    public <T extends A> T create(@F Class<T> paramClass)
+    {
+      try
+      {
+        A localA = (A)paramClass.newInstance();
+        return localA;
+      }
+      catch (IllegalAccessException localIllegalAccessException)
+      {
+        throw new RuntimeException(a.a("Cannot create an instance of ", paramClass), localIllegalAccessException);
+      }
+      catch (InstantiationException localInstantiationException)
+      {
+        throw new RuntimeException(a.a("Cannot create an instance of ", paramClass), localInstantiationException);
+      }
+    }
+  }
+}

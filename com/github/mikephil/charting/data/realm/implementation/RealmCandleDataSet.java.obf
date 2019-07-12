@@ -1,0 +1,219 @@
+package com.github.mikephil.charting.data.realm.implementation;
+
+import android.graphics.Paint.Style;
+import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.data.realm.base.RealmBaseDataSet;
+import com.github.mikephil.charting.data.realm.base.RealmLineScatterCandleRadarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ICandleDataSet;
+import com.github.mikephil.charting.utils.Utils;
+import io.realm.DynamicRealmObject;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
+import java.util.Iterator;
+import java.util.List;
+
+public class RealmCandleDataSet<T extends RealmObject>
+  extends RealmLineScatterCandleRadarDataSet<T, CandleEntry>
+  implements ICandleDataSet
+{
+  public float mBarSpace = 0.1F;
+  public String mCloseField;
+  public int mDecreasingColor = 1122867;
+  public Paint.Style mDecreasingPaintStyle = Paint.Style.FILL;
+  public String mHighField;
+  public int mIncreasingColor = 1122867;
+  public Paint.Style mIncreasingPaintStyle = Paint.Style.STROKE;
+  public String mLowField;
+  public int mNeutralColor = 1122867;
+  public String mOpenField;
+  public int mShadowColor = 1122867;
+  public boolean mShadowColorSameAsCandle = false;
+  public float mShadowWidth = 3.0F;
+  public boolean mShowCandleBar = true;
+  
+  public RealmCandleDataSet(RealmResults<T> paramRealmResults, String paramString1, String paramString2, String paramString3, String paramString4)
+  {
+    super(paramRealmResults, null);
+    mHighField = paramString1;
+    mLowField = paramString2;
+    mOpenField = paramString3;
+    mCloseField = paramString4;
+    build(results);
+    calcMinMax(0, results.size());
+  }
+  
+  public RealmCandleDataSet(RealmResults<T> paramRealmResults, String paramString1, String paramString2, String paramString3, String paramString4, String paramString5)
+  {
+    super(paramRealmResults, null, paramString5);
+    mHighField = paramString1;
+    mLowField = paramString2;
+    mOpenField = paramString3;
+    mCloseField = paramString4;
+    build(results);
+    calcMinMax(0, results.size());
+  }
+  
+  public void build(RealmResults<T> paramRealmResults)
+  {
+    DynamicRealmObject localDynamicRealmObject;
+    if (mIndexField == null)
+    {
+      int i = 0;
+      paramRealmResults = paramRealmResults.iterator();
+      while (paramRealmResults.hasNext())
+      {
+        localDynamicRealmObject = new DynamicRealmObject((RealmObject)paramRealmResults.next());
+        mValues.add(new CandleEntry(i, localDynamicRealmObject.getFloat(mHighField), localDynamicRealmObject.getFloat(mLowField), localDynamicRealmObject.getFloat(mOpenField), localDynamicRealmObject.getFloat(mCloseField)));
+        i += 1;
+      }
+    }
+    paramRealmResults = paramRealmResults.iterator();
+    while (paramRealmResults.hasNext())
+    {
+      localDynamicRealmObject = new DynamicRealmObject((RealmObject)paramRealmResults.next());
+      mValues.add(new CandleEntry(localDynamicRealmObject.getInt(mIndexField), localDynamicRealmObject.getFloat(mHighField), localDynamicRealmObject.getFloat(mLowField), localDynamicRealmObject.getFloat(mOpenField), localDynamicRealmObject.getFloat(mCloseField)));
+    }
+  }
+  
+  public void calcMinMax(int paramInt1, int paramInt2)
+  {
+    Object localObject = mValues;
+    if (localObject == null) {
+      return;
+    }
+    if (((List)localObject).size() == 0) {
+      return;
+    }
+    int i;
+    if (paramInt2 != 0)
+    {
+      i = paramInt2;
+      if (paramInt2 < mValues.size()) {}
+    }
+    else
+    {
+      i = mValues.size() - 1;
+    }
+    mYMin = Float.MAX_VALUE;
+    mYMax = -3.4028235E38F;
+    while (paramInt1 <= i)
+    {
+      localObject = (CandleEntry)mValues.get(paramInt1);
+      if (((CandleEntry)localObject).getLow() < mYMin) {
+        mYMin = ((CandleEntry)localObject).getLow();
+      }
+      if (((CandleEntry)localObject).getHigh() > mYMax) {
+        mYMax = ((CandleEntry)localObject).getHigh();
+      }
+      paramInt1 += 1;
+    }
+  }
+  
+  public float getBarSpace()
+  {
+    return mBarSpace;
+  }
+  
+  public int getDecreasingColor()
+  {
+    return mDecreasingColor;
+  }
+  
+  public Paint.Style getDecreasingPaintStyle()
+  {
+    return mDecreasingPaintStyle;
+  }
+  
+  public int getIncreasingColor()
+  {
+    return mIncreasingColor;
+  }
+  
+  public Paint.Style getIncreasingPaintStyle()
+  {
+    return mIncreasingPaintStyle;
+  }
+  
+  public int getNeutralColor()
+  {
+    return mNeutralColor;
+  }
+  
+  public int getShadowColor()
+  {
+    return mShadowColor;
+  }
+  
+  public boolean getShadowColorSameAsCandle()
+  {
+    return mShadowColorSameAsCandle;
+  }
+  
+  public float getShadowWidth()
+  {
+    return mShadowWidth;
+  }
+  
+  public boolean getShowCandleBar()
+  {
+    return mShowCandleBar;
+  }
+  
+  public void setBarSpace(float paramFloat)
+  {
+    float f = paramFloat;
+    if (paramFloat < 0.0F) {
+      f = 0.0F;
+    }
+    paramFloat = f;
+    if (f > 0.45F) {
+      paramFloat = 0.45F;
+    }
+    mBarSpace = paramFloat;
+  }
+  
+  public void setDecreasingColor(int paramInt)
+  {
+    mDecreasingColor = paramInt;
+  }
+  
+  public void setDecreasingPaintStyle(Paint.Style paramStyle)
+  {
+    mDecreasingPaintStyle = paramStyle;
+  }
+  
+  public void setIncreasingColor(int paramInt)
+  {
+    mIncreasingColor = paramInt;
+  }
+  
+  public void setIncreasingPaintStyle(Paint.Style paramStyle)
+  {
+    mIncreasingPaintStyle = paramStyle;
+  }
+  
+  public void setNeutralColor(int paramInt)
+  {
+    mNeutralColor = paramInt;
+  }
+  
+  public void setShadowColor(int paramInt)
+  {
+    mShadowColor = paramInt;
+  }
+  
+  public void setShadowColorSameAsCandle(boolean paramBoolean)
+  {
+    mShadowColorSameAsCandle = paramBoolean;
+  }
+  
+  public void setShadowWidth(float paramFloat)
+  {
+    mShadowWidth = Utils.convertDpToPixel(paramFloat);
+  }
+  
+  public void setShowCandleBar(boolean paramBoolean)
+  {
+    mShowCandleBar = paramBoolean;
+  }
+}

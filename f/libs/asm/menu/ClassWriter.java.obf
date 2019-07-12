@@ -1,0 +1,2198 @@
+package f.c.a.c;
+
+import android.app.Activity;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import l.a.a.a.a.b.m.a;
+import l.a.a.a.a.b.m.b;
+import l.a.a.a.a.e.o;
+import l.a.a.a.a.g.e;
+import l.a.a.a.a.g.s;
+
+public class Z
+{
+  public static final int A = 1024;
+  public static final int B = 10;
+  public static final String C = "nonfatal-sessions";
+  public static final String D = "fatal-sessions";
+  public static final String E = "invalidClsFiles";
+  public static final int F = 1;
+  public static final String G = "Crashlytics Android SDK/%s";
+  public static final String H = "crash";
+  public static final String I = "error";
+  public static final int J = 35;
+  public static final int K = 1;
+  public static final String L = "com.crashlytics.CollectCustomKeys";
+  public static final String[] M = { "SessionUser", "SessionApp", "SessionOS", "SessionDevice" };
+  public static final String a = "SessionUser";
+  public static final String b = "SessionEvent";
+  public static final String c = "SessionCrash";
+  public static final String d = "SessionApp";
+  public static final String e = "SessionOS";
+  public static final String f = "SessionDevice";
+  public static final String g = "BeginSession";
+  public static final String h = "SessionMissingBinaryImages";
+  public static final String i = ".json";
+  public static final String j = "fatal";
+  public static final String k = "timestamp";
+  public static final String l = "_ae";
+  public static final String m = "_r";
+  public static final String n = "clx";
+  public static final FilenameFilter o = new G("BeginSession");
+  public static final FilenameFilter p = new Q();
+  public static final FileFilter q = new S();
+  public static final Comparator<File> r = new T();
+  public static final Comparator<File> s = new U();
+  public static final Pattern t = Pattern.compile("([\\d|A-Z|a-z]{12}\\-[\\d|A-Z|a-z]{4}\\-[\\d|A-Z|a-z]{4}\\-[\\d|A-Z|a-z]{12}).+");
+  public static final String u = "com.crashlytics.ApiEndpoint";
+  public static final boolean v = false;
+  public static final Map<String, String> w = Collections.singletonMap("X-CRASHLYTICS-SEND-FLAGS", "1");
+  public static final int x = 64;
+  public static final int y = 8;
+  public static final int z = 4;
+  public final AtomicInteger N = new AtomicInteger(0);
+  public final fa O;
+  public final u P;
+  public final o Q;
+  public final l.a.a.a.a.b.y R;
+  public final Ia S;
+  public final l.a.a.a.a.f.a T;
+  public final a U;
+  public final g V;
+  public final ya W;
+  public final Qa.c X;
+  public final Qa.b Y;
+  public final ta Z;
+  public final Va aa;
+  public final String ba;
+  public final b ca;
+  public final f.c.a.a.z da;
+  public la ea;
+  
+  public Z(fa paramFa, u paramU, o paramO, l.a.a.a.a.b.y paramY, Ia paramIa, l.a.a.a.a.f.a paramA, a paramA1, Xa paramXa, b paramB, f.c.a.a.z paramZ)
+  {
+    O = paramFa;
+    P = paramU;
+    Q = paramO;
+    R = paramY;
+    S = paramIa;
+    T = paramA;
+    U = paramA1;
+    ba = paramXa.a();
+    ca = paramB;
+    da = paramZ;
+    paramFa = paramFa.d();
+    V = new g(paramA);
+    W = new ya(paramFa, V);
+    X = new i(null);
+    Y = new j(null);
+    Z = new ta(paramFa);
+    aa = new Ca(1024, new Va[] { new Oa(10) });
+  }
+  
+  public static String a(File paramFile)
+  {
+    return paramFile.getName().substring(0, 35);
+  }
+  
+  private void a(long paramLong)
+  {
+    if (o())
+    {
+      l.a.a.a.g.h().d("CrashlyticsCore", "Skipping logging Crashlytics event to Firebase, FirebaseCrash exists");
+      return;
+    }
+    if (da != null)
+    {
+      l.a.a.a.g.h().d("CrashlyticsCore", "Logging Crashlytics event to Firebase");
+      Bundle localBundle = new Bundle();
+      localBundle.putInt("_r", 1);
+      localBundle.putInt("fatal", 1);
+      localBundle.putLong("timestamp", paramLong);
+      da.a("clx", "_ae", localBundle);
+      return;
+    }
+    l.a.a.a.g.h().d("CrashlyticsCore", "Skipping logging Crashlytics event to Firebase, no Firebase Analytics");
+  }
+  
+  private void a(Context paramContext, File paramFile, String paramString)
+    throws IOException
+  {
+    byte[] arrayOfByte1 = Fa.b(paramFile);
+    byte[] arrayOfByte2 = Fa.a(paramFile);
+    paramContext = Fa.b(paramFile, paramContext);
+    if ((arrayOfByte1 != null) && (arrayOfByte1.length != 0))
+    {
+      a(paramString, "<native-crash: minidump>");
+      paramFile = d(paramString, "BeginSession.json");
+      byte[] arrayOfByte3 = d(paramString, "SessionApp.json");
+      byte[] arrayOfByte4 = d(paramString, "SessionDevice.json");
+      byte[] arrayOfByte5 = d(paramString, "SessionOS.json");
+      byte[] arrayOfByte6 = Fa.d(new Ba(d()).b(paramString));
+      Object localObject = new ya(O.d(), V, paramString);
+      byte[] arrayOfByte7 = ((ya)localObject).c();
+      ((ya)localObject).a();
+      localObject = Fa.d(new Ba(d()).a(paramString));
+      paramString = new File(T.b(), paramString);
+      if (!paramString.mkdir())
+      {
+        l.a.a.a.g.h().d("CrashlyticsCore", "Couldn't create native sessions directory");
+        return;
+      }
+      b(arrayOfByte1, new File(paramString, "minidump"));
+      b(arrayOfByte2, new File(paramString, "metadata"));
+      b(paramContext, new File(paramString, "binaryImages"));
+      b(paramFile, new File(paramString, "session"));
+      b(arrayOfByte3, new File(paramString, "app"));
+      b(arrayOfByte4, new File(paramString, "device"));
+      b(arrayOfByte5, new File(paramString, "os"));
+      b(arrayOfByte6, new File(paramString, "user"));
+      b(arrayOfByte7, new File(paramString, "logs"));
+      b((byte[])localObject, new File(paramString, "keys"));
+      return;
+    }
+    paramContext = l.a.a.a.g.h();
+    paramString = new StringBuilder();
+    paramString.append("No minidump data found in directory ");
+    paramString.append(paramFile);
+    paramContext.a("CrashlyticsCore", paramString.toString());
+  }
+  
+  private void a(i paramI)
+  {
+    if (paramI == null) {
+      return;
+    }
+    try
+    {
+      paramI.u();
+      return;
+    }
+    catch (IOException paramI)
+    {
+      l.a.a.a.g.h().c("CrashlyticsCore", "Error closing session file stream in the presence of an exception", paramI);
+    }
+  }
+  
+  /* Error */
+  public static void a(j paramJ, File paramFile)
+    throws IOException
+  {
+    // Byte code:
+    //   0: aload_1
+    //   1: invokevirtual 538	java/io/File:exists	()Z
+    //   4: ifne +38 -> 42
+    //   7: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   10: astore_0
+    //   11: ldc_w 540
+    //   14: invokestatic 544	f/a/a/a/a:b	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   17: astore_2
+    //   18: aload_2
+    //   19: aload_1
+    //   20: invokevirtual 358	java/io/File:getName	()Ljava/lang/String;
+    //   23: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   26: pop
+    //   27: aload_0
+    //   28: ldc_w 374
+    //   31: aload_2
+    //   32: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   35: aconst_null
+    //   36: invokeinterface 534 4 0
+    //   41: return
+    //   42: new 546	java/io/FileInputStream
+    //   45: dup
+    //   46: aload_1
+    //   47: invokespecial 547	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   50: astore_2
+    //   51: aload_2
+    //   52: aload_0
+    //   53: aload_1
+    //   54: invokevirtual 551	java/io/File:length	()J
+    //   57: l2i
+    //   58: invokestatic 554	f/c/a/c/Z:a	(Ljava/io/InputStream;Lf/c/a/c/j;I)V
+    //   61: aload_2
+    //   62: ldc_w 556
+    //   65: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   68: return
+    //   69: astore_1
+    //   70: aload_2
+    //   71: astore_0
+    //   72: goto +6 -> 78
+    //   75: astore_1
+    //   76: aconst_null
+    //   77: astore_0
+    //   78: aload_0
+    //   79: ldc_w 556
+    //   82: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   85: aload_1
+    //   86: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	87	0	paramJ	j
+    //   0	87	1	paramFile	File
+    //   17	54	2	localObject	Object
+    // Exception table:
+    //   from	to	target	type
+    //   51	61	69	finally
+    //   42	51	75	finally
+  }
+  
+  private void a(j paramJ, String paramString)
+    throws IOException
+  {
+    String[] arrayOfString = M;
+    int i2 = arrayOfString.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      String str = arrayOfString[i1];
+      Object localObject1 = new d(f.a.a.a.a.a(paramString, str, ".cls"));
+      localObject1 = b(d().listFiles((FilenameFilter)localObject1));
+      Object localObject2;
+      if (localObject1.length == 0)
+      {
+        localObject1 = l.a.a.a.g.h();
+        localObject2 = new StringBuilder();
+        ((StringBuilder)localObject2).append("Can't find ");
+        ((StringBuilder)localObject2).append(str);
+        ((StringBuilder)localObject2).append(" data for session ID ");
+        ((StringBuilder)localObject2).append(paramString);
+        ((l.a.a.a.q)localObject1).c("CrashlyticsCore", ((StringBuilder)localObject2).toString(), null);
+      }
+      else
+      {
+        localObject2 = l.a.a.a.g.h();
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Collecting ");
+        localStringBuilder.append(str);
+        localStringBuilder.append(" data for session ID ");
+        localStringBuilder.append(paramString);
+        ((l.a.a.a.q)localObject2).d("CrashlyticsCore", localStringBuilder.toString());
+        a(paramJ, localObject1[0]);
+      }
+      i1 += 1;
+    }
+  }
+  
+  private void a(j paramJ, Date paramDate, Thread paramThread, Throwable paramThrowable, String paramString, boolean paramBoolean)
+    throws Exception
+  {
+    Wa localWa = new Wa(paramThrowable, aa);
+    Object localObject = O.d();
+    long l1 = paramDate.getTime() / 1000L;
+    Float localFloat = l.a.a.a.a.b.l.e((Context)localObject);
+    int i2 = l.a.a.a.a.b.l.a((Context)localObject, Z.c());
+    boolean bool = l.a.a.a.a.b.l.g((Context)localObject);
+    int i3 = getResourcesgetConfigurationorientation;
+    long l2 = l.a.a.a.a.b.l.b();
+    long l3 = l.a.a.a.a.b.l.a((Context)localObject);
+    long l4 = l.a.a.a.a.b.l.a(Environment.getDataDirectory().getPath());
+    ActivityManager.RunningAppProcessInfo localRunningAppProcessInfo = l.a.a.a.a.b.l.a(((Context)localObject).getPackageName(), (Context)localObject);
+    LinkedList localLinkedList = new LinkedList();
+    StackTraceElement[] arrayOfStackTraceElement = c;
+    String str1 = U.b;
+    String str2 = R.e();
+    int i1 = 0;
+    if (paramBoolean)
+    {
+      paramDate = Thread.getAllStackTraces();
+      paramThrowable = new Thread[paramDate.size()];
+      paramDate = paramDate.entrySet().iterator();
+      while (paramDate.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)paramDate.next();
+        paramThrowable[i1] = ((Thread)localEntry.getKey());
+        localLinkedList.add(aa.a((StackTraceElement[])localEntry.getValue()));
+        i1 += 1;
+      }
+    }
+    else
+    {
+      paramThrowable = new Thread[0];
+    }
+    if (!l.a.a.a.a.b.l.a((Context)localObject, "com.crashlytics.CollectCustomKeys", true))
+    {
+      paramDate = new TreeMap();
+    }
+    else
+    {
+      localObject = O.q();
+      paramDate = (Date)localObject;
+      if (localObject != null)
+      {
+        paramDate = (Date)localObject;
+        if (((Map)localObject).size() > 1) {
+          paramDate = new TreeMap((Map)localObject);
+        }
+      }
+    }
+    Sa.a(paramJ, l1, paramString, localWa, paramThread, arrayOfStackTraceElement, paramThrowable, localLinkedList, paramDate, W, localRunningAppProcessInfo, i3, str2, str1, localFloat, i2, bool, l2 - l3, l4);
+  }
+  
+  public static void a(j paramJ, File[] paramArrayOfFile, String paramString)
+  {
+    Arrays.sort(paramArrayOfFile, l.a.a.a.a.b.l.E);
+    int i2 = paramArrayOfFile.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      File localFile = paramArrayOfFile[i1];
+      try
+      {
+        l.a.a.a.g.h().d("CrashlyticsCore", String.format(Locale.US, "Found Non Fatal for session ID %s in %s ", new Object[] { paramString, localFile.getName() }));
+        a(paramJ, localFile);
+      }
+      catch (Exception localException)
+      {
+        l.a.a.a.g.h().c("CrashlyticsCore", "Error writting non-fatal to session.", localException);
+      }
+      i1 += 1;
+    }
+  }
+  
+  private void a(File paramFile, String paramString, int paramInt)
+  {
+    Object localObject1 = l.a.a.a.g.h();
+    Object localObject2 = new StringBuilder();
+    ((StringBuilder)localObject2).append("Collecting session parts for ID ");
+    ((StringBuilder)localObject2).append(paramString);
+    ((l.a.a.a.q)localObject1).d("CrashlyticsCore", ((StringBuilder)localObject2).toString());
+    localObject1 = new d(f.a.a.a.a.c(paramString, "SessionCrash"));
+    localObject1 = b(d().listFiles((FilenameFilter)localObject1));
+    boolean bool1;
+    if ((localObject1 != null) && (localObject1.length > 0)) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    l.a.a.a.g.h().d("CrashlyticsCore", String.format(Locale.US, "Session %s has fatal exception: %s", new Object[] { paramString, Boolean.valueOf(bool1) }));
+    localObject2 = new d(f.a.a.a.a.c(paramString, "SessionEvent"));
+    localObject2 = b(d().listFiles((FilenameFilter)localObject2));
+    boolean bool2;
+    if ((localObject2 != null) && (localObject2.length > 0)) {
+      bool2 = true;
+    } else {
+      bool2 = false;
+    }
+    l.a.a.a.g.h().d("CrashlyticsCore", String.format(Locale.US, "Session %s has non-fatal exceptions: %s", new Object[] { paramString, Boolean.valueOf(bool2) }));
+    if ((!bool1) && (!bool2))
+    {
+      paramFile = l.a.a.a.g.h();
+      localObject1 = new StringBuilder();
+      ((StringBuilder)localObject1).append("No events present for session ID ");
+      ((StringBuilder)localObject1).append(paramString);
+      paramFile.d("CrashlyticsCore", ((StringBuilder)localObject1).toString());
+    }
+    else
+    {
+      localObject2 = a(paramString, (File[])localObject2, paramInt);
+      if (bool1) {
+        localObject1 = localObject1[0];
+      } else {
+        localObject1 = null;
+      }
+      a(paramFile, paramString, (File[])localObject2, (File)localObject1);
+    }
+    paramFile = l.a.a.a.g.h();
+    localObject1 = new StringBuilder();
+    ((StringBuilder)localObject1).append("Removing session part files for ID ");
+    ((StringBuilder)localObject1).append(paramString);
+    paramFile.d("CrashlyticsCore", ((StringBuilder)localObject1).toString());
+    a(paramString);
+  }
+  
+  /* Error */
+  private void a(File paramFile1, String paramString, File[] paramArrayOfFile, File paramFile2)
+  {
+    // Byte code:
+    //   0: aload 4
+    //   2: ifnull +9 -> 11
+    //   5: iconst_1
+    //   6: istore 5
+    //   8: goto +6 -> 14
+    //   11: iconst_0
+    //   12: istore 5
+    //   14: iload 5
+    //   16: ifeq +12 -> 28
+    //   19: aload_0
+    //   20: invokevirtual 780	f/c/a/c/Z:c	()Ljava/io/File;
+    //   23: astore 6
+    //   25: goto +9 -> 34
+    //   28: aload_0
+    //   29: invokevirtual 782	f/c/a/c/Z:f	()Ljava/io/File;
+    //   32: astore 6
+    //   34: aload 6
+    //   36: invokevirtual 538	java/io/File:exists	()Z
+    //   39: ifne +9 -> 48
+    //   42: aload 6
+    //   44: invokevirtual 785	java/io/File:mkdirs	()Z
+    //   47: pop
+    //   48: aconst_null
+    //   49: astore 8
+    //   51: aconst_null
+    //   52: astore 10
+    //   54: aconst_null
+    //   55: astore 7
+    //   57: aconst_null
+    //   58: astore 11
+    //   60: new 527	f/c/a/c/i
+    //   63: dup
+    //   64: aload 6
+    //   66: aload_2
+    //   67: invokespecial 786	f/c/a/c/i:<init>	(Ljava/io/File;Ljava/lang/String;)V
+    //   70: astore 9
+    //   72: aload 11
+    //   74: astore 8
+    //   76: aload 10
+    //   78: astore 6
+    //   80: aload 9
+    //   82: astore 7
+    //   84: aload 9
+    //   86: invokestatic 791	f/c/a/c/j:a	(Ljava/io/OutputStream;)Lf/c/a/c/j;
+    //   89: astore 10
+    //   91: aload 10
+    //   93: astore 8
+    //   95: aload 10
+    //   97: astore 6
+    //   99: aload 9
+    //   101: astore 7
+    //   103: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   106: astore 11
+    //   108: aload 10
+    //   110: astore 8
+    //   112: aload 10
+    //   114: astore 6
+    //   116: aload 9
+    //   118: astore 7
+    //   120: new 489	java/lang/StringBuilder
+    //   123: dup
+    //   124: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   127: astore 12
+    //   129: aload 10
+    //   131: astore 8
+    //   133: aload 10
+    //   135: astore 6
+    //   137: aload 9
+    //   139: astore 7
+    //   141: aload 12
+    //   143: ldc_w 793
+    //   146: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   149: pop
+    //   150: aload 10
+    //   152: astore 8
+    //   154: aload 10
+    //   156: astore 6
+    //   158: aload 9
+    //   160: astore 7
+    //   162: aload 12
+    //   164: aload_2
+    //   165: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   168: pop
+    //   169: aload 10
+    //   171: astore 8
+    //   173: aload 10
+    //   175: astore 6
+    //   177: aload 9
+    //   179: astore 7
+    //   181: aload 11
+    //   183: ldc_w 374
+    //   186: aload 12
+    //   188: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   191: invokeinterface 381 3 0
+    //   196: aload 10
+    //   198: astore 8
+    //   200: aload 10
+    //   202: astore 6
+    //   204: aload 9
+    //   206: astore 7
+    //   208: aload 10
+    //   210: aload_1
+    //   211: invokestatic 583	f/c/a/c/Z:a	(Lf/c/a/c/j;Ljava/io/File;)V
+    //   214: aload 10
+    //   216: astore 8
+    //   218: aload 10
+    //   220: astore 6
+    //   222: aload 9
+    //   224: astore 7
+    //   226: aload 10
+    //   228: iconst_4
+    //   229: new 591	java/util/Date
+    //   232: dup
+    //   233: invokespecial 794	java/util/Date:<init>	()V
+    //   236: invokevirtual 594	java/util/Date:getTime	()J
+    //   239: ldc2_w 595
+    //   242: ldiv
+    //   243: invokevirtual 797	f/c/a/c/j:j	(IJ)V
+    //   246: aload 10
+    //   248: astore 8
+    //   250: aload 10
+    //   252: astore 6
+    //   254: aload 9
+    //   256: astore 7
+    //   258: aload 10
+    //   260: iconst_5
+    //   261: iload 5
+    //   263: invokevirtual 800	f/c/a/c/j:b	(IZ)V
+    //   266: aload 10
+    //   268: astore 8
+    //   270: aload 10
+    //   272: astore 6
+    //   274: aload 9
+    //   276: astore 7
+    //   278: aload 10
+    //   280: bipush 11
+    //   282: iconst_1
+    //   283: invokevirtual 803	f/c/a/c/j:m	(II)V
+    //   286: aload 10
+    //   288: astore 8
+    //   290: aload 10
+    //   292: astore 6
+    //   294: aload 9
+    //   296: astore 7
+    //   298: aload 10
+    //   300: bipush 12
+    //   302: iconst_3
+    //   303: invokevirtual 805	f/c/a/c/j:g	(II)V
+    //   306: aload 10
+    //   308: astore 8
+    //   310: aload 10
+    //   312: astore 6
+    //   314: aload 9
+    //   316: astore 7
+    //   318: aload_0
+    //   319: aload 10
+    //   321: aload_2
+    //   322: invokespecial 807	f/c/a/c/Z:a	(Lf/c/a/c/j;Ljava/lang/String;)V
+    //   325: aload 10
+    //   327: astore 8
+    //   329: aload 10
+    //   331: astore 6
+    //   333: aload 9
+    //   335: astore 7
+    //   337: aload 10
+    //   339: aload_3
+    //   340: aload_2
+    //   341: invokestatic 809	f/c/a/c/Z:a	(Lf/c/a/c/j;[Ljava/io/File;Ljava/lang/String;)V
+    //   344: iload 5
+    //   346: ifeq +22 -> 368
+    //   349: aload 10
+    //   351: astore 8
+    //   353: aload 10
+    //   355: astore 6
+    //   357: aload 9
+    //   359: astore 7
+    //   361: aload 10
+    //   363: aload 4
+    //   365: invokestatic 583	f/c/a/c/Z:a	(Lf/c/a/c/j;Ljava/io/File;)V
+    //   368: aload 10
+    //   370: ldc_w 811
+    //   373: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   376: aload 9
+    //   378: ldc_w 816
+    //   381: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   384: return
+    //   385: astore_3
+    //   386: aload 9
+    //   388: astore_1
+    //   389: goto +19 -> 408
+    //   392: astore_1
+    //   393: aconst_null
+    //   394: astore_2
+    //   395: aload 7
+    //   397: astore 6
+    //   399: aload_2
+    //   400: astore 7
+    //   402: goto +102 -> 504
+    //   405: astore_3
+    //   406: aconst_null
+    //   407: astore_1
+    //   408: aload 8
+    //   410: astore 6
+    //   412: aload_1
+    //   413: astore 7
+    //   415: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   418: astore 4
+    //   420: aload 8
+    //   422: astore 6
+    //   424: aload_1
+    //   425: astore 7
+    //   427: new 489	java/lang/StringBuilder
+    //   430: dup
+    //   431: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   434: astore 9
+    //   436: aload 8
+    //   438: astore 6
+    //   440: aload_1
+    //   441: astore 7
+    //   443: aload 9
+    //   445: ldc_w 818
+    //   448: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   451: pop
+    //   452: aload 8
+    //   454: astore 6
+    //   456: aload_1
+    //   457: astore 7
+    //   459: aload 9
+    //   461: aload_2
+    //   462: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   465: pop
+    //   466: aload 8
+    //   468: astore 6
+    //   470: aload_1
+    //   471: astore 7
+    //   473: aload 4
+    //   475: ldc_w 374
+    //   478: aload 9
+    //   480: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   483: aload_3
+    //   484: invokeinterface 534 4 0
+    //   489: aload 8
+    //   491: ldc_w 811
+    //   494: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   497: aload_0
+    //   498: aload_1
+    //   499: invokespecial 820	f/c/a/c/Z:a	(Lf/c/a/c/i;)V
+    //   502: return
+    //   503: astore_1
+    //   504: aload 6
+    //   506: ldc_w 811
+    //   509: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   512: aload 7
+    //   514: ldc_w 816
+    //   517: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   520: aload_1
+    //   521: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	522	0	this	Z
+    //   0	522	1	paramFile1	File
+    //   0	522	2	paramString	String
+    //   0	522	3	paramArrayOfFile	File[]
+    //   0	522	4	paramFile2	File
+    //   6	339	5	bool	boolean
+    //   23	482	6	localObject1	Object
+    //   55	458	7	localObject2	Object
+    //   49	441	8	localObject3	Object
+    //   70	409	9	localObject4	Object
+    //   52	317	10	localJ	j
+    //   58	124	11	localQ	l.a.a.a.q
+    //   127	60	12	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   84	91	385	java/lang/Exception
+    //   103	108	385	java/lang/Exception
+    //   120	129	385	java/lang/Exception
+    //   141	150	385	java/lang/Exception
+    //   162	169	385	java/lang/Exception
+    //   181	196	385	java/lang/Exception
+    //   208	214	385	java/lang/Exception
+    //   226	246	385	java/lang/Exception
+    //   258	266	385	java/lang/Exception
+    //   278	286	385	java/lang/Exception
+    //   298	306	385	java/lang/Exception
+    //   318	325	385	java/lang/Exception
+    //   337	344	385	java/lang/Exception
+    //   361	368	385	java/lang/Exception
+    //   60	72	392	finally
+    //   60	72	405	java/lang/Exception
+    //   84	91	503	finally
+    //   103	108	503	finally
+    //   120	129	503	finally
+    //   141	150	503	finally
+    //   162	169	503	finally
+    //   181	196	503	finally
+    //   208	214	503	finally
+    //   226	246	503	finally
+    //   258	266	503	finally
+    //   278	286	503	finally
+    //   298	306	503	finally
+    //   318	325	503	finally
+    //   337	344	503	finally
+    //   361	368	503	finally
+    //   415	420	503	finally
+    //   427	436	503	finally
+    //   443	452	503	finally
+    //   459	466	503	finally
+    //   473	489	503	finally
+  }
+  
+  public static void a(InputStream paramInputStream, j paramJ, int paramInt)
+    throws IOException
+  {
+    byte[] arrayOfByte = new byte[paramInt];
+    paramInt = 0;
+    while (paramInt < arrayOfByte.length)
+    {
+      int i1 = paramInputStream.read(arrayOfByte, paramInt, arrayOfByte.length - paramInt);
+      if (i1 < 0) {
+        break;
+      }
+      paramInt += i1;
+    }
+    paramJ.b(arrayOfByte);
+  }
+  
+  private void a(String paramString)
+  {
+    paramString = c(paramString);
+    int i2 = paramString.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      paramString[i1].delete();
+      i1 += 1;
+    }
+  }
+  
+  private void a(String paramString, int paramInt)
+  {
+    _a.a(d(), new d(f.a.a.a.a.c(paramString, "SessionEvent")), paramInt, s);
+  }
+  
+  public static void a(String paramString1, String paramString2)
+  {
+    f.c.a.a.b localB = (f.c.a.a.b)l.a.a.a.g.a(f.c.a.a.b.class);
+    if (localB == null)
+    {
+      l.a.a.a.g.h().d("CrashlyticsCore", "Answers is not available");
+      return;
+    }
+    localB.a(new m.a(paramString1, paramString2));
+  }
+  
+  /* Error */
+  private void a(String paramString1, String paramString2, b paramB)
+    throws Exception
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 4
+    //   3: aconst_null
+    //   4: astore 6
+    //   6: aload_0
+    //   7: invokevirtual 434	f/c/a/c/Z:d	()Ljava/io/File;
+    //   10: astore 5
+    //   12: new 489	java/lang/StringBuilder
+    //   15: dup
+    //   16: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   19: astore 7
+    //   21: aload 7
+    //   23: aload_1
+    //   24: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   27: pop
+    //   28: aload 7
+    //   30: aload_2
+    //   31: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   34: pop
+    //   35: new 527	f/c/a/c/i
+    //   38: dup
+    //   39: aload 5
+    //   41: aload 7
+    //   43: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   46: invokespecial 786	f/c/a/c/i:<init>	(Ljava/io/File;Ljava/lang/String;)V
+    //   49: astore 5
+    //   51: aload 6
+    //   53: astore_1
+    //   54: aload 5
+    //   56: invokestatic 791	f/c/a/c/j:a	(Ljava/io/OutputStream;)Lf/c/a/c/j;
+    //   59: astore 4
+    //   61: aload 4
+    //   63: astore_1
+    //   64: aload_3
+    //   65: aload 4
+    //   67: invokeinterface 858 2 0
+    //   72: new 489	java/lang/StringBuilder
+    //   75: dup
+    //   76: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   79: astore_1
+    //   80: aload_1
+    //   81: ldc_w 860
+    //   84: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   87: pop
+    //   88: aload_1
+    //   89: aload_2
+    //   90: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   93: pop
+    //   94: aload_1
+    //   95: ldc_w 862
+    //   98: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   101: pop
+    //   102: aload 4
+    //   104: aload_1
+    //   105: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   108: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   111: new 489	java/lang/StringBuilder
+    //   114: dup
+    //   115: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   118: astore_1
+    //   119: aload_1
+    //   120: ldc_w 864
+    //   123: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   126: pop
+    //   127: aload_1
+    //   128: aload_2
+    //   129: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   132: pop
+    //   133: aload_1
+    //   134: ldc_w 862
+    //   137: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   140: pop
+    //   141: aload 5
+    //   143: aload_1
+    //   144: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   147: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   150: return
+    //   151: astore_3
+    //   152: aload_1
+    //   153: astore 4
+    //   155: aload 5
+    //   157: astore_1
+    //   158: goto +6 -> 164
+    //   161: astore_3
+    //   162: aconst_null
+    //   163: astore_1
+    //   164: new 489	java/lang/StringBuilder
+    //   167: dup
+    //   168: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   171: astore 5
+    //   173: aload 5
+    //   175: ldc_w 860
+    //   178: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   181: pop
+    //   182: aload 5
+    //   184: aload_2
+    //   185: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   188: pop
+    //   189: aload 5
+    //   191: ldc_w 862
+    //   194: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   197: pop
+    //   198: aload 4
+    //   200: aload 5
+    //   202: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   205: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   208: new 489	java/lang/StringBuilder
+    //   211: dup
+    //   212: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   215: astore 4
+    //   217: aload 4
+    //   219: ldc_w 864
+    //   222: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   225: pop
+    //   226: aload 4
+    //   228: aload_2
+    //   229: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   232: pop
+    //   233: aload 4
+    //   235: ldc_w 862
+    //   238: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   241: pop
+    //   242: aload_1
+    //   243: aload 4
+    //   245: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   248: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   251: aload_3
+    //   252: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	253	0	this	Z
+    //   0	253	1	paramString1	String
+    //   0	253	2	paramString2	String
+    //   0	253	3	paramB	b
+    //   1	243	4	localObject1	Object
+    //   10	191	5	localObject2	Object
+    //   4	48	6	localObject3	Object
+    //   19	23	7	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   54	61	151	finally
+    //   64	72	151	finally
+    //   6	51	161	finally
+  }
+  
+  /* Error */
+  private void a(String paramString1, String paramString2, e paramE)
+    throws Exception
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 4
+    //   3: aload_0
+    //   4: invokevirtual 434	f/c/a/c/Z:d	()Ljava/io/File;
+    //   7: astore 5
+    //   9: new 489	java/lang/StringBuilder
+    //   12: dup
+    //   13: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   16: astore 6
+    //   18: aload 6
+    //   20: aload_1
+    //   21: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   24: pop
+    //   25: aload 6
+    //   27: aload_2
+    //   28: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   31: pop
+    //   32: new 867	java/io/FileOutputStream
+    //   35: dup
+    //   36: new 355	java/io/File
+    //   39: dup
+    //   40: aload 5
+    //   42: aload 6
+    //   44: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   47: invokespecial 459	java/io/File:<init>	(Ljava/io/File;Ljava/lang/String;)V
+    //   50: invokespecial 868	java/io/FileOutputStream:<init>	(Ljava/io/File;)V
+    //   53: astore_1
+    //   54: aload_3
+    //   55: aload_1
+    //   56: invokeinterface 871 2 0
+    //   61: new 489	java/lang/StringBuilder
+    //   64: dup
+    //   65: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   68: astore_3
+    //   69: aload_3
+    //   70: ldc_w 873
+    //   73: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   76: pop
+    //   77: aload_3
+    //   78: aload_2
+    //   79: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   82: pop
+    //   83: aload_3
+    //   84: ldc_w 862
+    //   87: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   90: pop
+    //   91: aload_1
+    //   92: aload_3
+    //   93: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   96: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   99: return
+    //   100: astore_3
+    //   101: goto +7 -> 108
+    //   104: astore_3
+    //   105: aload 4
+    //   107: astore_1
+    //   108: new 489	java/lang/StringBuilder
+    //   111: dup
+    //   112: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   115: astore 4
+    //   117: aload 4
+    //   119: ldc_w 873
+    //   122: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   125: pop
+    //   126: aload 4
+    //   128: aload_2
+    //   129: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   132: pop
+    //   133: aload 4
+    //   135: ldc_w 862
+    //   138: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   141: pop
+    //   142: aload_1
+    //   143: aload 4
+    //   145: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   148: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   151: aload_3
+    //   152: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	153	0	this	Z
+    //   0	153	1	paramString1	String
+    //   0	153	2	paramString2	String
+    //   0	153	3	paramE	e
+    //   1	143	4	localStringBuilder1	StringBuilder
+    //   7	34	5	localFile	File
+    //   16	27	6	localStringBuilder2	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   54	61	100	finally
+    //   3	54	104	finally
+  }
+  
+  private void a(String paramString, Date paramDate)
+    throws Exception
+  {
+    String str = String.format(Locale.US, "Crashlytics Android SDK/%s", new Object[] { O.j() });
+    long l1 = paramDate.getTime() / 1000L;
+    a(paramString, "BeginSession", new C(this, paramString, str, l1));
+    a(paramString, "BeginSession.json", new E(this, paramString, str, l1));
+  }
+  
+  /* Error */
+  private void a(Date paramDate, Thread paramThread, Throwable paramThrowable)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: invokespecial 886	f/c/a/c/Z:p	()Ljava/lang/String;
+    //   4: astore 9
+    //   6: aconst_null
+    //   7: astore 6
+    //   9: aconst_null
+    //   10: astore 5
+    //   12: aconst_null
+    //   13: astore 8
+    //   15: aload 9
+    //   17: ifnonnull +19 -> 36
+    //   20: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   23: ldc_w 374
+    //   26: ldc_w 888
+    //   29: aconst_null
+    //   30: invokeinterface 534 4 0
+    //   35: return
+    //   36: aload 9
+    //   38: aload_3
+    //   39: invokevirtual 892	java/lang/Object:getClass	()Ljava/lang/Class;
+    //   42: invokevirtual 895	java/lang/Class:getName	()Ljava/lang/String;
+    //   45: invokestatic 897	f/c/a/c/Z:b	(Ljava/lang/String;Ljava/lang/String;)V
+    //   48: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   51: astore 4
+    //   53: new 489	java/lang/StringBuilder
+    //   56: dup
+    //   57: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   60: astore 7
+    //   62: aload 7
+    //   64: ldc_w 899
+    //   67: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   70: pop
+    //   71: aload 7
+    //   73: aload_3
+    //   74: invokevirtual 499	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   77: pop
+    //   78: aload 7
+    //   80: ldc_w 901
+    //   83: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   86: pop
+    //   87: aload 7
+    //   89: aload_2
+    //   90: invokevirtual 902	java/lang/Thread:getName	()Ljava/lang/String;
+    //   93: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   96: pop
+    //   97: aload 4
+    //   99: ldc_w 374
+    //   102: aload 7
+    //   104: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   107: invokeinterface 381 3 0
+    //   112: aload_0
+    //   113: getfield 282	f/c/a/c/Z:N	Ljava/util/concurrent/atomic/AtomicInteger;
+    //   116: invokevirtual 905	java/util/concurrent/atomic/AtomicInteger:getAndIncrement	()I
+    //   119: invokestatic 908	l/a/a/a/a/b/l:b	(I)Ljava/lang/String;
+    //   122: astore 4
+    //   124: new 489	java/lang/StringBuilder
+    //   127: dup
+    //   128: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   131: astore 7
+    //   133: aload 7
+    //   135: aload 9
+    //   137: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   140: pop
+    //   141: aload 7
+    //   143: ldc -117
+    //   145: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   148: pop
+    //   149: aload 7
+    //   151: aload 4
+    //   153: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   156: pop
+    //   157: aload 7
+    //   159: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   162: astore 4
+    //   164: new 527	f/c/a/c/i
+    //   167: dup
+    //   168: aload_0
+    //   169: invokevirtual 434	f/c/a/c/Z:d	()Ljava/io/File;
+    //   172: aload 4
+    //   174: invokespecial 786	f/c/a/c/i:<init>	(Ljava/io/File;Ljava/lang/String;)V
+    //   177: astore 4
+    //   179: aload 6
+    //   181: astore 5
+    //   183: aload 4
+    //   185: astore 6
+    //   187: aload 4
+    //   189: invokestatic 791	f/c/a/c/j:a	(Ljava/io/OutputStream;)Lf/c/a/c/j;
+    //   192: astore 7
+    //   194: aload_0
+    //   195: aload 7
+    //   197: aload_1
+    //   198: aload_2
+    //   199: aload_3
+    //   200: ldc 127
+    //   202: iconst_0
+    //   203: invokespecial 910	f/c/a/c/Z:a	(Lf/c/a/c/j;Ljava/util/Date;Ljava/lang/Thread;Ljava/lang/Throwable;Ljava/lang/String;Z)V
+    //   206: aload 7
+    //   208: ldc_w 912
+    //   211: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   214: goto +68 -> 282
+    //   217: astore_1
+    //   218: aload 7
+    //   220: astore 5
+    //   222: goto +99 -> 321
+    //   225: astore_1
+    //   226: aload 7
+    //   228: astore_2
+    //   229: goto +24 -> 253
+    //   232: astore_1
+    //   233: aload 8
+    //   235: astore_2
+    //   236: goto +17 -> 253
+    //   239: astore_1
+    //   240: aconst_null
+    //   241: astore 4
+    //   243: goto +78 -> 321
+    //   246: astore_1
+    //   247: aconst_null
+    //   248: astore 4
+    //   250: aload 8
+    //   252: astore_2
+    //   253: aload_2
+    //   254: astore 5
+    //   256: aload 4
+    //   258: astore 6
+    //   260: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   263: ldc_w 374
+    //   266: ldc_w 914
+    //   269: aload_1
+    //   270: invokeinterface 534 4 0
+    //   275: aload_2
+    //   276: ldc_w 912
+    //   279: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   282: aload 4
+    //   284: ldc_w 916
+    //   287: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   290: aload_0
+    //   291: aload 9
+    //   293: bipush 64
+    //   295: invokespecial 918	f/c/a/c/Z:a	(Ljava/lang/String;I)V
+    //   298: return
+    //   299: astore_1
+    //   300: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   303: ldc_w 374
+    //   306: ldc_w 920
+    //   309: aload_1
+    //   310: invokeinterface 534 4 0
+    //   315: return
+    //   316: astore_1
+    //   317: aload 6
+    //   319: astore 4
+    //   321: aload 5
+    //   323: ldc_w 912
+    //   326: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   329: aload 4
+    //   331: ldc_w 916
+    //   334: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   337: aload_1
+    //   338: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	339	0	this	Z
+    //   0	339	1	paramDate	Date
+    //   0	339	2	paramThread	Thread
+    //   0	339	3	paramThrowable	Throwable
+    //   51	279	4	localObject1	Object
+    //   10	312	5	localObject2	Object
+    //   7	311	6	localObject3	Object
+    //   60	167	7	localObject4	Object
+    //   13	238	8	localObject5	Object
+    //   4	288	9	str	String
+    // Exception table:
+    //   from	to	target	type
+    //   194	206	217	finally
+    //   194	206	225	java/lang/Exception
+    //   187	194	232	java/lang/Exception
+    //   48	179	239	finally
+    //   48	179	246	java/lang/Exception
+    //   290	298	299	java/lang/Exception
+    //   187	194	316	finally
+    //   260	275	316	finally
+  }
+  
+  private void a(Set<File> paramSet)
+  {
+    paramSet = paramSet.iterator();
+    while (paramSet.hasNext()) {
+      c((File)paramSet.next());
+    }
+  }
+  
+  private void a(l.a.a.a.a.g.q paramQ, boolean paramBoolean)
+    throws Exception
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.copyTypes(TypeTransformer.java:311)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.fixTypes(TypeTransformer.java:226)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:207)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  /* Error */
+  private void a(byte[] paramArrayOfByte, File paramFile)
+    throws IOException
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore_3
+    //   2: new 933	java/util/zip/GZIPOutputStream
+    //   5: dup
+    //   6: new 867	java/io/FileOutputStream
+    //   9: dup
+    //   10: aload_2
+    //   11: invokespecial 868	java/io/FileOutputStream:<init>	(Ljava/io/File;)V
+    //   14: invokespecial 936	java/util/zip/GZIPOutputStream:<init>	(Ljava/io/OutputStream;)V
+    //   17: astore_2
+    //   18: aload_2
+    //   19: aload_1
+    //   20: invokevirtual 939	java/util/zip/GZIPOutputStream:write	([B)V
+    //   23: aload_2
+    //   24: invokevirtual 942	java/util/zip/GZIPOutputStream:finish	()V
+    //   27: aload_2
+    //   28: invokestatic 945	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;)V
+    //   31: return
+    //   32: astore_3
+    //   33: aload_2
+    //   34: astore_1
+    //   35: aload_3
+    //   36: astore_2
+    //   37: goto +6 -> 43
+    //   40: astore_2
+    //   41: aload_3
+    //   42: astore_1
+    //   43: aload_1
+    //   44: invokestatic 945	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;)V
+    //   47: aload_2
+    //   48: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	49	0	this	Z
+    //   0	49	1	paramArrayOfByte	byte[]
+    //   0	49	2	paramFile	File
+    //   1	1	3	localObject1	Object
+    //   32	10	3	localObject2	Object
+    // Exception table:
+    //   from	to	target	type
+    //   18	27	32	finally
+    //   2	18	40	finally
+  }
+  
+  private void a(File[] paramArrayOfFile, int paramInt1, int paramInt2)
+  {
+    l.a.a.a.g.h().d("CrashlyticsCore", "Closing open sessions.");
+    while (paramInt1 < paramArrayOfFile.length)
+    {
+      File localFile = paramArrayOfFile[paramInt1];
+      String str = a(localFile);
+      l.a.a.a.q localQ = l.a.a.a.g.h();
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Closing session: ");
+      localStringBuilder.append(str);
+      localQ.d("CrashlyticsCore", localStringBuilder.toString());
+      a(localFile, str, paramInt2);
+      paramInt1 += 1;
+    }
+  }
+  
+  private void a(File[] paramArrayOfFile, Set<String> paramSet)
+  {
+    int i2 = paramArrayOfFile.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      File localFile = paramArrayOfFile[i1];
+      String str = localFile.getName();
+      Object localObject = t.matcher(str);
+      StringBuilder localStringBuilder;
+      if (!((Matcher)localObject).matches())
+      {
+        localObject = l.a.a.a.g.h();
+        localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Deleting unknown file: ");
+        localStringBuilder.append(str);
+        ((l.a.a.a.q)localObject).d("CrashlyticsCore", localStringBuilder.toString());
+        localFile.delete();
+      }
+      else if (!paramSet.contains(((Matcher)localObject).group(1)))
+      {
+        localObject = l.a.a.a.g.h();
+        localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Trimming session file: ");
+        localStringBuilder.append(str);
+        ((l.a.a.a.q)localObject).d("CrashlyticsCore", localStringBuilder.toString());
+        localFile.delete();
+      }
+      i1 += 1;
+    }
+  }
+  
+  private File[] a(File paramFile, FilenameFilter paramFilenameFilter)
+  {
+    return b(paramFile.listFiles(paramFilenameFilter));
+  }
+  
+  private File[] a(FileFilter paramFileFilter)
+  {
+    return b(d().listFiles(paramFileFilter));
+  }
+  
+  private File[] a(FilenameFilter paramFilenameFilter)
+  {
+    return b(d().listFiles(paramFilenameFilter));
+  }
+  
+  private File[] a(String paramString, File[] paramArrayOfFile, int paramInt)
+  {
+    File[] arrayOfFile = paramArrayOfFile;
+    if (paramArrayOfFile.length > paramInt)
+    {
+      l.a.a.a.g.h().d("CrashlyticsCore", String.format(Locale.US, "Trimming down to %d logged exceptions.", new Object[] { Integer.valueOf(paramInt) }));
+      a(paramString, paramInt);
+      paramString = new d(f.a.a.a.a.c(paramString, "SessionEvent"));
+      arrayOfFile = b(d().listFiles(paramString));
+    }
+    return arrayOfFile;
+  }
+  
+  private Ya b(String paramString)
+  {
+    if (h()) {
+      return new Ya(O.w(), O.x(), O.v());
+    }
+    return new Ba(d()).f(paramString);
+  }
+  
+  private void b(int paramInt)
+  {
+    HashSet localHashSet = new HashSet();
+    Object localObject = r();
+    int i1 = Math.min(paramInt, localObject.length);
+    paramInt = 0;
+    while (paramInt < i1)
+    {
+      localHashSet.add(a(localObject[paramInt]));
+      paramInt += 1;
+    }
+    W.a(localHashSet);
+    localObject = new a(null);
+    a(b(d().listFiles((FilenameFilter)localObject)), localHashSet);
+  }
+  
+  public static void b(String paramString1, String paramString2)
+  {
+    f.c.a.a.b localB = (f.c.a.a.b)l.a.a.a.g.a(f.c.a.a.b.class);
+    if (localB == null)
+    {
+      l.a.a.a.g.h().d("CrashlyticsCore", "Answers is not available");
+      return;
+    }
+    localB.a(new m.b(paramString1, paramString2));
+  }
+  
+  /* Error */
+  private void b(Date paramDate, Thread paramThread, Throwable paramThrowable)
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 4
+    //   3: aconst_null
+    //   4: astore 8
+    //   6: aconst_null
+    //   7: astore 6
+    //   9: aconst_null
+    //   10: astore 7
+    //   12: aload_0
+    //   13: invokespecial 886	f/c/a/c/Z:p	()Ljava/lang/String;
+    //   16: astore 5
+    //   18: aload 5
+    //   20: ifnonnull +33 -> 53
+    //   23: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   26: ldc_w 374
+    //   29: ldc_w 1041
+    //   32: aconst_null
+    //   33: invokeinterface 534 4 0
+    //   38: aconst_null
+    //   39: ldc_w 1043
+    //   42: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   45: aconst_null
+    //   46: ldc_w 1045
+    //   49: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   52: return
+    //   53: aload 5
+    //   55: aload_3
+    //   56: invokevirtual 892	java/lang/Object:getClass	()Ljava/lang/Class;
+    //   59: invokevirtual 895	java/lang/Class:getName	()Ljava/lang/String;
+    //   62: invokestatic 418	f/c/a/c/Z:a	(Ljava/lang/String;Ljava/lang/String;)V
+    //   65: aload_0
+    //   66: invokevirtual 434	f/c/a/c/Z:d	()Ljava/io/File;
+    //   69: astore 9
+    //   71: new 489	java/lang/StringBuilder
+    //   74: dup
+    //   75: invokespecial 490	java/lang/StringBuilder:<init>	()V
+    //   78: astore 10
+    //   80: aload 10
+    //   82: aload 5
+    //   84: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   87: pop
+    //   88: aload 10
+    //   90: ldc -115
+    //   92: invokevirtual 496	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   95: pop
+    //   96: new 527	f/c/a/c/i
+    //   99: dup
+    //   100: aload 9
+    //   102: aload 10
+    //   104: invokevirtual 502	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   107: invokespecial 786	f/c/a/c/i:<init>	(Ljava/io/File;Ljava/lang/String;)V
+    //   110: astore 5
+    //   112: aload 8
+    //   114: astore 4
+    //   116: aload 5
+    //   118: astore 6
+    //   120: aload 5
+    //   122: invokestatic 791	f/c/a/c/j:a	(Ljava/io/OutputStream;)Lf/c/a/c/j;
+    //   125: astore 8
+    //   127: aload 8
+    //   129: astore 7
+    //   131: aload 8
+    //   133: astore 4
+    //   135: aload 5
+    //   137: astore 6
+    //   139: aload_0
+    //   140: aload 8
+    //   142: aload_1
+    //   143: aload_2
+    //   144: aload_3
+    //   145: ldc 125
+    //   147: iconst_1
+    //   148: invokespecial 910	f/c/a/c/Z:a	(Lf/c/a/c/j;Ljava/util/Date;Ljava/lang/Thread;Ljava/lang/Throwable;Ljava/lang/String;Z)V
+    //   151: aload 8
+    //   153: astore_1
+    //   154: aload 5
+    //   156: astore_2
+    //   157: goto +53 -> 210
+    //   160: astore_3
+    //   161: aload 7
+    //   163: astore_1
+    //   164: aload 5
+    //   166: astore_2
+    //   167: goto +22 -> 189
+    //   170: astore_1
+    //   171: aconst_null
+    //   172: astore_2
+    //   173: aload 6
+    //   175: astore 4
+    //   177: aload_2
+    //   178: astore 6
+    //   180: goto +46 -> 226
+    //   183: astore_3
+    //   184: aconst_null
+    //   185: astore_2
+    //   186: aload 4
+    //   188: astore_1
+    //   189: aload_1
+    //   190: astore 4
+    //   192: aload_2
+    //   193: astore 6
+    //   195: invokestatic 372	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   198: ldc_w 374
+    //   201: ldc_w 1047
+    //   204: aload_3
+    //   205: invokeinterface 534 4 0
+    //   210: aload_1
+    //   211: ldc_w 1043
+    //   214: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   217: aload_2
+    //   218: ldc_w 1045
+    //   221: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   224: return
+    //   225: astore_1
+    //   226: aload 4
+    //   228: ldc_w 1043
+    //   231: invokestatic 814	l/a/a/a/a/b/l:a	(Ljava/io/Flushable;Ljava/lang/String;)V
+    //   234: aload 6
+    //   236: ldc_w 1045
+    //   239: invokestatic 561	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   242: aload_1
+    //   243: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	244	0	this	Z
+    //   0	244	1	paramDate	Date
+    //   0	244	2	paramThread	Thread
+    //   0	244	3	paramThrowable	Throwable
+    //   1	226	4	localObject1	Object
+    //   16	149	5	localObject2	Object
+    //   7	228	6	localObject3	Object
+    //   10	152	7	localJ1	j
+    //   4	148	8	localJ2	j
+    //   69	32	9	localFile	File
+    //   78	25	10	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   120	127	160	java/lang/Exception
+    //   139	151	160	java/lang/Exception
+    //   12	18	170	finally
+    //   23	38	170	finally
+    //   53	112	170	finally
+    //   12	18	183	java/lang/Exception
+    //   23	38	183	java/lang/Exception
+    //   53	112	183	java/lang/Exception
+    //   120	127	225	finally
+    //   139	151	225	finally
+    //   195	210	225	finally
+  }
+  
+  private void b(l.a.a.a.a.g.v paramV)
+  {
+    if (paramV == null)
+    {
+      l.a.a.a.g.h().a("CrashlyticsCore", "Cannot send reports. Settings are unavailable.");
+      return;
+    }
+    Context localContext = O.d();
+    paramV = a;
+    paramV = c(g, h);
+    paramV = new Qa(U.a, paramV, X, Y);
+    File[] arrayOfFile = i();
+    int i2 = arrayOfFile.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      Ta localTa = new Ta(arrayOfFile[i1], w);
+      P.a(new k(localContext, localTa, paramV));
+      i1 += 1;
+    }
+  }
+  
+  private void b(byte[] paramArrayOfByte, File paramFile)
+    throws IOException
+  {
+    if ((paramArrayOfByte != null) && (paramArrayOfByte.length > 0)) {
+      a(paramArrayOfByte, paramFile);
+    }
+  }
+  
+  private File[] b(File paramFile)
+  {
+    return b(paramFile.listFiles());
+  }
+  
+  private File[] b(File[] paramArrayOfFile)
+  {
+    File[] arrayOfFile = paramArrayOfFile;
+    if (paramArrayOfFile == null) {
+      arrayOfFile = new File[0];
+    }
+    return arrayOfFile;
+  }
+  
+  private na c(String paramString1, String paramString2)
+  {
+    String str = l.a.a.a.a.b.l.b(O.d(), "com.crashlytics.ApiEndpoint");
+    return new l(new qa(O, str, paramString1, Q), new Ea(O, str, paramString2, Q));
+  }
+  
+  private void c(File paramFile)
+  {
+    if (paramFile.isDirectory())
+    {
+      File[] arrayOfFile = paramFile.listFiles();
+      int i2 = arrayOfFile.length;
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        c(arrayOfFile[i1]);
+        i1 += 1;
+      }
+    }
+    paramFile.delete();
+  }
+  
+  private boolean c(l.a.a.a.a.g.v paramV)
+  {
+    boolean bool2 = false;
+    if (paramV == null) {
+      return false;
+    }
+    boolean bool1 = bool2;
+    if (d.a)
+    {
+      bool1 = bool2;
+      if (!S.a()) {
+        bool1 = true;
+      }
+    }
+    return bool1;
+  }
+  
+  private File[] c(String paramString)
+  {
+    paramString = new l(paramString);
+    return b(d().listFiles(paramString));
+  }
+  
+  private void d(String paramString)
+    throws Exception
+  {
+    String str1 = R.e();
+    Object localObject = U;
+    String str2 = e;
+    localObject = f;
+    String str3 = R.f();
+    int i1 = l.a.a.a.a.b.p.a(U.c).getId();
+    a(paramString, "SessionApp", new F(this, str1, str2, (String)localObject, str3, i1));
+    a(paramString, "SessionApp.json", new I(this, str1, str2, (String)localObject, str3, i1));
+  }
+  
+  private byte[] d(String paramString1, String paramString2)
+  {
+    return Fa.d(new File(d(), f.a.a.a.a.c(paramString1, paramString2)));
+  }
+  
+  private void e(String paramString)
+    throws Exception
+  {
+    Context localContext = O.d();
+    Object localObject = new StatFs(Environment.getDataDirectory().getPath());
+    int i1 = l.a.a.a.a.b.l.a();
+    int i2 = Runtime.getRuntime().availableProcessors();
+    long l1 = l.a.a.a.a.b.l.b();
+    long l2 = ((StatFs)localObject).getBlockCount() * ((StatFs)localObject).getBlockSize();
+    boolean bool = l.a.a.a.a.b.l.l(localContext);
+    localObject = R.h();
+    int i3 = l.a.a.a.a.b.l.f(localContext);
+    a(paramString, "SessionDevice", new M(this, i1, i2, l1, l2, bool, (Map)localObject, i3));
+    a(paramString, "SessionDevice.json", new O(this, i1, i2, l1, l2, bool, (Map)localObject, i3));
+  }
+  
+  private void f(String paramString)
+    throws Exception
+  {
+    boolean bool = l.a.a.a.a.b.l.n(O.d());
+    a(paramString, "SessionOS", new J(this, bool));
+    a(paramString, "SessionOS.json", new L(this, bool));
+  }
+  
+  private void g(String paramString)
+    throws Exception
+  {
+    a(paramString, "SessionUser", new P(this, b(paramString)));
+  }
+  
+  private void n()
+    throws Exception
+  {
+    Date localDate = new Date();
+    String str = new g(R).toString();
+    l.a.a.a.q localQ = l.a.a.a.g.h();
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Opening a new session with ID ");
+    localStringBuilder.append(str);
+    localQ.d("CrashlyticsCore", localStringBuilder.toString());
+    a(str, localDate);
+    d(str);
+    f(str);
+    e(str);
+    W.a(str);
+  }
+  
+  private boolean o()
+  {
+    try
+    {
+      Class.forName("com.google.firebase.crash.FirebaseCrash");
+      return true;
+    }
+    catch (ClassNotFoundException localClassNotFoundException)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  private String p()
+  {
+    File[] arrayOfFile = r();
+    if (arrayOfFile.length > 0) {
+      return a(arrayOfFile[0]);
+    }
+    return null;
+  }
+  
+  private String q()
+  {
+    File[] arrayOfFile = r();
+    if (arrayOfFile.length > 1) {
+      return a(arrayOfFile[1]);
+    }
+    return null;
+  }
+  
+  private File[] r()
+  {
+    File[] arrayOfFile = k();
+    Arrays.sort(arrayOfFile, r);
+    return arrayOfFile;
+  }
+  
+  private void s()
+  {
+    File localFile = e();
+    if (!localFile.exists()) {
+      return;
+    }
+    File[] arrayOfFile = b(localFile.listFiles(new f()));
+    Arrays.sort(arrayOfFile, Collections.reverseOrder());
+    HashSet localHashSet = new HashSet();
+    int i1 = 0;
+    while ((i1 < arrayOfFile.length) && (localHashSet.size() < 4))
+    {
+      localHashSet.add(a(arrayOfFile[i1]));
+      i1 += 1;
+    }
+    a(b(localFile), localHashSet);
+  }
+  
+  public void a(float paramFloat, l.a.a.a.a.g.v paramV)
+  {
+    if (paramV == null)
+    {
+      l.a.a.a.g.h().a("CrashlyticsCore", "Could not send reports. Settings are not available.");
+      return;
+    }
+    Object localObject = a;
+    localObject = c(g, h);
+    if (c(paramV)) {
+      paramV = new h(O, S, c);
+    } else {
+      paramV = new Qa.a();
+    }
+    new Qa(U.a, (na)localObject, X, Y).a(paramFloat, paramV);
+  }
+  
+  public void a(int paramInt)
+  {
+    paramInt -= _a.a(c(), paramInt, s);
+    int i1 = _a.a(f(), paramInt, s);
+    _a.a(d(), p, paramInt - i1, s);
+  }
+  
+  public void a(long paramLong, String paramString)
+  {
+    P.a(new X(this, paramLong, paramString));
+  }
+  
+  public void a(la.b paramB, Thread paramThread, Throwable paramThrowable, boolean paramBoolean)
+  {
+    try
+    {
+      Object localObject = l.a.a.a.g.h();
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Crashlytics is handling uncaught exception \"");
+      localStringBuilder.append(paramThrowable);
+      localStringBuilder.append("\" from thread ");
+      localStringBuilder.append(paramThread.getName());
+      ((l.a.a.a.q)localObject).d("CrashlyticsCore", localStringBuilder.toString());
+      Z.a();
+      localObject = new Date();
+      P.b(new W(this, (Date)localObject, paramThread, paramThrowable, paramB, paramBoolean));
+      return;
+    }
+    finally
+    {
+      paramB = finally;
+      throw paramB;
+    }
+  }
+  
+  public void a(String paramString1, String paramString2, String paramString3)
+  {
+    P.a(new v(this, paramString1, paramString2, paramString3));
+  }
+  
+  public void a(Thread.UncaughtExceptionHandler paramUncaughtExceptionHandler, boolean paramBoolean)
+  {
+    l();
+    ea = new la(new V(this), new c(null), paramBoolean, paramUncaughtExceptionHandler);
+    Thread.setDefaultUncaughtExceptionHandler(ea);
+  }
+  
+  public void a(Thread paramThread, Throwable paramThrowable)
+  {
+    Date localDate = new Date();
+    P.a(new Y(this, localDate, paramThread, paramThrowable));
+  }
+  
+  public void a(Map<String, String> paramMap)
+  {
+    P.a(new w(this, paramMap));
+  }
+  
+  public void a(l.a.a.a.a.g.q paramQ)
+    throws Exception
+  {
+    a(paramQ, false);
+  }
+  
+  public void a(l.a.a.a.a.g.v paramV)
+  {
+    if (d.e)
+    {
+      boolean bool = ca.a();
+      paramV = l.a.a.a.g.h();
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Registered Firebase Analytics event listener for breadcrumbs: ");
+      localStringBuilder.append(bool);
+      paramV.d("CrashlyticsCore", localStringBuilder.toString());
+    }
+  }
+  
+  public void a(File[] paramArrayOfFile)
+  {
+    Object localObject = new HashSet();
+    int i3 = paramArrayOfFile.length;
+    int i2 = 0;
+    int i1 = 0;
+    File localFile;
+    l.a.a.a.q localQ;
+    StringBuilder localStringBuilder;
+    while (i1 < i3)
+    {
+      localFile = paramArrayOfFile[i1];
+      localQ = l.a.a.a.g.h();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Found invalid session part file: ");
+      localStringBuilder.append(localFile);
+      localQ.d("CrashlyticsCore", localStringBuilder.toString());
+      ((Set)localObject).add(a(localFile));
+      i1 += 1;
+    }
+    if (((Set)localObject).isEmpty()) {
+      return;
+    }
+    paramArrayOfFile = e();
+    if (!paramArrayOfFile.exists()) {
+      paramArrayOfFile.mkdir();
+    }
+    localObject = new A(this, (Set)localObject);
+    localObject = b(d().listFiles((FilenameFilter)localObject));
+    i3 = localObject.length;
+    i1 = i2;
+    while (i1 < i3)
+    {
+      localFile = localObject[i1];
+      localQ = l.a.a.a.g.h();
+      localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Moving session file: ");
+      localStringBuilder.append(localFile);
+      localQ.d("CrashlyticsCore", localStringBuilder.toString());
+      if (!localFile.renameTo(new File(paramArrayOfFile, localFile.getName())))
+      {
+        localQ = l.a.a.a.g.h();
+        localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Could not move session file. Deleting ");
+        localStringBuilder.append(localFile);
+        localQ.d("CrashlyticsCore", localStringBuilder.toString());
+        localFile.delete();
+      }
+      i1 += 1;
+    }
+    s();
+  }
+  
+  public boolean a(ia paramIa)
+  {
+    if (paramIa == null) {
+      return true;
+    }
+    return ((Boolean)P.b(new B(this, paramIa))).booleanValue();
+  }
+  
+  public void b()
+  {
+    P.a(new z(this));
+  }
+  
+  public boolean b(l.a.a.a.a.g.q paramQ)
+  {
+    return ((Boolean)P.b(new y(this, paramQ))).booleanValue();
+  }
+  
+  public File c()
+  {
+    return new File(d(), "fatal-sessions");
+  }
+  
+  public File d()
+  {
+    return T.b();
+  }
+  
+  public File e()
+  {
+    return new File(d(), "invalidClsFiles");
+  }
+  
+  public File f()
+  {
+    return new File(d(), "nonfatal-sessions");
+  }
+  
+  public boolean g()
+  {
+    return k().length > 0;
+  }
+  
+  public boolean h()
+  {
+    la localLa = ea;
+    return (localLa != null) && (localLa.a());
+  }
+  
+  public File[] i()
+  {
+    LinkedList localLinkedList = new LinkedList();
+    Collections.addAll(localLinkedList, a(c(), p));
+    Collections.addAll(localLinkedList, a(f(), p));
+    Collections.addAll(localLinkedList, a(d(), p));
+    return (File[])localLinkedList.toArray(new File[localLinkedList.size()]);
+  }
+  
+  public File[] j()
+  {
+    return a(q);
+  }
+  
+  public File[] k()
+  {
+    return a(o);
+  }
+  
+  public void l()
+  {
+    P.a(new x(this));
+  }
+  
+  public void m()
+  {
+    Z.b();
+  }
+  
+  private static class a
+    implements FilenameFilter
+  {
+    public a() {}
+    
+    public boolean accept(File paramFile, String paramString)
+    {
+      return (!Z.p.accept(paramFile, paramString)) && (Z.t.matcher(paramString).matches());
+    }
+  }
+  
+  private static abstract interface b
+  {
+    public abstract void a(j paramJ)
+      throws Exception;
+  }
+  
+  private static final class c
+    implements la.b
+  {
+    public c() {}
+    
+    public l.a.a.a.a.g.v a()
+    {
+      return s.c().a();
+    }
+  }
+  
+  public static class d
+    implements FilenameFilter
+  {
+    public final String a;
+    
+    public d(String paramString)
+    {
+      a = paramString;
+    }
+    
+    public boolean accept(File paramFile, String paramString)
+    {
+      return (paramString.contains(a)) && (!paramString.endsWith(".cls_temp"));
+    }
+  }
+  
+  private static abstract interface e
+  {
+    public abstract void a(FileOutputStream paramFileOutputStream)
+      throws Exception;
+  }
+  
+  public static class f
+    implements FilenameFilter
+  {
+    public f() {}
+    
+    public boolean accept(File paramFile, String paramString)
+    {
+      return (i.c.accept(paramFile, paramString)) || (paramString.contains("SessionMissingBinaryImages"));
+    }
+  }
+  
+  private static final class g
+    implements ya.a
+  {
+    public static final String a = "log-files";
+    public final l.a.a.a.a.f.a b;
+    
+    public g(l.a.a.a.a.f.a paramA)
+    {
+      b = paramA;
+    }
+    
+    public File a()
+    {
+      File localFile = new File(b.b(), "log-files");
+      if (!localFile.exists()) {
+        localFile.mkdirs();
+      }
+      return localFile;
+    }
+  }
+  
+  private static final class h
+    implements Qa.d
+  {
+    public final l.a.a.a.n a;
+    public final Ia b;
+    public final l.a.a.a.a.g.p c;
+    
+    public h(l.a.a.a.n paramN, Ia paramIa, l.a.a.a.a.g.p paramP)
+    {
+      a = paramN;
+      b = paramIa;
+      c = paramP;
+    }
+    
+    public boolean a()
+    {
+      Activity localActivity = a.f().d();
+      if ((localActivity != null) && (!localActivity.isFinishing()))
+      {
+        Object localObject = new aa(this);
+        localObject = p.a(localActivity, c, (p.a)localObject);
+        localActivity.runOnUiThread(new ba(this, (p)localObject));
+        l.a.a.a.g.h().d("CrashlyticsCore", "Waiting for user opt-in.");
+        ((p)localObject).a();
+        return ((p)localObject).b();
+      }
+      return true;
+    }
+  }
+  
+  private final class i
+    implements Qa.c
+  {
+    public i() {}
+    
+    public File[] a()
+    {
+      return j();
+    }
+    
+    public File[] b()
+    {
+      return e().listFiles();
+    }
+    
+    public File[] c()
+    {
+      return i();
+    }
+  }
+  
+  private final class j
+    implements Qa.b
+  {
+    public j() {}
+    
+    public boolean a()
+    {
+      return h();
+    }
+  }
+  
+  private static final class k
+    implements Runnable
+  {
+    public final Context a;
+    public final Pa b;
+    public final Qa c;
+    
+    public k(Context paramContext, Pa paramPa, Qa paramQa)
+    {
+      a = paramContext;
+      b = paramPa;
+      c = paramQa;
+    }
+    
+    public void run()
+    {
+      if (!l.a.a.a.a.b.l.b(a)) {
+        return;
+      }
+      l.a.a.a.g.h().d("CrashlyticsCore", "Attempting to send crash report at time of crash...");
+      c.a(b);
+    }
+  }
+  
+  public static class l
+    implements FilenameFilter
+  {
+    public final String a;
+    
+    public l(String paramString)
+    {
+      a = paramString;
+    }
+    
+    public boolean accept(File paramFile, String paramString)
+    {
+      paramFile = new StringBuilder();
+      paramFile.append(a);
+      paramFile.append(".cls");
+      boolean bool1 = paramString.equals(paramFile.toString());
+      boolean bool2 = false;
+      if (bool1) {
+        return false;
+      }
+      bool1 = bool2;
+      if (paramString.contains(a))
+      {
+        bool1 = bool2;
+        if (!paramString.endsWith(".cls_temp")) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+  }
+}

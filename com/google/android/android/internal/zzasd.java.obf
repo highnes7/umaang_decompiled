@@ -1,0 +1,37 @@
+package com.google.android.gms.internal;
+
+import android.app.PendingIntent;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzasd
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzasd> CREATOR = new zzase();
+  public String accountType;
+  public int zzdxs = 1;
+  public PendingIntent zzdzz;
+  
+  public zzasd(int paramInt, String paramString, PendingIntent paramPendingIntent)
+  {
+    zzbp.zzu(paramString);
+    accountType = ((String)paramString);
+    zzbp.zzu(paramPendingIntent);
+    zzdzz = ((PendingIntent)paramPendingIntent);
+  }
+  
+  public zzasd(String paramString, PendingIntent paramPendingIntent)
+  {
+    this(1, paramString, paramPendingIntent);
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    zzbcn.zza(paramParcel, 2, accountType, false);
+    zzbcn.zza(paramParcel, 3, zzdzz, paramInt, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+}

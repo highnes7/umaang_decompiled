@@ -1,0 +1,899 @@
+package f.g.c.g;
+
+import f.g.c.a.a;
+import f.g.c.b.ba;
+import f.g.c.f.k.d;
+import f.g.c.f.l;
+import f.g.c.f.n;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+import java.util.Arrays;
+import java.util.zip.Checksum;
+
+@a
+public final class i
+{
+  public static final int a = 4096;
+  
+  public i() {}
+  
+  public static int a(InputStream paramInputStream, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    if (paramInt2 >= 0)
+    {
+      int i = 0;
+      while (i < paramInt2)
+      {
+        int j = paramInputStream.read(paramArrayOfByte, paramInt1 + i, paramInt2 - i);
+        if (j == -1) {
+          return i;
+        }
+        i += j;
+      }
+      return i;
+    }
+    paramInputStream = new IndexOutOfBoundsException("len is negative");
+    for (;;)
+    {
+      throw paramInputStream;
+    }
+  }
+  
+  public static long a(y<? extends InputStream> paramY)
+    throws IOException
+  {
+    paramY = (InputStream)paramY.a();
+    long l1 = 0L;
+    try
+    {
+      for (;;)
+      {
+        long l3 = paramY.skip(2147483647L);
+        long l2 = l3;
+        if (l3 == 0L)
+        {
+          int i = paramY.read();
+          if (i == -1)
+          {
+            o.a(paramY, false);
+            return l1;
+          }
+          l2 = 1L;
+        }
+        l1 += l2;
+      }
+      throw localObject;
+    }
+    finally
+    {
+      o.a(paramY, true);
+    }
+    for (;;) {}
+  }
+  
+  /* Error */
+  public static long a(y<? extends InputStream> paramY, J<? extends OutputStream> paramJ)
+    throws IOException
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: invokeinterface 49 1 0
+    //   6: checkcast 31	java/io/InputStream
+    //   9: astore 6
+    //   11: iconst_1
+    //   12: istore_3
+    //   13: aload_1
+    //   14: invokeinterface 69 1 0
+    //   19: checkcast 71	java/io/OutputStream
+    //   22: astore_0
+    //   23: aload 6
+    //   25: aload_0
+    //   26: invokestatic 74	f/g/c/g/i:a	(Ljava/io/InputStream;Ljava/io/OutputStream;)J
+    //   29: lstore 4
+    //   31: aload_0
+    //   32: iconst_0
+    //   33: invokestatic 63	f/g/c/g/o:a	(Ljava/io/Closeable;Z)V
+    //   36: aload 6
+    //   38: iconst_0
+    //   39: invokestatic 63	f/g/c/g/o:a	(Ljava/io/Closeable;Z)V
+    //   42: lload 4
+    //   44: lreturn
+    //   45: astore_0
+    //   46: iconst_1
+    //   47: istore_2
+    //   48: goto +14 -> 62
+    //   51: astore_1
+    //   52: aload_0
+    //   53: iconst_1
+    //   54: invokestatic 63	f/g/c/g/o:a	(Ljava/io/Closeable;Z)V
+    //   57: aload_1
+    //   58: athrow
+    //   59: astore_0
+    //   60: iconst_0
+    //   61: istore_2
+    //   62: iload_2
+    //   63: iconst_2
+    //   64: if_icmpge +6 -> 70
+    //   67: goto +5 -> 72
+    //   70: iconst_0
+    //   71: istore_3
+    //   72: aload 6
+    //   74: iload_3
+    //   75: invokestatic 63	f/g/c/g/o:a	(Ljava/io/Closeable;Z)V
+    //   78: aload_0
+    //   79: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	80	0	paramY	y<? extends InputStream>
+    //   0	80	1	paramJ	J<? extends OutputStream>
+    //   47	18	2	i	int
+    //   12	63	3	bool	boolean
+    //   29	14	4	l	long
+    //   9	64	6	localInputStream	InputStream
+    // Exception table:
+    //   from	to	target	type
+    //   31	36	45	finally
+    //   57	59	45	finally
+    //   23	31	51	finally
+    //   13	23	59	finally
+    //   52	57	59	finally
+  }
+  
+  public static long a(y<? extends InputStream> paramY, OutputStream paramOutputStream)
+    throws IOException
+  {
+    paramY = (InputStream)paramY.a();
+    try
+    {
+      long l = a(paramY, paramOutputStream);
+      o.a(paramY, false);
+      return l;
+    }
+    finally
+    {
+      o.a(paramY, true);
+    }
+  }
+  
+  public static long a(y<? extends InputStream> paramY, Checksum paramChecksum)
+    throws IOException
+  {
+    return ((Long)a(paramY, new f(paramChecksum))).longValue();
+  }
+  
+  public static long a(InputStream paramInputStream, J<? extends OutputStream> paramJ)
+    throws IOException
+  {
+    paramJ = (OutputStream)paramJ.a();
+    try
+    {
+      long l = a(paramInputStream, paramJ);
+      o.a(paramJ, false);
+      return l;
+    }
+    finally
+    {
+      o.a(paramJ, true);
+    }
+  }
+  
+  public static long a(InputStream paramInputStream, OutputStream paramOutputStream)
+    throws IOException
+  {
+    byte[] arrayOfByte = new byte['?'];
+    int i;
+    for (long l = 0L;; l += i)
+    {
+      i = paramInputStream.read(arrayOfByte);
+      if (i == -1) {
+        return l;
+      }
+      paramOutputStream.write(arrayOfByte, 0, i);
+    }
+  }
+  
+  public static long a(ReadableByteChannel paramReadableByteChannel, WritableByteChannel paramWritableByteChannel)
+    throws IOException
+  {
+    ByteBuffer localByteBuffer = ByteBuffer.allocate(4096);
+    long l = 0L;
+    while (paramReadableByteChannel.read(localByteBuffer) != -1)
+    {
+      localByteBuffer.flip();
+      while (localByteBuffer.hasRemaining()) {
+        l += paramWritableByteChannel.write(localByteBuffer);
+      }
+      localByteBuffer.clear();
+    }
+    return l;
+  }
+  
+  public static l a(y<? extends InputStream> paramY, n paramN)
+    throws IOException
+  {
+    paramN = paramN.b();
+    a(paramY, new k.d(paramN));
+    return paramN.a();
+  }
+  
+  public static b a(byte[] paramArrayOfByte)
+  {
+    return new a(paramArrayOfByte);
+  }
+  
+  public static b a(byte[] paramArrayOfByte, int paramInt)
+  {
+    ba.d(paramInt, paramArrayOfByte.length, "index");
+    return new a(paramArrayOfByte, paramInt);
+  }
+  
+  public static c a()
+  {
+    return new b();
+  }
+  
+  public static c a(int paramInt)
+  {
+    boolean bool;
+    if (paramInt >= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "Invalid size: %s", new Object[] { Integer.valueOf(paramInt) });
+    return new b(paramInt);
+  }
+  
+  public static y<InputStream> a(y<? extends InputStream> paramY, long paramLong1, long paramLong2)
+  {
+    if (paramY != null)
+    {
+      boolean bool2 = true;
+      boolean bool1;
+      if (paramLong1 >= 0L) {
+        bool1 = true;
+      } else {
+        bool1 = false;
+      }
+      ba.a(bool1, "offset is negative");
+      if (paramLong2 >= 0L) {
+        bool1 = bool2;
+      } else {
+        bool1 = false;
+      }
+      ba.a(bool1, "length is negative");
+      return new g(paramY, paramLong1, paramLong2);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static y<InputStream> a(Iterable<? extends y<? extends InputStream>> paramIterable)
+  {
+    return new h(paramIterable);
+  }
+  
+  public static y<ByteArrayInputStream> a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    return new e(paramArrayOfByte, paramInt1, paramInt2);
+  }
+  
+  public static y<InputStream> a(y<? extends InputStream>... paramVarArgs)
+  {
+    return new h(Arrays.asList(paramVarArgs));
+  }
+  
+  public static <T> T a(y<? extends InputStream> paramY, d<T> paramD)
+    throws IOException
+  {
+    byte[] arrayOfByte = new byte['?'];
+    paramY = (InputStream)paramY.a();
+    for (;;)
+    {
+      boolean bool3 = true;
+      boolean bool1 = true;
+      boolean bool2 = bool3;
+      try
+      {
+        int i = paramY.read(arrayOfByte);
+        if (i == -1)
+        {
+          bool1 = false;
+        }
+        else
+        {
+          bool2 = bool3;
+          if (paramD.a(arrayOfByte, 0, i)) {
+            continue;
+          }
+        }
+        bool2 = bool1;
+        paramD = paramD.getResult();
+        o.a(paramY, bool1);
+        return paramD;
+      }
+      finally
+      {
+        o.a(paramY, bool2);
+      }
+    }
+    for (;;)
+    {
+      throw paramD;
+    }
+  }
+  
+  public static void a(InputStream paramInputStream, long paramLong)
+    throws IOException
+  {
+    while (paramLong > 0L)
+    {
+      long l = paramInputStream.skip(paramLong);
+      if (l == 0L)
+      {
+        if (paramInputStream.read() != -1) {
+          paramLong -= 1L;
+        } else {
+          throw new EOFException();
+        }
+      }
+      else {
+        paramLong -= l;
+      }
+    }
+  }
+  
+  public static void a(InputStream paramInputStream, byte[] paramArrayOfByte)
+    throws IOException
+  {
+    b(paramInputStream, paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public static void a(byte[] paramArrayOfByte, J<? extends OutputStream> paramJ)
+    throws IOException
+  {
+    if (paramArrayOfByte != null)
+    {
+      paramJ = (OutputStream)paramJ.a();
+      try
+      {
+        paramJ.write(paramArrayOfByte);
+        o.a(paramJ, false);
+        return;
+      }
+      finally
+      {
+        o.a(paramJ, true);
+      }
+    }
+    throw new NullPointerException();
+  }
+  
+  public static boolean a(y<? extends InputStream> paramY1, y<? extends InputStream> paramY2)
+    throws IOException
+  {
+    byte[] arrayOfByte1 = new byte['?'];
+    byte[] arrayOfByte2 = new byte['?'];
+    InputStream localInputStream = (InputStream)paramY1.a();
+    boolean bool1 = true;
+    try
+    {
+      paramY1 = (InputStream)paramY2.a();
+    }
+    finally
+    {
+      try
+      {
+        int i;
+        boolean bool2;
+        do
+        {
+          i = a(localInputStream, arrayOfByte1, 0, 4096);
+          if (i != a(paramY1, arrayOfByte2, 0, 4096)) {
+            break;
+          }
+          bool2 = Arrays.equals(arrayOfByte1, arrayOfByte2);
+        } while ((bool2) && (i == 4096));
+        try
+        {
+          o.a(paramY1, false);
+          o.a(localInputStream, false);
+          return true;
+        }
+        finally
+        {
+          bool1 = false;
+          break label128;
+        }
+        o.a(paramY1, false);
+        return false;
+      }
+      finally
+      {
+        o.a(paramY1, true);
+      }
+      label128:
+      o.a(localInputStream, bool1);
+    }
+    for (;;)
+    {
+      throw paramY1;
+    }
+  }
+  
+  public static byte[] a(InputStream paramInputStream)
+    throws IOException
+  {
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    a(paramInputStream, localByteArrayOutputStream);
+    return localByteArrayOutputStream.toByteArray();
+  }
+  
+  public static y<ByteArrayInputStream> b(byte[] paramArrayOfByte)
+  {
+    return new e(paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public static void b(InputStream paramInputStream, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    if (a(paramInputStream, paramArrayOfByte, paramInt1, paramInt2) == paramInt2) {
+      return;
+    }
+    throw new EOFException();
+  }
+  
+  public static byte[] b(y<? extends InputStream> paramY)
+    throws IOException
+  {
+    paramY = (InputStream)paramY.a();
+    try
+    {
+      byte[] arrayOfByte = a(paramY);
+      o.a(paramY, false);
+      return arrayOfByte;
+    }
+    finally
+    {
+      o.a(paramY, true);
+    }
+  }
+  
+  private static class a
+    implements b
+  {
+    public final DataInput a;
+    
+    public a(byte[] paramArrayOfByte)
+    {
+      a = new DataInputStream(new ByteArrayInputStream(paramArrayOfByte));
+    }
+    
+    public a(byte[] paramArrayOfByte, int paramInt)
+    {
+      a = new DataInputStream(new ByteArrayInputStream(paramArrayOfByte, paramInt, paramArrayOfByte.length - paramInt));
+    }
+    
+    public boolean readBoolean()
+    {
+      try
+      {
+        boolean bool = a.readBoolean();
+        return bool;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public byte readByte()
+    {
+      try
+      {
+        byte b = a.readByte();
+        return b;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+      catch (EOFException localEOFException)
+      {
+        throw new IllegalStateException(localEOFException);
+      }
+    }
+    
+    public char readChar()
+    {
+      try
+      {
+        char c = a.readChar();
+        return c;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public double readDouble()
+    {
+      try
+      {
+        double d = a.readDouble();
+        return d;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public float readFloat()
+    {
+      try
+      {
+        float f = a.readFloat();
+        return f;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public void readFully(byte[] paramArrayOfByte)
+    {
+      try
+      {
+        a.readFully(paramArrayOfByte);
+        return;
+      }
+      catch (IOException paramArrayOfByte)
+      {
+        throw new IllegalStateException(paramArrayOfByte);
+      }
+    }
+    
+    public void readFully(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    {
+      try
+      {
+        a.readFully(paramArrayOfByte, paramInt1, paramInt2);
+        return;
+      }
+      catch (IOException paramArrayOfByte)
+      {
+        throw new IllegalStateException(paramArrayOfByte);
+      }
+    }
+    
+    public int readInt()
+    {
+      try
+      {
+        int i = a.readInt();
+        return i;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public String readLine()
+    {
+      try
+      {
+        String str = a.readLine();
+        return str;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public long readLong()
+    {
+      try
+      {
+        long l = a.readLong();
+        return l;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public short readShort()
+    {
+      try
+      {
+        short s = a.readShort();
+        return s;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public String readUTF()
+    {
+      try
+      {
+        String str = a.readUTF();
+        return str;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public int readUnsignedByte()
+    {
+      try
+      {
+        int i = a.readUnsignedByte();
+        return i;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public int readUnsignedShort()
+    {
+      try
+      {
+        int i = a.readUnsignedShort();
+        return i;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+    
+    public int skipBytes(int paramInt)
+    {
+      try
+      {
+        paramInt = a.skipBytes(paramInt);
+        return paramInt;
+      }
+      catch (IOException localIOException)
+      {
+        throw new IllegalStateException(localIOException);
+      }
+    }
+  }
+  
+  private static class b
+    implements c
+  {
+    public final DataOutput a;
+    public final ByteArrayOutputStream b;
+    
+    public b()
+    {
+      b = localByteArrayOutputStream;
+      a = new DataOutputStream(localByteArrayOutputStream);
+    }
+    
+    public b(int paramInt)
+    {
+      b = localByteArrayOutputStream;
+      a = new DataOutputStream(localByteArrayOutputStream);
+    }
+    
+    public b(ByteArrayOutputStream paramByteArrayOutputStream)
+    {
+      b = paramByteArrayOutputStream;
+      a = new DataOutputStream(paramByteArrayOutputStream);
+    }
+    
+    public byte[] toByteArray()
+    {
+      return b.toByteArray();
+    }
+    
+    public void write(int paramInt)
+    {
+      try
+      {
+        a.write(paramInt);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void write(byte[] paramArrayOfByte)
+    {
+      try
+      {
+        a.write(paramArrayOfByte);
+        return;
+      }
+      catch (IOException paramArrayOfByte)
+      {
+        throw new AssertionError(paramArrayOfByte);
+      }
+    }
+    
+    public void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    {
+      try
+      {
+        a.write(paramArrayOfByte, paramInt1, paramInt2);
+        return;
+      }
+      catch (IOException paramArrayOfByte)
+      {
+        throw new AssertionError(paramArrayOfByte);
+      }
+    }
+    
+    public void writeBoolean(boolean paramBoolean)
+    {
+      try
+      {
+        a.writeBoolean(paramBoolean);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void writeByte(int paramInt)
+    {
+      try
+      {
+        a.writeByte(paramInt);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void writeBytes(String paramString)
+    {
+      try
+      {
+        a.writeBytes(paramString);
+        return;
+      }
+      catch (IOException paramString)
+      {
+        throw new AssertionError(paramString);
+      }
+    }
+    
+    public void writeChar(int paramInt)
+    {
+      try
+      {
+        a.writeChar(paramInt);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void writeChars(String paramString)
+    {
+      try
+      {
+        a.writeChars(paramString);
+        return;
+      }
+      catch (IOException paramString)
+      {
+        throw new AssertionError(paramString);
+      }
+    }
+    
+    public void writeDouble(double paramDouble)
+    {
+      try
+      {
+        a.writeDouble(paramDouble);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void writeFloat(float paramFloat)
+    {
+      try
+      {
+        a.writeFloat(paramFloat);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void writeInt(int paramInt)
+    {
+      try
+      {
+        a.writeInt(paramInt);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void writeLong(long paramLong)
+    {
+      try
+      {
+        a.writeLong(paramLong);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void writeShort(int paramInt)
+    {
+      try
+      {
+        a.writeShort(paramInt);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new AssertionError(localIOException);
+      }
+    }
+    
+    public void writeUTF(String paramString)
+    {
+      try
+      {
+        a.writeUTF(paramString);
+        return;
+      }
+      catch (IOException paramString)
+      {
+        throw new AssertionError(paramString);
+      }
+    }
+  }
+}

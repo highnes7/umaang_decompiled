@@ -1,0 +1,189 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.U;
+import java.util.AbstractCollection;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
+import m.a.h;
+
+@b
+public abstract class t<E>
+  extends AbstractCollection<E>
+  implements Ye<E>
+{
+  public transient Set<E> a;
+  public transient Set<Ye.a<E>> b;
+  
+  public t() {}
+  
+  public int a(@h Object paramObject)
+  {
+    Iterator localIterator = entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Ye.a localA = (Ye.a)localIterator.next();
+      if (U.a(localA.a(), paramObject)) {
+        return localA.getCount();
+      }
+    }
+    return 0;
+  }
+  
+  public int a(@h E paramE, int paramInt)
+  {
+    return bf.a(this, paramE, paramInt);
+  }
+  
+  public Set<E> a()
+  {
+    return new a();
+  }
+  
+  public boolean a(@h E paramE, int paramInt1, int paramInt2)
+  {
+    return bf.a(this, paramE, paramInt1, paramInt2);
+  }
+  
+  public boolean add(@h E paramE)
+  {
+    c(paramE, 1);
+    return true;
+  }
+  
+  public boolean addAll(Collection<? extends E> paramCollection)
+  {
+    return bf.a(this, paramCollection);
+  }
+  
+  public int b(@h Object paramObject, int paramInt)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public Set<Ye.a<E>> b()
+  {
+    return new b();
+  }
+  
+  public abstract int c();
+  
+  public int c(@h E paramE, int paramInt)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public void clear()
+  {
+    Jc.c(d());
+  }
+  
+  public boolean contains(@h Object paramObject)
+  {
+    return a(paramObject) > 0;
+  }
+  
+  public abstract Iterator<Ye.a<E>> d();
+  
+  public Set<Ye.a<E>> entrySet()
+  {
+    Set localSet2 = b;
+    Set localSet1 = localSet2;
+    if (localSet2 == null)
+    {
+      localSet1 = b();
+      b = localSet1;
+    }
+    return localSet1;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    return bf.a(this, paramObject);
+  }
+  
+  public int hashCode()
+  {
+    return entrySet().hashCode();
+  }
+  
+  public boolean isEmpty()
+  {
+    return entrySet().isEmpty();
+  }
+  
+  public Iterator<E> iterator()
+  {
+    return bf.b(this);
+  }
+  
+  public boolean remove(@h Object paramObject)
+  {
+    return b(paramObject, 1) > 0;
+  }
+  
+  public boolean removeAll(Collection<?> paramCollection)
+  {
+    return bf.b(this, paramCollection);
+  }
+  
+  public boolean retainAll(Collection<?> paramCollection)
+  {
+    return bf.c(this, paramCollection);
+  }
+  
+  public int size()
+  {
+    return bf.c(this);
+  }
+  
+  public String toString()
+  {
+    return entrySet().toString();
+  }
+  
+  public Set<E> u()
+  {
+    Set localSet2 = a;
+    Set localSet1 = localSet2;
+    if (localSet2 == null)
+    {
+      localSet1 = a();
+      a = localSet1;
+    }
+    return localSet1;
+  }
+  
+  public class a
+    extends bf.b<E>
+  {
+    public a() {}
+    
+    public Ye<E> c()
+    {
+      return t.this;
+    }
+  }
+  
+  public class b
+    extends bf.c<E>
+  {
+    public b() {}
+    
+    public Ye<E> c()
+    {
+      return t.this;
+    }
+    
+    public Iterator<Ye.a<E>> iterator()
+    {
+      return d();
+    }
+    
+    public int size()
+    {
+      return c();
+    }
+  }
+}

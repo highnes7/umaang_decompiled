@@ -1,0 +1,278 @@
+package f.d.a.a.g;
+
+import f.a.a.a.a;
+import f.d.a.a.s;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.regex.Pattern;
+
+public class k
+{
+  public static final String a = "VERSION.txt";
+  public static final Pattern b = Pattern.compile("[-_./;:]");
+  public final s c;
+  
+  public k()
+  {
+    try
+    {
+      localObject1 = a(getClass());
+    }
+    catch (Exception localException)
+    {
+      Object localObject1;
+      Object localObject2;
+      for (;;) {}
+    }
+    localObject1 = System.err;
+    localObject2 = a.b("ERROR: Failed to load Version information for bundle (via ");
+    ((StringBuilder)localObject2).append(getClass().getName());
+    ((StringBuilder)localObject2).append(").");
+    ((PrintStream)localObject1).println(((StringBuilder)localObject2).toString());
+    localObject1 = null;
+    localObject2 = localObject1;
+    if (localObject1 == null) {
+      localObject2 = s.b;
+    }
+    c = ((s)localObject2);
+  }
+  
+  public static s a(Class<?> paramClass)
+  {
+    Object localObject2 = null;
+    String str1 = null;
+    localObject1 = localObject2;
+    for (;;)
+    {
+      try
+      {
+        localInputStream = paramClass.getResourceAsStream("VERSION.txt");
+        paramClass = str1;
+        if (localInputStream == null) {
+          continue;
+        }
+      }
+      catch (IOException paramClass)
+      {
+        InputStream localInputStream;
+        String str3;
+        String str2;
+        paramClass = (Class<?>)localObject1;
+        continue;
+        paramClass = null;
+        continue;
+        paramClass = null;
+        localObject1 = paramClass;
+        continue;
+      }
+      try
+      {
+        paramClass = new BufferedReader(new InputStreamReader(localInputStream, "UTF-8"));
+        str3 = paramClass.readLine();
+        if (str3 == null) {
+          continue;
+        }
+        localObject1 = paramClass.readLine();
+        if (localObject1 == null) {
+          continue;
+        }
+        str1 = ((String)localObject1).trim();
+        str2 = paramClass.readLine();
+        paramClass = str2;
+        localObject1 = str1;
+        if (str2 != null)
+        {
+          paramClass = str2.trim();
+          localObject1 = str1;
+        }
+        paramClass = a(str3, (String)localObject1, paramClass);
+        try
+        {
+          localInputStream.close();
+        }
+        catch (IOException localIOException)
+        {
+          localObject1 = paramClass;
+          throw new RuntimeException(localIOException);
+        }
+        localObject1 = paramClass;
+      }
+      finally
+      {
+        try
+        {
+          localInputStream.close();
+          localObject1 = localIOException;
+          throw paramClass;
+        }
+        catch (IOException paramClass)
+        {
+          localObject1 = localIOException;
+          throw new RuntimeException(paramClass);
+        }
+      }
+    }
+    if (paramClass == null) {
+      localObject1 = s.b;
+    }
+    return localObject1;
+  }
+  
+  /* Error */
+  public static s a(ClassLoader paramClassLoader, String paramString1, String paramString2)
+  {
+    // Byte code:
+    //   0: ldc 122
+    //   2: invokestatic 50	f/a/a/a/a:b	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   5: astore_3
+    //   6: aload_3
+    //   7: aload_1
+    //   8: ldc 124
+    //   10: ldc 126
+    //   12: invokevirtual 130	java/lang/String:replaceAll	(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    //   15: invokevirtual 61	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   18: pop
+    //   19: aload_3
+    //   20: ldc 126
+    //   22: invokevirtual 61	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   25: pop
+    //   26: aload_3
+    //   27: aload_2
+    //   28: invokevirtual 61	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   31: pop
+    //   32: aload_3
+    //   33: ldc -124
+    //   35: invokevirtual 61	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   38: pop
+    //   39: aload_0
+    //   40: aload_3
+    //   41: invokevirtual 66	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   44: invokevirtual 135	java/lang/ClassLoader:getResourceAsStream	(Ljava/lang/String;)Ljava/io/InputStream;
+    //   47: astore_0
+    //   48: aload_0
+    //   49: ifnull +59 -> 108
+    //   52: new 137	java/util/Properties
+    //   55: dup
+    //   56: invokespecial 138	java/util/Properties:<init>	()V
+    //   59: astore_1
+    //   60: aload_1
+    //   61: aload_0
+    //   62: invokevirtual 142	java/util/Properties:load	(Ljava/io/InputStream;)V
+    //   65: aload_1
+    //   66: ldc -112
+    //   68: invokevirtual 148	java/util/Properties:getProperty	(Ljava/lang/String;)Ljava/lang/String;
+    //   71: astore_2
+    //   72: aload_1
+    //   73: ldc -106
+    //   75: invokevirtual 148	java/util/Properties:getProperty	(Ljava/lang/String;)Ljava/lang/String;
+    //   78: astore_3
+    //   79: aload_2
+    //   80: aload_1
+    //   81: ldc -104
+    //   83: invokevirtual 148	java/util/Properties:getProperty	(Ljava/lang/String;)Ljava/lang/String;
+    //   86: aload_3
+    //   87: invokestatic 107	f/d/a/a/g/k:a	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lf/d/a/a/s;
+    //   90: astore_1
+    //   91: aload_0
+    //   92: invokevirtual 112	java/io/InputStream:close	()V
+    //   95: aload_1
+    //   96: areturn
+    //   97: astore_1
+    //   98: aload_0
+    //   99: invokevirtual 112	java/io/InputStream:close	()V
+    //   102: aload_1
+    //   103: athrow
+    //   104: aload_0
+    //   105: invokevirtual 112	java/io/InputStream:close	()V
+    //   108: getstatic 76	f/d/a/a/s:b	Lf/d/a/a/s;
+    //   111: areturn
+    //   112: astore_1
+    //   113: goto -9 -> 104
+    //   116: astore_0
+    //   117: aload_1
+    //   118: areturn
+    //   119: astore_0
+    //   120: goto -18 -> 102
+    //   123: astore_0
+    //   124: goto -16 -> 108
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	127	0	paramClassLoader	ClassLoader
+    //   0	127	1	paramString1	String
+    //   0	127	2	paramString2	String
+    //   5	82	3	localObject	Object
+    // Exception table:
+    //   from	to	target	type
+    //   52	91	97	finally
+    //   52	91	112	java/io/IOException
+    //   91	95	116	java/io/IOException
+    //   98	102	119	java/io/IOException
+    //   104	108	123	java/io/IOException
+  }
+  
+  @Deprecated
+  public static s a(String paramString)
+  {
+    return a(paramString, null, null);
+  }
+  
+  public static s a(String paramString1, String paramString2, String paramString3)
+  {
+    Object localObject = null;
+    if (paramString1 == null) {
+      return null;
+    }
+    paramString1 = paramString1.trim();
+    if (paramString1.length() == 0) {
+      return null;
+    }
+    String[] arrayOfString = b.split(paramString1);
+    int k = b(arrayOfString[0]);
+    int i;
+    if (arrayOfString.length > 1) {
+      i = b(arrayOfString[1]);
+    } else {
+      i = 0;
+    }
+    int j;
+    if (arrayOfString.length > 2) {
+      j = b(arrayOfString[2]);
+    } else {
+      j = 0;
+    }
+    paramString1 = localObject;
+    if (arrayOfString.length > 3) {
+      paramString1 = arrayOfString[3];
+    }
+    return new s(k, i, j, paramString1, paramString2, paramString3);
+  }
+  
+  public static int b(String paramString)
+  {
+    paramString = paramString.toString();
+    int k = paramString.length();
+    int i = 0;
+    int j = 0;
+    while (i < k)
+    {
+      int m = paramString.charAt(i);
+      if (m > 57) {
+        break;
+      }
+      if (m < 48) {
+        return j;
+      }
+      j = j * 10 + (m - 48);
+      i += 1;
+    }
+    return j;
+  }
+  
+  public s a()
+  {
+    return c;
+  }
+}

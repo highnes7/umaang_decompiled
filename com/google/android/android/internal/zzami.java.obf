@@ -1,0 +1,312 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.text.TextUtils;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient.Info;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.util.Locale;
+
+public final class zzami
+  extends zzams
+{
+  public static boolean zzdnp;
+  public AdvertisingIdClient.Info zzdnq;
+  public final zzaoz zzdnr;
+  public String zzdns;
+  public boolean zzdnt = false;
+  public final Object zzdnu = new Object();
+  
+  public zzami(zzamu paramZzamu)
+  {
+    super(paramZzamu);
+    zzdnr = new zzaoz(paramZzamu.zzvx());
+  }
+  
+  private final boolean zza(AdvertisingIdClient.Info paramInfo1, AdvertisingIdClient.Info paramInfo2)
+  {
+    String str2 = null;
+    if (paramInfo2 == null) {
+      paramInfo2 = null;
+    } else {
+      paramInfo2 = paramInfo2.getId();
+    }
+    if (TextUtils.isEmpty(paramInfo2)) {
+      return true;
+    }
+    String str1 = zzwg().zzxp();
+    synchronized (zzdnu)
+    {
+      if (!zzdnt)
+      {
+        zzdns = zzvq();
+        zzdnt = true;
+      }
+      else if (TextUtils.isEmpty(zzdns))
+      {
+        if (paramInfo1 == null) {
+          paramInfo1 = str2;
+        } else {
+          paramInfo1 = paramInfo1.getId();
+        }
+        if (paramInfo1 == null)
+        {
+          paramInfo1 = String.valueOf(paramInfo2);
+          paramInfo2 = String.valueOf(str1);
+          if (paramInfo2.length() != 0) {
+            paramInfo1 = paramInfo1.concat(paramInfo2);
+          } else {
+            paramInfo1 = new String(paramInfo1);
+          }
+          bool = zzdl(paramInfo1);
+          return bool;
+        }
+        str2 = String.valueOf(str1);
+        if (str2.length() != 0) {
+          paramInfo1 = paramInfo1.concat(str2);
+        } else {
+          paramInfo1 = new String(paramInfo1);
+        }
+        zzdns = zzdk(paramInfo1);
+      }
+      paramInfo1 = String.valueOf(paramInfo2);
+      str2 = String.valueOf(str1);
+      if (str2.length() != 0) {
+        paramInfo1 = paramInfo1.concat(str2);
+      } else {
+        paramInfo1 = new String(paramInfo1);
+      }
+      paramInfo1 = zzdk(paramInfo1);
+      if (TextUtils.isEmpty(paramInfo1)) {
+        return false;
+      }
+      if (paramInfo1.equals(zzdns)) {
+        return true;
+      }
+      paramInfo1 = str1;
+      if (!TextUtils.isEmpty(zzdns))
+      {
+        zzdm("Resetting the client id because Advertising Id changed.");
+        paramInfo1 = zzwg().zzxq();
+        zza("New client Id", paramInfo1);
+      }
+      paramInfo2 = String.valueOf(paramInfo2);
+      paramInfo1 = String.valueOf(paramInfo1);
+      if (paramInfo1.length() != 0) {
+        paramInfo1 = paramInfo2.concat(paramInfo1);
+      } else {
+        paramInfo1 = new String(paramInfo2);
+      }
+      boolean bool = zzdl(paramInfo1);
+      return bool;
+    }
+  }
+  
+  public static String zzdk(String paramString)
+  {
+    MessageDigest localMessageDigest = zzapd.zzec("MD5");
+    if (localMessageDigest == null) {
+      return null;
+    }
+    return String.format(Locale.US, "%032X", new Object[] { new BigInteger(1, localMessageDigest.digest(paramString.getBytes())) });
+  }
+  
+  private final boolean zzdl(String paramString)
+  {
+    try
+    {
+      paramString = zzdk(paramString);
+      zzdm("Storing hashed adid.");
+      FileOutputStream localFileOutputStream = getContext().openFileOutput("gaClientIdData", 0);
+      localFileOutputStream.write(paramString.getBytes());
+      localFileOutputStream.close();
+      zzdns = paramString;
+      return true;
+    }
+    catch (IOException paramString)
+    {
+      zze("Error creating hash file", paramString);
+    }
+    return false;
+  }
+  
+  private final AdvertisingIdClient.Info zzvo()
+  {
+    try
+    {
+      if (zzdnr.zzu(1000L))
+      {
+        zzdnr.start();
+        localInfo = zzvp();
+        if (zza(zzdnq, localInfo)) {}
+        for (;;)
+        {
+          zzdnq = localInfo;
+          break;
+          zzdq("Failed to reset client id on adid change. Not using adid");
+          localInfo = new AdvertisingIdClient.Info("", false);
+        }
+      }
+      AdvertisingIdClient.Info localInfo = zzdnq;
+      return localInfo;
+    }
+    finally {}
+    for (;;)
+    {
+      throw localObject;
+    }
+  }
+  
+  private final AdvertisingIdClient.Info zzvp()
+  {
+    try
+    {
+      AdvertisingIdClient.Info localInfo = AdvertisingIdClient.getAdvertisingIdInfo(getContext());
+      return localInfo;
+    }
+    catch (Throwable localThrowable)
+    {
+      if (!zzdnp)
+      {
+        zzdnp = true;
+        zzd("Error getting advertiser id", localThrowable);
+        break label37;
+        zzdp("IllegalStateException getting Ad Id Info. If you would like to see Audience reports, please ensure that you have added '<meta-data android:name=\"com.google.android.gms.version\" android:value=\"@integer/google_play_services_version\" />' to your application manifest file. See http://goo.gl/naFqQk for details.");
+      }
+      return null;
+    }
+    catch (IllegalStateException localIllegalStateException)
+    {
+      label37:
+      for (;;) {}
+    }
+  }
+  
+  /* Error */
+  private final String zzvq()
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore_2
+    //   2: aload_0
+    //   3: invokevirtual 156	com/google/android/gms/internal/zzamr:getContext	()Landroid/content/Context;
+    //   6: ldc -98
+    //   8: invokevirtual 234	android/content/Context:openFileInput	(Ljava/lang/String;)Ljava/io/FileInputStream;
+    //   11: astore 4
+    //   13: sipush 128
+    //   16: newarray byte
+    //   18: astore_3
+    //   19: aload 4
+    //   21: aload_3
+    //   22: iconst_0
+    //   23: sipush 128
+    //   26: invokevirtual 240	java/io/FileInputStream:read	([BII)I
+    //   29: istore_1
+    //   30: aload 4
+    //   32: invokevirtual 243	java/io/FileInputStream:available	()I
+    //   35: ifle +26 -> 61
+    //   38: aload_0
+    //   39: ldc -11
+    //   41: invokevirtual 228	com/google/android/gms/internal/zzamr:zzdp	(Ljava/lang/String;)V
+    //   44: aload 4
+    //   46: invokevirtual 246	java/io/FileInputStream:close	()V
+    //   49: aload_0
+    //   50: invokevirtual 156	com/google/android/gms/internal/zzamr:getContext	()Landroid/content/Context;
+    //   53: ldc -98
+    //   55: invokevirtual 249	android/content/Context:deleteFile	(Ljava/lang/String;)Z
+    //   58: pop
+    //   59: aconst_null
+    //   60: areturn
+    //   61: iload_1
+    //   62: ifgt +16 -> 78
+    //   65: aload_0
+    //   66: ldc -5
+    //   68: invokevirtual 105	com/google/android/gms/internal/zzamr:zzdm	(Ljava/lang/String;)V
+    //   71: aload 4
+    //   73: invokevirtual 246	java/io/FileInputStream:close	()V
+    //   76: aconst_null
+    //   77: areturn
+    //   78: new 74	java/lang/String
+    //   81: dup
+    //   82: aload_3
+    //   83: iconst_0
+    //   84: iload_1
+    //   85: invokespecial 254	java/lang/String:<init>	([BII)V
+    //   88: astore_3
+    //   89: aload 4
+    //   91: invokevirtual 246	java/io/FileInputStream:close	()V
+    //   94: aload_3
+    //   95: areturn
+    //   96: astore 4
+    //   98: aload_3
+    //   99: astore_2
+    //   100: aload 4
+    //   102: astore_3
+    //   103: goto +4 -> 107
+    //   106: astore_3
+    //   107: aload_0
+    //   108: ldc_w 256
+    //   111: aload_3
+    //   112: invokevirtual 223	com/google/android/gms/internal/zzamr:zzd	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   115: aload_0
+    //   116: invokevirtual 156	com/google/android/gms/internal/zzamr:getContext	()Landroid/content/Context;
+    //   119: ldc -98
+    //   121: invokevirtual 249	android/content/Context:deleteFile	(Ljava/lang/String;)Z
+    //   124: pop
+    //   125: aload_2
+    //   126: areturn
+    //   127: astore_2
+    //   128: aconst_null
+    //   129: areturn
+    //   130: astore_2
+    //   131: goto -37 -> 94
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	134	0	this	zzami
+    //   29	56	1	i	int
+    //   1	125	2	localObject1	Object
+    //   127	1	2	localFileNotFoundException1	java.io.FileNotFoundException
+    //   130	1	2	localFileNotFoundException2	java.io.FileNotFoundException
+    //   18	85	3	localObject2	Object
+    //   106	6	3	localIOException1	IOException
+    //   11	79	4	localFileInputStream	java.io.FileInputStream
+    //   96	5	4	localIOException2	IOException
+    // Exception table:
+    //   from	to	target	type
+    //   89	94	96	java/io/IOException
+    //   2	59	106	java/io/IOException
+    //   65	76	106	java/io/IOException
+    //   78	89	106	java/io/IOException
+    //   2	59	127	java/io/FileNotFoundException
+    //   65	76	127	java/io/FileNotFoundException
+    //   78	89	127	java/io/FileNotFoundException
+    //   89	94	130	java/io/FileNotFoundException
+  }
+  
+  public final void zzuk() {}
+  
+  public final boolean zzvg()
+  {
+    zzwk();
+    AdvertisingIdClient.Info localInfo = zzvo();
+    return (localInfo != null) && (!localInfo.isLimitAdTrackingEnabled());
+  }
+  
+  public final String zzvn()
+  {
+    zzwk();
+    Object localObject = zzvo();
+    if (localObject != null) {
+      localObject = ((AdvertisingIdClient.Info)localObject).getId();
+    } else {
+      localObject = null;
+    }
+    if (TextUtils.isEmpty((CharSequence)localObject)) {
+      return null;
+    }
+    return localObject;
+  }
+}

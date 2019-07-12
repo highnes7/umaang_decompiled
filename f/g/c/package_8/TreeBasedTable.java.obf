@@ -1,0 +1,324 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import f.g.c.b.ya;
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import m.a.h;
+
+@a
+@b(serializable=true)
+public class kh<R, C, V>
+  extends Gg<R, C, V>
+{
+  public static final long m = 0L;
+  public final Comparator<? super C> n;
+  
+  public kh(Comparator<? super R> paramComparator, Comparator<? super C> paramComparator1)
+  {
+    super(new TreeMap(paramComparator), new a(paramComparator1));
+    n = paramComparator1;
+  }
+  
+  public static <R, C, V> kh<R, C, V> a(kh<R, C, ? extends V> paramKh)
+  {
+    kh localKh = new kh(paramKh.d(), paramKh.b());
+    localKh.a(paramKh);
+    return localKh;
+  }
+  
+  public static <R, C, V> kh<R, C, V> a(Comparator<? super R> paramComparator, Comparator<? super C> paramComparator1)
+  {
+    if (paramComparator != null)
+    {
+      if (paramComparator1 != null) {
+        return new kh(paramComparator, paramComparator1);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <R extends Comparable, C extends Comparable, V> kh<R, C, V> c()
+  {
+    return new kh(mf.d(), mf.d());
+  }
+  
+  public Iterator<C> a()
+  {
+    Comparator localComparator = b();
+    return new jh(this, Jc.a(rc.a(b.values(), new ih(this)), localComparator), localComparator);
+  }
+  
+  public Comparator<? super C> b()
+  {
+    return n;
+  }
+  
+  public V c(@h Object paramObject1, @h Object paramObject2)
+  {
+    return super.c(paramObject1, paramObject2);
+  }
+  
+  public void clear()
+  {
+    b.clear();
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    return super.containsValue(paramObject);
+  }
+  
+  public Comparator<? super R> d()
+  {
+    return g().comparator();
+  }
+  
+  public boolean d(@h Object paramObject1, @h Object paramObject2)
+  {
+    return super.d(paramObject1, paramObject2);
+  }
+  
+  public boolean e(@h Object paramObject)
+  {
+    return super.e(paramObject);
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    return super.equals(paramObject);
+  }
+  
+  public Map f(Object paramObject)
+  {
+    return new Ig.c(this, paramObject);
+  }
+  
+  public SortedSet<R> g()
+  {
+    return super.g();
+  }
+  
+  public boolean g(@h Object paramObject)
+  {
+    return super.g(paramObject);
+  }
+  
+  public SortedMap<C, V> h(R paramR)
+  {
+    return new b(paramR, null, null);
+  }
+  
+  public SortedMap<R, Map<C, V>> j()
+  {
+    return super.j();
+  }
+  
+  public V remove(@h Object paramObject1, @h Object paramObject2)
+  {
+    return super.remove(paramObject1, paramObject2);
+  }
+  
+  private static class a<C, V>
+    implements ya<TreeMap<C, V>>, Serializable
+  {
+    public static final long a = 0L;
+    public final Comparator<? super C> b;
+    
+    public a(Comparator<? super C> paramComparator)
+    {
+      b = paramComparator;
+    }
+    
+    public TreeMap<C, V> get()
+    {
+      return new TreeMap(b);
+    }
+  }
+  
+  private class b
+    extends Ig<R, C, V>.g
+    implements SortedMap<C, V>
+  {
+    @h
+    public final C f;
+    @h
+    public final C g;
+    public transient SortedMap<C, V> h;
+    
+    public b()
+    {
+      this(localObject, null, null);
+    }
+    
+    public b(@h C paramC1, @h C paramC2)
+    {
+      super(paramC1);
+      f = paramC2;
+      Object localObject;
+      g = localObject;
+      boolean bool;
+      if ((paramC2 != null) && (localObject != null) && (b(paramC2, localObject) > 0)) {
+        bool = false;
+      } else {
+        bool = true;
+      }
+      ba.a(bool);
+    }
+    
+    public SortedMap<C, V> a()
+    {
+      return (SortedMap)super.a();
+    }
+    
+    public boolean a(@h Object paramObject)
+    {
+      if (paramObject != null)
+      {
+        Object localObject = f;
+        if ((localObject == null) || (b(localObject, paramObject) <= 0))
+        {
+          localObject = g;
+          if ((localObject == null) || (b(localObject, paramObject) > 0)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+    
+    public int b(Object paramObject1, Object paramObject2)
+    {
+      return comparator().compare(paramObject1, paramObject2);
+    }
+    
+    public SortedMap<C, V> b()
+    {
+      Object localObject2 = d();
+      if (localObject2 != null)
+      {
+        Object localObject3 = f;
+        Object localObject1 = localObject2;
+        if (localObject3 != null) {
+          localObject1 = ((SortedMap)localObject2).tailMap(localObject3);
+        }
+        localObject3 = g;
+        localObject2 = localObject1;
+        if (localObject3 != null) {
+          localObject2 = ((SortedMap)localObject1).headMap(localObject3);
+        }
+        return localObject2;
+      }
+      return null;
+    }
+    
+    public void c()
+    {
+      if ((d() != null) && (h.isEmpty()))
+      {
+        b.remove(a);
+        h = null;
+        b = null;
+      }
+    }
+    
+    public Comparator<? super C> comparator()
+    {
+      return b();
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      return (a(paramObject)) && (super.containsKey(paramObject));
+    }
+    
+    public SortedMap<C, V> d()
+    {
+      SortedMap localSortedMap = h;
+      if ((localSortedMap == null) || ((localSortedMap.isEmpty()) && (b.containsKey(a)))) {
+        h = ((SortedMap)b.get(a));
+      }
+      return h;
+    }
+    
+    public C firstKey()
+    {
+      if (a() != null) {
+        return a().firstKey();
+      }
+      throw new NoSuchElementException();
+    }
+    
+    public SortedMap<C, V> headMap(C paramC)
+    {
+      if (paramC != null)
+      {
+        ba.a(a(paramC));
+        return new b(kh.this, a, f, paramC);
+      }
+      throw new NullPointerException();
+    }
+    
+    public C lastKey()
+    {
+      if (a() != null) {
+        return a().lastKey();
+      }
+      throw new NoSuchElementException();
+    }
+    
+    public V put(C paramC, V paramV)
+    {
+      if (paramC != null)
+      {
+        ba.a(a(paramC));
+        return super.put(paramC, paramV);
+      }
+      throw new NullPointerException();
+    }
+    
+    public SortedMap<C, V> subMap(C paramC1, C paramC2)
+    {
+      if (paramC1 != null)
+      {
+        if (a(paramC1)) {
+          if (paramC2 != null)
+          {
+            if (a(paramC2))
+            {
+              bool = true;
+              break label39;
+            }
+          }
+          else {
+            throw new NullPointerException();
+          }
+        }
+        boolean bool = false;
+        label39:
+        ba.a(bool);
+        return new b(kh.this, a, paramC1, paramC2);
+      }
+      throw new NullPointerException();
+    }
+    
+    public SortedMap<C, V> tailMap(C paramC)
+    {
+      if (paramC != null)
+      {
+        ba.a(a(paramC));
+        return new b(kh.this, a, paramC, g);
+      }
+      throw new NullPointerException();
+    }
+  }
+}

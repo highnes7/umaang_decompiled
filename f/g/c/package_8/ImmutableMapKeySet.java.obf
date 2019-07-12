@@ -1,0 +1,68 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import java.io.Serializable;
+import java.util.Map.Entry;
+import m.a.h;
+
+@b(emulated=true)
+public abstract class Db<K, V>
+  extends fh<Map.Entry<K, V>, K>
+{
+  public Db(Nb<Map.Entry<K, V>> paramNb)
+  {
+    super(paramNb);
+  }
+  
+  public Db(Nb<Map.Entry<K, V>> paramNb, int paramInt)
+  {
+    super(paramNb, paramInt);
+  }
+  
+  public K a(Map.Entry<K, V> paramEntry)
+  {
+    return paramEntry.getKey();
+  }
+  
+  public vb<K> b()
+  {
+    return new Cb(this, h().entrySet().a());
+  }
+  
+  public boolean c()
+  {
+    return true;
+  }
+  
+  public boolean contains(@h Object paramObject)
+  {
+    return h().containsKey(paramObject);
+  }
+  
+  @c("serialization")
+  public Object d()
+  {
+    return new a(h());
+  }
+  
+  public abstract Ab<K, V> h();
+  
+  @c("serialization")
+  private static class a<K>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final Ab<K, ?> b;
+    
+    public a(Ab<K, ?> paramAb)
+    {
+      b = paramAb;
+    }
+    
+    public Object a()
+    {
+      return b.keySet();
+    }
+  }
+}

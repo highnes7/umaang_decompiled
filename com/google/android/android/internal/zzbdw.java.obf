@@ -1,0 +1,427 @@
+package com.google.android.gms.internal;
+
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.util.SparseArray;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zza;
+import com.google.android.gms.common.util.zzb;
+import com.google.android.gms.common.util.zzo;
+import com.google.android.gms.common.util.zzp;
+import f.a.a.a.a;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class zzbdw
+  extends zzbdo
+{
+  public static final Parcelable.Creator<zzbdw> CREATOR = new zzbdx();
+  public final String mClassName;
+  public final int zzdxs;
+  public final zzbdr zzfwy;
+  public final Parcel zzfxf;
+  public final int zzfxg;
+  public int zzfxh;
+  public int zzfxi;
+  
+  public zzbdw(int paramInt, Parcel paramParcel, zzbdr paramZzbdr)
+  {
+    zzdxs = paramInt;
+    zzbp.zzu(paramParcel);
+    zzfxf = ((Parcel)paramParcel);
+    zzfxg = 2;
+    zzfwy = paramZzbdr;
+    paramParcel = zzfwy;
+    if (paramParcel == null) {
+      paramParcel = null;
+    } else {
+      paramParcel = paramParcel.zzakv();
+    }
+    mClassName = paramParcel;
+    zzfxh = 2;
+  }
+  
+  public static void zza(StringBuilder paramStringBuilder, int paramInt, Object paramObject)
+  {
+    switch (paramInt)
+    {
+    default: 
+      throw new IllegalArgumentException(a.a(26, "Unknown type = ", paramInt));
+    case 11: 
+      throw new IllegalArgumentException("Method does not accept concrete type.");
+    case 10: 
+      zzp.zza(paramStringBuilder, (HashMap)paramObject);
+      return;
+    case 9: 
+      paramStringBuilder.append("\"");
+      paramStringBuilder.append(zzb.zzk((byte[])paramObject));
+      paramStringBuilder.append("\"");
+      return;
+    case 8: 
+      paramStringBuilder.append("\"");
+      paramStringBuilder.append(zzb.zzj((byte[])paramObject));
+      paramStringBuilder.append("\"");
+      return;
+    case 7: 
+      paramStringBuilder.append("\"");
+      paramStringBuilder.append(zzo.zzgl(paramObject.toString()));
+      paramStringBuilder.append("\"");
+      return;
+    }
+    paramStringBuilder.append(paramObject);
+  }
+  
+  private final void zza(StringBuilder paramStringBuilder, zzbdm<?, ?> paramZzbdm, Parcel paramParcel, int paramInt)
+  {
+    boolean bool = zzfwt;
+    int j = 0;
+    int i = 0;
+    String str;
+    if (bool)
+    {
+      paramStringBuilder.append("[");
+      int k = zzfws;
+      Object localObject = null;
+      str = null;
+      switch (k)
+      {
+      default: 
+        throw new IllegalStateException("Unknown field type out.");
+      case 11: 
+        paramParcel = zzbcl.zzae(paramParcel, paramInt);
+        i = paramParcel.length;
+        paramInt = 0;
+      }
+      while (paramInt < i)
+      {
+        if (paramInt > 0) {
+          paramStringBuilder.append(",");
+        }
+        paramParcel[paramInt].setDataPosition(0);
+        zza(paramStringBuilder, paramZzbdm.zzakt(), paramParcel[paramInt]);
+        paramInt += 1;
+        continue;
+        throw new UnsupportedOperationException("List of type BASE64, BASE64_URL_SAFE, or STRING_MAP is not supported");
+        zza.zza(paramStringBuilder, zzbcl.zzaa(paramParcel, paramInt));
+        break;
+        zza.zza(paramStringBuilder, zzbcl.zzv(paramParcel, paramInt));
+        break;
+        zza.zza(paramStringBuilder, zzbcl.zzz(paramParcel, paramInt));
+        break;
+        paramInt = zzbcl.zza(paramParcel, paramInt);
+        i = paramParcel.dataPosition();
+        if (paramInt == 0)
+        {
+          paramZzbdm = str;
+        }
+        else
+        {
+          paramZzbdm = paramParcel.createDoubleArray();
+          paramParcel.setDataPosition(i + paramInt);
+        }
+        zza.zza(paramStringBuilder, paramZzbdm);
+        break;
+        zza.zza(paramStringBuilder, zzbcl.zzy(paramParcel, paramInt));
+        break;
+        zza.zza(paramStringBuilder, zzbcl.zzx(paramParcel, paramInt));
+        break;
+        j = zzbcl.zza(paramParcel, paramInt);
+        k = paramParcel.dataPosition();
+        if (j == 0)
+        {
+          paramZzbdm = localObject;
+        }
+        else
+        {
+          int m = paramParcel.readInt();
+          paramZzbdm = new BigInteger[m];
+          paramInt = i;
+          while (paramInt < m)
+          {
+            paramZzbdm[paramInt] = new BigInteger(paramParcel.createByteArray());
+            paramInt += 1;
+          }
+          paramParcel.setDataPosition(k + j);
+        }
+        zza.zza(paramStringBuilder, paramZzbdm);
+        break;
+        paramZzbdm = zzbcl.zzw(paramParcel, paramInt);
+        i = paramZzbdm.length;
+        paramInt = j;
+        while (paramInt < i)
+        {
+          if (paramInt != 0) {
+            paramStringBuilder.append(",");
+          }
+          paramStringBuilder.append(Integer.toString(paramZzbdm[paramInt]));
+          paramInt += 1;
+        }
+      }
+      paramStringBuilder.append("]");
+      return;
+    }
+    switch (zzfws)
+    {
+    default: 
+      throw new IllegalStateException("Unknown field type out");
+    case 11: 
+      paramParcel = zzbcl.zzad(paramParcel, paramInt);
+      paramParcel.setDataPosition(0);
+      zza(paramStringBuilder, paramZzbdm.zzakt(), paramParcel);
+      return;
+    case 10: 
+      paramZzbdm = zzbcl.zzs(paramParcel, paramInt);
+      paramParcel = paramZzbdm.keySet();
+      paramParcel.size();
+      paramStringBuilder.append("{");
+      paramParcel = paramParcel.iterator();
+      for (paramInt = 1; paramParcel.hasNext(); paramInt = 0)
+      {
+        str = (String)paramParcel.next();
+        if (paramInt == 0) {
+          paramStringBuilder.append(",");
+        }
+        a.b(paramStringBuilder, "\"", str, "\"", ":");
+        paramStringBuilder.append("\"");
+        paramStringBuilder.append(zzo.zzgl(paramZzbdm.getString(str)));
+        paramStringBuilder.append("\"");
+      }
+      paramStringBuilder.append("}");
+      return;
+    case 9: 
+      paramZzbdm = zzbcl.zzt(paramParcel, paramInt);
+      paramStringBuilder.append("\"");
+      paramStringBuilder.append(zzb.zzk(paramZzbdm));
+      paramStringBuilder.append("\"");
+      return;
+    case 8: 
+      paramZzbdm = zzbcl.zzt(paramParcel, paramInt);
+      paramStringBuilder.append("\"");
+      paramStringBuilder.append(zzb.zzj(paramZzbdm));
+      paramStringBuilder.append("\"");
+      return;
+    case 7: 
+      paramZzbdm = zzbcl.zzq(paramParcel, paramInt);
+      paramStringBuilder.append("\"");
+      paramStringBuilder.append(zzo.zzgl(paramZzbdm));
+      paramStringBuilder.append("\"");
+      return;
+    case 6: 
+      paramStringBuilder.append(zzbcl.zzc(paramParcel, paramInt));
+      return;
+    case 5: 
+      paramStringBuilder.append(zzbcl.zzp(paramParcel, paramInt));
+      return;
+    case 4: 
+      paramStringBuilder.append(zzbcl.zzn(paramParcel, paramInt));
+      return;
+    case 3: 
+      paramStringBuilder.append(zzbcl.zzl(paramParcel, paramInt));
+      return;
+    case 2: 
+      paramStringBuilder.append(zzbcl.zzi(paramParcel, paramInt));
+      return;
+    case 1: 
+      paramStringBuilder.append(zzbcl.zzk(paramParcel, paramInt));
+      return;
+    }
+    paramStringBuilder.append(zzbcl.zzg(paramParcel, paramInt));
+  }
+  
+  private final void zza(StringBuilder paramStringBuilder, Map<String, zzbdm<?, ?>> paramMap, Parcel paramParcel)
+  {
+    SparseArray localSparseArray = new SparseArray();
+    paramMap = paramMap.entrySet().iterator();
+    Object localObject;
+    while (paramMap.hasNext())
+    {
+      localObject = (Map.Entry)paramMap.next();
+      localSparseArray.put(getValuezzfwv, localObject);
+    }
+    paramStringBuilder.append('{');
+    int j = zzbcl.zzd(paramParcel);
+    int i = 0;
+    while (paramParcel.dataPosition() < j)
+    {
+      int k = paramParcel.readInt();
+      localObject = (Map.Entry)localSparseArray.get(0xFFFF & k);
+      if (localObject != null)
+      {
+        if (i != 0) {
+          paramStringBuilder.append(",");
+        }
+        paramMap = (String)((Map.Entry)localObject).getKey();
+        localObject = (zzbdm)((Map.Entry)localObject).getValue();
+        paramStringBuilder.append("\"");
+        paramStringBuilder.append(paramMap);
+        paramStringBuilder.append("\":");
+        if (((zzbdm)localObject).zzaks())
+        {
+          i = zzfws;
+          switch (i)
+          {
+          default: 
+            throw new IllegalArgumentException(a.a(36, "Unknown field out type = ", i));
+          case 11: 
+            throw new IllegalArgumentException("Method does not accept concrete type.");
+          case 10: 
+            paramMap = zzl(zzbcl.zzs(paramParcel, k));
+            break;
+          case 8: 
+          case 9: 
+            paramMap = zzbcl.zzt(paramParcel, k);
+            break;
+          case 7: 
+            paramMap = zzbcl.zzq(paramParcel, k);
+            break;
+          case 6: 
+            paramMap = Boolean.valueOf(zzbcl.zzc(paramParcel, k));
+            break;
+          case 5: 
+            paramMap = zzbcl.zzp(paramParcel, k);
+            break;
+          case 4: 
+            paramMap = Double.valueOf(zzbcl.zzn(paramParcel, k));
+            break;
+          case 3: 
+            paramMap = Float.valueOf(zzbcl.zzl(paramParcel, k));
+            break;
+          case 2: 
+            paramMap = Long.valueOf(zzbcl.zzi(paramParcel, k));
+            break;
+          case 1: 
+            paramMap = zzbcl.zzk(paramParcel, k);
+            break;
+          case 0: 
+            paramMap = Integer.valueOf(zzbcl.zzg(paramParcel, k));
+          }
+          zzb(paramStringBuilder, (zzbdm)localObject, zzbdl.zza((zzbdm)localObject, paramMap));
+        }
+        else
+        {
+          zza(paramStringBuilder, (zzbdm)localObject, paramParcel, k);
+        }
+        i = 1;
+      }
+    }
+    if (paramParcel.dataPosition() == j)
+    {
+      paramStringBuilder.append('}');
+      return;
+    }
+    paramStringBuilder = new zzbcm(a.a(37, "Overread allowed size end=", j), paramParcel);
+    for (;;)
+    {
+      throw paramStringBuilder;
+    }
+  }
+  
+  private Parcel zzakx()
+  {
+    int i = zzfxh;
+    if (i != 0)
+    {
+      if (i != 1) {
+        break label44;
+      }
+    }
+    else {
+      zzfxi = zzbcn.zze(zzfxf);
+    }
+    zzbcn.zzah(zzfxf, zzfxi);
+    zzfxh = 2;
+    label44:
+    return zzfxf;
+  }
+  
+  private final void zzb(StringBuilder paramStringBuilder, zzbdm<?, ?> paramZzbdm, Object paramObject)
+  {
+    if (zzfwr)
+    {
+      paramObject = (ArrayList)paramObject;
+      paramStringBuilder.append("[");
+      int j = paramObject.size();
+      int i = 0;
+      while (i < j)
+      {
+        if (i != 0) {
+          paramStringBuilder.append(",");
+        }
+        zza(paramStringBuilder, zzfwq, paramObject.get(i));
+        i += 1;
+      }
+      paramStringBuilder.append("]");
+      return;
+    }
+    zza(paramStringBuilder, zzfwq, paramObject);
+  }
+  
+  public static HashMap<String, String> zzl(Bundle paramBundle)
+  {
+    HashMap localHashMap = new HashMap();
+    Iterator localIterator = paramBundle.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      String str = (String)localIterator.next();
+      localHashMap.put(str, paramBundle.getString(str));
+    }
+    return localHashMap;
+  }
+  
+  public String toString()
+  {
+    zzbp.zzb(zzfwy, "Cannot convert to JSON on client side.");
+    Parcel localParcel = zzakx();
+    localParcel.setDataPosition(0);
+    StringBuilder localStringBuilder = new StringBuilder(100);
+    zza(localStringBuilder, zzfwy.zzgk(mClassName), localParcel);
+    return localStringBuilder.toString();
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    zzbcn.zza(paramParcel, 2, zzakx(), false);
+    int j = zzfxg;
+    zzbdr localZzbdr;
+    if (j != 0)
+    {
+      if ((j != 1) && (j != 2)) {
+        throw new IllegalStateException(a.a(34, "Invalid creation type: ", j));
+      }
+      localZzbdr = zzfwy;
+    }
+    else
+    {
+      localZzbdr = null;
+    }
+    zzbcn.zza(paramParcel, 3, localZzbdr, paramInt, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public final Object zzgi(String paramString)
+  {
+    throw new UnsupportedOperationException("Converting to JSON does not require this method.");
+  }
+  
+  public final boolean zzgj(String paramString)
+  {
+    throw new UnsupportedOperationException("Converting to JSON does not require this method.");
+  }
+  
+  public final Map<String, zzbdm<?, ?>> zzzz()
+  {
+    zzbdr localZzbdr = zzfwy;
+    if (localZzbdr == null) {
+      return null;
+    }
+    return localZzbdr.zzgk(mClassName);
+  }
+}

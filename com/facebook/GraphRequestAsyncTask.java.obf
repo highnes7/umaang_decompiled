@@ -1,0 +1,118 @@
+package com.facebook;
+
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import f.a.a.a.a;
+import java.net.HttpURLConnection;
+import java.util.Collection;
+import java.util.List;
+
+public class GraphRequestAsyncTask
+  extends AsyncTask<Void, Void, List<GraphResponse>>
+{
+  public static final String TAG = "com.facebook.GraphRequestAsyncTask";
+  public final HttpURLConnection connection;
+  public Exception exception;
+  public final GraphRequestBatch requests;
+  
+  public GraphRequestAsyncTask(GraphRequestBatch paramGraphRequestBatch)
+  {
+    this(null, paramGraphRequestBatch);
+  }
+  
+  public GraphRequestAsyncTask(HttpURLConnection paramHttpURLConnection, GraphRequestBatch paramGraphRequestBatch)
+  {
+    requests = paramGraphRequestBatch;
+    connection = paramHttpURLConnection;
+  }
+  
+  public GraphRequestAsyncTask(HttpURLConnection paramHttpURLConnection, Collection<GraphRequest> paramCollection)
+  {
+    requests = paramCollection;
+    connection = paramHttpURLConnection;
+  }
+  
+  public GraphRequestAsyncTask(HttpURLConnection paramHttpURLConnection, GraphRequest... paramVarArgs)
+  {
+    requests = paramVarArgs;
+    connection = paramHttpURLConnection;
+  }
+  
+  public GraphRequestAsyncTask(Collection<GraphRequest> paramCollection)
+  {
+    this(null, new GraphRequestBatch(paramCollection));
+  }
+  
+  public GraphRequestAsyncTask(GraphRequest... paramVarArgs)
+  {
+    this(null, new GraphRequestBatch(paramVarArgs));
+  }
+  
+  public List<GraphResponse> doInBackground(Void... paramVarArgs)
+  {
+    try
+    {
+      if (connection == null) {
+        return requests.executeAndWait();
+      }
+      paramVarArgs = GraphRequest.executeConnectionAndWait(connection, requests);
+      return paramVarArgs;
+    }
+    catch (Exception paramVarArgs)
+    {
+      exception = paramVarArgs;
+    }
+    return null;
+  }
+  
+  public final Exception getException()
+  {
+    return exception;
+  }
+  
+  public final GraphRequestBatch getRequests()
+  {
+    return requests;
+  }
+  
+  public void onPostExecute(List<GraphResponse> paramList)
+  {
+    super.onPostExecute(paramList);
+    paramList = exception;
+    if (paramList != null)
+    {
+      String str = TAG;
+      String.format("onPostExecute: exception encountered during request: %s", new Object[] { paramList.getMessage() });
+    }
+  }
+  
+  public void onPreExecute()
+  {
+    super.onPreExecute();
+    Object localObject;
+    if (FacebookSdk.isDebugEnabled)
+    {
+      localObject = TAG;
+      String.format("execute async task: %s", new Object[] { this });
+    }
+    if (requests.getCallbackHandler() == null)
+    {
+      if ((Thread.currentThread() instanceof HandlerThread)) {
+        localObject = new Handler();
+      } else {
+        localObject = new Handler(Looper.getMainLooper());
+      }
+      requests.setCallbackHandler((Handler)localObject);
+    }
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.d("{RequestAsyncTask: ", " connection: ");
+    localStringBuilder.append(connection);
+    localStringBuilder.append(", requests: ");
+    return a.a(localStringBuilder, requests, "}");
+  }
+}

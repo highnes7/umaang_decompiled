@@ -1,0 +1,424 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.j.g;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
+import m.a.h;
+
+@b(serializable=true)
+public abstract class Mb<E>
+  extends rb<E>
+  implements Ye<E>
+{
+  public transient Nb<Ye.a<E>> c;
+  
+  public Mb() {}
+  
+  public static <E> Mb<E> a(Ye<? extends E> paramYe)
+  {
+    return a(paramYe.entrySet());
+  }
+  
+  public static <E> Mb<E> a(Iterable<? extends E> paramIterable)
+  {
+    if ((paramIterable instanceof Mb))
+    {
+      Mb localMb = (Mb)paramIterable;
+      if (!localMb.c()) {
+        return localMb;
+      }
+    }
+    if ((paramIterable instanceof Ye)) {
+      paramIterable = bf.a(paramIterable);
+    } else {
+      paramIterable = Oc.a(paramIterable);
+    }
+    return a(paramIterable);
+  }
+  
+  public static <E> Mb<E> a(E paramE1, E paramE2)
+  {
+    return b(new Object[] { paramE1, paramE2 });
+  }
+  
+  public static <E> Mb<E> a(E paramE1, E paramE2, E paramE3)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3 });
+  }
+  
+  public static <E> Mb<E> a(E paramE1, E paramE2, E paramE3, E paramE4)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4 });
+  }
+  
+  public static <E> Mb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5 });
+  }
+  
+  public static <E> Mb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E... paramVarArgs)
+  {
+    ArrayList localArrayList = new ArrayList(paramVarArgs.length + 6);
+    Collections.addAll(localArrayList, new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6 });
+    Collections.addAll(localArrayList, paramVarArgs);
+    return a(localArrayList);
+  }
+  
+  public static <E> Mb<E> a(Collection<? extends Ye.a<? extends E>> paramCollection)
+  {
+    Ab.a localA = Ab.a();
+    paramCollection = paramCollection.iterator();
+    long l = 0L;
+    while (paramCollection.hasNext())
+    {
+      Ye.a localA1 = (Ye.a)paramCollection.next();
+      int i = localA1.getCount();
+      if (i > 0)
+      {
+        localA.a(localA1.a(), Integer.valueOf(i));
+        l += i;
+      }
+    }
+    if (l == 0L) {
+      return wa.d;
+    }
+    return new Gf(localA.a(), g.b(l));
+  }
+  
+  public static <E> Mb<E> a(Iterator<? extends E> paramIterator)
+  {
+    Oc localOc = new Oc();
+    Jc.a(localOc, paramIterator);
+    return a(localOc.entrySet());
+  }
+  
+  public static <E> Mb<E> a(E[] paramArrayOfE)
+  {
+    return a(Arrays.asList(paramArrayOfE));
+  }
+  
+  public static <E> Mb<E> b(E paramE)
+  {
+    return b(new Object[] { paramE });
+  }
+  
+  public static <E> Mb<E> b(E... paramVarArgs)
+  {
+    return a(Arrays.asList(paramVarArgs));
+  }
+  
+  public static <E> a<E> e()
+  {
+    return new a();
+  }
+  
+  public static <E> Mb<E> g()
+  {
+    return wa.d;
+  }
+  
+  public final int a(E paramE, int paramInt)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final boolean a(E paramE, int paramInt1, int paramInt2)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final int b(Object paramObject, int paramInt)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final int c(E paramE, int paramInt)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public boolean contains(@h Object paramObject)
+  {
+    return a(paramObject) > 0;
+  }
+  
+  public boolean containsAll(Collection<?> paramCollection)
+  {
+    return u().containsAll(paramCollection);
+  }
+  
+  public Object d()
+  {
+    return new d(this);
+  }
+  
+  public Nb<Ye.a<E>> entrySet()
+  {
+    Nb localNb2 = c;
+    Nb localNb1 = localNb2;
+    if (localNb2 == null)
+    {
+      localNb1 = f();
+      c = localNb1;
+    }
+    return localNb1;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof Ye))
+    {
+      paramObject = (Ye)paramObject;
+      if (size() != paramObject.size()) {
+        return false;
+      }
+      paramObject = paramObject.entrySet().iterator();
+      while (paramObject.hasNext())
+      {
+        Ye.a localA = (Ye.a)paramObject.next();
+        if (a(localA.a()) != localA.getCount()) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+  
+  public abstract Nb<Ye.a<E>> f();
+  
+  public int hashCode()
+  {
+    return gg.a(entrySet());
+  }
+  
+  public th<E> iterator()
+  {
+    return new Lb(this, entrySet().iterator());
+  }
+  
+  public String toString()
+  {
+    return entrySet().toString();
+  }
+  
+  public static class a<E>
+    extends rb.b<E>
+  {
+    public final Ye<E> b;
+    
+    public a()
+    {
+      b = localOc;
+    }
+    
+    public a(Ye<E> paramYe)
+    {
+      b = paramYe;
+    }
+    
+    public a<E> a(Iterable<? extends E> paramIterable)
+    {
+      if ((paramIterable instanceof Ye))
+      {
+        paramIterable = bf.a(paramIterable).entrySet().iterator();
+        while (paramIterable.hasNext())
+        {
+          Ye.a localA = (Ye.a)paramIterable.next();
+          a(localA.a(), localA.getCount());
+        }
+      }
+      super.a(paramIterable);
+      return this;
+    }
+    
+    public a<E> a(E paramE)
+    {
+      Ye localYe = b;
+      if (paramE != null)
+      {
+        localYe.add(paramE);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<E> a(E paramE, int paramInt)
+    {
+      Ye localYe = b;
+      if (paramE != null)
+      {
+        localYe.c(paramE, paramInt);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<E> a(Iterator<? extends E> paramIterator)
+    {
+      super.a(paramIterator);
+      return this;
+    }
+    
+    public a<E> a(E... paramVarArgs)
+    {
+      super.a(paramVarArgs);
+      return this;
+    }
+    
+    public Mb<E> a()
+    {
+      return Mb.a(b);
+    }
+    
+    public a<E> b(E paramE, int paramInt)
+    {
+      Ye localYe = b;
+      if (paramE != null)
+      {
+        localYe.a(paramE, paramInt);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+  }
+  
+  public abstract class b
+    extends Nb<Ye.a<E>>
+  {
+    public static final long f = 0L;
+    
+    public b() {}
+    
+    public boolean c()
+    {
+      return Mb.this.c();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof Ye.a;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (Ye.a)paramObject;
+        if (paramObject.getCount() <= 0) {
+          return false;
+        }
+        bool1 = bool2;
+        if (a(paramObject.a()) == paramObject.getCount()) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public Object d()
+    {
+      return new Mb.c(Mb.this);
+    }
+    
+    public int hashCode()
+    {
+      return Mb.this.hashCode();
+    }
+    
+    public Object[] toArray()
+    {
+      return toArray(new Object[size()]);
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      int i = size();
+      Object localObject;
+      if (paramArrayOfT.length < i)
+      {
+        localObject = kf.b(paramArrayOfT, i);
+      }
+      else
+      {
+        localObject = paramArrayOfT;
+        if (paramArrayOfT.length > i)
+        {
+          paramArrayOfT[i] = null;
+          localObject = paramArrayOfT;
+        }
+      }
+      i = 0;
+      paramArrayOfT = iterator();
+      while (paramArrayOfT.hasNext())
+      {
+        localObject[i] = ((Ye.a)paramArrayOfT.next());
+        i += 1;
+      }
+      return localObject;
+    }
+  }
+  
+  public static class c<E>
+    implements Serializable
+  {
+    public final Mb<E> a;
+    
+    public c(Mb<E> paramMb)
+    {
+      a = paramMb;
+    }
+    
+    public Object a()
+    {
+      return a.entrySet();
+    }
+  }
+  
+  private static class d
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final Object[] b;
+    public final int[] c;
+    
+    public d(Ye<?> paramYe)
+    {
+      int i = paramYe.entrySet().size();
+      b = new Object[i];
+      c = new int[i];
+      paramYe = paramYe.entrySet().iterator();
+      i = 0;
+      while (paramYe.hasNext())
+      {
+        Ye.a localA = (Ye.a)paramYe.next();
+        b[i] = localA.a();
+        c[i] = localA.getCount();
+        i += 1;
+      }
+    }
+    
+    public Object a()
+    {
+      Oc localOc = new Oc(b.length);
+      int i = 0;
+      for (;;)
+      {
+        Object[] arrayOfObject = b;
+        if (i >= arrayOfObject.length) {
+          break;
+        }
+        localOc.c(arrayOfObject[i], c[i]);
+        i += 1;
+      }
+      return Mb.a(localOc);
+    }
+  }
+}

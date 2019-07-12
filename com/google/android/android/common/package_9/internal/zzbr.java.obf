@@ -1,0 +1,413 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Bundle;
+import android.os.DeadObjectException;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.RemoteException;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.X;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.ApiOptions;
+import com.google.android.gms.common.api.Api.zzb;
+import com.google.android.gms.common.api.Api.zze;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.zzby;
+import com.google.android.gms.internal.zzcps;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import f.a.a.a.a;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+
+public final class zzbr<O extends Api.ApiOptions>
+  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, zzx
+{
+  public final zzh<O> zzfgs;
+  public final Api.zze zzfkh;
+  public boolean zzfmi;
+  public final Queue<zza> zzfnv = new LinkedList();
+  public final Api.zzb zzfnw;
+  public final zzah zzfnx;
+  public final Set<zzj> zzfny = new HashSet();
+  public final Map<zzcl<?>, zzcs> zzfnz = new HashMap();
+  public final int zzfoa;
+  public final zzcw zzfob;
+  public ConnectionResult zzfoc = null;
+  
+  @X
+  public zzbr(GoogleApi<O> paramGoogleApi)
+  {
+    Object localObject;
+    zzfkh = localObject.zza(zzbp.zza(paramGoogleApi).getLooper(), this);
+    Api.zze localZze = zzfkh;
+    if (!(localZze instanceof zzby))
+    {
+      zzfnw = localZze;
+      zzfgs = localObject.zzafk();
+      zzfnx = new zzah();
+      zzfoa = localObject.getInstanceId();
+      if (zzfkh.zzaac())
+      {
+        zzfob = localObject.zza(zzbp.zzb(paramGoogleApi), zzbp.zza(paramGoogleApi));
+        return;
+      }
+      zzfob = null;
+      return;
+    }
+    zzby.zzako();
+    throw null;
+  }
+  
+  @X
+  private final void zzahu()
+  {
+    zzahx();
+    zzi(ConnectionResult.zzfff);
+    zzahz();
+    Iterator localIterator = zzfnz.values().iterator();
+    label30:
+    zzcs localZzcs;
+    while (localIterator.hasNext()) {
+      localZzcs = (zzcs)localIterator.next();
+    }
+    try
+    {
+      zzfid.zzb(zzfnw, new TaskCompletionSource());
+    }
+    catch (DeadObjectException localDeadObjectException)
+    {
+      for (;;) {}
+    }
+    catch (RemoteException localRemoteException)
+    {
+      for (;;) {}
+    }
+    break label30;
+    onConnectionSuspended(1);
+    zzfkh.disconnect();
+    while ((zzfkh.isConnected()) && (!zzfnv.isEmpty())) {
+      zzb((zza)zzfnv.remove());
+    }
+    zzaia();
+  }
+  
+  @X
+  private final void zzahv()
+  {
+    zzahx();
+    zzfmi = true;
+    zzfnx.zzagu();
+    zzbp.zza(zzfnu).sendMessageDelayed(Message.obtain(zzbp.zza(zzfnu), 9, zzfgs), zzbp.zzc(zzfnu));
+    zzbp.zza(zzfnu).sendMessageDelayed(Message.obtain(zzbp.zza(zzfnu), 11, zzfgs), zzbp.zzd(zzfnu));
+    zzbp.zza(zzfnu, -1);
+  }
+  
+  @X
+  private final void zzahz()
+  {
+    if (zzfmi)
+    {
+      zzbp.zza(zzfnu).removeMessages(11, zzfgs);
+      zzbp.zza(zzfnu).removeMessages(9, zzfgs);
+      zzfmi = false;
+    }
+  }
+  
+  private final void zzaia()
+  {
+    zzbp.zza(zzfnu).removeMessages(12, zzfgs);
+    zzbp.zza(zzfnu).sendMessageDelayed(zzbp.zza(zzfnu).obtainMessage(12, zzfgs), zzbp.zzh(zzfnu));
+  }
+  
+  @X
+  private final void zzb(zza paramZza)
+  {
+    paramZza.zza(zzfnx, zzaac());
+    try
+    {
+      paramZza.zza(this);
+      return;
+    }
+    catch (DeadObjectException paramZza)
+    {
+      for (;;) {}
+    }
+    onConnectionSuspended(1);
+    zzfkh.disconnect();
+  }
+  
+  @X
+  private final void zzi(ConnectionResult paramConnectionResult)
+  {
+    Iterator localIterator = zzfny.iterator();
+    while (localIterator.hasNext()) {
+      ((zzj)localIterator.next()).zza(zzfgs, paramConnectionResult);
+    }
+    zzfny.clear();
+  }
+  
+  @X
+  public final void connect()
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    if (!zzfkh.isConnected())
+    {
+      if (zzfkh.isConnecting()) {
+        return;
+      }
+      if ((zzfkh.zzaff()) && (zzbp.zzi(zzfnu) != 0))
+      {
+        localObject = zzfnu;
+        zzbp.zza((zzbp)localObject, zzbp.zzg((zzbp)localObject).isGooglePlayServicesAvailable(zzbp.zzb(zzfnu)));
+        if (zzbp.zzi(zzfnu) != 0)
+        {
+          onConnectionFailed(new ConnectionResult(zzbp.zzi(zzfnu), null));
+          return;
+        }
+      }
+      Object localObject = new zzbv(zzfnu, zzfkh, zzfgs);
+      if (zzfkh.zzaac()) {
+        zzfob.zza((zzcy)localObject);
+      }
+      zzfkh.zza((com.google.android.gms.common.internal.zzj)localObject);
+    }
+  }
+  
+  public final int getInstanceId()
+  {
+    return zzfoa;
+  }
+  
+  public final boolean isConnected()
+  {
+    return zzfkh.isConnected();
+  }
+  
+  public final void onConnected(@G Bundle paramBundle)
+  {
+    if (Looper.myLooper() == zzbp.zza(zzfnu).getLooper())
+    {
+      zzahu();
+      return;
+    }
+    zzbp.zza(zzfnu).post(new zzbs(this));
+  }
+  
+  @X
+  public final void onConnectionFailed(@F ConnectionResult paramConnectionResult)
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    ??? = zzfob;
+    if (??? != null) {
+      ((zzcw)???).zzaim();
+    }
+    zzahx();
+    zzbp.zza(zzfnu, -1);
+    zzi(paramConnectionResult);
+    if (paramConnectionResult.getErrorCode() == 4)
+    {
+      zzv(zzbp.zzfnl);
+      return;
+    }
+    if (zzfnv.isEmpty())
+    {
+      zzfoc = paramConnectionResult;
+      return;
+    }
+    synchronized (zzbp.zzaqd)
+    {
+      if ((zzbp.zze(zzfnu) != null) && (zzbp.zzf(zzfnu).contains(zzfgs)))
+      {
+        zzbp.zze(zzfnu).zzb(paramConnectionResult, zzfoa);
+        return;
+      }
+      if (!zzfnu.zzc(paramConnectionResult, zzfoa))
+      {
+        if (paramConnectionResult.getErrorCode() == 18) {
+          zzfmi = true;
+        }
+        if (zzfmi)
+        {
+          zzbp.zza(zzfnu).sendMessageDelayed(Message.obtain(zzbp.zza(zzfnu), 9, zzfgs), zzbp.zzc(zzfnu));
+          return;
+        }
+        paramConnectionResult = zzfgs.zzafv();
+        zzv(new Status(17, a.a(a.a(paramConnectionResult, 38), "API: ", paramConnectionResult, " is not available on this device.")));
+      }
+      return;
+    }
+  }
+  
+  public final void onConnectionSuspended(int paramInt)
+  {
+    if (Looper.myLooper() == zzbp.zza(zzfnu).getLooper())
+    {
+      zzahv();
+      return;
+    }
+    zzbp.zza(zzfnu).post(new zzbt(this));
+  }
+  
+  @X
+  public final void resume()
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    if (zzfmi) {
+      connect();
+    }
+  }
+  
+  @X
+  public final void signOut()
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    zzv(zzbp.zzfnk);
+    zzfnx.zzagt();
+    Iterator localIterator = zzfnz.keySet().iterator();
+    while (localIterator.hasNext()) {
+      zza(new zzf((zzcl)localIterator.next(), new TaskCompletionSource()));
+    }
+    zzi(new ConnectionResult(4));
+    zzfkh.disconnect();
+  }
+  
+  public final void zza(ConnectionResult paramConnectionResult, Api<?> paramApi, boolean paramBoolean)
+  {
+    if (Looper.myLooper() == zzbp.zza(zzfnu).getLooper())
+    {
+      onConnectionFailed(paramConnectionResult);
+      return;
+    }
+    zzbp.zza(zzfnu).post(new zzbu(this, paramConnectionResult));
+  }
+  
+  @X
+  public final void zza(zza paramZza)
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    if (zzfkh.isConnected())
+    {
+      zzb(paramZza);
+      zzaia();
+      return;
+    }
+    zzfnv.add(paramZza);
+    paramZza = zzfoc;
+    if ((paramZza != null) && (paramZza.hasResolution()))
+    {
+      onConnectionFailed(zzfoc);
+      return;
+    }
+    connect();
+  }
+  
+  @X
+  public final void zza(zzj paramZzj)
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    zzfny.add(paramZzj);
+  }
+  
+  public final boolean zzaac()
+  {
+    return zzfkh.zzaac();
+  }
+  
+  public final Api.zze zzagn()
+  {
+    return zzfkh;
+  }
+  
+  @X
+  public final void zzahh()
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    if (zzfmi)
+    {
+      zzahz();
+      Status localStatus;
+      if (zzbp.zzg(zzfnu).isGooglePlayServicesAvailable(zzbp.zzb(zzfnu)) == 18) {
+        localStatus = new Status(8, "Connection timed out while waiting for Google Play services update to complete.");
+      } else {
+        localStatus = new Status(8, "API failed to connect while resuming due to an unknown error.");
+      }
+      zzv(localStatus);
+      zzfkh.disconnect();
+    }
+  }
+  
+  public final Map<zzcl<?>, zzcs> zzahw()
+  {
+    return zzfnz;
+  }
+  
+  @X
+  public final void zzahx()
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    zzfoc = null;
+  }
+  
+  @X
+  public final ConnectionResult zzahy()
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    return zzfoc;
+  }
+  
+  @X
+  public final void zzaib()
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    if ((zzfkh.isConnected()) && (zzfnz.size() == 0))
+    {
+      if (zzfnx.zzags())
+      {
+        zzaia();
+        return;
+      }
+      zzfkh.disconnect();
+    }
+  }
+  
+  public final zzcps zzaic()
+  {
+    zzcw localZzcw = zzfob;
+    if (localZzcw == null) {
+      return null;
+    }
+    return localZzcw.zzaic();
+  }
+  
+  @X
+  public final void zzh(@F ConnectionResult paramConnectionResult)
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    zzfkh.disconnect();
+    onConnectionFailed(paramConnectionResult);
+  }
+  
+  @X
+  public final void zzv(Status paramStatus)
+  {
+    com.google.android.gms.common.internal.zzbp.zza(zzbp.zza(zzfnu));
+    Iterator localIterator = zzfnv.iterator();
+    while (localIterator.hasNext()) {
+      ((zza)localIterator.next()).zzr(paramStatus);
+    }
+    zzfnv.clear();
+  }
+}

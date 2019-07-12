@@ -1,0 +1,43 @@
+package com.google.android.android.internal;
+
+import java.lang.reflect.Method;
+
+public final class zzevc
+{
+  public static Class<?> zzonu = ;
+  
+  public static Class zzctr()
+  {
+    try
+    {
+      Class localClass = Class.forName("com.google.protobuf.ExtensionRegistry");
+      return localClass;
+    }
+    catch (ClassNotFoundException localClassNotFoundException)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static zzevd zzcts()
+  {
+    if (zzonu != null) {}
+    try
+    {
+      zzevd localZzevd = zztl("getEmptyRegistry");
+      return localZzevd;
+    }
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
+    return zzevd.zzonx;
+  }
+  
+  public static final zzevd zztl(String paramString)
+    throws Exception
+  {
+    return (zzevd)zzonu.getDeclaredMethod(paramString, new Class[0]).invoke(null, new Object[0]);
+  }
+}

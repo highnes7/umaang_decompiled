@@ -1,0 +1,184 @@
+package com.google.android.gms.samples.vision.barcodereader.ui.camera;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.util.AttributeSet;
+import android.view.View;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+public class GraphicOverlay<T extends Graphic>
+  extends View
+{
+  public boolean drawRect;
+  public int mFacing = 0;
+  public Set<T> mGraphics = new HashSet();
+  public float mHeightScaleFactor = 1.0F;
+  public final Object mLock = new Object();
+  public int mPreviewHeight;
+  public int mPreviewWidth;
+  public float mWidthScaleFactor = 1.0F;
+  public Integer[] rectColors;
+  public boolean showText;
+  
+  public GraphicOverlay(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+  }
+  
+  public void add(T paramT)
+  {
+    synchronized (mLock)
+    {
+      mGraphics.add(paramT);
+      postInvalidate();
+      return;
+    }
+  }
+  
+  public void clear()
+  {
+    synchronized (mLock)
+    {
+      mGraphics.clear();
+      postInvalidate();
+      return;
+    }
+  }
+  
+  public List<T> getGraphics()
+  {
+    synchronized (mLock)
+    {
+      Vector localVector = new Vector(mGraphics);
+      return localVector;
+    }
+  }
+  
+  public float getHeightScaleFactor()
+  {
+    return mHeightScaleFactor;
+  }
+  
+  public Integer[] getRectColors()
+  {
+    return rectColors;
+  }
+  
+  public float getWidthScaleFactor()
+  {
+    return mWidthScaleFactor;
+  }
+  
+  public boolean isDrawRect()
+  {
+    return drawRect;
+  }
+  
+  public boolean isShowText()
+  {
+    return showText;
+  }
+  
+  public void onDraw(Canvas paramCanvas)
+  {
+    super.onDraw(paramCanvas);
+    synchronized (mLock)
+    {
+      if ((mPreviewWidth != 0) && (mPreviewHeight != 0))
+      {
+        mWidthScaleFactor = (paramCanvas.getWidth() / mPreviewWidth);
+        mHeightScaleFactor = (paramCanvas.getHeight() / mPreviewHeight);
+      }
+      Iterator localIterator = mGraphics.iterator();
+      while (localIterator.hasNext()) {
+        ((Graphic)localIterator.next()).draw(paramCanvas);
+      }
+      return;
+    }
+    for (;;)
+    {
+      throw paramCanvas;
+    }
+  }
+  
+  public void remove(T paramT)
+  {
+    synchronized (mLock)
+    {
+      mGraphics.remove(paramT);
+      postInvalidate();
+      return;
+    }
+  }
+  
+  public void setCameraInfo(int paramInt1, int paramInt2, int paramInt3)
+  {
+    synchronized (mLock)
+    {
+      mPreviewWidth = paramInt1;
+      mPreviewHeight = paramInt2;
+      mFacing = paramInt3;
+      postInvalidate();
+      return;
+    }
+  }
+  
+  public void setDrawRect(boolean paramBoolean)
+  {
+    drawRect = paramBoolean;
+  }
+  
+  public void setRectColors(Integer[] paramArrayOfInteger)
+  {
+    rectColors = paramArrayOfInteger;
+  }
+  
+  public void setShowText(boolean paramBoolean)
+  {
+    showText = paramBoolean;
+  }
+  
+  public static abstract class Graphic
+  {
+    public GraphicOverlay mOverlay;
+    
+    public Graphic(GraphicOverlay paramGraphicOverlay)
+    {
+      mOverlay = paramGraphicOverlay;
+    }
+    
+    public abstract void draw(Canvas paramCanvas);
+    
+    public void postInvalidate()
+    {
+      mOverlay.postInvalidate();
+    }
+    
+    public float scaleX(float paramFloat)
+    {
+      return GraphicOverlay.access$000(mOverlay) * paramFloat;
+    }
+    
+    public float scaleY(float paramFloat)
+    {
+      return GraphicOverlay.access$100(mOverlay) * paramFloat;
+    }
+    
+    public float translateX(float paramFloat)
+    {
+      if (GraphicOverlay.access$200(mOverlay) == 1) {
+        return mOverlay.getWidth() - scaleX(paramFloat);
+      }
+      return scaleX(paramFloat);
+    }
+    
+    public float translateY(float paramFloat)
+    {
+      return scaleY(paramFloat);
+    }
+  }
+}

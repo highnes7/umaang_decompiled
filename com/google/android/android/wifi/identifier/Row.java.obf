@@ -1,0 +1,72 @@
+package com.google.android.gms.ads.identifier;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import com.google.android.gms.common.zzo;
+
+public final class zzd
+{
+  public SharedPreferences zzamc;
+  
+  public zzd(Context paramContext)
+  {
+    try
+    {
+      paramContext = zzo.getRemoteContext(paramContext);
+      if (paramContext == null) {
+        paramContext = null;
+      } else {
+        paramContext = paramContext.getSharedPreferences("google_ads_flags", 0);
+      }
+      zzamc = paramContext;
+      return;
+    }
+    catch (Throwable paramContext)
+    {
+      for (;;) {}
+    }
+    zzamc = null;
+  }
+  
+  public final boolean getBoolean(String paramString, boolean paramBoolean)
+  {
+    try
+    {
+      if (zzamc == null) {
+        return false;
+      }
+      paramBoolean = zzamc.getBoolean(paramString, false);
+      return paramBoolean;
+    }
+    catch (Throwable paramString) {}
+    return false;
+  }
+  
+  public final float getFloat(String paramString, float paramFloat)
+  {
+    try
+    {
+      if (zzamc == null) {
+        return 0.0F;
+      }
+      paramFloat = zzamc.getFloat(paramString, 0.0F);
+      return paramFloat;
+    }
+    catch (Throwable paramString) {}
+    return 0.0F;
+  }
+  
+  public final String getString(String paramString1, String paramString2)
+  {
+    try
+    {
+      if (zzamc == null) {
+        return paramString2;
+      }
+      paramString1 = zzamc.getString(paramString1, paramString2);
+      return paramString1;
+    }
+    catch (Throwable paramString1) {}
+    return paramString2;
+  }
+}

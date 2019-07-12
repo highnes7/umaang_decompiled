@@ -1,0 +1,215 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import m.a.h;
+
+@b
+public abstract class Yb<R, C, V>
+  implements Yg<R, C, V>
+{
+  public Yb() {}
+  
+  public static final <R, C, V> a<R, C, V> a()
+  {
+    return new a();
+  }
+  
+  public static final <R, C, V> Yb<R, C, V> b()
+  {
+    return Ca.a;
+  }
+  
+  public static final <R, C, V> Yb<R, C, V> b(Yg<? extends R, ? extends C, ? extends V> paramYg)
+  {
+    if ((paramYg instanceof Yb)) {
+      return (Yb)paramYg;
+    }
+    int i = paramYg.size();
+    if (i != 0)
+    {
+      if (i != 1)
+      {
+        Nb.b localB = Nb.e();
+        paramYg = paramYg.h().iterator();
+        while (paramYg.hasNext())
+        {
+          Yg.a localA = (Yg.a)paramYg.next();
+          localB.a(b(localA.a(), localA.b(), localA.getValue()));
+        }
+        return Rf.a(localB.a());
+      }
+      paramYg = (Yg.a)rc.f(paramYg.h());
+      return new mg(paramYg.a(), paramYg.b(), paramYg.getValue());
+    }
+    return Ca.a;
+  }
+  
+  public static <R, C, V> Yg.a<R, C, V> b(R paramR, C paramC, V paramV)
+  {
+    if (paramR != null)
+    {
+      if (paramC != null)
+      {
+        if (paramV != null) {
+          return _g.a(paramR, paramC, paramV);
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static final <R, C, V> Yb<R, C, V> c(R paramR, C paramC, V paramV)
+  {
+    return new mg(paramR, paramC, paramV);
+  }
+  
+  public final V a(R paramR, C paramC, V paramV)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final void a(Yg<? extends R, ? extends C, ? extends V> paramYg)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final void clear()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public abstract Ab<C, Map<R, V>> e();
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof Yg))
+    {
+      paramObject = (Yg)paramObject;
+      return h().equals(paramObject.h());
+    }
+    return false;
+  }
+  
+  public abstract Ab<R, V> f(C paramC);
+  
+  public abstract Nb<R> g();
+  
+  public abstract Ab<C, V> h(R paramR);
+  
+  public abstract Nb<Yg.a<R, C, V>> h();
+  
+  public int hashCode()
+  {
+    return h().hashCode();
+  }
+  
+  public abstract Nb<C> i();
+  
+  public abstract Ab<R, Map<C, V>> j();
+  
+  public final V remove(Object paramObject1, Object paramObject2)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public String toString()
+  {
+    return j().toString();
+  }
+  
+  public static final class a<R, C, V>
+  {
+    public final List<Yg.a<R, C, V>> a = new ArrayList();
+    public Comparator<? super R> b;
+    public Comparator<? super C> c;
+    
+    public a() {}
+    
+    public a<R, C, V> a(Yg.a<? extends R, ? extends C, ? extends V> paramA)
+    {
+      if ((paramA instanceof _g.b))
+      {
+        ba.a(paramA.a());
+        ba.a(paramA.b());
+        ba.a(paramA.getValue());
+        a.add(paramA);
+        return this;
+      }
+      a(paramA.a(), paramA.b(), paramA.getValue());
+      return this;
+    }
+    
+    public a<R, C, V> a(Yg<? extends R, ? extends C, ? extends V> paramYg)
+    {
+      paramYg = paramYg.h().iterator();
+      while (paramYg.hasNext()) {
+        a((Yg.a)paramYg.next());
+      }
+      return this;
+    }
+    
+    public a<R, C, V> a(R paramR, C paramC, V paramV)
+    {
+      List localList = a;
+      if (paramR != null)
+      {
+        if (paramC != null)
+        {
+          if (paramV != null)
+          {
+            localList.add(_g.a(paramR, paramC, paramV));
+            return this;
+          }
+          throw new NullPointerException();
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<R, C, V> a(Comparator<? super C> paramComparator)
+    {
+      if (paramComparator != null)
+      {
+        c = paramComparator;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public Yb<R, C, V> a()
+    {
+      int i = a.size();
+      if (i != 0)
+      {
+        if (i != 1) {
+          return Rf.a(a, b, c);
+        }
+        return new mg((Yg.a)rc.f(a));
+      }
+      return Ca.a;
+    }
+    
+    public a<R, C, V> b(Comparator<? super R> paramComparator)
+    {
+      if (paramComparator != null)
+      {
+        b = paramComparator;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+  }
+}

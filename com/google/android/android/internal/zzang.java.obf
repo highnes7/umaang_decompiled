@@ -1,0 +1,1046 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.text.TextUtils;
+import android.util.Pair;
+import com.google.android.gms.analytics.CampaignTrackingReceiver;
+import com.google.android.gms.analytics.zza;
+import com.google.android.gms.analytics.zzg;
+import com.google.android.gms.analytics.zzj;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzang
+  extends zzams
+{
+  public boolean mStarted;
+  public final zzand zzdpp;
+  public final zzaop zzdpq;
+  public final zzaoo zzdpr;
+  public final zzamy zzdps;
+  public long zzdpt;
+  public final zzanx zzdpu;
+  public final zzanx zzdpv;
+  public final zzaoz zzdpw;
+  public long zzdpx;
+  public boolean zzdpy;
+  
+  public zzang(zzamu paramZzamu, zzamw paramZzamw)
+  {
+    super(paramZzamu);
+    zzbp.zzu(paramZzamw);
+    zzdpt = Long.MIN_VALUE;
+    zzdpr = new zzaoo(paramZzamu);
+    zzdpp = new zzand(paramZzamu);
+    zzdpq = new zzaop(paramZzamu);
+    zzdps = new zzamy(paramZzamu);
+    zzdpw = new zzaoz(zzvx());
+    zzdpu = new zzanh(this, paramZzamu);
+    zzdpv = new zzani(this, paramZzamu);
+  }
+  
+  private final void zza(zzamx paramZzamx, zzalw paramZzalw)
+  {
+    zzbp.zzu(paramZzamx);
+    zzbp.zzu(paramZzalw);
+    Object localObject1 = new zza(zzvw());
+    ((zza)localObject1).zzcw(paramZzamx.zzws());
+    ((zza)localObject1).enableAdvertisingIdCollection(paramZzamx.zzwt());
+    localObject1 = ((zza)localObject1).zzts();
+    zzame localZzame = (zzame)((zzg)localObject1).zzb(zzame.class);
+    localZzame.zzdh("data");
+    localZzame.zzai(true);
+    ((zzg)localObject1).zza(paramZzalw);
+    zzalz localZzalz = (zzalz)((zzg)localObject1).zzb(zzalz.class);
+    zzalv localZzalv = (zzalv)((zzg)localObject1).zzb(zzalv.class);
+    Iterator localIterator = paramZzamx.zziy().entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Object localObject2 = (Map.Entry)localIterator.next();
+      String str = (String)((Map.Entry)localObject2).getKey();
+      localObject2 = (String)((Map.Entry)localObject2).getValue();
+      if ("an".equals(str)) {
+        localZzalv.setAppName((String)localObject2);
+      } else if ("av".equals(str)) {
+        localZzalv.setAppVersion((String)localObject2);
+      } else if ("aid".equals(str)) {
+        localZzalv.setAppId((String)localObject2);
+      } else if ("aiid".equals(str)) {
+        localZzalv.setAppInstallerId((String)localObject2);
+      } else if ("uid".equals(str)) {
+        localZzame.setUserId((String)localObject2);
+      } else {
+        localZzalz.set(str, (String)localObject2);
+      }
+    }
+    zzb("Sending installation campaign to", paramZzamx.zzws(), paramZzalw);
+    ((zzg)localObject1).zzl(zzwf().zzzb());
+    ((zzg)localObject1).zzua();
+  }
+  
+  private final boolean zzdt(String paramString)
+  {
+    return zzbed.zzcr(getContext()).checkCallingOrSelfPermission(paramString) == 0;
+  }
+  
+  private final long zzxa()
+  {
+    zzj.zzuj();
+    zzwk();
+    try
+    {
+      long l = zzdpp.zzxa();
+      return l;
+    }
+    catch (SQLiteException localSQLiteException)
+    {
+      zze("Failed to get min/max hit times from local store", localSQLiteException);
+    }
+    return 0L;
+  }
+  
+  private final void zzxf()
+  {
+    zzb(new zzank(this));
+  }
+  
+  private final void zzxg()
+  {
+    try
+    {
+      zzdpp.zzwz();
+      zzxk();
+    }
+    catch (SQLiteException localSQLiteException)
+    {
+      zzd("Failed to delete stale hits", localSQLiteException);
+    }
+    zzdpv.zzs(86400000L);
+  }
+  
+  private final void zzxh()
+  {
+    if (zzdpy) {
+      return;
+    }
+    if (!zzanv.zzxv()) {
+      return;
+    }
+    if (zzdps.isConnected()) {
+      return;
+    }
+    long l = ((Long)zzaod.zzdsn.get()).longValue();
+    if (zzdpw.zzu(l))
+    {
+      zzdpw.start();
+      zzdm("Connecting to service");
+      if (zzdps.connect())
+      {
+        zzdm("Connected to service");
+        zzdpw.clear();
+        onServiceConnected();
+      }
+    }
+  }
+  
+  private final boolean zzxi()
+  {
+    zzj.zzuj();
+    zzwk();
+    zzdm("Dispatching a batch of local hits");
+    boolean bool1 = zzdps.isConnected();
+    boolean bool2 = zzdpq.zzyx();
+    if (((bool1 ^ true)) && ((bool2 ^ true)))
+    {
+      zzdm("No network or service available. Will retry later");
+      return false;
+    }
+    long l3 = Math.max(zzanv.zzxz(), zzanv.zzya());
+    ArrayList localArrayList = new ArrayList();
+    long l2 = 0L;
+    try
+    {
+      for (;;)
+      {
+        zzdpp.beginTransaction();
+        localArrayList.clear();
+        try
+        {
+          List localList = zzdpp.zzo(l3);
+          if (localList.isEmpty())
+          {
+            zzdm("Store is empty, nothing to dispatch");
+            zzxm();
+            try
+            {
+              zzdpp.setTransactionSuccessful();
+              zzdpp.endTransaction();
+              return false;
+            }
+            catch (SQLiteException localSQLiteException1)
+            {
+              zze("Failed to commit local dispatch transaction", localSQLiteException1);
+              zzxm();
+              return false;
+            }
+          }
+          zza("Hits loaded from store. count", Integer.valueOf(localList.size()));
+          Object localObject2 = localList.iterator();
+          while (((Iterator)localObject2).hasNext()) {
+            if (((zzaoi)((Iterator)localObject2).next()).zzym() == l2)
+            {
+              zzd("Database contains successfully uploaded hit", Long.valueOf(l2), Integer.valueOf(localList.size()));
+              zzxm();
+              try
+              {
+                zzdpp.setTransactionSuccessful();
+                zzdpp.endTransaction();
+                return false;
+              }
+              catch (SQLiteException localSQLiteException2)
+              {
+                zze("Failed to commit local dispatch transaction", localSQLiteException2);
+                zzxm();
+                return false;
+              }
+            }
+          }
+          long l1 = l2;
+          if (zzdps.isConnected())
+          {
+            zzdm("Service connected, sending hits to the service");
+            for (;;)
+            {
+              l1 = l2;
+              if (!localList.isEmpty())
+              {
+                localObject2 = (zzaoi)localList.get(0);
+                l1 = l2;
+                if (zzdps.zzb((zzaoi)localObject2))
+                {
+                  l2 = Math.max(l2, ((zzaoi)localObject2).zzym());
+                  localList.remove(localObject2);
+                  zzb("Hit sent do device AnalyticsService for delivery", localObject2);
+                  try
+                  {
+                    zzdpp.zzp(((zzaoi)localObject2).zzym());
+                    localSQLiteException2.add(Long.valueOf(((zzaoi)localObject2).zzym()));
+                  }
+                  catch (SQLiteException localSQLiteException3)
+                  {
+                    zze("Failed to remove hit that was send for delivery", localSQLiteException3);
+                    zzxm();
+                    try
+                    {
+                      zzdpp.setTransactionSuccessful();
+                      zzdpp.endTransaction();
+                      return false;
+                    }
+                    catch (SQLiteException localSQLiteException4)
+                    {
+                      zze("Failed to commit local dispatch transaction", localSQLiteException4);
+                      zzxm();
+                      return false;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          l2 = l1;
+          if (zzdpq.zzyx())
+          {
+            localList = zzdpq.zzs(localList);
+            localObject2 = localList.iterator();
+            while (((Iterator)localObject2).hasNext()) {
+              l1 = Math.max(l1, ((Long)((Iterator)localObject2).next()).longValue());
+            }
+            try
+            {
+              zzdpp.zzq(localList);
+              localSQLiteException4.addAll(localList);
+              l2 = l1;
+            }
+            catch (SQLiteException localSQLiteException5)
+            {
+              zze("Failed to remove successfully uploaded hits", localSQLiteException5);
+              zzxm();
+              try
+              {
+                zzdpp.setTransactionSuccessful();
+                zzdpp.endTransaction();
+                return false;
+              }
+              catch (SQLiteException localSQLiteException6)
+              {
+                zze("Failed to commit local dispatch transaction", localSQLiteException6);
+                zzxm();
+                return false;
+              }
+            }
+          }
+          bool1 = localSQLiteException6.isEmpty();
+          if (bool1) {
+            try
+            {
+              zzdpp.setTransactionSuccessful();
+              zzdpp.endTransaction();
+              return false;
+            }
+            catch (SQLiteException localSQLiteException7)
+            {
+              zze("Failed to commit local dispatch transaction", localSQLiteException7);
+              zzxm();
+              return false;
+            }
+          }
+          try
+          {
+            zzdpp.setTransactionSuccessful();
+            zzdpp.endTransaction();
+          }
+          catch (SQLiteException localSQLiteException8)
+          {
+            zze("Failed to commit local dispatch transaction", localSQLiteException8);
+            zzxm();
+            return false;
+          }
+          localObject1 = finally;
+        }
+        catch (SQLiteException localSQLiteException9)
+        {
+          zzd("Failed to read hits from persisted store", localSQLiteException9);
+          zzxm();
+          try
+          {
+            zzdpp.setTransactionSuccessful();
+            zzdpp.endTransaction();
+            return false;
+          }
+          catch (SQLiteException localSQLiteException10)
+          {
+            zze("Failed to commit local dispatch transaction", localSQLiteException10);
+            zzxm();
+            return false;
+          }
+        }
+      }
+      return false;
+    }
+    finally
+    {
+      try
+      {
+        zzdpp.setTransactionSuccessful();
+        zzdpp.endTransaction();
+        throw localObject1;
+      }
+      catch (SQLiteException localSQLiteException11)
+      {
+        zze("Failed to commit local dispatch transaction", localSQLiteException11);
+        zzxm();
+      }
+    }
+  }
+  
+  private final void zzxl()
+  {
+    zzaoa localZzaoa = zzwd();
+    if (!localZzaoa.zzyj()) {
+      return;
+    }
+    if (!localZzaoa.zzdp())
+    {
+      long l = zzxa();
+      if ((l != 0L) && (Math.abs(zzvx().currentTimeMillis() - l) <= ((Long)zzaod.zzdrm.get()).longValue()))
+      {
+        zza("Dispatch alarm scheduled (ms)", Long.valueOf(zzanv.zzxy()));
+        localZzaoa.schedule();
+      }
+    }
+  }
+  
+  private final void zzxm()
+  {
+    if (zzdpu.zzdp()) {
+      zzdm("All hits dispatched or no network/service. Going to power save mode");
+    }
+    zzdpu.cancel();
+    zzaoa localZzaoa = zzwd();
+    if (localZzaoa.zzdp()) {
+      localZzaoa.cancel();
+    }
+  }
+  
+  private final long zzxn()
+  {
+    long l = zzdpt;
+    if (l != Long.MIN_VALUE) {
+      return l;
+    }
+    l = ((Long)zzaod.zzdrh.get()).longValue();
+    zzape localZzape = zzwe();
+    localZzape.zzwk();
+    if (zzdun)
+    {
+      localZzape = zzwe();
+      localZzape.zzwk();
+      l = zzdsu * 1000L;
+    }
+    return l;
+  }
+  
+  private final void zzxo()
+  {
+    zzwk();
+    zzj.zzuj();
+    zzdpy = true;
+    zzdps.disconnect();
+    zzxk();
+  }
+  
+  public final void onServiceConnected()
+  {
+    zzj.zzuj();
+    zzj.zzuj();
+    zzwk();
+    if (!zzanv.zzxv()) {
+      zzdp("Service client disabled. Can't dispatch local hits to device AnalyticsService");
+    }
+    if (!zzdps.isConnected())
+    {
+      zzdm("Service not connected");
+      return;
+    }
+    if (!zzdpp.isEmpty())
+    {
+      zzdm("Dispatching local hits to device AnalyticsService");
+      try
+      {
+        List localList = zzdpp.zzo(zzanv.zzxz());
+        if (localList.isEmpty())
+        {
+          zzxk();
+          return;
+        }
+        while (!localList.isEmpty())
+        {
+          zzaoi localZzaoi = (zzaoi)localList.get(0);
+          if (!zzdps.zzb(localZzaoi))
+          {
+            zzxk();
+            return;
+          }
+          localList.remove(localZzaoi);
+          try
+          {
+            zzdpp.zzp(localZzaoi.zzym());
+          }
+          catch (SQLiteException localSQLiteException1)
+          {
+            zze("Failed to remove hit that was send for delivery", localSQLiteException1);
+            zzxm();
+            return;
+          }
+        }
+        return;
+      }
+      catch (SQLiteException localSQLiteException2)
+      {
+        zze("Failed to read hits from store", localSQLiteException2);
+        zzxm();
+      }
+    }
+  }
+  
+  public final void start()
+  {
+    zzwk();
+    zzbp.zza(mStarted ^ true, "Analytics backend already started");
+    mStarted = true;
+    zzwa().zzc(new zzanj(this));
+  }
+  
+  /* Error */
+  public final long zza(zzamx paramZzamx, boolean paramBoolean)
+  {
+    // Byte code:
+    //   0: aload_1
+    //   1: invokestatic 34	com/google/android/gms/common/internal/zzbp:zzu	(Ljava/lang/Object;)Ljava/lang/Object;
+    //   4: pop
+    //   5: aload_0
+    //   6: invokevirtual 265	com/google/android/gms/internal/zzams:zzwk	()V
+    //   9: invokestatic 262	com/google/android/gms/analytics/zzj:zzuj	()V
+    //   12: aload_0
+    //   13: getfield 48	com/google/android/gms/internal/zzang:zzdpp	Lcom/google/android/gms/internal/zzand;
+    //   16: invokevirtual 375	com/google/android/gms/internal/zzand:beginTransaction	()V
+    //   19: aload_0
+    //   20: getfield 48	com/google/android/gms/internal/zzang:zzdpp	Lcom/google/android/gms/internal/zzand;
+    //   23: astore 7
+    //   25: aload_1
+    //   26: invokevirtual 562	com/google/android/gms/internal/zzamx:zzwr	()J
+    //   29: lstore 5
+    //   31: aload_1
+    //   32: invokevirtual 565	com/google/android/gms/internal/zzamx:zzve	()Ljava/lang/String;
+    //   35: astore 8
+    //   37: aload 8
+    //   39: invokestatic 569	com/google/android/gms/common/internal/zzbp:zzgg	(Ljava/lang/String;)Ljava/lang/String;
+    //   42: pop
+    //   43: aload 7
+    //   45: invokevirtual 265	com/google/android/gms/internal/zzams:zzwk	()V
+    //   48: invokestatic 262	com/google/android/gms/analytics/zzj:zzuj	()V
+    //   51: aload 7
+    //   53: invokevirtual 573	com/google/android/gms/internal/zzand:getWritableDatabase	()Landroid/database/sqlite/SQLiteDatabase;
+    //   56: astore 9
+    //   58: iconst_1
+    //   59: istore_3
+    //   60: aload 9
+    //   62: ldc_w 575
+    //   65: ldc_w 577
+    //   68: iconst_2
+    //   69: anewarray 170	java/lang/String
+    //   72: dup
+    //   73: iconst_0
+    //   74: lload 5
+    //   76: invokestatic 580	java/lang/String:valueOf	(J)Ljava/lang/String;
+    //   79: aastore
+    //   80: dup
+    //   81: iconst_1
+    //   82: aload 8
+    //   84: aastore
+    //   85: invokevirtual 586	android/database/sqlite/SQLiteDatabase:delete	(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;)I
+    //   88: istore 4
+    //   90: iload 4
+    //   92: ifle +16 -> 108
+    //   95: aload 7
+    //   97: ldc_w 588
+    //   100: iload 4
+    //   102: invokestatic 409	java/lang/Integer:valueOf	(I)Ljava/lang/Integer;
+    //   105: invokevirtual 411	com/google/android/gms/internal/zzamr:zza	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   108: aload_0
+    //   109: getfield 48	com/google/android/gms/internal/zzang:zzdpp	Lcom/google/android/gms/internal/zzand;
+    //   112: aload_1
+    //   113: invokevirtual 562	com/google/android/gms/internal/zzamx:zzwr	()J
+    //   116: aload_1
+    //   117: invokevirtual 565	com/google/android/gms/internal/zzamx:zzve	()Ljava/lang/String;
+    //   120: aload_1
+    //   121: invokevirtual 99	com/google/android/gms/internal/zzamx:zzws	()Ljava/lang/String;
+    //   124: invokevirtual 591	com/google/android/gms/internal/zzand:zza	(JLjava/lang/String;Ljava/lang/String;)J
+    //   127: lstore 5
+    //   129: aload_1
+    //   130: lconst_1
+    //   131: lload 5
+    //   133: ladd
+    //   134: invokevirtual 594	com/google/android/gms/internal/zzamx:zzm	(J)V
+    //   137: aload_0
+    //   138: getfield 48	com/google/android/gms/internal/zzang:zzdpp	Lcom/google/android/gms/internal/zzand;
+    //   141: astore 9
+    //   143: aload_1
+    //   144: invokestatic 34	com/google/android/gms/common/internal/zzbp:zzu	(Ljava/lang/Object;)Ljava/lang/Object;
+    //   147: pop
+    //   148: aload 9
+    //   150: invokevirtual 265	com/google/android/gms/internal/zzams:zzwk	()V
+    //   153: invokestatic 262	com/google/android/gms/analytics/zzj:zzuj	()V
+    //   156: aload 9
+    //   158: invokevirtual 573	com/google/android/gms/internal/zzand:getWritableDatabase	()Landroid/database/sqlite/SQLiteDatabase;
+    //   161: astore 10
+    //   163: aload_1
+    //   164: invokevirtual 142	com/google/android/gms/internal/zzamx:zziy	()Ljava/util/Map;
+    //   167: astore 8
+    //   169: aload 8
+    //   171: invokestatic 34	com/google/android/gms/common/internal/zzbp:zzu	(Ljava/lang/Object;)Ljava/lang/Object;
+    //   174: pop
+    //   175: new 596	android/net/Uri$Builder
+    //   178: dup
+    //   179: invokespecial 597	android/net/Uri$Builder:<init>	()V
+    //   182: astore 7
+    //   184: aload 8
+    //   186: invokeinterface 148 1 0
+    //   191: invokeinterface 154 1 0
+    //   196: astore 8
+    //   198: aload 8
+    //   200: invokeinterface 159 1 0
+    //   205: ifeq +44 -> 249
+    //   208: aload 8
+    //   210: invokeinterface 163 1 0
+    //   215: checkcast 165	java/util/Map$Entry
+    //   218: astore 11
+    //   220: aload 7
+    //   222: aload 11
+    //   224: invokeinterface 168 1 0
+    //   229: checkcast 170	java/lang/String
+    //   232: aload 11
+    //   234: invokeinterface 173 1 0
+    //   239: checkcast 170	java/lang/String
+    //   242: invokevirtual 601	android/net/Uri$Builder:appendQueryParameter	(Ljava/lang/String;Ljava/lang/String;)Landroid/net/Uri$Builder;
+    //   245: pop
+    //   246: goto -48 -> 198
+    //   249: aload 7
+    //   251: invokevirtual 605	android/net/Uri$Builder:build	()Landroid/net/Uri;
+    //   254: invokevirtual 610	android/net/Uri:getEncodedQuery	()Ljava/lang/String;
+    //   257: astore 8
+    //   259: aload 8
+    //   261: astore 7
+    //   263: aload 8
+    //   265: ifnonnull +8 -> 273
+    //   268: ldc_w 612
+    //   271: astore 7
+    //   273: new 614	android/content/ContentValues
+    //   276: dup
+    //   277: invokespecial 615	android/content/ContentValues:<init>	()V
+    //   280: astore 8
+    //   282: aload 8
+    //   284: ldc_w 617
+    //   287: aload_1
+    //   288: invokevirtual 562	com/google/android/gms/internal/zzamx:zzwr	()J
+    //   291: invokestatic 422	java/lang/Long:valueOf	(J)Ljava/lang/Long;
+    //   294: invokevirtual 621	android/content/ContentValues:put	(Ljava/lang/String;Ljava/lang/Long;)V
+    //   297: aload 8
+    //   299: ldc_w 623
+    //   302: aload_1
+    //   303: invokevirtual 565	com/google/android/gms/internal/zzamx:zzve	()Ljava/lang/String;
+    //   306: invokevirtual 625	android/content/ContentValues:put	(Ljava/lang/String;Ljava/lang/String;)V
+    //   309: aload 8
+    //   311: ldc_w 627
+    //   314: aload_1
+    //   315: invokevirtual 99	com/google/android/gms/internal/zzamx:zzws	()Ljava/lang/String;
+    //   318: invokevirtual 625	android/content/ContentValues:put	(Ljava/lang/String;Ljava/lang/String;)V
+    //   321: aload_1
+    //   322: invokevirtual 107	com/google/android/gms/internal/zzamx:zzwt	()Z
+    //   325: ifeq +178 -> 503
+    //   328: goto +3 -> 331
+    //   331: aload 8
+    //   333: ldc_w 629
+    //   336: iload_3
+    //   337: invokestatic 409	java/lang/Integer:valueOf	(I)Ljava/lang/Integer;
+    //   340: invokevirtual 632	android/content/ContentValues:put	(Ljava/lang/String;Ljava/lang/Integer;)V
+    //   343: aload 8
+    //   345: ldc_w 634
+    //   348: aload_1
+    //   349: invokevirtual 637	com/google/android/gms/internal/zzamx:zzwu	()J
+    //   352: invokestatic 422	java/lang/Long:valueOf	(J)Ljava/lang/Long;
+    //   355: invokevirtual 621	android/content/ContentValues:put	(Ljava/lang/String;Ljava/lang/Long;)V
+    //   358: aload 8
+    //   360: ldc_w 639
+    //   363: aload 7
+    //   365: invokevirtual 625	android/content/ContentValues:put	(Ljava/lang/String;Ljava/lang/String;)V
+    //   368: aload 10
+    //   370: ldc_w 575
+    //   373: aconst_null
+    //   374: aload 8
+    //   376: iconst_5
+    //   377: invokevirtual 643	android/database/sqlite/SQLiteDatabase:insertWithOnConflict	(Ljava/lang/String;Ljava/lang/String;Landroid/content/ContentValues;I)J
+    //   380: ldc2_w 644
+    //   383: lcmp
+    //   384: ifne +24 -> 408
+    //   387: aload 9
+    //   389: ldc_w 647
+    //   392: invokevirtual 650	com/google/android/gms/internal/zzamr:zzdq	(Ljava/lang/String;)V
+    //   395: goto +13 -> 408
+    //   398: astore_1
+    //   399: aload 9
+    //   401: ldc_w 652
+    //   404: aload_1
+    //   405: invokevirtual 273	com/google/android/gms/internal/zzamr:zze	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   408: aload_0
+    //   409: getfield 48	com/google/android/gms/internal/zzang:zzdpp	Lcom/google/android/gms/internal/zzand;
+    //   412: invokevirtual 393	com/google/android/gms/internal/zzand:setTransactionSuccessful	()V
+    //   415: aload_0
+    //   416: getfield 48	com/google/android/gms/internal/zzang:zzdpp	Lcom/google/android/gms/internal/zzand;
+    //   419: invokevirtual 396	com/google/android/gms/internal/zzand:endTransaction	()V
+    //   422: lload 5
+    //   424: lreturn
+    //   425: astore_1
+    //   426: aload_0
+    //   427: ldc_w 654
+    //   430: aload_1
+    //   431: invokevirtual 273	com/google/android/gms/internal/zzamr:zze	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   434: lload 5
+    //   436: lreturn
+    //   437: astore_1
+    //   438: goto +36 -> 474
+    //   441: astore_1
+    //   442: aload_0
+    //   443: ldc_w 656
+    //   446: aload_1
+    //   447: invokevirtual 273	com/google/android/gms/internal/zzamr:zze	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   450: aload_0
+    //   451: getfield 48	com/google/android/gms/internal/zzang:zzdpp	Lcom/google/android/gms/internal/zzand;
+    //   454: invokevirtual 396	com/google/android/gms/internal/zzand:endTransaction	()V
+    //   457: ldc2_w 644
+    //   460: lreturn
+    //   461: astore_1
+    //   462: aload_0
+    //   463: ldc_w 654
+    //   466: aload_1
+    //   467: invokevirtual 273	com/google/android/gms/internal/zzamr:zze	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   470: ldc2_w 644
+    //   473: lreturn
+    //   474: aload_0
+    //   475: getfield 48	com/google/android/gms/internal/zzang:zzdpp	Lcom/google/android/gms/internal/zzand;
+    //   478: invokevirtual 396	com/google/android/gms/internal/zzand:endTransaction	()V
+    //   481: goto +14 -> 495
+    //   484: astore 7
+    //   486: aload_0
+    //   487: ldc_w 654
+    //   490: aload 7
+    //   492: invokevirtual 273	com/google/android/gms/internal/zzamr:zze	(Ljava/lang/String;Ljava/lang/Object;)V
+    //   495: goto +5 -> 500
+    //   498: aload_1
+    //   499: athrow
+    //   500: goto -2 -> 498
+    //   503: iconst_0
+    //   504: istore_3
+    //   505: goto -174 -> 331
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	508	0	this	zzang
+    //   0	508	1	paramZzamx	zzamx
+    //   0	508	2	paramBoolean	boolean
+    //   59	446	3	i	int
+    //   88	13	4	j	int
+    //   29	406	5	l	long
+    //   23	341	7	localObject1	Object
+    //   484	7	7	localSQLiteException	SQLiteException
+    //   35	340	8	localObject2	Object
+    //   56	344	9	localObject3	Object
+    //   161	208	10	localSQLiteDatabase	SQLiteDatabase
+    //   218	15	11	localEntry	Map.Entry
+    // Exception table:
+    //   from	to	target	type
+    //   368	395	398	android/database/sqlite/SQLiteException
+    //   415	422	425	android/database/sqlite/SQLiteException
+    //   12	58	437	finally
+    //   60	90	437	finally
+    //   95	108	437	finally
+    //   108	198	437	finally
+    //   198	246	437	finally
+    //   249	259	437	finally
+    //   273	328	437	finally
+    //   331	368	437	finally
+    //   368	395	437	finally
+    //   399	408	437	finally
+    //   408	415	437	finally
+    //   442	450	437	finally
+    //   12	58	441	android/database/sqlite/SQLiteException
+    //   60	90	441	android/database/sqlite/SQLiteException
+    //   95	108	441	android/database/sqlite/SQLiteException
+    //   108	198	441	android/database/sqlite/SQLiteException
+    //   198	246	441	android/database/sqlite/SQLiteException
+    //   249	259	441	android/database/sqlite/SQLiteException
+    //   273	328	441	android/database/sqlite/SQLiteException
+    //   331	368	441	android/database/sqlite/SQLiteException
+    //   399	408	441	android/database/sqlite/SQLiteException
+    //   408	415	441	android/database/sqlite/SQLiteException
+    //   450	457	461	android/database/sqlite/SQLiteException
+    //   474	481	484	android/database/sqlite/SQLiteException
+  }
+  
+  public final void zza(zzaoi paramZzaoi)
+  {
+    zzbp.zzu(paramZzaoi);
+    zzj.zzuj();
+    zzwk();
+    if (zzdpy) {
+      zzdn("Hit delivery not possible. Missing network permissions. See http://goo.gl/8Rd3yj for instructions");
+    } else {
+      zza("Delivering hit", paramZzaoi);
+    }
+    if (TextUtils.isEmpty(paramZzaoi.zzyr()))
+    {
+      Object localObject2 = zzwf().zzzg().zzzi();
+      if (localObject2 != null)
+      {
+        Object localObject1 = (Long)second;
+        localObject2 = (String)first;
+        localObject1 = String.valueOf(localObject1);
+        localObject1 = a.a(a.a(localObject2, ((String)localObject1).length() + 1), (String)localObject1, ":", (String)localObject2);
+        localObject2 = new HashMap(paramZzaoi.zziy());
+        ((Map)localObject2).put("_m", localObject1);
+        paramZzaoi = new zzaoi(this, (Map)localObject2, paramZzaoi.zzyn(), paramZzaoi.zzyp(), paramZzaoi.zzym(), paramZzaoi.zzyl(), paramZzaoi.zzyo());
+      }
+    }
+    zzxh();
+    if (zzdps.zzb(paramZzaoi))
+    {
+      zzdn("Hit sent to the device AnalyticsService for delivery");
+      return;
+    }
+    try
+    {
+      zzdpp.zzc(paramZzaoi);
+      zzxk();
+      return;
+    }
+    catch (SQLiteException localSQLiteException)
+    {
+      zze("Delivery failed to save hit to a database", localSQLiteException);
+      zzvy().zza(paramZzaoi, "deliver: failed to insert hit to database");
+    }
+  }
+  
+  public final void zzb(zzamx paramZzamx)
+  {
+    zzj.zzuj();
+    zzb("Sending first hit to property", paramZzamx.zzws());
+    if (zzwf().zzzc().zzu(zzanv.zzyf())) {
+      return;
+    }
+    Object localObject = zzwf().zzzf();
+    if (TextUtils.isEmpty((CharSequence)localObject)) {
+      return;
+    }
+    localObject = zzapd.zza(zzvy(), (String)localObject);
+    zzb("Found relevant installation campaign", localObject);
+    zza(paramZzamx, (zzalw)localObject);
+  }
+  
+  public final void zzb(zzaob paramZzaob)
+  {
+    long l2 = zzdpx;
+    zzj.zzuj();
+    zzwk();
+    long l1 = zzwf().zzzd();
+    if (l1 != 0L) {
+      l1 = Math.abs(zzvx().currentTimeMillis() - l1);
+    } else {
+      l1 = -1L;
+    }
+    zzb("Dispatching local hits. Elapsed time since last dispatch (ms)", Long.valueOf(l1));
+    zzxh();
+    try
+    {
+      zzxi();
+      zzwf().zzze();
+      zzxk();
+      if (paramZzaob != null) {
+        paramZzaob.zzb(null);
+      }
+      if (zzdpx != l2) {
+        zzdpr.zzyw();
+      }
+      return;
+    }
+    catch (Throwable localThrowable)
+    {
+      zze("Local dispatch failed", localThrowable);
+      zzwf().zzze();
+      zzxk();
+      if (paramZzaob != null) {
+        paramZzaob.zzb(localThrowable);
+      }
+    }
+  }
+  
+  public final void zzdu(String paramString)
+  {
+    zzbp.zzgg(paramString);
+    zzj.zzuj();
+    zzalw localZzalw = zzapd.zza(zzvy(), paramString);
+    if (localZzalw == null)
+    {
+      zzd("Parsing failed. Ignoring invalid campaign data", paramString);
+      return;
+    }
+    String str = zzwf().zzzf();
+    if (paramString.equals(str))
+    {
+      zzdp("Ignoring duplicate install campaign");
+      return;
+    }
+    if (!TextUtils.isEmpty(str))
+    {
+      zzd("Ignoring multiple install campaigns. original, new", str, paramString);
+      return;
+    }
+    zzwf().zzdx(paramString);
+    if (zzwf().zzzc().zzu(zzanv.zzyf()))
+    {
+      zzd("Campaign received too late, ignoring", localZzalw);
+      return;
+    }
+    zzb("Received installation campaign", localZzalw);
+    paramString = zzdpp.zzq(0L).iterator();
+    while (paramString.hasNext()) {
+      zza((zzamx)paramString.next(), localZzalw);
+    }
+  }
+  
+  public final void zzr(long paramLong)
+  {
+    zzj.zzuj();
+    zzwk();
+    long l = paramLong;
+    if (paramLong < 0L) {
+      l = 0L;
+    }
+    zzdpt = l;
+    zzxk();
+  }
+  
+  public final void zzuk()
+  {
+    zzdpp.initialize();
+    zzdpq.initialize();
+    zzdps.initialize();
+  }
+  
+  public final void zzvr()
+  {
+    zzj.zzuj();
+    zzwk();
+    zzdm("Delete all hits from local store");
+    try
+    {
+      zzand localZzand = zzdpp;
+      zzj.zzuj();
+      localZzand.zzwk();
+      localZzand.getWritableDatabase().delete("hits2", null, null);
+      localZzand = zzdpp;
+      zzj.zzuj();
+      localZzand.zzwk();
+      localZzand.getWritableDatabase().delete("properties", null, null);
+      zzxk();
+    }
+    catch (SQLiteException localSQLiteException)
+    {
+      zzd("Failed to delete hits from store", localSQLiteException);
+    }
+    zzxh();
+    if (zzdps.zzwv()) {
+      zzdm("Device service unavailable. Can't clear hits stored on the device service.");
+    }
+  }
+  
+  public final void zzvv()
+  {
+    zzj.zzuj();
+    zzdpx = zzvx().currentTimeMillis();
+  }
+  
+  public final void zzxe()
+  {
+    zzwk();
+    zzj.zzuj();
+    Context localContext = zzvw().getContext();
+    if (!zzaou.zzbe(localContext)) {
+      zzdp("AnalyticsReceiver is not registered or is disabled. Register the receiver for reliable dispatching on non-Google Play devices. See http://goo.gl/8Rd3yj for instructions.");
+    } else if (!zzaov.zzbi(localContext)) {
+      zzdq("AnalyticsService is not registered or is disabled. Analytics service at risk of not starting. See http://goo.gl/8Rd3yj for instructions.");
+    }
+    if (!CampaignTrackingReceiver.zzbe(localContext)) {
+      zzdp("CampaignTrackingReceiver is not registered, not exported or is disabled. Installation campaign tracking is not possible. See http://goo.gl/8Rd3yj for instructions.");
+    }
+    zzwf().zzzb();
+    if (!zzdt("android.permission.ACCESS_NETWORK_STATE"))
+    {
+      zzdq("Missing required android.permission.ACCESS_NETWORK_STATE. Google Analytics disabled. See http://goo.gl/8Rd3yj for instructions");
+      zzxo();
+    }
+    if (!zzdt("android.permission.INTERNET"))
+    {
+      zzdq("Missing required android.permission.INTERNET. Google Analytics disabled. See http://goo.gl/8Rd3yj for instructions");
+      zzxo();
+    }
+    if (zzaov.zzbi(getContext())) {
+      zzdm("AnalyticsService registered in the app manifest and enabled");
+    } else {
+      zzdp("AnalyticsService not registered in the app manifest. Hits might not be delivered reliably. See http://goo.gl/8Rd3yj for instructions.");
+    }
+    if ((!zzdpy) && (!zzdpp.isEmpty())) {
+      zzxh();
+    }
+    zzxk();
+  }
+  
+  public final void zzxj()
+  {
+    zzj.zzuj();
+    zzwk();
+    zzdn("Sync dispatching local hits");
+    long l = zzdpx;
+    zzxh();
+    try
+    {
+      zzxi();
+      zzwf().zzze();
+      zzxk();
+      if (zzdpx != l) {
+        zzdpr.zzyw();
+      }
+      return;
+    }
+    catch (Throwable localThrowable)
+    {
+      zze("Sync local dispatch failed", localThrowable);
+      zzxk();
+    }
+  }
+  
+  public final void zzxk()
+  {
+    zzj.zzuj();
+    zzwk();
+    boolean bool2 = zzdpy;
+    boolean bool1 = true;
+    int i;
+    if ((!bool2) && (zzxn() > 0L)) {
+      i = 1;
+    } else {
+      i = 0;
+    }
+    if (i == 0)
+    {
+      zzdpr.unregister();
+      zzxm();
+      return;
+    }
+    if (zzdpp.isEmpty())
+    {
+      zzdpr.unregister();
+      zzxm();
+      return;
+    }
+    if (!((Boolean)zzaod.zzdsi.get()).booleanValue())
+    {
+      zzdpr.zzyu();
+      bool1 = zzdpr.isConnected();
+    }
+    if (bool1)
+    {
+      zzxl();
+      long l2 = zzxn();
+      long l1 = zzwf().zzzd();
+      if (l1 != 0L)
+      {
+        l1 = l2 - Math.abs(zzvx().currentTimeMillis() - l1);
+        if (l1 > 0L) {}
+      }
+      else
+      {
+        l1 = Math.min(zzanv.zzxx(), l2);
+      }
+      zza("Dispatch scheduled (ms)", Long.valueOf(l1));
+      if (zzdpu.zzdp())
+      {
+        l1 = Math.max(1L, zzdpu.zzyg() + l1);
+        zzdpu.zzt(l1);
+        return;
+      }
+      zzdpu.zzs(l1);
+      return;
+    }
+    zzxm();
+    zzxl();
+  }
+}

@@ -1,0 +1,209 @@
+package f.g.c.b;
+
+import f.a.a.a.a;
+import f.g.c.a.d;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class G
+{
+  public static final Logger a = Logger.getLogger(G.class.getName());
+  public static final String b = "com.google.common.base.internal.Finalizer";
+  public static final Method c = a(a(new c[] { new d(), new a(), new b() }));
+  public final ReferenceQueue<Object> d;
+  public final boolean e;
+  
+  public G()
+  {
+    boolean bool = true;
+    try
+    {
+      ReferenceQueue localReferenceQueue2;
+      try
+      {
+        ReferenceQueue localReferenceQueue1 = (ReferenceQueue)c.invoke(null, new Object[] { F.class, this });
+      }
+      catch (Throwable localThrowable)
+      {
+        a.log(Level.INFO, "Failed to start reference finalizer thread. Reference cleanup will only occur when new references are created.", localThrowable);
+        localReferenceQueue2 = new ReferenceQueue();
+        bool = false;
+      }
+      d = localReferenceQueue2;
+      e = bool;
+      return;
+    }
+    catch (IllegalAccessException localIllegalAccessException)
+    {
+      throw new AssertionError(localIllegalAccessException);
+    }
+  }
+  
+  public static Class<?> a(c... paramVarArgs)
+  {
+    int j = paramVarArgs.length;
+    int i = 0;
+    while (i < j)
+    {
+      Class localClass = paramVarArgs[i].a();
+      if (localClass != null) {
+        return localClass;
+      }
+      i += 1;
+    }
+    paramVarArgs = new AssertionError();
+    for (;;)
+    {
+      throw paramVarArgs;
+    }
+  }
+  
+  public static Method a(Class<?> paramClass)
+  {
+    try
+    {
+      paramClass = paramClass.getMethod("startFinalizer", new Class[] { Class.class, Object.class });
+      return paramClass;
+    }
+    catch (NoSuchMethodException paramClass)
+    {
+      throw new AssertionError(paramClass);
+    }
+  }
+  
+  public void b()
+  {
+    if (e) {
+      return;
+    }
+    for (;;)
+    {
+      Reference localReference = d.poll();
+      if (localReference == null) {
+        break;
+      }
+      localReference.clear();
+      try
+      {
+        ((F)localReference).a();
+      }
+      catch (Throwable localThrowable)
+      {
+        a.log(Level.SEVERE, "Error cleaning up after reference.", localThrowable);
+      }
+    }
+  }
+  
+  public static class a
+    implements G.c
+  {
+    public static final String a = "Could not load Finalizer in its own class loader.Loading Finalizer in the current class loader instead. As a result, you will not be ableto garbage collect this class loader. To support reclaiming this class loader, eitherresolve the underlying issue, or move Google Collections to your system class path.";
+    
+    public a() {}
+    
+    public Class<?> a()
+    {
+      try
+      {
+        Class localClass = a(b()).loadClass("com.google.common.base.internal.Finalizer");
+        return localClass;
+      }
+      catch (Exception localException)
+      {
+        G.a.log(Level.WARNING, "Could not load Finalizer in its own class loader.Loading Finalizer in the current class loader instead. As a result, you will not be ableto garbage collect this class loader. To support reclaiming this class loader, eitherresolve the underlying issue, or move Google Collections to your system class path.", localException);
+      }
+      return null;
+    }
+    
+    public URLClassLoader a(URL paramURL)
+    {
+      return new URLClassLoader(new URL[] { paramURL }, null);
+    }
+    
+    public URL b()
+      throws IOException
+    {
+      Object localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("com.google.common.base.internal.Finalizer".replace('.', '/'));
+      ((StringBuilder)localObject).append(".class");
+      localObject = ((StringBuilder)localObject).toString();
+      URL localURL = a.class.getClassLoader().getResource((String)localObject);
+      if (localURL != null)
+      {
+        String str = localURL.toString();
+        if (str.endsWith((String)localObject)) {
+          return new URL(localURL, str.substring(0, str.length() - ((String)localObject).length()));
+        }
+        throw new IOException(a.c("Unsupported path style: ", str));
+      }
+      throw new FileNotFoundException((String)localObject);
+    }
+  }
+  
+  public static class b
+    implements G.c
+  {
+    public b() {}
+    
+    public Class<?> a()
+    {
+      try
+      {
+        Class localClass = Class.forName("f.g.c.b.a.b");
+        return localClass;
+      }
+      catch (ClassNotFoundException localClassNotFoundException)
+      {
+        throw new AssertionError(localClassNotFoundException);
+      }
+    }
+  }
+  
+  public static abstract interface c
+  {
+    public abstract Class<?> a();
+  }
+  
+  public static class d
+    implements G.c
+  {
+    @d
+    public static boolean a;
+    
+    public d() {}
+    
+    public Class<?> a()
+    {
+      if (a) {
+        return null;
+      }
+      try
+      {
+        localObject = ClassLoader.getSystemClassLoader();
+        if (localObject == null) {}
+      }
+      catch (SecurityException localSecurityException)
+      {
+        Object localObject;
+        for (;;) {}
+      }
+      try
+      {
+        localObject = ((ClassLoader)localObject).loadClass("com.google.common.base.internal.Finalizer");
+        return localObject;
+      }
+      catch (ClassNotFoundException localClassNotFoundException) {}
+      return null;
+      G.a.info("Not allowed to access system class loader.");
+      return null;
+      return null;
+    }
+  }
+}

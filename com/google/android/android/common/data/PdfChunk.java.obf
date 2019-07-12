@@ -1,0 +1,47 @@
+package com.google.android.gms.common.data;
+
+import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.internal.zzbco;
+
+public class zzd<T extends zzbco>
+  extends AbstractDataBuffer<T>
+{
+  public static final String[] zzfqj = { "data" };
+  public final Parcelable.Creator<T> zzfqk;
+  
+  public zzd(DataHolder paramDataHolder, Parcelable.Creator<T> paramCreator)
+  {
+    super(paramDataHolder);
+    zzfqk = paramCreator;
+  }
+  
+  public static <T extends zzbco> void zza(DataHolder.zza paramZza, T paramT)
+  {
+    Parcel localParcel = Parcel.obtain();
+    paramT.writeToParcel(localParcel, 0);
+    paramT = new ContentValues();
+    paramT.put("data", localParcel.marshall());
+    paramZza.zza(paramT);
+    localParcel.recycle();
+  }
+  
+  public static DataHolder.zza zzaiu()
+  {
+    return DataHolder.zza(zzfqj);
+  }
+  
+  public T zzbw(int paramInt)
+  {
+    Object localObject1 = zzflf;
+    Object localObject2 = ((DataHolder)localObject1).zzg("data", paramInt, ((DataHolder)localObject1).zzbx(paramInt));
+    localObject1 = Parcel.obtain();
+    ((Parcel)localObject1).unmarshall((byte[])localObject2, 0, localObject2.length);
+    ((Parcel)localObject1).setDataPosition(0);
+    localObject2 = (zzbco)zzfqk.createFromParcel((Parcel)localObject1);
+    ((Parcel)localObject1).recycle();
+    return localObject2;
+  }
+}

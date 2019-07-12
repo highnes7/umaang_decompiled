@@ -1,0 +1,541 @@
+package b.b.x.o;
+
+import android.content.Context;
+import android.os.Build.VERSION;
+import android.os.Handler;
+import android.os.Message;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.ViewConfiguration;
+import f.a.a.a.a;
+
+public final class g
+{
+  public final a a;
+  
+  public g(Context paramContext, GestureDetector.OnGestureListener paramOnGestureListener)
+  {
+    int i = Build.VERSION.SDK_INT;
+    a = new c(paramContext, paramOnGestureListener, null);
+  }
+  
+  public g(Context paramContext, GestureDetector.OnGestureListener paramOnGestureListener, Handler paramHandler)
+  {
+    int i = Build.VERSION.SDK_INT;
+    a = new c(paramContext, paramOnGestureListener, paramHandler);
+  }
+  
+  public void a(GestureDetector.OnDoubleTapListener paramOnDoubleTapListener)
+  {
+    a.a(paramOnDoubleTapListener);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    a.a(paramBoolean);
+  }
+  
+  public boolean a()
+  {
+    return a.a();
+  }
+  
+  public boolean a(MotionEvent paramMotionEvent)
+  {
+    return a.a(paramMotionEvent);
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void a(GestureDetector.OnDoubleTapListener paramOnDoubleTapListener);
+    
+    public abstract void a(boolean paramBoolean);
+    
+    public abstract boolean a();
+    
+    public abstract boolean a(MotionEvent paramMotionEvent);
+  }
+  
+  public static class b
+    implements g.a
+  {
+    public static final int a = ;
+    public static final int b = ViewConfiguration.getTapTimeout();
+    public static final int c = ViewConfiguration.getDoubleTapTimeout();
+    public static final int d = 1;
+    public static final int e = 2;
+    public static final int f = 3;
+    public VelocityTracker A;
+    public int g;
+    public int h;
+    public int i;
+    public int j;
+    public final Handler k;
+    public final GestureDetector.OnGestureListener l;
+    public GestureDetector.OnDoubleTapListener m;
+    public boolean n;
+    public boolean o;
+    public boolean p;
+    public boolean q;
+    public boolean r;
+    public MotionEvent s;
+    public MotionEvent t;
+    public boolean u;
+    public float v;
+    public float w;
+    public float x;
+    public float y;
+    public boolean z;
+    
+    public b(Context paramContext, GestureDetector.OnGestureListener paramOnGestureListener, Handler paramHandler)
+    {
+      if (paramHandler != null) {
+        k = new a(paramHandler);
+      } else {
+        k = new a();
+      }
+      l = paramOnGestureListener;
+      if ((paramOnGestureListener instanceof GestureDetector.OnDoubleTapListener)) {
+        a((GestureDetector.OnDoubleTapListener)paramOnGestureListener);
+      }
+      a(paramContext);
+    }
+    
+    private void a(Context paramContext)
+    {
+      if (paramContext != null)
+      {
+        if (l != null)
+        {
+          z = true;
+          paramContext = ViewConfiguration.get(paramContext);
+          int i1 = paramContext.getScaledTouchSlop();
+          int i2 = paramContext.getScaledDoubleTapSlop();
+          i = paramContext.getScaledMinimumFlingVelocity();
+          j = paramContext.getScaledMaximumFlingVelocity();
+          g = (i1 * i1);
+          h = (i2 * i2);
+          return;
+        }
+        throw new IllegalArgumentException("OnGestureListener must not be null");
+      }
+      throw new IllegalArgumentException("Context must not be null");
+    }
+    
+    private boolean a(MotionEvent paramMotionEvent1, MotionEvent paramMotionEvent2, MotionEvent paramMotionEvent3)
+    {
+      boolean bool2 = r;
+      boolean bool1 = false;
+      if (!bool2) {
+        return false;
+      }
+      if (paramMotionEvent3.getEventTime() - paramMotionEvent2.getEventTime() > c) {
+        return false;
+      }
+      int i1 = (int)paramMotionEvent1.getX() - (int)paramMotionEvent3.getX();
+      int i2 = (int)paramMotionEvent1.getY() - (int)paramMotionEvent3.getY();
+      if (i2 * i2 + i1 * i1 < h) {
+        bool1 = true;
+      }
+      return bool1;
+    }
+    
+    private void c()
+    {
+      k.removeMessages(1);
+      k.removeMessages(2);
+      k.removeMessages(3);
+      A.recycle();
+      A = null;
+      u = false;
+      n = false;
+      q = false;
+      r = false;
+      o = false;
+      if (p) {
+        p = false;
+      }
+    }
+    
+    private void d()
+    {
+      k.removeMessages(1);
+      k.removeMessages(2);
+      k.removeMessages(3);
+      u = false;
+      q = false;
+      r = false;
+      o = false;
+      if (p) {
+        p = false;
+      }
+    }
+    
+    public void a(GestureDetector.OnDoubleTapListener paramOnDoubleTapListener)
+    {
+      m = paramOnDoubleTapListener;
+    }
+    
+    public void a(boolean paramBoolean)
+    {
+      z = paramBoolean;
+    }
+    
+    public boolean a()
+    {
+      return z;
+    }
+    
+    public boolean a(MotionEvent paramMotionEvent)
+    {
+      int i1 = paramMotionEvent.getAction();
+      if (A == null) {
+        A = VelocityTracker.obtain();
+      }
+      A.addMovement(paramMotionEvent);
+      int i5 = i1 & 0xFF;
+      boolean bool3 = false;
+      if (i5 == 6) {
+        i1 = 1;
+      } else {
+        i1 = 0;
+      }
+      int i2;
+      if (i1 != 0) {
+        i2 = paramMotionEvent.getActionIndex();
+      } else {
+        i2 = -1;
+      }
+      int i4 = paramMotionEvent.getPointerCount();
+      int i3 = 0;
+      float f2 = 0.0F;
+      float f1 = 0.0F;
+      while (i3 < i4)
+      {
+        if (i2 != i3)
+        {
+          f3 = paramMotionEvent.getX(i3);
+          f1 = paramMotionEvent.getY(i3) + f1;
+          f2 = f3 + f2;
+        }
+        i3 += 1;
+      }
+      if (i1 != 0) {
+        i1 = i4 - 1;
+      } else {
+        i1 = i4;
+      }
+      float f3 = i1;
+      f2 /= f3;
+      f1 /= f3;
+      boolean bool2;
+      MotionEvent localMotionEvent;
+      Object localObject;
+      if (i5 != 0)
+      {
+        if (i5 != 1)
+        {
+          if (i5 != 2)
+          {
+            if (i5 != 3)
+            {
+              if (i5 != 5)
+              {
+                if (i5 != 6) {
+                  return false;
+                }
+                v = f2;
+                x = f2;
+                w = f1;
+                y = f1;
+                A.computeCurrentVelocity(1000, j);
+                i2 = paramMotionEvent.getActionIndex();
+                i1 = paramMotionEvent.getPointerId(i2);
+                f1 = A.getXVelocity(i1);
+                f2 = A.getYVelocity(i1);
+                i1 = 0;
+                for (;;)
+                {
+                  bool2 = bool3;
+                  if (i1 >= i4) {
+                    break;
+                  }
+                  if (i1 != i2)
+                  {
+                    i3 = paramMotionEvent.getPointerId(i1);
+                    f3 = A.getXVelocity(i3);
+                    if (A.getYVelocity(i3) * f2 + f3 * f1 < 0.0F)
+                    {
+                      A.clear();
+                      return false;
+                    }
+                  }
+                  i1 += 1;
+                }
+              }
+              v = f2;
+              x = f2;
+              w = f1;
+              y = f1;
+              d();
+              return false;
+            }
+            c();
+            return false;
+          }
+          if (p) {
+            return false;
+          }
+          f3 = v - f2;
+          float f4 = w - f1;
+          if (u) {
+            return false | m.onDoubleTapEvent(paramMotionEvent);
+          }
+          if (q)
+          {
+            i1 = (int)(f2 - x);
+            i2 = (int)(f1 - y);
+            i1 = i2 * i2 + i1 * i1;
+            if (i1 > g)
+            {
+              bool2 = l.onScroll(s, paramMotionEvent, f3, f4);
+              v = f2;
+              w = f1;
+              q = false;
+              k.removeMessages(3);
+              k.removeMessages(1);
+              k.removeMessages(2);
+            }
+            else
+            {
+              bool2 = false;
+            }
+            bool3 = bool2;
+            if (i1 > g)
+            {
+              r = false;
+              bool3 = bool2;
+            }
+          }
+          else
+          {
+            if (Math.abs(f3) < 1.0F)
+            {
+              bool2 = bool3;
+              if (Math.abs(f4) < 1.0F) {
+                break label1165;
+              }
+            }
+            bool2 = l.onScroll(s, paramMotionEvent, f3, f4);
+            v = f2;
+            w = f1;
+            return bool2;
+          }
+        }
+        else
+        {
+          n = false;
+          localMotionEvent = MotionEvent.obtain(paramMotionEvent);
+          if (u)
+          {
+            bool2 = m.onDoubleTapEvent(paramMotionEvent) | false;
+          }
+          else
+          {
+            if (p)
+            {
+              k.removeMessages(3);
+              p = false;
+            }
+            else
+            {
+              if (q)
+              {
+                bool2 = l.onSingleTapUp(paramMotionEvent);
+                if (o)
+                {
+                  localObject = m;
+                  if (localObject != null) {
+                    ((GestureDetector.OnDoubleTapListener)localObject).onSingleTapConfirmed(paramMotionEvent);
+                  }
+                }
+                break label828;
+              }
+              localObject = A;
+              i1 = paramMotionEvent.getPointerId(0);
+              ((VelocityTracker)localObject).computeCurrentVelocity(1000, j);
+              f1 = ((VelocityTracker)localObject).getYVelocity(i1);
+              f2 = ((VelocityTracker)localObject).getXVelocity(i1);
+              if ((Math.abs(f1) > i) || (Math.abs(f2) > i)) {
+                break label810;
+              }
+            }
+            bool2 = false;
+            break label828;
+            label810:
+            bool2 = l.onFling(s, paramMotionEvent, f2, f1);
+          }
+          label828:
+          paramMotionEvent = t;
+          if (paramMotionEvent != null) {
+            paramMotionEvent.recycle();
+          }
+          t = localMotionEvent;
+          paramMotionEvent = A;
+          if (paramMotionEvent != null)
+          {
+            paramMotionEvent.recycle();
+            A = null;
+          }
+          u = false;
+          o = false;
+          k.removeMessages(1);
+          k.removeMessages(2);
+          bool3 = bool2;
+        }
+        return bool3;
+      }
+      else
+      {
+        boolean bool1;
+        if (m != null)
+        {
+          bool2 = k.hasMessages(3);
+          if (bool2) {
+            k.removeMessages(3);
+          }
+          localMotionEvent = s;
+          if (localMotionEvent != null)
+          {
+            localObject = t;
+            if ((localObject != null) && (bool2) && (a(localMotionEvent, (MotionEvent)localObject, paramMotionEvent)))
+            {
+              u = true;
+              bool1 = m.onDoubleTap(s) | false | m.onDoubleTapEvent(paramMotionEvent);
+              break label1019;
+            }
+          }
+          k.sendEmptyMessageDelayed(3, c);
+        }
+        else
+        {
+          bool1 = false;
+        }
+        label1019:
+        v = f2;
+        x = f2;
+        w = f1;
+        y = f1;
+        localMotionEvent = s;
+        if (localMotionEvent != null) {
+          localMotionEvent.recycle();
+        }
+        s = MotionEvent.obtain(paramMotionEvent);
+        q = true;
+        r = true;
+        n = true;
+        p = false;
+        o = false;
+        if (z)
+        {
+          k.removeMessages(2);
+          k.sendEmptyMessageAtTime(2, s.getDownTime() + b + a);
+        }
+        k.sendEmptyMessageAtTime(1, s.getDownTime() + b);
+        bool2 = bool1 | l.onDown(paramMotionEvent);
+      }
+      label1165:
+      return bool2;
+    }
+    
+    public void b()
+    {
+      k.removeMessages(3);
+      o = false;
+      p = true;
+      l.onLongPress(s);
+    }
+    
+    private class a
+      extends Handler
+    {
+      public a() {}
+      
+      public a(Handler paramHandler)
+      {
+        super();
+      }
+      
+      public void handleMessage(Message paramMessage)
+      {
+        int i = what;
+        if (i != 1)
+        {
+          if (i != 2)
+          {
+            if (i == 3)
+            {
+              paramMessage = g.b.this;
+              GestureDetector.OnDoubleTapListener localOnDoubleTapListener = m;
+              if (localOnDoubleTapListener != null)
+              {
+                if (!n)
+                {
+                  localOnDoubleTapListener.onSingleTapConfirmed(s);
+                  return;
+                }
+                o = true;
+              }
+            }
+            else
+            {
+              throw new RuntimeException(a.a("Unknown message ", paramMessage));
+            }
+          }
+          else {
+            b();
+          }
+        }
+        else
+        {
+          paramMessage = g.b.this;
+          l.onShowPress(s);
+        }
+      }
+    }
+  }
+  
+  public static class c
+    implements g.a
+  {
+    public final GestureDetector a;
+    
+    public c(Context paramContext, GestureDetector.OnGestureListener paramOnGestureListener, Handler paramHandler)
+    {
+      a = new GestureDetector(paramContext, paramOnGestureListener, paramHandler);
+    }
+    
+    public void a(GestureDetector.OnDoubleTapListener paramOnDoubleTapListener)
+    {
+      a.setOnDoubleTapListener(paramOnDoubleTapListener);
+    }
+    
+    public void a(boolean paramBoolean)
+    {
+      a.setIsLongpressEnabled(paramBoolean);
+    }
+    
+    public boolean a()
+    {
+      return a.isLongpressEnabled();
+    }
+    
+    public boolean a(MotionEvent paramMotionEvent)
+    {
+      return a.onTouchEvent(paramMotionEvent);
+    }
+  }
+}

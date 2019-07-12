@@ -1,0 +1,103 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.EnumSet;
+
+@b(emulated=true, serializable=true)
+public final class tb<E extends Enum<E>>
+  extends Nb<E>
+{
+  public final transient EnumSet<E> f;
+  public transient int g;
+  
+  public tb(EnumSet<E> paramEnumSet)
+  {
+    f = paramEnumSet;
+  }
+  
+  public boolean c()
+  {
+    return false;
+  }
+  
+  public boolean contains(Object paramObject)
+  {
+    return f.contains(paramObject);
+  }
+  
+  public boolean containsAll(Collection<?> paramCollection)
+  {
+    return f.containsAll(paramCollection);
+  }
+  
+  public Object d()
+  {
+    return new a(f);
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    return (paramObject == this) || (f.equals(paramObject));
+  }
+  
+  public int hashCode()
+  {
+    int j = g;
+    int i = j;
+    if (j == 0)
+    {
+      i = f.hashCode();
+      g = i;
+    }
+    return i;
+  }
+  
+  public boolean isEmpty()
+  {
+    return f.isEmpty();
+  }
+  
+  public th<E> iterator()
+  {
+    return Jc.k(f.iterator());
+  }
+  
+  public int size()
+  {
+    return f.size();
+  }
+  
+  public Object[] toArray()
+  {
+    return f.toArray();
+  }
+  
+  public <T> T[] toArray(T[] paramArrayOfT)
+  {
+    return f.toArray(paramArrayOfT);
+  }
+  
+  public String toString()
+  {
+    return f.toString();
+  }
+  
+  private static class a<E extends Enum<E>>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final EnumSet<E> b;
+    
+    public a(EnumSet<E> paramEnumSet)
+    {
+      b = paramEnumSet;
+    }
+    
+    public Object a()
+    {
+      return new tb(b.clone());
+    }
+  }
+}

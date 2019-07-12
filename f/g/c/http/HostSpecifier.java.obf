@@ -1,0 +1,95 @@
+package f.g.c.i;
+
+import f.g.c.b.ba;
+import java.net.InetAddress;
+import java.text.ParseException;
+import m.a.h;
+
+@f.g.c.a.a
+public final class b
+{
+  public final String a;
+  
+  public b(String paramString)
+  {
+    a = paramString;
+  }
+  
+  public static b a(String paramString)
+    throws ParseException
+  {
+    try
+    {
+      b localB = b(paramString);
+      return localB;
+    }
+    catch (IllegalArgumentException localIllegalArgumentException)
+    {
+      paramString = new ParseException(f.a.a.a.a.c("Invalid host specifier: ", paramString), 0);
+      paramString.initCause(localIllegalArgumentException);
+      throw paramString;
+    }
+  }
+  
+  public static b b(String paramString)
+  {
+    paramString = a.a(paramString);
+    ba.a(paramString.c() ^ true);
+    String str = paramString.a();
+    paramString = null;
+    try
+    {
+      InetAddress localInetAddress = d.b(str);
+      paramString = localInetAddress;
+    }
+    catch (IllegalArgumentException localIllegalArgumentException)
+    {
+      for (;;) {}
+    }
+    if (paramString != null) {
+      return new b(d.f(paramString));
+    }
+    paramString = e.b(str);
+    if (paramString.b()) {
+      return new b(paramString.f());
+    }
+    throw new IllegalArgumentException(f.a.a.a.a.c("Domain name does not have a recognized public suffix: ", str));
+  }
+  
+  public static boolean c(String paramString)
+  {
+    try
+    {
+      b(paramString);
+      return true;
+    }
+    catch (IllegalArgumentException paramString)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if ((paramObject instanceof b))
+    {
+      paramObject = (b)paramObject;
+      return a.equals(a);
+    }
+    return false;
+  }
+  
+  public int hashCode()
+  {
+    return a.hashCode();
+  }
+  
+  public String toString()
+  {
+    return a;
+  }
+}

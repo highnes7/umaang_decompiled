@@ -1,0 +1,685 @@
+package b.b.x.n;
+
+import b.b.a.F;
+import b.b.a.G;
+import java.util.ConcurrentModificationException;
+import java.util.Map;
+
+public class t<K, V>
+{
+  public static final boolean a = false;
+  public static final String b = "ArrayMap";
+  public static final boolean c = true;
+  public static final int d = 4;
+  public static final int e = 10;
+  @G
+  public static Object[] f;
+  public static int g;
+  @G
+  public static Object[] h;
+  public static int i;
+  public int[] j;
+  public Object[] k;
+  public int l;
+  
+  public t()
+  {
+    j = i.a;
+    k = i.c;
+    l = 0;
+  }
+  
+  public t(int paramInt)
+  {
+    if (paramInt == 0)
+    {
+      j = i.a;
+      k = i.c;
+    }
+    else
+    {
+      e(paramInt);
+    }
+    l = 0;
+  }
+  
+  public t(t<K, V> paramT)
+  {
+    this();
+    if (paramT != null) {
+      a(paramT);
+    }
+  }
+  
+  public static int a(int[] paramArrayOfInt, int paramInt1, int paramInt2)
+  {
+    try
+    {
+      paramInt1 = i.a(paramArrayOfInt, paramInt1, paramInt2);
+      return paramInt1;
+    }
+    catch (ArrayIndexOutOfBoundsException paramArrayOfInt)
+    {
+      for (;;) {}
+    }
+    throw new ConcurrentModificationException();
+  }
+  
+  public static void a(int[] paramArrayOfInt, Object[] paramArrayOfObject, int paramInt)
+  {
+    if (paramArrayOfInt.length == 8) {
+      try
+      {
+        if (i < 10)
+        {
+          paramArrayOfObject[0] = h;
+          paramArrayOfObject[1] = paramArrayOfInt;
+          paramInt = (paramInt << 1) - 1;
+          break label118;
+          h = paramArrayOfObject;
+          i += 1;
+        }
+        return;
+      }
+      finally {}
+    }
+    if (paramArrayOfInt.length == 4) {}
+    for (;;)
+    {
+      try
+      {
+        if (g < 10)
+        {
+          paramArrayOfObject[0] = f;
+          paramArrayOfObject[1] = paramArrayOfInt;
+          paramInt = (paramInt << 1) - 1;
+          break label134;
+          f = paramArrayOfObject;
+          g += 1;
+        }
+        return;
+      }
+      finally {}
+      return;
+      label118:
+      while (paramInt >= 2)
+      {
+        paramArrayOfObject[paramInt] = null;
+        paramInt -= 1;
+      }
+      break;
+      label134:
+      while (paramInt >= 2)
+      {
+        paramArrayOfObject[paramInt] = null;
+        paramInt -= 1;
+      }
+    }
+  }
+  
+  private void e(int paramInt)
+  {
+    if (paramInt == 8) {
+      try
+      {
+        if (h != null)
+        {
+          Object[] arrayOfObject1 = h;
+          k = arrayOfObject1;
+          h = (Object[])arrayOfObject1[0];
+          j = ((int[])arrayOfObject1[1]);
+          arrayOfObject1[1] = null;
+          arrayOfObject1[0] = null;
+          i -= 1;
+          return;
+        }
+      }
+      finally {}
+    }
+    if (paramInt == 4) {
+      try
+      {
+        if (f != null)
+        {
+          Object[] arrayOfObject2 = f;
+          k = arrayOfObject2;
+          f = (Object[])arrayOfObject2[0];
+          j = ((int[])arrayOfObject2[1]);
+          arrayOfObject2[1] = null;
+          arrayOfObject2[0] = null;
+          g -= 1;
+          return;
+        }
+      }
+      finally {}
+    }
+    j = new int[paramInt];
+    k = new Object[paramInt << 1];
+  }
+  
+  public int a()
+  {
+    int n = l;
+    if (n == 0) {
+      return -1;
+    }
+    int i1 = a(j, n, 0);
+    if (i1 < 0) {
+      return i1;
+    }
+    if (k[(i1 << 1)] == null) {
+      return i1;
+    }
+    int m = i1 + 1;
+    while ((m < n) && (j[m] == 0))
+    {
+      if (k[(m << 1)] == null) {
+        return m;
+      }
+      m += 1;
+    }
+    n = i1 - 1;
+    while ((n >= 0) && (j[n] == 0))
+    {
+      if (k[(n << 1)] == null) {
+        return n;
+      }
+      n -= 1;
+    }
+    return m ^ 0xFFFFFFFF;
+  }
+  
+  public int a(@G Object paramObject)
+  {
+    if (paramObject == null) {
+      return a();
+    }
+    return a(paramObject, paramObject.hashCode());
+  }
+  
+  public int a(Object paramObject, int paramInt)
+  {
+    int n = l;
+    if (n == 0) {
+      return -1;
+    }
+    int i1 = a(j, n, paramInt);
+    if (i1 < 0) {
+      return i1;
+    }
+    if (paramObject.equals(k[(i1 << 1)])) {
+      return i1;
+    }
+    int m = i1 + 1;
+    while ((m < n) && (j[m] == paramInt))
+    {
+      if (paramObject.equals(k[(m << 1)])) {
+        return m;
+      }
+      m += 1;
+    }
+    n = i1 - 1;
+    while ((n >= 0) && (j[n] == paramInt))
+    {
+      if (paramObject.equals(k[(n << 1)])) {
+        return n;
+      }
+      n -= 1;
+    }
+    return m ^ 0xFFFFFFFF;
+  }
+  
+  public V a(int paramInt, V paramV)
+  {
+    paramInt = (paramInt << 1) + 1;
+    Object[] arrayOfObject = k;
+    Object localObject = arrayOfObject[paramInt];
+    arrayOfObject[paramInt] = paramV;
+    return localObject;
+  }
+  
+  public void a(int paramInt)
+  {
+    int m = l;
+    int[] arrayOfInt = j;
+    if (arrayOfInt.length < paramInt)
+    {
+      Object[] arrayOfObject = k;
+      e(paramInt);
+      if (l > 0)
+      {
+        System.arraycopy(arrayOfInt, 0, j, 0, m);
+        System.arraycopy(arrayOfObject, 0, k, 0, m << 1);
+      }
+      a(arrayOfInt, arrayOfObject, m);
+    }
+    if (l == m) {
+      return;
+    }
+    throw new ConcurrentModificationException();
+  }
+  
+  public void a(@F t<? extends K, ? extends V> paramT)
+  {
+    int n = l;
+    a(l + n);
+    int i1 = l;
+    int m = 0;
+    if (i1 == 0)
+    {
+      if (n > 0)
+      {
+        System.arraycopy(j, 0, j, 0, n);
+        System.arraycopy(k, 0, k, 0, n << 1);
+        l = n;
+      }
+    }
+    else {
+      while (m < n)
+      {
+        put(paramT.b(m), paramT.d(m));
+        m += 1;
+      }
+    }
+  }
+  
+  public int b(Object paramObject)
+  {
+    int n = l * 2;
+    Object[] arrayOfObject = k;
+    if (paramObject == null)
+    {
+      m = 1;
+      while (m < n)
+      {
+        if (arrayOfObject[m] == null) {
+          return m >> 1;
+        }
+        m += 2;
+      }
+    }
+    int m = 1;
+    while (m < n)
+    {
+      if (paramObject.equals(arrayOfObject[m])) {
+        return m >> 1;
+      }
+      m += 2;
+    }
+    return -1;
+  }
+  
+  public K b(int paramInt)
+  {
+    return k[(paramInt << 1)];
+  }
+  
+  public V c(int paramInt)
+  {
+    Object localObject = k;
+    int i2 = paramInt << 1;
+    V ? = localObject[(i2 + 1)];
+    int i1 = l;
+    int m;
+    if (i1 <= 1)
+    {
+      a(j, (Object[])localObject, i1);
+      j = i.a;
+      k = i.c;
+      m = 0;
+    }
+    else
+    {
+      int n = i1 - 1;
+      localObject = j;
+      int i3 = localObject.length;
+      m = 8;
+      if ((i3 > 8) && (i1 < localObject.length / 3))
+      {
+        if (i1 > 8) {
+          m = i1 + (i1 >> 1);
+        }
+        localObject = j;
+        Object[] arrayOfObject = k;
+        e(m);
+        if (i1 == l)
+        {
+          if (paramInt > 0)
+          {
+            System.arraycopy(localObject, 0, j, 0, paramInt);
+            System.arraycopy(arrayOfObject, 0, k, 0, i2);
+          }
+          m = n;
+          if (paramInt < n)
+          {
+            m = paramInt + 1;
+            int[] arrayOfInt = j;
+            i3 = n - paramInt;
+            System.arraycopy(localObject, m, arrayOfInt, paramInt, i3);
+            System.arraycopy(arrayOfObject, m << 1, k, i2, i3 << 1);
+            m = n;
+          }
+        }
+        else
+        {
+          throw new ConcurrentModificationException();
+        }
+      }
+      else
+      {
+        if (paramInt < n)
+        {
+          localObject = j;
+          m = paramInt + 1;
+          i3 = n - paramInt;
+          System.arraycopy(localObject, m, localObject, paramInt, i3);
+          localObject = k;
+          System.arraycopy(localObject, m << 1, localObject, i2, i3 << 1);
+        }
+        localObject = k;
+        paramInt = n << 1;
+        localObject[paramInt] = null;
+        localObject[(paramInt + 1)] = null;
+        m = n;
+      }
+    }
+    if (i1 == l)
+    {
+      l = m;
+      return ?;
+    }
+    throw new ConcurrentModificationException();
+  }
+  
+  public void clear()
+  {
+    int m = l;
+    if (m > 0)
+    {
+      int[] arrayOfInt = j;
+      Object[] arrayOfObject = k;
+      j = i.a;
+      k = i.c;
+      l = 0;
+      a(arrayOfInt, arrayOfObject, m);
+    }
+    if (l <= 0) {
+      return;
+    }
+    throw new ConcurrentModificationException();
+  }
+  
+  public boolean containsKey(@G Object paramObject)
+  {
+    return a(paramObject) >= 0;
+  }
+  
+  public boolean containsValue(Object paramObject)
+  {
+    return b(paramObject) >= 0;
+  }
+  
+  public V d(int paramInt)
+  {
+    return k[((paramInt << 1) + 1)];
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    int m;
+    if ((paramObject instanceof t))
+    {
+      paramObject = (t)paramObject;
+      if (size() != paramObject.size()) {
+        return false;
+      }
+      m = 0;
+    }
+    try
+    {
+      while (m < l)
+      {
+        localObject1 = b(m);
+        localObject2 = d(m);
+        localObject3 = paramObject.get(localObject1);
+        if (localObject2 == null)
+        {
+          if (localObject3 != null) {
+            break label223;
+          }
+          if (!paramObject.containsKey(localObject1)) {
+            return false;
+          }
+        }
+        else
+        {
+          bool = localObject2.equals(localObject3);
+          if (!bool) {
+            return false;
+          }
+        }
+        m += 1;
+      }
+      return true;
+    }
+    catch (NullPointerException|ClassCastException paramObject)
+    {
+      Object localObject1;
+      Object localObject2;
+      Object localObject3;
+      boolean bool;
+      return false;
+    }
+    if ((paramObject instanceof Map))
+    {
+      paramObject = (Map)paramObject;
+      if (size() != paramObject.size()) {
+        return false;
+      }
+      m = 0;
+    }
+    try
+    {
+      while (m < l)
+      {
+        localObject1 = b(m);
+        localObject2 = d(m);
+        localObject3 = paramObject.get(localObject1);
+        if (localObject2 == null)
+        {
+          if (localObject3 != null) {
+            break label225;
+          }
+          if (!paramObject.containsKey(localObject1)) {
+            return false;
+          }
+        }
+        else
+        {
+          bool = localObject2.equals(localObject3);
+          if (!bool) {
+            return false;
+          }
+        }
+        m += 1;
+      }
+      return true;
+    }
+    catch (NullPointerException|ClassCastException paramObject)
+    {
+      return false;
+    }
+    return false;
+    label223:
+    return false;
+    label225:
+    return false;
+  }
+  
+  @G
+  public V get(Object paramObject)
+  {
+    int m = a(paramObject);
+    if (m >= 0) {
+      return k[((m << 1) + 1)];
+    }
+    return null;
+  }
+  
+  public int hashCode()
+  {
+    int[] arrayOfInt = j;
+    Object[] arrayOfObject = k;
+    int i3 = l;
+    int n = 0;
+    int i1 = 0;
+    int m = 1;
+    while (n < i3)
+    {
+      Object localObject = arrayOfObject[m];
+      int i4 = arrayOfInt[n];
+      int i2;
+      if (localObject == null) {
+        i2 = 0;
+      } else {
+        i2 = localObject.hashCode();
+      }
+      i1 += (i2 ^ i4);
+      n += 1;
+      m += 2;
+    }
+    return i1;
+  }
+  
+  public boolean isEmpty()
+  {
+    return l <= 0;
+  }
+  
+  @G
+  public V put(K paramK, V paramV)
+  {
+    int i1 = l;
+    int n;
+    if (paramK == null)
+    {
+      m = a();
+      n = 0;
+    }
+    else
+    {
+      n = paramK.hashCode();
+      m = a(paramK, n);
+    }
+    Object localObject;
+    if (m >= 0)
+    {
+      m = (m << 1) + 1;
+      paramK = k;
+      localObject = paramK[m];
+      paramK[m] = paramV;
+      return localObject;
+    }
+    int i2 = m ^ 0xFFFFFFFF;
+    if (i1 >= j.length)
+    {
+      m = 4;
+      if (i1 >= 8) {
+        m = (i1 >> 1) + i1;
+      } else if (i1 >= 4) {
+        m = 8;
+      }
+      localObject = j;
+      Object[] arrayOfObject = k;
+      e(m);
+      if (i1 == l)
+      {
+        int[] arrayOfInt = j;
+        if (arrayOfInt.length > 0)
+        {
+          System.arraycopy(localObject, 0, arrayOfInt, 0, localObject.length);
+          System.arraycopy(arrayOfObject, 0, k, 0, arrayOfObject.length);
+        }
+        a((int[])localObject, arrayOfObject, i1);
+      }
+      else
+      {
+        throw new ConcurrentModificationException();
+      }
+    }
+    if (i2 < i1)
+    {
+      localObject = j;
+      m = i2 + 1;
+      System.arraycopy(localObject, i2, localObject, m, i1 - i2);
+      localObject = k;
+      System.arraycopy(localObject, i2 << 1, localObject, m << 1, l - i2 << 1);
+    }
+    int m = l;
+    if (i1 == m)
+    {
+      localObject = j;
+      if (i2 < localObject.length)
+      {
+        localObject[i2] = n;
+        localObject = k;
+        n = i2 << 1;
+        localObject[n] = paramK;
+        localObject[(n + 1)] = paramV;
+        l = (m + 1);
+        return null;
+      }
+    }
+    throw new ConcurrentModificationException();
+  }
+  
+  @G
+  public V remove(Object paramObject)
+  {
+    int m = a(paramObject);
+    if (m >= 0) {
+      return c(m);
+    }
+    return null;
+  }
+  
+  public int size()
+  {
+    return l;
+  }
+  
+  public String toString()
+  {
+    if (isEmpty()) {
+      return "{}";
+    }
+    StringBuilder localStringBuilder = new StringBuilder(l * 28);
+    localStringBuilder.append('{');
+    int m = 0;
+    while (m < l)
+    {
+      if (m > 0) {
+        localStringBuilder.append(", ");
+      }
+      Object localObject = b(m);
+      if (localObject != this) {
+        localStringBuilder.append(localObject);
+      } else {
+        localStringBuilder.append("(this Map)");
+      }
+      localStringBuilder.append('=');
+      localObject = d(m);
+      if (localObject != this) {
+        localStringBuilder.append(localObject);
+      } else {
+        localStringBuilder.append("(this Map)");
+      }
+      m += 1;
+    }
+    localStringBuilder.append('}');
+    return localStringBuilder.toString();
+  }
+}

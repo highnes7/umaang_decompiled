@@ -1,0 +1,112 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Bundle;
+import android.os.DeadObjectException;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.zzb;
+import com.google.android.gms.common.api.Api.zzc;
+import com.google.android.gms.common.api.Api.zze;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.internal.zzby;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+public final class zzao
+  implements zzbk
+{
+  public final zzbl zzflh;
+  public boolean zzfli = false;
+  
+  public zzao(zzbl paramZzbl)
+  {
+    zzflh = paramZzbl;
+  }
+  
+  public final void begin() {}
+  
+  public final void connect()
+  {
+    if (zzfli)
+    {
+      zzfli = false;
+      zzflh.zza(new zzaq(this, this));
+    }
+  }
+  
+  public final boolean disconnect()
+  {
+    if (zzfli) {
+      return false;
+    }
+    if (zzflh.zzfju.zzahj())
+    {
+      zzfli = true;
+      Iterator localIterator = zzflh.zzfju.zzfms.iterator();
+      while (localIterator.hasNext()) {
+        ((zzdg)localIterator.next()).zzaio();
+      }
+      return false;
+    }
+    zzflh.zzg(null);
+    return true;
+  }
+  
+  public final void onConnected(Bundle paramBundle) {}
+  
+  public final void onConnectionSuspended(int paramInt)
+  {
+    zzflh.zzg(null);
+    zzflh.zzfng.zzf(paramInt, zzfli);
+  }
+  
+  public final void zza(ConnectionResult paramConnectionResult, Api<?> paramApi, boolean paramBoolean) {}
+  
+  public final void zzagy()
+  {
+    if (zzfli)
+    {
+      zzfli = false;
+      zzflh.zzfju.zzfmt.release();
+      disconnect();
+    }
+  }
+  
+  public final <A extends Api.zzb, R extends Result, T extends zzm<R, A>> T zzd(T paramT)
+  {
+    return zze(paramT);
+  }
+  
+  public final <A extends Api.zzb, T extends zzm<? extends Result, A>> T zze(T paramT)
+  {
+    try
+    {
+      zzflh.zzfju.zzfmt.zzb(paramT);
+      Object localObject = zzflh.zzfju;
+      Api.zzc localZzc = paramT.zzafe();
+      localObject = (Api.zze)zzfmn.get(localZzc);
+      zzbp.zzb(localObject, "Appropriate Api was not requested.");
+      if ((!((Api.zze)localObject).isConnected()) && (zzflh.zzfnc.containsKey(paramT.zzafe())))
+      {
+        paramT.zzt(new Status(17));
+        return paramT;
+      }
+      if (!(localObject instanceof zzby))
+      {
+        paramT.zzb((Api.zzb)localObject);
+        return paramT;
+      }
+      zzby.zzako();
+      throw null;
+    }
+    catch (DeadObjectException localDeadObjectException)
+    {
+      for (;;) {}
+    }
+    zzflh.zza(new zzap(this, this));
+    return paramT;
+  }
+}

@@ -1,0 +1,342 @@
+package f.g.c.h;
+
+import f.g.c.a.a;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
+@a
+@f.g.c.a.b(emulated=true)
+public final class b
+{
+  @f.g.c.a.d
+  public static final int a = 256;
+  @f.g.c.a.d
+  public static final BigInteger b = new BigInteger("16a09e667f3bcc908b2fb1366ea957d3e3adec17512775099da2f590b0667322a", 16);
+  public static final double c = Math.log(10.0D);
+  public static final double d = Math.log(2.0D);
+  
+  public b() {}
+  
+  @c("TODO")
+  public static int a(BigInteger paramBigInteger, RoundingMode paramRoundingMode)
+  {
+    j.b("x", paramBigInteger);
+    if (a(paramBigInteger)) {
+      return i.a(paramBigInteger.longValue(), paramRoundingMode);
+    }
+    double d1 = b(paramBigInteger, RoundingMode.FLOOR);
+    double d2 = d;
+    Double.isNaN(d1);
+    int i = (int)(d1 * d2 / c);
+    Object localObject1 = BigInteger.TEN.pow(i);
+    int k = ((BigInteger)localObject1).compareTo(paramBigInteger);
+    int j;
+    Object localObject2;
+    if (k > 0)
+    {
+      do
+      {
+        j = i - 1;
+        localObject2 = ((BigInteger)localObject1).divide(BigInteger.TEN);
+        k = ((BigInteger)localObject2).compareTo(paramBigInteger);
+        i = j;
+        localObject1 = localObject2;
+      } while (k > 0);
+      i = j;
+      localObject1 = localObject2;
+      j = k;
+    }
+    else
+    {
+      localObject2 = BigInteger.TEN.multiply((BigInteger)localObject1);
+      j = ((BigInteger)localObject2).compareTo(paramBigInteger);
+      while (j <= 0)
+      {
+        i += 1;
+        BigInteger localBigInteger = BigInteger.TEN.multiply((BigInteger)localObject2);
+        int m = localBigInteger.compareTo(paramBigInteger);
+        localObject1 = localObject2;
+        k = j;
+        j = m;
+        localObject2 = localBigInteger;
+      }
+      j = k;
+    }
+    switch (a.a[paramRoundingMode.ordinal()])
+    {
+    default: 
+      throw new AssertionError();
+    case 6: 
+    case 7: 
+    case 8: 
+      if (paramBigInteger.pow(2).compareTo(((BigInteger)localObject1).pow(2).multiply(BigInteger.TEN)) <= 0) {
+        return i;
+      }
+      return i + 1;
+    case 4: 
+    case 5: 
+      if (((BigInteger)localObject1).equals(paramBigInteger)) {
+        return i;
+      }
+      return i + 1;
+    case 1: 
+      boolean bool;
+      if (j == 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      j.c(bool);
+    }
+    return i;
+  }
+  
+  public static BigInteger a(int paramInt)
+  {
+    j.a("n", paramInt);
+    Object localObject = i.f;
+    if (paramInt < localObject.length) {
+      return BigInteger.valueOf(localObject[paramInt]);
+    }
+    localObject = new ArrayList(g.a(g.b(paramInt, RoundingMode.CEILING) * paramInt, 64, RoundingMode.CEILING));
+    long[] arrayOfLong = i.f;
+    int k = arrayOfLong.length;
+    long l1 = arrayOfLong[(k - 1)];
+    int j = Long.numberOfTrailingZeros(l1);
+    l1 >>= j;
+    int i = i.b(l1, RoundingMode.FLOOR) + 1;
+    long l2 = k;
+    int m = i.b(l2, RoundingMode.FLOOR) + 1;
+    for (int n = 1 << m - 1; l2 <= paramInt; n = k)
+    {
+      int i1 = m;
+      k = n;
+      if ((n & l2) != 0L)
+      {
+        k = n << 1;
+        i1 = m + 1;
+      }
+      m = Long.numberOfTrailingZeros(l2);
+      j += m;
+      long l3 = l1;
+      if (i1 - m + i >= 64)
+      {
+        ((ArrayList)localObject).add(BigInteger.valueOf(l1));
+        l3 = 1L;
+      }
+      l1 = l3 * (l2 >> m);
+      i = i.b(l1, RoundingMode.FLOOR) + 1;
+      l2 += 1L;
+      m = i1;
+    }
+    if (l1 > 1L) {
+      ((ArrayList)localObject).add(BigInteger.valueOf(l1));
+    }
+    return a((List)localObject, 0, ((List)localObject).size()).shiftLeft(j);
+  }
+  
+  public static BigInteger a(int paramInt1, int paramInt2)
+  {
+    j.a("n", paramInt1);
+    j.a("k", paramInt2);
+    int j = 1;
+    boolean bool;
+    if (paramInt2 <= paramInt1) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "k (%s) > n (%s)", new Object[] { Integer.valueOf(paramInt2), Integer.valueOf(paramInt1) });
+    int i = paramInt2;
+    if (paramInt2 > paramInt1 >> 1) {
+      i = paramInt1 - paramInt2;
+    }
+    Object localObject = i.g;
+    if ((i < localObject.length) && (paramInt1 <= localObject[i])) {
+      return BigInteger.valueOf(i.a(paramInt1, i));
+    }
+    localObject = BigInteger.ONE;
+    long l1 = paramInt1;
+    long l2 = 1L;
+    int k = i.b(l1, RoundingMode.CEILING);
+    paramInt2 = j;
+    j = k;
+    for (;;)
+    {
+      if (paramInt2 >= i) {
+        break label199;
+      }
+      int m = paramInt1 - paramInt2;
+      paramInt2 += 1;
+      j += k;
+      if (j >= 63)
+      {
+        localObject = ((BigInteger)localObject).multiply(BigInteger.valueOf(l1)).divide(BigInteger.valueOf(l2));
+        l1 = m;
+        l2 = paramInt2;
+        break;
+      }
+      l1 *= m;
+      l2 *= paramInt2;
+    }
+    label199:
+    return ((BigInteger)localObject).multiply(BigInteger.valueOf(l1)).divide(BigInteger.valueOf(l2));
+  }
+  
+  @c("TODO")
+  public static BigInteger a(BigInteger paramBigInteger1, BigInteger paramBigInteger2, RoundingMode paramRoundingMode)
+  {
+    return new BigDecimal(paramBigInteger1).divide(new BigDecimal(paramBigInteger2), 0, paramRoundingMode).toBigIntegerExact();
+  }
+  
+  public static BigInteger a(List<BigInteger> paramList)
+  {
+    return a(paramList, 0, paramList.size());
+  }
+  
+  public static BigInteger a(List<BigInteger> paramList, int paramInt1, int paramInt2)
+  {
+    int i = paramInt2 - paramInt1;
+    if (i != 0)
+    {
+      if (i != 1)
+      {
+        if (i != 2)
+        {
+          if (i != 3)
+          {
+            i = paramInt2 + paramInt1 >>> 1;
+            return a(paramList, paramInt1, i).multiply(a(paramList, i, paramInt2));
+          }
+          return ((BigInteger)paramList.get(paramInt1)).multiply((BigInteger)paramList.get(paramInt1 + 1)).multiply((BigInteger)paramList.get(paramInt1 + 2));
+        }
+        return ((BigInteger)paramList.get(paramInt1)).multiply((BigInteger)paramList.get(paramInt1 + 1));
+      }
+      return (BigInteger)paramList.get(paramInt1);
+    }
+    return BigInteger.ONE;
+  }
+  
+  @c("TODO")
+  public static boolean a(BigInteger paramBigInteger)
+  {
+    return paramBigInteger.bitLength() <= 63;
+  }
+  
+  public static int b(BigInteger paramBigInteger, RoundingMode paramRoundingMode)
+  {
+    if (paramBigInteger != null)
+    {
+      j.b("x", paramBigInteger);
+      int i = paramBigInteger.bitLength() - 1;
+      switch (a.a[paramRoundingMode.ordinal()])
+      {
+      default: 
+        throw new AssertionError();
+      case 6: 
+      case 7: 
+      case 8: 
+        if (i < 256)
+        {
+          if (paramBigInteger.compareTo(b.shiftRight(256 - i)) <= 0) {
+            return i;
+          }
+          return i + 1;
+        }
+        if (paramBigInteger.pow(2).bitLength() - 1 < i * 2 + 1) {
+          return i;
+        }
+        return i + 1;
+      case 4: 
+      case 5: 
+        if (b(paramBigInteger)) {
+          return i;
+        }
+        return i + 1;
+      case 1: 
+        j.c(b(paramBigInteger));
+      }
+      return i;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static boolean b(BigInteger paramBigInteger)
+  {
+    if (paramBigInteger != null) {
+      return (paramBigInteger.signum() > 0) && (paramBigInteger.getLowestSetBit() == paramBigInteger.bitLength() - 1);
+    }
+    throw new NullPointerException();
+  }
+  
+  @c("TODO")
+  public static BigInteger c(BigInteger paramBigInteger)
+  {
+    return d.c(Math.sqrt(e.a(paramBigInteger)), RoundingMode.HALF_EVEN);
+  }
+  
+  @c("TODO")
+  public static BigInteger c(BigInteger paramBigInteger, RoundingMode paramRoundingMode)
+  {
+    j.a("x", paramBigInteger);
+    if (a(paramBigInteger)) {
+      return BigInteger.valueOf(i.c(paramBigInteger.longValue(), paramRoundingMode));
+    }
+    BigInteger localBigInteger = d(paramBigInteger);
+    switch (a.a[paramRoundingMode.ordinal()])
+    {
+    default: 
+      throw new AssertionError();
+    case 6: 
+    case 7: 
+    case 8: 
+      if (localBigInteger.pow(2).add(localBigInteger).compareTo(paramBigInteger) >= 0) {
+        return localBigInteger;
+      }
+      return localBigInteger.add(BigInteger.ONE);
+    case 4: 
+    case 5: 
+      if (localBigInteger.pow(2).equals(paramBigInteger)) {
+        return localBigInteger;
+      }
+      return localBigInteger.add(BigInteger.ONE);
+    case 1: 
+      j.c(localBigInteger.pow(2).equals(paramBigInteger));
+    }
+    return localBigInteger;
+  }
+  
+  @c("TODO")
+  public static BigInteger d(BigInteger paramBigInteger)
+  {
+    int i = b(paramBigInteger, RoundingMode.FLOOR);
+    BigInteger localBigInteger2;
+    if (i < 1023)
+    {
+      localBigInteger2 = c(paramBigInteger);
+    }
+    else
+    {
+      i = i - 52 & 0xFFFFFFFE;
+      localBigInteger2 = c(paramBigInteger.shiftRight(i)).shiftLeft(i >> 1);
+    }
+    BigInteger localBigInteger3 = localBigInteger2.add(paramBigInteger.divide(localBigInteger2)).shiftRight(1);
+    BigInteger localBigInteger1 = localBigInteger3;
+    if (localBigInteger2.equals(localBigInteger3)) {
+      return localBigInteger2;
+    }
+    for (;;)
+    {
+      localBigInteger2 = localBigInteger1.add(paramBigInteger.divide(localBigInteger1)).shiftRight(1);
+      if (localBigInteger2.compareTo(localBigInteger1) >= 0) {
+        return localBigInteger1;
+      }
+      localBigInteger1 = localBigInteger2;
+    }
+  }
+}

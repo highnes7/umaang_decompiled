@@ -1,0 +1,100 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.IBinder;
+import android.os.RemoteException;
+import com.google.android.gms.common.api.Api.zzc;
+import com.google.android.gms.common.api.Api.zze;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
+
+public final class zzdj
+{
+  public static final Status zzfpq = new Status(8, "The connection to Google Play services was lost");
+  public static final zzs<?>[] zzfpr = new zzs[0];
+  public final Map<Api.zzc<?>, Api.zze> zzfmn;
+  public final Set<zzs<?>> zzfps = Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap()));
+  public final zzdm zzfpt = new zzdk(this);
+  
+  public zzdj(Map<Api.zzc<?>, Api.zze> paramMap)
+  {
+    zzfmn = paramMap;
+  }
+  
+  public final void release()
+  {
+    zzs[] arrayOfZzs = (zzs[])zzfps.toArray(zzfpr);
+    int j = arrayOfZzs.length;
+    int i = 0;
+    while (i < j)
+    {
+      zzs localZzs = arrayOfZzs[i];
+      localZzs.zza(null);
+      if (localZzs.zzafs() == null) {
+        if (!localZzs.zzagf()) {
+          break label169;
+        }
+      }
+      for (;;)
+      {
+        zzfps.remove(localZzs);
+        break label169;
+        localZzs.setResultCallback(null);
+        IBinder localIBinder = ((Api.zze)zzfmn.get(((zzm)localZzs).zzafe())).zzafg();
+        zzdl localZzdl;
+        if (localZzs.isReady())
+        {
+          localZzs.zza(new zzdl(localZzs, null, localIBinder));
+        }
+        else
+        {
+          if ((localIBinder == null) || (!localIBinder.isBinderAlive())) {
+            break label190;
+          }
+          localZzdl = new zzdl(localZzs, null, localIBinder);
+          localZzs.zza(localZzdl);
+        }
+        try
+        {
+          localIBinder.linkToDeath(localZzdl, 0);
+        }
+        catch (RemoteException localRemoteException)
+        {
+          label169:
+          for (;;) {}
+        }
+      }
+      i += 1;
+      continue;
+      localZzs.cancel();
+      localZzs.zzafs().intValue();
+      throw null;
+      label190:
+      localZzs.zza(null);
+      localZzs.cancel();
+      localZzs.zzafs().intValue();
+      throw null;
+    }
+  }
+  
+  public final void zzaiq()
+  {
+    zzs[] arrayOfZzs = (zzs[])zzfps.toArray(zzfpr);
+    int j = arrayOfZzs.length;
+    int i = 0;
+    while (i < j)
+    {
+      arrayOfZzs[i].zzu(zzfpq);
+      i += 1;
+    }
+  }
+  
+  public final void zzb(zzs<? extends Result> paramZzs)
+  {
+    zzfps.add(paramZzs);
+    paramZzs.zza(zzfpt);
+  }
+}

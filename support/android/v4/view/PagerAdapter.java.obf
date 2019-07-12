@@ -1,0 +1,128 @@
+package b.b.x.o;
+
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
+import android.os.Parcelable;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.a.G;
+
+public abstract class y
+{
+  public static final int POSITION_NONE = -2;
+  public static final int POSITION_UNCHANGED = -1;
+  public final DataSetObservable mObservable = new DataSetObservable();
+  public DataSetObserver mViewPagerObserver;
+  
+  public y() {}
+  
+  @Deprecated
+  public void destroyItem(@F View paramView, int paramInt, @F Object paramObject)
+  {
+    throw new UnsupportedOperationException("Required method destroyItem was not overridden");
+  }
+  
+  public void destroyItem(@F ViewGroup paramViewGroup, int paramInt, @F Object paramObject)
+  {
+    destroyItem(paramViewGroup, paramInt, paramObject);
+  }
+  
+  @Deprecated
+  public void finishUpdate(@F View paramView) {}
+  
+  public void finishUpdate(@F ViewGroup paramViewGroup)
+  {
+    finishUpdate(paramViewGroup);
+  }
+  
+  public abstract int getCount();
+  
+  public int getItemPosition(@F Object paramObject)
+  {
+    return -1;
+  }
+  
+  @G
+  public CharSequence getPageTitle(int paramInt)
+  {
+    return null;
+  }
+  
+  public float getPageWidth(int paramInt)
+  {
+    return 1.0F;
+  }
+  
+  @Deprecated
+  @F
+  public Object instantiateItem(@F View paramView, int paramInt)
+  {
+    throw new UnsupportedOperationException("Required method instantiateItem was not overridden");
+  }
+  
+  @F
+  public Object instantiateItem(@F ViewGroup paramViewGroup, int paramInt)
+  {
+    return instantiateItem(paramViewGroup, paramInt);
+  }
+  
+  public abstract boolean isViewFromObject(@F View paramView, @F Object paramObject);
+  
+  public void notifyDataSetChanged()
+  {
+    try
+    {
+      if (mViewPagerObserver != null) {
+        mViewPagerObserver.onChanged();
+      }
+      mObservable.notifyChanged();
+      return;
+    }
+    finally {}
+  }
+  
+  public void registerDataSetObserver(@F DataSetObserver paramDataSetObserver)
+  {
+    mObservable.registerObserver(paramDataSetObserver);
+  }
+  
+  public void restoreState(@G Parcelable paramParcelable, @G ClassLoader paramClassLoader) {}
+  
+  @G
+  public Parcelable saveState()
+  {
+    return null;
+  }
+  
+  @Deprecated
+  public void setPrimaryItem(@F View paramView, int paramInt, @F Object paramObject) {}
+  
+  public void setPrimaryItem(@F ViewGroup paramViewGroup, int paramInt, @F Object paramObject)
+  {
+    setPrimaryItem(paramViewGroup, paramInt, paramObject);
+  }
+  
+  public void setViewPagerObserver(DataSetObserver paramDataSetObserver)
+  {
+    try
+    {
+      mViewPagerObserver = paramDataSetObserver;
+      return;
+    }
+    finally {}
+  }
+  
+  @Deprecated
+  public void startUpdate(@F View paramView) {}
+  
+  public void startUpdate(@F ViewGroup paramViewGroup)
+  {
+    startUpdate(paramViewGroup);
+  }
+  
+  public void unregisterDataSetObserver(@F DataSetObserver paramDataSetObserver)
+  {
+    mObservable.unregisterObserver(paramDataSetObserver);
+  }
+}

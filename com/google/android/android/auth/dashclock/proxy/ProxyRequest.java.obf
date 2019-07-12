@@ -1,0 +1,169 @@
+package com.google.android.gms.auth.api.proxy;
+
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.util.Patterns;
+import com.google.android.gms.common.annotation.KeepForSdkWithMembers;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+import f.a.a.a.a;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@KeepForSdkWithMembers
+public class ProxyRequest
+  extends zzbck
+{
+  public static final Parcelable.Creator<ProxyRequest> CREATOR = new zza();
+  public static final int HTTP_METHOD_DELETE;
+  public static final int HTTP_METHOD_GET = 0;
+  public static final int HTTP_METHOD_HEAD;
+  public static final int HTTP_METHOD_OPTIONS;
+  public static final int HTTP_METHOD_PATCH = 7;
+  public static final int HTTP_METHOD_POST = 1;
+  public static final int HTTP_METHOD_PUT = 2;
+  public static final int HTTP_METHOD_TRACE;
+  public static final int LAST_CODE = 7;
+  public static final int VERSION_CODE = 2;
+  public final byte[] body;
+  public final int httpMethod;
+  public final long timeoutMillis;
+  public final String url;
+  public int versionCode;
+  public Bundle zzebn;
+  
+  static
+  {
+    HTTP_METHOD_DELETE = 3;
+    HTTP_METHOD_HEAD = 4;
+    HTTP_METHOD_OPTIONS = 5;
+    HTTP_METHOD_TRACE = 6;
+  }
+  
+  public ProxyRequest(int paramInt1, String paramString, int paramInt2, long paramLong, byte[] paramArrayOfByte, Bundle paramBundle)
+  {
+    versionCode = paramInt1;
+    url = paramString;
+    httpMethod = paramInt2;
+    timeoutMillis = paramLong;
+    body = paramArrayOfByte;
+    zzebn = paramBundle;
+  }
+  
+  public Map<String, String> getHeaderMap()
+  {
+    LinkedHashMap localLinkedHashMap = new LinkedHashMap(zzebn.size());
+    Iterator localIterator = zzebn.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      String str = (String)localIterator.next();
+      localLinkedHashMap.put(str, zzebn.getString(str));
+    }
+    return Collections.unmodifiableMap(localLinkedHashMap);
+  }
+  
+  public String toString()
+  {
+    String str = url;
+    int i = httpMethod;
+    StringBuilder localStringBuilder = new StringBuilder(a.a(str, 42));
+    localStringBuilder.append("ProxyRequest[ url: ");
+    localStringBuilder.append(str);
+    localStringBuilder.append(", method: ");
+    localStringBuilder.append(i);
+    localStringBuilder.append(" ]");
+    return localStringBuilder.toString();
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zza(paramParcel, 1, url, false);
+    zzbcn.zzc(paramParcel, 2, httpMethod);
+    zzbcn.zza(paramParcel, 3, timeoutMillis);
+    zzbcn.zza(paramParcel, 4, body, false);
+    zzbcn.zza(paramParcel, 5, zzebn, false);
+    zzbcn.zzc(paramParcel, 1000, versionCode);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+  
+  @KeepForSdkWithMembers
+  public static class Builder
+  {
+    public long zzcwo = 3000L;
+    public String zzebo;
+    public int zzebp = ProxyRequest.HTTP_METHOD_GET;
+    public byte[] zzebq = null;
+    public Bundle zzebr = new Bundle();
+    
+    public Builder(String paramString)
+    {
+      zzbp.zzgg(paramString);
+      if (Patterns.WEB_URL.matcher(paramString).matches())
+      {
+        zzebo = paramString;
+        return;
+      }
+      throw new IllegalArgumentException(a.a(a.a(paramString, 51), "The supplied url [ ", paramString, "] is not match Patterns.WEB_URL!"));
+    }
+    
+    public ProxyRequest build()
+    {
+      if (zzebq == null) {
+        zzebq = new byte[0];
+      }
+      return new ProxyRequest(2, zzebo, zzebp, zzcwo, zzebq, zzebr);
+    }
+    
+    public Builder putHeader(String paramString1, String paramString2)
+    {
+      zzbp.zzh(paramString1, "Header name cannot be null or empty!");
+      Bundle localBundle = zzebr;
+      String str = paramString2;
+      if (paramString2 == null) {
+        str = "";
+      }
+      localBundle.putString(paramString1, str);
+      return this;
+    }
+    
+    public Builder setBody(byte[] paramArrayOfByte)
+    {
+      zzebq = paramArrayOfByte;
+      return this;
+    }
+    
+    public Builder setHttpMethod(int paramInt)
+    {
+      boolean bool;
+      if ((paramInt >= 0) && (paramInt <= ProxyRequest.LAST_CODE)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      zzbp.zzb(bool, "Unrecognized http method code.");
+      zzebp = paramInt;
+      return this;
+    }
+    
+    public Builder setTimeoutMillis(long paramLong)
+    {
+      boolean bool;
+      if (paramLong >= 0L) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      zzbp.zzb(bool, "The specified timeout must be non-negative.");
+      zzcwo = paramLong;
+      return this;
+    }
+  }
+}

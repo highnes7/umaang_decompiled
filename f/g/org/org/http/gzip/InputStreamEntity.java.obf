@@ -1,0 +1,53 @@
+package f.g.b.a.c.a;
+
+import f.g.b.a.g.V;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import org.apache.http.entity.AbstractHttpEntity;
+
+public final class d
+  extends AbstractHttpEntity
+{
+  public final long a;
+  public final V b;
+  
+  public d(long paramLong, V paramV)
+  {
+    a = paramLong;
+    if (paramV != null)
+    {
+      b = paramV;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public InputStream getContent()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public long getContentLength()
+  {
+    return a;
+  }
+  
+  public boolean isRepeatable()
+  {
+    return false;
+  }
+  
+  public boolean isStreaming()
+  {
+    return true;
+  }
+  
+  public void writeTo(OutputStream paramOutputStream)
+    throws IOException
+  {
+    if (a != 0L) {
+      b.writeTo(paramOutputStream);
+    }
+  }
+}

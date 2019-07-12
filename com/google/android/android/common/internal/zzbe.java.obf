@@ -1,0 +1,56 @@
+package com.google.android.gms.common.internal;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import android.util.Log;
+import com.google.android.gms.internal.zzbec;
+import com.google.android.gms.internal.zzbed;
+
+public final class zzbe
+{
+  public static Object zzaqd = new Object();
+  public static boolean zzclj;
+  public static String zzfvo;
+  public static int zzfvp;
+  
+  public static String zzcf(Context paramContext)
+  {
+    zzch(paramContext);
+    return zzfvo;
+  }
+  
+  public static int zzcg(Context paramContext)
+  {
+    zzch(paramContext);
+    return zzfvp;
+  }
+  
+  public static void zzch(Context paramContext)
+  {
+    synchronized (zzaqd)
+    {
+      if (zzclj) {
+        return;
+      }
+      zzclj = true;
+      String str = paramContext.getPackageName();
+      paramContext = zzbed.zzcr(paramContext);
+      try
+      {
+        paramContext = getApplicationInfo128metaData;
+        if (paramContext == null) {
+          return;
+        }
+        zzfvo = paramContext.getString("com.google.app.id");
+        zzfvp = paramContext.getInt("com.google.android.gms.version");
+      }
+      catch (PackageManager.NameNotFoundException paramContext)
+      {
+        Log.wtf("MetadataValueReader", "This should never happen.", paramContext);
+      }
+      return;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.RemoteException;
+import com.google.android.gms.dynamic.zzn;
+import com.google.android.gms.vision.barcode.Barcode;
+import java.nio.ByteBuffer;
+
+public final class zzdce
+  extends zzdcj<zzdcf>
+{
+  public final zzdcc zzkik;
+  
+  public zzdce(Context paramContext, zzdcc paramZzdcc)
+  {
+    super(paramContext, "BarcodeNativeHandle");
+    zzkik = paramZzdcc;
+    zzbip();
+  }
+  
+  public final Barcode[] zza(Bitmap paramBitmap, zzdck paramZzdck)
+  {
+    if (!isOperational()) {
+      return new Barcode[0];
+    }
+    try
+    {
+      paramBitmap = new zzn(paramBitmap);
+      paramBitmap = ((zzdcf)zzbip()).zzb(paramBitmap, paramZzdck);
+      return paramBitmap;
+    }
+    catch (RemoteException paramBitmap)
+    {
+      for (;;) {}
+    }
+    return new Barcode[0];
+  }
+  
+  public final Barcode[] zza(ByteBuffer paramByteBuffer, zzdck paramZzdck)
+  {
+    if (!isOperational()) {
+      return new Barcode[0];
+    }
+    try
+    {
+      paramByteBuffer = new zzn(paramByteBuffer);
+      paramByteBuffer = ((zzdcf)zzbip()).zza(paramByteBuffer, paramZzdck);
+      return paramByteBuffer;
+    }
+    catch (RemoteException paramByteBuffer)
+    {
+      for (;;) {}
+    }
+    return new Barcode[0];
+  }
+  
+  public final void zzbim()
+    throws RemoteException
+  {
+    if (isOperational()) {
+      ((zzdcf)zzbip()).zzbin();
+    }
+  }
+}

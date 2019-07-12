@@ -1,0 +1,121 @@
+package android.support.transition;
+
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.TypeEvaluator;
+import android.content.Context;
+import android.graphics.Rect;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.v.N;
+import b.b.v.ia;
+import b.b.v.l;
+import b.b.v.xa;
+import b.b.x.o.H;
+import java.util.Map;
+
+public class ChangeClipBounds
+  extends Transition
+{
+  public static final String a = "android:clipBounds:clip";
+  public static final String b = "android:clipBounds:bounds";
+  public static final String[] c = { "android:clipBounds:clip" };
+  
+  public ChangeClipBounds() {}
+  
+  public ChangeClipBounds(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+  }
+  
+  private void captureValues(ia paramIa)
+  {
+    Object localObject = b;
+    if (((View)localObject).getVisibility() == 8) {
+      return;
+    }
+    Rect localRect = H.j((View)localObject);
+    a.put("android:clipBounds:clip", localRect);
+    if (localRect == null)
+    {
+      localObject = new Rect(0, 0, ((View)localObject).getWidth(), ((View)localObject).getHeight());
+      a.put("android:clipBounds:bounds", localObject);
+    }
+  }
+  
+  public void captureEndValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  public void captureStartValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  public Animator createAnimator(@F ViewGroup paramViewGroup, ia paramIa1, ia paramIa2)
+  {
+    Object localObject = null;
+    paramViewGroup = (ViewGroup)localObject;
+    if (paramIa1 != null)
+    {
+      paramViewGroup = (ViewGroup)localObject;
+      if (paramIa2 != null)
+      {
+        paramViewGroup = (ViewGroup)localObject;
+        if (a.containsKey("android:clipBounds:clip"))
+        {
+          if (!a.containsKey("android:clipBounds:clip")) {
+            return null;
+          }
+          localObject = (Rect)a.get("android:clipBounds:clip");
+          Rect localRect = (Rect)a.get("android:clipBounds:clip");
+          int i;
+          if (localRect == null) {
+            i = 1;
+          } else {
+            i = 0;
+          }
+          if ((localObject == null) && (localRect == null)) {
+            return null;
+          }
+          if (localObject == null)
+          {
+            paramViewGroup = (Rect)a.get("android:clipBounds:bounds");
+            paramIa1 = localRect;
+          }
+          else
+          {
+            paramViewGroup = (ViewGroup)localObject;
+            paramIa1 = localRect;
+            if (localRect == null)
+            {
+              paramIa1 = (Rect)a.get("android:clipBounds:bounds");
+              paramViewGroup = (ViewGroup)localObject;
+            }
+          }
+          if (paramViewGroup.equals(paramIa1)) {
+            return null;
+          }
+          H.a(b, paramViewGroup);
+          localObject = new N(new Rect());
+          paramIa1 = ObjectAnimator.ofObject(b, xa.g, (TypeEvaluator)localObject, new Rect[] { paramViewGroup, paramIa1 });
+          paramViewGroup = paramIa1;
+          if (i != 0)
+          {
+            paramIa1.addListener(new l(this, b));
+            paramViewGroup = paramIa1;
+          }
+        }
+      }
+    }
+    return paramViewGroup;
+  }
+  
+  public String[] getTransitionProperties()
+  {
+    return c;
+  }
+}

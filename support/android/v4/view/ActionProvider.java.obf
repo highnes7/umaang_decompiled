@@ -1,0 +1,107 @@
+package b.b.x.o;
+
+import android.content.Context;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
+import b.b.a.N;
+import f.a.a.a.a;
+
+public abstract class c
+{
+  public static final String TAG = "ActionProvider(support)";
+  public final Context mContext;
+  public a mSubUiVisibilityListener;
+  public b mVisibilityListener;
+  
+  public c(Context paramContext)
+  {
+    mContext = paramContext;
+  }
+  
+  public Context getContext()
+  {
+    return mContext;
+  }
+  
+  public boolean hasSubMenu()
+  {
+    return false;
+  }
+  
+  public boolean isVisible()
+  {
+    return true;
+  }
+  
+  public abstract View onCreateActionView();
+  
+  public View onCreateActionView(MenuItem paramMenuItem)
+  {
+    return onCreateActionView();
+  }
+  
+  public boolean onPerformDefaultAction()
+  {
+    return false;
+  }
+  
+  public void onPrepareSubMenu(SubMenu paramSubMenu) {}
+  
+  public boolean overridesItemVisibility()
+  {
+    return false;
+  }
+  
+  public void refreshVisibility()
+  {
+    if ((mVisibilityListener != null) && (overridesItemVisibility())) {
+      mVisibilityListener.onActionProviderVisibilityChanged(isVisible());
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void reset()
+  {
+    mVisibilityListener = null;
+    mSubUiVisibilityListener = null;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void setSubUiVisibilityListener(a paramA)
+  {
+    mSubUiVisibilityListener = paramA;
+  }
+  
+  public void setVisibilityListener(b paramB)
+  {
+    if ((mVisibilityListener != null) && (paramB != null))
+    {
+      StringBuilder localStringBuilder = a.b("setVisibilityListener: Setting a new ActionProvider.VisibilityListener when one is already set. Are you reusing this ");
+      localStringBuilder.append(getClass().getSimpleName());
+      localStringBuilder.append(" instance while it is still in use somewhere else?");
+      localStringBuilder.toString();
+    }
+    mVisibilityListener = paramB;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void subUiVisibilityChanged(boolean paramBoolean)
+  {
+    a localA = mSubUiVisibilityListener;
+    if (localA != null) {
+      localA.onSubUiVisibilityChanged(paramBoolean);
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static abstract interface a
+  {
+    public abstract void onSubUiVisibilityChanged(boolean paramBoolean);
+  }
+  
+  public static abstract interface b
+  {
+    public abstract void onActionProviderVisibilityChanged(boolean paramBoolean);
+  }
+}

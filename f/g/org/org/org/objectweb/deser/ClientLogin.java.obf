@@ -1,0 +1,111 @@
+package f.g.b.a.b.b.a;
+
+import f.g.b.a.c.A;
+import f.g.b.a.c.B;
+import f.g.b.a.c.C;
+import f.g.b.a.c.C.a;
+import f.g.b.a.c.F;
+import f.g.b.a.c.M;
+import f.g.b.a.c.k;
+import f.g.b.a.c.s;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.g.W;
+import java.io.IOException;
+
+@f.g.b.a.g.h
+public final class b
+{
+  public F a;
+  @f.g.b.a.g.z
+  public String accountType;
+  @f.g.b.a.g.z("source")
+  public String applicationName;
+  @f.g.b.a.g.z("service")
+  public String authTokenType;
+  public k b = new k("https://www.google.com");
+  @f.g.b.a.g.z("logincaptcha")
+  public String captchaAnswer;
+  @f.g.b.a.g.z("logintoken")
+  public String captchaToken;
+  @f.g.b.a.g.z("Passwd")
+  public String password;
+  @f.g.b.a.g.z("Email")
+  public String username;
+  
+  public b() {}
+  
+  public static String a(String paramString)
+  {
+    paramString = String.valueOf(paramString);
+    if (paramString.length() != 0) {
+      return "GoogleLogin auth=".concat(paramString);
+    }
+    return new String("GoogleLogin auth=");
+  }
+  
+  public b a()
+    throws IOException
+  {
+    Object localObject1 = b.clone();
+    ((k)localObject1).a("/accounts/ClientLogin");
+    localObject1 = a.b().b((k)localObject1, new M(this));
+    ((y)localObject1).a(a.a);
+    ((y)localObject1).b(0);
+    ((y)localObject1).f(false);
+    Object localObject2 = ((y)localObject1).a();
+    if (((B)localObject2).o()) {
+      return (b)((B)localObject2).a(b.class);
+    }
+    localObject1 = new C.a(((B)localObject2).j(), ((B)localObject2).k(), ((B)localObject2).g());
+    a localA = (a)((B)localObject2).a(a.class);
+    String str = localA.toString();
+    localObject2 = C.a((B)localObject2);
+    if (!f.g.b.a.e.a.a.a.b.h.b(str))
+    {
+      ((StringBuilder)localObject2).append(W.a);
+      ((StringBuilder)localObject2).append(str);
+      ((C.a)localObject1).a(str);
+    }
+    ((C.a)localObject1).b(((StringBuilder)localObject2).toString());
+    throw new c((C.a)localObject1, localA);
+  }
+  
+  public static final class a
+  {
+    @f.g.b.a.g.z("CaptchaToken")
+    public String captchaToken;
+    @f.g.b.a.g.z("CaptchaUrl")
+    public String captchaUrl;
+    @f.g.b.a.g.z("Error")
+    public String error;
+    @f.g.b.a.g.z("Url")
+    public String url;
+    
+    public a() {}
+  }
+  
+  public static final class b
+    implements s, A
+  {
+    @f.g.b.a.g.z("Auth")
+    public String auth;
+    
+    public b() {}
+    
+    public String a()
+    {
+      return b.a(auth);
+    }
+    
+    public void a(y paramY)
+    {
+      paramY.i().f(a());
+    }
+    
+    public void b(y paramY)
+    {
+      paramY.a(this);
+    }
+  }
+}

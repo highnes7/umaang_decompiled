@@ -1,0 +1,46 @@
+package f.g.b.a.g.b;
+
+import f.g.b.a.e.a.a.a.b.g;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public abstract class b
+  implements e
+{
+  public static final Pattern a = Pattern.compile("\\w{1,30}");
+  public final Lock b = new ReentrantLock();
+  public final Map<String, d<? extends Serializable>> c = new HashMap();
+  
+  public b() {}
+  
+  public final <V extends Serializable> d<V> a(String paramString)
+    throws IOException
+  {
+    g.a(a.matcher(paramString).matches(), "%s does not match pattern %s", new Object[] { paramString, a });
+    b.lock();
+    try
+    {
+      d localD2 = (d)c.get(paramString);
+      d localD1 = localD2;
+      if (localD2 == null)
+      {
+        localD1 = b(paramString);
+        c.put(paramString, localD1);
+      }
+      return localD1;
+    }
+    finally
+    {
+      b.unlock();
+    }
+  }
+  
+  public abstract <V extends Serializable> d<V> b(String paramString)
+    throws IOException;
+}

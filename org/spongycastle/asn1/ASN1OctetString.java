@@ -1,0 +1,117 @@
+package org.spongycastle.asn1;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import org.spongycastle.util.Arrays;
+import org.spongycastle.util.Strings;
+import org.spongycastle.util.encoders.Hex;
+
+public abstract class ASN1OctetString
+  extends ASN1Primitive
+  implements ASN1OctetStringParser
+{
+  public byte[] string;
+  
+  public ASN1OctetString(byte[] paramArrayOfByte)
+  {
+    if (paramArrayOfByte != null)
+    {
+      string = paramArrayOfByte;
+      return;
+    }
+    throw new NullPointerException("string cannot be null");
+  }
+  
+  public static ASN1OctetString getInstance(Object paramObject)
+  {
+    if ((paramObject != null) && (!(paramObject instanceof ASN1OctetString)))
+    {
+      if ((paramObject instanceof byte[]))
+      {
+        paramObject = (byte[])paramObject;
+        try
+        {
+          paramObject = getInstance(ASN1Primitive.fromByteArray(paramObject));
+          return paramObject;
+        }
+        catch (IOException paramObject)
+        {
+          throw new IllegalArgumentException(f.sufficientlysecure.rootcommands.util.StringBuilder.get(paramObject, f.sufficientlysecure.rootcommands.util.StringBuilder.append("failed to construct OCTET STRING from byte[]: ")));
+        }
+      }
+      if ((paramObject instanceof ASN1Encodable))
+      {
+        ASN1Primitive localASN1Primitive = ((ASN1Encodable)paramObject).toASN1Primitive();
+        if ((localASN1Primitive instanceof ASN1OctetString)) {
+          return (ASN1OctetString)localASN1Primitive;
+        }
+      }
+      throw new IllegalArgumentException(f.sufficientlysecure.rootcommands.util.StringBuilder.toString(paramObject, f.sufficientlysecure.rootcommands.util.StringBuilder.append("illegal object in getInstance: ")));
+    }
+    return (ASN1OctetString)paramObject;
+  }
+  
+  public static ASN1OctetString getInstance(ASN1TaggedObject paramASN1TaggedObject, boolean paramBoolean)
+  {
+    paramASN1TaggedObject = paramASN1TaggedObject.getObject();
+    if ((!paramBoolean) && (!(paramASN1TaggedObject instanceof ASN1OctetString))) {
+      return (ASN1OctetString)BEROctetString.fromSequence(ASN1Sequence.getInstance(paramASN1TaggedObject));
+    }
+    return getInstance(paramASN1TaggedObject);
+  }
+  
+  public boolean asn1Equals(ASN1Primitive paramASN1Primitive)
+  {
+    if (!(paramASN1Primitive instanceof ASN1OctetString)) {
+      return false;
+    }
+    paramASN1Primitive = (ASN1OctetString)paramASN1Primitive;
+    return Arrays.areEqual(string, string);
+  }
+  
+  public abstract void encode(ASN1OutputStream paramASN1OutputStream)
+    throws IOException;
+  
+  public ASN1Primitive getLoadedObject()
+  {
+    return toASN1Primitive();
+  }
+  
+  public InputStream getOctetStream()
+  {
+    return new ByteArrayInputStream(string);
+  }
+  
+  public byte[] getOctets()
+  {
+    return string;
+  }
+  
+  public int hashCode()
+  {
+    return Arrays.hashCode(getOctets());
+  }
+  
+  public ASN1OctetStringParser parser()
+  {
+    return this;
+  }
+  
+  public ASN1Primitive toDERObject()
+  {
+    return (ASN1Primitive)new DEROctetString(string);
+  }
+  
+  public ASN1Primitive toDLObject()
+  {
+    return (ASN1Primitive)new DEROctetString(string);
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = f.sufficientlysecure.rootcommands.util.StringBuilder.append("#");
+    localStringBuilder.append(Strings.fromByteArray(Hex.encode(string)));
+    return localStringBuilder.toString();
+  }
+}

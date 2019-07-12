@@ -1,0 +1,178 @@
+package f.g.c.f;
+
+import f.g.c.b.Aa;
+import f.g.c.b.ba;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+
+public abstract class d
+  implements n
+{
+  public d() {}
+  
+  public l a(long paramLong)
+  {
+    return a(8).a(paramLong).a();
+  }
+  
+  public l a(CharSequence paramCharSequence)
+  {
+    int j = paramCharSequence.length();
+    o localO = a(j * 2);
+    int i = 0;
+    while (i < j)
+    {
+      localO.a(paramCharSequence.charAt(i));
+      i += 1;
+    }
+    return localO.a();
+  }
+  
+  public l a(CharSequence paramCharSequence, Charset paramCharset)
+  {
+    paramCharSequence = paramCharset.encode(CharBuffer.wrap(paramCharSequence));
+    if (paramCharSequence.hasArray())
+    {
+      paramCharset = paramCharSequence.array();
+      int i = paramCharSequence.arrayOffset();
+      int j = paramCharSequence.position();
+      int k = paramCharSequence.limit();
+      return a(paramCharset, j + i, paramCharSequence.arrayOffset() + k);
+    }
+    paramCharset = new byte[paramCharSequence.remaining()];
+    paramCharSequence.get(paramCharset);
+    return a(paramCharset);
+  }
+  
+  public l a(byte[] paramArrayOfByte)
+  {
+    return a(paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public o a(int paramInt)
+  {
+    boolean bool;
+    if (paramInt >= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool);
+    return new a(paramInt);
+  }
+  
+  public l b(int paramInt)
+  {
+    return a(4).a(paramInt).a();
+  }
+  
+  public o b()
+  {
+    return new a(32);
+  }
+  
+  private final class a
+    extends c
+  {
+    public static final int a = 255;
+    public final d.b b;
+    
+    public a(int paramInt)
+    {
+      b = new d.b(paramInt);
+    }
+    
+    public l a()
+    {
+      return a(b.u(), 0, b.v());
+    }
+    
+    public o a(byte paramByte)
+    {
+      b.write(paramByte);
+      return this;
+    }
+    
+    public o a(char paramChar)
+    {
+      b.write(paramChar & 0xFF);
+      b.write(paramChar >>> '\b' & 0xFF);
+      return this;
+    }
+    
+    public o a(int paramInt)
+    {
+      b.write(paramInt & 0xFF);
+      b.write(paramInt >>> 8 & 0xFF);
+      b.write(paramInt >>> 16 & 0xFF);
+      b.write(paramInt >>> 24 & 0xFF);
+      return this;
+    }
+    
+    public o a(long paramLong)
+    {
+      int i = 0;
+      while (i < 64)
+      {
+        b.write((byte)(int)(paramLong >>> i & 0xFF));
+        i += 8;
+      }
+      return this;
+    }
+    
+    public <T> o a(T paramT, j<? super T> paramJ)
+    {
+      paramJ.a(paramT, this);
+      return this;
+    }
+    
+    public o a(short paramShort)
+    {
+      b.write(paramShort & 0xFF);
+      b.write(paramShort >>> 8 & 0xFF);
+      return this;
+    }
+    
+    public o a(byte[] paramArrayOfByte)
+    {
+      try
+      {
+        b.write(paramArrayOfByte);
+        return this;
+      }
+      catch (IOException paramArrayOfByte)
+      {
+        Aa.d(paramArrayOfByte);
+        throw null;
+      }
+    }
+    
+    public o a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    {
+      b.write(paramArrayOfByte, paramInt1, paramInt2);
+      return this;
+    }
+  }
+  
+  private static final class b
+    extends ByteArrayOutputStream
+  {
+    public b(int paramInt)
+    {
+      super();
+    }
+    
+    public byte[] u()
+    {
+      return buf;
+    }
+    
+    public int v()
+    {
+      return count;
+    }
+  }
+}

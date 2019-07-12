@@ -1,0 +1,177 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public abstract class nb<K, V>
+  extends Ab<K, V>
+  implements L<K, V>
+{
+  public nb() {}
+  
+  public static <K, V> a<K, V> a()
+  {
+    return new a();
+  }
+  
+  public static <K, V> nb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2)
+  {
+    return new Af(Ab.a(paramK1, paramV1, paramK2, paramV2));
+  }
+  
+  public static <K, V> nb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3)
+  {
+    return new Af(Ab.a(paramK1, paramV1, paramK2, paramV2, paramK3, paramV3));
+  }
+  
+  public static <K, V> nb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3, K paramK4, V paramV4)
+  {
+    return new Af(Ab.a(paramK1, paramV1, paramK2, paramV2, paramK3, paramV3, paramK4, paramV4));
+  }
+  
+  public static <K, V> nb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3, K paramK4, V paramV4, K paramK5, V paramV5)
+  {
+    return new Af(Ab.a(paramK1, paramV1, paramK2, paramV2, paramK3, paramV3, paramK4, paramV4, paramK5, paramV5));
+  }
+  
+  public static <K, V> nb<K, V> a(Map<? extends K, ? extends V> paramMap)
+  {
+    if ((paramMap instanceof nb))
+    {
+      nb localNb = (nb)paramMap;
+      if (!localNb.e()) {
+        return localNb;
+      }
+    }
+    if (paramMap.isEmpty()) {
+      return sa.d;
+    }
+    return new Af(Ab.a(paramMap));
+  }
+  
+  public static <K, V> nb<K, V> c(K paramK, V paramV)
+  {
+    return new Af(Ab.c(paramK, paramV));
+  }
+  
+  public static <K, V> nb<K, V> g()
+  {
+    return sa.d;
+  }
+  
+  public V a(K paramK, V paramV)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public Nb<Map.Entry<K, V>> b()
+  {
+    return i().entrySet();
+  }
+  
+  public boolean containsKey(@h Object paramObject)
+  {
+    return i().containsKey(paramObject);
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    return f().containsKey(paramObject);
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    return (paramObject == this) || (i().equals(paramObject));
+  }
+  
+  public abstract nb<V, K> f();
+  
+  public V get(@h Object paramObject)
+  {
+    return i().get(paramObject);
+  }
+  
+  public Object h()
+  {
+    return new b(this);
+  }
+  
+  public int hashCode()
+  {
+    return i().hashCode();
+  }
+  
+  public abstract Ab<K, V> i();
+  
+  public boolean isEmpty()
+  {
+    return i().isEmpty();
+  }
+  
+  public Nb<K> keySet()
+  {
+    return i().keySet();
+  }
+  
+  public int size()
+  {
+    return i().size();
+  }
+  
+  public String toString()
+  {
+    return i().toString();
+  }
+  
+  public Nb<V> values()
+  {
+    return f().keySet();
+  }
+  
+  public static final class a<K, V>
+    extends Ab.a<K, V>
+  {
+    public a() {}
+    
+    public a<K, V> a(K paramK, V paramV)
+    {
+      a.add(Ab.b(paramK, paramV));
+      return this;
+    }
+    
+    public a<K, V> a(Map<? extends K, ? extends V> paramMap)
+    {
+      super.a(paramMap);
+      return this;
+    }
+    
+    public nb<K, V> a()
+    {
+      Ab localAb = super.a();
+      if (localAb.isEmpty()) {
+        return nb.g();
+      }
+      return new Af(localAb);
+    }
+  }
+  
+  private static class b
+    extends Ab.b
+  {
+    public static final long d = 0L;
+    
+    public b(nb<?, ?> paramNb)
+    {
+      super();
+    }
+    
+    public Object a()
+    {
+      return a(new nb.a());
+    }
+  }
+}

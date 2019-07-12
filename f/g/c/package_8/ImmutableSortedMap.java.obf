@@ -1,0 +1,447 @@
+package f.g.c.d;
+
+import f.a.a.a.a;
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public abstract class Sb<K, V>
+  extends Tb<K, V>
+  implements SortedMap<K, V>
+{
+  public static final Comparator<Comparable> d = ;
+  public static final Sb<Comparable, Object> e = new za(d);
+  public static final long f = 0L;
+  public transient Sb<K, V> g;
+  
+  public Sb() {}
+  
+  public Sb(Sb<K, V> paramSb)
+  {
+    g = paramSb;
+  }
+  
+  public static <K, V> Sb<K, V> a(Wb<K> paramWb, vb<V> paramVb)
+  {
+    if (paramWb.isEmpty()) {
+      return a(paramWb.comparator());
+    }
+    return new Kf((Of)paramWb, paramVb);
+  }
+  
+  public static <K extends Comparable<? super K>, V> Sb<K, V> a(K paramK, V paramV)
+  {
+    return a(Wb.a(paramK), vb.b(paramV));
+  }
+  
+  public static <K extends Comparable<? super K>, V> Sb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2)
+  {
+    return new a(mf.d()).a(paramK1, paramV1).a(paramK2, paramV2).a();
+  }
+  
+  public static <K extends Comparable<? super K>, V> Sb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3)
+  {
+    return new a(mf.d()).a(paramK1, paramV1).a(paramK2, paramV2).a(paramK3, paramV3).a();
+  }
+  
+  public static <K extends Comparable<? super K>, V> Sb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3, K paramK4, V paramV4)
+  {
+    return new a(mf.d()).a(paramK1, paramV1).a(paramK2, paramV2).a(paramK3, paramV3).a(paramK4, paramV4).a();
+  }
+  
+  public static <K extends Comparable<? super K>, V> Sb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3, K paramK4, V paramV4, K paramK5, V paramV5)
+  {
+    return new a(mf.d()).a(paramK1, paramV1).a(paramK2, paramV2).a(paramK3, paramV3).a(paramK4, paramV4).a(paramK5, paramV5).a();
+  }
+  
+  public static <K, V> Sb<K, V> a(Comparator<? super K> paramComparator)
+  {
+    if (mf.d().equals(paramComparator)) {
+      return e;
+    }
+    return new za(paramComparator);
+  }
+  
+  public static <K, V> Sb<K, V> a(Comparator<? super K> paramComparator, Collection<? extends Map.Entry<? extends K, ? extends V>> paramCollection)
+  {
+    if (paramCollection.isEmpty()) {
+      return a(paramComparator);
+    }
+    vb.a localA1 = vb.e();
+    vb.a localA2 = vb.e();
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramCollection.next();
+      localA1.a(localEntry.getKey());
+      localA2.a(localEntry.getValue());
+    }
+    return new Kf(new Of(localA1.a(), paramComparator), localA2.a());
+  }
+  
+  public static <K, V> Sb<K, V> a(Map<? extends K, ? extends V> paramMap)
+  {
+    return b(paramMap, mf.d());
+  }
+  
+  public static <K, V> Sb<K, V> a(Map<? extends K, ? extends V> paramMap, Comparator<? super K> paramComparator)
+  {
+    if (paramComparator != null) {
+      return b(paramMap, paramComparator);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> Sb<K, V> a(SortedMap<K, ? extends V> paramSortedMap)
+  {
+    Comparator localComparator2 = paramSortedMap.comparator();
+    Comparator localComparator1 = localComparator2;
+    if (localComparator2 == null) {
+      localComparator1 = d;
+    }
+    return b(paramSortedMap, localComparator1);
+  }
+  
+  public static <K, V> a<K, V> b(Comparator<K> paramComparator)
+  {
+    return new a(paramComparator);
+  }
+  
+  public static <K, V> Sb<K, V> b(Map<? extends K, ? extends V> paramMap, Comparator<? super K> paramComparator)
+  {
+    boolean bool = paramMap instanceof SortedMap;
+    int i = 0;
+    Object localObject;
+    if (bool)
+    {
+      localObject = ((SortedMap)paramMap).comparator();
+      if (localObject == null)
+      {
+        if (paramComparator == d)
+        {
+          bool = true;
+          break label51;
+        }
+      }
+      else
+      {
+        bool = paramComparator.equals(localObject);
+        break label51;
+      }
+    }
+    bool = false;
+    label51:
+    if ((bool) && ((paramMap instanceof Sb)))
+    {
+      localObject = (Sb)paramMap;
+      if (!((Sb)localObject).e()) {
+        return localObject;
+      }
+    }
+    paramMap = (Map.Entry[])paramMap.entrySet().toArray(new Map.Entry[0]);
+    while (i < paramMap.length)
+    {
+      localObject = paramMap[i];
+      paramMap[i] = Ab.b(((Map.Entry)localObject).getKey(), ((Map.Entry)localObject).getValue());
+      i += 1;
+    }
+    paramMap = Arrays.asList(paramMap);
+    if (!bool)
+    {
+      c(paramMap, paramComparator);
+      d(paramMap, paramComparator);
+    }
+    return a(paramComparator, paramMap);
+  }
+  
+  public static <K, V> void c(List<Map.Entry<K, V>> paramList, Comparator<? super K> paramComparator)
+  {
+    Collections.sort(paramList, new Rb(paramComparator));
+  }
+  
+  public static <K, V> void d(List<Map.Entry<K, V>> paramList, Comparator<? super K> paramComparator)
+  {
+    int i = 1;
+    while (i < paramList.size())
+    {
+      int j = i - 1;
+      if (paramComparator.compare(((Map.Entry)paramList.get(j)).getKey(), ((Map.Entry)paramList.get(i)).getKey()) != 0)
+      {
+        i += 1;
+      }
+      else
+      {
+        paramComparator = a.b("Duplicate keys in mappings ");
+        paramComparator.append(paramList.get(j));
+        paramComparator.append(" and ");
+        paramComparator.append(paramList.get(i));
+        throw new IllegalArgumentException(paramComparator.toString());
+      }
+    }
+  }
+  
+  public static <K, V> Sb<K, V> g()
+  {
+    return e;
+  }
+  
+  public static <K extends Comparable<K>, V> a<K, V> j()
+  {
+    return new a(mf.d());
+  }
+  
+  public static <K extends Comparable<K>, V> a<K, V> k()
+  {
+    return new a(mf.d().g());
+  }
+  
+  public Map.Entry<K, V> ceilingEntry(K paramK)
+  {
+    return tailMap(paramK, true).firstEntry();
+  }
+  
+  public K ceilingKey(K paramK)
+  {
+    return fe.a(ceilingEntry(paramK));
+  }
+  
+  public Comparator<? super K> comparator()
+  {
+    return keySet().comparator();
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    return values().contains(paramObject);
+  }
+  
+  public Wb<K> descendingKeySet()
+  {
+    return keySet().descendingSet();
+  }
+  
+  public Sb<K, V> descendingMap()
+  {
+    Sb localSb2 = g;
+    Sb localSb1 = localSb2;
+    if (localSb2 == null)
+    {
+      localSb1 = i();
+      g = localSb1;
+    }
+    return localSb1;
+  }
+  
+  public boolean e()
+  {
+    return (keySet().c()) || (values().c());
+  }
+  
+  public Nb<Map.Entry<K, V>> entrySet()
+  {
+    return super.entrySet();
+  }
+  
+  public Map.Entry<K, V> firstEntry()
+  {
+    if (isEmpty()) {
+      return null;
+    }
+    return (Map.Entry)entrySet().a().get(0);
+  }
+  
+  public K firstKey()
+  {
+    return keySet().first();
+  }
+  
+  public Map.Entry<K, V> floorEntry(K paramK)
+  {
+    return headMap(paramK, true).lastEntry();
+  }
+  
+  public K floorKey(K paramK)
+  {
+    return fe.a(floorEntry(paramK));
+  }
+  
+  public Object h()
+  {
+    return new b(this);
+  }
+  
+  public Sb<K, V> headMap(K paramK)
+  {
+    return headMap(paramK, false);
+  }
+  
+  public abstract Sb<K, V> headMap(K paramK, boolean paramBoolean);
+  
+  public Map.Entry<K, V> higherEntry(K paramK)
+  {
+    return tailMap(paramK, false).firstEntry();
+  }
+  
+  public K higherKey(K paramK)
+  {
+    return fe.a(higherEntry(paramK));
+  }
+  
+  public abstract Sb<K, V> i();
+  
+  public abstract Wb<K> keySet();
+  
+  public Map.Entry<K, V> lastEntry()
+  {
+    if (isEmpty()) {
+      return null;
+    }
+    return (Map.Entry)entrySet().a().get(size() - 1);
+  }
+  
+  public K lastKey()
+  {
+    return keySet().last();
+  }
+  
+  public Map.Entry<K, V> lowerEntry(K paramK)
+  {
+    return headMap(paramK, false).lastEntry();
+  }
+  
+  public K lowerKey(K paramK)
+  {
+    return fe.a(lowerEntry(paramK));
+  }
+  
+  public Wb<K> navigableKeySet()
+  {
+    return keySet();
+  }
+  
+  public final Map.Entry<K, V> pollFirstEntry()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final Map.Entry<K, V> pollLastEntry()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public int size()
+  {
+    return values().size();
+  }
+  
+  public Sb<K, V> subMap(K paramK1, K paramK2)
+  {
+    return subMap(paramK1, true, paramK2, false);
+  }
+  
+  public Sb<K, V> subMap(K paramK1, boolean paramBoolean1, K paramK2, boolean paramBoolean2)
+  {
+    if (paramK1 != null)
+    {
+      if (paramK2 != null)
+      {
+        boolean bool;
+        if (comparator().compare(paramK1, paramK2) <= 0) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool, "expected fromKey <= toKey but %s > %s", new Object[] { paramK1, paramK2 });
+        return headMap(paramK2, paramBoolean2).tailMap(paramK1, paramBoolean1);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public Sb<K, V> tailMap(K paramK)
+  {
+    return tailMap(paramK, true);
+  }
+  
+  public abstract Sb<K, V> tailMap(K paramK, boolean paramBoolean);
+  
+  public abstract rb<V> values();
+  
+  public static class a<K, V>
+    extends Ab.a<K, V>
+  {
+    public final Comparator<? super K> b;
+    
+    public a(Comparator<? super K> paramComparator)
+    {
+      if (paramComparator != null)
+      {
+        b = paramComparator;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<K, V> a(K paramK, V paramV)
+    {
+      a.add(Ab.b(paramK, paramV));
+      return this;
+    }
+    
+    public a<K, V> a(Map.Entry<? extends K, ? extends V> paramEntry)
+    {
+      super.a(paramEntry);
+      return this;
+    }
+    
+    public a<K, V> a(Map<? extends K, ? extends V> paramMap)
+    {
+      paramMap = paramMap.entrySet().iterator();
+      while (paramMap.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)paramMap.next();
+        a(localEntry.getKey(), localEntry.getValue());
+      }
+      return this;
+    }
+    
+    public Sb<K, V> a()
+    {
+      Sb.c(a, b);
+      Sb.d(a, b);
+      return Sb.a(b, a);
+    }
+  }
+  
+  private static class b
+    extends Ab.b
+  {
+    public static final long d = 0L;
+    public final Comparator<Object> e;
+    
+    public b(Sb<?, ?> paramSb)
+    {
+      super();
+      e = paramSb.comparator();
+    }
+    
+    public Object a()
+    {
+      return a(new Sb.a(e));
+    }
+  }
+}

@@ -1,0 +1,435 @@
+package com.github.mikephil.charting.charts;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.graphics.Typeface;
+import android.text.TextPaint;
+import android.util.AttributeSet;
+import com.github.mikephil.charting.animation.ChartAnimator;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
+import com.github.mikephil.charting.renderer.DataRenderer;
+import com.github.mikephil.charting.renderer.LegendRenderer;
+import com.github.mikephil.charting.renderer.PieChartRenderer;
+import com.github.mikephil.charting.utils.Utils;
+import java.util.List;
+
+public class PieChart
+  extends PieRadarChartBase<PieData>
+{
+  public float[] mAbsoluteAngles;
+  public CharSequence mCenterText = "";
+  public float mCenterTextRadiusPercent = 100.0F;
+  public RectF mCircleBox = new RectF();
+  public float[] mDrawAngles;
+  public boolean mDrawCenterText = true;
+  public boolean mDrawHole = true;
+  public boolean mDrawRoundedSlices = false;
+  public boolean mDrawSlicesUnderHole = false;
+  public boolean mDrawXLabels = true;
+  public float mHoleRadiusPercent = 50.0F;
+  public float mMaxAngle = 360.0F;
+  public float mTransparentCircleRadiusPercent = 55.0F;
+  public boolean mUsePercentValues = false;
+  
+  public PieChart(Context paramContext)
+  {
+    super(paramContext);
+  }
+  
+  public PieChart(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+  }
+  
+  public PieChart(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+  }
+  
+  private float calcAngle(float paramFloat)
+  {
+    return paramFloat / ((PieData)mData).getYValueSum() * mMaxAngle;
+  }
+  
+  private float calcAngle(float paramFloat1, float paramFloat2)
+  {
+    return paramFloat1 / paramFloat2 * mMaxAngle;
+  }
+  
+  private void calcAngles()
+  {
+    mDrawAngles = new float[((PieData)mData).getYValCount()];
+    mAbsoluteAngles = new float[((PieData)mData).getYValCount()];
+    float f = ((PieData)mData).getYValueSum();
+    List localList = ((PieData)mData).getDataSets();
+    int j = 0;
+    int i = 0;
+    while (j < ((PieData)mData).getDataSetCount())
+    {
+      IPieDataSet localIPieDataSet = (IPieDataSet)localList.get(j);
+      int k = 0;
+      while (k < localIPieDataSet.getEntryCount())
+      {
+        mDrawAngles[i] = calcAngle(Math.abs(localIPieDataSet.getEntryForIndex(k).getVal()), f);
+        if (i == 0)
+        {
+          mAbsoluteAngles[i] = mDrawAngles[i];
+        }
+        else
+        {
+          float[] arrayOfFloat = mAbsoluteAngles;
+          arrayOfFloat[i] = (arrayOfFloat[(i - 1)] + mDrawAngles[i]);
+        }
+        i += 1;
+        k += 1;
+      }
+      j += 1;
+    }
+  }
+  
+  public void calcMinMax()
+  {
+    calcAngles();
+  }
+  
+  public void calculateOffsets()
+  {
+    super.calculateOffsets();
+    if (mData == null) {
+      return;
+    }
+    float f1 = getDiameter() / 2.0F;
+    PointF localPointF = getCenterOffsets();
+    float f2 = ((PieData)mData).getDataSet().getSelectionShift();
+    RectF localRectF = mCircleBox;
+    float f3 = x;
+    float f4 = y;
+    localRectF.set(f3 - f1 + f2, f4 - f1 + f2, f3 + f1 - f2, f4 + f1 - f2);
+  }
+  
+  public float[] getAbsoluteAngles()
+  {
+    return mAbsoluteAngles;
+  }
+  
+  public PointF getCenterCircleBox()
+  {
+    return new PointF(mCircleBox.centerX(), mCircleBox.centerY());
+  }
+  
+  public CharSequence getCenterText()
+  {
+    return mCenterText;
+  }
+  
+  public float getCenterTextRadiusPercent()
+  {
+    return mCenterTextRadiusPercent;
+  }
+  
+  public RectF getCircleBox()
+  {
+    return mCircleBox;
+  }
+  
+  public int getDataSetIndexForIndex(int paramInt)
+  {
+    List localList = ((PieData)mData).getDataSets();
+    int i = 0;
+    while (i < localList.size())
+    {
+      if (((IPieDataSet)localList.get(i)).getEntryForXIndex(paramInt) != null) {
+        return i;
+      }
+      i += 1;
+    }
+    return -1;
+  }
+  
+  public float[] getDrawAngles()
+  {
+    return mDrawAngles;
+  }
+  
+  public float getHoleRadius()
+  {
+    return mHoleRadiusPercent;
+  }
+  
+  public int getIndexForAngle(float paramFloat)
+  {
+    paramFloat = Utils.getNormalizedAngle(paramFloat - getRotationAngle());
+    int i = 0;
+    for (;;)
+    {
+      float[] arrayOfFloat = mAbsoluteAngles;
+      if (i >= arrayOfFloat.length) {
+        break;
+      }
+      if (arrayOfFloat[i] > paramFloat) {
+        return i;
+      }
+      i += 1;
+    }
+    return -1;
+  }
+  
+  public float[] getMarkerPosition(Entry paramEntry, Highlight paramHighlight)
+  {
+    paramHighlight = getCenterCircleBox();
+    float f2 = getRadius();
+    float f1 = f2 / 10.0F * 3.6F;
+    if (isDrawHoleEnabled())
+    {
+      f1 = f2 / 100.0F;
+      f1 = (f2 - getHoleRadius() * f1) / 2.0F;
+    }
+    float f3 = getRotationAngle();
+    int i = paramEntry.getXIndex();
+    float f4 = mDrawAngles[i] / 2.0F;
+    double d1 = f2 - f1;
+    f1 = mAbsoluteAngles[i];
+    double d2 = Math.cos(Math.toRadians(mAnimator.getPhaseY() * (f1 + f3 - f4)));
+    Double.isNaN(d1);
+    double d3 = x;
+    Double.isNaN(d3);
+    f1 = (float)(d2 * d1 + d3);
+    f2 = mAbsoluteAngles[i];
+    d2 = Math.sin(Math.toRadians(mAnimator.getPhaseY() * (f3 + f2 - f4)));
+    Double.isNaN(d1);
+    d3 = y;
+    Double.isNaN(d3);
+    return new float[] { f1, (float)(d2 * d1 + d3) };
+  }
+  
+  public float getMaxAngle()
+  {
+    return mMaxAngle;
+  }
+  
+  public float getRadius()
+  {
+    RectF localRectF = mCircleBox;
+    if (localRectF == null) {
+      return 0.0F;
+    }
+    return Math.min(localRectF.width() / 2.0F, mCircleBox.height() / 2.0F);
+  }
+  
+  public float getRequiredBaseOffset()
+  {
+    return 0.0F;
+  }
+  
+  public float getRequiredLegendOffset()
+  {
+    return mLegendRenderer.getLabelPaint().getTextSize() * 2.0F;
+  }
+  
+  public float getTransparentCircleRadius()
+  {
+    return mTransparentCircleRadiusPercent;
+  }
+  
+  @Deprecated
+  public XAxis getXAxis()
+  {
+    throw new RuntimeException("PieChart has no XAxis");
+  }
+  
+  public void init()
+  {
+    super.init();
+    mRenderer = new PieChartRenderer(this, mAnimator, mViewPortHandler);
+    mXAxis = null;
+  }
+  
+  public boolean isDrawCenterTextEnabled()
+  {
+    return mDrawCenterText;
+  }
+  
+  public boolean isDrawHoleEnabled()
+  {
+    return mDrawHole;
+  }
+  
+  public boolean isDrawRoundedSlicesEnabled()
+  {
+    return mDrawRoundedSlices;
+  }
+  
+  public boolean isDrawSliceTextEnabled()
+  {
+    return mDrawXLabels;
+  }
+  
+  public boolean isDrawSlicesUnderHoleEnabled()
+  {
+    return mDrawSlicesUnderHole;
+  }
+  
+  public boolean isUsePercentValuesEnabled()
+  {
+    return mUsePercentValues;
+  }
+  
+  public boolean needsHighlight(int paramInt1, int paramInt2)
+  {
+    if (valuesToHighlight())
+    {
+      if (paramInt2 < 0) {
+        return false;
+      }
+      int i = 0;
+      for (;;)
+      {
+        Highlight[] arrayOfHighlight = mIndicesToHighlight;
+        if (i >= arrayOfHighlight.length) {
+          break;
+        }
+        if ((arrayOfHighlight[i].getXIndex() == paramInt1) && (mIndicesToHighlight[i].getDataSetIndex() == paramInt2)) {
+          return true;
+        }
+        i += 1;
+      }
+    }
+    return false;
+  }
+  
+  public void onDetachedFromWindow()
+  {
+    DataRenderer localDataRenderer = mRenderer;
+    if ((localDataRenderer != null) && ((localDataRenderer instanceof PieChartRenderer))) {
+      ((PieChartRenderer)localDataRenderer).releaseBitmap();
+    }
+    super.onDetachedFromWindow();
+  }
+  
+  public void onDraw(Canvas paramCanvas)
+  {
+    super.onDraw(paramCanvas);
+    if (mData == null) {
+      return;
+    }
+    mRenderer.drawData(paramCanvas);
+    if (valuesToHighlight()) {
+      mRenderer.drawHighlighted(paramCanvas, mIndicesToHighlight);
+    }
+    mRenderer.drawExtras(paramCanvas);
+    mRenderer.drawValues(paramCanvas);
+    mLegendRenderer.renderLegend(paramCanvas);
+    drawDescription(paramCanvas);
+    drawMarkers(paramCanvas);
+  }
+  
+  public void setCenterText(CharSequence paramCharSequence)
+  {
+    if (paramCharSequence == null)
+    {
+      mCenterText = "";
+      return;
+    }
+    mCenterText = paramCharSequence;
+  }
+  
+  public void setCenterTextColor(int paramInt)
+  {
+    ((PieChartRenderer)mRenderer).getPaintCenterText().setColor(paramInt);
+  }
+  
+  public void setCenterTextRadiusPercent(float paramFloat)
+  {
+    mCenterTextRadiusPercent = paramFloat;
+  }
+  
+  public void setCenterTextSize(float paramFloat)
+  {
+    ((PieChartRenderer)mRenderer).getPaintCenterText().setTextSize(Utils.convertDpToPixel(paramFloat));
+  }
+  
+  public void setCenterTextSizePixels(float paramFloat)
+  {
+    ((PieChartRenderer)mRenderer).getPaintCenterText().setTextSize(paramFloat);
+  }
+  
+  public void setCenterTextTypeface(Typeface paramTypeface)
+  {
+    ((PieChartRenderer)mRenderer).getPaintCenterText().setTypeface(paramTypeface);
+  }
+  
+  public void setDrawCenterText(boolean paramBoolean)
+  {
+    mDrawCenterText = paramBoolean;
+  }
+  
+  public void setDrawHoleEnabled(boolean paramBoolean)
+  {
+    mDrawHole = paramBoolean;
+  }
+  
+  public void setDrawSliceText(boolean paramBoolean)
+  {
+    mDrawXLabels = paramBoolean;
+  }
+  
+  public void setDrawSlicesUnderHole(boolean paramBoolean)
+  {
+    mDrawSlicesUnderHole = paramBoolean;
+  }
+  
+  public void setHoleColor(int paramInt)
+  {
+    ((PieChartRenderer)mRenderer).getPaintHole().setColor(paramInt);
+  }
+  
+  public void setHoleRadius(float paramFloat)
+  {
+    mHoleRadiusPercent = paramFloat;
+  }
+  
+  public void setMaxAngle(float paramFloat)
+  {
+    float f = paramFloat;
+    if (paramFloat > 360.0F) {
+      f = 360.0F;
+    }
+    paramFloat = f;
+    if (f < 90.0F) {
+      paramFloat = 90.0F;
+    }
+    mMaxAngle = paramFloat;
+  }
+  
+  public void setTransparentCircleAlpha(int paramInt)
+  {
+    ((PieChartRenderer)mRenderer).getPaintTransparentCircle().setAlpha(paramInt);
+  }
+  
+  public void setTransparentCircleColor(int paramInt)
+  {
+    Paint localPaint = ((PieChartRenderer)mRenderer).getPaintTransparentCircle();
+    int i = localPaint.getAlpha();
+    localPaint.setColor(paramInt);
+    localPaint.setAlpha(i);
+  }
+  
+  public void setTransparentCircleRadius(float paramFloat)
+  {
+    mTransparentCircleRadiusPercent = paramFloat;
+  }
+  
+  public void setUsePercentValues(boolean paramBoolean)
+  {
+    mUsePercentValues = paramBoolean;
+  }
+}

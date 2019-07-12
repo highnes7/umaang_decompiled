@@ -1,0 +1,52 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.h;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class RecordingYearBox
+  extends c
+{
+  public static final String TYPE = "yrrc";
+  public int recordingYear;
+  
+  static {}
+  
+  public RecordingYearBox()
+  {
+    super("yrrc");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    recordingYear = h.g(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    f.b.a.j.a(paramByteBuffer, recordingYear);
+  }
+  
+  public long getContentSize()
+  {
+    return 6L;
+  }
+  
+  public int getRecordingYear()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return recordingYear;
+  }
+  
+  public void setRecordingYear(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    recordingYear = paramInt;
+  }
+}

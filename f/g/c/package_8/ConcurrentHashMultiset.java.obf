@@ -1,0 +1,484 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.d;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import m.a.h;
+
+public final class fa<E>
+  extends t<E>
+  implements Serializable
+{
+  public static final long c = 1L;
+  public final transient ConcurrentMap<E, AtomicInteger> d;
+  public transient fa<E>.a e;
+  
+  @d
+  public fa(ConcurrentMap<E, AtomicInteger> paramConcurrentMap)
+  {
+    ba.a(paramConcurrentMap.isEmpty());
+    d = paramConcurrentMap;
+  }
+  
+  @a
+  public static <E> fa<E> a(fb<? super E, ? super Number> paramFb)
+  {
+    return new fa(paramFb.c());
+  }
+  
+  public static <E> fa<E> a(Iterable<? extends E> paramIterable)
+  {
+    fa localFa = e();
+    rc.a(localFa, paramIterable);
+    return localFa;
+  }
+  
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    paramObjectInputStream = (ConcurrentMap)paramObjectInputStream.readObject();
+    b.a.a(this, paramObjectInputStream);
+  }
+  
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeObject(d);
+  }
+  
+  private AtomicInteger b(Object paramObject)
+  {
+    try
+    {
+      paramObject = (AtomicInteger)d.get(paramObject);
+      return paramObject;
+    }
+    catch (NullPointerException|ClassCastException paramObject) {}
+    return null;
+  }
+  
+  public static <E> fa<E> e()
+  {
+    return new fa(new ConcurrentHashMap());
+  }
+  
+  private List<E> f()
+  {
+    ArrayList localArrayList = fd.c(size());
+    Iterator localIterator = entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Ye.a localA = (Ye.a)localIterator.next();
+      Object localObject = localA.a();
+      int i = localA.getCount();
+      while (i > 0)
+      {
+        localArrayList.add(localObject);
+        i -= 1;
+      }
+    }
+    return localArrayList;
+  }
+  
+  public int a(@h Object paramObject)
+  {
+    paramObject = b(paramObject);
+    if (paramObject == null) {
+      return 0;
+    }
+    return paramObject.get();
+  }
+  
+  public int a(E paramE, int paramInt)
+  {
+    if (paramE != null)
+    {
+      bf.a(paramInt, "count");
+      AtomicInteger localAtomicInteger2 = b(paramE);
+      AtomicInteger localAtomicInteger1 = localAtomicInteger2;
+      if (localAtomicInteger2 == null)
+      {
+        if (paramInt == 0) {
+          return 0;
+        }
+        localAtomicInteger2 = (AtomicInteger)d.putIfAbsent(paramE, new AtomicInteger(paramInt));
+        localAtomicInteger1 = localAtomicInteger2;
+        if (localAtomicInteger2 == null) {
+          return 0;
+        }
+      }
+      int i;
+      do
+      {
+        i = localAtomicInteger1.get();
+        if (i == 0)
+        {
+          if (paramInt == 0) {
+            return 0;
+          }
+          localAtomicInteger2 = new AtomicInteger(paramInt);
+          if ((d.putIfAbsent(paramE, localAtomicInteger2) != null) && (!d.replace(paramE, localAtomicInteger1, localAtomicInteger2))) {
+            break;
+          }
+          return 0;
+        }
+      } while (!localAtomicInteger1.compareAndSet(i, paramInt));
+      if (paramInt == 0) {
+        d.remove(paramE, localAtomicInteger1);
+      }
+      return i;
+    }
+    paramE = new NullPointerException();
+    for (;;)
+    {
+      throw paramE;
+    }
+  }
+  
+  public Set<E> a()
+  {
+    return new ca(this, d.keySet());
+  }
+  
+  public boolean a(E paramE, int paramInt1, int paramInt2)
+  {
+    if (paramE != null)
+    {
+      bf.a(paramInt1, "oldCount");
+      bf.a(paramInt2, "newCount");
+      AtomicInteger localAtomicInteger1 = b(paramE);
+      boolean bool2 = false;
+      boolean bool1 = false;
+      if (localAtomicInteger1 == null)
+      {
+        if (paramInt1 != 0) {
+          return false;
+        }
+        if (paramInt2 == 0) {
+          return true;
+        }
+        if (d.putIfAbsent(paramE, new AtomicInteger(paramInt2)) == null) {
+          bool1 = true;
+        }
+        return bool1;
+      }
+      int i = localAtomicInteger1.get();
+      if (i == paramInt1)
+      {
+        if (i == 0)
+        {
+          if (paramInt2 == 0)
+          {
+            d.remove(paramE, localAtomicInteger1);
+            return true;
+          }
+          AtomicInteger localAtomicInteger2 = new AtomicInteger(paramInt2);
+          if (d.putIfAbsent(paramE, localAtomicInteger2) != null)
+          {
+            bool1 = bool2;
+            if (!d.replace(paramE, localAtomicInteger1, localAtomicInteger2)) {}
+          }
+          else
+          {
+            bool1 = true;
+          }
+          return bool1;
+        }
+        if (localAtomicInteger1.compareAndSet(i, paramInt2))
+        {
+          if (paramInt2 == 0) {
+            d.remove(paramE, localAtomicInteger1);
+          }
+          return true;
+        }
+      }
+      return false;
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean add(Object paramObject)
+  {
+    c(paramObject, 1);
+    return true;
+  }
+  
+  public boolean addAll(Collection paramCollection)
+  {
+    return bf.a(this, paramCollection);
+  }
+  
+  public int b(@h Object paramObject, int paramInt)
+  {
+    if (paramInt == 0) {
+      return a(paramObject);
+    }
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "Invalid occurrences: %s", new Object[] { Integer.valueOf(paramInt) });
+    AtomicInteger localAtomicInteger = b(paramObject);
+    if (localAtomicInteger == null) {
+      return 0;
+    }
+    int i;
+    int j;
+    do
+    {
+      i = localAtomicInteger.get();
+      if (i == 0) {
+        break;
+      }
+      j = Math.max(0, i - paramInt);
+    } while (!localAtomicInteger.compareAndSet(i, j));
+    if (j == 0) {
+      d.remove(paramObject, localAtomicInteger);
+    }
+    return i;
+    return 0;
+  }
+  
+  public int c()
+  {
+    return d.size();
+  }
+  
+  public int c(E paramE, int paramInt)
+  {
+    if (paramE != null)
+    {
+      if (paramInt == 0) {
+        return a(paramE);
+      }
+      boolean bool;
+      if (paramInt > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "Invalid occurrences: %s", new Object[] { Integer.valueOf(paramInt) });
+      AtomicInteger localAtomicInteger2;
+      AtomicInteger localAtomicInteger1;
+      label172:
+      do
+      {
+        localAtomicInteger2 = b(paramE);
+        localAtomicInteger1 = localAtomicInteger2;
+        if (localAtomicInteger2 == null)
+        {
+          localAtomicInteger2 = (AtomicInteger)d.putIfAbsent(paramE, new AtomicInteger(paramInt));
+          localAtomicInteger1 = localAtomicInteger2;
+          if (localAtomicInteger2 == null) {
+            return 0;
+          }
+        }
+        for (;;)
+        {
+          int i = localAtomicInteger1.get();
+          if (i == 0) {
+            break label172;
+          }
+          try
+          {
+            bool = localAtomicInteger1.compareAndSet(i, f.g.c.h.g.b(i, paramInt));
+            if (bool) {
+              return i;
+            }
+          }
+          catch (ArithmeticException paramE)
+          {
+            for (;;) {}
+          }
+        }
+        paramE = new StringBuilder();
+        paramE.append("Overflow adding ");
+        paramE.append(paramInt);
+        paramE.append(" occurrences to a count of ");
+        paramE.append(i);
+        throw new IllegalArgumentException(paramE.toString());
+        localAtomicInteger2 = new AtomicInteger(paramInt);
+      } while ((d.putIfAbsent(paramE, localAtomicInteger2) != null) && (!d.replace(paramE, localAtomicInteger1, localAtomicInteger2)));
+      return 0;
+    }
+    paramE = new NullPointerException();
+    for (;;)
+    {
+      throw paramE;
+    }
+  }
+  
+  public void clear()
+  {
+    d.clear();
+  }
+  
+  public boolean contains(Object paramObject)
+  {
+    return a(paramObject) > 0;
+  }
+  
+  public Iterator<Ye.a<E>> d()
+  {
+    return new ea(this, new da(this));
+  }
+  
+  public boolean d(@h Object paramObject, int paramInt)
+  {
+    if (paramInt == 0) {
+      return true;
+    }
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "Invalid occurrences: %s", new Object[] { Integer.valueOf(paramInt) });
+    AtomicInteger localAtomicInteger = b(paramObject);
+    if (localAtomicInteger == null) {
+      return false;
+    }
+    int i;
+    int j;
+    do
+    {
+      i = localAtomicInteger.get();
+      if (i < paramInt) {
+        return false;
+      }
+      j = i - paramInt;
+    } while (!localAtomicInteger.compareAndSet(i, j));
+    if (j == 0) {
+      d.remove(paramObject, localAtomicInteger);
+    }
+    return true;
+  }
+  
+  public Set<Ye.a<E>> entrySet()
+  {
+    a localA2 = e;
+    a localA1 = localA2;
+    if (localA2 == null)
+    {
+      localA1 = new a(null);
+      e = localA1;
+    }
+    return localA1;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    return bf.a(this, paramObject);
+  }
+  
+  public boolean isEmpty()
+  {
+    return d.isEmpty();
+  }
+  
+  public Iterator iterator()
+  {
+    return bf.b(this);
+  }
+  
+  public boolean remove(Object paramObject)
+  {
+    return b(paramObject, 1) > 0;
+  }
+  
+  public boolean removeAll(Collection paramCollection)
+  {
+    return bf.b(this, paramCollection);
+  }
+  
+  public boolean retainAll(Collection paramCollection)
+  {
+    return bf.c(this, paramCollection);
+  }
+  
+  public int size()
+  {
+    Iterator localIterator = d.values().iterator();
+    for (long l = 0L; localIterator.hasNext(); l += ((AtomicInteger)localIterator.next()).get()) {}
+    return f.g.c.j.g.b(l);
+  }
+  
+  public Object[] toArray()
+  {
+    return f().toArray();
+  }
+  
+  public <T> T[] toArray(T[] paramArrayOfT)
+  {
+    return f().toArray(paramArrayOfT);
+  }
+  
+  private class a
+    extends t.b
+  {
+    public a()
+    {
+      super();
+    }
+    
+    private List<Ye.a<E>> d()
+    {
+      ArrayList localArrayList = fd.c(size());
+      Jc.a(localArrayList, iterator());
+      return localArrayList;
+    }
+    
+    public fa<E> c()
+    {
+      return fa.this;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      if ((paramObject instanceof Ye.a))
+      {
+        paramObject = (Ye.a)paramObject;
+        Object localObject = paramObject.a();
+        int i = paramObject.getCount();
+        if (i != 0) {
+          return c().a(localObject, i, 0);
+        }
+      }
+      return false;
+    }
+    
+    public Object[] toArray()
+    {
+      return d().toArray();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return d().toArray(paramArrayOfT);
+    }
+  }
+  
+  private static class b
+  {
+    public static final ag.a<fa> a = ag.a(fa.class, "countMap");
+    
+    public b() {}
+  }
+}

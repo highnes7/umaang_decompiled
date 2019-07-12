@@ -1,0 +1,91 @@
+package b.b.x.d;
+
+import android.graphics.PointF;
+import b.b.a.F;
+import b.b.x.n.s;
+import f.a.a.a.a;
+
+public final class e
+{
+  public final PointF a;
+  public final float b;
+  public final PointF c;
+  public final float d;
+  
+  public e(@F PointF paramPointF1, float paramFloat1, @F PointF paramPointF2, float paramFloat2)
+  {
+    s.a(paramPointF1, "start == null");
+    a = ((PointF)paramPointF1);
+    b = paramFloat1;
+    s.a(paramPointF2, "end == null");
+    c = ((PointF)paramPointF2);
+    d = paramFloat2;
+  }
+  
+  @F
+  public PointF a()
+  {
+    return c;
+  }
+  
+  public float b()
+  {
+    return d;
+  }
+  
+  @F
+  public PointF c()
+  {
+    return a;
+  }
+  
+  public float d()
+  {
+    return b;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (!(paramObject instanceof e)) {
+      return false;
+    }
+    paramObject = (e)paramObject;
+    return (Float.compare(b, b) == 0) && (Float.compare(d, d) == 0) && (a.equals(a)) && (c.equals(c));
+  }
+  
+  public int hashCode()
+  {
+    int k = a.hashCode();
+    float f = b;
+    int j = 0;
+    int i;
+    if (f != 0.0F) {
+      i = Float.floatToIntBits(f);
+    } else {
+      i = 0;
+    }
+    int m = c.hashCode();
+    f = d;
+    if (f != 0.0F) {
+      j = Float.floatToIntBits(f);
+    }
+    return (m + (k * 31 + i) * 31) * 31 + j;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.b("PathSegment{start=");
+    localStringBuilder.append(a);
+    localStringBuilder.append(", startFraction=");
+    localStringBuilder.append(b);
+    localStringBuilder.append(", end=");
+    localStringBuilder.append(c);
+    localStringBuilder.append(", endFraction=");
+    localStringBuilder.append(d);
+    localStringBuilder.append('}');
+    return localStringBuilder.toString();
+  }
+}

@@ -1,0 +1,92 @@
+package l.a.a.a.a.c;
+
+import java.util.Collection;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+
+public abstract class m<Params, Progress, Result>
+  extends e<Params, Progress, Result>
+  implements h<t>, p, t, g
+{
+  public final r s = new r();
+  
+  public m() {}
+  
+  public void a(Throwable paramThrowable)
+  {
+    ((t)d()).a(paramThrowable);
+  }
+  
+  public final void a(ExecutorService paramExecutorService, Params... paramVarArgs)
+  {
+    super.a(new a(paramExecutorService, this), paramVarArgs);
+  }
+  
+  public void a(t paramT)
+  {
+    if (f() == e.d.a)
+    {
+      ((h)d()).a(paramT);
+      return;
+    }
+    throw new IllegalStateException("Must not add Dependency after task is running");
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    ((t)d()).a(paramBoolean);
+  }
+  
+  public boolean a()
+  {
+    return ((t)d()).a();
+  }
+  
+  public boolean b()
+  {
+    return ((h)d()).b();
+  }
+  
+  public Collection<t> c()
+  {
+    return ((h)d()).c();
+  }
+  
+  public int compareTo(Object paramObject)
+  {
+    return k.a(this, paramObject);
+  }
+  
+  public <T extends h<t>,  extends p,  extends t> T d()
+  {
+    return s;
+  }
+  
+  public Throwable getError()
+  {
+    return ((t)d()).getError();
+  }
+  
+  public k getPriority()
+  {
+    return ((p)d()).getPriority();
+  }
+  
+  private static class a<Result>
+    implements Executor
+  {
+    public final Executor a;
+    public final m b;
+    
+    public a(Executor paramExecutor, m paramM)
+    {
+      a = paramExecutor;
+      b = paramM;
+    }
+    
+    public void execute(Runnable paramRunnable)
+    {
+      a.execute(new l(this, paramRunnable, null));
+    }
+  }
+}

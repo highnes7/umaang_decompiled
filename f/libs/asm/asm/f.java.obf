@@ -1,0 +1,127 @@
+package f.c.a.a;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Looper;
+import f.a.a.a.a;
+import java.util.concurrent.ScheduledExecutorService;
+import l.a.a.a.a.b.u;
+import l.a.a.a.a.b.y;
+import l.a.a.a.a.e.c;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class U
+  implements s.a
+{
+  public static final String a = "Answers Events Handler";
+  public static final String b = "onCrash called from main thread!!!";
+  public final long c;
+  public final l d;
+  public final l.a.a.a.b e;
+  public final s f;
+  public final o g;
+  
+  public U(l paramL, l.a.a.a.b paramB, s paramS, o paramO, long paramLong)
+  {
+    d = paramL;
+    e = paramB;
+    f = paramS;
+    g = paramO;
+    c = paramLong;
+  }
+  
+  public static U a(l.a.a.a.n paramN, Context paramContext, y paramY, String paramString1, String paramString2, long paramLong)
+  {
+    paramY = new aa(paramContext, paramY, paramString1, paramString2);
+    paramString1 = new m(paramContext, new l.a.a.a.a.f.b(paramN));
+    paramString2 = new c(g.h());
+    l.a.a.a.b localB = new l.a.a.a.b(paramContext);
+    ScheduledExecutorService localScheduledExecutorService = u.b("Answers Events Handler");
+    s localS = new s(localScheduledExecutorService);
+    return new U(new l(paramN, paramContext, paramString1, paramY, paramString2, localScheduledExecutorService, new A(paramContext)), localB, localS, o.a(paramContext), paramLong);
+  }
+  
+  public void a()
+  {
+    g.h().d("Answers", "Flush events when app is backgrounded");
+    d.c();
+  }
+  
+  public void a(long paramLong)
+  {
+    g.h().d("Answers", "Logged install");
+    d.b(X.a(paramLong));
+  }
+  
+  public void a(Activity paramActivity, X.b paramB)
+  {
+    q localQ = g.h();
+    StringBuilder localStringBuilder = a.b("Logged lifecycle event: ");
+    localStringBuilder.append(paramB.name());
+    localQ.d("Answers", localStringBuilder.toString());
+    d.a(X.a(paramB, paramActivity));
+  }
+  
+  public void a(I paramI)
+  {
+    q localQ = g.h();
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Logged predefined event: ");
+    localStringBuilder.append(paramI);
+    localQ.d("Answers", localStringBuilder.toString());
+    d.a(X.a(paramI));
+  }
+  
+  public void a(v paramV)
+  {
+    q localQ = g.h();
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Logged custom event: ");
+    localStringBuilder.append(paramV);
+    localQ.d("Answers", localStringBuilder.toString());
+    d.a(X.a(paramV));
+  }
+  
+  public void a(String paramString) {}
+  
+  public void a(String paramString1, String paramString2)
+  {
+    if (Looper.myLooper() != Looper.getMainLooper())
+    {
+      g.h().d("Answers", "Logged crash");
+      d.c(X.a(paramString1, paramString2));
+      return;
+    }
+    throw new IllegalStateException("onCrash called from main thread!!!");
+  }
+  
+  public void a(l.a.a.a.a.g.b paramB, String paramString)
+  {
+    f.a(k);
+    d.a(paramB, paramString);
+  }
+  
+  public void b()
+  {
+    e.a();
+    d.a();
+  }
+  
+  public void c()
+  {
+    d.b();
+    e.a(new n(this, f));
+    f.a(this);
+    if (d())
+    {
+      a(c);
+      g.b();
+    }
+  }
+  
+  public boolean d()
+  {
+    return g.a() ^ true;
+  }
+}

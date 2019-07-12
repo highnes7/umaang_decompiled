@@ -1,0 +1,534 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.RandomAccess;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public abstract class vb<E>
+  extends rb<E>
+  implements List<E>, RandomAccess
+{
+  public vb() {}
+  
+  public static <E> vb<E> a(Iterable<? extends E> paramIterable)
+  {
+    if (paramIterable != null)
+    {
+      if ((paramIterable instanceof Collection)) {
+        return b(V.a(paramIterable));
+      }
+      return a(paramIterable.iterator());
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2)
+  {
+    return b(new Object[] { paramE1, paramE2 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E paramE7)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6, paramE7 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E paramE7, E paramE8)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6, paramE7, paramE8 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E paramE7, E paramE8, E paramE9)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6, paramE7, paramE8, paramE9 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E paramE7, E paramE8, E paramE9, E paramE10)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6, paramE7, paramE8, paramE9, paramE10 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E paramE7, E paramE8, E paramE9, E paramE10, E paramE11)
+  {
+    return b(new Object[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6, paramE7, paramE8, paramE9, paramE10, paramE11 });
+  }
+  
+  public static <E> vb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E paramE7, E paramE8, E paramE9, E paramE10, E paramE11, E paramE12, E... paramVarArgs)
+  {
+    Object[] arrayOfObject = new Object[paramVarArgs.length + 12];
+    arrayOfObject[0] = paramE1;
+    arrayOfObject[1] = paramE2;
+    arrayOfObject[2] = paramE3;
+    arrayOfObject[3] = paramE4;
+    arrayOfObject[4] = paramE5;
+    arrayOfObject[5] = paramE6;
+    arrayOfObject[6] = paramE7;
+    arrayOfObject[7] = paramE8;
+    arrayOfObject[8] = paramE9;
+    arrayOfObject[9] = paramE10;
+    arrayOfObject[10] = paramE11;
+    arrayOfObject[11] = paramE12;
+    System.arraycopy(paramVarArgs, 0, arrayOfObject, 12, paramVarArgs.length);
+    return b(arrayOfObject);
+  }
+  
+  public static <E> vb<E> a(Collection<? extends E> paramCollection)
+  {
+    return a(paramCollection.toArray());
+  }
+  
+  public static <E> vb<E> a(Iterator<? extends E> paramIterator)
+  {
+    if (!paramIterator.hasNext()) {
+      return ta.c;
+    }
+    Object localObject = paramIterator.next();
+    if (!paramIterator.hasNext()) {
+      return new jg(localObject);
+    }
+    return new a(4).a(localObject).a(paramIterator).a();
+  }
+  
+  public static <E> vb<E> a(Object[] paramArrayOfObject)
+  {
+    int i = paramArrayOfObject.length;
+    if (i != 0)
+    {
+      if (i != 1) {
+        return b(paramArrayOfObject);
+      }
+      return new jg(paramArrayOfObject[0]);
+    }
+    return ta.c;
+  }
+  
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws InvalidObjectException
+  {
+    throw new InvalidObjectException("Use SerializedForm");
+  }
+  
+  public static <E> vb<E> b(E paramE)
+  {
+    return new jg(paramE);
+  }
+  
+  public static <E> vb<E> b(Collection<? extends E> paramCollection)
+  {
+    if ((paramCollection instanceof rb))
+    {
+      vb localVb = ((rb)paramCollection).a();
+      paramCollection = localVb;
+      if (localVb.c()) {
+        paramCollection = a(localVb.toArray());
+      }
+      return paramCollection;
+    }
+    return a(paramCollection.toArray());
+  }
+  
+  public static <E> vb<E> b(Object... paramVarArgs)
+  {
+    int i = 0;
+    while (i < paramVarArgs.length)
+    {
+      kf.a(paramVarArgs[i], i);
+      i += 1;
+    }
+    return new Bf(paramVarArgs);
+  }
+  
+  public static <E> vb<E> c(E[] paramArrayOfE)
+  {
+    int i = paramArrayOfE.length;
+    if (i != 0)
+    {
+      if (i != 1) {
+        return b((Object[])paramArrayOfE.clone());
+      }
+      return new jg(paramArrayOfE[0]);
+    }
+    return ta.c;
+  }
+  
+  public static <E> a<E> e()
+  {
+    return new a(4);
+  }
+  
+  public static <E> vb<E> f()
+  {
+    return ta.c;
+  }
+  
+  public vb<E> a()
+  {
+    return this;
+  }
+  
+  public vb<E> a(int paramInt1, int paramInt2)
+  {
+    return new d(paramInt1, paramInt2 - paramInt1);
+  }
+  
+  public final void add(int paramInt, E paramE)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final boolean addAll(int paramInt, Collection<? extends E> paramCollection)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public boolean contains(@h Object paramObject)
+  {
+    return indexOf(paramObject) >= 0;
+  }
+  
+  public Object d()
+  {
+    return new c(toArray());
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    return fd.a(this, paramObject);
+  }
+  
+  public vb<E> g()
+  {
+    return new b(this);
+  }
+  
+  public int hashCode()
+  {
+    return fd.a(this);
+  }
+  
+  public int indexOf(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return -1;
+    }
+    return fd.b(this, paramObject);
+  }
+  
+  public th<E> iterator()
+  {
+    return listIterator();
+  }
+  
+  public int lastIndexOf(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return -1;
+    }
+    return fd.c(this, paramObject);
+  }
+  
+  public uh<E> listIterator()
+  {
+    return listIterator(0);
+  }
+  
+  public uh<E> listIterator(int paramInt)
+  {
+    return new ub(this, size(), paramInt);
+  }
+  
+  public final E remove(int paramInt)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final E set(int paramInt, E paramE)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public vb<E> subList(int paramInt1, int paramInt2)
+  {
+    ba.b(paramInt1, paramInt2, size());
+    int i = paramInt2 - paramInt1;
+    if (i != 0)
+    {
+      if (i != 1) {
+        return a(paramInt1, paramInt2);
+      }
+      return new jg(get(paramInt1));
+    }
+    return ta.c;
+  }
+  
+  public static final class a<E>
+    extends rb.b<E>
+  {
+    public Object[] b;
+    public int c;
+    
+    public a()
+    {
+      this(4);
+    }
+    
+    public a(int paramInt)
+    {
+      b = new Object[paramInt];
+      c = 0;
+    }
+    
+    public a<E> a(int paramInt)
+    {
+      paramInt = c + paramInt;
+      Object[] arrayOfObject = b;
+      if (arrayOfObject.length < paramInt) {
+        b = kf.a(arrayOfObject, rb.b.a(arrayOfObject.length, paramInt));
+      }
+      return this;
+    }
+    
+    public a<E> a(Iterable<? extends E> paramIterable)
+    {
+      if ((paramIterable instanceof Collection)) {
+        a(((Collection)paramIterable).size());
+      }
+      super.a(paramIterable);
+      return this;
+    }
+    
+    public a<E> a(E paramE)
+    {
+      if (paramE != null)
+      {
+        a(1);
+        Object[] arrayOfObject = b;
+        int i = c;
+        c = (i + 1);
+        arrayOfObject[i] = paramE;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<E> a(Iterator<? extends E> paramIterator)
+    {
+      super.a(paramIterator);
+      return this;
+    }
+    
+    public a<E> a(E... paramVarArgs)
+    {
+      int i = 0;
+      while (i < paramVarArgs.length)
+      {
+        kf.a(paramVarArgs[i], i);
+        i += 1;
+      }
+      a(paramVarArgs.length);
+      System.arraycopy(paramVarArgs, 0, b, c, paramVarArgs.length);
+      c += paramVarArgs.length;
+      return this;
+    }
+    
+    public vb<E> a()
+    {
+      int i = c;
+      if (i != 0)
+      {
+        if (i != 1)
+        {
+          Object[] arrayOfObject = b;
+          if (i == arrayOfObject.length) {
+            return new Bf(arrayOfObject);
+          }
+          return new Bf(kf.a(arrayOfObject, i));
+        }
+        return vb.b(b[0]);
+      }
+      return vb.f();
+    }
+  }
+  
+  private static class b<E>
+    extends vb<E>
+  {
+    public final transient vb<E> c;
+    public final transient int d;
+    
+    public b(vb<E> paramVb)
+    {
+      c = paramVb;
+      d = paramVb.size();
+    }
+    
+    private int a(int paramInt)
+    {
+      return d - 1 - paramInt;
+    }
+    
+    private int b(int paramInt)
+    {
+      return d - paramInt;
+    }
+    
+    public boolean c()
+    {
+      return c.c();
+    }
+    
+    public boolean contains(@h Object paramObject)
+    {
+      return c.contains(paramObject);
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      return c.containsAll(paramCollection);
+    }
+    
+    public vb<E> g()
+    {
+      return c;
+    }
+    
+    public E get(int paramInt)
+    {
+      ba.c(paramInt, d, "index");
+      return c.get(d - 1 - paramInt);
+    }
+    
+    public int indexOf(@h Object paramObject)
+    {
+      int i = c.lastIndexOf(paramObject);
+      if (i >= 0) {
+        return a(i);
+      }
+      return -1;
+    }
+    
+    public boolean isEmpty()
+    {
+      return c.isEmpty();
+    }
+    
+    public Iterator iterator()
+    {
+      return listIterator();
+    }
+    
+    public int lastIndexOf(@h Object paramObject)
+    {
+      int i = c.indexOf(paramObject);
+      if (i >= 0) {
+        return a(i);
+      }
+      return -1;
+    }
+    
+    public uh<E> listIterator(int paramInt)
+    {
+      ba.d(paramInt, d, "index");
+      return new wb(this, c.listIterator(d - paramInt));
+    }
+    
+    public int size()
+    {
+      return d;
+    }
+    
+    public vb<E> subList(int paramInt1, int paramInt2)
+    {
+      ba.b(paramInt1, paramInt2, d);
+      vb localVb = c;
+      int i = d;
+      return localVb.subList(i - paramInt2, i - paramInt1).g();
+    }
+  }
+  
+  private static class c
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final Object[] b;
+    
+    public c(Object[] paramArrayOfObject)
+    {
+      b = paramArrayOfObject;
+    }
+    
+    public Object a()
+    {
+      return vb.c(b);
+    }
+  }
+  
+  public class d
+    extends vb<E>
+  {
+    public final transient int c;
+    public final transient int d;
+    
+    public d(int paramInt1, int paramInt2)
+    {
+      c = paramInt1;
+      d = paramInt2;
+    }
+    
+    public boolean c()
+    {
+      return true;
+    }
+    
+    public E get(int paramInt)
+    {
+      ba.c(paramInt, d, "index");
+      return vb.this.get(paramInt + c);
+    }
+    
+    public Iterator iterator()
+    {
+      return listIterator();
+    }
+    
+    public int size()
+    {
+      return d;
+    }
+    
+    public vb<E> subList(int paramInt1, int paramInt2)
+    {
+      ba.b(paramInt1, paramInt2, d);
+      vb localVb = vb.this;
+      int i = c;
+      return localVb.subList(paramInt1 + i, paramInt2 + i);
+    }
+  }
+}

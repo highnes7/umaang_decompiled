@@ -1,0 +1,192 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ca;
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.SortedSet;
+import m.a.h;
+
+@f.g.c.a.a
+@b
+public final class qf<C extends Comparable>
+  implements ca<C>, Serializable
+{
+  public static final long a = 0L;
+  public final la<C> b;
+  public final la<C> c;
+  
+  public qf(la<C> paramLa1, la<C> paramLa2)
+  {
+    if (paramLa1.a(paramLa2) <= 0)
+    {
+      b = paramLa1;
+      c = paramLa2;
+      return;
+    }
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Invalid range: ");
+    localStringBuilder.append(a(paramLa1, paramLa2));
+    throw new IllegalArgumentException(localStringBuilder.toString());
+  }
+  
+  public static int a(Comparable paramComparable1, Comparable paramComparable2)
+  {
+    return paramComparable1.compareTo(paramComparable2);
+  }
+  
+  public static String a(la<?> paramLa1, la<?> paramLa2)
+  {
+    StringBuilder localStringBuilder = new StringBuilder(16);
+    paramLa1.a(localStringBuilder);
+    localStringBuilder.append('?');
+    paramLa2.b(localStringBuilder);
+    return localStringBuilder.toString();
+  }
+  
+  public static <T> SortedSet<T> a(Iterable<T> paramIterable)
+  {
+    return (SortedSet)paramIterable;
+  }
+  
+  @b(serializable=false)
+  public ia<C> a(oa<C> paramOa)
+  {
+    return ia.a(this, paramOa);
+  }
+  
+  public boolean a()
+  {
+    return b != la.b();
+  }
+  
+  public boolean a(qf<C> paramQf)
+  {
+    return (b.a(b) <= 0) && (c.a(c) >= 0);
+  }
+  
+  public boolean a(C paramC)
+  {
+    return b(paramC);
+  }
+  
+  public qf<C> b(oa<C> paramOa)
+  {
+    if (paramOa != null)
+    {
+      la localLa = b.a(paramOa);
+      paramOa = c.a(paramOa);
+      if ((localLa == b) && (paramOa == c)) {
+        return this;
+      }
+      return new qf(localLa, paramOa);
+    }
+    throw new NullPointerException();
+  }
+  
+  public qf<C> b(qf<C> paramQf)
+  {
+    return new qf((la)mf.d().a(b, b), (la)mf.d().b(c, c));
+  }
+  
+  public boolean b()
+  {
+    return c != la.a();
+  }
+  
+  public boolean b(C paramC)
+  {
+    if (paramC != null) {
+      return (b.c(paramC)) && (!c.c(paramC));
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean b(Iterable<? extends C> paramIterable)
+  {
+    if (rc.g(paramIterable)) {
+      return true;
+    }
+    if ((paramIterable instanceof SortedSet))
+    {
+      SortedSet localSortedSet = (SortedSet)paramIterable;
+      Comparator localComparator = localSortedSet.comparator();
+      if ((mf.d().equals(localComparator)) || (localComparator == null)) {
+        return (b((Comparable)localSortedSet.first())) && (b((Comparable)localSortedSet.last()));
+      }
+    }
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext()) {
+      if (!b((Comparable)paramIterable.next())) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public boolean c()
+  {
+    return b.equals(c);
+  }
+  
+  public boolean c(qf<C> paramQf)
+  {
+    return (b.a(c) <= 0) && (b.a(c) <= 0);
+  }
+  
+  public O d()
+  {
+    return b.d();
+  }
+  
+  public qf<C> d(qf<C> paramQf)
+  {
+    return new qf((la)mf.d().b(b, b), (la)mf.d().a(c, c));
+  }
+  
+  public C e()
+  {
+    return b.c();
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    boolean bool3 = paramObject instanceof qf;
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (bool3)
+    {
+      paramObject = (qf)paramObject;
+      bool1 = bool2;
+      if (b.equals(b))
+      {
+        bool1 = bool2;
+        if (c.equals(c)) {
+          bool1 = true;
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public O f()
+  {
+    return c.e();
+  }
+  
+  public C g()
+  {
+    return c.c();
+  }
+  
+  public int hashCode()
+  {
+    int i = b.hashCode();
+    return c.hashCode() + i * 31;
+  }
+  
+  public String toString()
+  {
+    return a(b, c);
+  }
+}

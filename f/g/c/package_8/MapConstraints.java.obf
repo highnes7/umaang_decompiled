@@ -1,0 +1,627 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedSet;
+import m.a.h;
+
+@a
+@b
+public final class nd
+{
+  public nd() {}
+  
+  public static <K, V> Eg<K, V> a(Eg<K, V> paramEg, id<? super K, ? super V> paramId)
+  {
+    return new j(paramEg, paramId);
+  }
+  
+  public static <K, V> L<K, V> a(L<K, V> paramL, id<? super K, ? super V> paramId)
+  {
+    return new c(paramL, null, paramId);
+  }
+  
+  public static <K, V> bg<K, V> a(bg<K, V> paramBg, id<? super K, ? super V> paramId)
+  {
+    return new i(paramBg, paramId);
+  }
+  
+  public static <K, V> cd<K, V> a(cd<K, V> paramCd, id<? super K, ? super V> paramId)
+  {
+    return new f(paramCd, paramId);
+  }
+  
+  public static id<Object, Object> a()
+  {
+    return l.a;
+  }
+  
+  public static <K, V> ve<K, V> a(ve<K, V> paramVe, id<? super K, ? super V> paramId)
+  {
+    return new h(paramVe, paramId);
+  }
+  
+  public static <K, V> Collection<V> b(K paramK, Iterable<? extends V> paramIterable, id<? super K, ? super V> paramId)
+  {
+    paramIterable = fd.b(paramIterable);
+    Iterator localIterator = paramIterable.iterator();
+    while (localIterator.hasNext()) {
+      paramId.a(paramK, localIterator.next());
+    }
+    return paramIterable;
+  }
+  
+  public static <K, V> Collection<Map.Entry<K, V>> b(Collection<Map.Entry<K, V>> paramCollection, id<? super K, ? super V> paramId)
+  {
+    if ((paramCollection instanceof Set)) {
+      return new e((Set)paramCollection, paramId);
+    }
+    return new d(paramCollection, paramId);
+  }
+  
+  public static <K, V> Map<K, V> b(Map<? extends K, ? extends V> paramMap, id<? super K, ? super V> paramId)
+  {
+    paramMap = new LinkedHashMap(paramMap);
+    Iterator localIterator = paramMap.entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      paramId.a(localEntry.getKey(), localEntry.getValue());
+    }
+    return paramMap;
+  }
+  
+  public static <K, V> Map.Entry<K, Collection<V>> c(Map.Entry<K, Collection<V>> paramEntry, id<? super K, ? super V> paramId)
+  {
+    if (paramEntry != null)
+    {
+      if (paramId != null) {
+        return new ld(paramEntry, paramId);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> Map<K, V> c(Map<K, V> paramMap, id<? super K, ? super V> paramId)
+  {
+    return new g(paramMap, paramId);
+  }
+  
+  public static <K, V> Set<Map.Entry<K, Collection<V>>> c(Set<Map.Entry<K, Collection<V>>> paramSet, id<? super K, ? super V> paramId)
+  {
+    return new a(paramSet, paramId);
+  }
+  
+  public static <K, V> Map.Entry<K, V> d(Map.Entry<K, V> paramEntry, id<? super K, ? super V> paramId)
+  {
+    if (paramEntry != null)
+    {
+      if (paramId != null) {
+        return new jd(paramEntry, paramId);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> Set<Map.Entry<K, V>> d(Set<Map.Entry<K, V>> paramSet, id<? super K, ? super V> paramId)
+  {
+    return new e(paramSet, paramId);
+  }
+  
+  public static class a<K, V>
+    extends Ya<Map.Entry<K, Collection<V>>>
+  {
+    public final id<? super K, ? super V> a;
+    public final Set<Map.Entry<K, Collection<V>>> b;
+    
+    public a(Set<Map.Entry<K, Collection<V>>> paramSet, id<? super K, ? super V> paramId)
+    {
+      b = paramSet;
+      a = paramId;
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return fe.a(q(), paramObject);
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      return b(paramCollection);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      return m(paramObject);
+    }
+    
+    public int hashCode()
+    {
+      return x();
+    }
+    
+    public Iterator<Map.Entry<K, Collection<V>>> iterator()
+    {
+      return new md(this, b.iterator());
+    }
+    
+    public Set<Map.Entry<K, Collection<V>>> q()
+    {
+      return b;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      return fe.b(q(), paramObject);
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      return c(paramCollection);
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      return d(paramCollection);
+    }
+    
+    public Object[] toArray()
+    {
+      return t();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return a(paramArrayOfT);
+    }
+  }
+  
+  private static class b<K, V>
+    extends Ja<Collection<V>>
+  {
+    public final Collection<Collection<V>> a;
+    public final Set<Map.Entry<K, Collection<V>>> b;
+    
+    public b(Collection<Collection<V>> paramCollection, Set<Map.Entry<K, Collection<V>>> paramSet)
+    {
+      a = paramCollection;
+      b = paramSet;
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return k(paramObject);
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      return b(paramCollection);
+    }
+    
+    public Iterator<Collection<V>> iterator()
+    {
+      return new od(this, b.iterator());
+    }
+    
+    public Collection<Collection<V>> q()
+    {
+      return a;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      return l(paramObject);
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      return c(paramCollection);
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      return d(paramCollection);
+    }
+    
+    public Object[] toArray()
+    {
+      return t();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return a(paramArrayOfT);
+    }
+  }
+  
+  private static class c<K, V>
+    extends nd.g<K, V>
+    implements L<K, V>
+  {
+    public volatile L<V, K> d;
+    
+    public c(L<K, V> paramL, @h L<V, K> paramL1, id<? super K, ? super V> paramId)
+    {
+      super(paramId);
+      d = paramL1;
+    }
+    
+    public V a(K paramK, V paramV)
+    {
+      b.a(paramK, paramV);
+      return q().a(paramK, paramV);
+    }
+    
+    public L<V, K> f()
+    {
+      if (d == null) {
+        d = new c(q().f(), this, new nd.k(b));
+      }
+      return d;
+    }
+    
+    public L<K, V> q()
+    {
+      return (L)a;
+    }
+    
+    public Set<V> values()
+    {
+      return q().values();
+    }
+  }
+  
+  private static class d<K, V>
+    extends Ja<Map.Entry<K, V>>
+  {
+    public final id<? super K, ? super V> a;
+    public final Collection<Map.Entry<K, V>> b;
+    
+    public d(Collection<Map.Entry<K, V>> paramCollection, id<? super K, ? super V> paramId)
+    {
+      b = paramCollection;
+      a = paramId;
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return fe.a(q(), paramObject);
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      return b(paramCollection);
+    }
+    
+    public Iterator<Map.Entry<K, V>> iterator()
+    {
+      return new pd(this, b.iterator());
+    }
+    
+    public Collection<Map.Entry<K, V>> q()
+    {
+      return b;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      return fe.b(q(), paramObject);
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      return c(paramCollection);
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      return d(paramCollection);
+    }
+    
+    public Object[] toArray()
+    {
+      return t();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return a(paramArrayOfT);
+    }
+  }
+  
+  public static class e<K, V>
+    extends nd.d<K, V>
+    implements Set<Map.Entry<K, V>>
+  {
+    public e(Set<Map.Entry<K, V>> paramSet, id<? super K, ? super V> paramId)
+    {
+      super(paramId);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      return gg.a(this, paramObject);
+    }
+    
+    public int hashCode()
+    {
+      return gg.a(this);
+    }
+  }
+  
+  private static class f<K, V>
+    extends nd.h<K, V>
+    implements cd<K, V>
+  {
+    public f(cd<K, V> paramCd, id<? super K, ? super V> paramId)
+    {
+      super(paramId);
+    }
+    
+    public List<V> b(K paramK, Iterable<? extends V> paramIterable)
+    {
+      return (List)b.b(paramK, nd.b(paramK, paramIterable, a));
+    }
+    
+    public List<V> d(Object paramObject)
+    {
+      return (List)q().d(paramObject);
+    }
+    
+    public List<V> get(K paramK)
+    {
+      return (List)super.get(paramK);
+    }
+  }
+  
+  public static class g<K, V>
+    extends Sa<K, V>
+  {
+    public final Map<K, V> a;
+    public final id<? super K, ? super V> b;
+    public transient Set<Map.Entry<K, V>> c;
+    
+    public g(Map<K, V> paramMap, id<? super K, ? super V> paramId)
+    {
+      if (paramMap != null)
+      {
+        a = paramMap;
+        if (paramId != null)
+        {
+          b = paramId;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public Set<Map.Entry<K, V>> entrySet()
+    {
+      Set localSet = c;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new nd.e(a.entrySet(), b);
+        c = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    public V put(K paramK, V paramV)
+    {
+      b.a(paramK, paramV);
+      return a.put(paramK, paramV);
+    }
+    
+    public void putAll(Map<? extends K, ? extends V> paramMap)
+    {
+      a.putAll(nd.b(paramMap, b));
+    }
+    
+    public Map<K, V> q()
+    {
+      return a;
+    }
+  }
+  
+  private static class h<K, V>
+    extends Ua<K, V>
+  {
+    public final id<? super K, ? super V> a;
+    public final ve<K, V> b;
+    public transient Collection<Map.Entry<K, V>> c;
+    public transient Map<K, Collection<V>> d;
+    
+    public h(ve<K, V> paramVe, id<? super K, ? super V> paramId)
+    {
+      if (paramVe != null)
+      {
+        b = paramVe;
+        if (paramId != null)
+        {
+          a = paramId;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public Map<K, Collection<V>> a()
+    {
+      Map localMap = d;
+      Object localObject = localMap;
+      if (localMap == null)
+      {
+        localObject = new qd(this, b.a());
+        d = ((Map)localObject);
+      }
+      return localObject;
+    }
+    
+    public boolean a(ve<? extends K, ? extends V> paramVe)
+    {
+      paramVe = paramVe.entries().iterator();
+      boolean bool = false;
+      while (paramVe.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)paramVe.next();
+        bool |= put(localEntry.getKey(), localEntry.getValue());
+      }
+      return bool;
+    }
+    
+    public boolean a(K paramK, Iterable<? extends V> paramIterable)
+    {
+      return b.a(paramK, nd.b(paramK, paramIterable, a));
+    }
+    
+    public Collection<V> b(K paramK, Iterable<? extends V> paramIterable)
+    {
+      return b.b(paramK, nd.b(paramK, paramIterable, a));
+    }
+    
+    public Collection<Map.Entry<K, V>> entries()
+    {
+      Collection localCollection2 = c;
+      Collection localCollection1 = localCollection2;
+      if (localCollection2 == null)
+      {
+        localCollection1 = nd.b(b.entries(), a);
+        c = localCollection1;
+      }
+      return localCollection1;
+    }
+    
+    public Collection<V> get(K paramK)
+    {
+      return ha.d(b.get(paramK), new rd(this, paramK));
+    }
+    
+    public boolean put(K paramK, V paramV)
+    {
+      a.a(paramK, paramV);
+      return b.put(paramK, paramV);
+    }
+    
+    public ve<K, V> q()
+    {
+      return b;
+    }
+  }
+  
+  private static class i<K, V>
+    extends nd.h<K, V>
+    implements bg<K, V>
+  {
+    public i(bg<K, V> paramBg, id<? super K, ? super V> paramId)
+    {
+      super(paramId);
+    }
+    
+    public Set<V> b(K paramK, Iterable<? extends V> paramIterable)
+    {
+      return (Set)b.b(paramK, nd.b(paramK, paramIterable, a));
+    }
+    
+    public Set<V> d(Object paramObject)
+    {
+      return (Set)q().d(paramObject);
+    }
+    
+    public Set<Map.Entry<K, V>> entries()
+    {
+      return (Set)super.entries();
+    }
+    
+    public Set<V> get(K paramK)
+    {
+      return (Set)super.get(paramK);
+    }
+  }
+  
+  private static class j<K, V>
+    extends nd.i<K, V>
+    implements Eg<K, V>
+  {
+    public j(Eg<K, V> paramEg, id<? super K, ? super V> paramId)
+    {
+      super(paramId);
+    }
+    
+    public SortedSet<V> b(K paramK, Iterable<? extends V> paramIterable)
+    {
+      return (SortedSet)super.b(paramK, paramIterable);
+    }
+    
+    public Comparator<? super V> d()
+    {
+      return ((Eg)q()).d();
+    }
+    
+    public SortedSet<V> d(Object paramObject)
+    {
+      return (SortedSet)q().d(paramObject);
+    }
+    
+    public SortedSet<V> get(K paramK)
+    {
+      return (SortedSet)super.get(paramK);
+    }
+  }
+  
+  private static class k<K, V>
+    implements id<K, V>
+  {
+    public final id<? super V, ? super K> a;
+    
+    public k(id<? super V, ? super K> paramId)
+    {
+      if (paramId != null)
+      {
+        a = paramId;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public void a(K paramK, V paramV)
+    {
+      a.a(paramV, paramK);
+    }
+  }
+  
+  private static enum l
+    implements id<Object, Object>
+  {
+    public l() {}
+    
+    public void a(Object paramObject1, Object paramObject2)
+    {
+      if (paramObject1 != null)
+      {
+        if (paramObject2 != null) {
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public String toString()
+    {
+      return "Not null";
+    }
+  }
+}

@@ -1,0 +1,528 @@
+package f.g.c.d;
+
+import f.g.c.a.d;
+import f.g.c.b.J;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@f.g.c.a.b
+public abstract class Rf<R, C, V>
+  extends Yb<R, C, V>
+{
+  public static final J<Yg.a<Object, Object, Object>, Object> a = new Pf();
+  public final Nb<Yg.a<R, C, V>> b;
+  @h
+  public volatile transient vb<V> c;
+  
+  public Rf(Nb<Yg.a<R, C, V>> paramNb)
+  {
+    b = paramNb;
+  }
+  
+  public static final <R, C, V> Rf<R, C, V> a(Iterable<Yg.a<R, C, V>> paramIterable)
+  {
+    return a(paramIterable, null, null);
+  }
+  
+  public static final <R, C, V> Rf<R, C, V> a(Iterable<Yg.a<R, C, V>> paramIterable, @h Comparator<? super R> paramComparator, @h Comparator<? super C> paramComparator1)
+  {
+    Object localObject2 = Nb.e();
+    Object localObject1 = Nb.e();
+    Nb.b localB = Nb.e();
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext())
+    {
+      Yg.a localA = (Yg.a)paramIterable.next();
+      ((Nb.b)localObject2).a(localA);
+      ((Nb.b)localObject1).a(localA.a());
+      localB.a(localA.b());
+    }
+    localObject2 = ((Nb.b)localObject2).a();
+    localObject1 = ((Nb.b)localObject1).a();
+    paramIterable = (Iterable<Yg.a<R, C, V>>)localObject1;
+    if (paramComparator != null)
+    {
+      paramIterable = fd.b((Iterable)localObject1);
+      Collections.sort(paramIterable, paramComparator);
+      paramIterable = Nb.b(paramIterable);
+    }
+    localObject1 = localB.a();
+    paramComparator = (Comparator<? super R>)localObject1;
+    if (paramComparator1 != null)
+    {
+      paramComparator = fd.b((Iterable)localObject1);
+      Collections.sort(paramComparator, paramComparator1);
+      paramComparator = Nb.b(paramComparator);
+    }
+    int i = ((Collection)localObject2).size();
+    int j = paramIterable.size();
+    if (i > paramComparator.size() * j / 2) {
+      return new a((Nb)localObject2, paramIterable, paramComparator);
+    }
+    return new c((Nb)localObject2, paramIterable, paramComparator);
+  }
+  
+  public static final <R, C, V> Rf<R, C, V> a(List<Yg.a<R, C, V>> paramList, @h Comparator<? super R> paramComparator, @h Comparator<? super C> paramComparator1)
+  {
+    if (paramList != null)
+    {
+      if ((paramComparator != null) || (paramComparator1 != null)) {
+        Collections.sort(paramList, new Qf(paramComparator, paramComparator1));
+      }
+      return a(paramList, paramComparator, paramComparator1);
+    }
+    throw new NullPointerException();
+  }
+  
+  private J<Yg.a<R, C, V>, V> c()
+  {
+    return a;
+  }
+  
+  public final boolean containsValue(@h Object paramObject)
+  {
+    return values().contains(paramObject);
+  }
+  
+  public final Nb<Yg.a<R, C, V>> h()
+  {
+    return b;
+  }
+  
+  public final boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public final int size()
+  {
+    return h().size();
+  }
+  
+  public final rb<V> values()
+  {
+    vb localVb2 = c;
+    vb localVb1 = localVb2;
+    if (localVb2 == null)
+    {
+      localVb1 = vb.a(rc.a(h(), a));
+      c = localVb1;
+    }
+    return localVb1;
+  }
+  
+  @d
+  @m.a.a.b
+  public static final class a<R, C, V>
+    extends Rf<R, C, V>
+  {
+    public final Ab<R, Integer> d;
+    public final Ab<C, Integer> e;
+    public final Ab<R, Map<C, V>> f;
+    public final Ab<C, Map<R, V>> g;
+    public final int[] h;
+    public final int[] i;
+    public final V[][] j;
+    
+    public a(Nb<Yg.a<R, C, V>> paramNb, Nb<R> paramNb1, Nb<C> paramNb2)
+    {
+      super(null);
+      j = ((Object[][])Array.newInstance(Object.class, new int[] { paramNb1.size(), paramNb2.size() }));
+      d = a(paramNb1);
+      e = a(paramNb2);
+      h = new int[d.size()];
+      i = new int[e.size()];
+      paramNb = paramNb.iterator();
+      while (paramNb.hasNext())
+      {
+        paramNb1 = (Yg.a)paramNb.next();
+        paramNb2 = paramNb1.a();
+        Object localObject = paramNb1.b();
+        int k = ((Integer)d.get(paramNb2)).intValue();
+        int m = ((Integer)e.get(localObject)).intValue();
+        boolean bool;
+        if (j[k][m] == null) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool, "duplicate key: (%s, %s)", new Object[] { paramNb2, localObject });
+        j[k][m] = paramNb1.getValue();
+        paramNb1 = h;
+        paramNb1[k] += 1;
+        paramNb1 = i;
+        paramNb1[m] += 1;
+      }
+      f = new d(null);
+      g = new b(null);
+    }
+    
+    public static <E> Ab<E, Integer> a(Nb<E> paramNb)
+    {
+      Ab.a localA = Ab.a();
+      paramNb = paramNb.iterator();
+      int k = 0;
+      while (paramNb.hasNext())
+      {
+        localA.a(paramNb.next(), Integer.valueOf(k));
+        k += 1;
+      }
+      return localA.a();
+    }
+    
+    public V c(@h Object paramObject1, @h Object paramObject2)
+    {
+      paramObject1 = (Integer)d.get(paramObject1);
+      paramObject2 = (Integer)e.get(paramObject2);
+      if ((paramObject1 != null) && (paramObject2 != null)) {
+        return j[paramObject1.intValue()][paramObject2.intValue()];
+      }
+      return null;
+    }
+    
+    public boolean d(@h Object paramObject1, @h Object paramObject2)
+    {
+      return c(paramObject1, paramObject2) != null;
+    }
+    
+    public Ab<C, Map<R, V>> e()
+    {
+      return g;
+    }
+    
+    public boolean e(@h Object paramObject)
+    {
+      return e.containsKey(paramObject);
+    }
+    
+    public Ab<R, V> f(C paramC)
+    {
+      Ab localAb = e;
+      if (paramC != null)
+      {
+        paramC = (Integer)localAb.get(paramC);
+        if (paramC == null) {
+          return Ab.g();
+        }
+        return new a(paramC.intValue());
+      }
+      throw new NullPointerException();
+    }
+    
+    public Nb<R> g()
+    {
+      return d.keySet();
+    }
+    
+    public boolean g(@h Object paramObject)
+    {
+      return d.containsKey(paramObject);
+    }
+    
+    public Ab<C, V> h(R paramR)
+    {
+      if (paramR != null)
+      {
+        paramR = (Integer)d.get(paramR);
+        if (paramR == null) {
+          return Ab.g();
+        }
+        return new c(paramR.intValue());
+      }
+      throw new NullPointerException();
+    }
+    
+    public Set h()
+    {
+      return b;
+    }
+    
+    public Nb<C> i()
+    {
+      return e.keySet();
+    }
+    
+    public Ab<R, Map<C, V>> j()
+    {
+      return f;
+    }
+    
+    private final class a
+      extends Rf.b<R, V>
+    {
+      public final int e;
+      
+      public a(int paramInt)
+      {
+        super();
+        e = paramInt;
+      }
+      
+      public V b(int paramInt)
+      {
+        return Rf.a.c(Rf.a.this)[paramInt][e];
+      }
+      
+      public boolean e()
+      {
+        return true;
+      }
+      
+      public Ab<R, Integer> i()
+      {
+        return Rf.a.e(Rf.a.this);
+      }
+    }
+    
+    private final class b
+      extends Rf.b<C, Map<R, V>>
+    {
+      public b()
+      {
+        super();
+      }
+      
+      public Map<R, V> b(int paramInt)
+      {
+        return new Rf.a.a(Rf.a.this, paramInt);
+      }
+      
+      public boolean e()
+      {
+        return false;
+      }
+      
+      public Ab<C, Integer> i()
+      {
+        return Rf.a.b(Rf.a.this);
+      }
+    }
+    
+    private final class c
+      extends Rf.b<C, V>
+    {
+      public final int e;
+      
+      public c(int paramInt)
+      {
+        super();
+        e = paramInt;
+      }
+      
+      public V b(int paramInt)
+      {
+        return Rf.a.c(Rf.a.this)[e][paramInt];
+      }
+      
+      public boolean e()
+      {
+        return true;
+      }
+      
+      public Ab<C, Integer> i()
+      {
+        return Rf.a.b(Rf.a.this);
+      }
+    }
+    
+    private final class d
+      extends Rf.b<R, Map<C, V>>
+    {
+      public d()
+      {
+        super();
+      }
+      
+      public Map<C, V> b(int paramInt)
+      {
+        return new Rf.a.c(Rf.a.this, paramInt);
+      }
+      
+      public boolean e()
+      {
+        return false;
+      }
+      
+      public Ab<R, Integer> i()
+      {
+        return Rf.a.e(Rf.a.this);
+      }
+    }
+  }
+  
+  private static abstract class b<K, V>
+    extends Ab<K, V>
+  {
+    public final int d;
+    
+    public b(int paramInt)
+    {
+      d = paramInt;
+    }
+    
+    private boolean j()
+    {
+      return d == i().size();
+    }
+    
+    public K a(int paramInt)
+    {
+      return i().keySet().a().get(paramInt);
+    }
+    
+    public Nb<Map.Entry<K, V>> b()
+    {
+      if (j()) {
+        return new Tf(this);
+      }
+      return new Vf(this);
+    }
+    
+    @h
+    public abstract V b(int paramInt);
+    
+    public Nb<K> c()
+    {
+      if (j()) {
+        return i().keySet();
+      }
+      return super.c();
+    }
+    
+    public V get(@h Object paramObject)
+    {
+      paramObject = (Integer)i().get(paramObject);
+      if (paramObject == null) {
+        return null;
+      }
+      return b(paramObject.intValue());
+    }
+    
+    public abstract Ab<K, Integer> i();
+    
+    public int size()
+    {
+      return d;
+    }
+  }
+  
+  @d
+  @m.a.a.b
+  public static final class c<R, C, V>
+    extends Rf<R, C, V>
+  {
+    public final Ab<R, Map<C, V>> d;
+    public final Ab<C, Map<R, V>> e;
+    
+    public c(Nb<Yg.a<R, C, V>> paramNb, Nb<R> paramNb1, Nb<C> paramNb2)
+    {
+      super(null);
+      paramNb1 = a(paramNb1);
+      paramNb2 = a(paramNb2);
+      paramNb = paramNb.iterator();
+      while (paramNb.hasNext())
+      {
+        Object localObject3 = (Yg.a)paramNb.next();
+        Object localObject1 = ((Yg.a)localObject3).a();
+        Object localObject2 = ((Yg.a)localObject3).b();
+        localObject3 = ((Yg.a)localObject3).getValue();
+        ((Ab.a)paramNb1.get(localObject1)).a(localObject2, localObject3);
+        ((Ab.a)paramNb2.get(localObject2)).a(localObject1, localObject3);
+      }
+      d = a(paramNb1);
+      e = a(paramNb2);
+    }
+    
+    public static final <A, B, V> Ab<A, Map<B, V>> a(Map<A, Ab.a<B, V>> paramMap)
+    {
+      return Ab.a(fe.a(paramMap, new Wf()));
+    }
+    
+    public static final <A, B, V> Map<A, Ab.a<B, V>> a(Nb<A> paramNb)
+    {
+      LinkedHashMap localLinkedHashMap = fe.d();
+      paramNb = paramNb.iterator();
+      while (paramNb.hasNext()) {
+        localLinkedHashMap.put(paramNb.next(), Ab.a());
+      }
+      return localLinkedHashMap;
+    }
+    
+    public V c(@h Object paramObject1, @h Object paramObject2)
+    {
+      paramObject1 = (Map)d.get(paramObject1);
+      if (paramObject1 == null) {
+        return null;
+      }
+      return paramObject1.get(paramObject2);
+    }
+    
+    public boolean d(@h Object paramObject1, @h Object paramObject2)
+    {
+      paramObject1 = (Map)d.get(paramObject1);
+      return (paramObject1 != null) && (paramObject1.containsKey(paramObject2));
+    }
+    
+    public Ab<C, Map<R, V>> e()
+    {
+      return e;
+    }
+    
+    public boolean e(@h Object paramObject)
+    {
+      return e.containsKey(paramObject);
+    }
+    
+    public Ab<R, V> f(C paramC)
+    {
+      if (paramC != null) {
+        return (Ab)U.b((Ab)e.get(paramC), Ab.g());
+      }
+      throw new NullPointerException();
+    }
+    
+    public Nb<R> g()
+    {
+      return d.keySet();
+    }
+    
+    public boolean g(@h Object paramObject)
+    {
+      return d.containsKey(paramObject);
+    }
+    
+    public Ab<C, V> h(R paramR)
+    {
+      if (paramR != null) {
+        return (Ab)U.b((Ab)d.get(paramR), Ab.g());
+      }
+      throw new NullPointerException();
+    }
+    
+    public Set h()
+    {
+      return b;
+    }
+    
+    public Nb<C> i()
+    {
+      return e.keySet();
+    }
+    
+    public Ab<R, Map<C, V>> j()
+    {
+      return d;
+    }
+  }
+}

@@ -1,0 +1,53 @@
+package b.b.w.a.a;
+
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
+import b.b.a.F;
+import b.b.a.G;
+
+public final class a
+{
+  public static final int a = 16777216;
+  public static final int b = Integer.MIN_VALUE;
+  public static final String[] c = new String[0];
+  public static final String d = "android.support.v13.view.inputmethod.EditorInfoCompat.CONTENT_MIME_TYPES";
+  
+  @Deprecated
+  public a() {}
+  
+  public static void a(@F EditorInfo paramEditorInfo, @G String[] paramArrayOfString)
+  {
+    if (Build.VERSION.SDK_INT >= 25)
+    {
+      contentMimeTypes = paramArrayOfString;
+      return;
+    }
+    if (extras == null) {
+      extras = new Bundle();
+    }
+    extras.putStringArray("android.support.v13.view.inputmethod.EditorInfoCompat.CONTENT_MIME_TYPES", paramArrayOfString);
+  }
+  
+  @F
+  public static String[] a(EditorInfo paramEditorInfo)
+  {
+    if (Build.VERSION.SDK_INT >= 25)
+    {
+      paramEditorInfo = contentMimeTypes;
+      if (paramEditorInfo != null) {
+        return paramEditorInfo;
+      }
+      return c;
+    }
+    paramEditorInfo = extras;
+    if (paramEditorInfo == null) {
+      return c;
+    }
+    paramEditorInfo = paramEditorInfo.getStringArray("android.support.v13.view.inputmethod.EditorInfoCompat.CONTENT_MIME_TYPES");
+    if (paramEditorInfo != null) {
+      return paramEditorInfo;
+    }
+    return c;
+  }
+}

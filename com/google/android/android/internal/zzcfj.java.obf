@@ -1,0 +1,31 @@
+package com.google.android.gms.internal;
+
+import android.os.Build.VERSION;
+
+public final class zzcfj
+  implements Runnable
+{
+  public zzcfj(zzcfi paramZzcfi) {}
+  
+  public final void run()
+  {
+    zzcfi localZzcfi = zziws;
+    Integer localInteger = zzdtz;
+    if (localInteger != null)
+    {
+      if (((zzcfk)zziwr.zzdtx).callServiceStopSelfResult(localInteger.intValue()))
+      {
+        zzcax.zzawk();
+        zziws.zziru.zzayj().zzj("Local AppMeasurementService processed last upload request. StartId", zziws.zzdtz);
+      }
+      return;
+    }
+    zzcax.zzawk();
+    if (Build.VERSION.SDK_INT >= 24)
+    {
+      zziws.zziru.zzayj().log("AppMeasurementJobService processed last upload request.");
+      localZzcfi = zziws;
+      ((zzcfk)zziwr.zzdtx).zza(zzduc, false);
+    }
+  }
+}

@@ -1,0 +1,97 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.a.d;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+@b(emulated=true, serializable=true)
+public final class jb<K, V>
+  extends v<K, V>
+{
+  public static final int j = 2;
+  @c("Not needed in emulated source")
+  public static final long k = 0L;
+  @d
+  public transient int l = 2;
+  
+  public jb()
+  {
+    super(new HashMap());
+  }
+  
+  public jb(int paramInt1, int paramInt2)
+  {
+    super(fe.b(paramInt1));
+    boolean bool;
+    if (paramInt2 >= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool);
+    l = paramInt2;
+  }
+  
+  public jb(ve<? extends K, ? extends V> paramVe)
+  {
+    super(fe.b(paramVe.keySet().size()));
+    a(paramVe);
+  }
+  
+  public static <K, V> jb<K, V> a(int paramInt1, int paramInt2)
+  {
+    return new jb(paramInt1, paramInt2);
+  }
+  
+  @c("java.io.ObjectInputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    l = paramObjectInputStream.readInt();
+    int i = paramObjectInputStream.readInt();
+    a(fe.b(i));
+    ag.a(this, paramObjectInputStream, i);
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeInt(l);
+    ag.a(this, paramObjectOutputStream);
+  }
+  
+  public static <K, V> jb<K, V> b(ve<? extends K, ? extends V> paramVe)
+  {
+    return new jb(paramVe);
+  }
+  
+  public static <K, V> jb<K, V> h()
+  {
+    return new jb();
+  }
+  
+  public boolean containsKey(Object paramObject)
+  {
+    return b.containsKey(paramObject);
+  }
+  
+  public Set<V> e()
+  {
+    return gg.a(l);
+  }
+  
+  public int size()
+  {
+    return c;
+  }
+}

@@ -1,0 +1,201 @@
+package org.spongycastle.jcajce;
+
+import java.math.BigInteger;
+import java.security.cert.CRL;
+import java.security.cert.CRLSelector;
+import java.security.cert.CertStore;
+import java.security.cert.CertStoreException;
+import java.security.cert.X509CRL;
+import java.security.cert.X509CRLSelector;
+import java.security.cert.X509Certificate;
+import java.util.Collection;
+import org.spongycastle.asn1.ASN1Integer;
+import org.spongycastle.asn1.ASN1ObjectIdentifier;
+import org.spongycastle.asn1.ASN1OctetString;
+import org.spongycastle.asn1.x509.Extension;
+import org.spongycastle.util.Arrays;
+import org.spongycastle.util.Selector;
+
+public class PKIXCRLStoreSelector<T extends CRL>
+  implements Selector<T>
+{
+  public final CRLSelector baseSelector;
+  public final boolean completeCRLEnabled;
+  public final boolean deltaCRLIndicator;
+  public final byte[] issuingDistributionPoint;
+  public final boolean issuingDistributionPointEnabled;
+  public final BigInteger maxBaseCRLNumber;
+  
+  public PKIXCRLStoreSelector(Builder paramBuilder)
+  {
+    baseSelector = baseSelector;
+    deltaCRLIndicator = deltaCRLIndicator;
+    completeCRLEnabled = completeCRLEnabled;
+    maxBaseCRLNumber = maxBaseCRLNumber;
+    issuingDistributionPoint = issuingDistributionPoint;
+    issuingDistributionPointEnabled = issuingDistributionPointEnabled;
+  }
+  
+  public static Collection<? extends CRL> getCRLs(PKIXCRLStoreSelector paramPKIXCRLStoreSelector, CertStore paramCertStore)
+    throws CertStoreException
+  {
+    return paramCertStore.getCRLs(new SelectorClone(paramPKIXCRLStoreSelector));
+  }
+  
+  public Object clone()
+  {
+    return this;
+  }
+  
+  public X509Certificate getCertificateChecking()
+  {
+    CRLSelector localCRLSelector = baseSelector;
+    if ((localCRLSelector instanceof X509CRLSelector)) {
+      return ((X509CRLSelector)localCRLSelector).getCertificateChecking();
+    }
+    return null;
+  }
+  
+  public byte[] getIssuingDistributionPoint()
+  {
+    return Arrays.clone(issuingDistributionPoint);
+  }
+  
+  public BigInteger getMaxBaseCRLNumber()
+  {
+    return maxBaseCRLNumber;
+  }
+  
+  public boolean isCompleteCRLEnabled()
+  {
+    return completeCRLEnabled;
+  }
+  
+  public boolean isDeltaCRLIndicatorEnabled()
+  {
+    return deltaCRLIndicator;
+  }
+  
+  public boolean isIssuingDistributionPointEnabled()
+  {
+    return issuingDistributionPointEnabled;
+  }
+  
+  public boolean match(CRL paramCRL)
+  {
+    if (!(paramCRL instanceof X509CRL)) {
+      return baseSelector.match(paramCRL);
+    }
+    Object localObject2 = (X509CRL)paramCRL;
+    Object localObject1 = null;
+    try
+    {
+      byte[] arrayOfByte = ((X509CRL)localObject2).getExtensionValue(Extension.deltaCRLIndicator.getId());
+      if (arrayOfByte != null) {
+        localObject1 = ASN1Integer.getInstance(ASN1OctetString.getInstance(arrayOfByte).getOctets());
+      }
+      if ((isDeltaCRLIndicatorEnabled()) && (localObject1 == null)) {
+        return false;
+      }
+      if ((isCompleteCRLEnabled()) && (localObject1 != null)) {
+        return false;
+      }
+      if ((localObject1 != null) && (maxBaseCRLNumber != null) && (((ASN1Integer)localObject1).getPositiveValue().compareTo(maxBaseCRLNumber) == 1)) {
+        return false;
+      }
+      if (issuingDistributionPointEnabled)
+      {
+        localObject1 = ((X509CRL)localObject2).getExtensionValue(Extension.issuingDistributionPoint.getId());
+        localObject2 = issuingDistributionPoint;
+        if (localObject2 == null)
+        {
+          if (localObject1 != null) {
+            return false;
+          }
+        }
+        else if (!Arrays.areEqual((byte[])localObject1, (byte[])localObject2)) {
+          return false;
+        }
+      }
+      return baseSelector.match(paramCRL);
+    }
+    catch (Exception paramCRL) {}
+    return false;
+  }
+  
+  public static class Builder
+  {
+    public final CRLSelector baseSelector;
+    public boolean completeCRLEnabled = false;
+    public boolean deltaCRLIndicator = false;
+    public byte[] issuingDistributionPoint = null;
+    public boolean issuingDistributionPointEnabled = false;
+    public BigInteger maxBaseCRLNumber = null;
+    
+    public Builder(CRLSelector paramCRLSelector)
+    {
+      baseSelector = ((CRLSelector)paramCRLSelector.clone());
+    }
+    
+    public PKIXCRLStoreSelector<? extends CRL> build()
+    {
+      return new PKIXCRLStoreSelector(this);
+    }
+    
+    public Builder setCompleteCRLEnabled(boolean paramBoolean)
+    {
+      completeCRLEnabled = paramBoolean;
+      return this;
+    }
+    
+    public Builder setDeltaCRLIndicatorEnabled(boolean paramBoolean)
+    {
+      deltaCRLIndicator = paramBoolean;
+      return this;
+    }
+    
+    public void setIssuingDistributionPoint(byte[] paramArrayOfByte)
+    {
+      issuingDistributionPoint = Arrays.clone(paramArrayOfByte);
+    }
+    
+    public void setIssuingDistributionPointEnabled(boolean paramBoolean)
+    {
+      issuingDistributionPointEnabled = paramBoolean;
+    }
+    
+    public void setMaxBaseCRLNumber(BigInteger paramBigInteger)
+    {
+      maxBaseCRLNumber = paramBigInteger;
+    }
+  }
+  
+  private static class SelectorClone
+    extends X509CRLSelector
+  {
+    public final PKIXCRLStoreSelector selector;
+    
+    public SelectorClone(PKIXCRLStoreSelector paramPKIXCRLStoreSelector)
+    {
+      selector = paramPKIXCRLStoreSelector;
+      if ((PKIXCRLStoreSelector.access$700(paramPKIXCRLStoreSelector) instanceof X509CRLSelector))
+      {
+        paramPKIXCRLStoreSelector = (X509CRLSelector)PKIXCRLStoreSelector.access$700(paramPKIXCRLStoreSelector);
+        setCertificateChecking(paramPKIXCRLStoreSelector.getCertificateChecking());
+        setDateAndTime(paramPKIXCRLStoreSelector.getDateAndTime());
+        setIssuers(paramPKIXCRLStoreSelector.getIssuers());
+        setMinCRLNumber(paramPKIXCRLStoreSelector.getMinCRL());
+        setMaxCRLNumber(paramPKIXCRLStoreSelector.getMaxCRL());
+      }
+    }
+    
+    public boolean match(CRL paramCRL)
+    {
+      PKIXCRLStoreSelector localPKIXCRLStoreSelector = selector;
+      if (localPKIXCRLStoreSelector == null) {
+        return paramCRL != null;
+      }
+      return localPKIXCRLStoreSelector.match(paramCRL);
+    }
+  }
+}

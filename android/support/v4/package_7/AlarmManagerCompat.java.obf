@@ -1,0 +1,48 @@
+package android.support.v4.app;
+
+import android.app.AlarmManager;
+import android.app.AlarmManager.AlarmClockInfo;
+import android.app.PendingIntent;
+import android.os.Build.VERSION;
+import b.b.a.F;
+
+public final class AlarmManagerCompat
+{
+  public AlarmManagerCompat() {}
+  
+  public static void setAlarmClock(@F AlarmManager paramAlarmManager, long paramLong, @F PendingIntent paramPendingIntent1, @F PendingIntent paramPendingIntent2)
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramAlarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(paramLong, paramPendingIntent1), paramPendingIntent2);
+      return;
+    }
+    paramAlarmManager.setExact(0, paramLong, paramPendingIntent2);
+  }
+  
+  public static void setAndAllowWhileIdle(@F AlarmManager paramAlarmManager, int paramInt, long paramLong, @F PendingIntent paramPendingIntent)
+  {
+    if (Build.VERSION.SDK_INT >= 23)
+    {
+      paramAlarmManager.setAndAllowWhileIdle(paramInt, paramLong, paramPendingIntent);
+      return;
+    }
+    paramAlarmManager.set(paramInt, paramLong, paramPendingIntent);
+  }
+  
+  public static void setExact(@F AlarmManager paramAlarmManager, int paramInt, long paramLong, @F PendingIntent paramPendingIntent)
+  {
+    int i = Build.VERSION.SDK_INT;
+    paramAlarmManager.setExact(paramInt, paramLong, paramPendingIntent);
+  }
+  
+  public static void setExactAndAllowWhileIdle(@F AlarmManager paramAlarmManager, int paramInt, long paramLong, @F PendingIntent paramPendingIntent)
+  {
+    if (Build.VERSION.SDK_INT >= 23)
+    {
+      paramAlarmManager.setExactAndAllowWhileIdle(paramInt, paramLong, paramPendingIntent);
+      return;
+    }
+    paramAlarmManager.setExact(paramInt, paramLong, paramPendingIntent);
+  }
+}

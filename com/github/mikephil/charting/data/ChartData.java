@@ -1,0 +1,721 @@
+package com.github.mikephil.charting.data;
+
+import android.graphics.Typeface;
+import com.github.mikephil.charting.components.YAxis.AxisDependency;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+public abstract class ChartData<T extends IDataSet<? extends Entry>>
+{
+  public List<T> mDataSets;
+  public float mLeftAxisMax = 0.0F;
+  public float mLeftAxisMin = 0.0F;
+  public float mRightAxisMax = 0.0F;
+  public float mRightAxisMin = 0.0F;
+  public float mXValMaximumLength = 0.0F;
+  public List<String> mXVals;
+  public float mYMax = 0.0F;
+  public float mYMin = 0.0F;
+  public int mYValCount = 0;
+  
+  public ChartData()
+  {
+    mXVals = new ArrayList();
+    mDataSets = new ArrayList();
+  }
+  
+  public ChartData(List paramList)
+  {
+    mXVals = paramList;
+    mDataSets = new ArrayList();
+    init();
+  }
+  
+  public ChartData(List paramList1, List paramList2)
+  {
+    mXVals = paramList1;
+    mDataSets = paramList2;
+    init();
+  }
+  
+  public ChartData(String[] paramArrayOfString)
+  {
+    mXVals = Arrays.asList(paramArrayOfString);
+    mDataSets = new ArrayList();
+    init();
+  }
+  
+  public ChartData(String[] paramArrayOfString, List paramList)
+  {
+    mXVals = Arrays.asList(paramArrayOfString);
+    mDataSets = paramList;
+    init();
+  }
+  
+  private List arrayToList(String[] paramArrayOfString)
+  {
+    return Arrays.asList(paramArrayOfString);
+  }
+  
+  private void calcXValMaximumLength()
+  {
+    if (mXVals.size() <= 0)
+    {
+      mXValMaximumLength = 1.0F;
+      return;
+    }
+    int i = 0;
+    int k;
+    for (int j = 1; i < mXVals.size(); j = k)
+    {
+      int m = ((String)mXVals.get(i)).length();
+      k = j;
+      if (m > j) {
+        k = m;
+      }
+      i += 1;
+    }
+    mXValMaximumLength = j;
+  }
+  
+  private void checkLegal()
+  {
+    if (mDataSets == null) {
+      return;
+    }
+    if (!(this instanceof ScatterData))
+    {
+      if ((this instanceof CombinedData)) {
+        return;
+      }
+      int i = 0;
+      while (i < mDataSets.size()) {
+        if (((IDataSet)mDataSets.get(i)).getEntryCount() <= mXVals.size()) {
+          i += 1;
+        } else {
+          throw new IllegalArgumentException("One or more of the DataSet Entry arrays are longer than the x-values array of this ChartData object.");
+        }
+      }
+    }
+  }
+  
+  public static List generateXVals(int paramInt1, int paramInt2)
+  {
+    ArrayList localArrayList = new ArrayList();
+    while (paramInt1 < paramInt2)
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("");
+      localStringBuilder.append(paramInt1);
+      localArrayList.add(localStringBuilder.toString());
+      paramInt1 += 1;
+    }
+    return localArrayList;
+  }
+  
+  private void handleEmptyAxis(IDataSet paramIDataSet1, IDataSet paramIDataSet2)
+  {
+    if (paramIDataSet1 == null)
+    {
+      mLeftAxisMax = mRightAxisMax;
+      mLeftAxisMin = mRightAxisMin;
+      return;
+    }
+    if (paramIDataSet2 == null)
+    {
+      mRightAxisMax = mLeftAxisMax;
+      mRightAxisMin = mLeftAxisMin;
+    }
+  }
+  
+  public void addDataSet(IDataSet paramIDataSet)
+  {
+    if (paramIDataSet == null) {
+      return;
+    }
+    int i = mYValCount;
+    mYValCount = (paramIDataSet.getEntryCount() + i);
+    if (mDataSets.size() <= 0)
+    {
+      mYMax = paramIDataSet.getYMax();
+      mYMin = paramIDataSet.getYMin();
+      if (paramIDataSet.getAxisDependency() == YAxis.AxisDependency.LEFT)
+      {
+        mLeftAxisMax = paramIDataSet.getYMax();
+        mLeftAxisMin = paramIDataSet.getYMin();
+      }
+      else
+      {
+        mRightAxisMax = paramIDataSet.getYMax();
+        mRightAxisMin = paramIDataSet.getYMin();
+      }
+    }
+    else
+    {
+      if (mYMax < paramIDataSet.getYMax()) {
+        mYMax = paramIDataSet.getYMax();
+      }
+      if (mYMin > paramIDataSet.getYMin()) {
+        mYMin = paramIDataSet.getYMin();
+      }
+      if (paramIDataSet.getAxisDependency() == YAxis.AxisDependency.LEFT)
+      {
+        if (mLeftAxisMax < paramIDataSet.getYMax()) {
+          mLeftAxisMax = paramIDataSet.getYMax();
+        }
+        if (mLeftAxisMin > paramIDataSet.getYMin()) {
+          mLeftAxisMin = paramIDataSet.getYMin();
+        }
+      }
+      else
+      {
+        if (mRightAxisMax < paramIDataSet.getYMax()) {
+          mRightAxisMax = paramIDataSet.getYMax();
+        }
+        if (mRightAxisMin > paramIDataSet.getYMin()) {
+          mRightAxisMin = paramIDataSet.getYMin();
+        }
+      }
+    }
+    mDataSets.add(paramIDataSet);
+    handleEmptyAxis(getFirstLeft(), getFirstRight());
+  }
+  
+  public void addEntry(Entry paramEntry, int paramInt)
+  {
+    if ((mDataSets.size() > paramInt) && (paramInt >= 0))
+    {
+      IDataSet localIDataSet = (IDataSet)mDataSets.get(paramInt);
+      if (!localIDataSet.addEntry(paramEntry)) {
+        return;
+      }
+      float f = paramEntry.getVal();
+      if (mYValCount == 0)
+      {
+        mYMin = f;
+        mYMax = f;
+        if (localIDataSet.getAxisDependency() == YAxis.AxisDependency.LEFT)
+        {
+          mLeftAxisMax = paramEntry.getVal();
+          mLeftAxisMin = paramEntry.getVal();
+        }
+        else
+        {
+          mRightAxisMax = paramEntry.getVal();
+          mRightAxisMin = paramEntry.getVal();
+        }
+      }
+      else
+      {
+        if (mYMax < f) {
+          mYMax = f;
+        }
+        if (mYMin > f) {
+          mYMin = f;
+        }
+        if (localIDataSet.getAxisDependency() == YAxis.AxisDependency.LEFT)
+        {
+          if (mLeftAxisMax < paramEntry.getVal()) {
+            mLeftAxisMax = paramEntry.getVal();
+          }
+          if (mLeftAxisMin > paramEntry.getVal()) {
+            mLeftAxisMin = paramEntry.getVal();
+          }
+        }
+        else
+        {
+          if (mRightAxisMax < paramEntry.getVal()) {
+            mRightAxisMax = paramEntry.getVal();
+          }
+          if (mRightAxisMin > paramEntry.getVal()) {
+            mRightAxisMin = paramEntry.getVal();
+          }
+        }
+      }
+      mYValCount += 1;
+      handleEmptyAxis(getFirstLeft(), getFirstRight());
+    }
+  }
+  
+  public void addXValue(String paramString)
+  {
+    if ((paramString != null) && (paramString.length() > mXValMaximumLength)) {
+      mXValMaximumLength = paramString.length();
+    }
+    mXVals.add(paramString);
+  }
+  
+  public void calcMinMax(int paramInt1, int paramInt2)
+  {
+    Object localObject1 = mDataSets;
+    if ((localObject1 != null) && (((List)localObject1).size() >= 1))
+    {
+      mYMin = Float.MAX_VALUE;
+      mYMax = -3.4028235E38F;
+      int i = 0;
+      while (i < mDataSets.size())
+      {
+        localObject1 = (IDataSet)mDataSets.get(i);
+        ((IDataSet)localObject1).calcMinMax(paramInt1, paramInt2);
+        if (((IDataSet)localObject1).getYMin() < mYMin) {
+          mYMin = ((IDataSet)localObject1).getYMin();
+        }
+        if (((IDataSet)localObject1).getYMax() > mYMax) {
+          mYMax = ((IDataSet)localObject1).getYMax();
+        }
+        i += 1;
+      }
+      if (mYMin == Float.MAX_VALUE)
+      {
+        mYMin = 0.0F;
+        mYMax = 0.0F;
+      }
+      localObject1 = getFirstLeft();
+      Object localObject3;
+      if (localObject1 != null)
+      {
+        mLeftAxisMax = ((IDataSet)localObject1).getYMax();
+        mLeftAxisMin = ((IDataSet)localObject1).getYMin();
+        localObject2 = mDataSets.iterator();
+        while (((Iterator)localObject2).hasNext())
+        {
+          localObject3 = (IDataSet)((Iterator)localObject2).next();
+          if (((IDataSet)localObject3).getAxisDependency() == YAxis.AxisDependency.LEFT)
+          {
+            if (((IDataSet)localObject3).getYMin() < mLeftAxisMin) {
+              mLeftAxisMin = ((IDataSet)localObject3).getYMin();
+            }
+            if (((IDataSet)localObject3).getYMax() > mLeftAxisMax) {
+              mLeftAxisMax = ((IDataSet)localObject3).getYMax();
+            }
+          }
+        }
+      }
+      Object localObject2 = getFirstRight();
+      if (localObject2 != null)
+      {
+        mRightAxisMax = ((IDataSet)localObject2).getYMax();
+        mRightAxisMin = ((IDataSet)localObject2).getYMin();
+        localObject3 = mDataSets.iterator();
+        while (((Iterator)localObject3).hasNext())
+        {
+          IDataSet localIDataSet = (IDataSet)((Iterator)localObject3).next();
+          if (localIDataSet.getAxisDependency() == YAxis.AxisDependency.RIGHT)
+          {
+            if (localIDataSet.getYMin() < mRightAxisMin) {
+              mRightAxisMin = localIDataSet.getYMin();
+            }
+            if (localIDataSet.getYMax() > mRightAxisMax) {
+              mRightAxisMax = localIDataSet.getYMax();
+            }
+          }
+        }
+      }
+      handleEmptyAxis((IDataSet)localObject1, (IDataSet)localObject2);
+      return;
+    }
+    mYMax = 0.0F;
+    mYMin = 0.0F;
+  }
+  
+  public void calcYValueCount()
+  {
+    int i = 0;
+    mYValCount = 0;
+    if (mDataSets == null) {
+      return;
+    }
+    int j = 0;
+    while (i < mDataSets.size())
+    {
+      j += ((IDataSet)mDataSets.get(i)).getEntryCount();
+      i += 1;
+    }
+    mYValCount = j;
+  }
+  
+  public void clearValues()
+  {
+    mDataSets.clear();
+    notifyDataChanged();
+  }
+  
+  public boolean contains(IDataSet paramIDataSet)
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      if (((IDataSet)localIterator.next()).equals(paramIDataSet)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public int[] getColors()
+  {
+    if (mDataSets == null) {
+      return null;
+    }
+    int k = 0;
+    int i = 0;
+    int j = 0;
+    while (i < mDataSets.size())
+    {
+      j += ((IDataSet)mDataSets.get(i)).getColors().size();
+      i += 1;
+    }
+    int[] arrayOfInt = new int[j];
+    j = 0;
+    i = k;
+    while (i < mDataSets.size())
+    {
+      Iterator localIterator = ((IDataSet)mDataSets.get(i)).getColors().iterator();
+      while (localIterator.hasNext())
+      {
+        arrayOfInt[j] = ((Integer)localIterator.next()).intValue();
+        j += 1;
+      }
+      i += 1;
+    }
+    return arrayOfInt;
+  }
+  
+  public IDataSet getDataSetByIndex(int paramInt)
+  {
+    List localList = mDataSets;
+    if ((localList != null) && (paramInt >= 0) && (paramInt < localList.size())) {
+      return (IDataSet)mDataSets.get(paramInt);
+    }
+    return null;
+  }
+  
+  public IDataSet getDataSetByLabel(String paramString, boolean paramBoolean)
+  {
+    int i = getDataSetIndexByLabel(mDataSets, paramString, paramBoolean);
+    if ((i >= 0) && (i < mDataSets.size())) {
+      return (IDataSet)mDataSets.get(i);
+    }
+    return null;
+  }
+  
+  public int getDataSetCount()
+  {
+    List localList = mDataSets;
+    if (localList == null) {
+      return 0;
+    }
+    return localList.size();
+  }
+  
+  public IDataSet getDataSetForEntry(Entry paramEntry)
+  {
+    if (paramEntry == null) {
+      return null;
+    }
+    int i = 0;
+    while (i < mDataSets.size())
+    {
+      IDataSet localIDataSet = (IDataSet)mDataSets.get(i);
+      int j = 0;
+      while (j < localIDataSet.getEntryCount())
+      {
+        if (paramEntry.equalTo(localIDataSet.getEntryForXIndex(paramEntry.getXIndex()))) {
+          return localIDataSet;
+        }
+        j += 1;
+      }
+      i += 1;
+    }
+    return null;
+  }
+  
+  public int getDataSetIndexByLabel(List paramList, String paramString, boolean paramBoolean)
+  {
+    int i = 0;
+    int j = 0;
+    if (paramBoolean)
+    {
+      i = j;
+      while (i < paramList.size())
+      {
+        if (paramString.equalsIgnoreCase(((IDataSet)paramList.get(i)).getLabel())) {
+          return i;
+        }
+        i += 1;
+      }
+    }
+    while (i < paramList.size())
+    {
+      if (paramString.equals(((IDataSet)paramList.get(i)).getLabel())) {
+        return i;
+      }
+      i += 1;
+    }
+    return -1;
+  }
+  
+  public String[] getDataSetLabels()
+  {
+    String[] arrayOfString = new String[mDataSets.size()];
+    int i = 0;
+    while (i < mDataSets.size())
+    {
+      arrayOfString[i] = ((IDataSet)mDataSets.get(i)).getLabel();
+      i += 1;
+    }
+    return arrayOfString;
+  }
+  
+  public List getDataSets()
+  {
+    return mDataSets;
+  }
+  
+  public Entry getEntryForHighlight(Highlight paramHighlight)
+  {
+    if (paramHighlight.getDataSetIndex() >= mDataSets.size()) {
+      return null;
+    }
+    return ((IDataSet)mDataSets.get(paramHighlight.getDataSetIndex())).getEntryForXIndex(paramHighlight.getXIndex());
+  }
+  
+  public IDataSet getFirstLeft()
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext())
+    {
+      IDataSet localIDataSet = (IDataSet)localIterator.next();
+      if (localIDataSet.getAxisDependency() == YAxis.AxisDependency.LEFT) {
+        return localIDataSet;
+      }
+    }
+    return null;
+  }
+  
+  public IDataSet getFirstRight()
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext())
+    {
+      IDataSet localIDataSet = (IDataSet)localIterator.next();
+      if (localIDataSet.getAxisDependency() == YAxis.AxisDependency.RIGHT) {
+        return localIDataSet;
+      }
+    }
+    return null;
+  }
+  
+  public int getIndexOfDataSet(IDataSet paramIDataSet)
+  {
+    int i = 0;
+    while (i < mDataSets.size())
+    {
+      if (mDataSets.get(i) == paramIDataSet) {
+        return i;
+      }
+      i += 1;
+    }
+    return -1;
+  }
+  
+  public int getXValCount()
+  {
+    return mXVals.size();
+  }
+  
+  public float getXValMaximumLength()
+  {
+    return mXValMaximumLength;
+  }
+  
+  public List getXVals()
+  {
+    return mXVals;
+  }
+  
+  public float getYMax()
+  {
+    return mYMax;
+  }
+  
+  public float getYMax(YAxis.AxisDependency paramAxisDependency)
+  {
+    if (paramAxisDependency == YAxis.AxisDependency.LEFT) {
+      return mLeftAxisMax;
+    }
+    return mRightAxisMax;
+  }
+  
+  public float getYMin()
+  {
+    return mYMin;
+  }
+  
+  public float getYMin(YAxis.AxisDependency paramAxisDependency)
+  {
+    if (paramAxisDependency == YAxis.AxisDependency.LEFT) {
+      return mLeftAxisMin;
+    }
+    return mRightAxisMin;
+  }
+  
+  public int getYValCount()
+  {
+    return mYValCount;
+  }
+  
+  public void init()
+  {
+    checkLegal();
+    calcYValueCount();
+    calcMinMax(0, mYValCount);
+    calcXValMaximumLength();
+  }
+  
+  public boolean isHighlightEnabled()
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      if (!((IDataSet)localIterator.next()).isHighlightEnabled()) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public void notifyDataChanged()
+  {
+    init();
+  }
+  
+  public boolean removeDataSet(int paramInt)
+  {
+    if ((paramInt < mDataSets.size()) && (paramInt >= 0)) {
+      return removeDataSet((IDataSet)mDataSets.get(paramInt));
+    }
+    return false;
+  }
+  
+  public boolean removeDataSet(IDataSet paramIDataSet)
+  {
+    if (paramIDataSet == null) {
+      return false;
+    }
+    boolean bool = mDataSets.remove(paramIDataSet);
+    if (bool)
+    {
+      mYValCount -= paramIDataSet.getEntryCount();
+      calcMinMax(0, mYValCount);
+    }
+    return bool;
+  }
+  
+  public boolean removeEntry(int paramInt1, int paramInt2)
+  {
+    if (paramInt2 >= mDataSets.size()) {
+      return false;
+    }
+    Entry localEntry = ((IDataSet)mDataSets.get(paramInt2)).getEntryForXIndex(paramInt1);
+    if (localEntry != null)
+    {
+      if (localEntry.getXIndex() != paramInt1) {
+        return false;
+      }
+      return removeEntry(localEntry, paramInt2);
+    }
+    return false;
+  }
+  
+  public boolean removeEntry(Entry paramEntry, int paramInt)
+  {
+    boolean bool;
+    if (paramEntry != null)
+    {
+      if (paramInt >= mDataSets.size()) {
+        return false;
+      }
+      IDataSet localIDataSet = (IDataSet)mDataSets.get(paramInt);
+      if (localIDataSet != null)
+      {
+        bool = localIDataSet.removeEntry(paramEntry);
+        if (!bool) {
+          return bool;
+        }
+        mYValCount -= 1;
+        calcMinMax(0, mYValCount);
+        return bool;
+      }
+    }
+    return false;
+    return bool;
+  }
+  
+  public void removeXValue(int paramInt)
+  {
+    mXVals.remove(paramInt);
+  }
+  
+  public void setDrawValues(boolean paramBoolean)
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      ((IDataSet)localIterator.next()).setDrawValues(paramBoolean);
+    }
+  }
+  
+  public void setHighlightEnabled(boolean paramBoolean)
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      ((IDataSet)localIterator.next()).setHighlightEnabled(paramBoolean);
+    }
+  }
+  
+  public void setValueFormatter(ValueFormatter paramValueFormatter)
+  {
+    if (paramValueFormatter == null) {
+      return;
+    }
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      ((IDataSet)localIterator.next()).setValueFormatter(paramValueFormatter);
+    }
+  }
+  
+  public void setValueTextColor(int paramInt)
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      ((IDataSet)localIterator.next()).setValueTextColor(paramInt);
+    }
+  }
+  
+  public void setValueTextColors(List paramList)
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      ((IDataSet)localIterator.next()).setValueTextColors(paramList);
+    }
+  }
+  
+  public void setValueTextSize(float paramFloat)
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      ((IDataSet)localIterator.next()).setValueTextSize(paramFloat);
+    }
+  }
+  
+  public void setValueTypeface(Typeface paramTypeface)
+  {
+    Iterator localIterator = mDataSets.iterator();
+    while (localIterator.hasNext()) {
+      ((IDataSet)localIterator.next()).setValueTypeface(paramTypeface);
+    }
+  }
+}

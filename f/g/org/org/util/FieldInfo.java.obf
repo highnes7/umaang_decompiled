@@ -1,0 +1,203 @@
+package f.g.b.a.g;
+
+import f.a.a.a.a;
+import f.g.b.a.e.a.a.a.b.g;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+public class v
+{
+  public static final Map<Field, v> a = new WeakHashMap();
+  public final boolean b;
+  public final Field c;
+  public final String d;
+  
+  public v(Field paramField, String paramString)
+  {
+    c = paramField;
+    if (paramString == null) {
+      paramField = null;
+    } else {
+      paramField = paramString.intern();
+    }
+    d = paramField;
+    b = r.a(f());
+  }
+  
+  public static v a(Enum<?> paramEnum)
+  {
+    for (;;)
+    {
+      try
+      {
+        v localV = a(paramEnum.getClass().getField(paramEnum.name()));
+        if (localV != null)
+        {
+          bool = true;
+          g.a(bool, "enum constant missing @Value or @NullValue annotation: %s", new Object[] { paramEnum });
+          return localV;
+        }
+      }
+      catch (NoSuchFieldException paramEnum)
+      {
+        throw new RuntimeException(paramEnum);
+      }
+      boolean bool = false;
+    }
+  }
+  
+  public static v a(Field paramField)
+  {
+    Object localObject2 = null;
+    if (paramField == null) {
+      return null;
+    }
+    synchronized (a)
+    {
+      v localV = (v)a.get(paramField);
+      boolean bool = paramField.isEnumConstant();
+      Object localObject1 = localV;
+      if (localV == null) {
+        if (!bool)
+        {
+          localObject1 = localV;
+          if (Modifier.isStatic(paramField.getModifiers())) {}
+        }
+        else
+        {
+          if (bool)
+          {
+            localObject1 = (ca)paramField.getAnnotation(ca.class);
+            if (localObject1 != null) {
+              localObject1 = ((ca)localObject1).value();
+            } else if ((I)paramField.getAnnotation(I.class) != null) {
+              localObject1 = localObject2;
+            } else {
+              return null;
+            }
+          }
+          else
+          {
+            localObject1 = (z)paramField.getAnnotation(z.class);
+            if (localObject1 == null) {
+              return null;
+            }
+            localObject1 = ((z)localObject1).value();
+            paramField.setAccessible(true);
+          }
+          localObject2 = localObject1;
+          if ("##default".equals(localObject1)) {
+            localObject2 = paramField.getName();
+          }
+          localObject1 = new v(paramField, (String)localObject2);
+          a.put(paramField, localObject1);
+        }
+      }
+      return localObject1;
+    }
+  }
+  
+  public static Object a(Field paramField, Object paramObject)
+  {
+    try
+    {
+      paramField = paramField.get(paramObject);
+      return paramField;
+    }
+    catch (IllegalAccessException paramField)
+    {
+      throw new IllegalArgumentException(paramField);
+    }
+  }
+  
+  public static void a(Field paramField, Object paramObject1, Object paramObject2)
+  {
+    if (Modifier.isFinal(paramField.getModifiers()))
+    {
+      Object localObject = a(paramField, paramObject1);
+      if (paramObject2 == null)
+      {
+        if (localObject != null) {}
+      }
+      else if (paramObject2.equals(localObject)) {
+        return;
+      }
+      localObject = String.valueOf(localObject);
+      paramObject2 = String.valueOf(paramObject2);
+      paramField = String.valueOf(paramField.getName());
+      paramObject1 = paramObject1.getClass().getName();
+      int i = ((String)localObject).length();
+      int j = paramObject2.length();
+      int k = paramField.length();
+      StringBuilder localStringBuilder = new StringBuilder(paramObject1.length() + (k + (j + (i + 48))));
+      a.b(localStringBuilder, "expected final value <", (String)localObject, "> but was <", paramObject2);
+      throw new IllegalArgumentException(a.a(localStringBuilder, "> on ", paramField, " field in ", paramObject1));
+    }
+    try
+    {
+      paramField.set(paramObject1, paramObject2);
+      return;
+    }
+    catch (IllegalAccessException paramField)
+    {
+      throw new IllegalArgumentException(paramField);
+    }
+    catch (SecurityException paramField)
+    {
+      throw new IllegalArgumentException(paramField);
+    }
+  }
+  
+  public <T extends Enum<T>> T a()
+  {
+    return Enum.valueOf(c.getDeclaringClass(), c.getName());
+  }
+  
+  public Object a(Object paramObject)
+  {
+    return a(c, paramObject);
+  }
+  
+  public void a(Object paramObject1, Object paramObject2)
+  {
+    a(c, paramObject1, paramObject2);
+  }
+  
+  public n b()
+  {
+    return n.a(c.getDeclaringClass());
+  }
+  
+  public Field c()
+  {
+    return c;
+  }
+  
+  public Type d()
+  {
+    return c.getGenericType();
+  }
+  
+  public String e()
+  {
+    return d;
+  }
+  
+  public Class<?> f()
+  {
+    return c.getType();
+  }
+  
+  public boolean g()
+  {
+    return Modifier.isFinal(c.getModifiers());
+  }
+  
+  public boolean h()
+  {
+    return b;
+  }
+}

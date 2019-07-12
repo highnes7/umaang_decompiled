@@ -1,0 +1,121 @@
+package f.b.a;
+
+import java.nio.ByteBuffer;
+
+public final class j
+{
+  public j() {}
+  
+  public static void a(ByteBuffer paramByteBuffer, double paramDouble)
+  {
+    int i = (int)(paramDouble * 1.073741824E9D);
+    paramByteBuffer.put((byte)((0xFF000000 & i) >> 24));
+    paramByteBuffer.put((byte)((0xFF0000 & i) >> 16));
+    paramByteBuffer.put((byte)((0xFF00 & i) >> 8));
+    paramByteBuffer.put((byte)(i & 0xFF));
+  }
+  
+  public static void a(ByteBuffer paramByteBuffer, int paramInt)
+  {
+    paramInt &= 0xFFFF;
+    paramByteBuffer.put((byte)(paramInt >> 8 & 0xFF));
+    paramByteBuffer.put((byte)(paramInt & 0xFF & 0xFF));
+  }
+  
+  public static void a(ByteBuffer paramByteBuffer, long paramLong)
+  {
+    paramByteBuffer.putInt((int)paramLong);
+  }
+  
+  public static void a(ByteBuffer paramByteBuffer, String paramString)
+  {
+    if (paramString.getBytes().length == 3)
+    {
+      int i = 0;
+      int j = 0;
+      for (;;)
+      {
+        if (i >= 3)
+        {
+          a(paramByteBuffer, j);
+          return;
+        }
+        j += (paramString.getBytes()[i] - 96 << (2 - i) * 5);
+        i += 1;
+      }
+    }
+    paramByteBuffer = new StringBuilder("\"");
+    paramByteBuffer.append(paramString);
+    paramByteBuffer.append("\" language string isn't exactly 3 characters long!");
+    paramByteBuffer = new IllegalArgumentException(paramByteBuffer.toString());
+    for (;;)
+    {
+      throw paramByteBuffer;
+    }
+  }
+  
+  public static void b(ByteBuffer paramByteBuffer, double paramDouble)
+  {
+    int i = (int)(paramDouble * 65536.0D);
+    paramByteBuffer.put((byte)((0xFF000000 & i) >> 24));
+    paramByteBuffer.put((byte)((0xFF0000 & i) >> 16));
+    paramByteBuffer.put((byte)((0xFF00 & i) >> 8));
+    paramByteBuffer.put((byte)(i & 0xFF));
+  }
+  
+  public static void b(ByteBuffer paramByteBuffer, int paramInt)
+  {
+    paramInt &= 0xFFFF;
+    paramByteBuffer.put((byte)(paramInt & 0xFF & 0xFF));
+    paramByteBuffer.put((byte)(paramInt >> 8 & 0xFF));
+  }
+  
+  public static void b(ByteBuffer paramByteBuffer, long paramLong)
+  {
+    b(paramByteBuffer, (int)paramLong & 0xFFFF);
+    b(paramByteBuffer, (int)(paramLong >> 16 & 0xFFFF));
+  }
+  
+  public static void b(ByteBuffer paramByteBuffer, String paramString)
+  {
+    paramString = m.a(paramString);
+    paramByteBuffer.put((byte)(paramString.length & 0xFF));
+    paramByteBuffer.put(paramString);
+  }
+  
+  public static void c(ByteBuffer paramByteBuffer, double paramDouble)
+  {
+    int i = (short)(int)(paramDouble * 256.0D);
+    paramByteBuffer.put((byte)((0xFF00 & i) >> 8));
+    paramByteBuffer.put((byte)(i & 0xFF));
+  }
+  
+  public static void c(ByteBuffer paramByteBuffer, int paramInt)
+  {
+    paramInt &= 0xFFFFFF;
+    a(paramByteBuffer, paramInt >> 8);
+    paramByteBuffer.put((byte)(paramInt & 0xFF));
+  }
+  
+  public static void c(ByteBuffer paramByteBuffer, long paramLong)
+  {
+    paramByteBuffer.putLong(paramLong);
+  }
+  
+  public static void c(ByteBuffer paramByteBuffer, String paramString)
+  {
+    paramByteBuffer.put(m.a(paramString));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public static void d(ByteBuffer paramByteBuffer, int paramInt)
+  {
+    paramByteBuffer.put((byte)(paramInt & 0xFF));
+  }
+  
+  public static void d(ByteBuffer paramByteBuffer, String paramString)
+  {
+    paramByteBuffer.put(m.a(paramString));
+    paramByteBuffer.put((byte)0);
+  }
+}

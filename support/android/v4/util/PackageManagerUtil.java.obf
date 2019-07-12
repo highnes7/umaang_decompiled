@@ -1,0 +1,108 @@
+package b.b.x.n;
+
+import b.b.a.F;
+import b.b.a.G;
+
+public final class r
+{
+  public r() {}
+  
+  public static abstract interface a<T>
+  {
+    @G
+    public abstract T a();
+    
+    public abstract boolean a(@F T paramT);
+  }
+  
+  public static class b<T>
+    implements r.a<T>
+  {
+    public final Object[] a;
+    public int b;
+    
+    public b(int paramInt)
+    {
+      if (paramInt > 0)
+      {
+        a = new Object[paramInt];
+        return;
+      }
+      throw new IllegalArgumentException("The max pool size must be > 0");
+    }
+    
+    private boolean b(@F T paramT)
+    {
+      int i = 0;
+      while (i < b)
+      {
+        if (a[i] == paramT) {
+          return true;
+        }
+        i += 1;
+      }
+      return false;
+    }
+    
+    public T a()
+    {
+      int i = b;
+      if (i > 0)
+      {
+        int j = i - 1;
+        Object[] arrayOfObject = a;
+        Object localObject = arrayOfObject[j];
+        arrayOfObject[j] = null;
+        b = (i - 1);
+        return localObject;
+      }
+      return null;
+    }
+    
+    public boolean a(@F T paramT)
+    {
+      if (!b(paramT))
+      {
+        int i = b;
+        Object[] arrayOfObject = a;
+        if (i < arrayOfObject.length)
+        {
+          arrayOfObject[i] = paramT;
+          b = (i + 1);
+          return true;
+        }
+        return false;
+      }
+      throw new IllegalStateException("Already in the pool!");
+    }
+  }
+  
+  public static class c<T>
+    extends r.b<T>
+  {
+    public final Object c = new Object();
+    
+    public c(int paramInt)
+    {
+      super();
+    }
+    
+    public T a()
+    {
+      synchronized (c)
+      {
+        Object localObject2 = super.a();
+        return localObject2;
+      }
+    }
+    
+    public boolean a(@F T paramT)
+    {
+      synchronized (c)
+      {
+        boolean bool = super.a(paramT);
+        return bool;
+      }
+    }
+  }
+}

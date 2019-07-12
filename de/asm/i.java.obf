@@ -1,0 +1,636 @@
+package c.b;
+
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Parcelable;
+import android.util.SparseArray;
+import b.b.a.N;
+import f.a.a.a.a;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.util.Iterator;
+import java.util.Set;
+
+@N({b.b.a.N.a.a})
+public class i
+  extends g
+{
+  public static final int A = 11;
+  public static final int B = 12;
+  public static final int C = 13;
+  public static final int D = 14;
+  public static final Charset o = Charset.forName("UTF-16");
+  public static final int p = 0;
+  public static final int q = 1;
+  public static final int r = 2;
+  public static final int s = 3;
+  public static final int t = 4;
+  public static final int u = 5;
+  public static final int v = 6;
+  public static final int w = 7;
+  public static final int x = 8;
+  public static final int y = 9;
+  public static final int z = 10;
+  public final DataInputStream E;
+  public final DataOutputStream F;
+  public final SparseArray<b> G = new SparseArray();
+  public DataInputStream H;
+  public DataOutputStream I;
+  public a J;
+  public boolean K;
+  
+  public i(InputStream paramInputStream, OutputStream paramOutputStream)
+  {
+    Object localObject = null;
+    if (paramInputStream != null) {
+      paramInputStream = new DataInputStream(paramInputStream);
+    } else {
+      paramInputStream = null;
+    }
+    E = paramInputStream;
+    paramInputStream = localObject;
+    if (paramOutputStream != null) {
+      paramInputStream = new DataOutputStream(paramOutputStream);
+    }
+    F = paramInputStream;
+    H = E;
+    I = F;
+  }
+  
+  private void a(int paramInt, String paramString, Bundle paramBundle)
+  {
+    switch (paramInt)
+    {
+    default: 
+      throw new RuntimeException(a.a("Unknown type ", paramInt));
+    case 14: 
+      paramBundle.putFloatArray(paramString, k());
+      return;
+    case 13: 
+      paramBundle.putFloat(paramString, j());
+      return;
+    case 12: 
+      paramBundle.putLongArray(paramString, o());
+      return;
+    case 11: 
+      paramBundle.putLong(paramString, n());
+      return;
+    case 10: 
+      paramBundle.putIntArray(paramString, m());
+      return;
+    case 9: 
+      paramBundle.putInt(paramString, l());
+      return;
+    case 8: 
+      paramBundle.putDoubleArray(paramString, i());
+      return;
+    case 7: 
+      paramBundle.putDouble(paramString, h());
+      return;
+    case 6: 
+      paramBundle.putBooleanArray(paramString, e());
+      return;
+    case 5: 
+      paramBundle.putBoolean(paramString, d());
+      return;
+    case 4: 
+      paramBundle.putStringArray(paramString, (String[])a(new String[0]));
+      return;
+    case 3: 
+      paramBundle.putString(paramString, r());
+      return;
+    case 2: 
+      paramBundle.putBundle(paramString, f());
+      return;
+    case 1: 
+      paramBundle.putBundle(paramString, f());
+      return;
+    }
+    paramBundle.putParcelable(paramString, null);
+  }
+  
+  private void b(Object paramObject)
+  {
+    if (paramObject == null)
+    {
+      c(0);
+      return;
+    }
+    if ((paramObject instanceof Bundle))
+    {
+      c(1);
+      a((Bundle)paramObject);
+      return;
+    }
+    if ((paramObject instanceof String))
+    {
+      c(3);
+      a((String)paramObject);
+      return;
+    }
+    if ((paramObject instanceof String[]))
+    {
+      c(4);
+      b((String[])paramObject);
+      return;
+    }
+    if ((paramObject instanceof Boolean))
+    {
+      c(5);
+      a(((Boolean)paramObject).booleanValue());
+      return;
+    }
+    if ((paramObject instanceof boolean[]))
+    {
+      c(6);
+      a((boolean[])paramObject);
+      return;
+    }
+    if ((paramObject instanceof Double))
+    {
+      c(7);
+      a(((Double)paramObject).doubleValue());
+      return;
+    }
+    if ((paramObject instanceof double[]))
+    {
+      c(8);
+      a((double[])paramObject);
+      return;
+    }
+    if ((paramObject instanceof Integer))
+    {
+      c(9);
+      c(((Integer)paramObject).intValue());
+      return;
+    }
+    if ((paramObject instanceof int[]))
+    {
+      c(10);
+      a((int[])paramObject);
+      return;
+    }
+    if ((paramObject instanceof Long))
+    {
+      c(11);
+      a(((Long)paramObject).longValue());
+      return;
+    }
+    if ((paramObject instanceof long[]))
+    {
+      c(12);
+      a((long[])paramObject);
+      return;
+    }
+    if ((paramObject instanceof Float))
+    {
+      c(13);
+      a(((Float)paramObject).floatValue());
+      return;
+    }
+    if ((paramObject instanceof float[]))
+    {
+      c(14);
+      a((float[])paramObject);
+      return;
+    }
+    StringBuilder localStringBuilder = a.b("Unsupported type ");
+    localStringBuilder.append(paramObject.getClass());
+    throw new IllegalArgumentException(localStringBuilder.toString());
+  }
+  
+  public void a()
+  {
+    a localA = J;
+    if (localA != null) {
+      try
+      {
+        if (a.size() != 0) {
+          J.a();
+        }
+        J = null;
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        throw new g.a(localIOException);
+      }
+    }
+  }
+  
+  public void a(double paramDouble)
+  {
+    try
+    {
+      I.writeDouble(paramDouble);
+      return;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public void a(float paramFloat)
+  {
+    try
+    {
+      I.writeFloat(paramFloat);
+      return;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public void a(long paramLong)
+  {
+    try
+    {
+      I.writeLong(paramLong);
+      return;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public void a(Bundle paramBundle)
+  {
+    if (paramBundle != null) {}
+    try
+    {
+      Object localObject = paramBundle.keySet();
+      I.writeInt(((Set)localObject).size());
+      localObject = ((Set)localObject).iterator();
+      while (((Iterator)localObject).hasNext())
+      {
+        String str = (String)((Iterator)localObject).next();
+        a(str);
+        b(paramBundle.get(str));
+        continue;
+        I.writeInt(-1);
+      }
+      return;
+    }
+    catch (IOException paramBundle)
+    {
+      paramBundle = new g.a(paramBundle);
+    }
+    for (;;)
+    {
+      throw paramBundle;
+    }
+  }
+  
+  public void a(IBinder paramIBinder)
+  {
+    if (K) {
+      return;
+    }
+    throw new RuntimeException("Binders cannot be written to an OutputStream");
+  }
+  
+  public void a(IInterface paramIInterface)
+  {
+    if (K) {
+      return;
+    }
+    throw new RuntimeException("Binders cannot be written to an OutputStream");
+  }
+  
+  public void a(Parcelable paramParcelable)
+  {
+    if (K) {
+      return;
+    }
+    throw new RuntimeException("Parcelables cannot be written to an OutputStream");
+  }
+  
+  public void a(String paramString)
+  {
+    if (paramString != null) {}
+    try
+    {
+      paramString = paramString.getBytes(o);
+      I.writeInt(paramString.length);
+      I.write(paramString);
+      return;
+    }
+    catch (IOException paramString)
+    {
+      throw new g.a(paramString);
+    }
+    I.writeInt(-1);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    try
+    {
+      I.writeBoolean(paramBoolean);
+      return;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public void a(boolean paramBoolean1, boolean paramBoolean2)
+  {
+    if (paramBoolean1)
+    {
+      K = paramBoolean2;
+      return;
+    }
+    throw new RuntimeException("Serialization of this object is not allowed");
+  }
+  
+  public void a(byte[] paramArrayOfByte)
+  {
+    if (paramArrayOfByte != null) {}
+    try
+    {
+      I.writeInt(paramArrayOfByte.length);
+      I.write(paramArrayOfByte);
+      return;
+    }
+    catch (IOException paramArrayOfByte)
+    {
+      throw new g.a(paramArrayOfByte);
+    }
+    I.writeInt(-1);
+  }
+  
+  public void a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    if (paramArrayOfByte != null) {}
+    try
+    {
+      I.writeInt(paramInt2);
+      I.write(paramArrayOfByte, paramInt1, paramInt2);
+      return;
+    }
+    catch (IOException paramArrayOfByte)
+    {
+      throw new g.a(paramArrayOfByte);
+    }
+    I.writeInt(-1);
+  }
+  
+  public boolean a(int paramInt)
+  {
+    b localB = (b)G.get(paramInt);
+    if (localB != null)
+    {
+      G.remove(paramInt);
+      H = a;
+      return true;
+    }
+    try
+    {
+      for (;;)
+      {
+        int k = E.readInt();
+        int j = k & 0xFFFF;
+        int i = j;
+        if (j == 65535) {
+          i = E.readInt();
+        }
+        localB = new b(k >> 16 & 0xFFFF, i, E);
+        if (c == paramInt)
+        {
+          H = a;
+          return true;
+        }
+        G.put(c, localB);
+      }
+    }
+    catch (IOException localIOException)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public g b()
+  {
+    return new i(H, I);
+  }
+  
+  public void b(int paramInt)
+  {
+    a();
+    J = new a(paramInt, F);
+    I = J.b;
+  }
+  
+  public void c(int paramInt)
+  {
+    try
+    {
+      I.writeInt(paramInt);
+      return;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public boolean c()
+  {
+    return true;
+  }
+  
+  public boolean d()
+  {
+    try
+    {
+      boolean bool = H.readBoolean();
+      return bool;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public Bundle f()
+  {
+    int j = l();
+    if (j < 0) {
+      return null;
+    }
+    Bundle localBundle = new Bundle();
+    int i = 0;
+    while (i < j)
+    {
+      String str = r();
+      a(l(), str, localBundle);
+      i += 1;
+    }
+    return localBundle;
+  }
+  
+  public byte[] g()
+  {
+    try
+    {
+      int i = H.readInt();
+      if (i > 0)
+      {
+        byte[] arrayOfByte = new byte[i];
+        H.readFully(arrayOfByte);
+        return arrayOfByte;
+      }
+      return null;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public double h()
+  {
+    try
+    {
+      double d = H.readDouble();
+      return d;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public float j()
+  {
+    try
+    {
+      float f = H.readFloat();
+      return f;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public int l()
+  {
+    try
+    {
+      int i = H.readInt();
+      return i;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public long n()
+  {
+    try
+    {
+      long l = H.readLong();
+      return l;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public <T extends Parcelable> T p()
+  {
+    return null;
+  }
+  
+  public String r()
+  {
+    try
+    {
+      int i = H.readInt();
+      if (i > 0)
+      {
+        Object localObject = new byte[i];
+        H.readFully((byte[])localObject);
+        localObject = new String((byte[])localObject, o);
+        return localObject;
+      }
+      return null;
+    }
+    catch (IOException localIOException)
+    {
+      throw new g.a(localIOException);
+    }
+  }
+  
+  public IBinder s()
+  {
+    return null;
+  }
+  
+  private static class a
+  {
+    public final ByteArrayOutputStream a = new ByteArrayOutputStream();
+    public final DataOutputStream b = new DataOutputStream(a);
+    public final int c;
+    public final DataOutputStream d;
+    
+    public a(int paramInt, DataOutputStream paramDataOutputStream)
+    {
+      c = paramInt;
+      d = paramDataOutputStream;
+    }
+    
+    public void a()
+      throws IOException
+    {
+      b.flush();
+      int j = a.size();
+      int k = c;
+      int i;
+      if (j >= 65535) {
+        i = 65535;
+      } else {
+        i = j;
+      }
+      d.writeInt(k << 16 | i);
+      if (j >= 65535) {
+        d.writeInt(j);
+      }
+      a.writeTo(d);
+    }
+  }
+  
+  private static class b
+  {
+    public final DataInputStream a;
+    public final int b;
+    public final int c;
+    
+    public b(int paramInt1, int paramInt2, DataInputStream paramDataInputStream)
+      throws IOException
+    {
+      b = paramInt2;
+      c = paramInt1;
+      byte[] arrayOfByte = new byte[b];
+      paramDataInputStream.readFully(arrayOfByte);
+      a = new DataInputStream(new ByteArrayInputStream(arrayOfByte));
+    }
+  }
+}

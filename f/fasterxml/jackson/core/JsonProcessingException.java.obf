@@ -1,0 +1,100 @@
+package f.d.a.a;
+
+import java.io.IOException;
+
+public class l
+  extends IOException
+{
+  public static final long a = 123L;
+  public h b;
+  
+  public l(String paramString)
+  {
+    super(paramString);
+  }
+  
+  public l(String paramString, h paramH)
+  {
+    super(paramString);
+    b = paramH;
+  }
+  
+  public l(String paramString, h paramH, Throwable paramThrowable)
+  {
+    super(paramString);
+    if (paramThrowable != null) {
+      initCause(paramThrowable);
+    }
+    b = paramH;
+  }
+  
+  public l(String paramString, Throwable paramThrowable)
+  {
+    super(paramString);
+    if (paramThrowable != null) {
+      initCause(paramThrowable);
+    }
+    b = null;
+  }
+  
+  public l(Throwable paramThrowable)
+  {
+    this(null, null, paramThrowable);
+  }
+  
+  public h a()
+  {
+    return b;
+  }
+  
+  public String b()
+  {
+    return null;
+  }
+  
+  public String c()
+  {
+    return super.getMessage();
+  }
+  
+  public String getMessage()
+  {
+    Object localObject2 = super.getMessage();
+    Object localObject1 = localObject2;
+    if (localObject2 == null) {
+      localObject1 = "N/A";
+    }
+    h localH = a();
+    String str = b();
+    if (localH == null)
+    {
+      localObject2 = localObject1;
+      if (str == null) {}
+    }
+    else
+    {
+      localObject2 = new StringBuilder(100);
+      ((StringBuilder)localObject2).append((String)localObject1);
+      if (str != null) {
+        ((StringBuilder)localObject2).append(str);
+      }
+      if (localH != null)
+      {
+        ((StringBuilder)localObject2).append('\n');
+        ((StringBuilder)localObject2).append(" at ");
+        ((StringBuilder)localObject2).append(localH.toString());
+      }
+      localObject2 = ((StringBuilder)localObject2).toString();
+    }
+    return localObject2;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(getClass().getName());
+    localStringBuilder.append(": ");
+    localStringBuilder.append(getMessage());
+    return localStringBuilder.toString();
+  }
+}

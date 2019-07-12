@@ -1,0 +1,662 @@
+package b.b.x.p;
+
+import android.animation.Animator;
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.Paint.Cap;
+import android.graphics.Paint.Style;
+import android.graphics.Path;
+import android.graphics.Path.FillType;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
+import b.b.a.F;
+import b.b.a.N;
+import b.b.x.o.b.b;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+public class f
+  extends Drawable
+  implements Animatable
+{
+  public static final Interpolator a = new LinearInterpolator();
+  public static final Interpolator b = new b();
+  public static final int c = 0;
+  public static final float d = 11.0F;
+  public static final float e = 3.0F;
+  public static final int f = 12;
+  public static final int g = 6;
+  public static final int h = 1;
+  public static final float i = 7.5F;
+  public static final float j = 2.5F;
+  public static final int k = 10;
+  public static final int l = 5;
+  public static final int[] m = { -16777216 };
+  public static final float n = 0.75F;
+  public static final float o = 0.5F;
+  public static final int p = 1332;
+  public static final float q = 216.0F;
+  public static final float r = 0.8F;
+  public static final float s = 0.01F;
+  public static final float t = 0.20999998F;
+  public final b u;
+  public float v;
+  public Resources w;
+  public Animator x;
+  public float y;
+  public boolean z;
+  
+  public f(@F Context paramContext)
+  {
+    if (paramContext != null)
+    {
+      w = paramContext.getResources();
+      u = new b();
+      u.a(m);
+      d(2.5F);
+      n();
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  private int a(float paramFloat, int paramInt1, int paramInt2)
+  {
+    int i1 = paramInt1 >> 24 & 0xFF;
+    int i2 = paramInt1 >> 16 & 0xFF;
+    int i3 = paramInt1 >> 8 & 0xFF;
+    paramInt1 &= 0xFF;
+    return i1 + (int)(((paramInt2 >> 24 & 0xFF) - i1) * paramFloat) << 24 | i2 + (int)(((paramInt2 >> 16 & 0xFF) - i2) * paramFloat) << 16 | i3 + (int)(((paramInt2 >> 8 & 0xFF) - i3) * paramFloat) << 8 | paramInt1 + (int)(paramFloat * ((paramInt2 & 0xFF) - paramInt1));
+  }
+  
+  private void a(float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4)
+  {
+    b localB = u;
+    float f1 = w.getDisplayMetrics().density;
+    localB.f(paramFloat2 * f1);
+    localB.b(paramFloat1 * f1);
+    localB.d(0);
+    localB.a(paramFloat3 * f1, paramFloat4 * f1);
+  }
+  
+  private void b(float paramFloat, b paramB)
+  {
+    a(paramFloat, paramB);
+    float f1 = (float)(Math.floor(paramB.p() / 0.8F) + 1.0D);
+    float f2 = paramB.q();
+    paramB.e((paramB.o() - 0.01F - paramB.q()) * paramFloat + f2);
+    paramB.c(paramB.o());
+    f2 = paramB.p();
+    paramB.d((f1 - paramB.p()) * paramFloat + f2);
+  }
+  
+  private void e(float paramFloat)
+  {
+    v = paramFloat;
+  }
+  
+  private float m()
+  {
+    return v;
+  }
+  
+  private void n()
+  {
+    b localB = u;
+    ValueAnimator localValueAnimator = ValueAnimator.ofFloat(new float[] { 0.0F, 1.0F });
+    localValueAnimator.addUpdateListener(new d(this, localB));
+    localValueAnimator.setRepeatCount(-1);
+    localValueAnimator.setRepeatMode(1);
+    localValueAnimator.setInterpolator(a);
+    localValueAnimator.addListener(new e(this, localB));
+    x = localValueAnimator;
+  }
+  
+  public void a(float paramFloat)
+  {
+    u.a(paramFloat);
+    invalidateSelf();
+  }
+  
+  public void a(float paramFloat1, float paramFloat2)
+  {
+    u.a(paramFloat1, paramFloat2);
+    invalidateSelf();
+  }
+  
+  public void a(float paramFloat, b paramB)
+  {
+    if (paramFloat > 0.75F)
+    {
+      paramB.c(a((paramFloat - 0.75F) / 0.25F, paramB.n(), paramB.i()));
+      return;
+    }
+    paramB.c(paramB.n());
+  }
+  
+  public void a(float paramFloat, b paramB, boolean paramBoolean)
+  {
+    if (z)
+    {
+      b(paramFloat, paramB);
+      return;
+    }
+    if ((paramFloat != 1.0F) || (paramBoolean))
+    {
+      float f3 = paramB.p();
+      float f2;
+      float f1;
+      if (paramFloat < 0.5F)
+      {
+        f2 = paramFloat / 0.5F;
+        f1 = paramB.q();
+        f2 = b.getInterpolation(f2) * 0.79F + 0.01F + f1;
+      }
+      else
+      {
+        f1 = (paramFloat - 0.5F) / 0.5F;
+        f2 = paramB.q() + 0.79F;
+        f1 = f2 - ((1.0F - b.getInterpolation(f1)) * 0.79F + 0.01F);
+      }
+      float f4 = y;
+      paramB.e(f1);
+      paramB.c(f2);
+      paramB.d(0.20999998F * paramFloat + f3);
+      v = ((paramFloat + f4) * 216.0F);
+    }
+  }
+  
+  public void a(int paramInt)
+  {
+    u.b(paramInt);
+    invalidateSelf();
+  }
+  
+  public void a(@F Paint.Cap paramCap)
+  {
+    u.a(paramCap);
+    invalidateSelf();
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    u.a(paramBoolean);
+    invalidateSelf();
+  }
+  
+  public void a(@F int... paramVarArgs)
+  {
+    u.a(paramVarArgs);
+    u.d(0);
+    invalidateSelf();
+  }
+  
+  public boolean a()
+  {
+    return u.l();
+  }
+  
+  public float b()
+  {
+    return u.b();
+  }
+  
+  public void b(float paramFloat)
+  {
+    u.b(paramFloat);
+    invalidateSelf();
+  }
+  
+  public void b(float paramFloat1, float paramFloat2)
+  {
+    u.e(paramFloat1);
+    u.c(paramFloat2);
+    invalidateSelf();
+  }
+  
+  public void b(int paramInt)
+  {
+    if (paramInt == 0) {
+      a(11.0F, 3.0F, 12.0F, 6.0F);
+    } else {
+      a(7.5F, 2.5F, 10.0F, 5.0F);
+    }
+    invalidateSelf();
+  }
+  
+  public float c()
+  {
+    return u.c();
+  }
+  
+  public void c(float paramFloat)
+  {
+    u.d(paramFloat);
+    invalidateSelf();
+  }
+  
+  public float d()
+  {
+    return u.d();
+  }
+  
+  public void d(float paramFloat)
+  {
+    u.f(paramFloat);
+    invalidateSelf();
+  }
+  
+  public void draw(Canvas paramCanvas)
+  {
+    Rect localRect = getBounds();
+    paramCanvas.save();
+    paramCanvas.rotate(v, localRect.exactCenterX(), localRect.exactCenterY());
+    u.a(paramCanvas, localRect);
+    paramCanvas.restore();
+  }
+  
+  public int e()
+  {
+    return u.e();
+  }
+  
+  public float f()
+  {
+    return u.f();
+  }
+  
+  @F
+  public int[] g()
+  {
+    return u.g();
+  }
+  
+  public int getAlpha()
+  {
+    return u.a();
+  }
+  
+  public int getOpacity()
+  {
+    return -3;
+  }
+  
+  public float h()
+  {
+    return u.h();
+  }
+  
+  public float i()
+  {
+    return u.k();
+  }
+  
+  public boolean isRunning()
+  {
+    return x.isRunning();
+  }
+  
+  public float j()
+  {
+    return u.m();
+  }
+  
+  @F
+  public Paint.Cap k()
+  {
+    return u.r();
+  }
+  
+  public float l()
+  {
+    return u.s();
+  }
+  
+  public void setAlpha(int paramInt)
+  {
+    u.a(paramInt);
+    invalidateSelf();
+  }
+  
+  public void setColorFilter(ColorFilter paramColorFilter)
+  {
+    u.a(paramColorFilter);
+    invalidateSelf();
+  }
+  
+  public void start()
+  {
+    x.cancel();
+    u.v();
+    if (u.h() != u.m())
+    {
+      z = true;
+      x.setDuration(666L);
+      x.start();
+      return;
+    }
+    u.d(0);
+    u.u();
+    x.setDuration(1332L);
+    x.start();
+  }
+  
+  public void stop()
+  {
+    x.cancel();
+    v = 0.0F;
+    u.a(false);
+    u.d(0);
+    u.u();
+    invalidateSelf();
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface a {}
+  
+  private static class b
+  {
+    public final RectF a = new RectF();
+    public final Paint b = new Paint();
+    public final Paint c = new Paint();
+    public final Paint d = new Paint();
+    public float e = 0.0F;
+    public float f = 0.0F;
+    public float g = 0.0F;
+    public float h = 5.0F;
+    public int[] i;
+    public int j;
+    public float k;
+    public float l;
+    public float m;
+    public boolean n;
+    public Path o;
+    public float p = 1.0F;
+    public float q;
+    public int r;
+    public int s;
+    public int t = 255;
+    public int u;
+    
+    public b()
+    {
+      b.setStrokeCap(Paint.Cap.SQUARE);
+      b.setAntiAlias(true);
+      b.setStyle(Paint.Style.STROKE);
+      c.setStyle(Paint.Style.FILL);
+      c.setAntiAlias(true);
+      d.setColor(0);
+    }
+    
+    public int a()
+    {
+      return t;
+    }
+    
+    public void a(float paramFloat)
+    {
+      if (paramFloat != p) {
+        p = paramFloat;
+      }
+    }
+    
+    public void a(float paramFloat1, float paramFloat2)
+    {
+      r = ((int)paramFloat1);
+      s = ((int)paramFloat2);
+    }
+    
+    public void a(int paramInt)
+    {
+      t = paramInt;
+    }
+    
+    public void a(Canvas paramCanvas, float paramFloat1, float paramFloat2, RectF paramRectF)
+    {
+      if (n)
+      {
+        Path localPath = o;
+        if (localPath == null)
+        {
+          o = new Path();
+          o.setFillType(Path.FillType.EVEN_ODD);
+        }
+        else
+        {
+          localPath.reset();
+        }
+        float f1 = Math.min(paramRectF.width(), paramRectF.height()) / 2.0F;
+        float f2 = r * p / 2.0F;
+        o.moveTo(0.0F, 0.0F);
+        o.lineTo(r * p, 0.0F);
+        localPath = o;
+        float f3 = r;
+        float f4 = p;
+        localPath.lineTo(f3 * f4 / 2.0F, s * f4);
+        localPath = o;
+        f3 = paramRectF.centerX();
+        f4 = paramRectF.centerY();
+        localPath.offset(f3 + f1 - f2, h / 2.0F + f4);
+        o.close();
+        c.setColor(u);
+        c.setAlpha(t);
+        paramCanvas.save();
+        paramCanvas.rotate(paramFloat1 + paramFloat2, paramRectF.centerX(), paramRectF.centerY());
+        paramCanvas.drawPath(o, c);
+        paramCanvas.restore();
+      }
+    }
+    
+    public void a(Canvas paramCanvas, Rect paramRect)
+    {
+      RectF localRectF = a;
+      float f2 = q;
+      float f1 = h / 2.0F + f2;
+      if (f2 <= 0.0F) {
+        f1 = Math.min(paramRect.width(), paramRect.height()) / 2.0F - Math.max(r * p / 2.0F, h / 2.0F);
+      }
+      localRectF.set(paramRect.centerX() - f1, paramRect.centerY() - f1, paramRect.centerX() + f1, paramRect.centerY() + f1);
+      f1 = e;
+      f2 = g;
+      f1 = (f1 + f2) * 360.0F;
+      f2 = (f + f2) * 360.0F - f1;
+      b.setColor(u);
+      b.setAlpha(t);
+      float f3 = h / 2.0F;
+      localRectF.inset(f3, f3);
+      paramCanvas.drawCircle(localRectF.centerX(), localRectF.centerY(), localRectF.width() / 2.0F, d);
+      f3 = -f3;
+      localRectF.inset(f3, f3);
+      paramCanvas.drawArc(localRectF, f1, f2, false, b);
+      a(paramCanvas, f1, f2, localRectF);
+    }
+    
+    public void a(ColorFilter paramColorFilter)
+    {
+      b.setColorFilter(paramColorFilter);
+    }
+    
+    public void a(Paint.Cap paramCap)
+    {
+      b.setStrokeCap(paramCap);
+    }
+    
+    public void a(boolean paramBoolean)
+    {
+      if (n != paramBoolean) {
+        n = paramBoolean;
+      }
+    }
+    
+    public void a(@F int[] paramArrayOfInt)
+    {
+      i = paramArrayOfInt;
+      d(0);
+    }
+    
+    public float b()
+    {
+      return s;
+    }
+    
+    public void b(float paramFloat)
+    {
+      q = paramFloat;
+    }
+    
+    public void b(int paramInt)
+    {
+      d.setColor(paramInt);
+    }
+    
+    public float c()
+    {
+      return p;
+    }
+    
+    public void c(float paramFloat)
+    {
+      f = paramFloat;
+    }
+    
+    public void c(int paramInt)
+    {
+      u = paramInt;
+    }
+    
+    public float d()
+    {
+      return r;
+    }
+    
+    public void d(float paramFloat)
+    {
+      g = paramFloat;
+    }
+    
+    public void d(int paramInt)
+    {
+      j = paramInt;
+      u = i[j];
+    }
+    
+    public int e()
+    {
+      return d.getColor();
+    }
+    
+    public void e(float paramFloat)
+    {
+      e = paramFloat;
+    }
+    
+    public float f()
+    {
+      return q;
+    }
+    
+    public void f(float paramFloat)
+    {
+      h = paramFloat;
+      b.setStrokeWidth(paramFloat);
+    }
+    
+    public int[] g()
+    {
+      return i;
+    }
+    
+    public float h()
+    {
+      return f;
+    }
+    
+    public int i()
+    {
+      return i[j()];
+    }
+    
+    public int j()
+    {
+      return (j + 1) % i.length;
+    }
+    
+    public float k()
+    {
+      return g;
+    }
+    
+    public boolean l()
+    {
+      return n;
+    }
+    
+    public float m()
+    {
+      return e;
+    }
+    
+    public int n()
+    {
+      return i[j];
+    }
+    
+    public float o()
+    {
+      return l;
+    }
+    
+    public float p()
+    {
+      return m;
+    }
+    
+    public float q()
+    {
+      return k;
+    }
+    
+    public Paint.Cap r()
+    {
+      return b.getStrokeCap();
+    }
+    
+    public float s()
+    {
+      return h;
+    }
+    
+    public void t()
+    {
+      d(j());
+    }
+    
+    public void u()
+    {
+      k = 0.0F;
+      l = 0.0F;
+      m = 0.0F;
+      e(0.0F);
+      c(0.0F);
+      d(0.0F);
+    }
+    
+    public void v()
+    {
+      k = e;
+      l = f;
+      m = g;
+    }
+  }
+}

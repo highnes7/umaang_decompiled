@@ -1,0 +1,192 @@
+package b.b.w.a.a;
+
+import android.content.ClipDescription;
+import android.net.Uri;
+import android.os.Build.VERSION;
+import android.view.inputmethod.InputContentInfo;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+
+public final class e
+{
+  public final c a;
+  
+  public e(@F Uri paramUri1, @F ClipDescription paramClipDescription, @G Uri paramUri2)
+  {
+    if (Build.VERSION.SDK_INT >= 25)
+    {
+      a = new a(paramUri1, paramClipDescription, paramUri2);
+      return;
+    }
+    a = new b(paramUri1, paramClipDescription, paramUri2);
+  }
+  
+  public e(@F c paramC)
+  {
+    a = paramC;
+  }
+  
+  @G
+  public static e a(@G Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    if (Build.VERSION.SDK_INT < 25) {
+      return null;
+    }
+    return new e(new a(paramObject));
+  }
+  
+  @F
+  public Uri a()
+  {
+    return a.b();
+  }
+  
+  @F
+  public ClipDescription b()
+  {
+    return a.e();
+  }
+  
+  @G
+  public Uri c()
+  {
+    return a.d();
+  }
+  
+  public void d()
+  {
+    a.f();
+  }
+  
+  public void e()
+  {
+    a.c();
+  }
+  
+  @G
+  public Object f()
+  {
+    return a.a();
+  }
+  
+  @K(25)
+  private static final class a
+    implements e.c
+  {
+    @F
+    public final InputContentInfo a;
+    
+    public a(@F Uri paramUri1, @F ClipDescription paramClipDescription, @G Uri paramUri2)
+    {
+      a = new InputContentInfo(paramUri1, paramClipDescription, paramUri2);
+    }
+    
+    public a(@F Object paramObject)
+    {
+      a = ((InputContentInfo)paramObject);
+    }
+    
+    @G
+    public Object a()
+    {
+      return a;
+    }
+    
+    @F
+    public Uri b()
+    {
+      return a.getContentUri();
+    }
+    
+    public void c()
+    {
+      a.requestPermission();
+    }
+    
+    @G
+    public Uri d()
+    {
+      return a.getLinkUri();
+    }
+    
+    @F
+    public ClipDescription e()
+    {
+      return a.getDescription();
+    }
+    
+    public void f()
+    {
+      a.releasePermission();
+    }
+  }
+  
+  private static final class b
+    implements e.c
+  {
+    @F
+    public final Uri a;
+    @F
+    public final ClipDescription b;
+    @G
+    public final Uri c;
+    
+    public b(@F Uri paramUri1, @F ClipDescription paramClipDescription, @G Uri paramUri2)
+    {
+      a = paramUri1;
+      b = paramClipDescription;
+      c = paramUri2;
+    }
+    
+    @G
+    public Object a()
+    {
+      return null;
+    }
+    
+    @F
+    public Uri b()
+    {
+      return a;
+    }
+    
+    public void c() {}
+    
+    @G
+    public Uri d()
+    {
+      return c;
+    }
+    
+    @F
+    public ClipDescription e()
+    {
+      return b;
+    }
+    
+    public void f() {}
+  }
+  
+  private static abstract interface c
+  {
+    @G
+    public abstract Object a();
+    
+    @F
+    public abstract Uri b();
+    
+    public abstract void c();
+    
+    @G
+    public abstract Uri d();
+    
+    @F
+    public abstract ClipDescription e();
+    
+    public abstract void f();
+  }
+}

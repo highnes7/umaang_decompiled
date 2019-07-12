@@ -1,0 +1,101 @@
+package f.d.a.a.g;
+
+import f.d.a.a.i;
+import f.d.a.a.k;
+import f.d.a.a.n;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class h
+  extends g
+{
+  public final k[] g;
+  public int h;
+  
+  public h(k[] paramArrayOfK)
+  {
+    super(paramArrayOfK[0]);
+    g = paramArrayOfK;
+    h = 1;
+  }
+  
+  public static h a(k paramK1, k paramK2)
+  {
+    boolean bool = paramK1 instanceof h;
+    if ((!bool) && (!(paramK2 instanceof h))) {
+      return new h(new k[] { paramK1, paramK2 });
+    }
+    ArrayList localArrayList = new ArrayList();
+    if (bool) {
+      ((h)paramK1).a(localArrayList);
+    } else {
+      localArrayList.add(paramK1);
+    }
+    if ((paramK2 instanceof h)) {
+      ((h)paramK2).a(localArrayList);
+    } else {
+      localArrayList.add(paramK2);
+    }
+    return new h((k[])localArrayList.toArray(new k[localArrayList.size()]));
+  }
+  
+  public void a(List<k> paramList)
+  {
+    int i = h - 1;
+    int j = g.length;
+    while (i < j)
+    {
+      k localK = g[i];
+      if ((localK instanceof h)) {
+        ((h)localK).a(paramList);
+      } else {
+        paramList.add(localK);
+      }
+      i += 1;
+    }
+  }
+  
+  public void close()
+    throws IOException
+  {
+    do
+    {
+      f.close();
+    } while (na());
+  }
+  
+  public n ha()
+    throws IOException, i
+  {
+    n localN = f.ha();
+    if (localN != null) {
+      return localN;
+    }
+    while (na())
+    {
+      localN = f.ha();
+      if (localN != null) {
+        return localN;
+      }
+    }
+    return null;
+  }
+  
+  public int ma()
+  {
+    return g.length;
+  }
+  
+  public boolean na()
+  {
+    int i = h;
+    k[] arrayOfK = g;
+    if (i >= arrayOfK.length) {
+      return false;
+    }
+    h = (i + 1);
+    f = arrayOfK[i];
+    return true;
+  }
+}

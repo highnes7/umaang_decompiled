@@ -1,0 +1,230 @@
+package android.support.v7.view.menu;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.os.Build.VERSION;
+import android.support.v7.appcompat.R.attr;
+import android.support.v7.appcompat.R.dimen;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ListView;
+import android.widget.PopupWindow.OnDismissListener;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.S;
+import b.b.a.f;
+import b.b.x.o.H;
+import b.b.x.o.h;
+
+@N({b.b.a.N.a.b})
+public class MenuPopupHelper
+  implements MenuHelper
+{
+  public static final int TOUCH_EPICENTER_SIZE_DP = 48;
+  public View mAnchorView;
+  public final Context mContext;
+  public int mDropDownGravity = 8388611;
+  public boolean mForceShowIcon;
+  public final PopupWindow.OnDismissListener mInternalOnDismissListener = new PopupWindow.OnDismissListener()
+  {
+    public void onDismiss()
+    {
+      MenuPopupHelper.this.onDismiss();
+    }
+  };
+  public final MenuBuilder mMenu;
+  public PopupWindow.OnDismissListener mOnDismissListener;
+  public final boolean mOverflowOnly;
+  public MenuPopup mPopup;
+  public final int mPopupStyleAttr;
+  public final int mPopupStyleRes;
+  public MenuPresenter.Callback mPresenterCallback;
+  
+  public MenuPopupHelper(@F Context paramContext, @F MenuBuilder paramMenuBuilder)
+  {
+    this(paramContext, paramMenuBuilder, null, false, R.attr.popupMenuStyle, 0);
+  }
+  
+  public MenuPopupHelper(@F Context paramContext, @F MenuBuilder paramMenuBuilder, @F View paramView)
+  {
+    this(paramContext, paramMenuBuilder, paramView, false, R.attr.popupMenuStyle, 0);
+  }
+  
+  public MenuPopupHelper(@F Context paramContext, @F MenuBuilder paramMenuBuilder, @F View paramView, boolean paramBoolean, @f int paramInt)
+  {
+    this(paramContext, paramMenuBuilder, paramView, paramBoolean, paramInt, 0);
+  }
+  
+  public MenuPopupHelper(@F Context paramContext, @F MenuBuilder paramMenuBuilder, @F View paramView, boolean paramBoolean, @f int paramInt1, @S int paramInt2)
+  {
+    mContext = paramContext;
+    mMenu = paramMenuBuilder;
+    mAnchorView = paramView;
+    mOverflowOnly = paramBoolean;
+    mPopupStyleAttr = paramInt1;
+    mPopupStyleRes = paramInt2;
+  }
+  
+  @F
+  private MenuPopup createPopup()
+  {
+    Object localObject = ((WindowManager)mContext.getSystemService("window")).getDefaultDisplay();
+    Point localPoint = new Point();
+    int i = Build.VERSION.SDK_INT;
+    ((Display)localObject).getRealSize(localPoint);
+    if (Math.min(x, y) >= mContext.getResources().getDimensionPixelSize(R.dimen.abc_cascading_menus_min_smallest_width)) {
+      i = 1;
+    } else {
+      i = 0;
+    }
+    if (i != 0) {
+      localObject = new CascadingMenuPopup(mContext, mAnchorView, mPopupStyleAttr, mPopupStyleRes, mOverflowOnly);
+    } else {
+      localObject = new StandardMenuPopup(mContext, mMenu, mAnchorView, mPopupStyleAttr, mPopupStyleRes, mOverflowOnly);
+    }
+    ((MenuPopup)localObject).addMenu(mMenu);
+    ((MenuPopup)localObject).setOnDismissListener(mInternalOnDismissListener);
+    ((MenuPopup)localObject).setAnchorView(mAnchorView);
+    ((MenuPresenter)localObject).setCallback(mPresenterCallback);
+    ((MenuPopup)localObject).setForceShowIcon(mForceShowIcon);
+    ((MenuPopup)localObject).setGravity(mDropDownGravity);
+    return localObject;
+  }
+  
+  private void showPopup(int paramInt1, int paramInt2, boolean paramBoolean1, boolean paramBoolean2)
+  {
+    MenuPopup localMenuPopup = getPopup();
+    localMenuPopup.setShowTitle(paramBoolean2);
+    if (paramBoolean1)
+    {
+      int i = paramInt1;
+      if ((h.a(mDropDownGravity, H.r(mAnchorView)) & 0x7) == 5) {
+        i = paramInt1 - mAnchorView.getWidth();
+      }
+      localMenuPopup.setHorizontalOffset(i);
+      localMenuPopup.setVerticalOffset(paramInt2);
+      paramInt1 = (int)(mContext.getResources().getDisplayMetrics().density * 48.0F / 2.0F);
+      localMenuPopup.setEpicenterBounds(new Rect(i - paramInt1, paramInt2 - paramInt1, i + paramInt1, paramInt2 + paramInt1));
+    }
+    localMenuPopup.show();
+  }
+  
+  public void dismiss()
+  {
+    if (isShowing()) {
+      mPopup.dismiss();
+    }
+  }
+  
+  public int getGravity()
+  {
+    return mDropDownGravity;
+  }
+  
+  public ListView getListView()
+  {
+    return getPopup().getListView();
+  }
+  
+  @F
+  public MenuPopup getPopup()
+  {
+    if (mPopup == null) {
+      mPopup = createPopup();
+    }
+    return mPopup;
+  }
+  
+  public boolean isShowing()
+  {
+    MenuPopup localMenuPopup = mPopup;
+    return (localMenuPopup != null) && (localMenuPopup.isShowing());
+  }
+  
+  public void onDismiss()
+  {
+    mPopup = null;
+    PopupWindow.OnDismissListener localOnDismissListener = mOnDismissListener;
+    if (localOnDismissListener != null) {
+      localOnDismissListener.onDismiss();
+    }
+  }
+  
+  public void setAnchorView(@F View paramView)
+  {
+    mAnchorView = paramView;
+  }
+  
+  public void setForceShowIcon(boolean paramBoolean)
+  {
+    mForceShowIcon = paramBoolean;
+    MenuPopup localMenuPopup = mPopup;
+    if (localMenuPopup != null) {
+      localMenuPopup.setForceShowIcon(paramBoolean);
+    }
+  }
+  
+  public void setGravity(int paramInt)
+  {
+    mDropDownGravity = paramInt;
+  }
+  
+  public void setOnDismissListener(@G PopupWindow.OnDismissListener paramOnDismissListener)
+  {
+    mOnDismissListener = paramOnDismissListener;
+  }
+  
+  public void setPresenterCallback(@G MenuPresenter.Callback paramCallback)
+  {
+    mPresenterCallback = paramCallback;
+    MenuPopup localMenuPopup = mPopup;
+    if (localMenuPopup != null) {
+      localMenuPopup.setCallback(paramCallback);
+    }
+  }
+  
+  public void show()
+  {
+    if (tryShow()) {
+      return;
+    }
+    throw new IllegalStateException("MenuPopupHelper cannot be used without an anchor");
+  }
+  
+  public void show(int paramInt1, int paramInt2)
+  {
+    if (tryShow(paramInt1, paramInt2)) {
+      return;
+    }
+    throw new IllegalStateException("MenuPopupHelper cannot be used without an anchor");
+  }
+  
+  public boolean tryShow()
+  {
+    if (isShowing()) {
+      return true;
+    }
+    if (mAnchorView == null) {
+      return false;
+    }
+    showPopup(0, 0, false, false);
+    return true;
+  }
+  
+  public boolean tryShow(int paramInt1, int paramInt2)
+  {
+    if (isShowing()) {
+      return true;
+    }
+    if (mAnchorView == null) {
+      return false;
+    }
+    showPopup(paramInt1, paramInt2, true, true);
+    return true;
+  }
+}

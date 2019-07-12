@@ -1,0 +1,183 @@
+package f.g.c.e;
+
+import f.g.c.a.d;
+import f.g.c.b.Aa;
+import f.g.c.c.n;
+import f.g.c.d.Be.d;
+import f.g.c.d.bg;
+import f.g.c.d.ve;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+@f.g.c.a.a
+public class j
+{
+  public final bg<Class<?>, k> a = new Be.d(new ConcurrentHashMap(), new f(this));
+  public final Logger b;
+  public final l c = new b();
+  public final ThreadLocal<ConcurrentLinkedQueue<a>> d = new g(this);
+  public final ThreadLocal<Boolean> e = new h(this);
+  public final n<Class<?>, Set<Class<?>>> f = new f.g.c.c.g().u().a(new i(this));
+  
+  public j()
+  {
+    this("default");
+  }
+  
+  public j(String paramString)
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(j.class.getName());
+    localStringBuilder.append(".");
+    localStringBuilder.append(paramString);
+    b = Logger.getLogger(localStringBuilder.toString());
+  }
+  
+  @d
+  public Set<Class<?>> a(Class<?> paramClass)
+  {
+    try
+    {
+      paramClass = (Set)f.get(paramClass);
+      return paramClass;
+    }
+    catch (ExecutionException paramClass)
+    {
+      Aa.d(paramClass.getCause());
+      throw null;
+    }
+  }
+  
+  @Deprecated
+  public void a()
+  {
+    if (((Boolean)e.get()).booleanValue()) {
+      return;
+    }
+    e.set(Boolean.valueOf(true));
+    try
+    {
+      for (;;)
+      {
+        a localA = (a)((ConcurrentLinkedQueue)d.get()).poll();
+        if (localA == null)
+        {
+          e.set(Boolean.valueOf(false));
+          return;
+        }
+        a(a, b);
+      }
+      throw localObject;
+    }
+    finally
+    {
+      e.set(Boolean.valueOf(false));
+    }
+    for (;;) {}
+  }
+  
+  public void a(Object paramObject)
+  {
+    Iterator localIterator = a(paramObject.getClass()).iterator();
+    int i = 0;
+    while (localIterator.hasNext())
+    {
+      Object localObject = b((Class)localIterator.next());
+      if ((localObject != null) && (!((Set)localObject).isEmpty()))
+      {
+        int j = 1;
+        localObject = ((Set)localObject).iterator();
+        for (;;)
+        {
+          i = j;
+          if (!((Iterator)localObject).hasNext()) {
+            break;
+          }
+          b(paramObject, (k)((Iterator)localObject).next());
+        }
+      }
+    }
+    if ((i == 0) && (!(paramObject instanceof e))) {
+      a(new e(this, paramObject));
+    }
+    a();
+  }
+  
+  public void a(Object paramObject, k paramK)
+  {
+    try
+    {
+      paramK.a(paramObject);
+      return;
+    }
+    catch (InvocationTargetException localInvocationTargetException)
+    {
+      Logger localLogger = b;
+      Level localLevel = Level.SEVERE;
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Could not dispatch event: ");
+      localStringBuilder.append(paramObject);
+      localStringBuilder.append(" to handler ");
+      localStringBuilder.append(paramK);
+      localLogger.log(localLevel, localStringBuilder.toString(), localInvocationTargetException);
+    }
+  }
+  
+  public Set<k> b()
+  {
+    return new CopyOnWriteArraySet();
+  }
+  
+  public Set<k> b(Class<?> paramClass)
+  {
+    return a.get(paramClass);
+  }
+  
+  public void b(Object paramObject)
+  {
+    a.a(c.a(paramObject));
+  }
+  
+  public void b(Object paramObject, k paramK)
+  {
+    ((ConcurrentLinkedQueue)d.get()).offer(new a(paramObject, paramK));
+  }
+  
+  public void c(Object paramObject)
+  {
+    Iterator localIterator = c.a(paramObject).a().entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      Set localSet = b((Class)localEntry.getKey());
+      Collection localCollection = (Collection)localEntry.getValue();
+      if ((localSet != null) && (localSet.containsAll((Collection)localEntry.getValue()))) {
+        localSet.removeAll(localCollection);
+      } else {
+        throw new IllegalArgumentException(f.a.a.a.a.a("missing event handler for an annotated method. Is ", paramObject, " registered?"));
+      }
+    }
+  }
+  
+  public static class a
+  {
+    public final Object a;
+    public final k b;
+    
+    public a(Object paramObject, k paramK)
+    {
+      a = paramObject;
+      b = paramK;
+    }
+  }
+}

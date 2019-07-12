@@ -1,0 +1,71 @@
+package b.b.x.h;
+
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.IBinder.DeathRecipient;
+import android.os.RemoteException;
+import android.support.v4.media.MediaBrowserServiceCompat;
+import android.support.v4.media.MediaBrowserServiceCompat.a;
+import android.support.v4.media.MediaBrowserServiceCompat.b;
+import android.support.v4.media.MediaBrowserServiceCompat.j;
+import android.support.v4.media.MediaBrowserServiceCompat.k;
+import b.b.x.n.t;
+import f.a.a.a.a;
+
+public class M
+  implements Runnable
+{
+  public M(MediaBrowserServiceCompat.j paramJ, MediaBrowserServiceCompat.k paramK, String paramString, int paramInt1, int paramInt2, Bundle paramBundle) {}
+  
+  public void run()
+  {
+    Object localObject1 = a.asBinder();
+    f.a.n.remove(localObject1);
+    Object localObject2 = new MediaBrowserServiceCompat.b(f.a, b, c, d, e, a);
+    MediaBrowserServiceCompat localMediaBrowserServiceCompat = f.a;
+    o = ((MediaBrowserServiceCompat.b)localObject2);
+    h = localMediaBrowserServiceCompat.a(b, d, e);
+    localMediaBrowserServiceCompat = f.a;
+    o = null;
+    if (h == null)
+    {
+      localObject1 = a.b("No root for client ");
+      ((StringBuilder)localObject1).append(b);
+      ((StringBuilder)localObject1).append(" from service ");
+      ((StringBuilder)localObject1).append(M.class.getName());
+      ((StringBuilder)localObject1).toString();
+    }
+    try
+    {
+      a.a();
+      return;
+    }
+    catch (RemoteException localRemoteException1)
+    {
+      label281:
+      for (;;) {}
+    }
+    localObject1 = a.b("Calling onConnectFailed() failed. Ignoring. pkg=");
+    ((StringBuilder)localObject1).append(b);
+    ((StringBuilder)localObject1).toString();
+    return;
+    try
+    {
+      n.put(localObject1, localObject2);
+      ((IBinder)localObject1).linkToDeath((IBinder.DeathRecipient)localObject2, 0);
+      if (f.a.q == null) {
+        break label281;
+      }
+      a.a(h.b(), f.a.q, h.a());
+      return;
+    }
+    catch (RemoteException localRemoteException2)
+    {
+      for (;;) {}
+    }
+    localObject2 = a.b("Calling onConnect() failed. Dropping client. pkg=");
+    ((StringBuilder)localObject2).append(b);
+    ((StringBuilder)localObject2).toString();
+    f.a.n.remove(localObject1);
+  }
+}

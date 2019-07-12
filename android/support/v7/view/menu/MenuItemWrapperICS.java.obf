@@ -1,0 +1,477 @@
+package android.support.v7.view.menu;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
+import android.view.ActionProvider;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
+import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.SubMenu;
+import android.view.View;
+import android.widget.FrameLayout;
+import b.b.a.N;
+import b.b.x.f.a.b;
+import b.b.x.o.c;
+import java.lang.reflect.Method;
+
+@N({b.b.a.N.a.b})
+public class MenuItemWrapperICS
+  extends BaseMenuWrapper<b>
+  implements MenuItem
+{
+  public static final String LOG_TAG = "MenuItemWrapper";
+  public Method mSetExclusiveCheckableMethod;
+  
+  public MenuItemWrapperICS(Context paramContext, b paramB)
+  {
+    super(paramContext, paramB);
+  }
+  
+  public boolean collapseActionView()
+  {
+    return ((b)mWrappedObject).collapseActionView();
+  }
+  
+  public ActionProviderWrapper createActionProviderWrapper(ActionProvider paramActionProvider)
+  {
+    return new ActionProviderWrapper(mContext, paramActionProvider);
+  }
+  
+  public boolean expandActionView()
+  {
+    return ((b)mWrappedObject).expandActionView();
+  }
+  
+  public ActionProvider getActionProvider()
+  {
+    c localC = ((b)mWrappedObject).getSupportActionProvider();
+    if ((localC instanceof ActionProviderWrapper)) {
+      return mInner;
+    }
+    return null;
+  }
+  
+  public View getActionView()
+  {
+    View localView2 = ((b)mWrappedObject).getActionView();
+    View localView1 = localView2;
+    if ((localView2 instanceof CollapsibleActionViewWrapper)) {
+      localView1 = ((CollapsibleActionViewWrapper)localView2).getWrappedView();
+    }
+    return localView1;
+  }
+  
+  public int getAlphabeticModifiers()
+  {
+    return ((b)mWrappedObject).getAlphabeticModifiers();
+  }
+  
+  public char getAlphabeticShortcut()
+  {
+    return ((b)mWrappedObject).getAlphabeticShortcut();
+  }
+  
+  public CharSequence getContentDescription()
+  {
+    return ((b)mWrappedObject).getContentDescription();
+  }
+  
+  public int getGroupId()
+  {
+    return ((b)mWrappedObject).getGroupId();
+  }
+  
+  public Drawable getIcon()
+  {
+    return ((b)mWrappedObject).getIcon();
+  }
+  
+  public ColorStateList getIconTintList()
+  {
+    return ((b)mWrappedObject).getIconTintList();
+  }
+  
+  public PorterDuff.Mode getIconTintMode()
+  {
+    return ((b)mWrappedObject).getIconTintMode();
+  }
+  
+  public Intent getIntent()
+  {
+    return ((b)mWrappedObject).getIntent();
+  }
+  
+  public int getItemId()
+  {
+    return ((b)mWrappedObject).getItemId();
+  }
+  
+  public ContextMenu.ContextMenuInfo getMenuInfo()
+  {
+    return ((b)mWrappedObject).getMenuInfo();
+  }
+  
+  public int getNumericModifiers()
+  {
+    return ((b)mWrappedObject).getNumericModifiers();
+  }
+  
+  public char getNumericShortcut()
+  {
+    return ((b)mWrappedObject).getNumericShortcut();
+  }
+  
+  public int getOrder()
+  {
+    return ((b)mWrappedObject).getOrder();
+  }
+  
+  public SubMenu getSubMenu()
+  {
+    return getSubMenuWrapper(((b)mWrappedObject).getSubMenu());
+  }
+  
+  public CharSequence getTitle()
+  {
+    return ((b)mWrappedObject).getTitle();
+  }
+  
+  public CharSequence getTitleCondensed()
+  {
+    return ((b)mWrappedObject).getTitleCondensed();
+  }
+  
+  public CharSequence getTooltipText()
+  {
+    return ((b)mWrappedObject).getTooltipText();
+  }
+  
+  public boolean hasSubMenu()
+  {
+    return ((b)mWrappedObject).hasSubMenu();
+  }
+  
+  public boolean isActionViewExpanded()
+  {
+    return ((b)mWrappedObject).isActionViewExpanded();
+  }
+  
+  public boolean isCheckable()
+  {
+    return ((b)mWrappedObject).isCheckable();
+  }
+  
+  public boolean isChecked()
+  {
+    return ((b)mWrappedObject).isChecked();
+  }
+  
+  public boolean isEnabled()
+  {
+    return ((b)mWrappedObject).isEnabled();
+  }
+  
+  public boolean isVisible()
+  {
+    return ((b)mWrappedObject).isVisible();
+  }
+  
+  public MenuItem setActionProvider(ActionProvider paramActionProvider)
+  {
+    b localB = (b)mWrappedObject;
+    if (paramActionProvider != null) {
+      paramActionProvider = createActionProviderWrapper(paramActionProvider);
+    } else {
+      paramActionProvider = null;
+    }
+    localB.setSupportActionProvider(paramActionProvider);
+    return this;
+  }
+  
+  public MenuItem setActionView(int paramInt)
+  {
+    ((b)mWrappedObject).setActionView(paramInt);
+    View localView = ((b)mWrappedObject).getActionView();
+    if ((localView instanceof android.view.CollapsibleActionView)) {
+      ((b)mWrappedObject).setActionView(new CollapsibleActionViewWrapper(localView));
+    }
+    return this;
+  }
+  
+  public MenuItem setActionView(View paramView)
+  {
+    Object localObject = paramView;
+    if ((paramView instanceof android.view.CollapsibleActionView)) {
+      localObject = new CollapsibleActionViewWrapper(paramView);
+    }
+    ((b)mWrappedObject).setActionView((View)localObject);
+    return this;
+  }
+  
+  public MenuItem setAlphabeticShortcut(char paramChar)
+  {
+    ((b)mWrappedObject).setAlphabeticShortcut(paramChar);
+    return this;
+  }
+  
+  public MenuItem setAlphabeticShortcut(char paramChar, int paramInt)
+  {
+    ((b)mWrappedObject).setAlphabeticShortcut(paramChar, paramInt);
+    return this;
+  }
+  
+  public MenuItem setCheckable(boolean paramBoolean)
+  {
+    ((b)mWrappedObject).setCheckable(paramBoolean);
+    return this;
+  }
+  
+  public MenuItem setChecked(boolean paramBoolean)
+  {
+    ((b)mWrappedObject).setChecked(paramBoolean);
+    return this;
+  }
+  
+  public MenuItem setContentDescription(CharSequence paramCharSequence)
+  {
+    ((b)mWrappedObject).setContentDescription(paramCharSequence);
+    return this;
+  }
+  
+  public MenuItem setEnabled(boolean paramBoolean)
+  {
+    ((b)mWrappedObject).setEnabled(paramBoolean);
+    return this;
+  }
+  
+  public void setExclusiveCheckable(boolean paramBoolean)
+  {
+    try
+    {
+      if (mSetExclusiveCheckableMethod == null) {
+        mSetExclusiveCheckableMethod = ((b)mWrappedObject).getClass().getDeclaredMethod("setExclusiveCheckable", new Class[] { Boolean.TYPE });
+      }
+      mSetExclusiveCheckableMethod.invoke(mWrappedObject, new Object[] { Boolean.valueOf(paramBoolean) });
+      return;
+    }
+    catch (Exception localException) {}
+  }
+  
+  public MenuItem setIcon(int paramInt)
+  {
+    ((b)mWrappedObject).setIcon(paramInt);
+    return this;
+  }
+  
+  public MenuItem setIcon(Drawable paramDrawable)
+  {
+    ((b)mWrappedObject).setIcon(paramDrawable);
+    return this;
+  }
+  
+  public MenuItem setIconTintList(ColorStateList paramColorStateList)
+  {
+    ((b)mWrappedObject).setIconTintList(paramColorStateList);
+    return this;
+  }
+  
+  public MenuItem setIconTintMode(PorterDuff.Mode paramMode)
+  {
+    ((b)mWrappedObject).setIconTintMode(paramMode);
+    return this;
+  }
+  
+  public MenuItem setIntent(Intent paramIntent)
+  {
+    ((b)mWrappedObject).setIntent(paramIntent);
+    return this;
+  }
+  
+  public MenuItem setNumericShortcut(char paramChar)
+  {
+    ((b)mWrappedObject).setNumericShortcut(paramChar);
+    return this;
+  }
+  
+  public MenuItem setNumericShortcut(char paramChar, int paramInt)
+  {
+    ((b)mWrappedObject).setNumericShortcut(paramChar, paramInt);
+    return this;
+  }
+  
+  public MenuItem setOnActionExpandListener(MenuItem.OnActionExpandListener paramOnActionExpandListener)
+  {
+    b localB = (b)mWrappedObject;
+    if (paramOnActionExpandListener != null) {
+      paramOnActionExpandListener = new OnActionExpandListenerWrapper(paramOnActionExpandListener);
+    } else {
+      paramOnActionExpandListener = null;
+    }
+    localB.setOnActionExpandListener(paramOnActionExpandListener);
+    return this;
+  }
+  
+  public MenuItem setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener paramOnMenuItemClickListener)
+  {
+    b localB = (b)mWrappedObject;
+    if (paramOnMenuItemClickListener != null) {
+      paramOnMenuItemClickListener = new OnMenuItemClickListenerWrapper(paramOnMenuItemClickListener);
+    } else {
+      paramOnMenuItemClickListener = null;
+    }
+    localB.setOnMenuItemClickListener(paramOnMenuItemClickListener);
+    return this;
+  }
+  
+  public MenuItem setShortcut(char paramChar1, char paramChar2)
+  {
+    ((b)mWrappedObject).setShortcut(paramChar1, paramChar2);
+    return this;
+  }
+  
+  public MenuItem setShortcut(char paramChar1, char paramChar2, int paramInt1, int paramInt2)
+  {
+    ((b)mWrappedObject).setShortcut(paramChar1, paramChar2, paramInt1, paramInt2);
+    return this;
+  }
+  
+  public void setShowAsAction(int paramInt)
+  {
+    ((b)mWrappedObject).setShowAsAction(paramInt);
+  }
+  
+  public MenuItem setShowAsActionFlags(int paramInt)
+  {
+    ((b)mWrappedObject).setShowAsActionFlags(paramInt);
+    return this;
+  }
+  
+  public MenuItem setTitle(int paramInt)
+  {
+    ((b)mWrappedObject).setTitle(paramInt);
+    return this;
+  }
+  
+  public MenuItem setTitle(CharSequence paramCharSequence)
+  {
+    ((b)mWrappedObject).setTitle(paramCharSequence);
+    return this;
+  }
+  
+  public MenuItem setTitleCondensed(CharSequence paramCharSequence)
+  {
+    ((b)mWrappedObject).setTitleCondensed(paramCharSequence);
+    return this;
+  }
+  
+  public MenuItem setTooltipText(CharSequence paramCharSequence)
+  {
+    ((b)mWrappedObject).setTooltipText(paramCharSequence);
+    return this;
+  }
+  
+  public MenuItem setVisible(boolean paramBoolean)
+  {
+    return ((b)mWrappedObject).setVisible(paramBoolean);
+  }
+  
+  public class ActionProviderWrapper
+    extends c
+  {
+    public final ActionProvider mInner;
+    
+    public ActionProviderWrapper(Context paramContext, ActionProvider paramActionProvider)
+    {
+      super();
+      mInner = paramActionProvider;
+    }
+    
+    public boolean hasSubMenu()
+    {
+      return mInner.hasSubMenu();
+    }
+    
+    public View onCreateActionView()
+    {
+      return mInner.onCreateActionView();
+    }
+    
+    public boolean onPerformDefaultAction()
+    {
+      return mInner.onPerformDefaultAction();
+    }
+    
+    public void onPrepareSubMenu(SubMenu paramSubMenu)
+    {
+      mInner.onPrepareSubMenu(getSubMenuWrapper(paramSubMenu));
+    }
+  }
+  
+  public static class CollapsibleActionViewWrapper
+    extends FrameLayout
+    implements android.support.v7.view.CollapsibleActionView
+  {
+    public final android.view.CollapsibleActionView mWrappedView;
+    
+    public CollapsibleActionViewWrapper(View paramView)
+    {
+      super();
+      mWrappedView = ((android.view.CollapsibleActionView)paramView);
+      addView(paramView);
+    }
+    
+    public View getWrappedView()
+    {
+      return (View)mWrappedView;
+    }
+    
+    public void onActionViewCollapsed()
+    {
+      mWrappedView.onActionViewCollapsed();
+    }
+    
+    public void onActionViewExpanded()
+    {
+      mWrappedView.onActionViewExpanded();
+    }
+  }
+  
+  private class OnActionExpandListenerWrapper
+    extends BaseWrapper<MenuItem.OnActionExpandListener>
+    implements MenuItem.OnActionExpandListener
+  {
+    public OnActionExpandListenerWrapper(MenuItem.OnActionExpandListener paramOnActionExpandListener)
+    {
+      super();
+    }
+    
+    public boolean onMenuItemActionCollapse(MenuItem paramMenuItem)
+    {
+      return ((MenuItem.OnActionExpandListener)mWrappedObject).onMenuItemActionCollapse(getMenuItemWrapper(paramMenuItem));
+    }
+    
+    public boolean onMenuItemActionExpand(MenuItem paramMenuItem)
+    {
+      return ((MenuItem.OnActionExpandListener)mWrappedObject).onMenuItemActionExpand(getMenuItemWrapper(paramMenuItem));
+    }
+  }
+  
+  private class OnMenuItemClickListenerWrapper
+    extends BaseWrapper<MenuItem.OnMenuItemClickListener>
+    implements MenuItem.OnMenuItemClickListener
+  {
+    public OnMenuItemClickListenerWrapper(MenuItem.OnMenuItemClickListener paramOnMenuItemClickListener)
+    {
+      super();
+    }
+    
+    public boolean onMenuItemClick(MenuItem paramMenuItem)
+    {
+      return ((MenuItem.OnMenuItemClickListener)mWrappedObject).onMenuItemClick(getMenuItemWrapper(paramMenuItem));
+    }
+  }
+}

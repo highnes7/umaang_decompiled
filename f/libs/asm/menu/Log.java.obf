@@ -1,0 +1,50 @@
+package f.c.a.c;
+
+import java.io.File;
+import java.io.IOException;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class ga
+{
+  public final String a;
+  public final l.a.a.a.a.f.a b;
+  
+  public ga(String paramString, l.a.a.a.a.f.a paramA)
+  {
+    a = paramString;
+    b = paramA;
+  }
+  
+  private File d()
+  {
+    return new File(b.b(), a);
+  }
+  
+  public boolean a()
+  {
+    try
+    {
+      boolean bool = d().createNewFile();
+      return bool;
+    }
+    catch (IOException localIOException)
+    {
+      q localQ = g.h();
+      StringBuilder localStringBuilder = f.a.a.a.a.b("Error creating marker: ");
+      localStringBuilder.append(a);
+      localQ.c("CrashlyticsCore", localStringBuilder.toString(), localIOException);
+    }
+    return false;
+  }
+  
+  public boolean b()
+  {
+    return d().exists();
+  }
+  
+  public boolean c()
+  {
+    return d().delete();
+  }
+}

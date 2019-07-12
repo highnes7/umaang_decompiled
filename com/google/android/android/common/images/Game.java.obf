@@ -1,0 +1,51 @@
+package com.google.android.gms.common.images;
+
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import com.google.android.gms.common.internal.zzbf;
+import com.google.android.gms.common.internal.zzc;
+import java.lang.ref.WeakReference;
+import java.util.Arrays;
+
+public final class zzd
+  extends zza
+{
+  public WeakReference<ImageManager.OnImageLoadedListener> zzfrx;
+  
+  public zzd(ImageManager.OnImageLoadedListener paramOnImageLoadedListener, Uri paramUri)
+  {
+    super(paramUri, 0);
+    zzc.zzr(paramOnImageLoadedListener);
+    zzfrx = new WeakReference(paramOnImageLoadedListener);
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (!(paramObject instanceof zzd)) {
+      return false;
+    }
+    if (this == paramObject) {
+      return true;
+    }
+    paramObject = (zzd)paramObject;
+    ImageManager.OnImageLoadedListener localOnImageLoadedListener1 = (ImageManager.OnImageLoadedListener)zzfrx.get();
+    ImageManager.OnImageLoadedListener localOnImageLoadedListener2 = (ImageManager.OnImageLoadedListener)zzfrx.get();
+    return (localOnImageLoadedListener2 != null) && (localOnImageLoadedListener1 != null) && (zzbf.equal(localOnImageLoadedListener2, localOnImageLoadedListener1)) && (zzbf.equal(zzfrp, zzfrp));
+  }
+  
+  public final int hashCode()
+  {
+    return Arrays.hashCode(new Object[] { zzfrp });
+  }
+  
+  public final void zza(Drawable paramDrawable, boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3)
+  {
+    if (!paramBoolean2)
+    {
+      ImageManager.OnImageLoadedListener localOnImageLoadedListener = (ImageManager.OnImageLoadedListener)zzfrx.get();
+      if (localOnImageLoadedListener != null) {
+        localOnImageLoadedListener.onImageLoaded(zzfrp.uri, paramDrawable, paramBoolean3);
+      }
+    }
+  }
+}

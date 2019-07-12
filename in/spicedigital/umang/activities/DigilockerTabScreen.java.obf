@@ -1,0 +1,139 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.design.widget.TabLayout.Tab;
+import android.support.design.widget.TabLayout.TabLayoutOnPageChangeListener;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import b.b.a.G;
+import b.b.x.b.c;
+import b.b.x.o.y;
+import e.a.a.i;
+import f.a.a.a.a;
+import k.a.a.a.Ye;
+import k.a.a.a.Ze;
+import k.a.a.a._e;
+import k.a.a.b.q;
+import k.a.a.l.v;
+import k.a.a.m.Ea;
+import k.a.a.m.V;
+import org.json.JSONObject;
+
+public class DigilockerTabScreen
+  extends BaseActivity
+{
+  public String TAG = "DigilockerTabScreen";
+  public Toolbar b;
+  public View c;
+  public TextView d;
+  public ViewPager e;
+  public TabLayout f;
+  public V g;
+  public k.a.a.e.b h;
+  public i i;
+  public ImageView j;
+  public String k;
+  public String l;
+  
+  public DigilockerTabScreen() {}
+  
+  private void e()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new v(new _e(this), "https://app.umang.gov.in/umang/modsapi/digilockerNew/ws1/unlink", (JSONObject)localObject, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private void f()
+  {
+    g = new V(this);
+    h = k.a.a.e.b.a(this);
+    Object localObject = (TextView)LayoutInflater.from(this).inflate(2131493163, null);
+    TextView localTextView = (TextView)LayoutInflater.from(this).inflate(2131493163, null);
+    f = ((TabLayout)findViewById(2131297667));
+    TabLayout localTabLayout = f;
+    localTabLayout.addTab(localTabLayout.newTab().setText(getResources().getString(2131755848).toUpperCase()));
+    localTabLayout = f;
+    localTabLayout.addTab(localTabLayout.newTab().setText(getResources().getString(2131756603).toUpperCase()));
+    f.setTabGravity(0);
+    f.getTabAt(0).setCustomView((View)localObject);
+    f.getTabAt(1).setCustomView(localTextView);
+    ((TextView)f.getTabAt(0).getCustomView()).setTextColor(c.getColor(this, 2131099898));
+    j = ((ImageView)findViewById(2131297101));
+    k = getIntent().getStringExtra("intentType");
+    l = getIntent().getStringExtra("intentValue");
+    if (k == null)
+    {
+      k = "";
+      l = "";
+    }
+    if (k.equalsIgnoreCase("getDoc")) {
+      j.setVisibility(8);
+    } else {
+      j.setVisibility(0);
+    }
+    e = ((ViewPager)findViewById(2131297258));
+    localObject = new q(getSupportFragmentManager(), f.getTabCount());
+    e.setAdapter((y)localObject);
+    e.a(new TabLayout.TabLayoutOnPageChangeListener(f));
+    f.setOnTabSelectedListener(new Ze(this));
+  }
+  
+  public void onActivityResult(int paramInt1, int paramInt2, @G Intent paramIntent)
+  {
+    super.onActivityResult(paramInt1, paramInt2, paramIntent);
+    if (paramInt1 != 2050) {
+      return;
+    }
+    setResult(-1, paramIntent);
+    finish();
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131493065);
+    b = ((Toolbar)findViewById(2131297768));
+    a.a(this, b, true);
+    c = b.getRootView();
+    d = ((TextView)c.findViewById(2131297758));
+    a.a(this, 2131755577, d);
+    f();
+    j.setOnClickListener(new Ye(this));
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      onBackPressed();
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+}

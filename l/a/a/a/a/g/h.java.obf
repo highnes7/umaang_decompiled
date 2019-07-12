@@ -1,0 +1,138 @@
+package l.a.a.a.a.g;
+
+import android.content.Context;
+import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
+import l.a.a.a.a.b.G;
+import l.a.a.a.a.b.i;
+import l.a.a.a.a.b.p;
+import l.a.a.a.g;
+import l.a.a.a.n;
+import l.a.a.a.q;
+
+public class s
+{
+  public static final String a = "com.crashlytics.settings.json";
+  public static final String b = "https://settings.crashlytics.com/spi/v2/platforms/android/apps/%s/settings";
+  public final AtomicReference<v> c = new AtomicReference();
+  public final CountDownLatch d = new CountDownLatch(1);
+  public u e;
+  public boolean f = false;
+  
+  public s() {}
+  
+  private void a(v paramV)
+  {
+    c.set(paramV);
+    d.countDown();
+  }
+  
+  public static s c()
+  {
+    return s.a.a;
+  }
+  
+  public <T> T a(s.b<T> paramB, T paramT)
+  {
+    v localV = (v)c.get();
+    if (localV == null) {
+      return paramT;
+    }
+    return paramB.a(localV);
+  }
+  
+  public s a(n paramN, l.a.a.a.a.b.y paramY, l.a.a.a.a.e.o paramO, String paramString1, String paramString2, String paramString3, l.a.a.a.a.b.o paramO1)
+  {
+    try
+    {
+      boolean bool = f;
+      if (bool) {
+        return this;
+      }
+      if (e == null)
+      {
+        Context localContext = paramN.d();
+        String str4 = paramY.e();
+        String str1 = new i().e(localContext);
+        String str2 = paramY.i();
+        G localG = new G();
+        l localL = new l();
+        j localJ = new j(paramN);
+        String str3 = l.a.a.a.a.b.l.c(localContext);
+        paramO = new m(paramN, paramString3, String.format(Locale.US, "https://settings.crashlytics.com/spi/v2/platforms/android/apps/%s/settings", new Object[] { str4 }), paramO);
+        e = new k(paramN, new y(str1, paramY.j(), paramY.k(), paramY.l(), paramY.f(), l.a.a.a.a.b.l.a(new String[] { l.a.a.a.a.b.l.o(localContext) }), paramString2, paramString1, p.a(str2).getId(), str3), localG, localL, localJ, paramO, paramO1);
+      }
+      f = true;
+      return this;
+    }
+    finally {}
+  }
+  
+  public v a()
+  {
+    try
+    {
+      d.await();
+      v localV = (v)c.get();
+      return localV;
+    }
+    catch (InterruptedException localInterruptedException)
+    {
+      for (;;) {}
+    }
+    g.h().b("Fabric", "Interrupted while waiting for settings data.");
+    return null;
+  }
+  
+  public void a(u paramU)
+  {
+    e = paramU;
+  }
+  
+  public void b()
+  {
+    c.set(null);
+  }
+  
+  public boolean d()
+  {
+    try
+    {
+      v localV = e.a();
+      a(localV);
+      boolean bool;
+      if (localV != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      return bool;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public boolean e()
+  {
+    try
+    {
+      v localV = e.a(t.b);
+      a(localV);
+      if (localV == null) {
+        g.h().c("Fabric", "Failed to force reload of settings from Crashlytics.", null);
+      }
+      boolean bool;
+      if (localV != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      return bool;
+    }
+    finally {}
+  }
+}

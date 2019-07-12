@@ -1,0 +1,80 @@
+package f.d.a.a.c;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+
+public abstract class a
+  extends Reader
+{
+  public static final int a = 1114111;
+  public static final char b = '\000';
+  public static final char c = '\000';
+  public final d d;
+  public InputStream e;
+  public byte[] f;
+  public int g;
+  public int h;
+  public char[] i = null;
+  
+  public a(d paramD, InputStream paramInputStream, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    d = paramD;
+    e = paramInputStream;
+    f = paramArrayOfByte;
+    g = paramInt1;
+    h = paramInt2;
+  }
+  
+  public void a(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("read(buf,");
+    localStringBuilder.append(paramInt1);
+    localStringBuilder.append(",");
+    localStringBuilder.append(paramInt2);
+    localStringBuilder.append("), cbuf[");
+    throw new ArrayIndexOutOfBoundsException(f.a.a.a.a.a(localStringBuilder, paramArrayOfChar.length, "]"));
+  }
+  
+  public void close()
+    throws IOException
+  {
+    InputStream localInputStream = e;
+    if (localInputStream != null)
+    {
+      e = null;
+      u();
+      localInputStream.close();
+    }
+  }
+  
+  public int read()
+    throws IOException
+  {
+    if (i == null) {
+      i = new char[1];
+    }
+    if (read(i, 0, 1) < 1) {
+      return -1;
+    }
+    return i[0];
+  }
+  
+  public final void u()
+  {
+    byte[] arrayOfByte = f;
+    if (arrayOfByte != null)
+    {
+      f = null;
+      d.b(arrayOfByte);
+    }
+  }
+  
+  public void v()
+    throws IOException
+  {
+    throw new IOException("Strange I/O stream, returned 0 bytes on read");
+  }
+}

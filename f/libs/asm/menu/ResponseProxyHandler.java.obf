@@ -1,0 +1,65 @@
+package f.c.a.c;
+
+import android.os.Bundle;
+import f.a.a.a.a;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class oa
+  implements InvocationHandler
+{
+  public oa(pa paramPa) {}
+  
+  public boolean a(Object paramObject1, Object paramObject2)
+  {
+    if (paramObject1 == paramObject2) {
+      return true;
+    }
+    return (paramObject2 != null) && (Proxy.isProxyClass(paramObject2.getClass())) && (super.equals(Proxy.getInvocationHandler(paramObject2)));
+  }
+  
+  public Object invoke(Object paramObject, Method paramMethod, Object[] paramArrayOfObject)
+  {
+    String str = paramMethod.getName();
+    int i = 0;
+    paramMethod = paramArrayOfObject;
+    if (paramArrayOfObject == null) {
+      paramMethod = new Object[0];
+    }
+    if ((paramMethod.length == 1) && (str.equals("equals"))) {
+      return Boolean.valueOf(a(paramObject, paramMethod[0]));
+    }
+    if ((paramMethod.length == 0) && (str.equals("hashCode"))) {
+      return Integer.valueOf(super.hashCode());
+    }
+    if ((paramMethod.length == 0) && (str.equals("toString"))) {
+      return super.toString();
+    }
+    if ((paramMethod.length == 4) && (str.equals("onEvent")) && (pa.a(paramMethod)))
+    {
+      paramObject = (String)paramMethod[0];
+      paramArrayOfObject = (String)paramMethod[1];
+      Bundle localBundle = (Bundle)paramMethod[2];
+      if ((paramObject != null) && (!paramObject.equals("crash")))
+      {
+        pa.b(pa.a(a), paramArrayOfObject, localBundle);
+        return null;
+      }
+    }
+    paramObject = new StringBuilder(a.a("Unexpected method invoked on AppMeasurement.EventListener: ", str, "("));
+    while (i < paramMethod.length)
+    {
+      if (i > 0) {
+        paramObject.append(", ");
+      }
+      paramObject.append(paramMethod[i].getClass().getName());
+      i += 1;
+    }
+    paramObject.append("); returning null");
+    g.h().b("CrashlyticsCore", paramObject.toString());
+    return null;
+  }
+}

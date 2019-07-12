@@ -1,0 +1,38 @@
+package b.b.x.m;
+
+import android.os.Build.VERSION;
+import android.text.TextUtils;
+import b.b.a.F;
+import b.b.a.G;
+import java.util.Locale;
+
+public final class g
+{
+  public static final Locale a = new Locale("", "");
+  public static final String b = "Arab";
+  public static final String c = "Hebr";
+  
+  public g() {}
+  
+  public static int a(@F Locale paramLocale)
+  {
+    int i = Character.getDirectionality(paramLocale.getDisplayName(paramLocale).charAt(0));
+    if ((i != 1) && (i != 2)) {
+      return 0;
+    }
+    return 1;
+  }
+  
+  @F
+  public static String a(@F String paramString)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return TextUtils.htmlEncode(paramString);
+  }
+  
+  public static int b(@G Locale paramLocale)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return TextUtils.getLayoutDirectionFromLocale(paramLocale);
+  }
+}

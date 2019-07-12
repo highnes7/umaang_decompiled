@@ -1,0 +1,566 @@
+package com.facebook.internal;
+
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.net.http.SslError;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import com.facebook.AccessToken;
+import com.facebook.FacebookDialogException;
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
+import com.facebook.FacebookRequestError;
+import com.facebook.FacebookSdk;
+import com.facebook.FacebookServiceException;
+import com.facebook.R.drawable;
+import com.facebook.R.string;
+import java.util.Locale;
+
+public class WebDialog
+  extends Dialog
+{
+  public static final int API_EC_DIALOG_CANCEL = 4201;
+  public static final int BACKGROUND_GRAY = -872415232;
+  public static final String CANCEL_URI = "fbconnect://cancel";
+  public static final int DEFAULT_THEME = 16973840;
+  public static final boolean DISABLE_SSL_CHECK_FOR_TESTING = false;
+  public static final String DISPLAY_TOUCH = "touch";
+  public static final String LOG_TAG = "FacebookSDK.WebDialog";
+  public static final int MAX_PADDING_SCREEN_HEIGHT = 1280;
+  public static final int MAX_PADDING_SCREEN_WIDTH = 800;
+  public static final double MIN_SCALE_FACTOR = 0.5D;
+  public static final int NO_PADDING_SCREEN_HEIGHT = 800;
+  public static final int NO_PADDING_SCREEN_WIDTH = 480;
+  public static final String REDIRECT_URI = "fbconnect://success";
+  public FrameLayout contentFrameLayout;
+  public ImageView crossImageView;
+  public String expectedRedirectUrl = "fbconnect://success";
+  public boolean isDetached = false;
+  public boolean isPageFinished = false;
+  public boolean listenerCalled = false;
+  public OnCompleteListener onCompleteListener;
+  public ProgressDialog spinner;
+  public String url;
+  public WebView webView;
+  
+  public WebDialog(Context paramContext, String paramString)
+  {
+    this(paramContext, paramString, 16973840);
+  }
+  
+  public WebDialog(Context paramContext, String paramString, int paramInt)
+  {
+    super(paramContext, i);
+    url = paramString;
+  }
+  
+  public WebDialog(Context paramContext, String paramString, Bundle paramBundle, int paramInt, OnCompleteListener paramOnCompleteListener)
+  {
+    super(paramContext, i);
+    paramContext = paramBundle;
+    if (paramBundle == null) {
+      paramContext = new Bundle();
+    }
+    paramContext.putString("redirect_uri", "fbconnect://success");
+    paramContext.putString("display", "touch");
+    paramContext.putString("sdk", String.format(Locale.ROOT, "android-%s", new Object[] { FacebookSdk.getSdkVersion() }));
+    paramBundle = ServerProtocol.getDialogAuthority();
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(ServerProtocol.getAPIVersion());
+    localStringBuilder.append("/");
+    localStringBuilder.append("dialog/");
+    localStringBuilder.append(paramString);
+    url = Utility.buildUri(paramBundle, localStringBuilder.toString(), paramContext).toString();
+    onCompleteListener = paramOnCompleteListener;
+  }
+  
+  private void createCrossImage()
+  {
+    crossImageView = new ImageView(getContext());
+    crossImageView.setOnClickListener(new View.OnClickListener()
+    {
+      public void onClick(View paramAnonymousView)
+      {
+        cancel();
+      }
+    });
+    Drawable localDrawable = getContext().getResources().getDrawable(R.drawable.com_facebook_close);
+    crossImageView.setImageDrawable(localDrawable);
+    crossImageView.setVisibility(4);
+  }
+  
+  private int getScaledSize(int paramInt1, float paramFloat, int paramInt2, int paramInt3)
+  {
+    int i = (int)(paramInt1 / paramFloat);
+    double d1 = 0.5D;
+    if (i <= paramInt2)
+    {
+      d1 = 1.0D;
+    }
+    else if (i < paramInt3)
+    {
+      d1 = paramInt3 - i;
+      d2 = paramInt3 - paramInt2;
+      Double.isNaN(d1);
+      Double.isNaN(d2);
+      d1 = 0.5D + d1 / d2 * 0.5D;
+    }
+    double d2 = paramInt1;
+    Double.isNaN(d2);
+    return (int)(d2 * d1);
+  }
+  
+  private void setUpWebView(int paramInt)
+  {
+    LinearLayout localLinearLayout = new LinearLayout(getContext());
+    webView = new WebView(getContext().getApplicationContext())
+    {
+      public void onWindowFocusChanged(boolean paramAnonymousBoolean)
+      {
+        try
+        {
+          super.onWindowFocusChanged(paramAnonymousBoolean);
+          return;
+        }
+        catch (NullPointerException localNullPointerException) {}
+      }
+    };
+    webView.setVerticalScrollBarEnabled(false);
+    webView.setHorizontalScrollBarEnabled(false);
+    webView.setWebViewClient(new DialogWebViewClient(null));
+    webView.getSettings().setJavaScriptEnabled(true);
+    webView.loadUrl(url);
+    webView.setLayoutParams(new FrameLayout.LayoutParams(-1, -1));
+    webView.setVisibility(4);
+    webView.getSettings().setSavePassword(false);
+    webView.getSettings().setSaveFormData(false);
+    webView.setFocusable(true);
+    webView.setFocusableInTouchMode(true);
+    webView.setOnTouchListener(new View.OnTouchListener()
+    {
+      public boolean onTouch(View paramAnonymousView, MotionEvent paramAnonymousMotionEvent)
+      {
+        if (!paramAnonymousView.hasFocus()) {
+          paramAnonymousView.requestFocus();
+        }
+        return false;
+      }
+    });
+    localLinearLayout.setPadding(paramInt, paramInt, paramInt, paramInt);
+    localLinearLayout.addView(webView);
+    localLinearLayout.setBackgroundColor(-872415232);
+    contentFrameLayout.addView(localLinearLayout);
+  }
+  
+  public void cancel()
+  {
+    if ((onCompleteListener != null) && (!listenerCalled)) {
+      sendErrorToListener(new FacebookOperationCanceledException());
+    }
+  }
+  
+  public void dismiss()
+  {
+    Object localObject = webView;
+    if (localObject != null) {
+      ((WebView)localObject).stopLoading();
+    }
+    if (!isDetached)
+    {
+      localObject = spinner;
+      if ((localObject != null) && (((Dialog)localObject).isShowing())) {
+        spinner.dismiss();
+      }
+    }
+    super.dismiss();
+  }
+  
+  public OnCompleteListener getOnCompleteListener()
+  {
+    return onCompleteListener;
+  }
+  
+  public WebView getWebView()
+  {
+    return webView;
+  }
+  
+  public boolean isListenerCalled()
+  {
+    return listenerCalled;
+  }
+  
+  public boolean isPageFinished()
+  {
+    return isPageFinished;
+  }
+  
+  public void onAttachedToWindow()
+  {
+    isDetached = false;
+    super.onAttachedToWindow();
+  }
+  
+  public void onCreate(Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    spinner = new ProgressDialog(getContext());
+    spinner.requestWindowFeature(1);
+    spinner.setMessage(getContext().getString(R.string.com_facebook_loading));
+    spinner.setOnCancelListener(new DialogInterface.OnCancelListener()
+    {
+      public void onCancel(DialogInterface paramAnonymousDialogInterface)
+      {
+        cancel();
+      }
+    });
+    requestWindowFeature(1);
+    contentFrameLayout = new FrameLayout(getContext());
+    resize();
+    getWindow().setGravity(17);
+    getWindow().setSoftInputMode(16);
+    createCrossImage();
+    setUpWebView(crossImageView.getDrawable().getIntrinsicWidth() / 2 + 1);
+    contentFrameLayout.addView(crossImageView, new ViewGroup.LayoutParams(-2, -2));
+    setContentView(contentFrameLayout);
+  }
+  
+  public void onDetachedFromWindow()
+  {
+    isDetached = true;
+    super.onDetachedFromWindow();
+  }
+  
+  public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent)
+  {
+    if (paramInt == 4) {
+      cancel();
+    }
+    return super.onKeyDown(paramInt, paramKeyEvent);
+  }
+  
+  public void onStart()
+  {
+    super.onStart();
+    resize();
+  }
+  
+  public Bundle parseResponseUri(String paramString)
+  {
+    paramString = Uri.parse(paramString);
+    Bundle localBundle = Utility.parseUrlQueryString(paramString.getQuery());
+    localBundle.putAll(Utility.parseUrlQueryString(paramString.getFragment()));
+    return localBundle;
+  }
+  
+  public void resize()
+  {
+    Display localDisplay = ((WindowManager)getContext().getSystemService("window")).getDefaultDisplay();
+    DisplayMetrics localDisplayMetrics = new DisplayMetrics();
+    localDisplay.getMetrics(localDisplayMetrics);
+    int i = widthPixels;
+    int j = heightPixels;
+    if (i >= j) {
+      i = j;
+    }
+    int k = widthPixels;
+    int m = heightPixels;
+    j = k;
+    if (k < m) {
+      j = m;
+    }
+    i = Math.min(getScaledSize(i, density, 480, 800), widthPixels);
+    j = Math.min(getScaledSize(j, density, 800, 1280), heightPixels);
+    getWindow().setLayout(i, j);
+  }
+  
+  public void sendErrorToListener(Throwable paramThrowable)
+  {
+    if ((onCompleteListener != null) && (!listenerCalled))
+    {
+      listenerCalled = true;
+      if ((paramThrowable instanceof FacebookException)) {
+        paramThrowable = (FacebookException)paramThrowable;
+      } else {
+        paramThrowable = new FacebookException(paramThrowable);
+      }
+      onCompleteListener.onComplete(null, paramThrowable);
+      dismiss();
+    }
+  }
+  
+  public void sendSuccessToListener(Bundle paramBundle)
+  {
+    OnCompleteListener localOnCompleteListener = onCompleteListener;
+    if ((localOnCompleteListener != null) && (!listenerCalled))
+    {
+      listenerCalled = true;
+      localOnCompleteListener.onComplete(paramBundle, null);
+      dismiss();
+    }
+  }
+  
+  public void setExpectedRedirectUrl(String paramString)
+  {
+    expectedRedirectUrl = paramString;
+  }
+  
+  public void setOnCompleteListener(OnCompleteListener paramOnCompleteListener)
+  {
+    onCompleteListener = paramOnCompleteListener;
+  }
+  
+  public static class Builder
+  {
+    public AccessToken accessToken;
+    public String action;
+    public String applicationId;
+    public Context context;
+    public WebDialog.OnCompleteListener listener;
+    public Bundle parameters;
+    public int theme = 16973840;
+    
+    public Builder(Context paramContext, String paramString, Bundle paramBundle)
+    {
+      accessToken = AccessToken.getCurrentAccessToken();
+      if (accessToken == null)
+      {
+        String str = Utility.getMetadataApplicationId(paramContext);
+        if (str != null) {
+          applicationId = str;
+        } else {
+          throw new FacebookException("Attempted to create a builder without a valid access token or a valid default Application ID.");
+        }
+      }
+      finishInit(paramContext, paramString, paramBundle);
+    }
+    
+    public Builder(Context paramContext, String paramString1, String paramString2, Bundle paramBundle)
+    {
+      String str = paramString1;
+      if (paramString1 == null) {
+        str = Utility.getMetadataApplicationId(paramContext);
+      }
+      Validate.notNullOrEmpty(str, "applicationId");
+      applicationId = str;
+      finishInit(paramContext, paramString2, paramBundle);
+    }
+    
+    private void finishInit(Context paramContext, String paramString, Bundle paramBundle)
+    {
+      context = paramContext;
+      action = paramString;
+      if (paramBundle != null)
+      {
+        parameters = paramBundle;
+        return;
+      }
+      parameters = new Bundle();
+    }
+    
+    public WebDialog build()
+    {
+      AccessToken localAccessToken = accessToken;
+      if (localAccessToken != null)
+      {
+        parameters.putString("app_id", localAccessToken.getApplicationId());
+        parameters.putString("access_token", accessToken.getToken());
+      }
+      else
+      {
+        parameters.putString("app_id", applicationId);
+      }
+      return new WebDialog(context, action, parameters, theme, listener);
+    }
+    
+    public String getApplicationId()
+    {
+      return applicationId;
+    }
+    
+    public Context getContext()
+    {
+      return context;
+    }
+    
+    public WebDialog.OnCompleteListener getListener()
+    {
+      return listener;
+    }
+    
+    public Bundle getParameters()
+    {
+      return parameters;
+    }
+    
+    public int getTheme()
+    {
+      return theme;
+    }
+    
+    public Builder setOnCompleteListener(WebDialog.OnCompleteListener paramOnCompleteListener)
+    {
+      listener = paramOnCompleteListener;
+      return this;
+    }
+    
+    public Builder setTheme(int paramInt)
+    {
+      theme = paramInt;
+      return this;
+    }
+  }
+  
+  private class DialogWebViewClient
+    extends WebViewClient
+  {
+    public DialogWebViewClient() {}
+    
+    public void onPageFinished(WebView paramWebView, String paramString)
+    {
+      super.onPageFinished(paramWebView, paramString);
+      if (!WebDialog.access$200(WebDialog.this)) {
+        WebDialog.access$300(WebDialog.this).dismiss();
+      }
+      WebDialog.access$400(WebDialog.this).setBackgroundColor(0);
+      WebDialog.access$500(WebDialog.this).setVisibility(0);
+      WebDialog.access$600(WebDialog.this).setVisibility(0);
+      WebDialog.access$702(WebDialog.this, true);
+    }
+    
+    public void onPageStarted(WebView paramWebView, String paramString, Bitmap paramBitmap)
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Webview loading URL: ");
+      localStringBuilder.append(paramString);
+      Utility.logd("FacebookSDK.WebDialog", localStringBuilder.toString());
+      super.onPageStarted(paramWebView, paramString, paramBitmap);
+      if (!WebDialog.access$200(WebDialog.this)) {
+        WebDialog.access$300(WebDialog.this).show();
+      }
+    }
+    
+    public void onReceivedError(WebView paramWebView, int paramInt, String paramString1, String paramString2)
+    {
+      super.onReceivedError(paramWebView, paramInt, paramString1, paramString2);
+      sendErrorToListener(new FacebookDialogException(paramString1, paramInt, paramString2));
+    }
+    
+    public void onReceivedSslError(WebView paramWebView, SslErrorHandler paramSslErrorHandler, SslError paramSslError)
+    {
+      super.onReceivedSslError(paramWebView, paramSslErrorHandler, paramSslError);
+      paramSslErrorHandler.cancel();
+      sendErrorToListener(new FacebookDialogException(null, -11, null));
+    }
+    
+    public boolean shouldOverrideUrlLoading(WebView paramWebView, String paramString)
+    {
+      paramWebView = new StringBuilder();
+      paramWebView.append("Redirect URL: ");
+      paramWebView.append(paramString);
+      Utility.logd("FacebookSDK.WebDialog", paramWebView.toString());
+      Bundle localBundle;
+      Object localObject;
+      if (paramString.startsWith(WebDialog.access$100(WebDialog.this)))
+      {
+        localBundle = parseResponseUri(paramString);
+        paramWebView = localBundle.getString("error");
+        paramString = paramWebView;
+        if (paramWebView == null) {
+          paramString = localBundle.getString("error_type");
+        }
+        localObject = localBundle.getString("error_msg");
+        paramWebView = (WebView)localObject;
+        if (localObject == null) {
+          paramWebView = localBundle.getString("error_message");
+        }
+        localObject = paramWebView;
+        if (paramWebView == null) {
+          localObject = localBundle.getString("error_description");
+        }
+        paramWebView = localBundle.getString("error_code");
+        if (Utility.isNullOrEmpty(paramWebView)) {}
+      }
+      try
+      {
+        i = Integer.parseInt(paramWebView);
+      }
+      catch (NumberFormatException paramWebView)
+      {
+        for (;;)
+        {
+          try
+          {
+            int i;
+            paramWebView = paramWebView.getContext();
+            paramWebView.startActivity(new Intent("android.intent.action.VIEW", Uri.parse(paramString)));
+            return true;
+          }
+          catch (ActivityNotFoundException paramWebView) {}
+          paramWebView = paramWebView;
+        }
+      }
+      i = -1;
+      if ((Utility.isNullOrEmpty(paramString)) && (Utility.isNullOrEmpty((String)localObject)) && (i == -1))
+      {
+        sendSuccessToListener(localBundle);
+        return true;
+      }
+      if ((paramString != null) && ((paramString.equals("access_denied")) || (paramString.equals("OAuthAccessDeniedException"))))
+      {
+        cancel();
+        return true;
+      }
+      if (i == 4201)
+      {
+        cancel();
+        return true;
+      }
+      paramWebView = new FacebookRequestError(i, paramString, (String)localObject);
+      sendErrorToListener(new FacebookServiceException(paramWebView, (String)localObject));
+      return true;
+      if (paramString.startsWith("fbconnect://cancel"))
+      {
+        cancel();
+        return true;
+      }
+      if (paramString.contains("touch")) {
+        return false;
+      }
+      paramWebView = WebDialog.this;
+      return false;
+    }
+  }
+  
+  public static abstract interface OnCompleteListener
+  {
+    public abstract void onComplete(Bundle paramBundle, FacebookException paramFacebookException);
+  }
+}

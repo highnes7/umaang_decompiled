@@ -1,0 +1,1505 @@
+package android.support.v4.widget;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.support.v4.view.AbsSavedState;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.AccessibilityDelegate;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.view.accessibility.AccessibilityEvent;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.I;
+import b.b.a.k;
+import b.b.a.p;
+import b.b.x.o.H;
+import b.b.x.o.b;
+import b.b.x.p.E;
+import b.b.x.p.T;
+import b.b.x.p.T.a;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+public class SlidingPaneLayout
+  extends ViewGroup
+{
+  public static final String a = "SlidingPaneLayout";
+  public static final int b = 32;
+  public static final int c = -858993460;
+  public static final int d = 400;
+  public boolean A;
+  public int e = -858993460;
+  public int f;
+  public Drawable g;
+  public Drawable h;
+  public final int i;
+  public boolean j;
+  public View k;
+  public float l;
+  public float m;
+  public int n;
+  public boolean o;
+  public int p;
+  public float q;
+  public float r;
+  public d s;
+  public final T t;
+  public boolean u;
+  public boolean v = true;
+  public final Rect w = new Rect();
+  public final ArrayList<b> x = new ArrayList();
+  public Method y;
+  public Field z;
+  
+  public SlidingPaneLayout(@F Context paramContext)
+  {
+    this(paramContext, null, 0);
+  }
+  
+  public SlidingPaneLayout(@F Context paramContext, @G AttributeSet paramAttributeSet)
+  {
+    this(paramContext, paramAttributeSet, 0);
+  }
+  
+  public SlidingPaneLayout(@F Context paramContext, @G AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+    float f1 = getResourcesgetDisplayMetricsdensity;
+    i = ((int)(32.0F * f1 + 0.5F));
+    setWillNotDraw(false);
+    H.a(this, new a());
+    H.j(this, 1);
+    t = T.a(this, 0.5F, new c());
+    t.a(f1 * 400.0F);
+  }
+  
+  private void a(float paramFloat)
+  {
+    boolean bool1 = c();
+    Object localObject = (LayoutParams)k.getLayoutParams();
+    boolean bool2 = d;
+    int i2 = 0;
+    if (bool2)
+    {
+      if (bool1) {
+        i1 = rightMargin;
+      } else {
+        i1 = leftMargin;
+      }
+      if (i1 <= 0)
+      {
+        i1 = 1;
+        break label64;
+      }
+    }
+    int i1 = 0;
+    label64:
+    int i5 = getChildCount();
+    while (i2 < i5)
+    {
+      localObject = getChildAt(i2);
+      if (localObject != k)
+      {
+        float f1 = m;
+        int i3 = p;
+        int i4 = (int)((1.0F - f1) * i3);
+        m = paramFloat;
+        i4 -= (int)((1.0F - paramFloat) * i3);
+        i3 = i4;
+        if (bool1) {
+          i3 = -i4;
+        }
+        ((View)localObject).offsetLeftAndRight(i3);
+        if (i1 != 0)
+        {
+          if (bool1) {
+            f1 = m - 1.0F;
+          } else {
+            f1 = 1.0F - m;
+          }
+          a((View)localObject, f1, f);
+        }
+      }
+      i2 += 1;
+    }
+  }
+  
+  private void a(View paramView, float paramFloat, int paramInt)
+  {
+    Object localObject = (LayoutParams)paramView.getLayoutParams();
+    if ((paramFloat > 0.0F) && (paramInt != 0))
+    {
+      int i1 = (int)(((0xFF000000 & paramInt) >>> 24) * paramFloat);
+      if (e == null) {
+        e = new Paint();
+      }
+      e.setColorFilter(new PorterDuffColorFilter(i1 << 24 | paramInt & 0xFFFFFF, PorterDuff.Mode.SRC_OVER));
+      if (paramView.getLayerType() != 2) {
+        paramView.setLayerType(2, e);
+      }
+      d(paramView);
+      return;
+    }
+    if (paramView.getLayerType() != 0)
+    {
+      localObject = e;
+      if (localObject != null) {
+        ((Paint)localObject).setColorFilter(null);
+      }
+      paramView = new b(paramView);
+      x.add(paramView);
+      H.a(this, paramView);
+    }
+  }
+  
+  private boolean a(View paramView, int paramInt)
+  {
+    if ((!v) && (!a(0.0F, paramInt))) {
+      return false;
+    }
+    u = false;
+    return true;
+  }
+  
+  private boolean b(View paramView, int paramInt)
+  {
+    if ((!v) && (!a(1.0F, paramInt))) {
+      return false;
+    }
+    u = true;
+    return true;
+  }
+  
+  public static boolean g(View paramView)
+  {
+    if (paramView.isOpaque()) {
+      return true;
+    }
+    int i1 = Build.VERSION.SDK_INT;
+    return false;
+  }
+  
+  public void a(int paramInt)
+  {
+    if (k == null)
+    {
+      l = 0.0F;
+      return;
+    }
+    boolean bool = c();
+    LayoutParams localLayoutParams = (LayoutParams)k.getLayoutParams();
+    int i2 = k.getWidth();
+    int i1 = paramInt;
+    if (bool) {
+      i1 = getWidth() - paramInt - i2;
+    }
+    if (bool) {
+      paramInt = getPaddingRight();
+    } else {
+      paramInt = getPaddingLeft();
+    }
+    if (bool) {
+      i2 = rightMargin;
+    } else {
+      i2 = leftMargin;
+    }
+    l = ((i1 - (paramInt + i2)) / n);
+    if (p != 0) {
+      a(l);
+    }
+    if (d) {
+      a(k, l, e);
+    }
+    c(k);
+  }
+  
+  public void a(View paramView)
+  {
+    d localD = s;
+    if (localD != null) {
+      localD.b(paramView);
+    }
+    sendAccessibilityEvent(32);
+  }
+  
+  @Deprecated
+  public boolean a()
+  {
+    return j;
+  }
+  
+  public boolean a(float paramFloat, int paramInt)
+  {
+    if (!j) {
+      return false;
+    }
+    boolean bool = c();
+    Object localObject = (LayoutParams)k.getLayoutParams();
+    float f1;
+    if (bool)
+    {
+      paramInt = getPaddingRight();
+      int i1 = rightMargin;
+      int i2 = k.getWidth();
+      f1 = getWidth();
+      float f2 = paramInt + i1;
+      paramInt = (int)(f1 - (paramFloat * n + f2 + i2));
+    }
+    else
+    {
+      f1 = getPaddingLeft() + leftMargin;
+      paramInt = (int)(paramFloat * n + f1);
+    }
+    localObject = t;
+    View localView = k;
+    if (((T)localObject).b(localView, paramInt, localView.getTop()))
+    {
+      g();
+      H.la(this);
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean a(View paramView, boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3)
+  {
+    if ((paramView instanceof ViewGroup))
+    {
+      ViewGroup localViewGroup = (ViewGroup)paramView;
+      int i2 = paramView.getScrollX();
+      int i3 = paramView.getScrollY();
+      int i1 = localViewGroup.getChildCount() - 1;
+      while (i1 >= 0)
+      {
+        View localView = localViewGroup.getChildAt(i1);
+        int i4 = paramInt2 + i2;
+        if ((i4 >= localView.getLeft()) && (i4 < localView.getRight()))
+        {
+          int i5 = paramInt3 + i3;
+          if ((i5 >= localView.getTop()) && (i5 < localView.getBottom()) && (a(localView, true, paramInt1, i4 - localView.getLeft(), i5 - localView.getTop()))) {
+            return true;
+          }
+        }
+        i1 -= 1;
+      }
+    }
+    if (paramBoolean)
+    {
+      if (!c()) {
+        paramInt1 = -paramInt1;
+      }
+      if (paramView.canScrollHorizontally(paramInt1)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public void b(View paramView)
+  {
+    d localD = s;
+    if (localD != null) {
+      localD.a(paramView);
+    }
+    sendAccessibilityEvent(32);
+  }
+  
+  public boolean b()
+  {
+    return a(k, 0);
+  }
+  
+  public void c(View paramView)
+  {
+    d localD = s;
+    if (localD != null) {
+      localD.a(paramView, l);
+    }
+  }
+  
+  public boolean c()
+  {
+    return H.r(this) == 1;
+  }
+  
+  public boolean checkLayoutParams(ViewGroup.LayoutParams paramLayoutParams)
+  {
+    return ((paramLayoutParams instanceof LayoutParams)) && (super.checkLayoutParams(paramLayoutParams));
+  }
+  
+  public void computeScroll()
+  {
+    if (t.a(true))
+    {
+      if (!j)
+      {
+        t.a();
+        return;
+      }
+      H.la(this);
+    }
+  }
+  
+  public void d(View paramView)
+  {
+    int i1 = Build.VERSION.SDK_INT;
+    H.a(paramView, getLayoutParamse);
+  }
+  
+  public boolean d()
+  {
+    return (!j) || (l == 1.0F);
+  }
+  
+  public void draw(Canvas paramCanvas)
+  {
+    super.draw(paramCanvas);
+    Drawable localDrawable;
+    if (c()) {
+      localDrawable = h;
+    } else {
+      localDrawable = g;
+    }
+    View localView;
+    if (getChildCount() > 1) {
+      localView = getChildAt(1);
+    } else {
+      localView = null;
+    }
+    if (localView != null)
+    {
+      if (localDrawable == null) {
+        return;
+      }
+      int i4 = localView.getTop();
+      int i5 = localView.getBottom();
+      int i3 = localDrawable.getIntrinsicWidth();
+      int i1;
+      int i2;
+      if (c())
+      {
+        i1 = localView.getRight();
+        i2 = i3 + i1;
+      }
+      else
+      {
+        i2 = localView.getLeft();
+        i1 = i2;
+        i3 = i2 - i3;
+        i2 = i1;
+        i1 = i3;
+      }
+      localDrawable.setBounds(i1, i4, i2, i5);
+      localDrawable.draw(paramCanvas);
+    }
+  }
+  
+  public boolean drawChild(Canvas paramCanvas, View paramView, long paramLong)
+  {
+    Object localObject = (LayoutParams)paramView.getLayoutParams();
+    int i1 = paramCanvas.save();
+    if ((j) && (!c) && (k != null))
+    {
+      paramCanvas.getClipBounds(w);
+      if (c())
+      {
+        localObject = w;
+        left = Math.max(left, k.getRight());
+      }
+      else
+      {
+        localObject = w;
+        right = Math.min(right, k.getLeft());
+      }
+      paramCanvas.clipRect(w);
+    }
+    boolean bool = super.drawChild(paramCanvas, paramView, paramLong);
+    paramCanvas.restoreToCount(i1);
+    return bool;
+  }
+  
+  public boolean e()
+  {
+    return j;
+  }
+  
+  public boolean e(View paramView)
+  {
+    boolean bool2 = false;
+    if (paramView == null) {
+      return false;
+    }
+    paramView = (LayoutParams)paramView.getLayoutParams();
+    boolean bool1 = bool2;
+    if (j)
+    {
+      bool1 = bool2;
+      if (d)
+      {
+        bool1 = bool2;
+        if (l > 0.0F) {
+          bool1 = true;
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public void f(View paramView)
+  {
+    boolean bool = c();
+    int i1;
+    if (bool) {
+      i1 = getWidth() - getPaddingRight();
+    } else {
+      i1 = getPaddingLeft();
+    }
+    int i2;
+    if (bool) {
+      i2 = getPaddingLeft();
+    } else {
+      i2 = getWidth() - getPaddingRight();
+    }
+    int i9 = getPaddingTop();
+    int i10 = getHeight();
+    int i11 = getPaddingBottom();
+    int i3;
+    int i4;
+    int i5;
+    int i6;
+    if ((paramView != null) && (g(paramView)))
+    {
+      i3 = paramView.getLeft();
+      i4 = paramView.getRight();
+      i5 = paramView.getTop();
+      i6 = paramView.getBottom();
+    }
+    else
+    {
+      i3 = 0;
+      i4 = 0;
+      i5 = 0;
+      i6 = 0;
+    }
+    int i12 = getChildCount();
+    int i7 = 0;
+    while (i7 < i12)
+    {
+      View localView = getChildAt(i7);
+      if (localView == paramView) {
+        return;
+      }
+      if (localView.getVisibility() != 8)
+      {
+        if (bool) {
+          i8 = i2;
+        } else {
+          i8 = i1;
+        }
+        int i13 = Math.max(i8, localView.getLeft());
+        int i14 = Math.max(i9, localView.getTop());
+        if (bool) {
+          i8 = i1;
+        } else {
+          i8 = i2;
+        }
+        int i8 = Math.min(i8, localView.getRight());
+        int i15 = Math.min(i10 - i11, localView.getBottom());
+        if ((i13 >= i3) && (i14 >= i5) && (i8 <= i4) && (i15 <= i6)) {
+          i8 = 4;
+        } else {
+          i8 = 0;
+        }
+        localView.setVisibility(i8);
+      }
+      i7 += 1;
+    }
+  }
+  
+  public boolean f()
+  {
+    return b(k, 0);
+  }
+  
+  public void g()
+  {
+    int i2 = getChildCount();
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      View localView = getChildAt(i1);
+      if (localView.getVisibility() == 4) {
+        localView.setVisibility(0);
+      }
+      i1 += 1;
+    }
+  }
+  
+  public ViewGroup.LayoutParams generateDefaultLayoutParams()
+  {
+    return new LayoutParams();
+  }
+  
+  public ViewGroup.LayoutParams generateLayoutParams(AttributeSet paramAttributeSet)
+  {
+    return new LayoutParams(getContext(), paramAttributeSet);
+  }
+  
+  public ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams paramLayoutParams)
+  {
+    if ((paramLayoutParams instanceof ViewGroup.MarginLayoutParams)) {
+      return new LayoutParams((ViewGroup.MarginLayoutParams)paramLayoutParams);
+    }
+    return new LayoutParams(paramLayoutParams);
+  }
+  
+  @k
+  public int getCoveredFadeColor()
+  {
+    return f;
+  }
+  
+  @I
+  public int getParallaxDistance()
+  {
+    return p;
+  }
+  
+  @k
+  public int getSliderFadeColor()
+  {
+    return e;
+  }
+  
+  @Deprecated
+  public void h()
+  {
+    b();
+  }
+  
+  @Deprecated
+  public void i()
+  {
+    f();
+  }
+  
+  public void onAttachedToWindow()
+  {
+    super.onAttachedToWindow();
+    v = true;
+  }
+  
+  public void onDetachedFromWindow()
+  {
+    super.onDetachedFromWindow();
+    v = true;
+    int i2 = x.size();
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      ((b)x.get(i1)).run();
+      i1 += 1;
+    }
+    x.clear();
+  }
+  
+  public boolean onInterceptTouchEvent(MotionEvent paramMotionEvent)
+  {
+    int i1 = paramMotionEvent.getActionMasked();
+    boolean bool2 = j;
+    boolean bool1 = true;
+    if ((!bool2) && (i1 == 0) && (getChildCount() > 1))
+    {
+      View localView = getChildAt(1);
+      if (localView != null) {
+        u = (t.a(localView, (int)paramMotionEvent.getX(), (int)paramMotionEvent.getY()) ^ true);
+      }
+    }
+    if ((j) && ((!o) || (i1 == 0)))
+    {
+      if ((i1 != 3) && (i1 != 1))
+      {
+        float f2;
+        float f1;
+        if (i1 != 0)
+        {
+          if (i1 == 2)
+          {
+            f2 = paramMotionEvent.getX();
+            f1 = paramMotionEvent.getY();
+            f2 = Math.abs(f2 - q);
+            f1 = Math.abs(f1 - r);
+            if ((f2 > t.g()) && (f1 > f2))
+            {
+              t.b();
+              o = true;
+              return false;
+            }
+          }
+        }
+        else
+        {
+          o = false;
+          f1 = paramMotionEvent.getX();
+          f2 = paramMotionEvent.getY();
+          q = f1;
+          r = f2;
+          if ((t.a(k, (int)f1, (int)f2)) && (e(k)))
+          {
+            i1 = 1;
+            break label247;
+          }
+        }
+        i1 = 0;
+        label247:
+        if (!t.b(paramMotionEvent))
+        {
+          if (i1 != 0) {
+            return true;
+          }
+          bool1 = false;
+        }
+        return bool1;
+      }
+      t.b();
+      return false;
+    }
+    t.b();
+    return super.onInterceptTouchEvent(paramMotionEvent);
+  }
+  
+  public void onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    boolean bool = c();
+    if (bool) {
+      t.e(2);
+    } else {
+      t.e(1);
+    }
+    int i3 = paramInt3 - paramInt1;
+    if (bool) {
+      paramInt1 = getPaddingRight();
+    } else {
+      paramInt1 = getPaddingLeft();
+    }
+    if (bool) {
+      paramInt4 = getPaddingLeft();
+    } else {
+      paramInt4 = getPaddingRight();
+    }
+    int i5 = getPaddingTop();
+    int i4 = getChildCount();
+    if (v)
+    {
+      float f1;
+      if ((j) && (u)) {
+        f1 = 1.0F;
+      } else {
+        f1 = 0.0F;
+      }
+      l = f1;
+    }
+    paramInt2 = paramInt1;
+    int i1 = 0;
+    while (i1 < i4)
+    {
+      View localView = getChildAt(i1);
+      if (localView.getVisibility() != 8)
+      {
+        LayoutParams localLayoutParams = (LayoutParams)localView.getLayoutParams();
+        int i6 = localView.getMeasuredWidth();
+        int i2;
+        if (c)
+        {
+          paramInt3 = leftMargin;
+          int i7 = rightMargin;
+          i2 = i3 - paramInt4;
+          i7 = Math.min(paramInt1, i2 - i) - paramInt2 - (paramInt3 + i7);
+          n = i7;
+          if (bool) {
+            paramInt3 = rightMargin;
+          } else {
+            paramInt3 = leftMargin;
+          }
+          if (i6 / 2 + (paramInt2 + paramInt3 + i7) > i2) {
+            paramBoolean = true;
+          } else {
+            paramBoolean = false;
+          }
+          d = paramBoolean;
+          i2 = (int)(i7 * l);
+          paramInt2 = paramInt3 + i2 + paramInt2;
+          l = (i2 / n);
+          paramInt3 = 0;
+        }
+        else
+        {
+          if (j)
+          {
+            paramInt2 = p;
+            if (paramInt2 != 0)
+            {
+              paramInt3 = (int)((1.0F - l) * paramInt2);
+              paramInt2 = paramInt1;
+              break label356;
+            }
+          }
+          paramInt2 = paramInt1;
+          paramInt3 = 0;
+        }
+        label356:
+        if (bool)
+        {
+          i2 = i3 - paramInt2 + paramInt3;
+          paramInt3 = i2 - i6;
+        }
+        else
+        {
+          paramInt3 = paramInt2 - paramInt3;
+          i2 = paramInt3 + i6;
+        }
+        localView.layout(paramInt3, i5, i2, localView.getMeasuredHeight() + i5);
+        paramInt3 = localView.getWidth();
+        paramInt1 = paramInt3 + paramInt1;
+      }
+      i1 += 1;
+    }
+    if (v)
+    {
+      if (j)
+      {
+        if (p != 0) {
+          a(l);
+        }
+        if (k.getLayoutParams()).d) {
+          a(k, l, e);
+        }
+      }
+      else
+      {
+        paramInt1 = 0;
+        while (paramInt1 < i4)
+        {
+          a(getChildAt(paramInt1), 0.0F, e);
+          paramInt1 += 1;
+        }
+      }
+      f(k);
+    }
+    v = false;
+  }
+  
+  public void onMeasure(int paramInt1, int paramInt2)
+  {
+    int i4 = View.MeasureSpec.getMode(paramInt1);
+    int i1 = View.MeasureSpec.getSize(paramInt1);
+    int i2 = View.MeasureSpec.getMode(paramInt2);
+    paramInt2 = View.MeasureSpec.getSize(paramInt2);
+    int i3;
+    int i5;
+    if (i4 != 1073741824)
+    {
+      if (isInEditMode())
+      {
+        if (i4 == Integer.MIN_VALUE)
+        {
+          i3 = i1;
+          i5 = i2;
+          paramInt1 = paramInt2;
+        }
+        else
+        {
+          i3 = i1;
+          i5 = i2;
+          paramInt1 = paramInt2;
+          if (i4 == 0)
+          {
+            i3 = 300;
+            i5 = i2;
+            paramInt1 = paramInt2;
+          }
+        }
+      }
+      else {
+        throw new IllegalStateException("Width must have an exact value or MATCH_PARENT");
+      }
+    }
+    else
+    {
+      i3 = i1;
+      i5 = i2;
+      paramInt1 = paramInt2;
+      if (i2 == 0) {
+        if (isInEditMode())
+        {
+          i3 = i1;
+          i5 = i2;
+          paramInt1 = paramInt2;
+          if (i2 == 0)
+          {
+            i5 = Integer.MIN_VALUE;
+            paramInt1 = 300;
+            i3 = i1;
+          }
+        }
+        else
+        {
+          throw new IllegalStateException("Height must not be UNSPECIFIED");
+        }
+      }
+    }
+    if (i5 != Integer.MIN_VALUE)
+    {
+      if (i5 != 1073741824)
+      {
+        paramInt1 = 0;
+        paramInt2 = 0;
+      }
+      else
+      {
+        paramInt1 = paramInt1 - getPaddingTop() - getPaddingBottom();
+        paramInt2 = paramInt1;
+      }
+    }
+    else
+    {
+      paramInt2 = paramInt1 - getPaddingTop() - getPaddingBottom();
+      paramInt1 = 0;
+    }
+    int i7 = i3 - getPaddingLeft() - getPaddingRight();
+    int i8 = getChildCount();
+    k = null;
+    i4 = i7;
+    int i6 = 0;
+    boolean bool1 = false;
+    float f2 = 0.0F;
+    View localView;
+    LayoutParams localLayoutParams;
+    int i9;
+    for (i1 = paramInt1; i6 < i8; i1 = paramInt1)
+    {
+      localView = getChildAt(i6);
+      localLayoutParams = (LayoutParams)localView.getLayoutParams();
+      float f1;
+      if (localView.getVisibility() == 8)
+      {
+        d = false;
+        f1 = f2;
+        paramInt1 = i1;
+      }
+      else
+      {
+        float f3 = b;
+        f1 = f2;
+        if (f3 > 0.0F)
+        {
+          f2 += f3;
+          f1 = f2;
+          if (width == 0)
+          {
+            f1 = f2;
+            paramInt1 = i1;
+            break label578;
+          }
+        }
+        paramInt1 = leftMargin + rightMargin;
+        if (width == -2) {
+          paramInt1 = View.MeasureSpec.makeMeasureSpec(i7 - paramInt1, Integer.MIN_VALUE);
+        } else if (width == -1) {
+          paramInt1 = View.MeasureSpec.makeMeasureSpec(i7 - paramInt1, 1073741824);
+        } else {
+          paramInt1 = View.MeasureSpec.makeMeasureSpec(width, 1073741824);
+        }
+        if (height == -2) {
+          i2 = View.MeasureSpec.makeMeasureSpec(paramInt2, Integer.MIN_VALUE);
+        } else if (height == -1) {
+          i2 = View.MeasureSpec.makeMeasureSpec(paramInt2, 1073741824);
+        } else {
+          i2 = View.MeasureSpec.makeMeasureSpec(height, 1073741824);
+        }
+        localView.measure(paramInt1, i2);
+        i2 = localView.getMeasuredWidth();
+        i9 = localView.getMeasuredHeight();
+        paramInt1 = i1;
+        if (i5 == Integer.MIN_VALUE)
+        {
+          paramInt1 = i1;
+          if (i9 > i1) {
+            paramInt1 = Math.min(i9, paramInt2);
+          }
+        }
+        i4 -= i2;
+        boolean bool2;
+        if (i4 < 0) {
+          bool2 = true;
+        } else {
+          bool2 = false;
+        }
+        c = bool2;
+        if (c) {
+          k = localView;
+        }
+        bool1 = bool2 | bool1;
+      }
+      label578:
+      i6 += 1;
+      f2 = f1;
+    }
+    if ((bool1) || (f2 > 0.0F))
+    {
+      i2 = i7 - i;
+      i5 = 0;
+      while (i5 < i8)
+      {
+        localView = getChildAt(i5);
+        if (localView.getVisibility() != 8)
+        {
+          for (;;)
+          {
+            localLayoutParams = (LayoutParams)localView.getLayoutParams();
+            if (localView.getVisibility() != 8)
+            {
+              if ((width == 0) && (b > 0.0F)) {
+                paramInt1 = 1;
+              } else {
+                paramInt1 = 0;
+              }
+              if (paramInt1 != 0) {
+                i6 = 0;
+              } else {
+                i6 = localView.getMeasuredWidth();
+              }
+              if ((bool1) && (localView != k))
+              {
+                if ((width < 0) && ((i6 > i2) || (b > 0.0F)))
+                {
+                  if (paramInt1 != 0)
+                  {
+                    if (height == -2) {
+                      paramInt1 = View.MeasureSpec.makeMeasureSpec(paramInt2, Integer.MIN_VALUE);
+                    } else if (height == -1) {
+                      paramInt1 = View.MeasureSpec.makeMeasureSpec(paramInt2, 1073741824);
+                    } else {
+                      paramInt1 = View.MeasureSpec.makeMeasureSpec(height, 1073741824);
+                    }
+                  }
+                  else {
+                    paramInt1 = View.MeasureSpec.makeMeasureSpec(localView.getMeasuredHeight(), 1073741824);
+                  }
+                  localView.measure(View.MeasureSpec.makeMeasureSpec(i2, 1073741824), paramInt1);
+                }
+              }
+              else if (b > 0.0F)
+              {
+                if (width == 0)
+                {
+                  if (height == -2) {
+                    paramInt1 = View.MeasureSpec.makeMeasureSpec(paramInt2, Integer.MIN_VALUE);
+                  } else if (height == -1) {
+                    paramInt1 = View.MeasureSpec.makeMeasureSpec(paramInt2, 1073741824);
+                  } else {
+                    paramInt1 = View.MeasureSpec.makeMeasureSpec(height, 1073741824);
+                  }
+                }
+                else {
+                  paramInt1 = View.MeasureSpec.makeMeasureSpec(localView.getMeasuredHeight(), 1073741824);
+                }
+                if (!bool1) {
+                  break;
+                }
+                i9 = i7 - (leftMargin + rightMargin);
+                int i10 = View.MeasureSpec.makeMeasureSpec(i9, 1073741824);
+                if (i6 != i9) {
+                  localView.measure(i10, paramInt1);
+                }
+              }
+            }
+          }
+          i9 = Math.max(0, i4);
+          localView.measure(View.MeasureSpec.makeMeasureSpec(i6 + (int)(b * i9 / f2), 1073741824), paramInt1);
+        }
+        i5 += 1;
+      }
+    }
+    paramInt1 = getPaddingTop();
+    setMeasuredDimension(i3, getPaddingBottom() + (paramInt1 + i1));
+    j = bool1;
+    if ((t.h() != 0) && (!bool1)) {
+      t.a();
+    }
+  }
+  
+  public void onRestoreInstanceState(Parcelable paramParcelable)
+  {
+    if (!(paramParcelable instanceof SavedState))
+    {
+      super.onRestoreInstanceState(paramParcelable);
+      return;
+    }
+    paramParcelable = (SavedState)paramParcelable;
+    super.onRestoreInstanceState(paramParcelable.getSuperState());
+    if (a) {
+      f();
+    } else {
+      b();
+    }
+    u = a;
+  }
+  
+  public Parcelable onSaveInstanceState()
+  {
+    SavedState localSavedState = new SavedState(super.onSaveInstanceState());
+    boolean bool;
+    if (e()) {
+      bool = d();
+    } else {
+      bool = u;
+    }
+    a = bool;
+    return localSavedState;
+  }
+  
+  public void onSizeChanged(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    super.onSizeChanged(paramInt1, paramInt2, paramInt3, paramInt4);
+    if (paramInt1 != paramInt3) {
+      v = true;
+    }
+  }
+  
+  public boolean onTouchEvent(MotionEvent paramMotionEvent)
+  {
+    if (!j) {
+      return super.onTouchEvent(paramMotionEvent);
+    }
+    t.a(paramMotionEvent);
+    int i1 = paramMotionEvent.getActionMasked();
+    float f1;
+    float f2;
+    if (i1 != 0)
+    {
+      if (i1 != 1) {
+        return true;
+      }
+      if (e(k))
+      {
+        f1 = paramMotionEvent.getX();
+        f2 = paramMotionEvent.getY();
+        float f3 = f1 - q;
+        float f4 = f2 - r;
+        i1 = t.g();
+        if ((f4 * f4 + f3 * f3 < i1 * i1) && (t.a(k, (int)f1, (int)f2)))
+        {
+          a(k, 0);
+          return true;
+        }
+      }
+    }
+    else
+    {
+      f1 = paramMotionEvent.getX();
+      f2 = paramMotionEvent.getY();
+      q = f1;
+      r = f2;
+    }
+    return true;
+  }
+  
+  public void requestChildFocus(View paramView1, View paramView2)
+  {
+    super.requestChildFocus(paramView1, paramView2);
+    if ((!isInTouchMode()) && (!j))
+    {
+      boolean bool;
+      if (paramView1 == k) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      u = bool;
+    }
+  }
+  
+  public void setCoveredFadeColor(@k int paramInt)
+  {
+    f = paramInt;
+  }
+  
+  public void setPanelSlideListener(@G d paramD)
+  {
+    s = paramD;
+  }
+  
+  public void setParallaxDistance(@I int paramInt)
+  {
+    p = paramInt;
+    requestLayout();
+  }
+  
+  @Deprecated
+  public void setShadowDrawable(Drawable paramDrawable)
+  {
+    setShadowDrawableLeft(paramDrawable);
+  }
+  
+  public void setShadowDrawableLeft(@G Drawable paramDrawable)
+  {
+    g = paramDrawable;
+  }
+  
+  public void setShadowDrawableRight(@G Drawable paramDrawable)
+  {
+    h = paramDrawable;
+  }
+  
+  @Deprecated
+  public void setShadowResource(@p int paramInt)
+  {
+    setShadowDrawable(getResources().getDrawable(paramInt));
+  }
+  
+  public void setShadowResourceLeft(int paramInt)
+  {
+    setShadowDrawableLeft(b.b.x.b.c.getDrawable(getContext(), paramInt));
+  }
+  
+  public void setShadowResourceRight(int paramInt)
+  {
+    setShadowDrawableRight(b.b.x.b.c.getDrawable(getContext(), paramInt));
+  }
+  
+  public void setSliderFadeColor(@k int paramInt)
+  {
+    e = paramInt;
+  }
+  
+  public static class LayoutParams
+    extends ViewGroup.MarginLayoutParams
+  {
+    public static final int[] a = { 16843137 };
+    public float b = 0.0F;
+    public boolean c;
+    public boolean d;
+    public Paint e;
+    
+    public LayoutParams()
+    {
+      super(-1);
+    }
+    
+    public LayoutParams(int paramInt1, int paramInt2)
+    {
+      super(paramInt2);
+    }
+    
+    public LayoutParams(@F Context paramContext, @G AttributeSet paramAttributeSet)
+    {
+      super(paramAttributeSet);
+      paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, a);
+      b = paramContext.getFloat(0, 0.0F);
+      paramContext.recycle();
+    }
+    
+    public LayoutParams(@F LayoutParams paramLayoutParams)
+    {
+      super();
+      b = b;
+    }
+    
+    public LayoutParams(@F ViewGroup.LayoutParams paramLayoutParams)
+    {
+      super();
+    }
+    
+    public LayoutParams(@F ViewGroup.MarginLayoutParams paramMarginLayoutParams)
+    {
+      super();
+    }
+  }
+  
+  public static class SavedState
+    extends AbsSavedState
+  {
+    public static final Parcelable.Creator<SavedState> CREATOR = new E();
+    public boolean a;
+    
+    public SavedState(Parcel paramParcel, ClassLoader paramClassLoader)
+    {
+      super(paramClassLoader);
+      boolean bool;
+      if (paramParcel.readInt() != 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      a = bool;
+    }
+    
+    public SavedState(Parcelable paramParcelable)
+    {
+      super();
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.e1expr(TypeTransformer.java:496)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:713)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:698)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+    }
+  }
+  
+  public class a
+    extends b
+  {
+    public final Rect a = new Rect();
+    
+    public a() {}
+    
+    private void a(b.b.x.o.a.c paramC1, b.b.x.o.a.c paramC2)
+    {
+      Rect localRect = a;
+      paramC2.a(localRect);
+      paramC1.c(localRect);
+      paramC2.b(localRect);
+      paramC1.d(localRect);
+      paramC1.v(paramC2.ba());
+      paramC1.e(paramC2.t());
+      paramC1.a(paramC2.e());
+      paramC1.b(paramC2.h());
+      paramC1.j(paramC2.P());
+      paramC1.e(paramC2.K());
+      paramC1.k(paramC2.Q());
+      paramC1.l(paramC2.R());
+      paramC1.a(paramC2.H());
+      paramC1.t(paramC2.Z());
+      paramC1.o(paramC2.U());
+      paramC1.a(paramC2.c());
+      paramC1.k(paramC2.s());
+    }
+    
+    public boolean a(View paramView)
+    {
+      return e(paramView);
+    }
+    
+    public void onInitializeAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      b.DEFAULT_DELEGATE.onInitializeAccessibilityEvent(paramView, paramAccessibilityEvent);
+      paramAccessibilityEvent.setClassName(SlidingPaneLayout.class.getName());
+    }
+    
+    public void onInitializeAccessibilityNodeInfo(View paramView, b.b.x.o.a.c paramC)
+    {
+      b.b.x.o.a.c localC = b.b.x.o.a.c.a(paramC);
+      super.onInitializeAccessibilityNodeInfo(paramView, localC);
+      a(paramC, localC);
+      localC.da();
+      paramC.a(SlidingPaneLayout.class.getName());
+      paramC.g(paramView);
+      paramView = H.C(paramView);
+      if ((paramView instanceof View)) {
+        paramC.f((View)paramView);
+      }
+      int j = getChildCount();
+      int i = 0;
+      while (i < j)
+      {
+        paramView = getChildAt(i);
+        if ((!a(paramView)) && (paramView.getVisibility() == 0))
+        {
+          H.j(paramView, 1);
+          paramC.a(paramView);
+        }
+        i += 1;
+      }
+    }
+    
+    public boolean onRequestSendAccessibilityEvent(ViewGroup paramViewGroup, View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      if (!a(paramView)) {
+        return super.onRequestSendAccessibilityEvent(paramViewGroup, paramView, paramAccessibilityEvent);
+      }
+      return false;
+    }
+  }
+  
+  private class b
+    implements Runnable
+  {
+    public final View a;
+    
+    public b(View paramView)
+    {
+      a = paramView;
+    }
+    
+    public void run()
+    {
+      if (a.getParent() == SlidingPaneLayout.this)
+      {
+        a.setLayerType(0, null);
+        d(a);
+      }
+      x.remove(this);
+    }
+  }
+  
+  private class c
+    extends T.a
+  {
+    public c() {}
+    
+    public int clampViewPositionHorizontal(View paramView, int paramInt1, int paramInt2)
+    {
+      paramView = (SlidingPaneLayout.LayoutParams)k.getLayoutParams();
+      if (c())
+      {
+        paramInt2 = getWidth();
+        i = getPaddingRight();
+        int j = rightMargin;
+        paramInt2 -= k.getWidth() + (i + j);
+        i = n;
+        return Math.max(Math.min(paramInt1, paramInt2), paramInt2 - i);
+      }
+      paramInt2 = getPaddingLeft() + leftMargin;
+      int i = n;
+      return Math.min(Math.max(paramInt1, paramInt2), i + paramInt2);
+    }
+    
+    public int clampViewPositionVertical(View paramView, int paramInt1, int paramInt2)
+    {
+      return paramView.getTop();
+    }
+    
+    public int getViewHorizontalDragRange(View paramView)
+    {
+      return n;
+    }
+    
+    public void onEdgeDragStarted(int paramInt1, int paramInt2)
+    {
+      SlidingPaneLayout localSlidingPaneLayout = SlidingPaneLayout.this;
+      t.a(k, paramInt2);
+    }
+    
+    public void onViewCaptured(View paramView, int paramInt)
+    {
+      g();
+    }
+    
+    public void onViewDragStateChanged(int paramInt)
+    {
+      if (t.h() == 0)
+      {
+        SlidingPaneLayout localSlidingPaneLayout = SlidingPaneLayout.this;
+        if (l == 0.0F)
+        {
+          localSlidingPaneLayout.f(k);
+          localSlidingPaneLayout = SlidingPaneLayout.this;
+          localSlidingPaneLayout.a(k);
+          u = false;
+          return;
+        }
+        localSlidingPaneLayout.b(k);
+        u = true;
+      }
+    }
+    
+    public void onViewPositionChanged(View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+    {
+      a(paramInt1);
+      invalidate();
+    }
+    
+    public void onViewReleased(View paramView, float paramFloat1, float paramFloat2)
+    {
+      SlidingPaneLayout.LayoutParams localLayoutParams = (SlidingPaneLayout.LayoutParams)paramView.getLayoutParams();
+      int j;
+      int i;
+      if (c())
+      {
+        j = getPaddingRight() + rightMargin;
+        if (paramFloat1 >= 0.0F)
+        {
+          i = j;
+          if (paramFloat1 == 0.0F)
+          {
+            i = j;
+            if (l <= 0.5F) {}
+          }
+        }
+        else
+        {
+          i = j + n;
+        }
+        j = k.getWidth();
+        i = getWidth() - i - j;
+      }
+      else
+      {
+        i = getPaddingLeft();
+        j = leftMargin + i;
+        if (paramFloat1 <= 0.0F)
+        {
+          i = j;
+          if (paramFloat1 == 0.0F)
+          {
+            i = j;
+            if (l <= 0.5F) {}
+          }
+        }
+        else
+        {
+          i = j + n;
+        }
+      }
+      t.e(i, paramView.getTop());
+      invalidate();
+    }
+    
+    public boolean tryCaptureView(View paramView, int paramInt)
+    {
+      if (o) {
+        return false;
+      }
+      return getLayoutParamsc;
+    }
+  }
+  
+  public static abstract interface d
+  {
+    public abstract void a(@F View paramView);
+    
+    public abstract void a(@F View paramView, float paramFloat);
+    
+    public abstract void b(@F View paramView);
+  }
+  
+  public static class e
+    implements SlidingPaneLayout.d
+  {
+    public e() {}
+    
+    public void a(View paramView) {}
+    
+    public void a(View paramView, float paramFloat) {}
+    
+    public void b(View paramView) {}
+  }
+}

@@ -1,0 +1,206 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import b.b.a.J;
+import b.b.a.M;
+import com.google.android.gms.common.api.PendingResult;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+public class TagManager
+{
+  public static TagManager zzjvz;
+  public final Context mContext;
+  public final DataLayer zzjpa;
+  public final zzal zzjtz;
+  public final zza zzjvw;
+  public final zzfn zzjvx;
+  public final ConcurrentMap<String, zzv> zzjvy;
+  
+  public TagManager(Context paramContext, zza paramZza, DataLayer paramDataLayer, zzfn paramZzfn)
+  {
+    if (paramContext != null)
+    {
+      mContext = paramContext.getApplicationContext();
+      zzjvx = paramZzfn;
+      zzjvw = paramZza;
+      zzjvy = new ConcurrentHashMap();
+      zzjpa = paramDataLayer;
+      zzjpa.zza(new zzgb(this));
+      zzjpa.zza(new zzg(mContext));
+      zzjtz = new zzal();
+      mContext.registerComponentCallbacks(new zzgd(this));
+      zza.zzdp(mContext);
+      return;
+    }
+    throw new NullPointerException("context cannot be null");
+  }
+  
+  @M(allOf={"android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE"})
+  public static TagManager getInstance(Context paramContext)
+  {
+    try
+    {
+      if (zzjvz == null) {
+        if (paramContext != null)
+        {
+          zzjvz = new TagManager(paramContext, new zzgc(), new DataLayer(new zzat(paramContext)), zzfo.zzbez());
+        }
+        else
+        {
+          zzdj.zzjss.e("TagManager.getInstance requires non-null context.");
+          throw new NullPointerException();
+        }
+      }
+      paramContext = zzjvz;
+      return paramContext;
+    }
+    finally {}
+  }
+  
+  private final void zzmb(String paramString)
+  {
+    Iterator localIterator = zzjvy.values().iterator();
+    while (localIterator.hasNext()) {
+      ((zzv)localIterator.next()).zzlg(paramString);
+    }
+  }
+  
+  public void dispatch()
+  {
+    zzjvx.dispatch();
+  }
+  
+  public DataLayer getDataLayer()
+  {
+    return zzjpa;
+  }
+  
+  public PendingResult<ContainerHolder> loadContainerDefaultOnly(String paramString, @J int paramInt)
+  {
+    paramString = zzjvw.zza(mContext, this, null, paramString, paramInt, zzjtz);
+    paramString.zzbcs();
+    return paramString;
+  }
+  
+  public PendingResult<ContainerHolder> loadContainerDefaultOnly(String paramString, @J int paramInt, Handler paramHandler)
+  {
+    paramString = zzjvw.zza(mContext, this, paramHandler.getLooper(), paramString, paramInt, zzjtz);
+    paramString.zzbcs();
+    return paramString;
+  }
+  
+  public PendingResult<ContainerHolder> loadContainerPreferFresh(String paramString, @J int paramInt)
+  {
+    paramString = zzjvw.zza(mContext, this, null, paramString, paramInt, zzjtz);
+    paramString.zzbcu();
+    return paramString;
+  }
+  
+  public PendingResult<ContainerHolder> loadContainerPreferFresh(String paramString, @J int paramInt, Handler paramHandler)
+  {
+    paramString = zzjvw.zza(mContext, this, paramHandler.getLooper(), paramString, paramInt, zzjtz);
+    paramString.zzbcu();
+    return paramString;
+  }
+  
+  public PendingResult<ContainerHolder> loadContainerPreferNonDefault(String paramString, @J int paramInt)
+  {
+    paramString = zzjvw.zza(mContext, this, null, paramString, paramInt, zzjtz);
+    paramString.zzbct();
+    return paramString;
+  }
+  
+  public PendingResult<ContainerHolder> loadContainerPreferNonDefault(String paramString, @J int paramInt, Handler paramHandler)
+  {
+    paramString = zzjvw.zza(mContext, this, paramHandler.getLooper(), paramString, paramInt, zzjtz);
+    paramString.zzbct();
+    return paramString;
+  }
+  
+  public void setVerboseLoggingEnabled(boolean paramBoolean)
+  {
+    int i;
+    if (paramBoolean) {
+      i = 2;
+    } else {
+      i = 5;
+    }
+    zzdj.setLogLevel(i);
+  }
+  
+  public final int zza(zzv paramZzv)
+  {
+    zzjvy.put(paramZzv.getContainerId(), paramZzv);
+    return zzjvy.size();
+  }
+  
+  public final boolean zzb(zzv paramZzv)
+  {
+    return zzjvy.remove(paramZzv.getContainerId()) != null;
+  }
+  
+  public final boolean zzq(Uri paramUri)
+  {
+    try
+    {
+      zzei localZzei = zzei.zzbeh();
+      if (localZzei.zzq(paramUri))
+      {
+        paramUri = localZzei.getContainerId();
+        int i = zzge.zzjwb[localZzei.zzbei().ordinal()];
+        if (i != 1)
+        {
+          if ((i == 2) || (i == 3))
+          {
+            Iterator localIterator = zzjvy.keySet().iterator();
+            if (localIterator.hasNext())
+            {
+              String str = (String)localIterator.next();
+              zzv localZzv = (zzv)zzjvy.get(str);
+              if (str.equals(paramUri)) {
+                localZzv.zzlh(localZzei.zzbej());
+              }
+              for (;;)
+              {
+                localZzv.refresh();
+                break;
+                if (localZzv.zzbcp() == null) {
+                  break;
+                }
+                localZzv.zzlh(null);
+              }
+            }
+          }
+        }
+        else
+        {
+          paramUri = (zzv)zzjvy.get(paramUri);
+          if (paramUri != null)
+          {
+            paramUri.zzlh(null);
+            paramUri.refresh();
+          }
+        }
+        return true;
+      }
+      return false;
+    }
+    finally {}
+    for (;;)
+    {
+      throw paramUri;
+    }
+  }
+  
+  public static abstract interface zza
+  {
+    public abstract zzy zza(Context paramContext, TagManager paramTagManager, Looper paramLooper, String paramString, int paramInt, zzal paramZzal);
+  }
+}

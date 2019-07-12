@@ -1,0 +1,228 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import android.os.Looper;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.internal.zzs;
+import com.google.android.gms.common.util.zzd;
+import com.google.android.gms.common.util.zzh;
+import com.google.android.gms.internal.zzbl;
+import com.google.android.gms.internal.zzbo;
+import com.google.android.gms.internal.zzdbm;
+import com.google.android.gms.internal.zzdbn;
+import com.google.android.gms.internal.zzdbs;
+
+public final class zzy
+  extends zzs<ContainerHolder>
+{
+  public final Context mContext;
+  public final Looper zzakg;
+  public final zzd zzasc;
+  public final String zzjoz;
+  public long zzjpe;
+  public final TagManager zzjpl;
+  public final zzaf zzjpo;
+  public final zzek zzjpp;
+  public final int zzjpq;
+  public final zzai zzjpr;
+  public zzah zzjps;
+  public zzdbn zzjpt;
+  public volatile zzv zzjpu;
+  public volatile boolean zzjpv;
+  public zzbo zzjpw;
+  public String zzjpx;
+  public zzag zzjpy;
+  public zzac zzjpz;
+  
+  public zzy(Context paramContext, TagManager paramTagManager, Looper paramLooper, String paramString, int paramInt, zzah paramZzah, zzag paramZzag, zzdbn paramZzdbn, zzd paramZzd, zzek paramZzek, zzai paramZzai)
+  {
+    super(localLooper);
+    mContext = paramContext;
+    zzjpl = paramTagManager;
+    paramContext = paramLooper;
+    if (paramLooper == null) {
+      paramContext = Looper.getMainLooper();
+    }
+    zzakg = paramContext;
+    zzjoz = paramString;
+    zzjpq = paramInt;
+    zzjps = paramZzah;
+    zzjpy = paramZzag;
+    zzjpt = paramZzdbn;
+    zzjpo = new zzaf(this, null);
+    zzjpw = new zzbo();
+    zzasc = paramZzd;
+    zzjpp = paramZzek;
+    zzjpr = paramZzai;
+    if (zzbcv()) {
+      zzlh(zzei.zzbeh().zzbej());
+    }
+  }
+  
+  public zzy(Context paramContext, TagManager paramTagManager, Looper paramLooper, String paramString, int paramInt, zzal paramZzal)
+  {
+    this(paramContext, paramTagManager, paramLooper, paramString, paramInt, localZzey, localZzet, localZzdbn, localZzh, new zzdh(1, 5, 900000L, 5000L, "refreshing", localZzh), new zzai(paramContext, paramString));
+    zzjpt.zznj(paramZzal.zzbdc());
+  }
+  
+  private final void zza(zzbo paramZzbo)
+  {
+    try
+    {
+      if (zzjps != null)
+      {
+        zzdbm localZzdbm = new zzdbm();
+        zzkfj = zzjpe;
+        zzxx = new zzbl();
+        zzkfk = paramZzbo;
+        zzjps.zza(localZzdbm);
+      }
+      return;
+    }
+    finally
+    {
+      paramZzbo = finally;
+      throw paramZzbo;
+    }
+  }
+  
+  private final void zza(zzbo paramZzbo, long paramLong, boolean paramBoolean)
+  {
+    if (paramBoolean) {}
+    try
+    {
+      paramBoolean = zzjpv;
+      if (isReady())
+      {
+        zzv localZzv = zzjpu;
+        if (localZzv == null) {
+          return;
+        }
+      }
+      zzjpw = paramZzbo;
+      zzjpe = paramLong;
+      long l = zzjpr.zzbcx();
+      zzbf(Math.max(0L, Math.min(l, zzjpe + l - zzasc.currentTimeMillis())));
+      paramZzbo = new Container(mContext, zzjpl.getDataLayer(), zzjoz, paramLong, paramZzbo);
+      if (zzjpu == null) {
+        zzjpu = new zzv(zzjpl, zzakg, paramZzbo, zzjpo);
+      } else {
+        zzjpu.zza(paramZzbo);
+      }
+      if ((!isReady()) && (zzjpz.zzb(paramZzbo))) {
+        setResult(zzjpu);
+      }
+      return;
+    }
+    finally {}
+  }
+  
+  private final boolean zzbcv()
+  {
+    zzei localZzei = zzei.zzbeh();
+    return ((localZzei.zzbei() == zzei.zza.zzjtn) || (localZzei.zzbei() == zzei.zza.zzjto)) && (zzjoz.equals(localZzei.getContainerId()));
+  }
+  
+  private final void zzbf(long paramLong)
+  {
+    try
+    {
+      if (zzjpy == null)
+      {
+        zzdj.zzjss.zzcr("Refresh requested, but no network load scheduler.");
+        return;
+      }
+      zzjpy.zza(paramLong, zzjpw.zzxy);
+      return;
+    }
+    finally {}
+  }
+  
+  private final void zzbt(boolean paramBoolean)
+  {
+    zzjps.zza(new zzad(this, null));
+    zzjpy.zza(new zzae(this, null));
+    zzdbs localZzdbs = zzjps.zzee(zzjpq);
+    if (localZzdbs != null)
+    {
+      TagManager localTagManager = zzjpl;
+      zzjpu = new zzv(localTagManager, zzakg, new Container(mContext, localTagManager.getDataLayer(), zzjoz, 0L, localZzdbs), zzjpo);
+    }
+    zzjpz = new zzab(this, paramBoolean);
+    if (zzbcv())
+    {
+      zzjpy.zza(0L, "");
+      return;
+    }
+    zzjps.zzbcw();
+  }
+  
+  public final ContainerHolder zzai(Status paramStatus)
+  {
+    if (zzjpu != null) {
+      return zzjpu;
+    }
+    if (paramStatus == Status.zzfhy) {
+      zzdj.zzjss.e("timer expired: setting result to failure");
+    }
+    return new zzv(paramStatus);
+  }
+  
+  public final String zzbcp()
+  {
+    try
+    {
+      String str = zzjpx;
+      return str;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public final void zzbcs()
+  {
+    Object localObject = zzjps.zzee(zzjpq);
+    if (localObject != null)
+    {
+      localObject = new Container(mContext, zzjpl.getDataLayer(), zzjoz, 0L, (zzdbs)localObject);
+      setResult(new zzv(zzjpl, zzakg, (Container)localObject, new zzaa(this)));
+    }
+    else
+    {
+      zzdj.zzjss.e("Default was requested, but no default container was found");
+      setResult(zzai(new Status(1, 10, "Default was requested, but no default container was found", null)));
+    }
+    zzjpy = null;
+    zzjps = null;
+  }
+  
+  public final void zzbct()
+  {
+    zzbt(false);
+  }
+  
+  public final void zzbcu()
+  {
+    zzbt(true);
+  }
+  
+  public final void zzlh(String paramString)
+  {
+    try
+    {
+      zzjpx = paramString;
+      if (zzjpy != null) {
+        zzjpy.zzli(paramString);
+      }
+      return;
+    }
+    finally
+    {
+      paramString = finally;
+      throw paramString;
+    }
+  }
+}

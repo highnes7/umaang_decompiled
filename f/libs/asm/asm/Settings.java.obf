@@ -1,0 +1,38 @@
+package f.c.a.a;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import l.a.a.a.a.f.d;
+import l.a.a.a.a.f.e;
+
+public class o
+{
+  public static final String a = "settings";
+  public static final String b = "analytics_launched";
+  public final d c;
+  
+  public o(d paramD)
+  {
+    c = paramD;
+  }
+  
+  public static o a(Context paramContext)
+  {
+    return new o(new e(paramContext, "settings"));
+  }
+  
+  @SuppressLint({"CommitPrefEdits"})
+  public boolean a()
+  {
+    return c.get().getBoolean("analytics_launched", false);
+  }
+  
+  @SuppressLint({"CommitPrefEdits"})
+  public void b()
+  {
+    d localD = c;
+    localD.a(localD.edit().putBoolean("analytics_launched", true));
+  }
+}

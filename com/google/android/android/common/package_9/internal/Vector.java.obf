@@ -1,0 +1,36 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Build.VERSION;
+import android.os.DeadObjectException;
+import android.os.RemoteException;
+import android.os.TransactionTooLargeException;
+import b.b.a.F;
+import com.google.android.gms.common.api.Status;
+
+public abstract class zza
+{
+  public int zzecz;
+  
+  public zza(int paramInt)
+  {
+    zzecz = paramInt;
+  }
+  
+  public static Status zza(RemoteException paramRemoteException)
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    int i = Build.VERSION.SDK_INT;
+    if ((paramRemoteException instanceof TransactionTooLargeException)) {
+      localStringBuilder.append("TransactionTooLargeException: ");
+    }
+    localStringBuilder.append(paramRemoteException.getLocalizedMessage());
+    return new Status(8, localStringBuilder.toString());
+  }
+  
+  public abstract void zza(@F zzah paramZzah, boolean paramBoolean);
+  
+  public abstract void zza(zzbr<?> paramZzbr)
+    throws DeadObjectException;
+  
+  public abstract void zzr(@F Status paramStatus);
+}

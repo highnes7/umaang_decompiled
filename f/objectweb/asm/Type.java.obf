@@ -1,0 +1,265 @@
+package f.e.a;
+
+import android.annotation.TargetApi;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import b.b.a.G;
+import b.b.a.v;
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class x
+  extends A
+{
+  public x(android.support.v7.widget.Toolbar paramToolbar, @v int paramInt, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    super(paramToolbar.findViewById(paramInt), paramCharSequence1, paramCharSequence2);
+  }
+  
+  public x(android.support.v7.widget.Toolbar paramToolbar, boolean paramBoolean, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    super(paramToolbar, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public x(android.widget.Toolbar paramToolbar, @v int paramInt, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    super(paramToolbar.findViewById(paramInt), paramCharSequence1, paramCharSequence2);
+  }
+  
+  public x(android.widget.Toolbar paramToolbar, boolean paramBoolean, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    super(paramToolbar, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public static View a(Object paramObject)
+  {
+    c localC = c(paramObject);
+    paramObject = localC.a();
+    int i = TextUtils.isEmpty(paramObject) ^ true;
+    if (i == 0) {
+      paramObject = "taptarget-findme";
+    }
+    localC.setNavigationContentDescription(paramObject);
+    Object localObject = new ArrayList(1);
+    localC.a((ArrayList)localObject, paramObject, 2);
+    if (i == 0) {
+      localC.setNavigationContentDescription(null);
+    }
+    int k = ((ArrayList)localObject).size();
+    i = 0;
+    if (k > 0) {
+      return (View)((ArrayList)localObject).get(0);
+    }
+    paramObject = localC.c();
+    if (paramObject != null)
+    {
+      k = localC.getChildCount();
+      while (i < k)
+      {
+        localObject = localC.getChildAt(i);
+        if (((localObject instanceof ImageButton)) && (((ImageButton)localObject).getDrawable() == paramObject)) {
+          return localObject;
+        }
+        int j;
+        i += 1;
+      }
+      throw new IllegalStateException("Could not find navigation view for Toolbar!");
+    }
+    paramObject = new IllegalStateException("Toolbar does not have a navigation view set!");
+    for (;;)
+    {
+      throw paramObject;
+    }
+  }
+  
+  public static View b(Object paramObject)
+  {
+    paramObject = c(paramObject);
+    Drawable localDrawable = paramObject.d();
+    if (localDrawable != null)
+    {
+      Stack localStack = new Stack();
+      localStack.push((ViewGroup)paramObject.b());
+      while (!localStack.empty())
+      {
+        ViewGroup localViewGroup = (ViewGroup)localStack.pop();
+        int j = localViewGroup.getChildCount();
+        int i = 0;
+        while (i < j)
+        {
+          View localView = localViewGroup.getChildAt(i);
+          if ((localView instanceof ViewGroup)) {
+            localStack.push((ViewGroup)localView);
+          } else if (((localView instanceof ImageView)) && (((ImageView)localView).getDrawable() == localDrawable)) {
+            return localView;
+          }
+          i += 1;
+        }
+      }
+    }
+    try
+    {
+      paramObject = (View)f.a(f.a(f.a(paramObject.b(), "mMenuView"), "mPresenter"), "mOverflowButton");
+      return paramObject;
+    }
+    catch (IllegalAccessException paramObject)
+    {
+      throw new IllegalStateException("Unable to access overflow view for Toolbar!", paramObject);
+    }
+    catch (NoSuchFieldException paramObject)
+    {
+      paramObject = new IllegalStateException("Could not find overflow view for Toolbar!", paramObject);
+    }
+    for (;;)
+    {
+      throw paramObject;
+    }
+  }
+  
+  public static c c(Object paramObject)
+  {
+    if (paramObject != null)
+    {
+      if ((paramObject instanceof android.support.v7.widget.Toolbar)) {
+        return new b((android.support.v7.widget.Toolbar)paramObject);
+      }
+      if ((paramObject instanceof android.widget.Toolbar)) {
+        return new a((android.widget.Toolbar)paramObject);
+      }
+      throw new IllegalStateException("Couldn't provide proper toolbar proxy instance");
+    }
+    throw new IllegalArgumentException("Given null instance");
+  }
+  
+  @TargetApi(21)
+  private static class a
+    implements x.c
+  {
+    public final android.widget.Toolbar a;
+    
+    public a(android.widget.Toolbar paramToolbar)
+    {
+      a = paramToolbar;
+    }
+    
+    public CharSequence a()
+    {
+      return a.getNavigationContentDescription();
+    }
+    
+    public void a(ArrayList<View> paramArrayList, CharSequence paramCharSequence, int paramInt)
+    {
+      a.findViewsWithText(paramArrayList, paramCharSequence, paramInt);
+    }
+    
+    public Object b()
+    {
+      return a;
+    }
+    
+    public Drawable c()
+    {
+      return a.getNavigationIcon();
+    }
+    
+    @G
+    public Drawable d()
+    {
+      if (Build.VERSION.SDK_INT >= 23) {
+        return a.getOverflowIcon();
+      }
+      return null;
+    }
+    
+    public View getChildAt(int paramInt)
+    {
+      return a.getChildAt(paramInt);
+    }
+    
+    public int getChildCount()
+    {
+      return a.getChildCount();
+    }
+    
+    public void setNavigationContentDescription(CharSequence paramCharSequence)
+    {
+      a.setNavigationContentDescription(paramCharSequence);
+    }
+  }
+  
+  private static class b
+    implements x.c
+  {
+    public final android.support.v7.widget.Toolbar a;
+    
+    public b(android.support.v7.widget.Toolbar paramToolbar)
+    {
+      a = paramToolbar;
+    }
+    
+    public CharSequence a()
+    {
+      return a.getNavigationContentDescription();
+    }
+    
+    public void a(ArrayList<View> paramArrayList, CharSequence paramCharSequence, int paramInt)
+    {
+      a.findViewsWithText(paramArrayList, paramCharSequence, paramInt);
+    }
+    
+    public Object b()
+    {
+      return a;
+    }
+    
+    public Drawable c()
+    {
+      return a.getNavigationIcon();
+    }
+    
+    public Drawable d()
+    {
+      return a.getOverflowIcon();
+    }
+    
+    public View getChildAt(int paramInt)
+    {
+      return a.getChildAt(paramInt);
+    }
+    
+    public int getChildCount()
+    {
+      return a.getChildCount();
+    }
+    
+    public void setNavigationContentDescription(CharSequence paramCharSequence)
+    {
+      a.setNavigationContentDescription(paramCharSequence);
+    }
+  }
+  
+  private static abstract interface c
+  {
+    public abstract CharSequence a();
+    
+    public abstract void a(ArrayList<View> paramArrayList, CharSequence paramCharSequence, int paramInt);
+    
+    public abstract Object b();
+    
+    public abstract Drawable c();
+    
+    @G
+    public abstract Drawable d();
+    
+    public abstract View getChildAt(int paramInt);
+    
+    public abstract int getChildCount();
+    
+    public abstract void setNavigationContentDescription(CharSequence paramCharSequence);
+  }
+}

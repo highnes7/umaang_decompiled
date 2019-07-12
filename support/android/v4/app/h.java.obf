@@ -1,0 +1,507 @@
+package b.b.x.j;
+
+import android.os.Build.VERSION;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.O;
+import b.b.a.t;
+import b.b.a.x;
+import f.a.a.a.a;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Locale;
+
+@N({b.b.a.N.a.b})
+public final class i
+{
+  public static final Locale[] a = new Locale[0];
+  public static final i b = new i(new Locale[0]);
+  public static final String c = "en-XA";
+  public static final String d = "ar-XB";
+  public static final Locale e = new Locale("en", "XA");
+  public static final Locale f = new Locale("ar", "XB");
+  public static final int g = 2;
+  public static final Locale h = g.a("en-Latn");
+  public static final Object i = new Object();
+  @t("sLock")
+  public static i j = null;
+  @t("sLock")
+  public static i k = null;
+  @t("sLock")
+  public static i l = null;
+  @t("sLock")
+  public static Locale m = null;
+  public final Locale[] n;
+  @F
+  public final String o;
+  
+  @N({b.b.a.N.a.b})
+  public i(@F Locale paramLocale, i paramI)
+  {
+    if (paramLocale != null)
+    {
+      int i4 = 0;
+      int i2;
+      if (paramI == null) {
+        i2 = 0;
+      } else {
+        i2 = n.length;
+      }
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        if (paramLocale.equals(n[i1])) {
+          break label61;
+        }
+        i1 += 1;
+      }
+      i1 = -1;
+      label61:
+      if (i1 == -1) {
+        i3 = 1;
+      } else {
+        i3 = 0;
+      }
+      int i6 = i3 + i2;
+      Locale[] arrayOfLocale = new Locale[i6];
+      arrayOfLocale[0] = ((Locale)paramLocale.clone());
+      if (i1 == -1) {
+        for (i1 = 0; i1 < i2; i1 = i3)
+        {
+          i3 = i1 + 1;
+          arrayOfLocale[i3] = ((Locale)n[i1].clone());
+        }
+      }
+      int i5;
+      for (int i3 = 0; i3 < i1; i3 = i5)
+      {
+        i5 = i3 + 1;
+        arrayOfLocale[i5] = ((Locale)n[i3].clone());
+      }
+      i1 += 1;
+      while (i1 < i2)
+      {
+        arrayOfLocale[i1] = ((Locale)n[i1].clone());
+        i1 += 1;
+      }
+      paramLocale = new StringBuilder();
+      i1 = i4;
+      while (i1 < i6)
+      {
+        paramLocale.append(g.a(arrayOfLocale[i1]));
+        if (i1 < i6 - 1) {
+          paramLocale.append(',');
+        }
+        i1 += 1;
+      }
+      n = arrayOfLocale;
+      o = paramLocale.toString();
+      return;
+    }
+    paramLocale = new NullPointerException("topLocale is null");
+    for (;;)
+    {
+      throw paramLocale;
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public i(@F Locale... paramVarArgs)
+  {
+    if (paramVarArgs.length == 0)
+    {
+      n = a;
+      o = "";
+      return;
+    }
+    Locale[] arrayOfLocale = new Locale[paramVarArgs.length];
+    HashSet localHashSet = new HashSet();
+    StringBuilder localStringBuilder = new StringBuilder();
+    int i1 = 0;
+    while (i1 < paramVarArgs.length)
+    {
+      Locale localLocale = paramVarArgs[i1];
+      if (localLocale != null)
+      {
+        if (!localHashSet.contains(localLocale))
+        {
+          localLocale = (Locale)localLocale.clone();
+          arrayOfLocale[i1] = localLocale;
+          localStringBuilder.append(g.a(localLocale));
+          if (i1 < paramVarArgs.length - 1) {
+            localStringBuilder.append(',');
+          }
+          localHashSet.add(localLocale);
+          i1 += 1;
+        }
+        else
+        {
+          throw new IllegalArgumentException(a.a("list[", i1, "] is a repetition"));
+        }
+      }
+      else {
+        throw new NullPointerException(a.a("list[", i1, "] is null"));
+      }
+    }
+    n = arrayOfLocale;
+    o = localStringBuilder.toString();
+  }
+  
+  @x(from=0L, to=1L)
+  public static int a(Locale paramLocale1, Locale paramLocale2)
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:659)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  @F
+  @O(min=1L)
+  public static i a()
+  {
+    b();
+    synchronized (i)
+    {
+      i localI = l;
+      return localI;
+    }
+  }
+  
+  @F
+  @N({b.b.a.N.a.b})
+  public static i a(@G String paramString)
+  {
+    if ((paramString != null) && (!paramString.isEmpty()))
+    {
+      paramString = paramString.split(",", -1);
+      Locale[] arrayOfLocale = new Locale[paramString.length];
+      int i1 = 0;
+      while (i1 < arrayOfLocale.length)
+      {
+        arrayOfLocale[i1] = g.a(paramString[i1]);
+        i1 += 1;
+      }
+      return new i(arrayOfLocale);
+    }
+    return b;
+  }
+  
+  public static String a(Locale paramLocale)
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramLocale = paramLocale.getScript();
+      if (!paramLocale.isEmpty()) {
+        return paramLocale;
+      }
+    }
+    return "";
+  }
+  
+  private Locale a(Collection<String> paramCollection, boolean paramBoolean)
+  {
+    int i1 = b(paramCollection, paramBoolean);
+    if (i1 == -1) {
+      return null;
+    }
+    return n[i1];
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a(@F @O(min=1L) i paramI)
+  {
+    a(paramI, 0);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a(@F @O(min=1L) i paramI, int paramInt)
+  {
+    if (paramI != null)
+    {
+      if (!paramI.d()) {
+        synchronized (i)
+        {
+          m = paramI.a(paramInt);
+          Locale.setDefault(m);
+          j = paramI;
+          k = paramI;
+          if (paramInt == 0) {
+            l = k;
+          } else {
+            l = new i(m, k);
+          }
+          return;
+        }
+      }
+      throw new IllegalArgumentException("locales is empty");
+    }
+    throw new NullPointerException("locales is null");
+  }
+  
+  private int b(Collection<String> paramCollection, boolean paramBoolean)
+  {
+    Locale[] arrayOfLocale = n;
+    if (arrayOfLocale.length == 1) {
+      return 0;
+    }
+    if (arrayOfLocale.length == 0) {
+      return -1;
+    }
+    int i1;
+    if (paramBoolean)
+    {
+      i1 = d(h);
+      if (i1 == 0) {
+        return 0;
+      }
+      if (i1 < Integer.MAX_VALUE) {}
+    }
+    else
+    {
+      i1 = Integer.MAX_VALUE;
+    }
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext())
+    {
+      int i2 = d(g.a((String)paramCollection.next()));
+      if (i2 == 0) {
+        return 0;
+      }
+      if (i2 < i1) {
+        i1 = i2;
+      }
+    }
+    if (i1 == Integer.MAX_VALUE) {
+      return 0;
+    }
+    return i1;
+  }
+  
+  @F
+  @N({b.b.a.N.a.b})
+  @O(min=1L)
+  public static i b()
+  {
+    Object localObject2 = Locale.getDefault();
+    synchronized (i)
+    {
+      if (!((Locale)localObject2).equals(m))
+      {
+        m = (Locale)localObject2;
+        if ((k != null) && (((Locale)localObject2).equals(k.a(0))))
+        {
+          localObject2 = k;
+          return localObject2;
+        }
+        k = new i((Locale)localObject2, j);
+        l = k;
+      }
+      localObject2 = k;
+      return localObject2;
+    }
+  }
+  
+  public static boolean b(String paramString)
+  {
+    return ("en-XA".equals(paramString)) || ("ar-XB".equals(paramString));
+  }
+  
+  @F
+  @N({b.b.a.N.a.b})
+  public static i c()
+  {
+    return b;
+  }
+  
+  public static boolean c(Locale paramLocale)
+  {
+    return (e.equals(paramLocale)) || (f.equals(paramLocale));
+  }
+  
+  private int d(Locale paramLocale)
+  {
+    int i1 = 0;
+    for (;;)
+    {
+      Locale[] arrayOfLocale = n;
+      if (i1 >= arrayOfLocale.length) {
+        break;
+      }
+      if (a(paramLocale, arrayOfLocale[i1]) > 0) {
+        return i1;
+      }
+      i1 += 1;
+    }
+    return Integer.MAX_VALUE;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static boolean e(@G String[] paramArrayOfString)
+  {
+    if (paramArrayOfString == null) {
+      return true;
+    }
+    if (paramArrayOfString.length > 3) {
+      return false;
+    }
+    int i2 = paramArrayOfString.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      String str = paramArrayOfString[i1];
+      if ((!str.isEmpty()) && (!b(str))) {
+        return false;
+      }
+      i1 += 1;
+    }
+    return true;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public int a(Collection<String> paramCollection)
+  {
+    return b(paramCollection, true);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public Locale a(int paramInt)
+  {
+    if (paramInt >= 0)
+    {
+      Locale[] arrayOfLocale = n;
+      if (paramInt < arrayOfLocale.length) {
+        return arrayOfLocale[paramInt];
+      }
+    }
+    return null;
+  }
+  
+  @G
+  @N({b.b.a.N.a.b})
+  public Locale a(String[] paramArrayOfString)
+  {
+    return a(Arrays.asList(paramArrayOfString), false);
+  }
+  
+  @N({b.b.a.N.a.b})
+  @x(from=-1L)
+  public int b(Locale paramLocale)
+  {
+    int i1 = 0;
+    for (;;)
+    {
+      Locale[] arrayOfLocale = n;
+      if (i1 >= arrayOfLocale.length) {
+        break;
+      }
+      if (arrayOfLocale[i1].equals(paramLocale)) {
+        return i1;
+      }
+      i1 += 1;
+    }
+    return -1;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public int b(String[] paramArrayOfString)
+  {
+    return b(Arrays.asList(paramArrayOfString), false);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public int c(String[] paramArrayOfString)
+  {
+    return a(Arrays.asList(paramArrayOfString));
+  }
+  
+  @G
+  @N({b.b.a.N.a.b})
+  public Locale d(String[] paramArrayOfString)
+  {
+    return a(Arrays.asList(paramArrayOfString), true);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public boolean d()
+  {
+    return n.length == 0;
+  }
+  
+  @N({b.b.a.N.a.b})
+  @x(from=0L)
+  public int e()
+  {
+    return n.length;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if (!(paramObject instanceof i)) {
+      return false;
+    }
+    paramObject = n;
+    if (n.length != paramObject.length) {
+      return false;
+    }
+    int i1 = 0;
+    for (;;)
+    {
+      Locale[] arrayOfLocale = n;
+      if (i1 >= arrayOfLocale.length) {
+        break;
+      }
+      if (!arrayOfLocale[i1].equals(paramObject[i1])) {
+        return false;
+      }
+      i1 += 1;
+    }
+    return true;
+  }
+  
+  @F
+  @N({b.b.a.N.a.b})
+  public String f()
+  {
+    return o;
+  }
+  
+  public int hashCode()
+  {
+    int i2 = 1;
+    int i1 = 0;
+    for (;;)
+    {
+      Locale[] arrayOfLocale = n;
+      if (i1 >= arrayOfLocale.length) {
+        break;
+      }
+      i2 = i2 * 31 + arrayOfLocale[i1].hashCode();
+      i1 += 1;
+    }
+    return i2;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.b("[");
+    int i1 = 0;
+    for (;;)
+    {
+      Locale[] arrayOfLocale = n;
+      if (i1 >= arrayOfLocale.length) {
+        break;
+      }
+      localStringBuilder.append(arrayOfLocale[i1]);
+      if (i1 < n.length - 1) {
+        localStringBuilder.append(',');
+      }
+      i1 += 1;
+    }
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+}

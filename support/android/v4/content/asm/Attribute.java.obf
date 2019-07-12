@@ -1,0 +1,161 @@
+package b.b.x.b.b;
+
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.content.res.XmlResourceParser;
+import android.graphics.Shader;
+import android.util.AttributeSet;
+import android.util.Xml;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.k;
+import b.b.a.m;
+import java.io.IOException;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+@N({b.b.a.N.a.b})
+public final class b
+{
+  public static final String a = "ComplexColorCompat";
+  public final Shader b;
+  public final ColorStateList c;
+  public int d;
+  
+  public b(Shader paramShader, ColorStateList paramColorStateList, @k int paramInt)
+  {
+    b = paramShader;
+    c = paramColorStateList;
+    d = paramInt;
+  }
+  
+  public static b a(@k int paramInt)
+  {
+    return new b(null, null, paramInt);
+  }
+  
+  public static b a(@F ColorStateList paramColorStateList)
+  {
+    return new b(null, paramColorStateList, paramColorStateList.getDefaultColor());
+  }
+  
+  @F
+  public static b a(@F Resources paramResources, @m int paramInt, @G Resources.Theme paramTheme)
+    throws IOException, XmlPullParserException
+  {
+    XmlResourceParser localXmlResourceParser = paramResources.getXml(paramInt);
+    AttributeSet localAttributeSet = Xml.asAttributeSet(localXmlResourceParser);
+    do
+    {
+      paramInt = localXmlResourceParser.next();
+    } while ((paramInt != 2) && (paramInt != 1));
+    if (paramInt == 2)
+    {
+      String str = localXmlResourceParser.getName();
+      paramInt = -1;
+      int i = str.hashCode();
+      if (i != 89650992)
+      {
+        if ((i == 1191572447) && (str.equals("selector"))) {
+          paramInt = 0;
+        }
+      }
+      else if (str.equals("gradient")) {
+        paramInt = 1;
+      }
+      if (paramInt != 0)
+      {
+        if (paramInt == 1) {
+          return a(e.a(paramResources, localXmlResourceParser, localAttributeSet, paramTheme));
+        }
+        paramResources = new StringBuilder();
+        paramResources.append(localXmlResourceParser.getPositionDescription());
+        paramResources.append(": unsupported complex color tag ");
+        paramResources.append(str);
+        throw new XmlPullParserException(paramResources.toString());
+      }
+      return a(a.a(paramResources, localXmlResourceParser, localAttributeSet, paramTheme));
+    }
+    paramResources = new XmlPullParserException("No start tag found");
+    for (;;)
+    {
+      throw paramResources;
+    }
+  }
+  
+  public static b a(@F Shader paramShader)
+  {
+    return new b(paramShader, null, 0);
+  }
+  
+  @G
+  public static b b(@F Resources paramResources, @m int paramInt, @G Resources.Theme paramTheme)
+  {
+    try
+    {
+      paramResources = a(paramResources, paramInt, paramTheme);
+      return paramResources;
+    }
+    catch (Exception paramResources)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  @k
+  public int a()
+  {
+    return d;
+  }
+  
+  public boolean a(int[] paramArrayOfInt)
+  {
+    if (d())
+    {
+      ColorStateList localColorStateList = c;
+      int i = localColorStateList.getColorForState(paramArrayOfInt, localColorStateList.getDefaultColor());
+      if (i != d)
+      {
+        d = i;
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  @G
+  public Shader b()
+  {
+    return b;
+  }
+  
+  public void b(@k int paramInt)
+  {
+    d = paramInt;
+  }
+  
+  public boolean c()
+  {
+    return b != null;
+  }
+  
+  public boolean d()
+  {
+    if (b == null)
+    {
+      ColorStateList localColorStateList = c;
+      if ((localColorStateList != null) && (localColorStateList.isStateful())) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public boolean e()
+  {
+    return (c()) || (d != 0);
+  }
+}

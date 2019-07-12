@@ -1,0 +1,1033 @@
+package b.b.m.a;
+
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.Keyframe;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
+import android.content.res.Resources.Theme;
+import android.content.res.TypedArray;
+import android.graphics.Path;
+import android.graphics.PathMeasure;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.util.Xml;
+import android.view.InflateException;
+import b.b.a.N;
+import b.b.a.b;
+import b.b.x.b.b.j;
+import b.b.x.d.d;
+import b.b.x.d.d.b;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+@N({b.b.a.N.a.b})
+public class h
+{
+  public static final String a = "AnimatorInflater";
+  public static final int b = 0;
+  public static final int c = 100;
+  public static final int d = 0;
+  public static final int e = 1;
+  public static final int f = 2;
+  public static final int g = 3;
+  public static final int h = 4;
+  public static final boolean i = false;
+  
+  public h() {}
+  
+  public static int a(Resources paramResources, Resources.Theme paramTheme, AttributeSet paramAttributeSet, XmlPullParser paramXmlPullParser)
+  {
+    paramResources = j.a(paramResources, paramTheme, paramAttributeSet, a.ga);
+    int m = 0;
+    paramTheme = j.b(paramResources, paramXmlPullParser, "value", 0);
+    int j;
+    if (paramTheme != null) {
+      j = 1;
+    } else {
+      j = 0;
+    }
+    int k = m;
+    if (j != 0)
+    {
+      k = m;
+      if (a(type)) {
+        k = 3;
+      }
+    }
+    paramResources.recycle();
+    return k;
+  }
+  
+  public static int a(TypedArray paramTypedArray, int paramInt1, int paramInt2)
+  {
+    TypedValue localTypedValue = paramTypedArray.peekValue(paramInt1);
+    int k = 1;
+    int m = 0;
+    if (localTypedValue != null) {
+      paramInt1 = 1;
+    } else {
+      paramInt1 = 0;
+    }
+    int j;
+    if (paramInt1 != 0) {
+      j = type;
+    } else {
+      j = 0;
+    }
+    paramTypedArray = paramTypedArray.peekValue(paramInt2);
+    if (paramTypedArray != null) {
+      paramInt2 = k;
+    } else {
+      paramInt2 = 0;
+    }
+    if (paramInt2 != 0) {
+      k = type;
+    } else {
+      k = 0;
+    }
+    if ((paramInt1 == 0) || (!a(j)))
+    {
+      paramInt1 = m;
+      if (paramInt2 != 0)
+      {
+        paramInt1 = m;
+        if (!a(k)) {}
+      }
+    }
+    else
+    {
+      paramInt1 = 3;
+    }
+    return paramInt1;
+  }
+  
+  public static Animator a(Context paramContext, @b int paramInt)
+    throws Resources.NotFoundException
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      return AnimatorInflater.loadAnimator(paramContext, paramInt);
+    }
+    return a(paramContext, paramContext.getResources(), paramContext.getTheme(), paramInt);
+  }
+  
+  public static Animator a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, @b int paramInt)
+    throws Resources.NotFoundException
+  {
+    return a(paramContext, paramResources, paramTheme, paramInt, 1.0F);
+  }
+  
+  /* Error */
+  public static Animator a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, @b int paramInt, float paramFloat)
+    throws Resources.NotFoundException
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 6
+    //   3: aconst_null
+    //   4: astore 7
+    //   6: aconst_null
+    //   7: astore 5
+    //   9: aload_1
+    //   10: iload_3
+    //   11: invokevirtual 110	android/content/res/Resources:getAnimation	(I)Landroid/content/res/XmlResourceParser;
+    //   14: astore 8
+    //   16: aload 8
+    //   18: astore 5
+    //   20: aload 8
+    //   22: astore 6
+    //   24: aload 8
+    //   26: astore 7
+    //   28: aload_0
+    //   29: aload_1
+    //   30: aload_2
+    //   31: aload 8
+    //   33: fload 4
+    //   35: invokestatic 113	b/b/m/a/h:a	(Landroid/content/Context;Landroid/content/res/Resources;Landroid/content/res/Resources$Theme;Lorg/xmlpull/v1/XmlPullParser;F)Landroid/animation/Animator;
+    //   38: astore_0
+    //   39: aload 8
+    //   41: invokeinterface 118 1 0
+    //   46: aload_0
+    //   47: areturn
+    //   48: astore_0
+    //   49: goto +141 -> 190
+    //   52: astore_0
+    //   53: aload 6
+    //   55: astore 5
+    //   57: new 120	java/lang/StringBuilder
+    //   60: dup
+    //   61: invokespecial 121	java/lang/StringBuilder:<init>	()V
+    //   64: astore_1
+    //   65: aload 6
+    //   67: astore 5
+    //   69: aload_1
+    //   70: ldc 123
+    //   72: invokevirtual 127	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   75: pop
+    //   76: aload 6
+    //   78: astore 5
+    //   80: aload_1
+    //   81: iload_3
+    //   82: invokestatic 133	java/lang/Integer:toHexString	(I)Ljava/lang/String;
+    //   85: invokevirtual 127	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   88: pop
+    //   89: aload 6
+    //   91: astore 5
+    //   93: new 71	android/content/res/Resources$NotFoundException
+    //   96: dup
+    //   97: aload_1
+    //   98: invokevirtual 137	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   101: invokespecial 140	android/content/res/Resources$NotFoundException:<init>	(Ljava/lang/String;)V
+    //   104: astore_1
+    //   105: aload 6
+    //   107: astore 5
+    //   109: aload_1
+    //   110: aload_0
+    //   111: invokevirtual 144	android/content/res/Resources$NotFoundException:initCause	(Ljava/lang/Throwable;)Ljava/lang/Throwable;
+    //   114: pop
+    //   115: aload 6
+    //   117: astore 5
+    //   119: aload_1
+    //   120: athrow
+    //   121: astore_0
+    //   122: aload 7
+    //   124: astore 5
+    //   126: new 120	java/lang/StringBuilder
+    //   129: dup
+    //   130: invokespecial 121	java/lang/StringBuilder:<init>	()V
+    //   133: astore_1
+    //   134: aload 7
+    //   136: astore 5
+    //   138: aload_1
+    //   139: ldc 123
+    //   141: invokevirtual 127	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   144: pop
+    //   145: aload 7
+    //   147: astore 5
+    //   149: aload_1
+    //   150: iload_3
+    //   151: invokestatic 133	java/lang/Integer:toHexString	(I)Ljava/lang/String;
+    //   154: invokevirtual 127	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   157: pop
+    //   158: aload 7
+    //   160: astore 5
+    //   162: new 71	android/content/res/Resources$NotFoundException
+    //   165: dup
+    //   166: aload_1
+    //   167: invokevirtual 137	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   170: invokespecial 140	android/content/res/Resources$NotFoundException:<init>	(Ljava/lang/String;)V
+    //   173: astore_1
+    //   174: aload 7
+    //   176: astore 5
+    //   178: aload_1
+    //   179: aload_0
+    //   180: invokevirtual 144	android/content/res/Resources$NotFoundException:initCause	(Ljava/lang/Throwable;)Ljava/lang/Throwable;
+    //   183: pop
+    //   184: aload 7
+    //   186: astore 5
+    //   188: aload_1
+    //   189: athrow
+    //   190: aload 5
+    //   192: ifnull +10 -> 202
+    //   195: aload 5
+    //   197: invokeinterface 118 1 0
+    //   202: aload_0
+    //   203: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	204	0	paramContext	Context
+    //   0	204	1	paramResources	Resources
+    //   0	204	2	paramTheme	Resources.Theme
+    //   0	204	3	paramInt	int
+    //   0	204	4	paramFloat	float
+    //   7	189	5	localObject1	Object
+    //   1	115	6	localObject2	Object
+    //   4	181	7	localObject3	Object
+    //   14	26	8	localXmlResourceParser	android.content.res.XmlResourceParser
+    // Exception table:
+    //   from	to	target	type
+    //   9	16	48	finally
+    //   28	39	48	finally
+    //   57	65	48	finally
+    //   69	76	48	finally
+    //   80	89	48	finally
+    //   93	105	48	finally
+    //   109	115	48	finally
+    //   119	121	48	finally
+    //   126	134	48	finally
+    //   138	145	48	finally
+    //   149	158	48	finally
+    //   162	174	48	finally
+    //   178	184	48	finally
+    //   188	190	48	finally
+    //   9	16	52	java/io/IOException
+    //   28	39	52	java/io/IOException
+    //   9	16	121	org/xmlpull/v1/XmlPullParserException
+    //   28	39	121	org/xmlpull/v1/XmlPullParserException
+  }
+  
+  public static Animator a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, XmlPullParser paramXmlPullParser, float paramFloat)
+    throws XmlPullParserException, IOException
+  {
+    return a(paramContext, paramResources, paramTheme, paramXmlPullParser, Xml.asAttributeSet(paramXmlPullParser), null, 0, paramFloat);
+  }
+  
+  public static Animator a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, AnimatorSet paramAnimatorSet, int paramInt, float paramFloat)
+    throws XmlPullParserException, IOException
+  {
+    int m = paramXmlPullParser.getDepth();
+    Object localObject3 = null;
+    Object localObject2 = null;
+    int k;
+    int j;
+    for (;;)
+    {
+      int n = paramXmlPullParser.next();
+      k = 0;
+      j = 0;
+      if (((n == 3) && (paramXmlPullParser.getDepth() <= m)) || (n == 1)) {
+        break label326;
+      }
+      if (n == 2)
+      {
+        Object localObject1 = paramXmlPullParser.getName();
+        if (((String)localObject1).equals("objectAnimator"))
+        {
+          localObject1 = a(paramContext, paramResources, paramTheme, paramAttributeSet, paramFloat, paramXmlPullParser);
+        }
+        else
+        {
+          if (!((String)localObject1).equals("animator")) {
+            break label121;
+          }
+          localObject1 = a(paramContext, paramResources, paramTheme, paramAttributeSet, null, paramFloat, paramXmlPullParser);
+        }
+        break label242;
+        label121:
+        if (((String)localObject1).equals("set"))
+        {
+          localObject1 = new AnimatorSet();
+          localObject3 = j.a(paramResources, paramTheme, paramAttributeSet, a.Z);
+          a(paramContext, paramResources, paramTheme, paramXmlPullParser, paramAttributeSet, (AnimatorSet)localObject1, j.b((TypedArray)localObject3, paramXmlPullParser, "ordering", 0, 0), paramFloat);
+          ((TypedArray)localObject3).recycle();
+        }
+        else
+        {
+          if (!((String)localObject1).equals("propertyValuesHolder")) {
+            break;
+          }
+          localObject1 = a(paramContext, paramResources, paramTheme, paramXmlPullParser, Xml.asAttributeSet(paramXmlPullParser));
+          if ((localObject1 != null) && (localObject3 != null) && ((localObject3 instanceof ValueAnimator))) {
+            ((ValueAnimator)localObject3).setValues((PropertyValuesHolder[])localObject1);
+          }
+          j = 1;
+          localObject1 = localObject3;
+        }
+        label242:
+        localObject3 = localObject1;
+        if (paramAnimatorSet != null)
+        {
+          localObject3 = localObject1;
+          if (j == 0)
+          {
+            Object localObject4 = localObject2;
+            if (localObject2 == null) {
+              localObject4 = new ArrayList();
+            }
+            ((ArrayList)localObject4).add(localObject1);
+            localObject3 = localObject1;
+            localObject2 = localObject4;
+          }
+        }
+      }
+    }
+    paramContext = f.a.a.a.a.b("Unknown animator name: ");
+    paramContext.append(paramXmlPullParser.getName());
+    throw new RuntimeException(paramContext.toString());
+    label326:
+    if ((paramAnimatorSet != null) && (localObject2 != null))
+    {
+      paramContext = new Animator[localObject2.size()];
+      paramResources = localObject2.iterator();
+      j = k;
+      while (paramResources.hasNext())
+      {
+        paramContext[j] = ((Animator)paramResources.next());
+        j += 1;
+      }
+      if (paramInt == 0)
+      {
+        paramAnimatorSet.playTogether(paramContext);
+        return localObject3;
+      }
+      paramAnimatorSet.playSequentially(paramContext);
+    }
+    return localObject3;
+  }
+  
+  public static Keyframe a(Keyframe paramKeyframe, float paramFloat)
+  {
+    if (paramKeyframe.getType() == Float.TYPE) {
+      return Keyframe.ofFloat(paramFloat);
+    }
+    if (paramKeyframe.getType() == Integer.TYPE) {
+      return Keyframe.ofInt(paramFloat);
+    }
+    return Keyframe.ofObject(paramFloat);
+  }
+  
+  public static Keyframe a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, AttributeSet paramAttributeSet, int paramInt, XmlPullParser paramXmlPullParser)
+    throws XmlPullParserException, IOException
+  {
+    paramTheme = j.a(paramResources, paramTheme, paramAttributeSet, a.ga);
+    float f1 = j.a(paramTheme, paramXmlPullParser, "fraction", 3, -1.0F);
+    paramResources = j.b(paramTheme, paramXmlPullParser, "value", 0);
+    int k;
+    if (paramResources != null) {
+      k = 1;
+    } else {
+      k = 0;
+    }
+    int j = paramInt;
+    if (paramInt == 4) {
+      if ((k != 0) && (a(type))) {
+        j = 3;
+      } else {
+        j = 0;
+      }
+    }
+    if (k != 0)
+    {
+      if (j != 0)
+      {
+        if ((j != 1) && (j != 3)) {
+          paramResources = null;
+        } else {
+          paramResources = Keyframe.ofInt(f1, j.b(paramTheme, paramXmlPullParser, "value", 0, 0));
+        }
+      }
+      else {
+        paramResources = Keyframe.ofFloat(f1, j.a(paramTheme, paramXmlPullParser, "value", 0, 0.0F));
+      }
+    }
+    else if (j == 0) {
+      paramResources = Keyframe.ofFloat(f1);
+    } else {
+      paramResources = Keyframe.ofInt(f1);
+    }
+    paramInt = j.c(paramTheme, paramXmlPullParser, "interpolator", 1, 0);
+    if (paramInt > 0) {
+      paramResources.setInterpolator(g.a(paramContext, paramInt));
+    }
+    paramTheme.recycle();
+    return paramResources;
+  }
+  
+  public static ObjectAnimator a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, AttributeSet paramAttributeSet, float paramFloat, XmlPullParser paramXmlPullParser)
+    throws Resources.NotFoundException
+  {
+    ObjectAnimator localObjectAnimator = new ObjectAnimator();
+    a(paramContext, paramResources, paramTheme, paramAttributeSet, localObjectAnimator, paramFloat, paramXmlPullParser);
+    return localObjectAnimator;
+  }
+  
+  public static PropertyValuesHolder a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, XmlPullParser paramXmlPullParser, String paramString, int paramInt)
+    throws XmlPullParserException, IOException
+  {
+    Object localObject3 = null;
+    Object localObject1 = null;
+    int k = paramInt;
+    for (;;)
+    {
+      paramInt = paramXmlPullParser.next();
+      if ((paramInt == 3) || (paramInt == 1)) {
+        break;
+      }
+      if (paramXmlPullParser.getName().equals("keyframe"))
+      {
+        paramInt = k;
+        if (k == 4) {
+          paramInt = a(paramResources, paramTheme, Xml.asAttributeSet(paramXmlPullParser), paramXmlPullParser);
+        }
+        Keyframe localKeyframe = a(paramContext, paramResources, paramTheme, Xml.asAttributeSet(paramXmlPullParser), paramInt, paramXmlPullParser);
+        Object localObject2 = localObject1;
+        if (localKeyframe != null)
+        {
+          localObject2 = localObject1;
+          if (localObject1 == null) {
+            localObject2 = new ArrayList();
+          }
+          ((ArrayList)localObject2).add(localKeyframe);
+        }
+        paramXmlPullParser.next();
+        k = paramInt;
+        localObject1 = localObject2;
+      }
+    }
+    paramContext = localObject3;
+    if (localObject1 != null)
+    {
+      int m = localObject1.size();
+      paramContext = localObject3;
+      if (m > 0)
+      {
+        int j = 0;
+        paramContext = (Keyframe)localObject1.get(0);
+        paramResources = (Keyframe)localObject1.get(m - 1);
+        float f1 = paramResources.getFraction();
+        paramInt = m;
+        if (f1 < 1.0F) {
+          if (f1 < 0.0F)
+          {
+            paramResources.setFraction(1.0F);
+            paramInt = m;
+          }
+          else
+          {
+            localObject1.add(localObject1.size(), a(paramResources, 1.0F));
+            paramInt = m + 1;
+          }
+        }
+        f1 = paramContext.getFraction();
+        m = paramInt;
+        if (f1 != 0.0F) {
+          if (f1 < 0.0F)
+          {
+            paramContext.setFraction(0.0F);
+            m = paramInt;
+          }
+          else
+          {
+            localObject1.add(0, a(paramContext, 0.0F));
+            m = paramInt + 1;
+          }
+        }
+        paramContext = new Keyframe[m];
+        localObject1.toArray(paramContext);
+        paramInt = j;
+        while (paramInt < m)
+        {
+          paramResources = paramContext[paramInt];
+          if (paramResources.getFraction() < 0.0F) {
+            if (paramInt == 0)
+            {
+              paramResources.setFraction(0.0F);
+            }
+            else
+            {
+              int i1 = m - 1;
+              if (paramInt == i1)
+              {
+                paramResources.setFraction(1.0F);
+              }
+              else
+              {
+                j = paramInt + 1;
+                int n = paramInt;
+                while ((j < i1) && (paramContext[j].getFraction() < 0.0F))
+                {
+                  n = j;
+                  j += 1;
+                }
+                a(paramContext, paramContext[(n + 1)].getFraction() - paramContext[(paramInt - 1)].getFraction(), paramInt, n);
+              }
+            }
+          }
+          paramInt += 1;
+        }
+        paramResources = PropertyValuesHolder.ofKeyframe(paramString, paramContext);
+        paramContext = paramResources;
+        if (k == 3)
+        {
+          paramResources.setEvaluator(i.a);
+          paramContext = paramResources;
+        }
+      }
+    }
+    return paramContext;
+  }
+  
+  public static PropertyValuesHolder a(TypedArray paramTypedArray, int paramInt1, int paramInt2, int paramInt3, String paramString)
+  {
+    Object localObject1 = paramTypedArray.peekValue(paramInt2);
+    int k;
+    if (localObject1 != null) {
+      k = 1;
+    } else {
+      k = 0;
+    }
+    int n;
+    if (k != 0) {
+      n = type;
+    } else {
+      n = 0;
+    }
+    localObject1 = paramTypedArray.peekValue(paramInt3);
+    int m;
+    if (localObject1 != null) {
+      m = 1;
+    } else {
+      m = 0;
+    }
+    int i1;
+    if (m != 0) {
+      i1 = type;
+    } else {
+      i1 = 0;
+    }
+    int j = paramInt1;
+    if (paramInt1 == 4) {
+      if (((k != 0) && (a(n))) || ((m != 0) && (a(i1)))) {
+        j = 3;
+      } else {
+        j = 0;
+      }
+    }
+    if (j == 0) {
+      paramInt1 = 1;
+    } else {
+      paramInt1 = 0;
+    }
+    localObject1 = null;
+    String str = null;
+    Object localObject2;
+    if (j == 2)
+    {
+      localObject2 = paramTypedArray.getString(paramInt2);
+      str = paramTypedArray.getString(paramInt3);
+      d.b[] arrayOfB1 = d.a((String)localObject2);
+      d.b[] arrayOfB2 = d.a(str);
+      if (arrayOfB1 == null)
+      {
+        paramTypedArray = (TypedArray)localObject1;
+        if (arrayOfB2 == null) {}
+      }
+      else
+      {
+        if (arrayOfB1 != null)
+        {
+          paramTypedArray = new a();
+          if (arrayOfB2 != null)
+          {
+            if (d.a(arrayOfB1, arrayOfB2))
+            {
+              paramTypedArray = PropertyValuesHolder.ofObject(paramString, paramTypedArray, new Object[] { arrayOfB1, arrayOfB2 });
+            }
+            else
+            {
+              paramTypedArray = new StringBuilder();
+              paramTypedArray.append(" Can't morph from ");
+              paramTypedArray.append((String)localObject2);
+              paramTypedArray.append(" to ");
+              paramTypedArray.append(str);
+              throw new InflateException(paramTypedArray.toString());
+            }
+          }
+          else {
+            paramTypedArray = PropertyValuesHolder.ofObject(paramString, paramTypedArray, new Object[] { arrayOfB1 });
+          }
+          return paramTypedArray;
+        }
+        paramTypedArray = (TypedArray)localObject1;
+        if (arrayOfB2 != null) {
+          return PropertyValuesHolder.ofObject(paramString, new a(), new Object[] { arrayOfB2 });
+        }
+      }
+    }
+    else
+    {
+      if (j == 3) {
+        localObject2 = i.a;
+      } else {
+        localObject2 = null;
+      }
+      if (paramInt1 != 0)
+      {
+        float f1;
+        if (k != 0)
+        {
+          if (n == 5) {
+            f1 = paramTypedArray.getDimension(paramInt2, 0.0F);
+          } else {
+            f1 = paramTypedArray.getFloat(paramInt2, 0.0F);
+          }
+          if (m != 0)
+          {
+            float f2;
+            if (i1 == 5) {
+              f2 = paramTypedArray.getDimension(paramInt3, 0.0F);
+            } else {
+              f2 = paramTypedArray.getFloat(paramInt3, 0.0F);
+            }
+            paramTypedArray = PropertyValuesHolder.ofFloat(paramString, new float[] { f1, f2 });
+          }
+          else
+          {
+            paramTypedArray = PropertyValuesHolder.ofFloat(paramString, new float[] { f1 });
+          }
+        }
+        else
+        {
+          if (i1 == 5) {
+            f1 = paramTypedArray.getDimension(paramInt3, 0.0F);
+          } else {
+            f1 = paramTypedArray.getFloat(paramInt3, 0.0F);
+          }
+          paramTypedArray = PropertyValuesHolder.ofFloat(paramString, new float[] { f1 });
+        }
+        localObject1 = paramTypedArray;
+      }
+      else if (k != 0)
+      {
+        if (n == 5) {
+          paramInt1 = (int)paramTypedArray.getDimension(paramInt2, 0.0F);
+        } else if (a(n)) {
+          paramInt1 = paramTypedArray.getColor(paramInt2, 0);
+        } else {
+          paramInt1 = paramTypedArray.getInt(paramInt2, 0);
+        }
+        if (m != 0)
+        {
+          if (i1 == 5) {
+            paramInt2 = (int)paramTypedArray.getDimension(paramInt3, 0.0F);
+          } else if (a(i1)) {
+            paramInt2 = paramTypedArray.getColor(paramInt3, 0);
+          } else {
+            paramInt2 = paramTypedArray.getInt(paramInt3, 0);
+          }
+          localObject1 = PropertyValuesHolder.ofInt(paramString, new int[] { paramInt1, paramInt2 });
+        }
+        else
+        {
+          localObject1 = PropertyValuesHolder.ofInt(paramString, new int[] { paramInt1 });
+        }
+      }
+      else
+      {
+        localObject1 = str;
+        if (m != 0)
+        {
+          if (i1 == 5) {
+            paramInt1 = (int)paramTypedArray.getDimension(paramInt3, 0.0F);
+          } else if (a(i1)) {
+            paramInt1 = paramTypedArray.getColor(paramInt3, 0);
+          } else {
+            paramInt1 = paramTypedArray.getInt(paramInt3, 0);
+          }
+          localObject1 = PropertyValuesHolder.ofInt(paramString, new int[] { paramInt1 });
+        }
+      }
+      paramTypedArray = (TypedArray)localObject1;
+      if (localObject1 != null)
+      {
+        paramTypedArray = (TypedArray)localObject1;
+        if (localObject2 != null)
+        {
+          ((PropertyValuesHolder)localObject1).setEvaluator((TypeEvaluator)localObject2);
+          paramTypedArray = (TypedArray)localObject1;
+        }
+      }
+    }
+    return paramTypedArray;
+  }
+  
+  public static ValueAnimator a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, AttributeSet paramAttributeSet, ValueAnimator paramValueAnimator, float paramFloat, XmlPullParser paramXmlPullParser)
+    throws Resources.NotFoundException
+  {
+    TypedArray localTypedArray = j.a(paramResources, paramTheme, paramAttributeSet, a.Q);
+    paramTheme = j.a(paramResources, paramTheme, paramAttributeSet, a.la);
+    paramResources = paramValueAnimator;
+    if (paramValueAnimator == null) {
+      paramResources = new ValueAnimator();
+    }
+    a(paramResources, localTypedArray, paramTheme, paramFloat, paramXmlPullParser);
+    int j = j.c(localTypedArray, paramXmlPullParser, "interpolator", 0, 0);
+    if (j > 0) {
+      paramResources.setInterpolator(g.a(paramContext, j));
+    }
+    localTypedArray.recycle();
+    if (paramTheme != null) {
+      paramTheme.recycle();
+    }
+    return paramResources;
+  }
+  
+  public static void a(ValueAnimator paramValueAnimator, TypedArray paramTypedArray, int paramInt, float paramFloat, XmlPullParser paramXmlPullParser)
+  {
+    paramValueAnimator = (ObjectAnimator)paramValueAnimator;
+    String str1 = j.a(paramTypedArray, paramXmlPullParser, "pathData", 1);
+    if (str1 != null)
+    {
+      String str2 = j.a(paramTypedArray, paramXmlPullParser, "propertyXName", 2);
+      paramXmlPullParser = j.a(paramTypedArray, paramXmlPullParser, "propertyYName", 3);
+      if ((paramInt == 2) || ((str2 == null) && (paramXmlPullParser == null)))
+      {
+        paramValueAnimator = new StringBuilder();
+        paramValueAnimator.append(paramTypedArray.getPositionDescription());
+        paramValueAnimator.append(" propertyXName or propertyYName is needed for PathData");
+        throw new InflateException(paramValueAnimator.toString());
+      }
+      a(d.b(str1), paramValueAnimator, paramFloat * 0.5F, str2, paramXmlPullParser);
+      return;
+    }
+    paramValueAnimator.setPropertyName(j.a(paramTypedArray, paramXmlPullParser, "propertyName", 0));
+  }
+  
+  public static void a(ValueAnimator paramValueAnimator, TypedArray paramTypedArray1, TypedArray paramTypedArray2, float paramFloat, XmlPullParser paramXmlPullParser)
+  {
+    long l1 = j.b(paramTypedArray1, paramXmlPullParser, "duration", 1, 300);
+    long l2 = j.b(paramTypedArray1, paramXmlPullParser, "startOffset", 2, 0);
+    int k = j.b(paramTypedArray1, paramXmlPullParser, "valueType", 7, 4);
+    int m = k;
+    if (j.a(paramXmlPullParser, "valueFrom"))
+    {
+      m = k;
+      if (j.a(paramXmlPullParser, "valueTo"))
+      {
+        int j = k;
+        if (k == 4) {
+          j = a(paramTypedArray1, 5, 6);
+        }
+        PropertyValuesHolder localPropertyValuesHolder = a(paramTypedArray1, j, 5, 6, "");
+        m = j;
+        if (localPropertyValuesHolder != null)
+        {
+          paramValueAnimator.setValues(new PropertyValuesHolder[] { localPropertyValuesHolder });
+          m = j;
+        }
+      }
+    }
+    paramValueAnimator.setDuration(l1);
+    paramValueAnimator.setStartDelay(l2);
+    paramValueAnimator.setRepeatCount(j.b(paramTypedArray1, paramXmlPullParser, "repeatCount", 3, 0));
+    paramValueAnimator.setRepeatMode(j.b(paramTypedArray1, paramXmlPullParser, "repeatMode", 4, 1));
+    if (paramTypedArray2 != null) {
+      a(paramValueAnimator, paramTypedArray2, m, paramFloat, paramXmlPullParser);
+    }
+  }
+  
+  public static void a(Path paramPath, ObjectAnimator paramObjectAnimator, float paramFloat, String paramString1, String paramString2)
+  {
+    PathMeasure localPathMeasure = new PathMeasure(paramPath, false);
+    ArrayList localArrayList = new ArrayList();
+    localArrayList.add(Float.valueOf(0.0F));
+    float f1 = 0.0F;
+    float f2;
+    do
+    {
+      f2 = f1 + localPathMeasure.getLength();
+      localArrayList.add(Float.valueOf(f2));
+      f1 = f2;
+    } while (localPathMeasure.nextContour());
+    paramPath = new PathMeasure(paramPath, false);
+    int i1 = Math.min(100, (int)(f2 / paramFloat) + 1);
+    float[] arrayOfFloat2 = new float[i1];
+    float[] arrayOfFloat1 = new float[i1];
+    float[] arrayOfFloat3 = new float[2];
+    f1 = f2 / (i1 - 1);
+    int j = 0;
+    paramFloat = 0.0F;
+    int m;
+    for (int k = 0;; k = m)
+    {
+      localPathMeasure = null;
+      if (j >= i1) {
+        break;
+      }
+      paramPath.getPosTan(paramFloat - ((Float)localArrayList.get(k)).floatValue(), arrayOfFloat3, null);
+      arrayOfFloat2[j] = arrayOfFloat3[0];
+      arrayOfFloat1[j] = arrayOfFloat3[1];
+      paramFloat += f1;
+      int n = k + 1;
+      m = k;
+      if (n < localArrayList.size())
+      {
+        m = k;
+        if (paramFloat > ((Float)localArrayList.get(n)).floatValue())
+        {
+          paramPath.nextContour();
+          m = n;
+        }
+      }
+      j += 1;
+    }
+    if (paramString1 != null) {
+      paramPath = PropertyValuesHolder.ofFloat(paramString1, arrayOfFloat2);
+    } else {
+      paramPath = null;
+    }
+    paramString1 = localPathMeasure;
+    if (paramString2 != null) {
+      paramString1 = PropertyValuesHolder.ofFloat(paramString2, arrayOfFloat1);
+    }
+    if (paramPath == null)
+    {
+      paramObjectAnimator.setValues(new PropertyValuesHolder[] { paramString1 });
+      return;
+    }
+    if (paramString1 == null)
+    {
+      paramObjectAnimator.setValues(new PropertyValuesHolder[] { paramPath });
+      return;
+    }
+    paramObjectAnimator.setValues(new PropertyValuesHolder[] { paramPath, paramString1 });
+  }
+  
+  public static void a(Keyframe[] paramArrayOfKeyframe, float paramFloat, int paramInt1, int paramInt2)
+  {
+    paramFloat /= (paramInt2 - paramInt1 + 2);
+    while (paramInt1 <= paramInt2)
+    {
+      paramArrayOfKeyframe[paramInt1].setFraction(paramArrayOfKeyframe[(paramInt1 - 1)].getFraction() + paramFloat);
+      paramInt1 += 1;
+    }
+  }
+  
+  public static void a(Object[] paramArrayOfObject, String paramString)
+  {
+    if (paramArrayOfObject != null)
+    {
+      if (paramArrayOfObject.length == 0) {
+        return;
+      }
+      int k = paramArrayOfObject.length;
+      int j = 0;
+      while (j < k)
+      {
+        Keyframe localKeyframe = (Keyframe)paramArrayOfObject[j];
+        StringBuilder localStringBuilder = f.a.a.a.a.b("Keyframe ", j, ": fraction ");
+        float f1 = localKeyframe.getFraction();
+        String str = "null";
+        if (f1 < 0.0F) {
+          paramString = "null";
+        } else {
+          paramString = Float.valueOf(localKeyframe.getFraction());
+        }
+        localStringBuilder.append(paramString);
+        localStringBuilder.append(", ");
+        localStringBuilder.append(", value : ");
+        paramString = str;
+        if (localKeyframe.hasValue()) {
+          paramString = localKeyframe.getValue();
+        }
+        localStringBuilder.append(paramString);
+        localStringBuilder.toString();
+        j += 1;
+      }
+    }
+  }
+  
+  public static boolean a(int paramInt)
+  {
+    return (paramInt >= 28) && (paramInt <= 31);
+  }
+  
+  public static PropertyValuesHolder[] a(Context paramContext, Resources paramResources, Resources.Theme paramTheme, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet)
+    throws XmlPullParserException, IOException
+  {
+    Object localObject4 = null;
+    Object localObject1 = null;
+    int k;
+    int j;
+    for (;;)
+    {
+      k = paramXmlPullParser.getEventType();
+      j = 0;
+      if ((k == 3) || (k == 1)) {
+        break;
+      }
+      if (k != 2)
+      {
+        paramXmlPullParser.next();
+      }
+      else
+      {
+        if (paramXmlPullParser.getName().equals("propertyValuesHolder"))
+        {
+          TypedArray localTypedArray = j.a(paramResources, paramTheme, paramAttributeSet, a.ba);
+          String str = j.a(localTypedArray, paramXmlPullParser, "propertyName", 3);
+          j = j.b(localTypedArray, paramXmlPullParser, "valueType", 2, 4);
+          Object localObject2 = a(paramContext, paramResources, paramTheme, paramXmlPullParser, str, j);
+          Object localObject3 = localObject2;
+          if (localObject2 == null) {
+            localObject3 = a(localTypedArray, j, 0, 1, str);
+          }
+          localObject2 = localObject1;
+          if (localObject3 != null)
+          {
+            localObject2 = localObject1;
+            if (localObject1 == null) {
+              localObject2 = new ArrayList();
+            }
+            ((ArrayList)localObject2).add(localObject3);
+          }
+          localTypedArray.recycle();
+          localObject1 = localObject2;
+        }
+        paramXmlPullParser.next();
+      }
+    }
+    paramContext = localObject4;
+    if (localObject1 != null)
+    {
+      k = localObject1.size();
+      paramResources = new PropertyValuesHolder[k];
+      for (;;)
+      {
+        paramContext = paramResources;
+        if (j >= k) {
+          break;
+        }
+        paramResources[j] = ((PropertyValuesHolder)localObject1.get(j));
+        j += 1;
+      }
+    }
+    return paramContext;
+  }
+  
+  private static class a
+    implements TypeEvaluator<d.b[]>
+  {
+    public d.b[] a;
+    
+    public a() {}
+    
+    public a(d.b[] paramArrayOfB)
+    {
+      a = paramArrayOfB;
+    }
+    
+    public d.b[] a(float paramFloat, d.b[] paramArrayOfB1, d.b[] paramArrayOfB2)
+    {
+      if (d.a(paramArrayOfB1, paramArrayOfB2))
+      {
+        d.b[] arrayOfB = a;
+        if ((arrayOfB == null) || (!d.a(arrayOfB, paramArrayOfB1))) {
+          a = d.a(paramArrayOfB1);
+        }
+        int i = 0;
+        while (i < paramArrayOfB1.length)
+        {
+          a[i].a(paramArrayOfB1[i], paramArrayOfB2[i], paramFloat);
+          i += 1;
+        }
+        return a;
+      }
+      paramArrayOfB1 = new IllegalArgumentException("Can't interpolate between two incompatible pathData");
+      for (;;)
+      {
+        throw paramArrayOfB1;
+      }
+    }
+  }
+}

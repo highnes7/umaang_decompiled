@@ -1,0 +1,160 @@
+package com.google.android.gms.internal;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.os.RemoteException;
+import com.google.android.gms.analytics.zzj;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.stats.zza;
+import java.util.Collections;
+import java.util.List;
+
+public final class zzamy
+  extends zzams
+{
+  public final zzana zzdpa;
+  public zzaoj zzdpb;
+  public final zzanx zzdpc;
+  public final zzaoz zzdpd;
+  
+  public zzamy(zzamu paramZzamu)
+  {
+    super(paramZzamu);
+    zzdpd = new zzaoz(paramZzamu.zzvx());
+    zzdpa = new zzana(this);
+    zzdpc = new zzamz(this, paramZzamu);
+  }
+  
+  private final void onServiceDisconnected(ComponentName paramComponentName)
+  {
+    
+    if (zzdpb != null)
+    {
+      zzdpb = null;
+      zza("Disconnected from device AnalyticsService", paramComponentName);
+      zzwc().zzvu();
+    }
+  }
+  
+  private final void zza(zzaoj paramZzaoj)
+  {
+    zzj.zzuj();
+    zzdpb = paramZzaoj;
+    zzww();
+    zzwc().onServiceConnected();
+  }
+  
+  private final void zzww()
+  {
+    zzdpd.start();
+    zzdpc.zzs(((Long)zzaod.zzdsj.get()).longValue());
+  }
+  
+  private final void zzwx()
+  {
+    
+    if (!isConnected()) {
+      return;
+    }
+    zzdm("Inactivity, disconnecting from device AnalyticsService");
+    disconnect();
+  }
+  
+  public final boolean connect()
+  {
+    zzj.zzuj();
+    zzwk();
+    if (zzdpb != null) {
+      return true;
+    }
+    zzaoj localZzaoj = zzdpa.zzwy();
+    if (localZzaoj != null)
+    {
+      zzdpb = localZzaoj;
+      zzww();
+      return true;
+    }
+    return false;
+  }
+  
+  public final void disconnect()
+  {
+    zzj.zzuj();
+    zzwk();
+    try
+    {
+      zza.zzaky();
+      getContext().unbindService(zzdpa);
+    }
+    catch (IllegalStateException|IllegalArgumentException localIllegalStateException)
+    {
+      for (;;) {}
+    }
+    if (zzdpb != null)
+    {
+      zzdpb = null;
+      zzwc().zzvu();
+    }
+  }
+  
+  public final boolean isConnected()
+  {
+    zzj.zzuj();
+    zzwk();
+    return zzdpb != null;
+  }
+  
+  public final boolean zzb(zzaoi paramZzaoi)
+  {
+    zzbp.zzu(paramZzaoi);
+    zzj.zzuj();
+    zzwk();
+    zzaoj localZzaoj = zzdpb;
+    if (localZzaoj == null) {
+      return false;
+    }
+    String str;
+    if (paramZzaoi.zzyp()) {
+      str = zzanv.zzyb();
+    } else {
+      str = zzanv.zzyc();
+    }
+    List localList = Collections.emptyList();
+    try
+    {
+      localZzaoj.zza(paramZzaoi.zziy(), paramZzaoi.zzyn(), str, localList);
+      zzww();
+      return true;
+    }
+    catch (RemoteException paramZzaoi)
+    {
+      for (;;) {}
+    }
+    zzdm("Failed to send hits to AnalyticsService");
+    return false;
+  }
+  
+  public final void zzuk() {}
+  
+  public final boolean zzwv()
+  {
+    zzj.zzuj();
+    zzwk();
+    zzaoj localZzaoj = zzdpb;
+    if (localZzaoj == null) {
+      return false;
+    }
+    try
+    {
+      localZzaoj.zzvr();
+      zzww();
+      return true;
+    }
+    catch (RemoteException localRemoteException)
+    {
+      for (;;) {}
+    }
+    zzdm("Failed to clear hits from AnalyticsService");
+    return false;
+  }
+}

@@ -1,0 +1,194 @@
+package b.b.x.p;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import b.b.a.N;
+
+public class D
+  extends B
+{
+  @N({b.b.a.N.a.b})
+  public int[] a;
+  @N({b.b.a.N.a.b})
+  public int[] b;
+  public int c = -1;
+  public a d;
+  public b e;
+  public String[] f;
+  
+  @Deprecated
+  public D(Context paramContext, int paramInt, Cursor paramCursor, String[] paramArrayOfString, int[] paramArrayOfInt)
+  {
+    super(paramContext, paramInt, paramCursor);
+    b = paramArrayOfInt;
+    f = paramArrayOfString;
+    a(paramCursor, paramArrayOfString);
+  }
+  
+  public D(Context paramContext, int paramInt1, Cursor paramCursor, String[] paramArrayOfString, int[] paramArrayOfInt, int paramInt2)
+  {
+    super(paramContext, paramInt1, paramCursor, paramInt2);
+    b = paramArrayOfInt;
+    f = paramArrayOfString;
+    a(paramCursor, paramArrayOfString);
+  }
+  
+  private void a(Cursor paramCursor, String[] paramArrayOfString)
+  {
+    if (paramCursor != null)
+    {
+      int j = paramArrayOfString.length;
+      int[] arrayOfInt = a;
+      if ((arrayOfInt == null) || (arrayOfInt.length != j)) {
+        a = new int[j];
+      }
+      int i = 0;
+      while (i < j)
+      {
+        a[i] = paramCursor.getColumnIndexOrThrow(paramArrayOfString[i]);
+        i += 1;
+      }
+    }
+    a = null;
+  }
+  
+  public a a()
+  {
+    return d;
+  }
+  
+  public void a(int paramInt)
+  {
+    c = paramInt;
+  }
+  
+  public void a(Cursor paramCursor, String[] paramArrayOfString, int[] paramArrayOfInt)
+  {
+    f = paramArrayOfString;
+    b = paramArrayOfInt;
+    a(paramCursor, f);
+    paramCursor = swapCursor(paramCursor);
+    if (paramCursor != null) {
+      paramCursor.close();
+    }
+  }
+  
+  public void a(ImageView paramImageView, String paramString)
+  {
+    try
+    {
+      paramImageView.setImageResource(Integer.parseInt(paramString));
+      return;
+    }
+    catch (NumberFormatException localNumberFormatException)
+    {
+      for (;;) {}
+    }
+    paramImageView.setImageURI(Uri.parse(paramString));
+  }
+  
+  public void a(TextView paramTextView, String paramString)
+  {
+    paramTextView.setText(paramString);
+  }
+  
+  public void a(a paramA)
+  {
+    d = paramA;
+  }
+  
+  public void a(b paramB)
+  {
+    e = paramB;
+  }
+  
+  public int b()
+  {
+    return c;
+  }
+  
+  public void bindView(View paramView, Context paramContext, Cursor paramCursor)
+  {
+    b localB = e;
+    int[] arrayOfInt1 = b;
+    int j = arrayOfInt1.length;
+    int[] arrayOfInt2 = a;
+    int i = 0;
+    while (i < j)
+    {
+      View localView = paramView.findViewById(arrayOfInt1[i]);
+      if (localView != null)
+      {
+        boolean bool;
+        if (localB != null) {
+          bool = localB.setViewValue(localView, paramCursor, arrayOfInt2[i]);
+        } else {
+          bool = false;
+        }
+        if (!bool)
+        {
+          String str = paramCursor.getString(arrayOfInt2[i]);
+          paramContext = str;
+          if (str == null) {
+            paramContext = "";
+          }
+          if ((localView instanceof TextView))
+          {
+            a((TextView)localView, paramContext);
+          }
+          else if ((localView instanceof ImageView))
+          {
+            a((ImageView)localView, paramContext);
+          }
+          else
+          {
+            paramView = new StringBuilder();
+            paramView.append(localView.getClass().getName());
+            paramView.append(" is not a ");
+            paramView.append(" view that can be bounds by this SimpleCursorAdapter");
+            throw new IllegalStateException(paramView.toString());
+          }
+        }
+      }
+      i += 1;
+    }
+  }
+  
+  public b c()
+  {
+    return e;
+  }
+  
+  public CharSequence convertToString(Cursor paramCursor)
+  {
+    a localA = d;
+    if (localA != null) {
+      return localA.convertToString(paramCursor);
+    }
+    int i = c;
+    if (i > -1) {
+      return paramCursor.getString(i);
+    }
+    return super.convertToString(paramCursor);
+  }
+  
+  public Cursor swapCursor(Cursor paramCursor)
+  {
+    a(paramCursor, f);
+    return super.swapCursor(paramCursor);
+  }
+  
+  public static abstract interface a
+  {
+    public abstract CharSequence convertToString(Cursor paramCursor);
+  }
+  
+  public static abstract interface b
+  {
+    public abstract boolean setViewValue(View paramView, Cursor paramCursor, int paramInt);
+  }
+}

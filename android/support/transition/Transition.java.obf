@@ -1,0 +1,1769 @@
+package android.support.transition;
+
+import android.animation.Animator;
+import android.animation.TimeInterpolator;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
+import android.graphics.Rect;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
+import android.view.InflateException;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.v;
+import b.b.v.Ga;
+import b.b.v.X;
+import b.b.v.Y;
+import b.b.v.Z;
+import b.b.v.aa;
+import b.b.v.fa;
+import b.b.v.ia;
+import b.b.v.ja;
+import b.b.v.xa;
+import b.b.x.b.b.j;
+import b.b.x.n.b;
+import b.b.x.n.l;
+import b.b.x.n.t;
+import b.b.x.o.H;
+import f.a.a.a.a;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+public abstract class Transition
+  implements Cloneable
+{
+  public static final boolean DBG = false;
+  public static final int[] DEFAULT_MATCH_ORDER = { 2, 1, 3, 4 };
+  public static final String LOG_TAG = "Transition";
+  public static final int MATCH_FIRST = 1;
+  public static final int MATCH_ID = 3;
+  public static final String MATCH_ID_STR = "id";
+  public static final int MATCH_INSTANCE = 1;
+  public static final String MATCH_INSTANCE_STR = "instance";
+  public static final int MATCH_ITEM_ID = 4;
+  public static final String MATCH_ITEM_ID_STR = "itemId";
+  public static final int MATCH_LAST = 4;
+  public static final int MATCH_NAME = 2;
+  public static final String MATCH_NAME_STR = "name";
+  public static final PathMotion STRAIGHT_PATH_MOTION = new Y();
+  public static ThreadLocal<b<Animator, a>> sRunningAnimators = new ThreadLocal();
+  public ArrayList<Animator> mAnimators = new ArrayList();
+  public boolean mCanRemoveViews = false;
+  public ArrayList<Animator> mCurrentAnimators = new ArrayList();
+  public long mDuration = -1L;
+  public ja mEndValues = new ja();
+  public ArrayList<ia> mEndValuesList;
+  public boolean mEnded = false;
+  public c mEpicenterCallback;
+  public TimeInterpolator mInterpolator = null;
+  public ArrayList<e> mListeners = null;
+  public int[] mMatchOrder = DEFAULT_MATCH_ORDER;
+  public String mName = getClass().getName();
+  public b<String, String> mNameOverrides;
+  public int mNumInstances = 0;
+  public TransitionSet mParent = null;
+  public PathMotion mPathMotion = STRAIGHT_PATH_MOTION;
+  public boolean mPaused = false;
+  public fa mPropagation;
+  public ViewGroup mSceneRoot = null;
+  public long mStartDelay = -1L;
+  public ja mStartValues = new ja();
+  public ArrayList<ia> mStartValuesList;
+  public ArrayList<View> mTargetChildExcludes = null;
+  public ArrayList<View> mTargetExcludes = null;
+  public ArrayList<Integer> mTargetIdChildExcludes = null;
+  public ArrayList<Integer> mTargetIdExcludes = null;
+  public ArrayList<Integer> mTargetIds = new ArrayList();
+  public ArrayList<String> mTargetNameExcludes = null;
+  public ArrayList<String> mTargetNames = null;
+  public ArrayList<Class> mTargetTypeChildExcludes = null;
+  public ArrayList<Class> mTargetTypeExcludes = null;
+  public ArrayList<Class> mTargetTypes = null;
+  public ArrayList<View> mTargets = new ArrayList();
+  
+  public Transition() {}
+  
+  public Transition(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    TypedArray localTypedArray = paramContext.obtainStyledAttributes(paramAttributeSet, X.c);
+    paramAttributeSet = (XmlResourceParser)paramAttributeSet;
+    long l = j.b(localTypedArray, paramAttributeSet, "duration", 1, -1);
+    if (l >= 0L) {
+      setDuration(l);
+    }
+    l = j.b(localTypedArray, paramAttributeSet, "startDelay", 2, -1);
+    if (l > 0L) {
+      setStartDelay(l);
+    }
+    int i = j.c(localTypedArray, paramAttributeSet, "interpolator", 0, 0);
+    if (i > 0) {
+      setInterpolator(AnimationUtils.loadInterpolator(paramContext, i));
+    }
+    paramContext = j.a(localTypedArray, paramAttributeSet, "matchOrder", 3);
+    if (paramContext != null) {
+      setMatchOrder(parseMatchOrder(paramContext));
+    }
+    localTypedArray.recycle();
+  }
+  
+  private void addUnmatched(b<View, ia> paramB1, b<View, ia> paramB2)
+  {
+    int k = 0;
+    int i = 0;
+    int j;
+    for (;;)
+    {
+      j = k;
+      if (i >= paramB1.size()) {
+        break;
+      }
+      ia localIa = (ia)paramB1.d(i);
+      if (isValidTarget(b))
+      {
+        mStartValuesList.add(localIa);
+        mEndValuesList.add(null);
+      }
+      i += 1;
+    }
+    while (j < paramB2.size())
+    {
+      paramB1 = (ia)paramB2.d(j);
+      if (isValidTarget(b))
+      {
+        mEndValuesList.add(paramB1);
+        mStartValuesList.add(null);
+      }
+      j += 1;
+    }
+  }
+  
+  public static void addViewValues(ja paramJa, View paramView, ia paramIa)
+  {
+    a.put(paramView, paramIa);
+    int i = paramView.getId();
+    if (i >= 0) {
+      if (b.indexOfKey(i) >= 0) {
+        b.put(i, null);
+      } else {
+        b.put(i, paramView);
+      }
+    }
+    paramIa = H.L(paramView);
+    if (paramIa != null) {
+      if (d.containsKey(paramIa)) {
+        d.put(paramIa, null);
+      } else {
+        d.put(paramIa, paramView);
+      }
+    }
+    if ((paramView.getParent() instanceof ListView))
+    {
+      paramIa = (ListView)paramView.getParent();
+      if (paramIa.getAdapter().hasStableIds())
+      {
+        long l = paramIa.getItemIdAtPosition(paramIa.getPositionForView(paramView));
+        if (c.d(l) >= 0)
+        {
+          paramView = (View)c.c(l);
+          if (paramView != null)
+          {
+            H.d(paramView, false);
+            c.c(l, null);
+          }
+        }
+        else
+        {
+          H.d(paramView, true);
+          c.c(l, paramView);
+        }
+      }
+    }
+  }
+  
+  public static boolean alreadyContains(int[] paramArrayOfInt, int paramInt)
+  {
+    int j = paramArrayOfInt[paramInt];
+    int i = 0;
+    while (i < paramInt)
+    {
+      if (paramArrayOfInt[i] == j) {
+        return true;
+      }
+      i += 1;
+    }
+    return false;
+  }
+  
+  private void captureHierarchy(View paramView, boolean paramBoolean)
+  {
+    if (paramView == null) {
+      return;
+    }
+    int k = paramView.getId();
+    Object localObject = mTargetIdExcludes;
+    if ((localObject != null) && (((ArrayList)localObject).contains(Integer.valueOf(k)))) {
+      return;
+    }
+    localObject = mTargetExcludes;
+    if ((localObject != null) && (((ArrayList)localObject).contains(paramView))) {
+      return;
+    }
+    localObject = mTargetTypeExcludes;
+    int j = 0;
+    int i;
+    if (localObject != null)
+    {
+      int m = ((ArrayList)localObject).size();
+      i = 0;
+      while (i < m)
+      {
+        if (((Class)mTargetTypeExcludes.get(i)).isInstance(paramView)) {
+          return;
+        }
+        i += 1;
+      }
+    }
+    if ((paramView.getParent() instanceof ViewGroup))
+    {
+      localObject = new ia();
+      b = paramView;
+      if (paramBoolean) {
+        captureStartValues((ia)localObject);
+      } else {
+        captureEndValues((ia)localObject);
+      }
+      c.add(this);
+      capturePropagationValues((ia)localObject);
+      if (paramBoolean) {
+        addViewValues(mStartValues, paramView, (ia)localObject);
+      } else {
+        addViewValues(mEndValues, paramView, (ia)localObject);
+      }
+    }
+    if ((paramView instanceof ViewGroup))
+    {
+      localObject = mTargetIdChildExcludes;
+      if ((localObject != null) && (((ArrayList)localObject).contains(Integer.valueOf(k)))) {
+        return;
+      }
+      localObject = mTargetChildExcludes;
+      if ((localObject != null) && (((ArrayList)localObject).contains(paramView))) {
+        return;
+      }
+      localObject = mTargetTypeChildExcludes;
+      if (localObject != null)
+      {
+        k = ((ArrayList)localObject).size();
+        i = 0;
+        while (i < k)
+        {
+          if (((Class)mTargetTypeChildExcludes.get(i)).isInstance(paramView)) {
+            return;
+          }
+          i += 1;
+        }
+      }
+      paramView = (ViewGroup)paramView;
+      i = j;
+      while (i < paramView.getChildCount())
+      {
+        captureHierarchy(paramView.getChildAt(i), paramBoolean);
+        i += 1;
+      }
+    }
+  }
+  
+  private ArrayList<Integer> excludeId(ArrayList<Integer> paramArrayList, int paramInt, boolean paramBoolean)
+  {
+    Object localObject = paramArrayList;
+    if (paramInt > 0)
+    {
+      if (paramBoolean) {
+        return b.a(paramArrayList, Integer.valueOf(paramInt));
+      }
+      localObject = b.b(paramArrayList, Integer.valueOf(paramInt));
+    }
+    return localObject;
+  }
+  
+  public static <T> ArrayList<T> excludeObject(ArrayList<T> paramArrayList, T paramT, boolean paramBoolean)
+  {
+    Object localObject = paramArrayList;
+    if (paramT != null)
+    {
+      if (paramBoolean) {
+        return b.a(paramArrayList, paramT);
+      }
+      localObject = b.b(paramArrayList, paramT);
+    }
+    return localObject;
+  }
+  
+  private ArrayList<Class> excludeType(ArrayList<Class> paramArrayList, Class paramClass, boolean paramBoolean)
+  {
+    Object localObject = paramArrayList;
+    if (paramClass != null)
+    {
+      if (paramBoolean) {
+        return b.a(paramArrayList, paramClass);
+      }
+      localObject = b.b(paramArrayList, paramClass);
+    }
+    return localObject;
+  }
+  
+  private ArrayList<View> excludeView(ArrayList<View> paramArrayList, View paramView, boolean paramBoolean)
+  {
+    Object localObject = paramArrayList;
+    if (paramView != null)
+    {
+      if (paramBoolean) {
+        return b.a(paramArrayList, paramView);
+      }
+      localObject = b.b(paramArrayList, paramView);
+    }
+    return localObject;
+  }
+  
+  public static b<Animator, a> getRunningAnimators()
+  {
+    b localB2 = (b)sRunningAnimators.get();
+    b localB1 = localB2;
+    if (localB2 == null)
+    {
+      localB1 = new b();
+      sRunningAnimators.set(localB1);
+    }
+    return localB1;
+  }
+  
+  public static boolean isValidMatch(int paramInt)
+  {
+    return (paramInt >= 1) && (paramInt <= 4);
+  }
+  
+  public static boolean isValueChanged(ia paramIa1, ia paramIa2, String paramString)
+  {
+    paramIa1 = a.get(paramString);
+    paramIa2 = a.get(paramString);
+    boolean bool = true;
+    if ((paramIa1 == null) && (paramIa2 == null)) {
+      return false;
+    }
+    if (paramIa1 != null)
+    {
+      if (paramIa2 == null) {
+        return true;
+      }
+      bool = true ^ paramIa1.equals(paramIa2);
+    }
+    return bool;
+  }
+  
+  private void matchIds(b<View, ia> paramB1, b<View, ia> paramB2, SparseArray<View> paramSparseArray1, SparseArray<View> paramSparseArray2)
+  {
+    int j = paramSparseArray1.size();
+    int i = 0;
+    while (i < j)
+    {
+      View localView1 = (View)paramSparseArray1.valueAt(i);
+      if ((localView1 != null) && (isValidTarget(localView1)))
+      {
+        View localView2 = (View)paramSparseArray2.get(paramSparseArray1.keyAt(i));
+        if ((localView2 != null) && (isValidTarget(localView2)))
+        {
+          ia localIa1 = (ia)paramB1.get(localView1);
+          ia localIa2 = (ia)paramB2.get(localView2);
+          if ((localIa1 != null) && (localIa2 != null))
+          {
+            mStartValuesList.add(localIa1);
+            mEndValuesList.add(localIa2);
+            paramB1.remove(localView1);
+            paramB2.remove(localView2);
+          }
+        }
+      }
+      i += 1;
+    }
+  }
+  
+  private void matchInstances(b<View, ia> paramB1, b<View, ia> paramB2)
+  {
+    int i = paramB1.size() - 1;
+    while (i >= 0)
+    {
+      Object localObject1 = (View)paramB1.b(i);
+      if ((localObject1 != null) && (isValidTarget((View)localObject1)))
+      {
+        localObject1 = (ia)paramB2.remove(localObject1);
+        if (localObject1 != null)
+        {
+          Object localObject2 = b;
+          if ((localObject2 != null) && (isValidTarget((View)localObject2)))
+          {
+            localObject2 = (ia)paramB1.c(i);
+            mStartValuesList.add(localObject2);
+            mEndValuesList.add(localObject1);
+          }
+        }
+      }
+      i -= 1;
+    }
+  }
+  
+  private void matchItemIds(b<View, ia> paramB1, b<View, ia> paramB2, l<View> paramL1, l<View> paramL2)
+  {
+    int j = paramL1.f();
+    int i = 0;
+    while (i < j)
+    {
+      View localView1 = (View)paramL1.c(i);
+      if ((localView1 != null) && (isValidTarget(localView1)))
+      {
+        View localView2 = (View)paramL2.c(paramL1.a(i));
+        if ((localView2 != null) && (isValidTarget(localView2)))
+        {
+          ia localIa1 = (ia)paramB1.get(localView1);
+          ia localIa2 = (ia)paramB2.get(localView2);
+          if ((localIa1 != null) && (localIa2 != null))
+          {
+            mStartValuesList.add(localIa1);
+            mEndValuesList.add(localIa2);
+            paramB1.remove(localView1);
+            paramB2.remove(localView2);
+          }
+        }
+      }
+      i += 1;
+    }
+  }
+  
+  private void matchNames(b<View, ia> paramB1, b<View, ia> paramB2, b<String, View> paramB3, b<String, View> paramB4)
+  {
+    int j = paramB3.size();
+    int i = 0;
+    while (i < j)
+    {
+      View localView1 = (View)paramB3.d(i);
+      if ((localView1 != null) && (isValidTarget(localView1)))
+      {
+        View localView2 = (View)paramB4.get(paramB3.b(i));
+        if ((localView2 != null) && (isValidTarget(localView2)))
+        {
+          ia localIa1 = (ia)paramB1.get(localView1);
+          ia localIa2 = (ia)paramB2.get(localView2);
+          if ((localIa1 != null) && (localIa2 != null))
+          {
+            mStartValuesList.add(localIa1);
+            mEndValuesList.add(localIa2);
+            paramB1.remove(localView1);
+            paramB2.remove(localView2);
+          }
+        }
+      }
+      i += 1;
+    }
+  }
+  
+  private void matchStartAndEnd(ja paramJa1, ja paramJa2)
+  {
+    b localB1 = new b(a);
+    b localB2 = new b(a);
+    int i = 0;
+    for (;;)
+    {
+      int[] arrayOfInt = mMatchOrder;
+      if (i >= arrayOfInt.length) {
+        break;
+      }
+      int j = arrayOfInt[i];
+      if (j != 1)
+      {
+        if (j != 2)
+        {
+          if (j != 3)
+          {
+            if (j == 4) {
+              matchItemIds(localB1, localB2, c, c);
+            }
+          }
+          else {
+            matchIds(localB1, localB2, b, b);
+          }
+        }
+        else {
+          matchNames(localB1, localB2, d, d);
+        }
+      }
+      else {
+        matchInstances(localB1, localB2);
+      }
+      i += 1;
+    }
+    addUnmatched(localB1, localB2);
+  }
+  
+  public static int[] parseMatchOrder(String paramString)
+  {
+    StringTokenizer localStringTokenizer = new StringTokenizer(paramString, ",");
+    paramString = new int[localStringTokenizer.countTokens()];
+    int i = 0;
+    while (localStringTokenizer.hasMoreTokens())
+    {
+      Object localObject = localStringTokenizer.nextToken().trim();
+      if ("id".equalsIgnoreCase((String)localObject))
+      {
+        paramString[i] = 3;
+      }
+      else if ("instance".equalsIgnoreCase((String)localObject))
+      {
+        paramString[i] = 1;
+      }
+      else if ("name".equalsIgnoreCase((String)localObject))
+      {
+        paramString[i] = 2;
+      }
+      else if ("itemId".equalsIgnoreCase((String)localObject))
+      {
+        paramString[i] = 4;
+      }
+      else
+      {
+        if (!((String)localObject).isEmpty()) {
+          break label135;
+        }
+        localObject = new int[paramString.length - 1];
+        System.arraycopy(paramString, 0, localObject, 0, i);
+        i -= 1;
+        paramString = (String)localObject;
+      }
+      i += 1;
+      continue;
+      label135:
+      throw new InflateException(a.a("Unknown match type in matchOrder: '", (String)localObject, "'"));
+    }
+    return paramString;
+  }
+  
+  private void runAnimator(Animator paramAnimator, b<Animator, a> paramB)
+  {
+    if (paramAnimator != null)
+    {
+      paramAnimator.addListener(new Z(this, paramB));
+      animate(paramAnimator);
+    }
+  }
+  
+  @F
+  public Transition addListener(@F e paramE)
+  {
+    if (mListeners == null) {
+      mListeners = new ArrayList();
+    }
+    mListeners.add(paramE);
+    return this;
+  }
+  
+  @F
+  public Transition addTarget(@v int paramInt)
+  {
+    if (paramInt != 0) {
+      mTargetIds.add(Integer.valueOf(paramInt));
+    }
+    return this;
+  }
+  
+  @F
+  public Transition addTarget(@F View paramView)
+  {
+    mTargets.add(paramView);
+    return this;
+  }
+  
+  @F
+  public Transition addTarget(@F Class paramClass)
+  {
+    if (mTargetTypes == null) {
+      mTargetTypes = new ArrayList();
+    }
+    mTargetTypes.add(paramClass);
+    return this;
+  }
+  
+  @F
+  public Transition addTarget(@F String paramString)
+  {
+    if (mTargetNames == null) {
+      mTargetNames = new ArrayList();
+    }
+    mTargetNames.add(paramString);
+    return this;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void animate(Animator paramAnimator)
+  {
+    if (paramAnimator == null)
+    {
+      end();
+      return;
+    }
+    if (getDuration() >= 0L) {
+      paramAnimator.setDuration(getDuration());
+    }
+    if (getStartDelay() >= 0L) {
+      paramAnimator.setStartDelay(getStartDelay());
+    }
+    if (getInterpolator() != null) {
+      paramAnimator.setInterpolator(getInterpolator());
+    }
+    paramAnimator.addListener(new aa(this));
+    paramAnimator.start();
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void cancel()
+  {
+    int i = mCurrentAnimators.size() - 1;
+    while (i >= 0)
+    {
+      ((Animator)mCurrentAnimators.get(i)).cancel();
+      i -= 1;
+    }
+    ArrayList localArrayList = mListeners;
+    if ((localArrayList != null) && (localArrayList.size() > 0))
+    {
+      localArrayList = (ArrayList)mListeners.clone();
+      int j = localArrayList.size();
+      i = 0;
+      while (i < j)
+      {
+        ((e)localArrayList.get(i)).e(this);
+        i += 1;
+      }
+    }
+  }
+  
+  public abstract void captureEndValues(@F ia paramIa);
+  
+  public void capturePropagationValues(ia paramIa)
+  {
+    if ((mPropagation != null) && (!a.isEmpty()))
+    {
+      String[] arrayOfString = mPropagation.a();
+      if (arrayOfString == null) {
+        return;
+      }
+      int j = 0;
+      int i = 0;
+      while (i < arrayOfString.length)
+      {
+        if (!a.containsKey(arrayOfString[i]))
+        {
+          i = j;
+          break label75;
+        }
+        i += 1;
+      }
+      i = 1;
+      label75:
+      if (i == 0) {
+        mPropagation.a(paramIa);
+      }
+    }
+  }
+  
+  public abstract void captureStartValues(@F ia paramIa);
+  
+  public void captureValues(ViewGroup paramViewGroup, boolean paramBoolean)
+  {
+    clearValues(paramBoolean);
+    int i = mTargetIds.size();
+    int k = 0;
+    Object localObject1;
+    if ((i > 0) || (mTargets.size() > 0))
+    {
+      localObject1 = mTargetNames;
+      if ((localObject1 == null) || (((ArrayList)localObject1).isEmpty()))
+      {
+        localObject1 = mTargetTypes;
+        if ((localObject1 == null) || (((ArrayList)localObject1).isEmpty())) {
+          break label80;
+        }
+      }
+    }
+    captureHierarchy(paramViewGroup, paramBoolean);
+    break label314;
+    label80:
+    i = 0;
+    Object localObject2;
+    while (i < mTargetIds.size())
+    {
+      localObject1 = paramViewGroup.findViewById(((Integer)mTargetIds.get(i)).intValue());
+      if (localObject1 != null)
+      {
+        localObject2 = new ia();
+        b = ((View)localObject1);
+        if (paramBoolean) {
+          captureStartValues((ia)localObject2);
+        } else {
+          captureEndValues((ia)localObject2);
+        }
+        c.add(this);
+        capturePropagationValues((ia)localObject2);
+        if (paramBoolean) {
+          addViewValues(mStartValues, (View)localObject1, (ia)localObject2);
+        } else {
+          addViewValues(mEndValues, (View)localObject1, (ia)localObject2);
+        }
+      }
+      i += 1;
+    }
+    i = 0;
+    while (i < mTargets.size())
+    {
+      paramViewGroup = (View)mTargets.get(i);
+      localObject1 = new ia();
+      b = paramViewGroup;
+      if (paramBoolean) {
+        captureStartValues((ia)localObject1);
+      } else {
+        captureEndValues((ia)localObject1);
+      }
+      c.add(this);
+      capturePropagationValues((ia)localObject1);
+      if (paramBoolean) {
+        addViewValues(mStartValues, paramViewGroup, (ia)localObject1);
+      } else {
+        addViewValues(mEndValues, paramViewGroup, (ia)localObject1);
+      }
+      i += 1;
+    }
+    label314:
+    if (!paramBoolean)
+    {
+      paramViewGroup = mNameOverrides;
+      if (paramViewGroup != null)
+      {
+        int m = paramViewGroup.size();
+        paramViewGroup = new ArrayList(m);
+        i = 0;
+        int j;
+        for (;;)
+        {
+          j = k;
+          if (i >= m) {
+            break;
+          }
+          localObject1 = (String)mNameOverrides.b(i);
+          paramViewGroup.add(mStartValues.d.remove(localObject1));
+          i += 1;
+        }
+        while (j < m)
+        {
+          localObject1 = (View)paramViewGroup.get(j);
+          if (localObject1 != null)
+          {
+            localObject2 = (String)mNameOverrides.d(j);
+            mStartValues.d.put(localObject2, localObject1);
+          }
+          j += 1;
+        }
+      }
+    }
+  }
+  
+  public void clearValues(boolean paramBoolean)
+  {
+    if (paramBoolean)
+    {
+      mStartValues.a.clear();
+      mStartValues.b.clear();
+      mStartValues.c.b();
+      return;
+    }
+    mEndValues.a.clear();
+    mEndValues.b.clear();
+    mEndValues.c.b();
+  }
+  
+  public Transition clone()
+  {
+    try
+    {
+      Transition localTransition = (Transition)super.clone();
+      mAnimators = new ArrayList();
+      mStartValues = new ja();
+      mEndValues = new ja();
+      mStartValuesList = null;
+      mEndValuesList = null;
+      return localTransition;
+    }
+    catch (CloneNotSupportedException localCloneNotSupportedException) {}
+    return null;
+  }
+  
+  @G
+  public Animator createAnimator(@F ViewGroup paramViewGroup, @G ia paramIa1, @G ia paramIa2)
+  {
+    return null;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void createAnimators(ViewGroup paramViewGroup, ja paramJa1, ja paramJa2, ArrayList<ia> paramArrayList1, ArrayList<ia> paramArrayList2)
+  {
+    b localB = getRunningAnimators();
+    SparseIntArray localSparseIntArray = new SparseIntArray();
+    int k = paramArrayList1.size();
+    long l1 = Long.MAX_VALUE;
+    int i = 0;
+    long l2;
+    int j;
+    while (i < k)
+    {
+      Object localObject1 = (ia)paramArrayList1.get(i);
+      paramJa1 = (ia)paramArrayList2.get(i);
+      Object localObject2 = localObject1;
+      if (localObject1 != null)
+      {
+        localObject2 = localObject1;
+        if (!c.contains(this)) {
+          localObject2 = null;
+        }
+      }
+      ja localJa = paramJa1;
+      if (paramJa1 != null)
+      {
+        localJa = paramJa1;
+        if (!c.contains(this)) {
+          localJa = null;
+        }
+      }
+      if ((localObject2 == null) && (localJa == null)) {}
+      do
+      {
+        do
+        {
+          l2 = l1;
+          j = i;
+          break;
+          if ((localObject2 != null) && (localJa != null) && (!isTransitionRequired(localObject2, localJa))) {
+            j = 0;
+          } else {
+            j = 1;
+          }
+        } while (j == 0);
+        paramJa1 = createAnimator(paramViewGroup, localObject2, localJa);
+      } while (paramJa1 == null);
+      Object localObject4;
+      Object localObject3;
+      if (localJa != null)
+      {
+        localObject4 = b;
+        String[] arrayOfString = getTransitionProperties();
+        if ((localObject4 != null) && (arrayOfString != null) && (arrayOfString.length > 0))
+        {
+          localObject3 = new ia();
+          b = ((View)localObject4);
+          localObject1 = (ia)a.get(localObject4);
+          j = i;
+          if (localObject1 != null)
+          {
+            m = 0;
+            for (;;)
+            {
+              j = i;
+              if (m >= arrayOfString.length) {
+                break;
+              }
+              a.put(arrayOfString[m], a.get(arrayOfString[m]));
+              m += 1;
+            }
+          }
+          i = j;
+          int m = localB.size();
+          j = 0;
+          while (j < m)
+          {
+            localObject1 = (a)localB.get((Animator)localB.b(j));
+            if ((c != null) && (a == localObject4) && (b.equals(getName())) && (c.equals(localObject3)))
+            {
+              paramJa1 = null;
+              localObject1 = localObject3;
+              break label427;
+            }
+            j += 1;
+          }
+          localObject1 = localObject3;
+        }
+        else
+        {
+          localObject1 = null;
+        }
+        label427:
+        localObject3 = paramJa1;
+        paramJa1 = (ja)localObject1;
+        localObject1 = localObject3;
+        localObject3 = localObject4;
+      }
+      else
+      {
+        localObject3 = b;
+        localObject4 = null;
+        localObject1 = paramJa1;
+        paramJa1 = (ja)localObject4;
+      }
+      l2 = l1;
+      j = i;
+      if (localObject1 != null)
+      {
+        localObject4 = mPropagation;
+        l2 = l1;
+        if (localObject4 != null)
+        {
+          l2 = ((fa)localObject4).a(paramViewGroup, this, localObject2, localJa);
+          localSparseIntArray.put(mAnimators.size(), (int)l2);
+          l2 = Math.min(l2, l1);
+        }
+        localB.put(localObject1, new a((View)localObject3, getName(), this, xa.d(paramViewGroup), paramJa1));
+        mAnimators.add(localObject1);
+        j = i;
+      }
+      i = j + 1;
+      l1 = l2;
+    }
+    if (l1 != 0L)
+    {
+      i = 0;
+      while (i < localSparseIntArray.size())
+      {
+        j = localSparseIntArray.keyAt(i);
+        paramViewGroup = (Animator)mAnimators.get(j);
+        l2 = localSparseIntArray.valueAt(i);
+        paramViewGroup.setStartDelay(paramViewGroup.getStartDelay() + (l2 - l1));
+        i += 1;
+      }
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void end()
+  {
+    mNumInstances -= 1;
+    if (mNumInstances == 0)
+    {
+      Object localObject = mListeners;
+      if ((localObject != null) && (((ArrayList)localObject).size() > 0))
+      {
+        localObject = (ArrayList)mListeners.clone();
+        int j = ((ArrayList)localObject).size();
+        i = 0;
+        while (i < j)
+        {
+          ((e)((ArrayList)localObject).get(i)).d(this);
+          i += 1;
+        }
+      }
+      int i = 0;
+      while (i < mStartValues.c.f())
+      {
+        localObject = (View)mStartValues.c.c(i);
+        if (localObject != null) {
+          H.d((View)localObject, false);
+        }
+        i += 1;
+      }
+      i = 0;
+      while (i < mEndValues.c.f())
+      {
+        localObject = (View)mEndValues.c.c(i);
+        if (localObject != null) {
+          H.d((View)localObject, false);
+        }
+        i += 1;
+      }
+      mEnded = true;
+    }
+  }
+  
+  @F
+  public Transition excludeChildren(@v int paramInt, boolean paramBoolean)
+  {
+    mTargetIdChildExcludes = excludeId(mTargetIdChildExcludes, paramInt, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeChildren(@F View paramView, boolean paramBoolean)
+  {
+    mTargetChildExcludes = excludeView(mTargetChildExcludes, paramView, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeChildren(@F Class paramClass, boolean paramBoolean)
+  {
+    mTargetTypeChildExcludes = excludeType(mTargetTypeChildExcludes, paramClass, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeTarget(@v int paramInt, boolean paramBoolean)
+  {
+    mTargetIdExcludes = excludeId(mTargetIdExcludes, paramInt, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeTarget(@F View paramView, boolean paramBoolean)
+  {
+    mTargetExcludes = excludeView(mTargetExcludes, paramView, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeTarget(@F Class paramClass, boolean paramBoolean)
+  {
+    mTargetTypeExcludes = excludeType(mTargetTypeExcludes, paramClass, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeTarget(@F String paramString, boolean paramBoolean)
+  {
+    mTargetNameExcludes = excludeObject(mTargetNameExcludes, paramString, paramBoolean);
+    return this;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void forceToEnd(ViewGroup paramViewGroup)
+  {
+    b localB = getRunningAnimators();
+    int i = localB.size();
+    if (paramViewGroup != null)
+    {
+      paramViewGroup = xa.d(paramViewGroup);
+      i -= 1;
+      while (i >= 0)
+      {
+        a localA = (a)localB.d(i);
+        if ((a != null) && (paramViewGroup.equals(d))) {
+          ((Animator)localB.b(i)).end();
+        }
+        i -= 1;
+      }
+    }
+  }
+  
+  public long getDuration()
+  {
+    return mDuration;
+  }
+  
+  @G
+  public Rect getEpicenter()
+  {
+    c localC = mEpicenterCallback;
+    if (localC == null) {
+      return null;
+    }
+    return localC.a(this);
+  }
+  
+  @G
+  public c getEpicenterCallback()
+  {
+    return mEpicenterCallback;
+  }
+  
+  @G
+  public TimeInterpolator getInterpolator()
+  {
+    return mInterpolator;
+  }
+  
+  public ia getMatchedTransitionValues(View paramView, boolean paramBoolean)
+  {
+    Object localObject1 = mParent;
+    if (localObject1 != null) {
+      return ((Transition)localObject1).getMatchedTransitionValues(paramView, paramBoolean);
+    }
+    if (paramBoolean) {
+      localObject1 = mStartValuesList;
+    } else {
+      localObject1 = mEndValuesList;
+    }
+    Object localObject2 = null;
+    if (localObject1 == null) {
+      return null;
+    }
+    int m = ((ArrayList)localObject1).size();
+    int k = -1;
+    int i = 0;
+    int j;
+    for (;;)
+    {
+      j = k;
+      if (i >= m) {
+        break;
+      }
+      ia localIa = (ia)((ArrayList)localObject1).get(i);
+      if (localIa == null) {
+        return null;
+      }
+      if (b == paramView)
+      {
+        j = i;
+        break;
+      }
+      i += 1;
+    }
+    paramView = localObject2;
+    if (j >= 0)
+    {
+      if (paramBoolean) {
+        paramView = mEndValuesList;
+      } else {
+        paramView = mStartValuesList;
+      }
+      paramView = (ia)paramView.get(j);
+    }
+    return paramView;
+  }
+  
+  @F
+  public String getName()
+  {
+    return mName;
+  }
+  
+  @F
+  public PathMotion getPathMotion()
+  {
+    return mPathMotion;
+  }
+  
+  @G
+  public fa getPropagation()
+  {
+    return mPropagation;
+  }
+  
+  public long getStartDelay()
+  {
+    return mStartDelay;
+  }
+  
+  @F
+  public List<Integer> getTargetIds()
+  {
+    return mTargetIds;
+  }
+  
+  @G
+  public List<String> getTargetNames()
+  {
+    return mTargetNames;
+  }
+  
+  @G
+  public List<Class> getTargetTypes()
+  {
+    return mTargetTypes;
+  }
+  
+  @F
+  public List<View> getTargets()
+  {
+    return mTargets;
+  }
+  
+  @G
+  public String[] getTransitionProperties()
+  {
+    return null;
+  }
+  
+  @G
+  public ia getTransitionValues(@F View paramView, boolean paramBoolean)
+  {
+    Object localObject = mParent;
+    if (localObject != null) {
+      return ((Transition)localObject).getTransitionValues(paramView, paramBoolean);
+    }
+    if (paramBoolean) {
+      localObject = mStartValues;
+    } else {
+      localObject = mEndValues;
+    }
+    return (ia)a.get(paramView);
+  }
+  
+  public boolean isTransitionRequired(@G ia paramIa1, @G ia paramIa2)
+  {
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (paramIa1 != null)
+    {
+      bool1 = bool2;
+      if (paramIa2 != null)
+      {
+        Object localObject = getTransitionProperties();
+        if (localObject != null)
+        {
+          int j = localObject.length;
+          int i = 0;
+          for (;;)
+          {
+            bool1 = bool2;
+            if (i >= j) {
+              break label120;
+            }
+            if (isValueChanged(paramIa1, paramIa2, localObject[i])) {
+              break;
+            }
+            i += 1;
+          }
+        }
+        localObject = a.keySet().iterator();
+        do
+        {
+          bool1 = bool2;
+          if (!((Iterator)localObject).hasNext()) {
+            break;
+          }
+        } while (!isValueChanged(paramIa1, paramIa2, (String)((Iterator)localObject).next()));
+        bool1 = true;
+      }
+    }
+    label120:
+    return bool1;
+  }
+  
+  public boolean isValidTarget(View paramView)
+  {
+    int j = paramView.getId();
+    ArrayList localArrayList = mTargetIdExcludes;
+    if ((localArrayList != null) && (localArrayList.contains(Integer.valueOf(j)))) {
+      return false;
+    }
+    localArrayList = mTargetExcludes;
+    if ((localArrayList != null) && (localArrayList.contains(paramView))) {
+      return false;
+    }
+    localArrayList = mTargetTypeExcludes;
+    int i;
+    if (localArrayList != null)
+    {
+      int k = localArrayList.size();
+      i = 0;
+      while (i < k)
+      {
+        if (((Class)mTargetTypeExcludes.get(i)).isInstance(paramView)) {
+          return false;
+        }
+        i += 1;
+      }
+    }
+    if ((mTargetNameExcludes != null) && (H.L(paramView) != null) && (mTargetNameExcludes.contains(H.L(paramView)))) {
+      return false;
+    }
+    if ((mTargetIds.size() == 0) && (mTargets.size() == 0))
+    {
+      localArrayList = mTargetTypes;
+      if ((localArrayList == null) || (localArrayList.isEmpty()))
+      {
+        localArrayList = mTargetNames;
+        if ((localArrayList == null) || (localArrayList.isEmpty())) {
+          return true;
+        }
+      }
+    }
+    if (!mTargetIds.contains(Integer.valueOf(j)))
+    {
+      if (mTargets.contains(paramView)) {
+        return true;
+      }
+      localArrayList = mTargetNames;
+      if ((localArrayList != null) && (localArrayList.contains(H.L(paramView)))) {
+        return true;
+      }
+      if (mTargetTypes != null)
+      {
+        i = 0;
+        while (i < mTargetTypes.size())
+        {
+          if (((Class)mTargetTypes.get(i)).isInstance(paramView)) {
+            return true;
+          }
+          i += 1;
+        }
+      }
+      return false;
+    }
+    return true;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void pause(View paramView)
+  {
+    if (!mEnded)
+    {
+      b localB = getRunningAnimators();
+      int i = localB.size();
+      paramView = xa.d(paramView);
+      i -= 1;
+      int j;
+      while (i >= 0)
+      {
+        Object localObject = (a)localB.d(i);
+        if ((a != null) && (paramView.equals(d)))
+        {
+          localObject = (Animator)localB.b(i);
+          j = Build.VERSION.SDK_INT;
+          ((Animator)localObject).pause();
+        }
+        i -= 1;
+      }
+      paramView = mListeners;
+      if ((paramView != null) && (paramView.size() > 0))
+      {
+        paramView = (ArrayList)mListeners.clone();
+        j = paramView.size();
+        i = 0;
+        while (i < j)
+        {
+          ((e)paramView.get(i)).b(this);
+          i += 1;
+        }
+      }
+      mPaused = true;
+    }
+  }
+  
+  public void playTransition(ViewGroup paramViewGroup)
+  {
+    mStartValuesList = new ArrayList();
+    mEndValuesList = new ArrayList();
+    matchStartAndEnd(mStartValues, mEndValues);
+    b localB = getRunningAnimators();
+    int i = localB.size();
+    Ga localGa = xa.d(paramViewGroup);
+    i -= 1;
+    while (i >= 0)
+    {
+      Animator localAnimator = (Animator)localB.b(i);
+      if (localAnimator != null)
+      {
+        a localA = (a)localB.get(localAnimator);
+        if ((localA != null) && (a != null) && (localGa.equals(d)))
+        {
+          ia localIa1 = c;
+          Object localObject = a;
+          ia localIa2 = getTransitionValues((View)localObject, true);
+          localObject = getMatchedTransitionValues((View)localObject, true);
+          int j;
+          if (((localIa2 != null) || (localObject != null)) && (e.isTransitionRequired(localIa1, (ia)localObject))) {
+            j = 1;
+          } else {
+            j = 0;
+          }
+          if (j != 0) {
+            if ((!localAnimator.isRunning()) && (!localAnimator.isStarted())) {
+              localB.remove(localAnimator);
+            } else {
+              localAnimator.cancel();
+            }
+          }
+        }
+      }
+      i -= 1;
+    }
+    createAnimators(paramViewGroup, mStartValues, mEndValues, mStartValuesList, mEndValuesList);
+    runAnimators();
+  }
+  
+  @F
+  public Transition removeListener(@F e paramE)
+  {
+    ArrayList localArrayList = mListeners;
+    if (localArrayList == null) {
+      return this;
+    }
+    localArrayList.remove(paramE);
+    if (mListeners.size() == 0) {
+      mListeners = null;
+    }
+    return this;
+  }
+  
+  @F
+  public Transition removeTarget(@v int paramInt)
+  {
+    if (paramInt != 0) {
+      mTargetIds.remove(Integer.valueOf(paramInt));
+    }
+    return this;
+  }
+  
+  @F
+  public Transition removeTarget(@F View paramView)
+  {
+    mTargets.remove(paramView);
+    return this;
+  }
+  
+  @F
+  public Transition removeTarget(@F Class paramClass)
+  {
+    ArrayList localArrayList = mTargetTypes;
+    if (localArrayList != null) {
+      localArrayList.remove(paramClass);
+    }
+    return this;
+  }
+  
+  @F
+  public Transition removeTarget(@F String paramString)
+  {
+    ArrayList localArrayList = mTargetNames;
+    if (localArrayList != null) {
+      localArrayList.remove(paramString);
+    }
+    return this;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void resume(View paramView)
+  {
+    if (mPaused)
+    {
+      if (!mEnded)
+      {
+        b localB = getRunningAnimators();
+        int i = localB.size();
+        paramView = xa.d(paramView);
+        i -= 1;
+        int j;
+        while (i >= 0)
+        {
+          Object localObject = (a)localB.d(i);
+          if ((a != null) && (paramView.equals(d)))
+          {
+            localObject = (Animator)localB.b(i);
+            j = Build.VERSION.SDK_INT;
+            ((Animator)localObject).resume();
+          }
+          i -= 1;
+        }
+        paramView = mListeners;
+        if ((paramView != null) && (paramView.size() > 0))
+        {
+          paramView = (ArrayList)mListeners.clone();
+          j = paramView.size();
+          i = 0;
+          while (i < j)
+          {
+            ((e)paramView.get(i)).a(this);
+            i += 1;
+          }
+        }
+      }
+      mPaused = false;
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void runAnimators()
+  {
+    start();
+    b localB = getRunningAnimators();
+    Iterator localIterator = mAnimators.iterator();
+    while (localIterator.hasNext())
+    {
+      Animator localAnimator = (Animator)localIterator.next();
+      if (localB.containsKey(localAnimator))
+      {
+        start();
+        runAnimator(localAnimator, localB);
+      }
+    }
+    mAnimators.clear();
+    end();
+  }
+  
+  public void setCanRemoveViews(boolean paramBoolean)
+  {
+    mCanRemoveViews = paramBoolean;
+  }
+  
+  @F
+  public Transition setDuration(long paramLong)
+  {
+    mDuration = paramLong;
+    return this;
+  }
+  
+  public void setEpicenterCallback(@G c paramC)
+  {
+    mEpicenterCallback = paramC;
+  }
+  
+  @F
+  public Transition setInterpolator(@G TimeInterpolator paramTimeInterpolator)
+  {
+    mInterpolator = paramTimeInterpolator;
+    return this;
+  }
+  
+  public void setMatchOrder(int... paramVarArgs)
+  {
+    if ((paramVarArgs != null) && (paramVarArgs.length != 0))
+    {
+      int i = 0;
+      while (i < paramVarArgs.length) {
+        if (isValidMatch(paramVarArgs[i]))
+        {
+          if (!alreadyContains(paramVarArgs, i)) {
+            i += 1;
+          } else {
+            throw new IllegalArgumentException("matches contains a duplicate value");
+          }
+        }
+        else {
+          throw new IllegalArgumentException("matches contains invalid value");
+        }
+      }
+      mMatchOrder = ((int[])paramVarArgs.clone());
+      return;
+    }
+    mMatchOrder = DEFAULT_MATCH_ORDER;
+  }
+  
+  public void setPathMotion(@G PathMotion paramPathMotion)
+  {
+    if (paramPathMotion == null)
+    {
+      mPathMotion = STRAIGHT_PATH_MOTION;
+      return;
+    }
+    mPathMotion = paramPathMotion;
+  }
+  
+  public void setPropagation(@G fa paramFa)
+  {
+    mPropagation = paramFa;
+  }
+  
+  public Transition setSceneRoot(ViewGroup paramViewGroup)
+  {
+    mSceneRoot = paramViewGroup;
+    return this;
+  }
+  
+  @F
+  public Transition setStartDelay(long paramLong)
+  {
+    mStartDelay = paramLong;
+    return this;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void start()
+  {
+    if (mNumInstances == 0)
+    {
+      ArrayList localArrayList = mListeners;
+      if ((localArrayList != null) && (localArrayList.size() > 0))
+      {
+        localArrayList = (ArrayList)mListeners.clone();
+        int j = localArrayList.size();
+        int i = 0;
+        while (i < j)
+        {
+          ((e)localArrayList.get(i)).c(this);
+          i += 1;
+        }
+      }
+      mEnded = false;
+    }
+    mNumInstances += 1;
+  }
+  
+  public String toString()
+  {
+    return toString("");
+  }
+  
+  public String toString(String paramString)
+  {
+    paramString = a.b(paramString);
+    paramString.append(getClass().getSimpleName());
+    paramString.append("@");
+    paramString.append(Integer.toHexString(hashCode()));
+    paramString.append(": ");
+    String str = paramString.toString();
+    paramString = str;
+    if (mDuration != -1L)
+    {
+      paramString = a.d(str, "dur(");
+      paramString.append(mDuration);
+      paramString.append(") ");
+      paramString = paramString.toString();
+    }
+    str = paramString;
+    if (mStartDelay != -1L)
+    {
+      paramString = a.d(paramString, "dly(");
+      paramString.append(mStartDelay);
+      paramString.append(") ");
+      str = paramString.toString();
+    }
+    paramString = str;
+    if (mInterpolator != null) {
+      paramString = a.a(a.d(str, "interp("), mInterpolator, ") ");
+    }
+    if (mTargetIds.size() <= 0)
+    {
+      str = paramString;
+      if (mTargets.size() <= 0) {}
+    }
+    else
+    {
+      str = a.c(paramString, "tgts(");
+      int i = mTargetIds.size();
+      int j = 0;
+      paramString = str;
+      if (i > 0)
+      {
+        i = 0;
+        for (;;)
+        {
+          paramString = str;
+          if (i >= mTargetIds.size()) {
+            break;
+          }
+          paramString = str;
+          if (i > 0) {
+            paramString = a.c(str, ", ");
+          }
+          paramString = a.b(paramString);
+          paramString.append(mTargetIds.get(i));
+          str = paramString.toString();
+          i += 1;
+        }
+      }
+      str = paramString;
+      if (mTargets.size() > 0)
+      {
+        i = j;
+        for (;;)
+        {
+          str = paramString;
+          if (i >= mTargets.size()) {
+            break;
+          }
+          str = paramString;
+          if (i > 0) {
+            str = a.c(paramString, ", ");
+          }
+          paramString = a.b(str);
+          paramString.append(mTargets.get(i));
+          paramString = paramString.toString();
+          i += 1;
+        }
+      }
+      str = a.c(str, ")");
+    }
+    return str;
+  }
+  
+  private static class a
+  {
+    public View a;
+    public String b;
+    public ia c;
+    public Ga d;
+    public Transition e;
+    
+    public a(View paramView, String paramString, Transition paramTransition, Ga paramGa, ia paramIa)
+    {
+      a = paramView;
+      b = paramString;
+      c = paramIa;
+      d = paramGa;
+      e = paramTransition;
+    }
+  }
+  
+  private static class b
+  {
+    public b() {}
+    
+    public static <T> ArrayList<T> a(ArrayList<T> paramArrayList, T paramT)
+    {
+      Object localObject = paramArrayList;
+      if (paramArrayList == null) {
+        localObject = new ArrayList();
+      }
+      if (!((ArrayList)localObject).contains(paramT)) {
+        ((ArrayList)localObject).add(paramT);
+      }
+      return localObject;
+    }
+    
+    public static <T> ArrayList<T> b(ArrayList<T> paramArrayList, T paramT)
+    {
+      ArrayList<T> localArrayList = paramArrayList;
+      if (paramArrayList != null)
+      {
+        paramArrayList.remove(paramT);
+        localArrayList = paramArrayList;
+        if (paramArrayList.isEmpty()) {
+          localArrayList = null;
+        }
+      }
+      return localArrayList;
+    }
+  }
+  
+  public static abstract class c
+  {
+    public c() {}
+    
+    public abstract Rect a(@F Transition paramTransition);
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface d {}
+  
+  public static abstract interface e
+  {
+    public abstract void a(@F Transition paramTransition);
+    
+    public abstract void b(@F Transition paramTransition);
+    
+    public abstract void c(@F Transition paramTransition);
+    
+    public abstract void d(@F Transition paramTransition);
+    
+    public abstract void e(@F Transition paramTransition);
+  }
+}

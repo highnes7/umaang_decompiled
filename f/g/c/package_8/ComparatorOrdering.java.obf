@@ -1,0 +1,83 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import m.a.h;
+
+@b(serializable=true)
+public final class W<T>
+  extends mf<T>
+  implements Serializable
+{
+  public static final long c = 0L;
+  public final Comparator<T> d;
+  
+  public W(Comparator<T> paramComparator)
+  {
+    if (paramComparator != null)
+    {
+      d = paramComparator;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public int a(List<? extends T> paramList, T paramT)
+  {
+    return Collections.binarySearch(paramList, paramT, d);
+  }
+  
+  public <E extends T> vb<E> b(Iterable<E> paramIterable)
+  {
+    paramIterable = rc.j(paramIterable);
+    int j = paramIterable.length;
+    int i = 0;
+    while (i < j)
+    {
+      ba.a(paramIterable[i]);
+      i += 1;
+    }
+    Arrays.sort(paramIterable, d);
+    return vb.a(paramIterable);
+  }
+  
+  public int compare(T paramT1, T paramT2)
+  {
+    return d.compare(paramT1, paramT2);
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof W))
+    {
+      paramObject = (W)paramObject;
+      return d.equals(d);
+    }
+    return false;
+  }
+  
+  public <E extends T> List<E> g(Iterable<E> paramIterable)
+  {
+    paramIterable = fd.b(paramIterable);
+    Collections.sort(paramIterable, d);
+    return paramIterable;
+  }
+  
+  public int hashCode()
+  {
+    return d.hashCode();
+  }
+  
+  public String toString()
+  {
+    return d.toString();
+  }
+}

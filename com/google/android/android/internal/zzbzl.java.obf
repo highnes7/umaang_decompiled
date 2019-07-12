@@ -1,0 +1,122 @@
+package com.google.android.gms.internal;
+
+import android.app.PendingIntent;
+import android.location.Location;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.zzaa;
+
+public final class zzbzl
+  extends zzeb
+  implements zzbzk
+{
+  public zzbzl(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.gms.location.internal.IGoogleLocationManagerService");
+  }
+  
+  public final void zza(long paramLong, boolean paramBoolean, PendingIntent paramPendingIntent)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    localParcel.writeLong(paramLong);
+    zzed.zza(localParcel, true);
+    zzed.zza(localParcel, paramPendingIntent);
+    zzb(5, localParcel);
+  }
+  
+  public final void zza(zzbzf paramZzbzf)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramZzbzf);
+    zzb(67, localParcel);
+  }
+  
+  public final void zza(zzcaa paramZzcaa)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramZzcaa);
+    zzb(59, localParcel);
+  }
+  
+  public final void zza(GeofencingRequest paramGeofencingRequest, PendingIntent paramPendingIntent, zzbzi paramZzbzi)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramGeofencingRequest);
+    zzed.zza(localParcel, paramPendingIntent);
+    zzed.zza(localParcel, paramZzbzi);
+    zzb(57, localParcel);
+  }
+  
+  public final void zza(LocationSettingsRequest paramLocationSettingsRequest, zzbzm paramZzbzm, String paramString)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramLocationSettingsRequest);
+    zzed.zza(localParcel, paramZzbzm);
+    localParcel.writeString(paramString);
+    zzb(63, localParcel);
+  }
+  
+  public final void zza(zzaa paramZzaa, zzbzi paramZzbzi)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramZzaa);
+    zzed.zza(localParcel, paramZzbzi);
+    zzb(74, localParcel);
+  }
+  
+  public final void zzbk(boolean paramBoolean)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramBoolean);
+    zzb(12, localParcel);
+  }
+  
+  public final void zzc(PendingIntent paramPendingIntent)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramPendingIntent);
+    zzb(6, localParcel);
+  }
+  
+  public final void zzc(Location paramLocation)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramLocation);
+    zzb(13, localParcel);
+  }
+  
+  public final Location zzia(String paramString)
+    throws RemoteException
+  {
+    Object localObject = zzax();
+    ((Parcel)localObject).writeString(paramString);
+    paramString = zza(21, (Parcel)localObject);
+    localObject = (Location)zzed.zza(paramString, Location.CREATOR);
+    paramString.recycle();
+    return localObject;
+  }
+  
+  public final LocationAvailability zzib(String paramString)
+    throws RemoteException
+  {
+    Object localObject = zzax();
+    ((Parcel)localObject).writeString(paramString);
+    paramString = zza(34, (Parcel)localObject);
+    localObject = (LocationAvailability)zzed.zza(paramString, LocationAvailability.CREATOR);
+    paramString.recycle();
+    return localObject;
+  }
+}

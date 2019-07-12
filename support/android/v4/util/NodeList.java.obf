@@ -1,0 +1,623 @@
+package b.b.x.n;
+
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
+
+public final class d<E>
+  implements Collection<E>, Set<E>
+{
+  public static final boolean a = false;
+  public static final String b = "ArraySet";
+  public static final int[] c = new int[0];
+  public static final Object[] d = new Object[0];
+  public static final int e = 4;
+  public static final int f = 10;
+  @G
+  public static Object[] g;
+  public static int h;
+  @G
+  public static Object[] i;
+  public static int j;
+  public int[] k;
+  public Object[] l;
+  public int m;
+  public n<E, E> n;
+  
+  public d()
+  {
+    this(0);
+  }
+  
+  public d(int paramInt)
+  {
+    if (paramInt == 0)
+    {
+      k = c;
+      l = d;
+    }
+    else
+    {
+      d(paramInt);
+    }
+    m = 0;
+  }
+  
+  public d(@G d<E> paramD)
+  {
+    this(0);
+    if (paramD != null) {
+      a(paramD);
+    }
+  }
+  
+  public d(@G Collection<E> paramCollection)
+  {
+    this(0);
+    if (paramCollection != null) {
+      addAll(paramCollection);
+    }
+  }
+  
+  private n<E, E> a()
+  {
+    if (n == null) {
+      n = new c(this);
+    }
+    return n;
+  }
+  
+  public static void a(int[] paramArrayOfInt, Object[] paramArrayOfObject, int paramInt)
+  {
+    if (paramArrayOfInt.length == 8) {
+      try
+      {
+        if (j < 10)
+        {
+          paramArrayOfObject[0] = i;
+          paramArrayOfObject[1] = paramArrayOfInt;
+          paramInt -= 1;
+          break label114;
+          i = paramArrayOfObject;
+          j += 1;
+        }
+        return;
+      }
+      finally {}
+    }
+    if (paramArrayOfInt.length == 4) {}
+    for (;;)
+    {
+      try
+      {
+        if (h < 10)
+        {
+          paramArrayOfObject[0] = g;
+          paramArrayOfObject[1] = paramArrayOfInt;
+          paramInt -= 1;
+          break label130;
+          g = paramArrayOfObject;
+          h += 1;
+        }
+        return;
+      }
+      finally {}
+      return;
+      label114:
+      while (paramInt >= 2)
+      {
+        paramArrayOfObject[paramInt] = null;
+        paramInt -= 1;
+      }
+      break;
+      label130:
+      while (paramInt >= 2)
+      {
+        paramArrayOfObject[paramInt] = null;
+        paramInt -= 1;
+      }
+    }
+  }
+  
+  private int b()
+  {
+    int i2 = m;
+    if (i2 == 0) {
+      return -1;
+    }
+    int i3 = i.a(k, i2, 0);
+    if (i3 < 0) {
+      return i3;
+    }
+    if (l[i3] == null) {
+      return i3;
+    }
+    int i1 = i3 + 1;
+    while ((i1 < i2) && (k[i1] == 0))
+    {
+      if (l[i1] == null) {
+        return i1;
+      }
+      i1 += 1;
+    }
+    i2 = i3 - 1;
+    while ((i2 >= 0) && (k[i2] == 0))
+    {
+      if (l[i2] == null) {
+        return i2;
+      }
+      i2 -= 1;
+    }
+    return i1 ^ 0xFFFFFFFF;
+  }
+  
+  private int d(Object paramObject, int paramInt)
+  {
+    int i2 = m;
+    if (i2 == 0) {
+      return -1;
+    }
+    int i3 = i.a(k, i2, paramInt);
+    if (i3 < 0) {
+      return i3;
+    }
+    if (paramObject.equals(l[i3])) {
+      return i3;
+    }
+    int i1 = i3 + 1;
+    while ((i1 < i2) && (k[i1] == paramInt))
+    {
+      if (paramObject.equals(l[i1])) {
+        return i1;
+      }
+      i1 += 1;
+    }
+    i2 = i3 - 1;
+    while ((i2 >= 0) && (k[i2] == paramInt))
+    {
+      if (paramObject.equals(l[i2])) {
+        return i2;
+      }
+      i2 -= 1;
+    }
+    return i1 ^ 0xFFFFFFFF;
+  }
+  
+  private void d(int paramInt)
+  {
+    if (paramInt == 8) {
+      try
+      {
+        if (i != null)
+        {
+          Object[] arrayOfObject1 = i;
+          l = arrayOfObject1;
+          i = (Object[])arrayOfObject1[0];
+          k = ((int[])arrayOfObject1[1]);
+          arrayOfObject1[1] = null;
+          arrayOfObject1[0] = null;
+          j -= 1;
+          return;
+        }
+      }
+      finally {}
+    }
+    if (paramInt == 4) {
+      try
+      {
+        if (g != null)
+        {
+          Object[] arrayOfObject2 = g;
+          l = arrayOfObject2;
+          g = (Object[])arrayOfObject2[0];
+          k = ((int[])arrayOfObject2[1]);
+          arrayOfObject2[1] = null;
+          arrayOfObject2[0] = null;
+          h -= 1;
+          return;
+        }
+      }
+      finally {}
+    }
+    k = new int[paramInt];
+    l = new Object[paramInt];
+  }
+  
+  public void a(int paramInt)
+  {
+    int[] arrayOfInt = k;
+    if (arrayOfInt.length < paramInt)
+    {
+      Object[] arrayOfObject = l;
+      d(paramInt);
+      paramInt = m;
+      if (paramInt > 0)
+      {
+        System.arraycopy(arrayOfInt, 0, k, 0, paramInt);
+        System.arraycopy(arrayOfObject, 0, l, 0, m);
+      }
+      a(arrayOfInt, arrayOfObject, m);
+    }
+  }
+  
+  public void a(@F d<? extends E> paramD)
+  {
+    int i2 = m;
+    a(m + i2);
+    int i3 = m;
+    int i1 = 0;
+    if (i3 == 0)
+    {
+      if (i2 > 0)
+      {
+        System.arraycopy(k, 0, k, 0, i2);
+        System.arraycopy(l, 0, l, 0, i2);
+        m = i2;
+      }
+    }
+    else {
+      while (i1 < i2)
+      {
+        add(paramD.c(i1));
+        i1 += 1;
+      }
+    }
+  }
+  
+  public boolean add(@G E paramE)
+  {
+    int i2;
+    if (paramE == null)
+    {
+      i1 = b();
+      i2 = 0;
+    }
+    else
+    {
+      i2 = paramE.hashCode();
+      i1 = d(paramE, i2);
+    }
+    if (i1 >= 0) {
+      return false;
+    }
+    int i3 = i1 ^ 0xFFFFFFFF;
+    int i4 = m;
+    Object localObject;
+    if (i4 >= k.length)
+    {
+      i1 = 4;
+      if (i4 >= 8) {
+        i1 = (i4 >> 1) + i4;
+      } else if (i4 >= 4) {
+        i1 = 8;
+      }
+      localObject = k;
+      Object[] arrayOfObject = l;
+      d(i1);
+      int[] arrayOfInt = k;
+      if (arrayOfInt.length > 0)
+      {
+        System.arraycopy(localObject, 0, arrayOfInt, 0, localObject.length);
+        System.arraycopy(arrayOfObject, 0, l, 0, arrayOfObject.length);
+      }
+      a((int[])localObject, arrayOfObject, m);
+    }
+    int i1 = m;
+    if (i3 < i1)
+    {
+      localObject = k;
+      i4 = i3 + 1;
+      System.arraycopy(localObject, i3, localObject, i4, i1 - i3);
+      localObject = l;
+      System.arraycopy(localObject, i3, localObject, i4, m - i3);
+    }
+    k[i3] = i2;
+    l[i3] = paramE;
+    m += 1;
+    return true;
+  }
+  
+  public boolean addAll(@F Collection<? extends E> paramCollection)
+  {
+    int i1 = m;
+    a(paramCollection.size() + i1);
+    paramCollection = paramCollection.iterator();
+    boolean bool = false;
+    while (paramCollection.hasNext()) {
+      bool |= add(paramCollection.next());
+    }
+    return bool;
+  }
+  
+  public E b(int paramInt)
+  {
+    Object localObject = l;
+    E ? = localObject[paramInt];
+    int i2 = m;
+    if (i2 <= 1)
+    {
+      a(k, (Object[])localObject, i2);
+      k = c;
+      l = d;
+      m = 0;
+      return ?;
+    }
+    localObject = k;
+    int i3 = localObject.length;
+    int i1 = 8;
+    if ((i3 > 8) && (i2 < localObject.length / 3))
+    {
+      if (i2 > 8) {
+        i1 = i2 + (i2 >> 1);
+      }
+      localObject = k;
+      Object[] arrayOfObject = l;
+      d(i1);
+      m -= 1;
+      if (paramInt > 0)
+      {
+        System.arraycopy(localObject, 0, k, 0, paramInt);
+        System.arraycopy(arrayOfObject, 0, l, 0, paramInt);
+      }
+      i1 = m;
+      if (paramInt < i1)
+      {
+        i2 = paramInt + 1;
+        System.arraycopy(localObject, i2, k, paramInt, i1 - paramInt);
+        System.arraycopy(arrayOfObject, i2, l, paramInt, m - paramInt);
+        return ?;
+      }
+    }
+    else
+    {
+      m -= 1;
+      i1 = m;
+      if (paramInt < i1)
+      {
+        localObject = k;
+        i2 = paramInt + 1;
+        System.arraycopy(localObject, i2, localObject, paramInt, i1 - paramInt);
+        localObject = l;
+        System.arraycopy(localObject, i2, localObject, paramInt, m - paramInt);
+      }
+      l[m] = null;
+    }
+    return ?;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void b(E paramE)
+  {
+    int i2 = m;
+    int i1;
+    if (paramE == null) {
+      i1 = 0;
+    } else {
+      i1 = paramE.hashCode();
+    }
+    int[] arrayOfInt = k;
+    if (i2 < arrayOfInt.length)
+    {
+      if ((i2 > 0) && (arrayOfInt[(i2 - 1)] > i1))
+      {
+        add(paramE);
+        return;
+      }
+      m = (i2 + 1);
+      k[i2] = i1;
+      l[i2] = paramE;
+      return;
+    }
+    throw new IllegalStateException("Array is full");
+  }
+  
+  public boolean b(@F d<? extends E> paramD)
+  {
+    int i2 = m;
+    int i3 = m;
+    boolean bool = false;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      remove(paramD.c(i1));
+      i1 += 1;
+    }
+    if (i3 != m) {
+      bool = true;
+    }
+    return bool;
+  }
+  
+  @G
+  public E c(int paramInt)
+  {
+    return l[paramInt];
+  }
+  
+  public void clear()
+  {
+    int i1 = m;
+    if (i1 != 0)
+    {
+      a(k, l, i1);
+      k = c;
+      l = d;
+      m = 0;
+    }
+  }
+  
+  public boolean contains(@G Object paramObject)
+  {
+    return indexOf(paramObject) >= 0;
+  }
+  
+  public boolean containsAll(@F Collection<?> paramCollection)
+  {
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext()) {
+      if (!contains(paramCollection.next())) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    int i1;
+    if ((paramObject instanceof Set))
+    {
+      paramObject = (Set)paramObject;
+      if (size() != paramObject.size()) {
+        return false;
+      }
+      i1 = 0;
+    }
+    try
+    {
+      while (i1 < m)
+      {
+        boolean bool = paramObject.contains(c(i1));
+        if (!bool) {
+          return false;
+        }
+        i1 += 1;
+      }
+      return true;
+    }
+    catch (NullPointerException|ClassCastException paramObject) {}
+    return false;
+    return false;
+  }
+  
+  public int hashCode()
+  {
+    int[] arrayOfInt = k;
+    int i3 = m;
+    int i1 = 0;
+    int i2 = 0;
+    while (i1 < i3)
+    {
+      i2 += arrayOfInt[i1];
+      i1 += 1;
+    }
+    return i2;
+  }
+  
+  public int indexOf(@G Object paramObject)
+  {
+    if (paramObject == null) {
+      return b();
+    }
+    return d(paramObject, paramObject.hashCode());
+  }
+  
+  public boolean isEmpty()
+  {
+    return m <= 0;
+  }
+  
+  public Iterator<E> iterator()
+  {
+    return a().e().iterator();
+  }
+  
+  public boolean remove(@G Object paramObject)
+  {
+    int i1 = indexOf(paramObject);
+    if (i1 >= 0)
+    {
+      b(i1);
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean removeAll(@F Collection<?> paramCollection)
+  {
+    paramCollection = paramCollection.iterator();
+    boolean bool = false;
+    while (paramCollection.hasNext()) {
+      bool |= remove(paramCollection.next());
+    }
+    return bool;
+  }
+  
+  public boolean retainAll(@F Collection<?> paramCollection)
+  {
+    int i1 = m - 1;
+    boolean bool = false;
+    while (i1 >= 0)
+    {
+      if (!paramCollection.contains(l[i1]))
+      {
+        b(i1);
+        bool = true;
+      }
+      i1 -= 1;
+    }
+    return bool;
+  }
+  
+  public int size()
+  {
+    return m;
+  }
+  
+  @F
+  public Object[] toArray()
+  {
+    int i1 = m;
+    Object[] arrayOfObject = new Object[i1];
+    System.arraycopy(l, 0, arrayOfObject, 0, i1);
+    return arrayOfObject;
+  }
+  
+  @F
+  public <T> T[] toArray(@F T[] paramArrayOfT)
+  {
+    Object localObject = paramArrayOfT;
+    if (paramArrayOfT.length < m) {
+      localObject = (Object[])Array.newInstance(paramArrayOfT.getClass().getComponentType(), m);
+    }
+    System.arraycopy(l, 0, localObject, 0, m);
+    int i1 = localObject.length;
+    int i2 = m;
+    if (i1 > i2) {
+      localObject[i2] = null;
+    }
+    return localObject;
+  }
+  
+  public String toString()
+  {
+    if (isEmpty()) {
+      return "{}";
+    }
+    StringBuilder localStringBuilder = new StringBuilder(m * 14);
+    localStringBuilder.append('{');
+    int i1 = 0;
+    while (i1 < m)
+    {
+      if (i1 > 0) {
+        localStringBuilder.append(", ");
+      }
+      Object localObject = c(i1);
+      if (localObject != this) {
+        localStringBuilder.append(localObject);
+      } else {
+        localStringBuilder.append("(this Set)");
+      }
+      i1 += 1;
+    }
+    localStringBuilder.append('}');
+    return localStringBuilder.toString();
+  }
+}

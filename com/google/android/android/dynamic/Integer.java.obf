@@ -1,0 +1,72 @@
+package com.google.android.gms.dynamic;
+
+import android.os.IBinder;
+import android.os.IInterface;
+import f.a.a.a.a;
+import java.lang.reflect.Field;
+
+public final class zzn<T>
+  extends IObjectWrapper.zza
+{
+  public final T mWrappedObject;
+  
+  public zzn(T paramT)
+  {
+    mWrappedObject = paramT;
+  }
+  
+  public static <T> IObjectWrapper zzw(T paramT)
+  {
+    return new zzn(paramT);
+  }
+  
+  public static <T> T zzx(IObjectWrapper paramIObjectWrapper)
+  {
+    if ((paramIObjectWrapper instanceof zzn)) {
+      return mWrappedObject;
+    }
+    IBinder localIBinder = paramIObjectWrapper.asBinder();
+    Field[] arrayOfField = localIBinder.getClass().getDeclaredFields();
+    paramIObjectWrapper = null;
+    int m = arrayOfField.length;
+    int i = 0;
+    int k;
+    for (int j = 0; i < m; j = k)
+    {
+      Field localField = arrayOfField[i];
+      k = j;
+      if (!localField.isSynthetic())
+      {
+        k = j + 1;
+        paramIObjectWrapper = localField;
+      }
+      i += 1;
+    }
+    if (j == 1)
+    {
+      if (!paramIObjectWrapper.isAccessible())
+      {
+        paramIObjectWrapper.setAccessible(true);
+        try
+        {
+          paramIObjectWrapper = paramIObjectWrapper.get(localIBinder);
+          return paramIObjectWrapper;
+        }
+        catch (IllegalAccessException paramIObjectWrapper)
+        {
+          throw new IllegalArgumentException("Could not access the field in remoteBinder.", paramIObjectWrapper);
+        }
+        catch (NullPointerException paramIObjectWrapper)
+        {
+          throw new IllegalArgumentException("Binder object is null.", paramIObjectWrapper);
+        }
+      }
+      throw new IllegalArgumentException("IObjectWrapper declared field not private!");
+    }
+    paramIObjectWrapper = new IllegalArgumentException(a.a(64, "Unexpected number of IObjectWrapper declared fields: ", arrayOfField.length));
+    for (;;)
+    {
+      throw paramIObjectWrapper;
+    }
+  }
+}

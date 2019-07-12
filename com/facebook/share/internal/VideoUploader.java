@@ -1,0 +1,607 @@
+package com.facebook.share.internal;
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.ParcelFileDescriptor;
+import android.os.ParcelFileDescriptor.AutoCloseInputStream;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookGraphResponseException;
+import com.facebook.FacebookRequestError;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.internal.Utility;
+import com.facebook.internal.Validate;
+import com.facebook.internal.WorkQueue;
+import com.facebook.internal.WorkQueue.WorkItem;
+import com.facebook.share.Sharer.Result;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareMedia;
+import com.facebook.share.model.ShareVideo;
+import com.facebook.share.model.ShareVideoContent;
+import f.sufficientlysecure.rootcommands.util.StringBuilder;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Set;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class VideoUploader
+{
+  public static final String ERROR_BAD_SERVER_RESPONSE = "Unexpected error in server response";
+  public static final String ERROR_UPLOAD = "Video upload failed";
+  public static final int MAX_RETRIES_PER_PHASE = 2;
+  public static final String PAGE_KEY = "VideoUploader";
+  public static final String PARAM_DESCRIPTION = "description";
+  public static final String PARAM_END_OFFSET = "end_offset";
+  public static final String PARAM_FILE_SIZE = "file_size";
+  public static final String PARAM_REF = "ref";
+  public static final String PARAM_SESSION_ID = "upload_session_id";
+  public static final String PARAM_START_OFFSET = "start_offset";
+  public static final String PARAM_TITLE = "title";
+  public static final String PARAM_UPLOAD_PHASE = "upload_phase";
+  public static final String PARAM_VALUE_UPLOAD_FINISH_PHASE = "finish";
+  public static final String PARAM_VALUE_UPLOAD_START_PHASE = "start";
+  public static final String PARAM_VALUE_UPLOAD_TRANSFER_PHASE = "transfer";
+  public static final String PARAM_VIDEO_FILE_CHUNK = "video_file_chunk";
+  public static final String PARAM_VIDEO_ID = "video_id";
+  public static final int RETRY_DELAY_BACK_OFF_FACTOR = 3;
+  public static final int RETRY_DELAY_UNIT_MS = 5000;
+  public static final int UPLOAD_QUEUE_MAX_CONCURRENT = 8;
+  public static AccessTokenTracker accessTokenTracker;
+  public static Handler handler;
+  public static boolean initialized;
+  public static Set<UploadContext> pendingUploads = new HashSet();
+  public static WorkQueue uploadQueue = new WorkQueue(8);
+  
+  public VideoUploader() {}
+  
+  public static void cancelAllRequests()
+  {
+    try
+    {
+      Iterator localIterator = pendingUploads.iterator();
+      while (localIterator.hasNext()) {
+        nextisCanceled = true;
+      }
+      return;
+    }
+    catch (Throwable localThrowable)
+    {
+      throw localThrowable;
+    }
+  }
+  
+  public static void enqueueRequest(UploadContext paramUploadContext, Runnable paramRunnable)
+  {
+    try
+    {
+      workItem = uploadQueue.addActiveWorkItem(paramRunnable);
+      return;
+    }
+    catch (Throwable paramUploadContext)
+    {
+      throw paramUploadContext;
+    }
+  }
+  
+  public static void enqueueUploadChunk(UploadContext paramUploadContext, String paramString1, String paramString2, int paramInt)
+  {
+    enqueueRequest(paramUploadContext, new TransferChunkWorkItem(paramUploadContext, paramString1, paramString2, paramInt));
+  }
+  
+  public static void enqueueUploadFinish(UploadContext paramUploadContext, int paramInt)
+  {
+    enqueueRequest(paramUploadContext, new FinishUploadWorkItem(paramUploadContext, paramInt));
+  }
+  
+  public static void enqueueUploadStart(UploadContext paramUploadContext, int paramInt)
+  {
+    enqueueRequest(paramUploadContext, new StartUploadWorkItem(paramUploadContext, paramInt));
+  }
+  
+  public static byte[] getChunk(UploadContext paramUploadContext, String paramString1, String paramString2)
+    throws IOException
+  {
+    if (!Utility.areObjectsEqual(paramString1, chunkStart))
+    {
+      paramUploadContext = chunkStart;
+      String.format(Locale.ROOT, "Error reading video chunk. Expected chunk '%s'. Requested chunk '%s'.", new Object[] { paramUploadContext, paramString1 });
+      return null;
+    }
+    long l = Long.parseLong(paramString1);
+    int i = (int)(Long.parseLong(paramString2) - l);
+    paramString1 = new ByteArrayOutputStream();
+    byte[] arrayOfByte = new byte[Math.min(8192, i)];
+    int k;
+    int j;
+    do
+    {
+      k = videoStream.read(arrayOfByte);
+      if (k == -1) {
+        break;
+      }
+      paramString1.write(arrayOfByte, 0, k);
+      j = i - k;
+      if (j == 0) {
+        break;
+      }
+      i = j;
+    } while (j >= 0);
+    String.format(Locale.ROOT, "Error reading video chunk. Expected buffer length - '%d'. Actual - '%d'.", new Object[] { Integer.valueOf(j + k), Integer.valueOf(k) });
+    return null;
+    chunkStart = paramString2;
+    return paramString1.toByteArray();
+  }
+  
+  public static Handler getHandler()
+  {
+    try
+    {
+      if (handler == null) {
+        handler = new Handler(Looper.getMainLooper());
+      }
+      Handler localHandler = handler;
+      return localHandler;
+    }
+    catch (Throwable localThrowable)
+    {
+      throw localThrowable;
+    }
+  }
+  
+  public static void issueResponse(UploadContext paramUploadContext, FacebookException paramFacebookException, String paramString)
+  {
+    removePendingUpload(paramUploadContext);
+    Utility.closeQuietly(videoStream);
+    FacebookCallback localFacebookCallback = callback;
+    if (localFacebookCallback != null)
+    {
+      if (paramFacebookException != null)
+      {
+        ShareInternalUtility.invokeOnErrorCallback(localFacebookCallback, paramFacebookException);
+        return;
+      }
+      if (isCanceled)
+      {
+        ShareInternalUtility.invokeOnCancelCallback(localFacebookCallback);
+        return;
+      }
+      ShareInternalUtility.invokeOnSuccessCallback(localFacebookCallback, paramString);
+    }
+  }
+  
+  public static void logError(Exception paramException, String paramString, Object... paramVarArgs)
+  {
+    String.format(Locale.ROOT, paramString, paramVarArgs);
+  }
+  
+  public static void registerAccessTokenTracker()
+  {
+    accessTokenTracker = new AccessTokenTracker()
+    {
+      public void onCurrentAccessTokenChanged(AccessToken paramAnonymousAccessToken1, AccessToken paramAnonymousAccessToken2)
+      {
+        if (paramAnonymousAccessToken1 == null) {
+          return;
+        }
+        if ((paramAnonymousAccessToken2 == null) || (!Utility.areObjectsEqual(paramAnonymousAccessToken2.getUserId(), paramAnonymousAccessToken1.getUserId()))) {
+          VideoUploader.cancelAllRequests();
+        }
+      }
+    };
+  }
+  
+  public static void removePendingUpload(UploadContext paramUploadContext)
+  {
+    try
+    {
+      pendingUploads.remove(paramUploadContext);
+      return;
+    }
+    catch (Throwable paramUploadContext)
+    {
+      throw paramUploadContext;
+    }
+  }
+  
+  public static void uploadAsync(ShareVideoContent paramShareVideoContent, FacebookCallback paramFacebookCallback)
+    throws FileNotFoundException
+  {
+    try
+    {
+      uploadAsync(paramShareVideoContent, "me", paramFacebookCallback);
+      return;
+    }
+    catch (Throwable paramShareVideoContent)
+    {
+      throw paramShareVideoContent;
+    }
+  }
+  
+  public static void uploadAsync(ShareVideoContent paramShareVideoContent, String paramString, FacebookCallback paramFacebookCallback)
+    throws FileNotFoundException
+  {
+    try
+    {
+      if (!initialized)
+      {
+        registerAccessTokenTracker();
+        initialized = true;
+      }
+      Validate.notNull(paramShareVideoContent, "videoContent");
+      Validate.notNull(paramString, "graphNode");
+      ShareVideo localShareVideo = paramShareVideoContent.getVideo();
+      Validate.notNull(localShareVideo, "videoContent.video");
+      Validate.notNull(localShareVideo.getLocalUrl(), "videoContent.video.localUrl");
+      paramShareVideoContent = new UploadContext(paramShareVideoContent, paramString, paramFacebookCallback);
+      UploadContext.access$100(paramShareVideoContent);
+      pendingUploads.add(paramShareVideoContent);
+      enqueueUploadStart(paramShareVideoContent, 0);
+      return;
+    }
+    catch (Throwable paramShareVideoContent)
+    {
+      throw paramShareVideoContent;
+    }
+  }
+  
+  private static class FinishUploadWorkItem
+    extends VideoUploader.UploadWorkItemBase
+  {
+    public static final Set<Integer> transientErrorCodes = new HashSet() {};
+    
+    public FinishUploadWorkItem(VideoUploader.UploadContext paramUploadContext, int paramInt)
+    {
+      super(paramInt);
+    }
+    
+    public void enqueueRetry(int paramInt)
+    {
+      VideoUploader.enqueueUploadFinish(uploadContext, paramInt);
+    }
+    
+    public Bundle getParameters()
+    {
+      Bundle localBundle1 = new Bundle();
+      Bundle localBundle2 = uploadContext.params;
+      if (localBundle2 != null) {
+        localBundle1.putAll(localBundle2);
+      }
+      localBundle1.putString("upload_phase", "finish");
+      localBundle1.putString("upload_session_id", uploadContext.sessionId);
+      Utility.putNonEmptyString(localBundle1, "title", uploadContext.title);
+      Utility.putNonEmptyString(localBundle1, "description", uploadContext.description);
+      Utility.putNonEmptyString(localBundle1, "ref", uploadContext.resultText);
+      return localBundle1;
+    }
+    
+    public Set getTransientErrorCodes()
+    {
+      return transientErrorCodes;
+    }
+    
+    public void handleError(FacebookException paramFacebookException)
+    {
+      VideoUploader.access$400(paramFacebookException, "Video '%s' failed to finish uploading", new Object[] { uploadContext.videoId });
+      endUploadWithFailure(paramFacebookException);
+    }
+    
+    public void handleSuccess(JSONObject paramJSONObject)
+      throws JSONException
+    {
+      if (paramJSONObject.getBoolean("success"))
+      {
+        issueResponseOnMainThread(null, uploadContext.videoId);
+        return;
+      }
+      handleError(new FacebookException("Unexpected error in server response"));
+    }
+  }
+  
+  private static class StartUploadWorkItem
+    extends VideoUploader.UploadWorkItemBase
+  {
+    public static final Set<Integer> transientErrorCodes = new HashSet() {};
+    
+    public StartUploadWorkItem(VideoUploader.UploadContext paramUploadContext, int paramInt)
+    {
+      super(paramInt);
+    }
+    
+    public void enqueueRetry(int paramInt)
+    {
+      VideoUploader.enqueueUploadStart(uploadContext, paramInt);
+    }
+    
+    public Bundle getParameters()
+    {
+      Bundle localBundle = StringBuilder.put("upload_phase", "start");
+      localBundle.putLong("file_size", uploadContext.videoSize);
+      return localBundle;
+    }
+    
+    public Set getTransientErrorCodes()
+    {
+      return transientErrorCodes;
+    }
+    
+    public void handleError(FacebookException paramFacebookException)
+    {
+      VideoUploader.access$400(paramFacebookException, "Error starting video upload", new Object[0]);
+      endUploadWithFailure(paramFacebookException);
+    }
+    
+    public void handleSuccess(JSONObject paramJSONObject)
+      throws JSONException
+    {
+      uploadContext.sessionId = paramJSONObject.getString("upload_session_id");
+      uploadContext.videoId = paramJSONObject.getString("video_id");
+      String str = paramJSONObject.getString("start_offset");
+      paramJSONObject = paramJSONObject.getString("end_offset");
+      VideoUploader.enqueueUploadChunk(uploadContext, str, paramJSONObject, 0);
+    }
+  }
+  
+  private static class TransferChunkWorkItem
+    extends VideoUploader.UploadWorkItemBase
+  {
+    public static final Set<Integer> transientErrorCodes = new HashSet() {};
+    public String chunkEnd;
+    public String chunkStart;
+    
+    public TransferChunkWorkItem(VideoUploader.UploadContext paramUploadContext, String paramString1, String paramString2, int paramInt)
+    {
+      super(paramInt);
+      chunkStart = paramString1;
+      chunkEnd = paramString2;
+    }
+    
+    public void enqueueRetry(int paramInt)
+    {
+      VideoUploader.enqueueUploadChunk(uploadContext, chunkStart, chunkEnd, paramInt);
+    }
+    
+    public Bundle getParameters()
+      throws IOException
+    {
+      Bundle localBundle = StringBuilder.put("upload_phase", "transfer");
+      localBundle.putString("upload_session_id", uploadContext.sessionId);
+      localBundle.putString("start_offset", chunkStart);
+      byte[] arrayOfByte = VideoUploader.getChunk(uploadContext, chunkStart, chunkEnd);
+      if (arrayOfByte != null)
+      {
+        localBundle.putByteArray("video_file_chunk", arrayOfByte);
+        return localBundle;
+      }
+      throw new FacebookException("Error reading video");
+    }
+    
+    public Set getTransientErrorCodes()
+    {
+      return transientErrorCodes;
+    }
+    
+    public void handleError(FacebookException paramFacebookException)
+    {
+      VideoUploader.access$400(paramFacebookException, "Error uploading video '%s'", new Object[] { uploadContext.videoId });
+      endUploadWithFailure(paramFacebookException);
+    }
+    
+    public void handleSuccess(JSONObject paramJSONObject)
+      throws JSONException
+    {
+      String str = paramJSONObject.getString("start_offset");
+      paramJSONObject = paramJSONObject.getString("end_offset");
+      if (Utility.areObjectsEqual(str, paramJSONObject))
+      {
+        VideoUploader.enqueueUploadFinish(uploadContext, 0);
+        return;
+      }
+      VideoUploader.enqueueUploadChunk(uploadContext, str, paramJSONObject, 0);
+    }
+  }
+  
+  private static class UploadContext
+  {
+    public final AccessToken accessToken = AccessToken.getCurrentAccessToken();
+    public final FacebookCallback<Sharer.Result> callback;
+    public String chunkStart = "0";
+    public final String description;
+    public final String graphNode;
+    public boolean isCanceled;
+    public Bundle params;
+    public final String resultText;
+    public String sessionId;
+    public final String title;
+    public String videoId;
+    public long videoSize;
+    public InputStream videoStream;
+    public final Uri videoUri;
+    public WorkQueue.WorkItem workItem;
+    
+    public UploadContext(ShareVideoContent paramShareVideoContent, String paramString, FacebookCallback paramFacebookCallback)
+    {
+      videoUri = paramShareVideoContent.getVideo().getLocalUrl();
+      title = paramShareVideoContent.getContentTitle();
+      description = paramShareVideoContent.getContentDescription();
+      resultText = paramShareVideoContent.getRef();
+      graphNode = paramString;
+      callback = paramFacebookCallback;
+      params = paramShareVideoContent.getVideo().getParameters();
+    }
+    
+    private void initialize()
+      throws FileNotFoundException
+    {
+      Object localObject = videoUri;
+      try
+      {
+        boolean bool = Utility.isFileUri((Uri)localObject);
+        long l;
+        if (bool)
+        {
+          localObject = videoUri;
+          localObject = ParcelFileDescriptor.open(new File(((Uri)localObject).getPath()), 268435456);
+          l = ((ParcelFileDescriptor)localObject).getStatSize();
+          videoSize = l;
+          localObject = new ParcelFileDescriptor.AutoCloseInputStream((ParcelFileDescriptor)localObject);
+          videoStream = ((InputStream)localObject);
+          return;
+        }
+        localObject = videoUri;
+        bool = Utility.isContentUri((Uri)localObject);
+        if (bool)
+        {
+          localObject = videoUri;
+          l = Utility.getContentSize((Uri)localObject);
+          videoSize = l;
+          localObject = FacebookSdk.getApplicationContext().getContentResolver();
+          Uri localUri = videoUri;
+          localObject = ((ContentResolver)localObject).openInputStream(localUri);
+          videoStream = ((InputStream)localObject);
+          return;
+        }
+        localObject = new FacebookException("Uri must be a content:// or file:// uri");
+        throw ((Throwable)localObject);
+      }
+      catch (FileNotFoundException localFileNotFoundException)
+      {
+        Utility.closeQuietly(videoStream);
+        throw localFileNotFoundException;
+      }
+    }
+  }
+  
+  private static abstract class UploadWorkItemBase
+    implements Runnable
+  {
+    public int completedRetries;
+    public VideoUploader.UploadContext uploadContext;
+    
+    public UploadWorkItemBase(VideoUploader.UploadContext paramUploadContext, int paramInt)
+    {
+      uploadContext = paramUploadContext;
+      completedRetries = paramInt;
+    }
+    
+    private boolean attemptRetry(int paramInt)
+    {
+      if ((completedRetries < 2) && (getTransientErrorCodes().contains(Integer.valueOf(paramInt))))
+      {
+        paramInt = (int)Math.pow(3.0D, completedRetries);
+        VideoUploader.getHandler().postDelayed(new Runnable()
+        {
+          public void run()
+          {
+            VideoUploader.UploadWorkItemBase localUploadWorkItemBase = VideoUploader.UploadWorkItemBase.this;
+            localUploadWorkItemBase.enqueueRetry(completedRetries + 1);
+          }
+        }, paramInt * 5000);
+        return true;
+      }
+      return false;
+    }
+    
+    public void endUploadWithFailure(FacebookException paramFacebookException)
+    {
+      issueResponseOnMainThread(paramFacebookException, null);
+    }
+    
+    public abstract void enqueueRetry(int paramInt);
+    
+    public void executeGraphRequestSynchronously(Bundle paramBundle)
+    {
+      Object localObject = uploadContext;
+      paramBundle = new GraphRequest(accessToken, String.format(Locale.ROOT, "%s/videos", new Object[] { graphNode }), paramBundle, HttpMethod.POST, null).executeAndWait();
+      if (paramBundle != null)
+      {
+        localObject = paramBundle.getError();
+        JSONObject localJSONObject = paramBundle.getJSONObject();
+        if (localObject != null)
+        {
+          if (!attemptRetry(((FacebookRequestError)localObject).getSubErrorCode())) {
+            handleError(new FacebookGraphResponseException(paramBundle, "Video upload failed"));
+          }
+        }
+        else
+        {
+          if (localJSONObject != null) {
+            try
+            {
+              handleSuccess(localJSONObject);
+              return;
+            }
+            catch (JSONException paramBundle)
+            {
+              endUploadWithFailure(new FacebookException("Unexpected error in server response", paramBundle));
+              return;
+            }
+          }
+          handleError(new FacebookException("Unexpected error in server response"));
+        }
+      }
+      else
+      {
+        handleError(new FacebookException("Unexpected error in server response"));
+      }
+    }
+    
+    public abstract Bundle getParameters()
+      throws Exception;
+    
+    public abstract Set getTransientErrorCodes();
+    
+    public abstract void handleError(FacebookException paramFacebookException);
+    
+    public abstract void handleSuccess(JSONObject paramJSONObject)
+      throws JSONException;
+    
+    public void issueResponseOnMainThread(final FacebookException paramFacebookException, final String paramString)
+    {
+      VideoUploader.getHandler().post(new Runnable()
+      {
+        public void run()
+        {
+          VideoUploader.issueResponse(uploadContext, paramFacebookException, paramString);
+        }
+      });
+    }
+    
+    public void run()
+    {
+      if (!uploadContext.isCanceled) {
+        try
+        {
+          executeGraphRequestSynchronously(getParameters());
+          return;
+        }
+        catch (Exception localException)
+        {
+          endUploadWithFailure(new FacebookException("Video upload failed", localException));
+          return;
+        }
+        catch (FacebookException localFacebookException)
+        {
+          endUploadWithFailure(localFacebookException);
+          return;
+        }
+      }
+      endUploadWithFailure(null);
+    }
+  }
+}

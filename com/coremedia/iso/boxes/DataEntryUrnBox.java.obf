@@ -1,0 +1,69 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class DataEntryUrnBox
+  extends c
+{
+  public static final String TYPE = "urn ";
+  public String location;
+  public String name;
+  
+  static {}
+  
+  public DataEntryUrnBox()
+  {
+    super("urn ");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    name = h.f(paramByteBuffer);
+    location = h.f(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.put(m.a(name));
+    paramByteBuffer.put((byte)0);
+    paramByteBuffer.put(m.a(location));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public long getContentSize()
+  {
+    int i = m.b(name);
+    return m.b(location) + (i + 1) + 1;
+  }
+  
+  public String getLocation()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    j.b().a(localJoinPoint);
+    return location;
+  }
+  
+  public String getName()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return name;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_2, this, this), "DataEntryUrlBox[name=");
+    localStringBuilder.append(getName());
+    localStringBuilder.append(";location=");
+    localStringBuilder.append(getLocation());
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+}

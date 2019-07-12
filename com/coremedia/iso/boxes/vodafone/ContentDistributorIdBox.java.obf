@@ -1,0 +1,68 @@
+package com.coremedia.iso.boxes.vodafone;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class ContentDistributorIdBox
+  extends c
+{
+  public static final String TYPE = "cdis";
+  public String contentDistributorId;
+  public String language;
+  
+  static {}
+  
+  public ContentDistributorIdBox()
+  {
+    super("cdis");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    language = h.e(paramByteBuffer);
+    contentDistributorId = h.f(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    f.b.a.j.a(paramByteBuffer, language);
+    paramByteBuffer.put(m.a(contentDistributorId));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public String getContentDistributorId()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return contentDistributorId;
+  }
+  
+  public long getContentSize()
+  {
+    return m.b(contentDistributorId) + 2 + 5;
+  }
+  
+  public String getLanguage()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return language;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_2, this, this), "ContentDistributorIdBox[language=");
+    localStringBuilder.append(getLanguage());
+    localStringBuilder.append(";contentDistributorId=");
+    localStringBuilder.append(getContentDistributorId());
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+}

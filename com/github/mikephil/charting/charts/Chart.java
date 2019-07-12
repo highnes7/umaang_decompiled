@@ -1,0 +1,1054 @@
+package com.github.mikephil.charting.charts;
+
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.os.Environment;
+import android.provider.MediaStore.Images.Media;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import com.github.mikephil.charting.animation.ChartAnimator;
+import com.github.mikephil.charting.animation.Easing.EasingOption;
+import com.github.mikephil.charting.animation.EasingFunction;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.MarkerView;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.highlight.ChartHighlighter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.renderer.DataRenderer;
+import com.github.mikephil.charting.renderer.LegendRenderer;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+@SuppressLint({"NewApi"})
+public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Entry>>>
+  extends ViewGroup
+  implements ChartInterface
+{
+  public static final String LOG_TAG = "MPAndroidChart";
+  public static final int PAINT_CENTER_TEXT = 14;
+  public static final int PAINT_DESCRIPTION = 11;
+  public static final int PAINT_GRID_BACKGROUND = 4;
+  public static final int PAINT_HOLE = 13;
+  public static final int PAINT_INFO = 7;
+  public static final int PAINT_LEGEND_LABEL = 18;
+  public ChartAnimator mAnimator;
+  public ChartTouchListener mChartTouchListener;
+  public T mData = null;
+  public ValueFormatter mDefaultFormatter;
+  public Paint mDescPaint;
+  public String mDescription = "Description";
+  public PointF mDescriptionPosition;
+  public boolean mDragDecelerationEnabled = true;
+  public float mDragDecelerationFrictionCoef = 0.9F;
+  public boolean mDrawMarkerViews = true;
+  public Paint mDrawPaint;
+  public float mExtraBottomOffset = 0.0F;
+  public float mExtraLeftOffset = 0.0F;
+  public float mExtraRightOffset = 0.0F;
+  public float mExtraTopOffset = 0.0F;
+  public OnChartGestureListener mGestureListener;
+  public boolean mHighLightPerTapEnabled = true;
+  public ChartHighlighter mHighlighter;
+  public Highlight[] mIndicesToHighlight;
+  public Paint mInfoPaint;
+  public ArrayList<Runnable> mJobs = new ArrayList();
+  public Legend mLegend;
+  public LegendRenderer mLegendRenderer;
+  public boolean mLogEnabled = false;
+  public MarkerView mMarkerView;
+  public String mNoDataText = "No chart data available.";
+  public String mNoDataTextDescription;
+  public boolean mOffsetsCalculated = false;
+  public DataRenderer mRenderer;
+  public OnChartValueSelectedListener mSelectionListener;
+  public boolean mTouchEnabled = true;
+  public boolean mUnbind = false;
+  public ViewPortHandler mViewPortHandler;
+  public XAxis mXAxis;
+  
+  public Chart(Context paramContext)
+  {
+    super(paramContext);
+    init();
+  }
+  
+  public Chart(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    init();
+  }
+  
+  public Chart(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+    init();
+  }
+  
+  private void unbindDrawables(View paramView)
+  {
+    if (paramView.getBackground() != null) {
+      paramView.getBackground().setCallback(null);
+    }
+    if ((paramView instanceof ViewGroup))
+    {
+      int i = 0;
+      ViewGroup localViewGroup;
+      for (;;)
+      {
+        localViewGroup = (ViewGroup)paramView;
+        if (i >= localViewGroup.getChildCount()) {
+          break;
+        }
+        unbindDrawables(localViewGroup.getChildAt(i));
+        i += 1;
+      }
+      localViewGroup.removeAllViews();
+    }
+  }
+  
+  public void addViewportJob(Runnable paramRunnable)
+  {
+    if (mViewPortHandler.hasChartDimens())
+    {
+      post(paramRunnable);
+      return;
+    }
+    mJobs.add(paramRunnable);
+  }
+  
+  public void animateX(int paramInt)
+  {
+    mAnimator.animateX(paramInt);
+  }
+  
+  public void animateX(int paramInt, Easing.EasingOption paramEasingOption)
+  {
+    mAnimator.animateX(paramInt, paramEasingOption);
+  }
+  
+  public void animateX(int paramInt, EasingFunction paramEasingFunction)
+  {
+    mAnimator.animateX(paramInt, paramEasingFunction);
+  }
+  
+  public void animateXY(int paramInt1, int paramInt2)
+  {
+    mAnimator.animateXY(paramInt1, paramInt2);
+  }
+  
+  public void animateXY(int paramInt1, int paramInt2, Easing.EasingOption paramEasingOption1, Easing.EasingOption paramEasingOption2)
+  {
+    mAnimator.animateXY(paramInt1, paramInt2, paramEasingOption1, paramEasingOption2);
+  }
+  
+  public void animateXY(int paramInt1, int paramInt2, EasingFunction paramEasingFunction1, EasingFunction paramEasingFunction2)
+  {
+    mAnimator.animateXY(paramInt1, paramInt2, paramEasingFunction1, paramEasingFunction2);
+  }
+  
+  public void animateY(int paramInt)
+  {
+    mAnimator.animateY(paramInt);
+  }
+  
+  public void animateY(int paramInt, Easing.EasingOption paramEasingOption)
+  {
+    mAnimator.animateY(paramInt, paramEasingOption);
+  }
+  
+  public void animateY(int paramInt, EasingFunction paramEasingFunction)
+  {
+    mAnimator.animateY(paramInt, paramEasingFunction);
+  }
+  
+  public abstract void calcMinMax();
+  
+  public void calculateFormatter(float paramFloat1, float paramFloat2)
+  {
+    ChartData localChartData = mData;
+    if ((localChartData != null) && (localChartData.getXValCount() >= 2)) {
+      paramFloat1 = Math.abs(paramFloat2 - paramFloat1);
+    } else {
+      paramFloat1 = Math.max(Math.abs(paramFloat1), Math.abs(paramFloat2));
+    }
+    mDefaultFormatter = new DefaultValueFormatter(Utils.getDecimals(paramFloat1));
+  }
+  
+  public abstract void calculateOffsets();
+  
+  public void clear()
+  {
+    mData = null;
+    mIndicesToHighlight = null;
+    invalidate();
+  }
+  
+  public void clearAllViewportJobs()
+  {
+    mJobs.clear();
+  }
+  
+  public void clearValues()
+  {
+    mData.clearValues();
+    invalidate();
+  }
+  
+  public void disableScroll()
+  {
+    ViewParent localViewParent = getParent();
+    if (localViewParent != null) {
+      localViewParent.requestDisallowInterceptTouchEvent(true);
+    }
+  }
+  
+  public void drawDescription(Canvas paramCanvas)
+  {
+    if (!mDescription.equals(""))
+    {
+      PointF localPointF = mDescriptionPosition;
+      if (localPointF == null)
+      {
+        paramCanvas.drawText(mDescription, getWidth() - mViewPortHandler.offsetRight() - 10.0F, getHeight() - mViewPortHandler.offsetBottom() - 10.0F, mDescPaint);
+        return;
+      }
+      paramCanvas.drawText(mDescription, x, y, mDescPaint);
+    }
+  }
+  
+  public void drawMarkers(Canvas paramCanvas)
+  {
+    if ((mMarkerView != null) && (mDrawMarkerViews))
+    {
+      if (!valuesToHighlight()) {
+        return;
+      }
+      int i = 0;
+      for (;;)
+      {
+        Object localObject1 = mIndicesToHighlight;
+        if (i >= localObject1.length) {
+          break;
+        }
+        Object localObject2 = localObject1[i];
+        int j = ((Highlight)localObject2).getXIndex();
+        ((Highlight)localObject2).getDataSetIndex();
+        float f1 = mXAxis.mAxisRange;
+        float f2 = j;
+        if ((f2 <= f1) && (f2 <= mAnimator.getPhaseX() * f1))
+        {
+          Entry localEntry = mData.getEntryForHighlight(mIndicesToHighlight[i]);
+          if ((localEntry != null) && (localEntry.getXIndex() == mIndicesToHighlight[i].getXIndex()))
+          {
+            localObject1 = getMarkerPosition(localEntry, (Highlight)localObject2);
+            if (mViewPortHandler.isInBounds(localObject1[0], localObject1[1]))
+            {
+              mMarkerView.refreshContent(localEntry, (Highlight)localObject2);
+              mMarkerView.measure(View.MeasureSpec.makeMeasureSpec(0, 0), View.MeasureSpec.makeMeasureSpec(0, 0));
+              localObject2 = mMarkerView;
+              ((ViewGroup)localObject2).layout(0, 0, ((View)localObject2).getMeasuredWidth(), mMarkerView.getMeasuredHeight());
+              if (localObject1[1] - mMarkerView.getHeight() <= 0.0F)
+              {
+                f1 = mMarkerView.getHeight();
+                f2 = localObject1[1];
+                mMarkerView.draw(paramCanvas, localObject1[0], localObject1[1] + (f1 - f2));
+              }
+              else
+              {
+                mMarkerView.draw(paramCanvas, localObject1[0], localObject1[1]);
+              }
+            }
+          }
+        }
+        i += 1;
+      }
+    }
+  }
+  
+  public void enableScroll()
+  {
+    ViewParent localViewParent = getParent();
+    if (localViewParent != null) {
+      localViewParent.requestDisallowInterceptTouchEvent(false);
+    }
+  }
+  
+  public ChartAnimator getAnimator()
+  {
+    return mAnimator;
+  }
+  
+  public PointF getCenter()
+  {
+    return new PointF(getWidth() / 2.0F, getHeight() / 2.0F);
+  }
+  
+  public PointF getCenterOfView()
+  {
+    return getCenter();
+  }
+  
+  public PointF getCenterOffsets()
+  {
+    return mViewPortHandler.getContentCenter();
+  }
+  
+  public Bitmap getChartBitmap()
+  {
+    Bitmap localBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
+    Canvas localCanvas = new Canvas(localBitmap);
+    Drawable localDrawable = getBackground();
+    if (localDrawable != null) {
+      localDrawable.draw(localCanvas);
+    } else {
+      localCanvas.drawColor(-1);
+    }
+    draw(localCanvas);
+    return localBitmap;
+  }
+  
+  public RectF getContentRect()
+  {
+    return mViewPortHandler.getContentRect();
+  }
+  
+  public ChartData getData()
+  {
+    return mData;
+  }
+  
+  public ValueFormatter getDefaultValueFormatter()
+  {
+    return mDefaultFormatter;
+  }
+  
+  public float getDragDecelerationFrictionCoef()
+  {
+    return mDragDecelerationFrictionCoef;
+  }
+  
+  public List getEntriesAtIndex(int paramInt)
+  {
+    ArrayList localArrayList = new ArrayList();
+    int i = 0;
+    while (i < mData.getDataSetCount())
+    {
+      Entry localEntry = mData.getDataSetByIndex(i).getEntryForXIndex(paramInt);
+      if (localEntry != null) {
+        localArrayList.add(localEntry);
+      }
+      i += 1;
+    }
+    return localArrayList;
+  }
+  
+  public float getExtraBottomOffset()
+  {
+    return mExtraBottomOffset;
+  }
+  
+  public float getExtraLeftOffset()
+  {
+    return mExtraLeftOffset;
+  }
+  
+  public float getExtraRightOffset()
+  {
+    return mExtraRightOffset;
+  }
+  
+  public float getExtraTopOffset()
+  {
+    return mExtraTopOffset;
+  }
+  
+  public Highlight[] getHighlighted()
+  {
+    return mIndicesToHighlight;
+  }
+  
+  public ChartHighlighter getHighlighter()
+  {
+    return mHighlighter;
+  }
+  
+  public ArrayList getJobs()
+  {
+    return mJobs;
+  }
+  
+  public Legend getLegend()
+  {
+    return mLegend;
+  }
+  
+  public LegendRenderer getLegendRenderer()
+  {
+    return mLegendRenderer;
+  }
+  
+  public abstract float[] getMarkerPosition(Entry paramEntry, Highlight paramHighlight);
+  
+  public MarkerView getMarkerView()
+  {
+    return mMarkerView;
+  }
+  
+  public OnChartGestureListener getOnChartGestureListener()
+  {
+    return mGestureListener;
+  }
+  
+  public Paint getPaint(int paramInt)
+  {
+    if (paramInt != 7)
+    {
+      if (paramInt != 11) {
+        return null;
+      }
+      return mDescPaint;
+    }
+    return mInfoPaint;
+  }
+  
+  public DataRenderer getRenderer()
+  {
+    return mRenderer;
+  }
+  
+  public int getValueCount()
+  {
+    return mData.getYValCount();
+  }
+  
+  public ViewPortHandler getViewPortHandler()
+  {
+    return mViewPortHandler;
+  }
+  
+  public XAxis getXAxis()
+  {
+    return mXAxis;
+  }
+  
+  public float getXChartMax()
+  {
+    return mXAxis.mAxisMaximum;
+  }
+  
+  public float getXChartMin()
+  {
+    return mXAxis.mAxisMinimum;
+  }
+  
+  public int getXValCount()
+  {
+    return mData.getXValCount();
+  }
+  
+  public String getXValue(int paramInt)
+  {
+    ChartData localChartData = mData;
+    if ((localChartData != null) && (localChartData.getXValCount() > paramInt)) {
+      return (String)mData.getXVals().get(paramInt);
+    }
+    return null;
+  }
+  
+  public float getYMax()
+  {
+    return mData.getYMax();
+  }
+  
+  public float getYMin()
+  {
+    return mData.getYMin();
+  }
+  
+  public void highlightTouch(Highlight paramHighlight)
+  {
+    highlightValue(paramHighlight, true);
+  }
+  
+  public void highlightValue(int paramInt1, int paramInt2)
+  {
+    if ((paramInt1 >= 0) && (paramInt2 >= 0) && (paramInt1 < mData.getXValCount()) && (paramInt2 < mData.getDataSetCount()))
+    {
+      highlightValues(new Highlight[] { new Highlight(paramInt1, paramInt2) });
+      return;
+    }
+    highlightValues(null);
+  }
+  
+  public void highlightValue(Highlight paramHighlight)
+  {
+    highlightValue(paramHighlight, false);
+  }
+  
+  public void highlightValue(Highlight paramHighlight, boolean paramBoolean)
+  {
+    Object localObject;
+    if (paramHighlight == null)
+    {
+      mIndicesToHighlight = null;
+      localObject = null;
+    }
+    else
+    {
+      if (mLogEnabled)
+      {
+        localObject = f.sufficientlysecure.rootcommands.util.StringBuilder.append("Highlighted: ");
+        ((StringBuilder)localObject).append(paramHighlight.toString());
+        ((StringBuilder)localObject).toString();
+      }
+      Entry localEntry = mData.getEntryForHighlight(paramHighlight);
+      localObject = localEntry;
+      if ((localEntry != null) && (localEntry.getXIndex() == paramHighlight.getXIndex()))
+      {
+        mIndicesToHighlight = new Highlight[] { paramHighlight };
+      }
+      else
+      {
+        mIndicesToHighlight = null;
+        paramHighlight = null;
+      }
+    }
+    if ((paramBoolean) && (mSelectionListener != null)) {
+      if (!valuesToHighlight()) {
+        mSelectionListener.onNothingSelected();
+      } else {
+        mSelectionListener.onValueSelected((Entry)localObject, paramHighlight.getDataSetIndex(), paramHighlight);
+      }
+    }
+    invalidate();
+  }
+  
+  public void highlightValues(Highlight[] paramArrayOfHighlight)
+  {
+    mIndicesToHighlight = paramArrayOfHighlight;
+    if ((paramArrayOfHighlight != null) && (paramArrayOfHighlight.length > 0) && (paramArrayOfHighlight[0] != null)) {
+      mChartTouchListener.setLastHighlighted(paramArrayOfHighlight[0]);
+    } else {
+      mChartTouchListener.setLastHighlighted(null);
+    }
+    invalidate();
+  }
+  
+  public void init()
+  {
+    setWillNotDraw(false);
+    int i = Build.VERSION.SDK_INT;
+    mAnimator = new ChartAnimator(new ValueAnimator.AnimatorUpdateListener()
+    {
+      public void onAnimationUpdate(ValueAnimator paramAnonymousValueAnimator)
+      {
+        postInvalidate();
+      }
+    });
+    Utils.init(getContext());
+    mDefaultFormatter = new DefaultValueFormatter(1);
+    mViewPortHandler = new ViewPortHandler();
+    mLegend = new Legend();
+    mLegendRenderer = new LegendRenderer(mViewPortHandler, mLegend);
+    mXAxis = new XAxis();
+    mDescPaint = new Paint(1);
+    mDescPaint.setColor(-16777216);
+    mDescPaint.setTextAlign(Paint.Align.RIGHT);
+    mDescPaint.setTextSize(Utils.convertDpToPixel(9.0F));
+    mInfoPaint = new Paint(1);
+    mInfoPaint.setColor(Color.rgb(247, 189, 51));
+    mInfoPaint.setTextAlign(Paint.Align.CENTER);
+    mInfoPaint.setTextSize(Utils.convertDpToPixel(12.0F));
+    mDrawPaint = new Paint(4);
+  }
+  
+  public boolean isDragDecelerationEnabled()
+  {
+    return mDragDecelerationEnabled;
+  }
+  
+  public boolean isDrawMarkerViewEnabled()
+  {
+    return mDrawMarkerViews;
+  }
+  
+  public boolean isEmpty()
+  {
+    ChartData localChartData = mData;
+    if (localChartData == null) {
+      return true;
+    }
+    return localChartData.getYValCount() <= 0;
+  }
+  
+  public boolean isHighlightPerTapEnabled()
+  {
+    return mHighLightPerTapEnabled;
+  }
+  
+  public boolean isLogEnabled()
+  {
+    return mLogEnabled;
+  }
+  
+  public abstract void notifyDataSetChanged();
+  
+  public void onDetachedFromWindow()
+  {
+    super.onDetachedFromWindow();
+    if (mUnbind) {
+      unbindDrawables(this);
+    }
+  }
+  
+  public void onDraw(Canvas paramCanvas)
+  {
+    if (mData == null)
+    {
+      boolean bool1 = TextUtils.isEmpty(mNoDataText) ^ true;
+      boolean bool2 = true ^ TextUtils.isEmpty(mNoDataTextDescription);
+      float f4 = 0.0F;
+      float f1;
+      if (bool1) {
+        f1 = Utils.calcTextHeight(mInfoPaint, mNoDataText);
+      } else {
+        f1 = 0.0F;
+      }
+      if (bool2) {
+        f3 = Utils.calcTextHeight(mInfoPaint, mNoDataTextDescription);
+      } else {
+        f3 = 0.0F;
+      }
+      float f2 = f4;
+      if (bool1)
+      {
+        f2 = f4;
+        if (bool2) {
+          f2 = mInfoPaint.getFontSpacing() - f1;
+        }
+      }
+      f4 = (getHeight() - (f1 + f2 + f3)) / 2.0F + f1;
+      float f3 = f4;
+      if (bool1)
+      {
+        paramCanvas.drawText(mNoDataText, getWidth() / 2, f4, mInfoPaint);
+        f3 = f4;
+        if (bool2) {
+          f3 = f4 + f1 + f2;
+        }
+      }
+      if (bool2) {
+        paramCanvas.drawText(mNoDataTextDescription, getWidth() / 2, f3, mInfoPaint);
+      }
+    }
+    else if (!mOffsetsCalculated)
+    {
+      calculateOffsets();
+      mOffsetsCalculated = true;
+    }
+  }
+  
+  public void onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    int i = 0;
+    while (i < getChildCount())
+    {
+      getChildAt(i).layout(paramInt1, paramInt2, paramInt3, paramInt4);
+      i += 1;
+    }
+  }
+  
+  public void onMeasure(int paramInt1, int paramInt2)
+  {
+    super.onMeasure(paramInt1, paramInt2);
+    int i = (int)Utils.convertDpToPixel(50.0F);
+    setMeasuredDimension(Math.max(getSuggestedMinimumWidth(), View.resolveSize(i, paramInt1)), Math.max(getSuggestedMinimumHeight(), View.resolveSize(i, paramInt2)));
+  }
+  
+  public void onSizeChanged(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    if ((paramInt1 > 0) && (paramInt2 > 0) && (paramInt1 < 10000) && (paramInt2 < 10000))
+    {
+      mViewPortHandler.setChartDimens(paramInt1, paramInt2);
+      if (mLogEnabled)
+      {
+        localObject = new StringBuilder();
+        ((StringBuilder)localObject).append("Setting chart dimens, width: ");
+        ((StringBuilder)localObject).append(paramInt1);
+        ((StringBuilder)localObject).append(", height: ");
+        ((StringBuilder)localObject).append(paramInt2);
+        ((StringBuilder)localObject).toString();
+      }
+      Object localObject = mJobs.iterator();
+      while (((Iterator)localObject).hasNext()) {
+        post((Runnable)((Iterator)localObject).next());
+      }
+      mJobs.clear();
+    }
+    notifyDataSetChanged();
+    super.onSizeChanged(paramInt1, paramInt2, paramInt3, paramInt4);
+  }
+  
+  public void removeViewportJob(Runnable paramRunnable)
+  {
+    mJobs.remove(paramRunnable);
+  }
+  
+  public boolean saveToGallery(String paramString, int paramInt)
+  {
+    return saveToGallery(paramString, "", "MPAndroidChart-Library Save", Bitmap.CompressFormat.JPEG, paramInt);
+  }
+  
+  public boolean saveToGallery(String paramString1, String paramString2, String paramString3, Bitmap.CompressFormat paramCompressFormat, int paramInt)
+  {
+    int i;
+    if (paramInt >= 0)
+    {
+      i = paramInt;
+      if (paramInt <= 100) {}
+    }
+    else
+    {
+      i = 50;
+    }
+    long l1 = System.currentTimeMillis();
+    Object localObject1 = Environment.getExternalStorageDirectory();
+    Object localObject2 = new StringBuilder();
+    ((StringBuilder)localObject2).append(((File)localObject1).getAbsolutePath());
+    ((StringBuilder)localObject2).append("/DCIM/");
+    ((StringBuilder)localObject2).append(paramString2);
+    File localFile = new File(((StringBuilder)localObject2).toString());
+    if ((!localFile.exists()) && (!localFile.mkdirs())) {
+      return false;
+    }
+    paramInt = 2.$SwitchMap$android$graphics$Bitmap$CompressFormat[paramCompressFormat.ordinal()];
+    localObject2 = "image/jpeg";
+    if (paramInt != 1)
+    {
+      if (paramInt != 2)
+      {
+        paramString2 = paramString1;
+        localObject1 = localObject2;
+        if (!paramString1.endsWith(".jpg"))
+        {
+          paramString2 = paramString1;
+          localObject1 = localObject2;
+          if (!paramString1.endsWith(".jpeg"))
+          {
+            paramString2 = f.sufficientlysecure.rootcommands.util.StringBuilder.toString(paramString1, ".jpg");
+            localObject1 = localObject2;
+          }
+        }
+      }
+      else
+      {
+        paramString2 = paramString1;
+        if (!paramString1.endsWith(".webp")) {
+          paramString2 = f.sufficientlysecure.rootcommands.util.StringBuilder.toString(paramString1, ".webp");
+        }
+        localObject1 = "image/webp";
+      }
+    }
+    else
+    {
+      paramString2 = paramString1;
+      if (!paramString1.endsWith(".png")) {
+        paramString2 = f.sufficientlysecure.rootcommands.util.StringBuilder.toString(paramString1, ".png");
+      }
+      localObject1 = "image/png";
+    }
+    paramString1 = new StringBuilder();
+    paramString1.append(localFile.getAbsolutePath());
+    paramString1.append("/");
+    paramString1.append(paramString2);
+    paramString1 = paramString1.toString();
+    try
+    {
+      localObject2 = new FileOutputStream(paramString1);
+      getChartBitmap().compress(paramCompressFormat, i, (OutputStream)localObject2);
+      ((FileOutputStream)localObject2).flush();
+      ((FileOutputStream)localObject2).close();
+      long l2 = new File(paramString1).length();
+      paramCompressFormat = new ContentValues(8);
+      paramCompressFormat.put("title", paramString2);
+      paramCompressFormat.put("_display_name", paramString2);
+      paramCompressFormat.put("date_added", Long.valueOf(l1));
+      paramCompressFormat.put("mime_type", (String)localObject1);
+      paramCompressFormat.put("description", paramString3);
+      paramCompressFormat.put("orientation", Integer.valueOf(0));
+      paramCompressFormat.put("_data", paramString1);
+      paramCompressFormat.put("_size", Long.valueOf(l2));
+      if (getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, paramCompressFormat) != null) {
+        return true;
+      }
+    }
+    catch (IOException paramString1)
+    {
+      paramString1.printStackTrace();
+    }
+    return false;
+  }
+  
+  public boolean saveToPath(String paramString1, String paramString2)
+  {
+    Bitmap localBitmap = getChartBitmap();
+    try
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(Environment.getExternalStorageDirectory().getPath());
+      localStringBuilder.append(paramString2);
+      localStringBuilder.append("/");
+      localStringBuilder.append(paramString1);
+      localStringBuilder.append(".png");
+      paramString1 = new FileOutputStream(localStringBuilder.toString());
+      paramString2 = Bitmap.CompressFormat.PNG;
+      localBitmap.compress(paramString2, 40, paramString1);
+      paramString1.close();
+      return true;
+    }
+    catch (Exception paramString1)
+    {
+      paramString1.printStackTrace();
+    }
+    return false;
+  }
+  
+  public void setData(ChartData paramChartData)
+  {
+    if (paramChartData == null) {
+      return;
+    }
+    mOffsetsCalculated = false;
+    mData = paramChartData;
+    calculateFormatter(paramChartData.getYMin(), paramChartData.getYMax());
+    paramChartData = mData.getDataSets().iterator();
+    while (paramChartData.hasNext())
+    {
+      IDataSet localIDataSet = (IDataSet)paramChartData.next();
+      if (Utils.needsDefaultFormatter(localIDataSet.getValueFormatter())) {
+        localIDataSet.setValueFormatter(mDefaultFormatter);
+      }
+    }
+    notifyDataSetChanged();
+  }
+  
+  public void setDescription(String paramString)
+  {
+    String str = paramString;
+    if (paramString == null) {
+      str = "";
+    }
+    mDescription = str;
+  }
+  
+  public void setDescriptionColor(int paramInt)
+  {
+    mDescPaint.setColor(paramInt);
+  }
+  
+  public void setDescriptionPosition(float paramFloat1, float paramFloat2)
+  {
+    mDescriptionPosition = new PointF(paramFloat1, paramFloat2);
+  }
+  
+  public void setDescriptionTextSize(float paramFloat)
+  {
+    float f = paramFloat;
+    if (paramFloat > 16.0F) {
+      f = 16.0F;
+    }
+    paramFloat = f;
+    if (f < 6.0F) {
+      paramFloat = 6.0F;
+    }
+    mDescPaint.setTextSize(Utils.convertDpToPixel(paramFloat));
+  }
+  
+  public void setDescriptionTypeface(Typeface paramTypeface)
+  {
+    mDescPaint.setTypeface(paramTypeface);
+  }
+  
+  public void setDragDecelerationEnabled(boolean paramBoolean)
+  {
+    mDragDecelerationEnabled = paramBoolean;
+  }
+  
+  public void setDragDecelerationFrictionCoef(float paramFloat)
+  {
+    float f = paramFloat;
+    if (paramFloat < 0.0F) {
+      f = 0.0F;
+    }
+    paramFloat = f;
+    if (f >= 1.0F) {
+      paramFloat = 0.999F;
+    }
+    mDragDecelerationFrictionCoef = paramFloat;
+  }
+  
+  public void setDrawMarkerViews(boolean paramBoolean)
+  {
+    mDrawMarkerViews = paramBoolean;
+  }
+  
+  public void setExtraBottomOffset(float paramFloat)
+  {
+    mExtraBottomOffset = Utils.convertDpToPixel(paramFloat);
+  }
+  
+  public void setExtraLeftOffset(float paramFloat)
+  {
+    mExtraLeftOffset = Utils.convertDpToPixel(paramFloat);
+  }
+  
+  public void setExtraOffsets(float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4)
+  {
+    setExtraLeftOffset(paramFloat1);
+    setExtraTopOffset(paramFloat2);
+    setExtraRightOffset(paramFloat3);
+    setExtraBottomOffset(paramFloat4);
+  }
+  
+  public void setExtraRightOffset(float paramFloat)
+  {
+    mExtraRightOffset = Utils.convertDpToPixel(paramFloat);
+  }
+  
+  public void setExtraTopOffset(float paramFloat)
+  {
+    mExtraTopOffset = Utils.convertDpToPixel(paramFloat);
+  }
+  
+  public void setHardwareAccelerationEnabled(boolean paramBoolean)
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (paramBoolean)
+    {
+      setLayerType(2, null);
+      return;
+    }
+    setLayerType(1, null);
+  }
+  
+  public void setHighlightPerTapEnabled(boolean paramBoolean)
+  {
+    mHighLightPerTapEnabled = paramBoolean;
+  }
+  
+  public void setHighlighter(ChartHighlighter paramChartHighlighter)
+  {
+    mHighlighter = paramChartHighlighter;
+  }
+  
+  public void setLogEnabled(boolean paramBoolean)
+  {
+    mLogEnabled = paramBoolean;
+  }
+  
+  public void setMarkerView(MarkerView paramMarkerView)
+  {
+    mMarkerView = paramMarkerView;
+  }
+  
+  public void setNoDataText(String paramString)
+  {
+    mNoDataText = paramString;
+  }
+  
+  public void setNoDataTextDescription(String paramString)
+  {
+    mNoDataTextDescription = paramString;
+  }
+  
+  public void setOnChartGestureListener(OnChartGestureListener paramOnChartGestureListener)
+  {
+    mGestureListener = paramOnChartGestureListener;
+  }
+  
+  public void setOnChartValueSelectedListener(OnChartValueSelectedListener paramOnChartValueSelectedListener)
+  {
+    mSelectionListener = paramOnChartValueSelectedListener;
+  }
+  
+  public void setOnTouchListener(ChartTouchListener paramChartTouchListener)
+  {
+    mChartTouchListener = paramChartTouchListener;
+  }
+  
+  public void setPaint(Paint paramPaint, int paramInt)
+  {
+    if (paramInt != 7)
+    {
+      if (paramInt != 11) {
+        return;
+      }
+      mDescPaint = paramPaint;
+      return;
+    }
+    mInfoPaint = paramPaint;
+  }
+  
+  public void setRenderer(DataRenderer paramDataRenderer)
+  {
+    if (paramDataRenderer != null) {
+      mRenderer = paramDataRenderer;
+    }
+  }
+  
+  public void setTouchEnabled(boolean paramBoolean)
+  {
+    mTouchEnabled = paramBoolean;
+  }
+  
+  public void setUnbindEnabled(boolean paramBoolean)
+  {
+    mUnbind = paramBoolean;
+  }
+  
+  public boolean valuesToHighlight()
+  {
+    Highlight[] arrayOfHighlight = mIndicesToHighlight;
+    if ((arrayOfHighlight != null) && (arrayOfHighlight.length > 0)) {
+      return arrayOfHighlight[0] != null;
+    }
+    return false;
+  }
+}

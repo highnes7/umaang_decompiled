@@ -1,0 +1,272 @@
+package l.a.a.a;
+
+import android.os.SystemClock;
+import f.a.a.a.a;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+public class i
+  implements Callable<Map<String, p>>
+{
+  public static final String a = "fabric/";
+  public static final String b = "fabric-identifier";
+  public static final String c = "fabric-version";
+  public static final String d = "fabric-build-type";
+  public final String e;
+  
+  public i(String paramString)
+  {
+    e = paramString;
+  }
+  
+  /* Error */
+  private p a(ZipEntry paramZipEntry, ZipFile paramZipFile)
+  {
+    // Byte code:
+    //   0: aload_2
+    //   1: aload_1
+    //   2: invokevirtual 38	java/util/zip/ZipFile:getInputStream	(Ljava/util/zip/ZipEntry;)Ljava/io/InputStream;
+    //   5: astore_3
+    //   6: aload_3
+    //   7: astore_2
+    //   8: new 40	java/util/Properties
+    //   11: dup
+    //   12: invokespecial 41	java/util/Properties:<init>	()V
+    //   15: astore 6
+    //   17: aload_3
+    //   18: astore_2
+    //   19: aload 6
+    //   21: aload_3
+    //   22: invokevirtual 45	java/util/Properties:load	(Ljava/io/InputStream;)V
+    //   25: aload_3
+    //   26: astore_2
+    //   27: aload 6
+    //   29: ldc 14
+    //   31: invokevirtual 49	java/util/Properties:getProperty	(Ljava/lang/String;)Ljava/lang/String;
+    //   34: astore 4
+    //   36: aload_3
+    //   37: astore_2
+    //   38: aload 6
+    //   40: ldc 17
+    //   42: invokevirtual 49	java/util/Properties:getProperty	(Ljava/lang/String;)Ljava/lang/String;
+    //   45: astore 5
+    //   47: aload_3
+    //   48: astore_2
+    //   49: aload 6
+    //   51: ldc 20
+    //   53: invokevirtual 49	java/util/Properties:getProperty	(Ljava/lang/String;)Ljava/lang/String;
+    //   56: astore 6
+    //   58: aload_3
+    //   59: astore_2
+    //   60: aload 4
+    //   62: invokestatic 55	android/text/TextUtils:isEmpty	(Ljava/lang/CharSequence;)Z
+    //   65: ifne +37 -> 102
+    //   68: aload_3
+    //   69: astore_2
+    //   70: aload 5
+    //   72: invokestatic 55	android/text/TextUtils:isEmpty	(Ljava/lang/CharSequence;)Z
+    //   75: ifne +27 -> 102
+    //   78: aload_3
+    //   79: astore_2
+    //   80: new 57	l/a/a/a/p
+    //   83: dup
+    //   84: aload 4
+    //   86: aload 5
+    //   88: aload 6
+    //   90: invokespecial 60	l/a/a/a/p:<init>	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+    //   93: astore 4
+    //   95: aload_3
+    //   96: invokestatic 65	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;)V
+    //   99: aload 4
+    //   101: areturn
+    //   102: aload_3
+    //   103: astore_2
+    //   104: new 67	java/lang/StringBuilder
+    //   107: dup
+    //   108: invokespecial 68	java/lang/StringBuilder:<init>	()V
+    //   111: astore 4
+    //   113: aload_3
+    //   114: astore_2
+    //   115: aload 4
+    //   117: ldc 70
+    //   119: invokevirtual 74	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   122: pop
+    //   123: aload_3
+    //   124: astore_2
+    //   125: aload 4
+    //   127: aload_1
+    //   128: invokevirtual 80	java/util/zip/ZipEntry:getName	()Ljava/lang/String;
+    //   131: invokevirtual 74	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   134: pop
+    //   135: aload_3
+    //   136: astore_2
+    //   137: new 82	java/lang/IllegalStateException
+    //   140: dup
+    //   141: aload 4
+    //   143: invokevirtual 85	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   146: invokespecial 87	java/lang/IllegalStateException:<init>	(Ljava/lang/String;)V
+    //   149: athrow
+    //   150: astore_1
+    //   151: goto +82 -> 233
+    //   154: astore 4
+    //   156: goto +13 -> 169
+    //   159: astore_1
+    //   160: aconst_null
+    //   161: astore_2
+    //   162: goto +71 -> 233
+    //   165: astore 4
+    //   167: aconst_null
+    //   168: astore_3
+    //   169: aload_3
+    //   170: astore_2
+    //   171: invokestatic 93	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   174: astore 5
+    //   176: aload_3
+    //   177: astore_2
+    //   178: new 67	java/lang/StringBuilder
+    //   181: dup
+    //   182: invokespecial 68	java/lang/StringBuilder:<init>	()V
+    //   185: astore 6
+    //   187: aload_3
+    //   188: astore_2
+    //   189: aload 6
+    //   191: ldc 95
+    //   193: invokevirtual 74	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   196: pop
+    //   197: aload_3
+    //   198: astore_2
+    //   199: aload 6
+    //   201: aload_1
+    //   202: invokevirtual 80	java/util/zip/ZipEntry:getName	()Ljava/lang/String;
+    //   205: invokevirtual 74	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   208: pop
+    //   209: aload_3
+    //   210: astore_2
+    //   211: aload 5
+    //   213: ldc 97
+    //   215: aload 6
+    //   217: invokevirtual 85	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   220: aload 4
+    //   222: invokeinterface 102 4 0
+    //   227: aload_3
+    //   228: invokestatic 65	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;)V
+    //   231: aconst_null
+    //   232: areturn
+    //   233: aload_2
+    //   234: invokestatic 65	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;)V
+    //   237: aload_1
+    //   238: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	239	0	this	i
+    //   0	239	1	paramZipEntry	ZipEntry
+    //   0	239	2	paramZipFile	ZipFile
+    //   5	223	3	localInputStream	java.io.InputStream
+    //   34	108	4	localObject1	Object
+    //   154	1	4	localIOException1	IOException
+    //   165	56	4	localIOException2	IOException
+    //   45	167	5	localObject2	Object
+    //   15	201	6	localObject3	Object
+    // Exception table:
+    //   from	to	target	type
+    //   8	17	150	finally
+    //   19	25	150	finally
+    //   27	36	150	finally
+    //   38	47	150	finally
+    //   49	58	150	finally
+    //   60	68	150	finally
+    //   70	78	150	finally
+    //   80	95	150	finally
+    //   104	113	150	finally
+    //   115	123	150	finally
+    //   125	135	150	finally
+    //   137	150	150	finally
+    //   171	176	150	finally
+    //   178	187	150	finally
+    //   189	197	150	finally
+    //   199	209	150	finally
+    //   211	227	150	finally
+    //   8	17	154	java/io/IOException
+    //   19	25	154	java/io/IOException
+    //   27	36	154	java/io/IOException
+    //   38	47	154	java/io/IOException
+    //   49	58	154	java/io/IOException
+    //   60	68	154	java/io/IOException
+    //   70	78	154	java/io/IOException
+    //   80	95	154	java/io/IOException
+    //   104	113	154	java/io/IOException
+    //   115	123	154	java/io/IOException
+    //   125	135	154	java/io/IOException
+    //   137	150	154	java/io/IOException
+    //   0	6	159	finally
+    //   0	6	165	java/io/IOException
+  }
+  
+  private Map<String, p> b()
+  {
+    HashMap localHashMap = new HashMap();
+    try
+    {
+      Class.forName("com.google.android.gms.ads.AdView");
+      p localP = new p("com.google.firebase.firebase-ads", "0.0.0", "binary");
+      localHashMap.put(localP.b(), localP);
+      g.h().c("Fabric", "Found kit: com.google.firebase.firebase-ads");
+      return localHashMap;
+    }
+    catch (Exception localException) {}
+    return localHashMap;
+  }
+  
+  private Map<String, p> c()
+    throws Exception
+  {
+    HashMap localHashMap = new HashMap();
+    ZipFile localZipFile = a();
+    Enumeration localEnumeration = localZipFile.entries();
+    while (localEnumeration.hasMoreElements())
+    {
+      Object localObject = (ZipEntry)localEnumeration.nextElement();
+      if ((((ZipEntry)localObject).getName().startsWith("fabric/")) && (((ZipEntry)localObject).getName().length() > 7))
+      {
+        localObject = a((ZipEntry)localObject, localZipFile);
+        if (localObject != null)
+        {
+          localHashMap.put(((p)localObject).b(), localObject);
+          g.h().c("Fabric", String.format("Found kit:[%s] version:[%s]", new Object[] { ((p)localObject).b(), ((p)localObject).c() }));
+        }
+      }
+    }
+    try
+    {
+      localZipFile.close();
+      return localHashMap;
+    }
+    catch (IOException localIOException) {}
+    return localHashMap;
+  }
+  
+  public ZipFile a()
+    throws IOException
+  {
+    return new ZipFile(e);
+  }
+  
+  public Map<String, p> call()
+    throws Exception
+  {
+    HashMap localHashMap = new HashMap();
+    long l = SystemClock.elapsedRealtime();
+    localHashMap.putAll(b());
+    localHashMap.putAll(c());
+    q localQ = g.h();
+    StringBuilder localStringBuilder = a.b("finish scanning in ");
+    localStringBuilder.append(SystemClock.elapsedRealtime() - l);
+    localQ.c("Fabric", localStringBuilder.toString());
+    return localHashMap;
+  }
+}

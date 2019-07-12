@@ -1,0 +1,182 @@
+package com.google.android.gms.internal;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public final class zzdpg<K, V>
+  extends zzdos<K, V>
+{
+  public Comparator<K> zzlse;
+  public zzdpb<K, V> zzlsv;
+  
+  public zzdpg(zzdpb<K, V> paramZzdpb, Comparator<K> paramComparator)
+  {
+    zzlsv = paramZzdpb;
+    zzlse = paramComparator;
+  }
+  
+  public static <A, B> zzdpg<A, B> zzb(Map<A, B> paramMap, Comparator<A> paramComparator)
+  {
+    return zzdpi.zzc(new ArrayList(paramMap.keySet()), paramMap, zzdot.zzlsj, paramComparator);
+  }
+  
+  private final zzdpb<K, V> zzbh(K paramK)
+  {
+    zzdpb localZzdpb = zzlsv;
+    while (!localZzdpb.isEmpty())
+    {
+      int i = zzlse.compare(paramK, localZzdpb.getKey());
+      if (i < 0)
+      {
+        localZzdpb = localZzdpb.zzbqm();
+      }
+      else
+      {
+        if (i == 0) {
+          return localZzdpb;
+        }
+        localZzdpb = localZzdpb.zzbqn();
+      }
+    }
+    return null;
+  }
+  
+  public final boolean containsKey(K paramK)
+  {
+    return zzbh(paramK) != null;
+  }
+  
+  public final V get(K paramK)
+  {
+    paramK = zzbh(paramK);
+    if (paramK != null) {
+      return paramK.getValue();
+    }
+    return null;
+  }
+  
+  public final Comparator<K> getComparator()
+  {
+    return zzlse;
+  }
+  
+  public final int indexOf(K paramK)
+  {
+    zzdpb localZzdpb = zzlsv;
+    int i = 0;
+    while (!localZzdpb.isEmpty())
+    {
+      int j = zzlse.compare(paramK, localZzdpb.getKey());
+      if (j == 0) {
+        return localZzdpb.zzbqm().size() + i;
+      }
+      if (j < 0)
+      {
+        localZzdpb = localZzdpb.zzbqm();
+      }
+      else
+      {
+        i += localZzdpb.zzbqm().size() + 1;
+        localZzdpb = localZzdpb.zzbqn();
+      }
+    }
+    return -1;
+  }
+  
+  public final boolean isEmpty()
+  {
+    return zzlsv.isEmpty();
+  }
+  
+  public final Iterator<Map.Entry<K, V>> iterator()
+  {
+    return new zzdow(zzlsv, null, zzlse, false);
+  }
+  
+  public final int size()
+  {
+    return zzlsv.size();
+  }
+  
+  public final void zza(zzdpd<K, V> paramZzdpd)
+  {
+    zzlsv.zza(paramZzdpd);
+  }
+  
+  public final zzdos<K, V> zzay(K paramK)
+  {
+    if (!containsKey(paramK)) {
+      return this;
+    }
+    return new zzdpg(zzlsv.zza(paramK, zzlse).zza(null, null, zzdpc.zzlsq, null, null), zzlse);
+  }
+  
+  public final Iterator<Map.Entry<K, V>> zzaz(K paramK)
+  {
+    return new zzdow(zzlsv, paramK, zzlse, false);
+  }
+  
+  public final K zzba(K paramK)
+  {
+    Object localObject1 = zzlsv;
+    Object localObject2 = null;
+    while (!((zzdpb)localObject1).isEmpty())
+    {
+      int i = zzlse.compare(paramK, ((zzdpb)localObject1).getKey());
+      if (i == 0)
+      {
+        if (!((zzdpb)localObject1).zzbqm().isEmpty())
+        {
+          for (paramK = ((zzdpb)localObject1).zzbqm(); !paramK.zzbqn().isEmpty(); paramK = paramK.zzbqn()) {}
+          return paramK.getKey();
+        }
+        if (localObject2 != null) {
+          return localObject2.getKey();
+        }
+        return null;
+      }
+      if (i < 0)
+      {
+        localObject1 = ((zzdpb)localObject1).zzbqm();
+      }
+      else
+      {
+        zzdpb localZzdpb = ((zzdpb)localObject1).zzbqn();
+        localObject2 = localObject1;
+        localObject1 = localZzdpb;
+      }
+    }
+    paramK = String.valueOf(paramK);
+    localObject1 = new StringBuilder(paramK.length() + 50);
+    ((StringBuilder)localObject1).append("Couldn't find predecessor key of non-present key: ");
+    ((StringBuilder)localObject1).append(paramK);
+    paramK = new IllegalArgumentException(((StringBuilder)localObject1).toString());
+    for (;;)
+    {
+      throw paramK;
+    }
+  }
+  
+  public final K zzbqd()
+  {
+    return zzlsv.zzbqo().getKey();
+  }
+  
+  public final K zzbqe()
+  {
+    return zzlsv.zzbqp().getKey();
+  }
+  
+  public final Iterator<Map.Entry<K, V>> zzbqf()
+  {
+    return new zzdow(zzlsv, null, zzlse, true);
+  }
+  
+  public final zzdos<K, V> zzg(K paramK, V paramV)
+  {
+    return new zzdpg(zzlsv.zza(paramK, paramV, zzlse).zza(null, null, zzdpc.zzlsq, null, null), zzlse);
+  }
+}

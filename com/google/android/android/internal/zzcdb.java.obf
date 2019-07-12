@@ -1,0 +1,339 @@
+package com.google.android.gms.internal;
+
+import android.os.Binder;
+import android.text.TextUtils;
+import b.b.a.G;
+import b.b.a.g;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+import com.google.android.gms.common.util.zzw;
+import com.google.android.gms.common.zzo;
+import com.google.android.gms.common.zzp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+public final class zzcdb
+  extends zzcbp
+{
+  public final zzccw zziki;
+  public Boolean zziuh;
+  @G
+  public String zziui;
+  
+  public zzcdb(zzccw paramZzccw)
+  {
+    zzbp.zzu(paramZzccw);
+    zziki = paramZzccw;
+    zziui = null;
+  }
+  
+  public zzcdb(zzccw paramZzccw, @G String paramString)
+  {
+    zzbp.zzu(paramZzccw);
+    zziki = paramZzccw;
+    zziui = null;
+  }
+  
+  @g
+  private final void zzb(zzcas paramZzcas, boolean paramBoolean)
+  {
+    zzbp.zzu(paramZzcas);
+    zzf(packageName, false);
+    zziki.zzauh().zzkb(zzilu);
+  }
+  
+  @g
+  private final void zzf(String paramString, boolean paramBoolean)
+  {
+    if (!TextUtils.isEmpty(paramString)) {
+      if (!paramBoolean) {}
+    }
+    for (;;)
+    {
+      try
+      {
+        if (zziuh == null)
+        {
+          if (("com.google.android.gms".equals(zziui)) || (zzw.zzf(zziki.getContext(), Binder.getCallingUid()))) {
+            break label200;
+          }
+          if (!zzp.zzbz(zziki.getContext()).zzbo(Binder.getCallingUid())) {
+            break label195;
+          }
+          break label200;
+          zziuh = Boolean.valueOf(paramBoolean);
+        }
+        if (zziuh.booleanValue()) {
+          break;
+        }
+        if ((zziui == null) && (zzo.zzb(zziki.getContext(), Binder.getCallingUid(), paramString))) {
+          zziui = paramString;
+        }
+        if (paramString.equals(zziui)) {
+          return;
+        }
+        throw new SecurityException(String.format("Unknown calling package name '%s'.", new Object[] { paramString }));
+      }
+      catch (SecurityException localSecurityException)
+      {
+        zziki.zzaul().zzayd().zzj("Measurement Service called with invalid calling package. appId", zzcbw.zzjf(paramString));
+        throw localSecurityException;
+      }
+      zziki.zzaul().zzayd().log("Measurement Service called without app package");
+      throw new SecurityException("Measurement Service called without app package");
+      label195:
+      paramBoolean = false;
+      continue;
+      label200:
+      paramBoolean = true;
+    }
+  }
+  
+  @g
+  public final List<zzcft> zza(zzcas paramZzcas, boolean paramBoolean)
+  {
+    zzb(paramZzcas, false);
+    Object localObject1 = zziki.zzauk().zzd(new zzcdq(this, paramZzcas));
+    try
+    {
+      Object localObject2 = (List)((Future)localObject1).get();
+      localObject1 = new ArrayList(((List)localObject2).size());
+      localObject2 = ((List)localObject2).iterator();
+      while (((Iterator)localObject2).hasNext())
+      {
+        zzcfv localZzcfv = (zzcfv)((Iterator)localObject2).next();
+        if ((paramBoolean) || (!zzcfw.zzkd(mName))) {
+          ((List)localObject1).add(new zzcft(localZzcfv));
+        }
+      }
+      return localObject1;
+    }
+    catch (ExecutionException localExecutionException) {}catch (InterruptedException localInterruptedException) {}
+    zziki.zzaul().zzayd().zze("Failed to get user attributes. appId", zzcbw.zzjf(packageName), localInterruptedException);
+    return null;
+  }
+  
+  @g
+  public final List<zzcav> zza(String paramString1, String paramString2, zzcas paramZzcas)
+  {
+    zzb(paramZzcas, false);
+    paramString1 = zziki.zzauk().zzd(new zzcdj(this, paramZzcas, paramString1, paramString2));
+    try
+    {
+      paramString1 = (List)paramString1.get();
+      return paramString1;
+    }
+    catch (ExecutionException paramString1) {}catch (InterruptedException paramString1) {}
+    zziki.zzaul().zzayd().zzj("Failed to get conditional user properties", paramString1);
+    return Collections.emptyList();
+  }
+  
+  @g
+  public final List<zzcft> zza(String paramString1, String paramString2, String paramString3, boolean paramBoolean)
+  {
+    zzf(paramString1, true);
+    paramString2 = zziki.zzauk().zzd(new zzcdi(this, paramString1, paramString2, paramString3));
+    try
+    {
+      paramString3 = (List)paramString2.get();
+      paramString2 = new ArrayList(paramString3.size());
+      paramString3 = paramString3.iterator();
+      while (paramString3.hasNext())
+      {
+        zzcfv localZzcfv = (zzcfv)paramString3.next();
+        if ((paramBoolean) || (!zzcfw.zzkd(mName))) {
+          paramString2.add(new zzcft(localZzcfv));
+        }
+      }
+      return paramString2;
+    }
+    catch (ExecutionException paramString2) {}catch (InterruptedException paramString2) {}
+    zziki.zzaul().zzayd().zze("Failed to get user attributes. appId", zzcbw.zzjf(paramString1), paramString2);
+    return Collections.emptyList();
+  }
+  
+  @g
+  public final List<zzcft> zza(String paramString1, String paramString2, boolean paramBoolean, zzcas paramZzcas)
+  {
+    zzb(paramZzcas, false);
+    paramString1 = zziki.zzauk().zzd(new zzcdh(this, paramZzcas, paramString1, paramString2));
+    try
+    {
+      paramString2 = (List)paramString1.get();
+      paramString1 = new ArrayList(paramString2.size());
+      paramString2 = paramString2.iterator();
+      while (paramString2.hasNext())
+      {
+        zzcfv localZzcfv = (zzcfv)paramString2.next();
+        if ((paramBoolean) || (!zzcfw.zzkd(mName))) {
+          paramString1.add(new zzcft(localZzcfv));
+        }
+      }
+      return paramString1;
+    }
+    catch (ExecutionException paramString1) {}catch (InterruptedException paramString1) {}
+    zziki.zzaul().zzayd().zze("Failed to get user attributes. appId", zzcbw.zzjf(packageName), paramString1);
+    return Collections.emptyList();
+  }
+  
+  @g
+  public final void zza(long paramLong, String paramString1, String paramString2, String paramString3)
+  {
+    zziki.zzauk().zzg(new zzcds(this, paramString2, paramString3, paramString1, paramLong));
+  }
+  
+  @g
+  public final void zza(zzcas paramZzcas)
+  {
+    zzb(paramZzcas, false);
+    paramZzcas = new zzcdr(this, paramZzcas);
+    if (zziki.zzauk().zzays())
+    {
+      paramZzcas.run();
+      return;
+    }
+    zziki.zzauk().zzg(paramZzcas);
+  }
+  
+  @g
+  public final void zza(zzcav paramZzcav, zzcas paramZzcas)
+  {
+    zzbp.zzu(paramZzcav);
+    zzbp.zzu(zzimh);
+    zzb(paramZzcas, false);
+    zzcav localZzcav = new zzcav(paramZzcav);
+    packageName = packageName;
+    Object localObject;
+    if (zzimh.getValue() == null)
+    {
+      paramZzcav = zziki.zzauk();
+      localObject = new zzcdd(this, localZzcav, paramZzcas);
+      paramZzcas = paramZzcav;
+      paramZzcav = (zzcav)localObject;
+    }
+    for (;;)
+    {
+      paramZzcas.zzg(paramZzcav);
+      return;
+      localObject = zziki.zzauk();
+      paramZzcav = new zzcde(this, localZzcav, paramZzcas);
+      paramZzcas = (zzcas)localObject;
+    }
+  }
+  
+  @g
+  public final void zza(zzcbk paramZzcbk, zzcas paramZzcas)
+  {
+    zzbp.zzu(paramZzcbk);
+    zzb(paramZzcas, false);
+    zziki.zzauk().zzg(new zzcdl(this, paramZzcbk, paramZzcas));
+  }
+  
+  @g
+  public final void zza(zzcbk paramZzcbk, String paramString1, String paramString2)
+  {
+    zzbp.zzu(paramZzcbk);
+    zzbp.zzgg(paramString1);
+    zzf(paramString1, true);
+    zziki.zzauk().zzg(new zzcdm(this, paramZzcbk, paramString1));
+  }
+  
+  @g
+  public final void zza(zzcft paramZzcft, zzcas paramZzcas)
+  {
+    zzbp.zzu(paramZzcft);
+    zzb(paramZzcas, false);
+    zzccr localZzccr;
+    if (paramZzcft.getValue() == null)
+    {
+      localZzccr = zziki.zzauk();
+      paramZzcas = new zzcdo(this, paramZzcft, paramZzcas);
+    }
+    for (paramZzcft = localZzccr;; paramZzcft = localZzccr)
+    {
+      paramZzcft.zzg(paramZzcas);
+      return;
+      localZzccr = zziki.zzauk();
+      paramZzcas = new zzcdp(this, paramZzcft, paramZzcas);
+    }
+  }
+  
+  @g
+  public final byte[] zza(zzcbk paramZzcbk, String paramString)
+  {
+    zzbp.zzgg(paramString);
+    zzbp.zzu(paramZzcbk);
+    zzf(paramString, true);
+    zziki.zzaul().zzayi().zzj("Log and bundle. event", zziki.zzaug().zzjc(name));
+    long l1 = zziki.zzvx().nanoTime() / 1000000L;
+    Object localObject = zziki.zzauk().zze(new zzcdn(this, paramZzcbk, paramString));
+    try
+    {
+      byte[] arrayOfByte = (byte[])((Future)localObject).get();
+      localObject = arrayOfByte;
+      if (arrayOfByte == null)
+      {
+        zziki.zzaul().zzayd().zzj("Log and bundle returned null. appId", zzcbw.zzjf(paramString));
+        localObject = new byte[0];
+      }
+      long l2 = zziki.zzvx().nanoTime() / 1000000L;
+      zziki.zzaul().zzayi().zzd("Log and bundle processed. event, size, time_ms", zziki.zzaug().zzjc(name), Integer.valueOf(localObject.length), Long.valueOf(l2 - l1));
+      return localObject;
+    }
+    catch (ExecutionException localExecutionException) {}catch (InterruptedException localInterruptedException) {}
+    zziki.zzaul().zzayd().zzd("Failed to log and bundle. appId, event, error", zzcbw.zzjf(paramString), zziki.zzaug().zzjc(name), localInterruptedException);
+    return null;
+  }
+  
+  @g
+  public final void zzb(zzcas paramZzcas)
+  {
+    zzb(paramZzcas, false);
+    zziki.zzauk().zzg(new zzcdc(this, paramZzcas));
+  }
+  
+  @g
+  public final void zzb(zzcav paramZzcav)
+  {
+    zzbp.zzu(paramZzcav);
+    zzbp.zzu(zzimh);
+    zzf(packageName, true);
+    zzcav localZzcav = new zzcav(paramZzcav);
+    zzccr localZzccr;
+    if (zzimh.getValue() == null) {
+      localZzccr = zziki.zzauk();
+    }
+    for (paramZzcav = new zzcdf(this, localZzcav);; paramZzcav = new zzcdg(this, localZzcav))
+    {
+      localZzccr.zzg(paramZzcav);
+      return;
+      localZzccr = zziki.zzauk();
+    }
+  }
+  
+  @g
+  public final String zzc(zzcas paramZzcas)
+  {
+    zzb(paramZzcas, false);
+    return zziki.zzjs(packageName);
+  }
+  
+  @g
+  public final List<zzcav> zzj(String paramString1, String paramString2, String paramString3)
+  {
+    zzf(paramString1, true);
+    paramString1 = zziki.zzauk().zzd(new zzcdk(this, paramString1, paramString2, paramString3));
+    try
+    {
+      paramString1 = (List)paramString1.get();
+      return paramString1;
+    }
+    catch (ExecutionException paramString1) {}catch (InterruptedException paramString1) {}
+    zziki.zzaul().zzayd().zzj("Failed to get conditional user properties", paramString1);
+    return Collections.emptyList();
+  }
+}

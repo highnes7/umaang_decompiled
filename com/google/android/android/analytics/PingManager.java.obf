@@ -1,0 +1,179 @@
+package com.google.android.gms.analytics;
+
+import android.annotation.TargetApi;
+import android.os.Build.VERSION;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzg
+{
+  public final zzd zzasc;
+  public final zzi zzdkk;
+  public boolean zzdkl;
+  public long zzdkm;
+  public long zzdkn;
+  public long zzdko;
+  public long zzdkp;
+  public long zzdkq;
+  public boolean zzdkr;
+  public final Map<Class<? extends zzh>, zzh> zzdks;
+  public final List<zzm> zzdkt;
+  
+  public zzg(zzg paramZzg)
+  {
+    zzdkk = zzdkk;
+    zzasc = zzasc;
+    zzdkm = zzdkm;
+    zzdkn = zzdkn;
+    zzdko = zzdko;
+    zzdkp = zzdkp;
+    zzdkq = zzdkq;
+    zzdkt = new ArrayList(zzdkt);
+    zzdks = new HashMap(zzdks.size());
+    paramZzg = zzdks.entrySet().iterator();
+    while (paramZzg.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramZzg.next();
+      zzh localZzh = zzc((Class)localEntry.getKey());
+      ((zzh)localEntry.getValue()).zzb(localZzh);
+      zzdks.put((Class)localEntry.getKey(), localZzh);
+    }
+  }
+  
+  public zzg(zzi paramZzi, zzd paramZzd)
+  {
+    zzbp.zzu(paramZzi);
+    zzbp.zzu(paramZzd);
+    zzdkk = paramZzi;
+    zzasc = paramZzd;
+    zzdkp = 1800000L;
+    zzdkq = 3024000000L;
+    zzdks = new HashMap();
+    zzdkt = new ArrayList();
+  }
+  
+  @TargetApi(19)
+  public static <T extends zzh> T zzc(Class<T> paramClass)
+  {
+    try
+    {
+      paramClass = (zzh)paramClass.getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+      return paramClass;
+    }
+    catch (Exception paramClass)
+    {
+      if (!(paramClass instanceof InstantiationException))
+      {
+        if (!(paramClass instanceof IllegalAccessException))
+        {
+          int i = Build.VERSION.SDK_INT;
+          if ((paramClass instanceof ReflectiveOperationException)) {
+            throw new IllegalArgumentException("Linkage exception", paramClass);
+          }
+          throw new RuntimeException(paramClass);
+        }
+        throw new IllegalArgumentException("dataType default constructor is not accessible", paramClass);
+      }
+      throw new IllegalArgumentException("dataType doesn't have default constructor", paramClass);
+    }
+  }
+  
+  public final List<zzm> getTransports()
+  {
+    return zzdkt;
+  }
+  
+  public final <T extends zzh> T zza(Class<T> paramClass)
+  {
+    return (zzh)zzdks.get(paramClass);
+  }
+  
+  public final void zza(zzh paramZzh)
+  {
+    zzbp.zzu(paramZzh);
+    Class localClass = paramZzh.getClass();
+    if (localClass.getSuperclass() == zzh.class)
+    {
+      paramZzh.zzb(zzb(localClass));
+      return;
+    }
+    throw new IllegalArgumentException();
+  }
+  
+  public final <T extends zzh> T zzb(Class<T> paramClass)
+  {
+    zzh localZzh2 = (zzh)zzdks.get(paramClass);
+    zzh localZzh1 = localZzh2;
+    if (localZzh2 == null)
+    {
+      localZzh1 = zzc(paramClass);
+      zzdks.put(paramClass, localZzh1);
+    }
+    return localZzh1;
+  }
+  
+  public final void zzl(long paramLong)
+  {
+    zzdkn = paramLong;
+  }
+  
+  public final zzg zztx()
+  {
+    return new zzg(this);
+  }
+  
+  public final Collection<zzh> zzty()
+  {
+    return zzdks.values();
+  }
+  
+  public final long zztz()
+  {
+    return zzdkm;
+  }
+  
+  public final void zzua()
+  {
+    zzdkk.zzug().zze(this);
+  }
+  
+  public final boolean zzub()
+  {
+    return zzdkl;
+  }
+  
+  public final void zzuc()
+  {
+    zzdko = zzasc.elapsedRealtime();
+    long l = zzdkn;
+    if (l == 0L) {
+      l = zzasc.currentTimeMillis();
+    }
+    zzdkm = l;
+    zzdkl = true;
+  }
+  
+  public final zzi zzud()
+  {
+    return zzdkk;
+  }
+  
+  public final boolean zzue()
+  {
+    return zzdkr;
+  }
+  
+  public final void zzuf()
+  {
+    zzdkr = true;
+  }
+}

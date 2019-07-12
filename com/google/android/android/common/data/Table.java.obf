@@ -1,0 +1,110 @@
+package com.google.android.gms.common.data;
+
+import android.database.CharArrayBuffer;
+import android.net.Uri;
+import com.google.android.gms.common.internal.zzbf;
+import com.google.android.gms.common.internal.zzbp;
+import java.util.Arrays;
+
+public class zzc
+{
+  public final DataHolder zzflf;
+  public int zzfqh;
+  public int zzfqi;
+  
+  public zzc(DataHolder paramDataHolder, int paramInt)
+  {
+    zzbp.zzu(paramDataHolder);
+    zzflf = ((DataHolder)paramDataHolder);
+    zzbv(paramInt);
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if ((paramObject instanceof zzc))
+    {
+      paramObject = (zzc)paramObject;
+      if ((zzbf.equal(Integer.valueOf(zzfqh), Integer.valueOf(zzfqh))) && (zzbf.equal(Integer.valueOf(zzfqi), Integer.valueOf(zzfqi))) && (zzflf == zzflf)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public final boolean getBoolean(String paramString)
+  {
+    return zzflf.zze(paramString, zzfqh, zzfqi);
+  }
+  
+  public final byte[] getByteArray(String paramString)
+  {
+    return zzflf.zzg(paramString, zzfqh, zzfqi);
+  }
+  
+  public final float getFloat(String paramString)
+  {
+    return zzflf.zzf(paramString, zzfqh, zzfqi);
+  }
+  
+  public final int getInteger(String paramString)
+  {
+    return zzflf.zzc(paramString, zzfqh, zzfqi);
+  }
+  
+  public final long getLong(String paramString)
+  {
+    return zzflf.zzb(paramString, zzfqh, zzfqi);
+  }
+  
+  public final String getString(String paramString)
+  {
+    return zzflf.zzd(paramString, zzfqh, zzfqi);
+  }
+  
+  public int hashCode()
+  {
+    return Arrays.hashCode(new Object[] { Integer.valueOf(zzfqh), Integer.valueOf(zzfqi), zzflf });
+  }
+  
+  public boolean isDataValid()
+  {
+    return !zzflf.isClosed();
+  }
+  
+  public final void zza(String paramString, CharArrayBuffer paramCharArrayBuffer)
+  {
+    zzflf.zza(paramString, zzfqh, zzfqi, paramCharArrayBuffer);
+  }
+  
+  public final void zzbv(int paramInt)
+  {
+    boolean bool;
+    if ((paramInt >= 0) && (paramInt < zzflf.zzfqq)) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    zzbp.zzbg(bool);
+    zzfqh = paramInt;
+    zzfqi = zzflf.zzbx(zzfqh);
+  }
+  
+  public final boolean zzfu(String paramString)
+  {
+    return zzflf.zzfu(paramString);
+  }
+  
+  public final Uri zzfv(String paramString)
+  {
+    paramString = zzflf.zzd(paramString, zzfqh, zzfqi);
+    if (paramString == null) {
+      return null;
+    }
+    return Uri.parse(paramString);
+  }
+  
+  public final boolean zzfw(String paramString)
+  {
+    return zzflf.zzh(paramString, zzfqh, zzfqi);
+  }
+}

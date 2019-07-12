@@ -1,0 +1,72 @@
+package com.google.android.gms.common;
+
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.os.RemoteException;
+import com.google.android.gms.common.internal.zzas;
+import com.google.android.gms.common.internal.zzat;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+import com.google.android.gms.internal.zzec;
+
+public final class zzm
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzm> CREATOR = new zzn();
+  public final String zzfft;
+  public final zzg zzffu;
+  public final boolean zzffv;
+  
+  public zzm(String paramString, IBinder paramIBinder, boolean paramBoolean)
+  {
+    zzfft = paramString;
+    zzffu = zzai(paramIBinder);
+    zzffv = paramBoolean;
+  }
+  
+  public zzm(String paramString, zzg paramZzg, boolean paramBoolean)
+  {
+    zzfft = paramString;
+    zzffu = paramZzg;
+    zzffv = paramBoolean;
+  }
+  
+  public static zzg zzai(IBinder paramIBinder)
+  {
+    zzh localZzh = null;
+    if (paramIBinder == null) {
+      return null;
+    }
+    try
+    {
+      paramIBinder = zzat.zzak(paramIBinder).zzaez();
+      if (paramIBinder == null) {
+        paramIBinder = null;
+      } else {
+        paramIBinder = (byte[])com.google.android.gms.dynamic.zzn.zzx(paramIBinder);
+      }
+      if (paramIBinder != null) {
+        localZzh = new zzh(paramIBinder);
+      }
+      return localZzh;
+    }
+    catch (RemoteException paramIBinder) {}
+    return null;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zza(paramParcel, 1, zzfft, false);
+    Object localObject = zzffu;
+    if (localObject == null) {
+      localObject = null;
+    } else {
+      localObject = ((zzec)localObject).asBinder();
+    }
+    zzbcn.zza(paramParcel, 2, (IBinder)localObject, false);
+    zzbcn.zza(paramParcel, 3, zzffv);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+}

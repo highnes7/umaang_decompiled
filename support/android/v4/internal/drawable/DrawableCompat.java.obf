@@ -1,0 +1,276 @@
+package b.b.x.d.a;
+
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
+import android.graphics.drawable.DrawableContainer.DrawableContainerState;
+import android.graphics.drawable.InsetDrawable;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.k;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+public final class a
+{
+  public static final String a = "DrawableCompat";
+  public static Method b;
+  public static boolean c;
+  public static Method d;
+  public static boolean e;
+  
+  public a() {}
+  
+  public static void a(@F Drawable paramDrawable, float paramFloat1, float paramFloat2)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      paramDrawable.setHotspot(paramFloat1, paramFloat2);
+    }
+  }
+  
+  public static void a(@F Drawable paramDrawable, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      paramDrawable.setHotspotBounds(paramInt1, paramInt2, paramInt3, paramInt4);
+    }
+  }
+  
+  public static void a(@F Drawable paramDrawable, @G ColorStateList paramColorStateList)
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramDrawable.setTintList(paramColorStateList);
+      return;
+    }
+    if ((paramDrawable instanceof e)) {
+      ((e)paramDrawable).setTintList(paramColorStateList);
+    }
+  }
+  
+  public static void a(@F Drawable paramDrawable, @F Resources.Theme paramTheme)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      paramDrawable.applyTheme(paramTheme);
+    }
+  }
+  
+  public static void a(@F Drawable paramDrawable, @F Resources paramResources, @F XmlPullParser paramXmlPullParser, @F AttributeSet paramAttributeSet, @G Resources.Theme paramTheme)
+    throws XmlPullParserException, IOException
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramDrawable.inflate(paramResources, paramXmlPullParser, paramAttributeSet, paramTheme);
+      return;
+    }
+    paramDrawable.inflate(paramResources, paramXmlPullParser, paramAttributeSet);
+  }
+  
+  public static void a(@F Drawable paramDrawable, @F PorterDuff.Mode paramMode)
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramDrawable.setTintMode(paramMode);
+      return;
+    }
+    if ((paramDrawable instanceof e)) {
+      ((e)paramDrawable).setTintMode(paramMode);
+    }
+  }
+  
+  public static void a(@F Drawable paramDrawable, boolean paramBoolean)
+  {
+    int i = Build.VERSION.SDK_INT;
+    paramDrawable.setAutoMirrored(paramBoolean);
+  }
+  
+  public static boolean a(@F Drawable paramDrawable)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramDrawable.canApplyTheme();
+    }
+    return false;
+  }
+  
+  public static boolean a(@F Drawable paramDrawable, int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramDrawable.setLayoutDirection(paramInt);
+    }
+    if (!c) {}
+    try
+    {
+      localObject = Integer.TYPE;
+      b = Drawable.class.getDeclaredMethod("setLayoutDirection", new Class[] { localObject });
+      b.setAccessible(true);
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      Object localObject;
+      for (;;) {}
+    }
+    c = true;
+    localObject = b;
+    if (localObject != null) {}
+    try
+    {
+      ((Method)localObject).invoke(paramDrawable, new Object[] { Integer.valueOf(paramInt) });
+      return true;
+    }
+    catch (Exception paramDrawable)
+    {
+      for (;;) {}
+    }
+    b = null;
+    return false;
+  }
+  
+  public static void b(@F Drawable paramDrawable)
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (i >= 23)
+    {
+      paramDrawable.clearColorFilter();
+      return;
+    }
+    if (i >= 21)
+    {
+      paramDrawable.clearColorFilter();
+      if ((paramDrawable instanceof InsetDrawable))
+      {
+        b(((InsetDrawable)paramDrawable).getDrawable());
+        return;
+      }
+      if ((paramDrawable instanceof f))
+      {
+        b(((f)paramDrawable).a());
+        return;
+      }
+      if ((paramDrawable instanceof DrawableContainer))
+      {
+        paramDrawable = (DrawableContainer.DrawableContainerState)((DrawableContainer)paramDrawable).getConstantState();
+        if (paramDrawable != null)
+        {
+          i = 0;
+          int j = paramDrawable.getChildCount();
+          while (i < j)
+          {
+            Drawable localDrawable = paramDrawable.getChild(i);
+            if (localDrawable != null) {
+              b(localDrawable);
+            }
+            i += 1;
+          }
+        }
+      }
+    }
+    else
+    {
+      paramDrawable.clearColorFilter();
+    }
+  }
+  
+  public static void b(@F Drawable paramDrawable, @k int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramDrawable.setTint(paramInt);
+      return;
+    }
+    if ((paramDrawable instanceof e)) {
+      ((e)paramDrawable).setTint(paramInt);
+    }
+  }
+  
+  public static int c(@F Drawable paramDrawable)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return paramDrawable.getAlpha();
+  }
+  
+  public static ColorFilter d(@F Drawable paramDrawable)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramDrawable.getColorFilter();
+    }
+    return null;
+  }
+  
+  public static int e(@F Drawable paramDrawable)
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramDrawable.getLayoutDirection();
+    }
+    if (!e) {}
+    try
+    {
+      d = Drawable.class.getDeclaredMethod("getLayoutDirection", new Class[0]);
+      d.setAccessible(true);
+      e = true;
+      Method localMethod = d;
+      if (localMethod != null) {}
+      try
+      {
+        int i = ((Integer)localMethod.invoke(paramDrawable, new Object[0])).intValue();
+        return i;
+      }
+      catch (Exception paramDrawable)
+      {
+        for (;;) {}
+      }
+      d = null;
+      return 0;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public static boolean f(@F Drawable paramDrawable)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return paramDrawable.isAutoMirrored();
+  }
+  
+  @Deprecated
+  public static void g(@F Drawable paramDrawable)
+  {
+    paramDrawable.jumpToCurrentState();
+  }
+  
+  public static <T extends Drawable> T h(@F Drawable paramDrawable)
+  {
+    Drawable localDrawable = paramDrawable;
+    if ((paramDrawable instanceof f)) {
+      localDrawable = ((f)paramDrawable).a();
+    }
+    return localDrawable;
+  }
+  
+  public static Drawable i(@F Drawable paramDrawable)
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (i >= 23) {
+      return paramDrawable;
+    }
+    if (i >= 21)
+    {
+      if (!(paramDrawable instanceof e)) {
+        return new h(paramDrawable);
+      }
+      return paramDrawable;
+    }
+    if (!(paramDrawable instanceof e)) {
+      return new g(paramDrawable);
+    }
+    return paramDrawable;
+  }
+}

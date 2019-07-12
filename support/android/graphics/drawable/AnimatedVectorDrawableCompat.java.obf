@@ -1,0 +1,754 @@
+package b.b.m.a;
+
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Rect;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Drawable.Callback;
+import android.graphics.drawable.Drawable.ConstantState;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.util.Xml;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.p;
+import b.b.x.b.b.i;
+import b.b.x.b.b.j;
+import b.b.x.n.b;
+import b.b.x.n.t;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+public class f
+  extends l
+  implements c
+{
+  public static final String b = "AnimatedVDCompat";
+  public static final String c = "animated-vector";
+  public static final String d = "target";
+  public static final boolean e = false;
+  public a f;
+  public Context g;
+  public ArgbEvaluator h = null;
+  public b i;
+  public Animator.AnimatorListener j = null;
+  public ArrayList<c.a> k = null;
+  public final Drawable.Callback l = new d(this);
+  
+  public f()
+  {
+    this(null, null, null);
+  }
+  
+  public f(@G Context paramContext)
+  {
+    this(paramContext, null, null);
+  }
+  
+  public f(@G Context paramContext, @G a paramA, @G Resources paramResources)
+  {
+    g = paramContext;
+    if (paramA != null)
+    {
+      f = paramA;
+      return;
+    }
+    f = new a(paramContext, paramA, l, paramResources);
+  }
+  
+  @G
+  public static f a(@F Context paramContext, @p int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 24)
+    {
+      localObject = new f(paramContext, null, null);
+      a = i.c(paramContext.getResources(), paramInt, paramContext.getTheme());
+      a.setCallback(l);
+      i = new b(a.getConstantState());
+      return localObject;
+    }
+    Object localObject = paramContext.getResources();
+    try
+    {
+      localObject = ((Resources)localObject).getXml(paramInt);
+      AttributeSet localAttributeSet = Xml.asAttributeSet((XmlPullParser)localObject);
+      do
+      {
+        paramInt = ((XmlPullParser)localObject).next();
+      } while ((paramInt != 2) && (paramInt != 1));
+      if (paramInt == 2) {
+        return a(paramContext, paramContext.getResources(), (XmlPullParser)localObject, localAttributeSet, paramContext.getTheme());
+      }
+      throw new XmlPullParserException("No start tag found");
+    }
+    catch (XmlPullParserException|IOException paramContext) {}
+    return null;
+  }
+  
+  public static f a(Context paramContext, Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, Resources.Theme paramTheme)
+    throws XmlPullParserException, IOException
+  {
+    paramContext = new f(paramContext, null, null);
+    paramContext.inflate(paramResources, paramXmlPullParser, paramAttributeSet, paramTheme);
+    return paramContext;
+  }
+  
+  private void a()
+  {
+    Animator.AnimatorListener localAnimatorListener = j;
+    if (localAnimatorListener != null)
+    {
+      f.c.removeListener(localAnimatorListener);
+      j = null;
+    }
+  }
+  
+  private void a(Animator paramAnimator)
+  {
+    Object localObject;
+    if ((paramAnimator instanceof AnimatorSet))
+    {
+      localObject = ((AnimatorSet)paramAnimator).getChildAnimations();
+      if (localObject != null)
+      {
+        int m = 0;
+        while (m < ((List)localObject).size())
+        {
+          a((Animator)((List)localObject).get(m));
+          m += 1;
+        }
+      }
+    }
+    if ((paramAnimator instanceof ObjectAnimator))
+    {
+      paramAnimator = (ObjectAnimator)paramAnimator;
+      localObject = paramAnimator.getPropertyName();
+      if (("fillColor".equals(localObject)) || ("strokeColor".equals(localObject)))
+      {
+        if (h == null) {
+          h = new ArgbEvaluator();
+        }
+        paramAnimator.setEvaluator(h);
+      }
+    }
+  }
+  
+  @K(23)
+  public static void a(@F AnimatedVectorDrawable paramAnimatedVectorDrawable, @F c.a paramA)
+  {
+    paramAnimatedVectorDrawable.registerAnimationCallback(paramA.a());
+  }
+  
+  public static void a(Drawable paramDrawable)
+  {
+    if (paramDrawable != null)
+    {
+      if (!(paramDrawable instanceof Animatable)) {
+        return;
+      }
+      if (Build.VERSION.SDK_INT >= 24)
+      {
+        ((AnimatedVectorDrawable)paramDrawable).clearAnimationCallbacks();
+        return;
+      }
+      ((f)paramDrawable).clearAnimationCallbacks();
+    }
+  }
+  
+  public static void a(Drawable paramDrawable, c.a paramA)
+  {
+    if (paramDrawable != null)
+    {
+      if (paramA == null) {
+        return;
+      }
+      if (!(paramDrawable instanceof Animatable)) {
+        return;
+      }
+      if (Build.VERSION.SDK_INT >= 24)
+      {
+        ((AnimatedVectorDrawable)paramDrawable).registerAnimationCallback(paramA.a());
+        return;
+      }
+      ((f)paramDrawable).a(paramA);
+    }
+  }
+  
+  private void a(String paramString, Animator paramAnimator)
+  {
+    paramAnimator.setTarget(f.b.a(paramString));
+    if (Build.VERSION.SDK_INT < 21) {
+      a(paramAnimator);
+    }
+    a localA = f;
+    if (d == null)
+    {
+      d = new ArrayList();
+      f.e = new b();
+    }
+    f.d.add(paramAnimator);
+    f.e.put(paramAnimator, paramString);
+  }
+  
+  @K(23)
+  public static boolean b(AnimatedVectorDrawable paramAnimatedVectorDrawable, c.a paramA)
+  {
+    return paramAnimatedVectorDrawable.unregisterAnimationCallback(paramA.a());
+  }
+  
+  public static boolean b(Drawable paramDrawable, c.a paramA)
+  {
+    if (paramDrawable != null)
+    {
+      if (paramA == null) {
+        return false;
+      }
+      if (!(paramDrawable instanceof Animatable)) {
+        return false;
+      }
+      if (Build.VERSION.SDK_INT >= 24) {
+        return ((AnimatedVectorDrawable)paramDrawable).unregisterAnimationCallback(paramA.a());
+      }
+      return ((f)paramDrawable).b(paramA);
+    }
+    return false;
+  }
+  
+  public void a(@F c.a paramA)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      ((AnimatedVectorDrawable)localDrawable).registerAnimationCallback(paramA.a());
+      return;
+    }
+    if (paramA == null) {
+      return;
+    }
+    if (k == null) {
+      k = new ArrayList();
+    }
+    if (k.contains(paramA)) {
+      return;
+    }
+    k.add(paramA);
+    if (j == null) {
+      j = new e(this);
+    }
+    f.c.addListener(j);
+  }
+  
+  public void applyTheme(Resources.Theme paramTheme)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      b.b.x.d.a.a.a(localDrawable, paramTheme);
+    }
+  }
+  
+  public boolean b(@F c.a paramA)
+  {
+    Object localObject = a;
+    if (localObject != null) {
+      ((AnimatedVectorDrawable)localObject).unregisterAnimationCallback(paramA.a());
+    }
+    localObject = k;
+    if ((localObject != null) && (paramA != null))
+    {
+      boolean bool = ((ArrayList)localObject).remove(paramA);
+      if (k.size() == 0) {
+        a();
+      }
+      return bool;
+    }
+    return false;
+  }
+  
+  public boolean canApplyTheme()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return b.b.x.d.a.a.a(localDrawable);
+    }
+    return false;
+  }
+  
+  public void clearAnimationCallbacks()
+  {
+    Object localObject = a;
+    if (localObject != null)
+    {
+      ((AnimatedVectorDrawable)localObject).clearAnimationCallbacks();
+      return;
+    }
+    a();
+    localObject = k;
+    if (localObject == null) {
+      return;
+    }
+    ((ArrayList)localObject).clear();
+  }
+  
+  public void draw(Canvas paramCanvas)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.draw(paramCanvas);
+      return;
+    }
+    f.b.draw(paramCanvas);
+    if (f.c.isStarted()) {
+      invalidateSelf();
+    }
+  }
+  
+  public int getAlpha()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return b.b.x.d.a.a.c(localDrawable);
+    }
+    return f.b.getAlpha();
+  }
+  
+  public int getChangingConfigurations()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.getChangingConfigurations();
+    }
+    return super.getChangingConfigurations() | f.a;
+  }
+  
+  public Drawable.ConstantState getConstantState()
+  {
+    Drawable localDrawable = a;
+    if ((localDrawable != null) && (Build.VERSION.SDK_INT >= 24)) {
+      return new b(localDrawable.getConstantState());
+    }
+    return null;
+  }
+  
+  public int getIntrinsicHeight()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.getIntrinsicHeight();
+    }
+    return f.b.getIntrinsicHeight();
+  }
+  
+  public int getIntrinsicWidth()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.getIntrinsicWidth();
+    }
+    return f.b.getIntrinsicWidth();
+  }
+  
+  public int getOpacity()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.getOpacity();
+    }
+    return f.b.getOpacity();
+  }
+  
+  public void inflate(Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet)
+    throws XmlPullParserException, IOException
+  {
+    inflate(paramResources, paramXmlPullParser, paramAttributeSet, null);
+  }
+  
+  public void inflate(Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, Resources.Theme paramTheme)
+    throws XmlPullParserException, IOException
+  {
+    Object localObject1 = a;
+    if (localObject1 != null)
+    {
+      b.b.x.d.a.a.a((Drawable)localObject1, paramResources, paramXmlPullParser, paramAttributeSet, paramTheme);
+      return;
+    }
+    int m = paramXmlPullParser.getEventType();
+    int n = paramXmlPullParser.getDepth();
+    while ((m != 1) && ((paramXmlPullParser.getDepth() >= n + 1) || (m != 3)))
+    {
+      if (m == 2)
+      {
+        localObject1 = paramXmlPullParser.getName();
+        Object localObject2;
+        Object localObject3;
+        if ("animated-vector".equals(localObject1))
+        {
+          localObject1 = j.a(paramResources, paramTheme, paramAttributeSet, a.L);
+          m = ((TypedArray)localObject1).getResourceId(0, 0);
+          if (m != 0)
+          {
+            localObject2 = n.a(paramResources, m, paramTheme);
+            ((n)localObject2).a(false);
+            ((Drawable)localObject2).setCallback(l);
+            localObject3 = f.b;
+            if (localObject3 != null) {
+              ((Drawable)localObject3).setCallback(null);
+            }
+            f.b = ((n)localObject2);
+          }
+          ((TypedArray)localObject1).recycle();
+        }
+        else if ("target".equals(localObject1))
+        {
+          localObject1 = paramResources.obtainAttributes(paramAttributeSet, a.N);
+          localObject2 = ((TypedArray)localObject1).getString(0);
+          m = ((TypedArray)localObject1).getResourceId(1, 0);
+          if (m != 0)
+          {
+            localObject3 = g;
+            if (localObject3 != null)
+            {
+              a((String)localObject2, h.a((Context)localObject3, m));
+            }
+            else
+            {
+              ((TypedArray)localObject1).recycle();
+              throw new IllegalStateException("Context can't be null when inflating animators");
+            }
+          }
+          ((TypedArray)localObject1).recycle();
+        }
+      }
+      m = paramXmlPullParser.next();
+    }
+    f.a();
+  }
+  
+  public boolean isAutoMirrored()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return b.b.x.d.a.a.f(localDrawable);
+    }
+    return f.b.isAutoMirrored();
+  }
+  
+  public boolean isRunning()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return ((AnimatedVectorDrawable)localDrawable).isRunning();
+    }
+    return f.c.isRunning();
+  }
+  
+  public boolean isStateful()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.isStateful();
+    }
+    return f.b.isStateful();
+  }
+  
+  public Drawable mutate()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      localDrawable.mutate();
+    }
+    return this;
+  }
+  
+  public void onBoundsChange(Rect paramRect)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.setBounds(paramRect);
+      return;
+    }
+    f.b.setBounds(paramRect);
+  }
+  
+  public boolean onLevelChange(int paramInt)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.setLevel(paramInt);
+    }
+    return f.b.setLevel(paramInt);
+  }
+  
+  public boolean onStateChange(int[] paramArrayOfInt)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.setState(paramArrayOfInt);
+    }
+    return f.b.setState(paramArrayOfInt);
+  }
+  
+  public void setAlpha(int paramInt)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.setAlpha(paramInt);
+      return;
+    }
+    f.b.setAlpha(paramInt);
+  }
+  
+  public void setAutoMirrored(boolean paramBoolean)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      b.b.x.d.a.a.a(localDrawable, paramBoolean);
+      return;
+    }
+    f.b.setAutoMirrored(paramBoolean);
+  }
+  
+  public void setColorFilter(ColorFilter paramColorFilter)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.setColorFilter(paramColorFilter);
+      return;
+    }
+    f.b.setColorFilter(paramColorFilter);
+  }
+  
+  public void setFilterBitmap(boolean paramBoolean)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      localDrawable.setFilterBitmap(paramBoolean);
+    }
+  }
+  
+  public void setHotspot(float paramFloat1, float paramFloat2)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      b.b.x.d.a.a.a(localDrawable, paramFloat1, paramFloat2);
+    }
+  }
+  
+  public void setHotspotBounds(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      b.b.x.d.a.a.a(localDrawable, paramInt1, paramInt2, paramInt3, paramInt4);
+    }
+  }
+  
+  public void setTint(int paramInt)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      b.b.x.d.a.a.b(localDrawable, paramInt);
+      return;
+    }
+    f.b.setTint(paramInt);
+  }
+  
+  public void setTintList(ColorStateList paramColorStateList)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      b.b.x.d.a.a.a(localDrawable, paramColorStateList);
+      return;
+    }
+    f.b.setTintList(paramColorStateList);
+  }
+  
+  public void setTintMode(PorterDuff.Mode paramMode)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      b.b.x.d.a.a.a(localDrawable, paramMode);
+      return;
+    }
+    f.b.setTintMode(paramMode);
+  }
+  
+  public boolean setVisible(boolean paramBoolean1, boolean paramBoolean2)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.setVisible(paramBoolean1, paramBoolean2);
+    }
+    f.b.setVisible(paramBoolean1, paramBoolean2);
+    return super.setVisible(paramBoolean1, paramBoolean2);
+  }
+  
+  public void start()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      ((AnimatedVectorDrawable)localDrawable).start();
+      return;
+    }
+    if (f.c.isStarted()) {
+      return;
+    }
+    f.c.start();
+    invalidateSelf();
+  }
+  
+  public void stop()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      ((AnimatedVectorDrawable)localDrawable).stop();
+      return;
+    }
+    f.c.end();
+  }
+  
+  private static class a
+    extends Drawable.ConstantState
+  {
+    public int a;
+    public n b;
+    public AnimatorSet c;
+    public ArrayList<Animator> d;
+    public b<Animator, String> e;
+    
+    public a(Context paramContext, a paramA, Drawable.Callback paramCallback, Resources paramResources)
+    {
+      if (paramA != null)
+      {
+        a = a;
+        paramContext = b;
+        int i = 0;
+        if (paramContext != null)
+        {
+          paramContext = paramContext.getConstantState();
+          if (paramResources != null) {
+            b = ((n)paramContext.newDrawable(paramResources));
+          } else {
+            b = ((n)paramContext.newDrawable());
+          }
+          b = ((n)b.mutate());
+          b.setCallback(paramCallback);
+          b.setBounds(b.getBounds());
+          b.a(false);
+        }
+        paramContext = d;
+        if (paramContext != null)
+        {
+          int j = paramContext.size();
+          d = new ArrayList(j);
+          e = new b(j);
+          while (i < j)
+          {
+            paramCallback = (Animator)d.get(i);
+            paramContext = paramCallback.clone();
+            paramCallback = (String)e.get(paramCallback);
+            paramContext.setTarget(b.a(paramCallback));
+            d.add(paramContext);
+            e.put(paramContext, paramCallback);
+            i += 1;
+          }
+          a();
+        }
+      }
+    }
+    
+    public void a()
+    {
+      if (c == null) {
+        c = new AnimatorSet();
+      }
+      c.playTogether(d);
+    }
+    
+    public int getChangingConfigurations()
+    {
+      return a;
+    }
+    
+    public Drawable newDrawable()
+    {
+      throw new IllegalStateException("No constant state support for SDK < 24.");
+    }
+    
+    public Drawable newDrawable(Resources paramResources)
+    {
+      throw new IllegalStateException("No constant state support for SDK < 24.");
+    }
+  }
+  
+  @K(24)
+  private static class b
+    extends Drawable.ConstantState
+  {
+    public final Drawable.ConstantState a;
+    
+    public b(Drawable.ConstantState paramConstantState)
+    {
+      a = paramConstantState;
+    }
+    
+    public boolean canApplyTheme()
+    {
+      return a.canApplyTheme();
+    }
+    
+    public int getChangingConfigurations()
+    {
+      return a.getChangingConfigurations();
+    }
+    
+    public Drawable newDrawable()
+    {
+      f localF = new f(null, null, null);
+      a = a.newDrawable();
+      a.setCallback(l);
+      return localF;
+    }
+    
+    public Drawable newDrawable(Resources paramResources)
+    {
+      f localF = new f(null, null, null);
+      a = a.newDrawable(paramResources);
+      a.setCallback(l);
+      return localF;
+    }
+    
+    public Drawable newDrawable(Resources paramResources, Resources.Theme paramTheme)
+    {
+      f localF = new f(null, null, null);
+      a = a.newDrawable(paramResources, paramTheme);
+      a.setCallback(l);
+      return localF;
+    }
+  }
+}

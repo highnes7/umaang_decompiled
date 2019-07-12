@@ -1,0 +1,1501 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.a.d;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.RandomAccess;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import m.a.h;
+
+@b(emulated=true)
+public final class Ug
+{
+  public Ug() {}
+  
+  public static <K, V> Eg<K, V> a(Eg<K, V> paramEg, @h Object paramObject)
+  {
+    if ((paramEg instanceof q)) {
+      return paramEg;
+    }
+    return new q(paramEg, paramObject);
+  }
+  
+  public static <K, V> L<K, V> a(L<K, V> paramL, @h Object paramObject)
+  {
+    if (!(paramL instanceof d))
+    {
+      if ((paramL instanceof nb)) {
+        return paramL;
+      }
+      return new d(paramL, paramObject, null, null);
+    }
+    return paramL;
+  }
+  
+  public static <E> Ye<E> a(Ye<E> paramYe, @h Object paramObject)
+  {
+    if (!(paramYe instanceof j))
+    {
+      if ((paramYe instanceof Mb)) {
+        return paramYe;
+      }
+      return new j(paramYe, paramObject);
+    }
+    return paramYe;
+  }
+  
+  public static <K, V> bg<K, V> a(bg<K, V> paramBg, @h Object paramObject)
+  {
+    if (!(paramBg instanceof n))
+    {
+      if ((paramBg instanceof Pb)) {
+        return paramBg;
+      }
+      return new n(paramBg, paramObject);
+    }
+    return paramBg;
+  }
+  
+  public static <K, V> cd<K, V> a(cd<K, V> paramCd, @h Object paramObject)
+  {
+    if (!(paramCd instanceof g))
+    {
+      if ((paramCd instanceof xb)) {
+        return paramCd;
+      }
+      return new g(paramCd, paramObject);
+    }
+    return paramCd;
+  }
+  
+  public static <K, V> ve<K, V> a(ve<K, V> paramVe, @h Object paramObject)
+  {
+    if (!(paramVe instanceof i))
+    {
+      if ((paramVe instanceof Ib)) {
+        return paramVe;
+      }
+      return new i(paramVe, paramObject);
+    }
+    return paramVe;
+  }
+  
+  @d
+  public static <K, V> Map<K, V> a(Map<K, V> paramMap, @h Object paramObject)
+  {
+    return new h(paramMap, paramObject);
+  }
+  
+  public static <K, V> SortedMap<K, V> a(SortedMap<K, V> paramSortedMap, @h Object paramObject)
+  {
+    return new o(paramSortedMap, paramObject);
+  }
+  
+  public static <E> List<E> b(List<E> paramList, @h Object paramObject)
+  {
+    if ((paramList instanceof RandomAccess)) {
+      return new l(paramList, paramObject);
+    }
+    return new f(paramList, paramObject);
+  }
+  
+  @d
+  public static <E> Set<E> b(Set<E> paramSet, @h Object paramObject)
+  {
+    return new m(paramSet, paramObject);
+  }
+  
+  public static <E> SortedSet<E> b(SortedSet<E> paramSortedSet, @h Object paramObject)
+  {
+    return new p(paramSortedSet, paramObject);
+  }
+  
+  public static <E> Collection<E> c(Collection<E> paramCollection, @h Object paramObject)
+  {
+    return new e(paramCollection, paramObject, null);
+  }
+  
+  public static <E> Set<E> c(Set<E> paramSet, @h Object paramObject)
+  {
+    if ((paramSet instanceof SortedSet)) {
+      return new p((SortedSet)paramSet, paramObject);
+    }
+    return new m(paramSet, paramObject);
+  }
+  
+  public static <E> Collection<E> d(Collection<E> paramCollection, @h Object paramObject)
+  {
+    if ((paramCollection instanceof SortedSet)) {
+      return new p((SortedSet)paramCollection, paramObject);
+    }
+    if ((paramCollection instanceof Set)) {
+      return new m((Set)paramCollection, paramObject);
+    }
+    if ((paramCollection instanceof List)) {
+      return b((List)paramCollection, paramObject);
+    }
+    return c(paramCollection, paramObject);
+  }
+  
+  private static class a<K, V>
+    extends Ug.h<K, Collection<V>>
+  {
+    public static final long h = 0L;
+    public transient Set<Map.Entry<K, Collection<V>>> i;
+    public transient Collection<Collection<V>> j;
+    
+    public a(Map<K, Collection<V>> paramMap, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public boolean containsValue(Object paramObject)
+    {
+      return values().contains(paramObject);
+    }
+    
+    public Set<Map.Entry<K, Collection<V>>> entrySet()
+    {
+      synchronized (c)
+      {
+        if (i == null) {
+          i = new Ug.b(c().entrySet(), c);
+        }
+        Set localSet = i;
+        return localSet;
+      }
+    }
+    
+    public Collection<V> get(Object paramObject)
+    {
+      synchronized (c)
+      {
+        paramObject = (Collection)super.get(paramObject);
+        if (paramObject == null) {
+          paramObject = null;
+        } else {
+          paramObject = Ug.d(paramObject, c);
+        }
+        return paramObject;
+      }
+    }
+    
+    public Collection<Collection<V>> values()
+    {
+      synchronized (c)
+      {
+        if (j == null) {
+          j = new Ug.c(c().values(), c);
+        }
+        Collection localCollection = j;
+        return localCollection;
+      }
+    }
+  }
+  
+  private static class b<K, V>
+    extends Ug.m<Map.Entry<K, Collection<V>>>
+  {
+    public static final long f = 0L;
+    
+    public b(Set<Map.Entry<K, Collection<V>>> paramSet, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      synchronized (c)
+      {
+        boolean bool = fe.a(c(), paramObject);
+        return bool;
+      }
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      synchronized (c)
+      {
+        boolean bool = V.a(c(), paramCollection);
+        return bool;
+      }
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      synchronized (c)
+      {
+        boolean bool = gg.a(c(), paramObject);
+        return bool;
+      }
+    }
+    
+    public Iterator<Map.Entry<K, Collection<V>>> iterator()
+    {
+      return new Wg(this, super.iterator());
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      synchronized (c)
+      {
+        boolean bool = fe.b(c(), paramObject);
+        return bool;
+      }
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      synchronized (c)
+      {
+        boolean bool = Jc.a(c().iterator(), paramCollection);
+        return bool;
+      }
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      synchronized (c)
+      {
+        boolean bool = Jc.b(c().iterator(), paramCollection);
+        return bool;
+      }
+    }
+    
+    public Object[] toArray()
+    {
+      synchronized (c)
+      {
+        Object[] arrayOfObject = kf.a(c());
+        return arrayOfObject;
+      }
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      synchronized (c)
+      {
+        paramArrayOfT = kf.a(c(), paramArrayOfT);
+        return paramArrayOfT;
+      }
+    }
+  }
+  
+  private static class c<V>
+    extends Ug.e<Collection<V>>
+  {
+    public static final long e = 0L;
+    
+    public c(Collection<Collection<V>> paramCollection, @h Object paramObject)
+    {
+      super(paramObject, null);
+    }
+    
+    public Iterator<Collection<V>> iterator()
+    {
+      return new Xg(this, super.iterator());
+    }
+  }
+  
+  @d
+  public static class d<K, V>
+    extends Ug.h<K, V>
+    implements L<K, V>, Serializable
+  {
+    public static final long h = 0L;
+    public transient Set<V> i;
+    public transient L<V, K> j;
+    
+    public d(L<K, V> paramL, @h Object paramObject, @h L<V, K> paramL1)
+    {
+      super(paramObject);
+      j = paramL1;
+    }
+    
+    public V a(K paramK, V paramV)
+    {
+      synchronized (c)
+      {
+        paramK = c().a(paramK, paramV);
+        return paramK;
+      }
+    }
+    
+    public L<K, V> c()
+    {
+      return (L)b;
+    }
+    
+    public L<V, K> f()
+    {
+      synchronized (c)
+      {
+        if (j == null) {
+          j = new d(c().f(), c, this);
+        }
+        L localL = j;
+        return localL;
+      }
+    }
+    
+    public Set<V> values()
+    {
+      synchronized (c)
+      {
+        if (i == null) {
+          i = new Ug.m(c().values(), c);
+        }
+        Set localSet = i;
+        return localSet;
+      }
+    }
+  }
+  
+  @d
+  public static class e<E>
+    extends Ug.k
+    implements Collection<E>
+  {
+    public static final long d = 0L;
+    
+    public e(Collection<E> paramCollection, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public boolean add(E paramE)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().add(paramE);
+        return bool;
+      }
+    }
+    
+    public boolean addAll(Collection<? extends E> paramCollection)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().addAll(paramCollection);
+        return bool;
+      }
+    }
+    
+    public Collection<E> c()
+    {
+      return (Collection)b;
+    }
+    
+    public void clear()
+    {
+      synchronized (c)
+      {
+        c().clear();
+        return;
+      }
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().contains(paramObject);
+        return bool;
+      }
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().containsAll(paramCollection);
+        return bool;
+      }
+    }
+    
+    public boolean isEmpty()
+    {
+      synchronized (c)
+      {
+        boolean bool = c().isEmpty();
+        return bool;
+      }
+    }
+    
+    public Iterator<E> iterator()
+    {
+      return c().iterator();
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().remove(paramObject);
+        return bool;
+      }
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().removeAll(paramCollection);
+        return bool;
+      }
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().retainAll(paramCollection);
+        return bool;
+      }
+    }
+    
+    public int size()
+    {
+      synchronized (c)
+      {
+        int i = c().size();
+        return i;
+      }
+    }
+    
+    public Object[] toArray()
+    {
+      synchronized (c)
+      {
+        Object[] arrayOfObject = c().toArray();
+        return arrayOfObject;
+      }
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      synchronized (c)
+      {
+        paramArrayOfT = c().toArray(paramArrayOfT);
+        return paramArrayOfT;
+      }
+    }
+  }
+  
+  private static class f<E>
+    extends Ug.e<E>
+    implements List<E>
+  {
+    public static final long e = 0L;
+    
+    public f(List<E> paramList, @h Object paramObject)
+    {
+      super(paramObject, null);
+    }
+    
+    public void add(int paramInt, E paramE)
+    {
+      synchronized (c)
+      {
+        c().add(paramInt, paramE);
+        return;
+      }
+    }
+    
+    public boolean addAll(int paramInt, Collection<? extends E> paramCollection)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().addAll(paramInt, paramCollection);
+        return bool;
+      }
+    }
+    
+    public List<E> c()
+    {
+      return (List)b;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      synchronized (c)
+      {
+        boolean bool = c().equals(paramObject);
+        return bool;
+      }
+    }
+    
+    public E get(int paramInt)
+    {
+      synchronized (c)
+      {
+        Object localObject2 = c().get(paramInt);
+        return localObject2;
+      }
+    }
+    
+    public int hashCode()
+    {
+      synchronized (c)
+      {
+        int i = c().hashCode();
+        return i;
+      }
+    }
+    
+    public int indexOf(Object paramObject)
+    {
+      synchronized (c)
+      {
+        int i = c().indexOf(paramObject);
+        return i;
+      }
+    }
+    
+    public int lastIndexOf(Object paramObject)
+    {
+      synchronized (c)
+      {
+        int i = c().lastIndexOf(paramObject);
+        return i;
+      }
+    }
+    
+    public ListIterator<E> listIterator()
+    {
+      return c().listIterator();
+    }
+    
+    public ListIterator<E> listIterator(int paramInt)
+    {
+      return c().listIterator(paramInt);
+    }
+    
+    public E remove(int paramInt)
+    {
+      synchronized (c)
+      {
+        Object localObject2 = c().remove(paramInt);
+        return localObject2;
+      }
+    }
+    
+    public E set(int paramInt, E paramE)
+    {
+      synchronized (c)
+      {
+        paramE = c().set(paramInt, paramE);
+        return paramE;
+      }
+    }
+    
+    public List<E> subList(int paramInt1, int paramInt2)
+    {
+      synchronized (c)
+      {
+        List localList = Ug.b(c().subList(paramInt1, paramInt2), c);
+        return localList;
+      }
+    }
+  }
+  
+  private static class g<K, V>
+    extends Ug.i<K, V>
+    implements cd<K, V>
+  {
+    public static final long j = 0L;
+    
+    public g(cd<K, V> paramCd, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public List<V> b(K paramK, Iterable<? extends V> paramIterable)
+    {
+      synchronized (c)
+      {
+        paramK = c().b(paramK, paramIterable);
+        return paramK;
+      }
+    }
+    
+    public cd<K, V> c()
+    {
+      return (cd)b;
+    }
+    
+    public List<V> d(Object paramObject)
+    {
+      synchronized (c)
+      {
+        paramObject = c().d(paramObject);
+        return paramObject;
+      }
+    }
+    
+    public List<V> get(K paramK)
+    {
+      synchronized (c)
+      {
+        paramK = Ug.b(c().get(paramK), c);
+        return paramK;
+      }
+    }
+  }
+  
+  private static class h<K, V>
+    extends Ug.k
+    implements Map<K, V>
+  {
+    public static final long d = 0L;
+    public transient Set<K> e;
+    public transient Collection<V> f;
+    public transient Set<Map.Entry<K, V>> g;
+    
+    public h(Map<K, V> paramMap, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public Map<K, V> c()
+    {
+      return (Map)b;
+    }
+    
+    public void clear()
+    {
+      synchronized (c)
+      {
+        c().clear();
+        return;
+      }
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().containsKey(paramObject);
+        return bool;
+      }
+    }
+    
+    public boolean containsValue(Object paramObject)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().containsValue(paramObject);
+        return bool;
+      }
+    }
+    
+    public Set<Map.Entry<K, V>> entrySet()
+    {
+      synchronized (c)
+      {
+        if (g == null) {
+          g = new Ug.m(c().entrySet(), c);
+        }
+        Set localSet = g;
+        return localSet;
+      }
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      synchronized (c)
+      {
+        boolean bool = c().equals(paramObject);
+        return bool;
+      }
+    }
+    
+    public V get(Object paramObject)
+    {
+      synchronized (c)
+      {
+        paramObject = c().get(paramObject);
+        return paramObject;
+      }
+    }
+    
+    public int hashCode()
+    {
+      synchronized (c)
+      {
+        int i = c().hashCode();
+        return i;
+      }
+    }
+    
+    public boolean isEmpty()
+    {
+      synchronized (c)
+      {
+        boolean bool = c().isEmpty();
+        return bool;
+      }
+    }
+    
+    public Set<K> keySet()
+    {
+      synchronized (c)
+      {
+        if (e == null) {
+          e = new Ug.m(c().keySet(), c);
+        }
+        Set localSet = e;
+        return localSet;
+      }
+    }
+    
+    public V put(K paramK, V paramV)
+    {
+      synchronized (c)
+      {
+        paramK = c().put(paramK, paramV);
+        return paramK;
+      }
+    }
+    
+    public void putAll(Map<? extends K, ? extends V> paramMap)
+    {
+      synchronized (c)
+      {
+        c().putAll(paramMap);
+        return;
+      }
+    }
+    
+    public V remove(Object paramObject)
+    {
+      synchronized (c)
+      {
+        paramObject = c().remove(paramObject);
+        return paramObject;
+      }
+    }
+    
+    public int size()
+    {
+      synchronized (c)
+      {
+        int i = c().size();
+        return i;
+      }
+    }
+    
+    public Collection<V> values()
+    {
+      synchronized (c)
+      {
+        if (f == null) {
+          f = Ug.c(c().values(), c);
+        }
+        Collection localCollection = f;
+        return localCollection;
+      }
+    }
+  }
+  
+  private static class i<K, V>
+    extends Ug.k
+    implements ve<K, V>
+  {
+    public static final long d = 0L;
+    public transient Set<K> e;
+    public transient Collection<V> f;
+    public transient Collection<Map.Entry<K, V>> g;
+    public transient Map<K, Collection<V>> h;
+    public transient Ye<K> i;
+    
+    public i(ve<K, V> paramVe, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public Map<K, Collection<V>> a()
+    {
+      synchronized (c)
+      {
+        if (h == null) {
+          h = new Ug.a(c().a(), c);
+        }
+        Map localMap = h;
+        return localMap;
+      }
+    }
+    
+    public boolean a(ve<? extends K, ? extends V> paramVe)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().a(paramVe);
+        return bool;
+      }
+    }
+    
+    public boolean a(K paramK, Iterable<? extends V> paramIterable)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().a(paramK, paramIterable);
+        return bool;
+      }
+    }
+    
+    public Ye<K> b()
+    {
+      synchronized (c)
+      {
+        if (i == null) {
+          i = Ug.a(c().b(), c);
+        }
+        Ye localYe = i;
+        return localYe;
+      }
+    }
+    
+    public Collection<V> b(K paramK, Iterable<? extends V> paramIterable)
+    {
+      synchronized (c)
+      {
+        paramK = c().b(paramK, paramIterable);
+        return paramK;
+      }
+    }
+    
+    public boolean b(Object paramObject1, Object paramObject2)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().b(paramObject1, paramObject2);
+        return bool;
+      }
+    }
+    
+    public ve<K, V> c()
+    {
+      return (ve)b;
+    }
+    
+    public void clear()
+    {
+      synchronized (c)
+      {
+        c().clear();
+        return;
+      }
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().containsKey(paramObject);
+        return bool;
+      }
+    }
+    
+    public boolean containsValue(Object paramObject)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().containsValue(paramObject);
+        return bool;
+      }
+    }
+    
+    public Collection<V> d(Object paramObject)
+    {
+      synchronized (c)
+      {
+        paramObject = c().d(paramObject);
+        return paramObject;
+      }
+    }
+    
+    public Collection<Map.Entry<K, V>> entries()
+    {
+      synchronized (c)
+      {
+        if (g == null) {
+          g = Ug.d(c().entries(), c);
+        }
+        Collection localCollection = g;
+        return localCollection;
+      }
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      synchronized (c)
+      {
+        boolean bool = c().equals(paramObject);
+        return bool;
+      }
+    }
+    
+    public Collection<V> get(K paramK)
+    {
+      synchronized (c)
+      {
+        paramK = Ug.d(c().get(paramK), c);
+        return paramK;
+      }
+    }
+    
+    public int hashCode()
+    {
+      synchronized (c)
+      {
+        int j = c().hashCode();
+        return j;
+      }
+    }
+    
+    public boolean isEmpty()
+    {
+      synchronized (c)
+      {
+        boolean bool = c().isEmpty();
+        return bool;
+      }
+    }
+    
+    public Set<K> keySet()
+    {
+      synchronized (c)
+      {
+        if (e == null) {
+          e = Ug.c(c().keySet(), c);
+        }
+        Set localSet = e;
+        return localSet;
+      }
+    }
+    
+    public boolean put(K paramK, V paramV)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().put(paramK, paramV);
+        return bool;
+      }
+    }
+    
+    public boolean remove(Object paramObject1, Object paramObject2)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().remove(paramObject1, paramObject2);
+        return bool;
+      }
+    }
+    
+    public int size()
+    {
+      synchronized (c)
+      {
+        int j = c().size();
+        return j;
+      }
+    }
+    
+    public Collection<V> values()
+    {
+      synchronized (c)
+      {
+        if (f == null) {
+          f = Ug.c(c().values(), c);
+        }
+        Collection localCollection = f;
+        return localCollection;
+      }
+    }
+  }
+  
+  private static class j<E>
+    extends Ug.e<E>
+    implements Ye<E>
+  {
+    public static final long e = 0L;
+    public transient Set<E> f;
+    public transient Set<Ye.a<E>> g;
+    
+    public j(Ye<E> paramYe, @h Object paramObject)
+    {
+      super(paramObject, null);
+    }
+    
+    public int a(Object paramObject)
+    {
+      synchronized (c)
+      {
+        int i = c().a(paramObject);
+        return i;
+      }
+    }
+    
+    public int a(E paramE, int paramInt)
+    {
+      synchronized (c)
+      {
+        paramInt = c().a(paramE, paramInt);
+        return paramInt;
+      }
+    }
+    
+    public boolean a(E paramE, int paramInt1, int paramInt2)
+    {
+      synchronized (c)
+      {
+        boolean bool = c().a(paramE, paramInt1, paramInt2);
+        return bool;
+      }
+    }
+    
+    public int b(Object paramObject, int paramInt)
+    {
+      synchronized (c)
+      {
+        paramInt = c().b(paramObject, paramInt);
+        return paramInt;
+      }
+    }
+    
+    public int c(E paramE, int paramInt)
+    {
+      synchronized (c)
+      {
+        paramInt = c().c(paramE, paramInt);
+        return paramInt;
+      }
+    }
+    
+    public Ye<E> c()
+    {
+      return (Ye)b;
+    }
+    
+    public Set<Ye.a<E>> entrySet()
+    {
+      synchronized (c)
+      {
+        if (g == null) {
+          g = Ug.c(c().entrySet(), c);
+        }
+        Set localSet = g;
+        return localSet;
+      }
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      synchronized (c)
+      {
+        boolean bool = c().equals(paramObject);
+        return bool;
+      }
+    }
+    
+    public int hashCode()
+    {
+      synchronized (c)
+      {
+        int i = c().hashCode();
+        return i;
+      }
+    }
+    
+    public Set<E> u()
+    {
+      synchronized (c)
+      {
+        if (f == null) {
+          f = Ug.c(c().u(), c);
+        }
+        Set localSet = f;
+        return localSet;
+      }
+    }
+  }
+  
+  public static class k
+    implements Serializable
+  {
+    @c("not needed in emulated source")
+    public static final long a = 0L;
+    public final Object b;
+    public final Object c;
+    
+    public k(Object paramObject1, @h Object paramObject2)
+    {
+      if (paramObject1 != null)
+      {
+        b = paramObject1;
+        paramObject1 = paramObject2;
+        if (paramObject2 == null) {
+          paramObject1 = this;
+        }
+        c = paramObject1;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    @c("java.io.ObjectOutputStream")
+    private void a(ObjectOutputStream paramObjectOutputStream)
+      throws IOException
+    {
+      synchronized (c)
+      {
+        paramObjectOutputStream.defaultWriteObject();
+        return;
+      }
+    }
+    
+    public Object c()
+    {
+      return b;
+    }
+    
+    public String toString()
+    {
+      synchronized (c)
+      {
+        String str = b.toString();
+        return str;
+      }
+    }
+  }
+  
+  private static class l<E>
+    extends Ug.f<E>
+    implements RandomAccess
+  {
+    public static final long f = 0L;
+    
+    public l(List<E> paramList, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+  }
+  
+  public static class m<E>
+    extends Ug.e<E>
+    implements Set<E>
+  {
+    public static final long e = 0L;
+    
+    public m(Set<E> paramSet, @h Object paramObject)
+    {
+      super(paramObject, null);
+    }
+    
+    public Set<E> c()
+    {
+      return (Set)b;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      synchronized (c)
+      {
+        boolean bool = c().equals(paramObject);
+        return bool;
+      }
+    }
+    
+    public int hashCode()
+    {
+      synchronized (c)
+      {
+        int i = c().hashCode();
+        return i;
+      }
+    }
+  }
+  
+  private static class n<K, V>
+    extends Ug.i<K, V>
+    implements bg<K, V>
+  {
+    public static final long j = 0L;
+    public transient Set<Map.Entry<K, V>> k;
+    
+    public n(bg<K, V> paramBg, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public Set<V> b(K paramK, Iterable<? extends V> paramIterable)
+    {
+      synchronized (c)
+      {
+        paramK = c().b(paramK, paramIterable);
+        return paramK;
+      }
+    }
+    
+    public bg<K, V> c()
+    {
+      return (bg)b;
+    }
+    
+    public Set<V> d(Object paramObject)
+    {
+      synchronized (c)
+      {
+        paramObject = c().d(paramObject);
+        return paramObject;
+      }
+    }
+    
+    public Set<Map.Entry<K, V>> entries()
+    {
+      synchronized (c)
+      {
+        if (k == null) {
+          k = new Ug.m(c().entries(), c);
+        }
+        Set localSet = k;
+        return localSet;
+      }
+    }
+    
+    public Set<V> get(K paramK)
+    {
+      synchronized (c)
+      {
+        paramK = new Ug.m(c().get(paramK), c);
+        return paramK;
+      }
+    }
+  }
+  
+  public static class o<K, V>
+    extends Ug.h<K, V>
+    implements SortedMap<K, V>
+  {
+    public static final long h = 0L;
+    
+    public o(SortedMap<K, V> paramSortedMap, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public SortedMap<K, V> c()
+    {
+      return (SortedMap)b;
+    }
+    
+    public Comparator<? super K> comparator()
+    {
+      synchronized (c)
+      {
+        Comparator localComparator = c().comparator();
+        return localComparator;
+      }
+    }
+    
+    public K firstKey()
+    {
+      synchronized (c)
+      {
+        Object localObject2 = c().firstKey();
+        return localObject2;
+      }
+    }
+    
+    public SortedMap<K, V> headMap(K paramK)
+    {
+      synchronized (c)
+      {
+        paramK = new o(c().headMap(paramK), c);
+        return paramK;
+      }
+    }
+    
+    public K lastKey()
+    {
+      synchronized (c)
+      {
+        Object localObject2 = c().lastKey();
+        return localObject2;
+      }
+    }
+    
+    public SortedMap<K, V> subMap(K paramK1, K paramK2)
+    {
+      synchronized (c)
+      {
+        paramK1 = new o(c().subMap(paramK1, paramK2), c);
+        return paramK1;
+      }
+    }
+    
+    public SortedMap<K, V> tailMap(K paramK)
+    {
+      synchronized (c)
+      {
+        paramK = new o(c().tailMap(paramK), c);
+        return paramK;
+      }
+    }
+  }
+  
+  public static class p<E>
+    extends Ug.m<E>
+    implements SortedSet<E>
+  {
+    public static final long f = 0L;
+    
+    public p(SortedSet<E> paramSortedSet, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public SortedSet<E> c()
+    {
+      return (SortedSet)b;
+    }
+    
+    public Comparator<? super E> comparator()
+    {
+      synchronized (c)
+      {
+        Comparator localComparator = c().comparator();
+        return localComparator;
+      }
+    }
+    
+    public E first()
+    {
+      synchronized (c)
+      {
+        Object localObject2 = c().first();
+        return localObject2;
+      }
+    }
+    
+    public SortedSet<E> headSet(E paramE)
+    {
+      synchronized (c)
+      {
+        paramE = new p(c().headSet(paramE), c);
+        return paramE;
+      }
+    }
+    
+    public E last()
+    {
+      synchronized (c)
+      {
+        Object localObject2 = c().last();
+        return localObject2;
+      }
+    }
+    
+    public SortedSet<E> subSet(E paramE1, E paramE2)
+    {
+      synchronized (c)
+      {
+        paramE1 = new p(c().subSet(paramE1, paramE2), c);
+        return paramE1;
+      }
+    }
+    
+    public SortedSet<E> tailSet(E paramE)
+    {
+      synchronized (c)
+      {
+        paramE = new p(c().tailSet(paramE), c);
+        return paramE;
+      }
+    }
+  }
+  
+  private static class q<K, V>
+    extends Ug.n<K, V>
+    implements Eg<K, V>
+  {
+    public static final long l = 0L;
+    
+    public q(Eg<K, V> paramEg, @h Object paramObject)
+    {
+      super(paramObject);
+    }
+    
+    public SortedSet<V> b(K paramK, Iterable<? extends V> paramIterable)
+    {
+      synchronized (c)
+      {
+        paramK = c().b(paramK, paramIterable);
+        return paramK;
+      }
+    }
+    
+    public Eg<K, V> c()
+    {
+      return (Eg)b;
+    }
+    
+    public Comparator<? super V> d()
+    {
+      synchronized (c)
+      {
+        Comparator localComparator = c().d();
+        return localComparator;
+      }
+    }
+    
+    public SortedSet<V> d(Object paramObject)
+    {
+      synchronized (c)
+      {
+        paramObject = c().d(paramObject);
+        return paramObject;
+      }
+    }
+    
+    public SortedSet<V> get(K paramK)
+    {
+      synchronized (c)
+      {
+        paramK = new Ug.p(c().get(paramK), c);
+        return paramK;
+      }
+    }
+  }
+}

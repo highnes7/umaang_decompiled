@@ -1,0 +1,324 @@
+package b.b.x.d.a;
+
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+import b.b.a.F;
+import b.b.a.G;
+
+public abstract class c
+  extends Drawable
+{
+  public static final int a = 3;
+  public final Bitmap b;
+  public int c = 160;
+  public int d = 119;
+  public final Paint e = new Paint(3);
+  public final BitmapShader f;
+  public final Matrix g = new Matrix();
+  public float h;
+  public final Rect i = new Rect();
+  public final RectF j = new RectF();
+  public boolean k = true;
+  public boolean l;
+  public int m;
+  public int n;
+  
+  public c(Resources paramResources, Bitmap paramBitmap)
+  {
+    if (paramResources != null) {
+      c = getDisplayMetricsdensityDpi;
+    }
+    b = paramBitmap;
+    if (b != null)
+    {
+      i();
+      paramResources = b;
+      paramBitmap = Shader.TileMode.CLAMP;
+      f = new BitmapShader(paramResources, paramBitmap, paramBitmap);
+      return;
+    }
+    n = -1;
+    m = -1;
+    f = null;
+  }
+  
+  public static boolean a(float paramFloat)
+  {
+    return paramFloat > 0.05F;
+  }
+  
+  private void i()
+  {
+    m = b.getScaledWidth(c);
+    n = b.getScaledHeight(c);
+  }
+  
+  private void j()
+  {
+    h = (Math.min(n, m) / 2);
+  }
+  
+  @G
+  public final Bitmap a()
+  {
+    return b;
+  }
+  
+  public void a(int paramInt)
+  {
+    if (d != paramInt)
+    {
+      d = paramInt;
+      k = true;
+      invalidateSelf();
+    }
+  }
+  
+  public void a(int paramInt1, int paramInt2, int paramInt3, Rect paramRect1, Rect paramRect2)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public void a(@F Canvas paramCanvas)
+  {
+    b(paramCanvas.getDensity());
+  }
+  
+  public void a(@F DisplayMetrics paramDisplayMetrics)
+  {
+    b(densityDpi);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    e.setAntiAlias(paramBoolean);
+    invalidateSelf();
+  }
+  
+  public float b()
+  {
+    return h;
+  }
+  
+  public void b(float paramFloat)
+  {
+    if (h == paramFloat) {
+      return;
+    }
+    l = false;
+    if (a(paramFloat)) {
+      e.setShader(f);
+    } else {
+      e.setShader(null);
+    }
+    h = paramFloat;
+    invalidateSelf();
+  }
+  
+  public void b(int paramInt)
+  {
+    if (c != paramInt)
+    {
+      int i1 = paramInt;
+      if (paramInt == 0) {
+        i1 = 160;
+      }
+      c = i1;
+      if (b != null) {
+        i();
+      }
+      invalidateSelf();
+    }
+  }
+  
+  public void b(boolean paramBoolean)
+  {
+    l = paramBoolean;
+    k = true;
+    if (paramBoolean)
+    {
+      j();
+      e.setShader(f);
+      invalidateSelf();
+      return;
+    }
+    b(0.0F);
+  }
+  
+  public int c()
+  {
+    return d;
+  }
+  
+  public void c(boolean paramBoolean)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  @F
+  public final Paint d()
+  {
+    return e;
+  }
+  
+  public void draw(@F Canvas paramCanvas)
+  {
+    Object localObject = b;
+    if (localObject == null) {
+      return;
+    }
+    h();
+    if (e.getShader() == null)
+    {
+      paramCanvas.drawBitmap((Bitmap)localObject, null, i, e);
+      return;
+    }
+    localObject = j;
+    float f1 = h;
+    paramCanvas.drawRoundRect((RectF)localObject, f1, f1, e);
+  }
+  
+  public boolean e()
+  {
+    return e.isAntiAlias();
+  }
+  
+  public boolean f()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public boolean g()
+  {
+    return l;
+  }
+  
+  public int getAlpha()
+  {
+    return e.getAlpha();
+  }
+  
+  public ColorFilter getColorFilter()
+  {
+    return e.getColorFilter();
+  }
+  
+  public int getIntrinsicHeight()
+  {
+    return n;
+  }
+  
+  public int getIntrinsicWidth()
+  {
+    return m;
+  }
+  
+  public int getOpacity()
+  {
+    int i3 = d;
+    int i2 = -3;
+    int i1 = i2;
+    if (i3 == 119)
+    {
+      if (l) {
+        return -3;
+      }
+      Bitmap localBitmap = b;
+      i1 = i2;
+      if (localBitmap != null)
+      {
+        i1 = i2;
+        if (!localBitmap.hasAlpha())
+        {
+          i1 = i2;
+          if (e.getAlpha() >= 255)
+          {
+            if (a(h)) {
+              return -3;
+            }
+            i1 = -1;
+          }
+        }
+      }
+    }
+    return i1;
+  }
+  
+  public void h()
+  {
+    if (k)
+    {
+      if (l)
+      {
+        int i1 = Math.min(m, n);
+        a(d, i1, i1, getBounds(), i);
+        i1 = Math.min(i.width(), i.height());
+        int i2 = Math.max(0, (i.width() - i1) / 2);
+        int i3 = Math.max(0, (i.height() - i1) / 2);
+        i.inset(i2, i3);
+        h = (i1 * 0.5F);
+      }
+      else
+      {
+        a(d, m, n, getBounds(), i);
+      }
+      j.set(i);
+      if (f != null)
+      {
+        Matrix localMatrix = g;
+        RectF localRectF = j;
+        localMatrix.setTranslate(left, top);
+        g.preScale(j.width() / b.getWidth(), j.height() / b.getHeight());
+        f.setLocalMatrix(g);
+        e.setShader(f);
+      }
+      k = false;
+    }
+  }
+  
+  public void onBoundsChange(Rect paramRect)
+  {
+    super.onBoundsChange(paramRect);
+    if (l) {
+      j();
+    }
+    k = true;
+  }
+  
+  public void setAlpha(int paramInt)
+  {
+    if (paramInt != e.getAlpha())
+    {
+      e.setAlpha(paramInt);
+      invalidateSelf();
+    }
+  }
+  
+  public void setColorFilter(ColorFilter paramColorFilter)
+  {
+    e.setColorFilter(paramColorFilter);
+    invalidateSelf();
+  }
+  
+  public void setDither(boolean paramBoolean)
+  {
+    e.setDither(paramBoolean);
+    invalidateSelf();
+  }
+  
+  public void setFilterBitmap(boolean paramBoolean)
+  {
+    e.setFilterBitmap(paramBoolean);
+    invalidateSelf();
+  }
+}

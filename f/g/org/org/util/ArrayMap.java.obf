@@ -1,0 +1,400 @@
+package f.g.b.a.g;
+
+import f.g.b.a.e.a.a.a.b.f;
+import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+public class a<K, V>
+  extends AbstractMap<K, V>
+  implements Cloneable
+{
+  public int a;
+  public Object[] b;
+  
+  public a() {}
+  
+  public static <K, V> a<K, V> a(int paramInt)
+  {
+    a localA = new a();
+    localA.b(paramInt);
+    return localA;
+  }
+  
+  public static <K, V> a<K, V> a(Object... paramVarArgs)
+  {
+    a localA = a(1);
+    int i = paramVarArgs.length;
+    if (1 != i % 2)
+    {
+      a = (paramVarArgs.length / 2);
+      Object[] arrayOfObject = new Object[i];
+      b = arrayOfObject;
+      System.arraycopy(paramVarArgs, 0, arrayOfObject, 0, i);
+      return localA;
+    }
+    paramVarArgs = String.valueOf(paramVarArgs[(i - 1)]);
+    throw new IllegalArgumentException(f.a.a.a.a.a(new StringBuilder(paramVarArgs.length() + 28), "missing value for last key: ", paramVarArgs));
+  }
+  
+  private int b(Object paramObject)
+  {
+    int j = a;
+    Object[] arrayOfObject = b;
+    int i = 0;
+    while (i < j << 1)
+    {
+      Object localObject = arrayOfObject[i];
+      if (paramObject == null)
+      {
+        if (localObject == null) {
+          return i;
+        }
+      }
+      else if (paramObject.equals(localObject)) {
+        return i;
+      }
+      i += 2;
+    }
+    return -2;
+  }
+  
+  public static <K, V> a<K, V> b()
+  {
+    return new a();
+  }
+  
+  private void b(int paramInt, K paramK, V paramV)
+  {
+    Object[] arrayOfObject = b;
+    arrayOfObject[paramInt] = paramK;
+    arrayOfObject[(paramInt + 1)] = paramV;
+  }
+  
+  private V f(int paramInt)
+  {
+    int i = a << 1;
+    if (paramInt >= 0)
+    {
+      if (paramInt >= i) {
+        return null;
+      }
+      Object localObject = h(paramInt + 1);
+      Object[] arrayOfObject = b;
+      int j = i - paramInt - 2;
+      if (j != 0) {
+        System.arraycopy(arrayOfObject, paramInt + 2, arrayOfObject, paramInt, j);
+      }
+      a -= 1;
+      b(i - 2, null, null);
+      return localObject;
+    }
+    return null;
+  }
+  
+  private void g(int paramInt)
+  {
+    if (paramInt == 0)
+    {
+      b = null;
+      return;
+    }
+    int i = a;
+    Object[] arrayOfObject1 = b;
+    if ((i == 0) || (paramInt != arrayOfObject1.length))
+    {
+      Object[] arrayOfObject2 = new Object[paramInt];
+      b = arrayOfObject2;
+      if (i != 0) {
+        System.arraycopy(arrayOfObject1, 0, arrayOfObject2, 0, i << 1);
+      }
+    }
+  }
+  
+  private V h(int paramInt)
+  {
+    if (paramInt < 0) {
+      return null;
+    }
+    return b[paramInt];
+  }
+  
+  public final int a(K paramK)
+  {
+    return b(paramK) >> 1;
+  }
+  
+  public final V a(int paramInt, V paramV)
+  {
+    int i = a;
+    if ((paramInt >= 0) && (paramInt < i))
+    {
+      paramInt = (paramInt << 1) + 1;
+      Object localObject = h(paramInt);
+      b[paramInt] = paramV;
+      return localObject;
+    }
+    throw new IndexOutOfBoundsException();
+  }
+  
+  public final V a(int paramInt, K paramK, V paramV)
+  {
+    if (paramInt >= 0)
+    {
+      int i = paramInt + 1;
+      b(i);
+      paramInt <<= 1;
+      Object localObject = h(paramInt + 1);
+      b(paramInt, paramK, paramV);
+      if (i > a) {
+        a = i;
+      }
+      return localObject;
+    }
+    throw new IndexOutOfBoundsException();
+  }
+  
+  public final void b(int paramInt)
+  {
+    if (paramInt >= 0)
+    {
+      Object[] arrayOfObject = b;
+      int i = paramInt << 1;
+      if (arrayOfObject == null) {
+        paramInt = 0;
+      } else {
+        paramInt = arrayOfObject.length;
+      }
+      if (i > paramInt)
+      {
+        int j = paramInt / 2 * 3 + 1;
+        paramInt = j;
+        if (j % 2 != 0) {
+          paramInt = j + 1;
+        }
+        if (paramInt < i) {
+          paramInt = i;
+        }
+        g(paramInt);
+      }
+      return;
+    }
+    throw new IndexOutOfBoundsException();
+  }
+  
+  public final void b(K paramK, V paramV)
+  {
+    a(a, paramK, paramV);
+  }
+  
+  public final K c(int paramInt)
+  {
+    if ((paramInt >= 0) && (paramInt < a)) {
+      return b[(paramInt << 1)];
+    }
+    return null;
+  }
+  
+  public final void c()
+  {
+    g(a << 1);
+  }
+  
+  public void clear()
+  {
+    a = 0;
+    b = null;
+  }
+  
+  public a<K, V> clone()
+  {
+    try
+    {
+      a localA = (a)super.clone();
+      Object[] arrayOfObject1 = b;
+      if (arrayOfObject1 != null)
+      {
+        int i = arrayOfObject1.length;
+        Object[] arrayOfObject2 = new Object[i];
+        b = arrayOfObject2;
+        System.arraycopy(arrayOfObject1, 0, arrayOfObject2, 0, i);
+      }
+      return localA;
+    }
+    catch (CloneNotSupportedException localCloneNotSupportedException)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public final boolean containsKey(Object paramObject)
+  {
+    return -2 != b(paramObject);
+  }
+  
+  public final boolean containsValue(Object paramObject)
+  {
+    int j = a;
+    Object[] arrayOfObject = b;
+    int i = 1;
+    while (i < j << 1)
+    {
+      Object localObject = arrayOfObject[i];
+      if (paramObject == null)
+      {
+        if (localObject == null) {
+          return true;
+        }
+      }
+      else if (paramObject.equals(localObject)) {
+        return true;
+      }
+      i += 2;
+    }
+    return false;
+  }
+  
+  public final V d(int paramInt)
+  {
+    if ((paramInt >= 0) && (paramInt < a)) {
+      return h((paramInt << 1) + 1);
+    }
+    return null;
+  }
+  
+  public final V e(int paramInt)
+  {
+    return f(paramInt << 1);
+  }
+  
+  public final Set<Map.Entry<K, V>> entrySet()
+  {
+    return new c();
+  }
+  
+  public final V get(Object paramObject)
+  {
+    return h(b(paramObject) + 1);
+  }
+  
+  public final V put(K paramK, V paramV)
+  {
+    int j = a(paramK);
+    int i = j;
+    if (j == -1) {
+      i = a;
+    }
+    return a(i, paramK, paramV);
+  }
+  
+  public final V remove(Object paramObject)
+  {
+    return f(b(paramObject));
+  }
+  
+  public final int size()
+  {
+    return a;
+  }
+  
+  public final class a
+    implements Map.Entry<K, V>
+  {
+    public int a;
+    
+    public a(int paramInt)
+    {
+      a = paramInt;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (this == paramObject) {
+        return true;
+      }
+      if (!(paramObject instanceof Map.Entry)) {
+        return false;
+      }
+      paramObject = (Map.Entry)paramObject;
+      return (f.a(getKey(), paramObject.getKey())) && (f.a(getValue(), paramObject.getValue()));
+    }
+    
+    public K getKey()
+    {
+      return c(a);
+    }
+    
+    public V getValue()
+    {
+      return d(a);
+    }
+    
+    public int hashCode()
+    {
+      return getKey().hashCode() ^ getValue().hashCode();
+    }
+    
+    public V setValue(V paramV)
+    {
+      return a(a, paramV);
+    }
+  }
+  
+  public final class b
+    implements Iterator<Map.Entry<K, V>>
+  {
+    public boolean a;
+    public int b;
+    
+    public b() {}
+    
+    public boolean hasNext()
+    {
+      return b < a;
+    }
+    
+    public Map.Entry<K, V> next()
+    {
+      int i = b;
+      a localA = a.this;
+      if (i != a)
+      {
+        b = (i + 1);
+        return new a.a(localA, i);
+      }
+      throw new NoSuchElementException();
+    }
+    
+    public void remove()
+    {
+      int i = b - 1;
+      if ((!a) && (i >= 0))
+      {
+        e(i);
+        a = true;
+        return;
+      }
+      throw new IllegalArgumentException();
+    }
+  }
+  
+  public final class c
+    extends AbstractSet<Map.Entry<K, V>>
+  {
+    public c() {}
+    
+    public Iterator<Map.Entry<K, V>> iterator()
+    {
+      return new a.b(a.this);
+    }
+    
+    public int size()
+    {
+      return a;
+    }
+  }
+}

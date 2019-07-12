@@ -1,0 +1,3549 @@
+package f.g.c.d;
+
+import f.g.c.a.d;
+import f.g.c.b.C;
+import f.g.c.b.Ca;
+import f.g.c.b.ba;
+import f.g.c.j.g;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import java.util.AbstractCollection;
+import java.util.AbstractMap;
+import java.util.AbstractQueue;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import m.a.a.a;
+import m.a.h;
+
+public class Cd<K, V>
+  extends AbstractMap<K, V>
+  implements ConcurrentMap<K, V>, Serializable
+{
+  public static final int a = 1073741824;
+  public static final int b = 65536;
+  public static final int c = 3;
+  public static final int d = 63;
+  public static final int e = 16;
+  public static final long f = 60L;
+  public static final Logger g = Logger.getLogger(Cd.class.getName());
+  public static final B<Object, Object> h = new Ad();
+  public static final Queue<? extends Object> i = new Bd();
+  public static final long j = 5L;
+  public transient Collection<V> A;
+  public transient Set<Map.Entry<K, V>> B;
+  public final transient int k;
+  public final transient int l;
+  public final transient n<K, V>[] m;
+  public final int n;
+  public final C<Object> o;
+  public final C<Object> p;
+  public final u q;
+  public final u r;
+  public final int s;
+  public final long t;
+  public final long u;
+  public final Queue<ud.e<K, V>> v;
+  public final ud.d<K, V> w;
+  public final transient d x;
+  public final Ca y;
+  public transient Set<K> z;
+  
+  public Cd(ud paramUd)
+  {
+    n = Math.min(paramUd.h(), 65536);
+    q = paramUd.m();
+    r = paramUd.o();
+    o = paramUd.l();
+    p = r.a();
+    s = i;
+    t = paramUd.i();
+    u = paramUd.j();
+    x = d.a(q, c(), b());
+    y = paramUd.n();
+    w = paramUd.a();
+    Object localObject;
+    if (w == fb.a.a) {
+      localObject = i;
+    } else {
+      localObject = new ConcurrentLinkedQueue();
+    }
+    v = ((Queue)localObject);
+    int i1 = Math.min(paramUd.k(), 1073741824);
+    int i2 = i1;
+    if (b()) {
+      i2 = Math.min(i1, s);
+    }
+    int i4 = 0;
+    int i5 = 0;
+    i1 = 1;
+    int i3 = 0;
+    while ((i1 < n) && ((!b()) || (i1 * 2 <= s)))
+    {
+      i3 += 1;
+      i1 <<= 1;
+    }
+    l = (32 - i3);
+    k = (i1 - 1);
+    m = a(i1);
+    int i6 = i2 / i1;
+    i3 = i6;
+    if (i6 * i1 < i2) {
+      i3 = i6 + 1;
+    }
+    i2 = 1;
+    while (i2 < i3) {
+      i2 <<= 1;
+    }
+    i3 = i4;
+    if (b())
+    {
+      i6 = s;
+      i4 = i6 / i1 + 1;
+      i3 = i5;
+      while (i3 < m.length)
+      {
+        i5 = i4;
+        if (i3 == i6 % i1) {
+          i5 = i4 - 1;
+        }
+        m[i3] = a(i2, i5);
+        i3 += 1;
+        i4 = i5;
+      }
+    }
+    for (;;)
+    {
+      paramUd = m;
+      if (i3 >= paramUd.length) {
+        break;
+      }
+      paramUd[i3] = a(i2, -1);
+      i3 += 1;
+    }
+  }
+  
+  public static <E> Queue<E> a()
+  {
+    return i;
+  }
+  
+  @a("Segment.this")
+  public static <K, V> void a(m<K, V> paramM1, m<K, V> paramM2)
+  {
+    paramM1.b(paramM2);
+    paramM2.a(paramM1);
+  }
+  
+  public static int b(int paramInt)
+  {
+    paramInt += (paramInt << 15 ^ 0xCD7D);
+    paramInt ^= paramInt >>> 10;
+    paramInt += (paramInt << 3);
+    paramInt ^= paramInt >>> 6;
+    paramInt = (paramInt << 2) + (paramInt << 14) + paramInt;
+    return paramInt >>> 16 ^ paramInt;
+  }
+  
+  @a("Segment.this")
+  public static <K, V> void b(m<K, V> paramM1, m<K, V> paramM2)
+  {
+    paramM1.c(paramM2);
+    paramM2.d(paramM1);
+  }
+  
+  @a("Segment.this")
+  public static <K, V> void d(m<K, V> paramM)
+  {
+    l localL = l.a;
+    paramM.b(localL);
+    paramM.a(localL);
+  }
+  
+  @a("Segment.this")
+  public static <K, V> void e(m<K, V> paramM)
+  {
+    l localL = l.a;
+    paramM.c(localL);
+    paramM.d(localL);
+  }
+  
+  public static <K, V> m<K, V> g()
+  {
+    return l.a;
+  }
+  
+  public static <K, V> B<K, V> i()
+  {
+    return h;
+  }
+  
+  @d
+  @a("Segment.this")
+  public B<K, V> a(m<K, V> paramM, V paramV)
+  {
+    int i1 = paramM.b();
+    return r.a(c(i1), paramM, paramV);
+  }
+  
+  public m<K, V> a(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int i1 = c(paramObject);
+    return c(i1).c(paramObject, i1);
+  }
+  
+  @d
+  @a("Segment.this")
+  public m<K, V> a(K paramK, int paramInt, @h m<K, V> paramM)
+  {
+    return c(paramInt).a(paramK, paramInt, paramM);
+  }
+  
+  public n<K, V> a(int paramInt1, int paramInt2)
+  {
+    return new n(this, paramInt1, paramInt2);
+  }
+  
+  public V a(m<K, V> paramM)
+  {
+    if (paramM.getKey() == null) {
+      return null;
+    }
+    Object localObject = paramM.a().get();
+    if (localObject == null) {
+      return null;
+    }
+    if ((c()) && (b(paramM))) {
+      return null;
+    }
+    return localObject;
+  }
+  
+  public void a(B<K, V> paramB)
+  {
+    m localM = paramB.a();
+    int i1 = localM.b();
+    c(i1).b(localM.getKey(), i1, paramB);
+  }
+  
+  public boolean a(m<K, V> paramM, long paramLong)
+  {
+    return paramLong - paramM.e() > 0L;
+  }
+  
+  public final n<K, V>[] a(int paramInt)
+  {
+    return new n[paramInt];
+  }
+  
+  public m<K, V> b(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int i1 = c(paramObject);
+    return c(i1).d(paramObject, i1);
+  }
+  
+  public boolean b()
+  {
+    return s != -1;
+  }
+  
+  public boolean b(m<K, V> paramM)
+  {
+    return a(paramM, y.a());
+  }
+  
+  public int c(Object paramObject)
+  {
+    return b(o.c(paramObject));
+  }
+  
+  @d
+  @a("Segment.this")
+  public m<K, V> c(m<K, V> paramM1, m<K, V> paramM2)
+  {
+    return c(paramM1.b()).a(paramM1, paramM2);
+  }
+  
+  public n<K, V> c(int paramInt)
+  {
+    return m[(paramInt >>> l & k)];
+  }
+  
+  public boolean c()
+  {
+    return (e()) || (d());
+  }
+  
+  @d
+  public boolean c(m<K, V> paramM)
+  {
+    return c(paramM.b()).a(paramM) != null;
+  }
+  
+  public void clear()
+  {
+    n[] arrayOfN = m;
+    int i2 = arrayOfN.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      arrayOfN[i1].a();
+      i1 += 1;
+    }
+  }
+  
+  public boolean containsKey(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    int i1 = c(paramObject);
+    return c(i1).a(paramObject, i1);
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    n[] arrayOfN = m;
+    long l2 = -1L;
+    int i1 = 0;
+    while (i1 < 3)
+    {
+      int i4 = arrayOfN.length;
+      long l1 = 0L;
+      int i2 = 0;
+      while (i2 < i4)
+      {
+        n localN = arrayOfN[i2];
+        int i3 = b;
+        AtomicReferenceArray localAtomicReferenceArray = e;
+        i3 = 0;
+        while (i3 < localAtomicReferenceArray.length())
+        {
+          for (m localM = (m)localAtomicReferenceArray.get(i3); localM != null; localM = localM.c())
+          {
+            Object localObject = localN.a(localM);
+            if ((localObject != null) && (p.b(paramObject, localObject))) {
+              return true;
+            }
+          }
+          i3 += 1;
+        }
+        l1 += c;
+        i2 += 1;
+      }
+      if (l1 == l2) {
+        break;
+      }
+      i1 += 1;
+      l2 = l1;
+    }
+    return false;
+  }
+  
+  public boolean d()
+  {
+    return t > 0L;
+  }
+  
+  public boolean e()
+  {
+    return u > 0L;
+  }
+  
+  public Set<Map.Entry<K, V>> entrySet()
+  {
+    Object localObject = B;
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = new f();
+    B = ((Set)localObject);
+    return localObject;
+  }
+  
+  public void f(m<K, V> paramM)
+  {
+    int i1 = paramM.b();
+    c(i1).a(paramM, i1);
+  }
+  
+  public V get(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int i1 = c(paramObject);
+    return c(i1).b(paramObject, i1);
+  }
+  
+  public void h()
+  {
+    for (;;)
+    {
+      ud.e localE = (ud.e)v.poll();
+      if (localE == null) {
+        break;
+      }
+      try
+      {
+        w.a(localE);
+      }
+      catch (Exception localException)
+      {
+        g.log(Level.WARNING, "Exception thrown by removal listener", localException);
+      }
+    }
+  }
+  
+  public boolean isEmpty()
+  {
+    n[] arrayOfN = m;
+    long l1 = 0L;
+    int i1 = 0;
+    while (i1 < arrayOfN.length)
+    {
+      if (b != 0) {
+        return false;
+      }
+      l1 += c;
+      i1 += 1;
+    }
+    if (l1 != 0L)
+    {
+      i1 = 0;
+      while (i1 < arrayOfN.length)
+      {
+        if (b != 0) {
+          return false;
+        }
+        l1 -= c;
+        i1 += 1;
+      }
+      if (l1 != 0L) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public boolean j()
+  {
+    return q != u.a;
+  }
+  
+  public boolean k()
+  {
+    return r != u.a;
+  }
+  
+  public Set<K> keySet()
+  {
+    Object localObject = z;
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = new k();
+    z = ((Set)localObject);
+    return localObject;
+  }
+  
+  public Object l()
+  {
+    return new o(q, r, o, p, u, t, s, n, w, this);
+  }
+  
+  public V put(K paramK, V paramV)
+  {
+    if (paramK != null)
+    {
+      if (paramV != null)
+      {
+        int i1 = c(paramK);
+        return c(i1).a(paramK, i1, paramV, false);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public void putAll(Map<? extends K, ? extends V> paramMap)
+  {
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramMap.next();
+      put(localEntry.getKey(), localEntry.getValue());
+    }
+  }
+  
+  public V putIfAbsent(K paramK, V paramV)
+  {
+    if (paramK != null)
+    {
+      if (paramV != null)
+      {
+        int i1 = c(paramK);
+        return c(i1).a(paramK, i1, paramV, true);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public V remove(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int i1 = c(paramObject);
+    return c(i1).e(paramObject, i1);
+  }
+  
+  public boolean remove(@h Object paramObject1, @h Object paramObject2)
+  {
+    if ((paramObject1 != null) && (paramObject2 != null))
+    {
+      int i1 = c(paramObject1);
+      return c(i1).a(paramObject1, i1, paramObject2);
+    }
+    return false;
+  }
+  
+  public V replace(K paramK, V paramV)
+  {
+    if (paramK != null)
+    {
+      if (paramV != null)
+      {
+        int i1 = c(paramK);
+        return c(i1).b(paramK, i1, paramV);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean replace(K paramK, @h V paramV1, V paramV2)
+  {
+    if (paramK != null)
+    {
+      if (paramV2 != null)
+      {
+        if (paramV1 == null) {
+          return false;
+        }
+        int i1 = c(paramK);
+        return c(i1).a(paramK, i1, paramV1, paramV2);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public int size()
+  {
+    n[] arrayOfN = m;
+    long l1 = 0L;
+    int i1 = 0;
+    while (i1 < arrayOfN.length)
+    {
+      l1 += b;
+      i1 += 1;
+    }
+    return g.b(l1);
+  }
+  
+  public Collection<V> values()
+  {
+    Object localObject = A;
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = new C();
+    A = ((Collection)localObject);
+    return localObject;
+  }
+  
+  public final class A
+    extends Cd<K, V>.i
+    implements Iterator<V>
+  {
+    public A()
+    {
+      super();
+    }
+    
+    public V next()
+    {
+      return b().getValue();
+    }
+  }
+  
+  public static abstract interface B<K, V>
+  {
+    public abstract B<K, V> a(ReferenceQueue<V> paramReferenceQueue, @h V paramV, Cd.m<K, V> paramM);
+    
+    public abstract Cd.m<K, V> a();
+    
+    public abstract void a(@h B<K, V> paramB);
+    
+    public abstract V b()
+      throws ExecutionException;
+    
+    public abstract boolean c();
+    
+    public abstract V get();
+  }
+  
+  public final class C
+    extends AbstractCollection<V>
+  {
+    public C() {}
+    
+    public void clear()
+    {
+      Cd.this.clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return containsValue(paramObject);
+    }
+    
+    public boolean isEmpty()
+    {
+      return Cd.this.isEmpty();
+    }
+    
+    public Iterator<V> iterator()
+    {
+      return new Cd.A(Cd.this);
+    }
+    
+    public int size()
+    {
+      return Cd.this.size();
+    }
+  }
+  
+  public static class D<K, V>
+    extends WeakReference<K>
+    implements Cd.m<K, V>
+  {
+    public final int a;
+    public final Cd.m<K, V> b;
+    public volatile Cd.B<K, V> c = Cd.h;
+    
+    public D(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramReferenceQueue);
+      a = paramInt;
+      b = paramM;
+    }
+    
+    public Cd.B<K, V> a()
+    {
+      return c;
+    }
+    
+    public void a(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(Cd.B<K, V> paramB)
+    {
+      Cd.B localB = c;
+      c = paramB;
+      localB.a(paramB);
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int b()
+    {
+      return a;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> c()
+    {
+      return b;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public long e()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public K getKey()
+    {
+      return get();
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  public static final class E<K, V>
+    extends Cd.D<K, V>
+    implements Cd.m<K, V>
+  {
+    @a("Segment.this")
+    public Cd.m<K, V> d = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> e = Cd.g();
+    
+    public E(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramK, paramInt, paramM);
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      e = paramM;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      d = paramM;
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      return e;
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      return d;
+    }
+  }
+  
+  public static final class F<K, V>
+    extends Cd.D<K, V>
+    implements Cd.m<K, V>
+  {
+    public volatile long d = Long.MAX_VALUE;
+    @a("Segment.this")
+    public Cd.m<K, V> e = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> f = Cd.g();
+    
+    public F(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramK, paramInt, paramM);
+    }
+    
+    public void a(long paramLong)
+    {
+      d = paramLong;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      e = paramM;
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      f = paramM;
+    }
+    
+    public long e()
+    {
+      return d;
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      return f;
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      return e;
+    }
+  }
+  
+  public static final class G<K, V>
+    extends Cd.D<K, V>
+    implements Cd.m<K, V>
+  {
+    public volatile long d = Long.MAX_VALUE;
+    @a("Segment.this")
+    public Cd.m<K, V> e = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> f = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> g = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> h = Cd.g();
+    
+    public G(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramK, paramInt, paramM);
+    }
+    
+    public void a(long paramLong)
+    {
+      d = paramLong;
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      h = paramM;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      g = paramM;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      e = paramM;
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      return h;
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      f = paramM;
+    }
+    
+    public long e()
+    {
+      return d;
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      return f;
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      return g;
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      return e;
+    }
+  }
+  
+  public static final class H<K, V>
+    extends WeakReference<V>
+    implements Cd.B<K, V>
+  {
+    public final Cd.m<K, V> a;
+    
+    public H(ReferenceQueue<V> paramReferenceQueue, V paramV, Cd.m<K, V> paramM)
+    {
+      super(paramReferenceQueue);
+      a = paramM;
+    }
+    
+    public Cd.B<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, Cd.m<K, V> paramM)
+    {
+      return new H(paramReferenceQueue, paramV, paramM);
+    }
+    
+    public Cd.m<K, V> a()
+    {
+      return a;
+    }
+    
+    public void a(Cd.B<K, V> paramB)
+    {
+      clear();
+    }
+    
+    public V b()
+    {
+      return get();
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+  }
+  
+  public final class I
+    extends m<K, V>
+  {
+    public final K a;
+    public V b;
+    
+    public I(V paramV)
+    {
+      a = paramV;
+      Object localObject;
+      b = localObject;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof Map.Entry;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (Map.Entry)paramObject;
+        bool1 = bool2;
+        if (a.equals(paramObject.getKey()))
+        {
+          bool1 = bool2;
+          if (b.equals(paramObject.getValue())) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public K getKey()
+    {
+      return a;
+    }
+    
+    public V getValue()
+    {
+      return b;
+    }
+    
+    public int hashCode()
+    {
+      return a.hashCode() ^ b.hashCode();
+    }
+    
+    public V setValue(V paramV)
+    {
+      Object localObject = put(a, paramV);
+      b = paramV;
+      return localObject;
+    }
+  }
+  
+  public static abstract class a<K, V>
+    implements Cd.m<K, V>
+  {
+    public a() {}
+    
+    public Cd.B<K, V> a()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(Cd.B<K, V> paramB)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int b()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> c()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public long e()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public K getKey()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  public static abstract class b<K, V>
+    extends Ka<K, V>
+    implements Serializable
+  {
+    public static final long a = 3L;
+    public final Cd.u b;
+    public final Cd.u c;
+    public final C<Object> d;
+    public final C<Object> e;
+    public final long f;
+    public final long g;
+    public final int h;
+    public final int i;
+    public final ud.d<? super K, ? super V> j;
+    public transient ConcurrentMap<K, V> k;
+    
+    public b(Cd.u paramU1, Cd.u paramU2, C<Object> paramC1, C<Object> paramC2, long paramLong1, long paramLong2, int paramInt1, int paramInt2, ud.d<? super K, ? super V> paramD, ConcurrentMap<K, V> paramConcurrentMap)
+    {
+      b = paramU1;
+      c = paramU2;
+      d = paramC1;
+      e = paramC2;
+      f = paramLong1;
+      g = paramLong2;
+      h = paramInt1;
+      i = paramInt2;
+      j = paramD;
+      k = paramConcurrentMap;
+    }
+    
+    public void a(ObjectInputStream paramObjectInputStream)
+      throws IOException, ClassNotFoundException
+    {
+      for (;;)
+      {
+        Object localObject1 = paramObjectInputStream.readObject();
+        if (localObject1 == null) {
+          return;
+        }
+        Object localObject2 = paramObjectInputStream.readObject();
+        k.put(localObject1, localObject2);
+      }
+    }
+    
+    public void a(ObjectOutputStream paramObjectOutputStream)
+      throws IOException
+    {
+      paramObjectOutputStream.writeInt(k.size());
+      Iterator localIterator = k.entrySet().iterator();
+      while (localIterator.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)localIterator.next();
+        paramObjectOutputStream.writeObject(localEntry.getKey());
+        paramObjectOutputStream.writeObject(localEntry.getValue());
+      }
+      paramObjectOutputStream.writeObject(null);
+    }
+    
+    public ud b(ObjectInputStream paramObjectInputStream)
+      throws IOException
+    {
+      int m = paramObjectInputStream.readInt();
+      paramObjectInputStream = new ud().b(m).a(b).b(c).a(d).a(i);
+      paramObjectInputStream.a(j);
+      long l = f;
+      if (l > 0L) {
+        paramObjectInputStream.b(l, TimeUnit.NANOSECONDS);
+      }
+      l = g;
+      if (l > 0L) {
+        paramObjectInputStream.a(l, TimeUnit.NANOSECONDS);
+      }
+      m = h;
+      if (m != -1) {
+        paramObjectInputStream.c(m);
+      }
+      return paramObjectInputStream;
+    }
+    
+    public ConcurrentMap<K, V> q()
+    {
+      return k;
+    }
+  }
+  
+  public static final class c
+    implements Runnable
+  {
+    public final WeakReference<Cd<?, ?>> a;
+    
+    public c(Cd<?, ?> paramCd)
+    {
+      a = new WeakReference(paramCd);
+    }
+    
+    public void run()
+    {
+      Object localObject = (Cd)a.get();
+      if (localObject != null)
+      {
+        localObject = m;
+        int j = localObject.length;
+        int i = 0;
+        while (i < j)
+        {
+          localObject[i].o();
+          i += 1;
+        }
+        return;
+      }
+      localObject = new CancellationException();
+      for (;;)
+      {
+        throw ((Throwable)localObject);
+      }
+    }
+  }
+  
+  public static abstract enum d
+  {
+    public static final int m = 1;
+    public static final int n = 2;
+    public static final d[][] o;
+    
+    static
+    {
+      d localD1 = a;
+      d localD2 = b;
+      d localD3 = c;
+      d localD4 = d;
+      d localD5 = e;
+      d localD6 = f;
+      d localD7 = g;
+      d localD8 = h;
+      d localD9 = i;
+      d localD10 = j;
+      d localD11 = k;
+      d localD12 = l;
+      p = new d[] { localD1, localD2, localD3, localD4, localD5, localD6, localD7, localD8, localD9, localD10, localD11, localD12 };
+      o = new d[][] { { localD1, localD2, localD3, localD4 }, { localD5, localD6, localD7, localD8 }, { localD9, localD10, localD11, localD12 } };
+    }
+    
+    public d() {}
+    
+    public static d a(Cd.u paramU, boolean paramBoolean1, boolean paramBoolean2)
+    {
+      boolean bool;
+      if (paramBoolean2) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      return o[paramU.ordinal()][(paramBoolean1 | bool)];
+    }
+    
+    @a("Segment.this")
+    public <K, V> Cd.m<K, V> a(Cd.n<K, V> paramN, Cd.m<K, V> paramM1, Cd.m<K, V> paramM2)
+    {
+      return a(paramN, paramM1.getKey(), paramM1.b(), paramM2);
+    }
+    
+    public abstract <K, V> Cd.m<K, V> a(Cd.n<K, V> paramN, K paramK, int paramInt, @h Cd.m<K, V> paramM);
+    
+    @a("Segment.this")
+    public <K, V> void a(Cd.m<K, V> paramM1, Cd.m<K, V> paramM2)
+    {
+      Cd.a(paramM1.d(), paramM2);
+      Cd.a(paramM2, paramM1.g());
+      Cd.d(paramM1);
+    }
+    
+    @a("Segment.this")
+    public <K, V> void b(Cd.m<K, V> paramM1, Cd.m<K, V> paramM2)
+    {
+      paramM2.a(paramM1.e());
+      Cd.b(paramM1.f(), paramM2);
+      Cd.b(paramM2, paramM1.h());
+      Cd.e(paramM1);
+    }
+  }
+  
+  public final class e
+    extends Cd<K, V>.i
+    implements Iterator<Map.Entry<K, V>>
+  {
+    public e()
+    {
+      super();
+    }
+    
+    public Map.Entry<K, V> next()
+    {
+      return b();
+    }
+  }
+  
+  public final class f
+    extends AbstractSet<Map.Entry<K, V>>
+  {
+    public f() {}
+    
+    public void clear()
+    {
+      Cd.this.clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      boolean bool1 = paramObject instanceof Map.Entry;
+      boolean bool2 = false;
+      if (!bool1) {
+        return false;
+      }
+      paramObject = (Map.Entry)paramObject;
+      Object localObject = paramObject.getKey();
+      if (localObject == null) {
+        return false;
+      }
+      localObject = get(localObject);
+      bool1 = bool2;
+      if (localObject != null)
+      {
+        bool1 = bool2;
+        if (p.b(paramObject.getValue(), localObject)) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public boolean isEmpty()
+    {
+      return Cd.this.isEmpty();
+    }
+    
+    public Iterator<Map.Entry<K, V>> iterator()
+    {
+      return new Cd.e(Cd.this);
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      boolean bool1 = paramObject instanceof Map.Entry;
+      boolean bool2 = false;
+      if (!bool1) {
+        return false;
+      }
+      paramObject = (Map.Entry)paramObject;
+      Object localObject = paramObject.getKey();
+      bool1 = bool2;
+      if (localObject != null)
+      {
+        bool1 = bool2;
+        if (remove(localObject, paramObject.getValue())) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public int size()
+    {
+      return Cd.this.size();
+    }
+  }
+  
+  public static final class g<K, V>
+    extends AbstractQueue<Cd.m<K, V>>
+  {
+    public final Cd.m<K, V> a = new Pd(this);
+    
+    public g() {}
+    
+    public boolean a(Cd.m<K, V> paramM)
+    {
+      Cd.a(paramM.d(), paramM.g());
+      Cd.a(a.d(), paramM);
+      Cd.a(paramM, a);
+      return true;
+    }
+    
+    public void clear()
+    {
+      Cd.m localM;
+      for (Object localObject = a.g();; localObject = localM)
+      {
+        localM = a;
+        if (localObject == localM) {
+          break;
+        }
+        localM = ((Cd.m)localObject).g();
+        Cd.d((Cd.m)localObject);
+      }
+      localM.b(localM);
+      localObject = a;
+      ((Cd.m)localObject).a((Cd.m)localObject);
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return ((Cd.m)paramObject).g() != Cd.l.a;
+    }
+    
+    public boolean isEmpty()
+    {
+      return a.g() == a;
+    }
+    
+    public Iterator<Cd.m<K, V>> iterator()
+    {
+      return new Qd(this, peek());
+    }
+    
+    public Cd.m<K, V> peek()
+    {
+      Cd.m localM2 = a.g();
+      Cd.m localM1 = localM2;
+      if (localM2 == a) {
+        localM1 = null;
+      }
+      return localM1;
+    }
+    
+    public Cd.m<K, V> poll()
+    {
+      Cd.m localM = a.g();
+      if (localM == a) {
+        return null;
+      }
+      remove(localM);
+      return localM;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      paramObject = (Cd.m)paramObject;
+      Cd.m localM1 = paramObject.d();
+      Cd.m localM2 = paramObject.g();
+      Cd.a(localM1, localM2);
+      Cd.d(paramObject);
+      return localM2 != Cd.l.a;
+    }
+    
+    public int size()
+    {
+      Cd.m localM = a.g();
+      int i = 0;
+      while (localM != a)
+      {
+        i += 1;
+        localM = localM.g();
+      }
+      return i;
+    }
+  }
+  
+  public static final class h<K, V>
+    extends AbstractQueue<Cd.m<K, V>>
+  {
+    public final Cd.m<K, V> a = new Rd(this);
+    
+    public h() {}
+    
+    public boolean a(Cd.m<K, V> paramM)
+    {
+      Cd.b(paramM.f(), paramM.h());
+      Cd.b(a.f(), paramM);
+      Cd.b(paramM, a);
+      return true;
+    }
+    
+    public void clear()
+    {
+      Cd.m localM;
+      for (Object localObject = a.h();; localObject = localM)
+      {
+        localM = a;
+        if (localObject == localM) {
+          break;
+        }
+        localM = ((Cd.m)localObject).h();
+        Cd.e((Cd.m)localObject);
+      }
+      localM.c(localM);
+      localObject = a;
+      ((Cd.m)localObject).d((Cd.m)localObject);
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return ((Cd.m)paramObject).h() != Cd.l.a;
+    }
+    
+    public boolean isEmpty()
+    {
+      return a.h() == a;
+    }
+    
+    public Iterator<Cd.m<K, V>> iterator()
+    {
+      return new Sd(this, peek());
+    }
+    
+    public Cd.m<K, V> peek()
+    {
+      Cd.m localM2 = a.h();
+      Cd.m localM1 = localM2;
+      if (localM2 == a) {
+        localM1 = null;
+      }
+      return localM1;
+    }
+    
+    public Cd.m<K, V> poll()
+    {
+      Cd.m localM = a.h();
+      if (localM == a) {
+        return null;
+      }
+      remove(localM);
+      return localM;
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      paramObject = (Cd.m)paramObject;
+      Cd.m localM1 = paramObject.f();
+      Cd.m localM2 = paramObject.h();
+      Cd.b(localM1, localM2);
+      Cd.e(paramObject);
+      return localM2 != Cd.l.a;
+    }
+    
+    public int size()
+    {
+      Cd.m localM = a.h();
+      int i = 0;
+      while (localM != a)
+      {
+        i += 1;
+        localM = localM.h();
+      }
+      return i;
+    }
+  }
+  
+  public abstract class i
+  {
+    public int a = m.length - 1;
+    public int b = -1;
+    public Cd.n<K, V> c;
+    public AtomicReferenceArray<Cd.m<K, V>> d;
+    public Cd.m<K, V> e;
+    public Cd<K, V>.I f;
+    public Cd<K, V>.I g;
+    
+    public i()
+    {
+      a();
+    }
+    
+    public final void a()
+    {
+      f = null;
+      if (c()) {
+        return;
+      }
+      if (d()) {
+        return;
+      }
+      do
+      {
+        do
+        {
+          int i = a;
+          if (i < 0) {
+            break;
+          }
+          Cd.n[] arrayOfN = m;
+          a = (i - 1);
+          c = arrayOfN[i];
+        } while (c.b == 0);
+        d = c.e;
+        b = (d.length() - 1);
+      } while (!d());
+    }
+    
+    public boolean a(Cd.m<K, V> paramM)
+    {
+      try
+      {
+        Object localObject = paramM.getKey();
+        paramM = a(paramM);
+        if (paramM != null) {
+          f = new Cd.I(Cd.this, localObject, paramM);
+        }
+        for (boolean bool = true;; bool = false)
+        {
+          c.l();
+          return bool;
+        }
+        throw paramM;
+      }
+      finally
+      {
+        c.l();
+      }
+      for (;;) {}
+    }
+    
+    public Cd<K, V>.I b()
+    {
+      Cd.I localI = f;
+      if (localI != null)
+      {
+        g = localI;
+        a();
+        return g;
+      }
+      throw new NoSuchElementException();
+    }
+    
+    public boolean c()
+    {
+      Cd.m localM = e;
+      if (localM != null) {
+        for (;;)
+        {
+          e = localM.c();
+          localM = e;
+          if (localM == null) {
+            break;
+          }
+          if (a(localM)) {
+            return true;
+          }
+          localM = e;
+        }
+      }
+      return false;
+    }
+    
+    public boolean d()
+    {
+      Object localObject;
+      do
+      {
+        int i = b;
+        if (i < 0) {
+          break;
+        }
+        localObject = d;
+        b = (i - 1);
+        localObject = (Cd.m)((AtomicReferenceArray)localObject).get(i);
+        e = ((Cd.m)localObject);
+      } while ((localObject == null) || ((!a(e)) && (!c())));
+      return true;
+      return false;
+    }
+    
+    public boolean hasNext()
+    {
+      return f != null;
+    }
+    
+    public void remove()
+    {
+      boolean bool;
+      if (g != null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool);
+      remove(g.getKey());
+      g = null;
+    }
+  }
+  
+  public final class j
+    extends Cd<K, V>.i
+    implements Iterator<K>
+  {
+    public j()
+    {
+      super();
+    }
+    
+    public K next()
+    {
+      return b().getKey();
+    }
+  }
+  
+  public final class k
+    extends AbstractSet<K>
+  {
+    public k() {}
+    
+    public void clear()
+    {
+      Cd.this.clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return containsKey(paramObject);
+    }
+    
+    public boolean isEmpty()
+    {
+      return Cd.this.isEmpty();
+    }
+    
+    public Iterator<K> iterator()
+    {
+      return new Cd.j(Cd.this);
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      return remove(paramObject) != null;
+    }
+    
+    public int size()
+    {
+      return Cd.this.size();
+    }
+  }
+  
+  private static enum l
+    implements Cd.m<Object, Object>
+  {
+    public l() {}
+    
+    public Cd.B<Object, Object> a()
+    {
+      return null;
+    }
+    
+    public void a(long paramLong) {}
+    
+    public void a(Cd.B<Object, Object> paramB) {}
+    
+    public void a(Cd.m<Object, Object> paramM) {}
+    
+    public int b()
+    {
+      return 0;
+    }
+    
+    public void b(Cd.m<Object, Object> paramM) {}
+    
+    public Cd.m<Object, Object> c()
+    {
+      return null;
+    }
+    
+    public void c(Cd.m<Object, Object> paramM) {}
+    
+    public Cd.m<Object, Object> d()
+    {
+      return this;
+    }
+    
+    public void d(Cd.m<Object, Object> paramM) {}
+    
+    public long e()
+    {
+      return 0L;
+    }
+    
+    public Cd.m<Object, Object> f()
+    {
+      return this;
+    }
+    
+    public Cd.m<Object, Object> g()
+    {
+      return this;
+    }
+    
+    public Object getKey()
+    {
+      return null;
+    }
+    
+    public Cd.m<Object, Object> h()
+    {
+      return this;
+    }
+  }
+  
+  public static abstract interface m<K, V>
+  {
+    public abstract Cd.B<K, V> a();
+    
+    public abstract void a(long paramLong);
+    
+    public abstract void a(Cd.B<K, V> paramB);
+    
+    public abstract void a(m<K, V> paramM);
+    
+    public abstract int b();
+    
+    public abstract void b(m<K, V> paramM);
+    
+    public abstract m<K, V> c();
+    
+    public abstract void c(m<K, V> paramM);
+    
+    public abstract m<K, V> d();
+    
+    public abstract void d(m<K, V> paramM);
+    
+    public abstract long e();
+    
+    public abstract m<K, V> f();
+    
+    public abstract m<K, V> g();
+    
+    public abstract K getKey();
+    
+    public abstract m<K, V> h();
+  }
+  
+  public static class n<K, V>
+    extends ReentrantLock
+  {
+    public final Cd<K, V> a;
+    public volatile int b;
+    public int c;
+    public int d;
+    public volatile AtomicReferenceArray<Cd.m<K, V>> e;
+    public final int f;
+    public final ReferenceQueue<K> g;
+    public final ReferenceQueue<V> h;
+    public final Queue<Cd.m<K, V>> i;
+    public final AtomicInteger j = new AtomicInteger();
+    @a("Segment.this")
+    public final Queue<Cd.m<K, V>> k;
+    @a("Segment.this")
+    public final Queue<Cd.m<K, V>> l;
+    
+    public n(Cd<K, V> paramCd, int paramInt1, int paramInt2)
+    {
+      a = paramCd;
+      f = paramInt2;
+      a(b(paramInt1));
+      boolean bool = paramCd.j();
+      Object localObject2 = null;
+      if (bool) {
+        localObject1 = new ReferenceQueue();
+      } else {
+        localObject1 = null;
+      }
+      g = ((ReferenceQueue)localObject1);
+      Object localObject1 = localObject2;
+      if (paramCd.k()) {
+        localObject1 = new ReferenceQueue();
+      }
+      h = ((ReferenceQueue)localObject1);
+      if ((!paramCd.b()) && (!paramCd.d())) {
+        localObject1 = Cd.i;
+      } else {
+        localObject1 = new ConcurrentLinkedQueue();
+      }
+      i = ((Queue)localObject1);
+      if (paramCd.b()) {
+        localObject1 = new Cd.g();
+      } else {
+        localObject1 = Cd.i;
+      }
+      k = ((Queue)localObject1);
+      if (paramCd.c()) {
+        paramCd = new Cd.h();
+      } else {
+        paramCd = Cd.i;
+      }
+      l = paramCd;
+    }
+    
+    public Cd.m<K, V> a(int paramInt)
+    {
+      AtomicReferenceArray localAtomicReferenceArray = e;
+      return (Cd.m)localAtomicReferenceArray.get(paramInt & localAtomicReferenceArray.length() - 1);
+    }
+    
+    @a("Segment.this")
+    public Cd.m<K, V> a(Cd.m<K, V> paramM1, Cd.m<K, V> paramM2)
+    {
+      if (paramM1.getKey() == null) {
+        return null;
+      }
+      Cd.B localB = paramM1.a();
+      Object localObject = localB.get();
+      if ((localObject == null) && (!localB.c())) {
+        return null;
+      }
+      paramM1 = a.x.a(this, paramM1, paramM2);
+      paramM1.a(localB.a(h, localObject, paramM1));
+      return paramM1;
+    }
+    
+    @a("Segment.this")
+    public Cd.m<K, V> a(K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      return a.x.a(this, paramK, paramInt, paramM);
+    }
+    
+    public V a(Cd.m<K, V> paramM)
+    {
+      if (paramM.getKey() == null)
+      {
+        r();
+        return null;
+      }
+      Object localObject = paramM.a().get();
+      if (localObject == null)
+      {
+        r();
+        return null;
+      }
+      if ((a.c()) && (a.b(paramM)))
+      {
+        s();
+        return null;
+      }
+      return localObject;
+    }
+    
+    public V a(K paramK, int paramInt, V paramV, boolean paramBoolean)
+    {
+      lock();
+      try
+      {
+        n();
+        int n = b + 1;
+        int m = n;
+        if (n > d)
+        {
+          j();
+          m = b + 1;
+        }
+        Object localObject3 = e;
+        n = ((AtomicReferenceArray)localObject3).length() - 1 & paramInt;
+        Object localObject2 = (Cd.m)((AtomicReferenceArray)localObject3).get(n);
+        Object localObject1 = localObject2;
+        if (localObject1 != null)
+        {
+          Object localObject4 = ((Cd.m)localObject1).getKey();
+          if ((((Cd.m)localObject1).b() == paramInt) && (localObject4 != null) && (a.o.b(paramK, localObject4)))
+          {
+            localObject2 = ((Cd.m)localObject1).a();
+            localObject3 = ((Cd.B)localObject2).get();
+            if (localObject3 == null)
+            {
+              c += 1;
+              a((Cd.m)localObject1, paramV);
+              if (!((Cd.B)localObject2).c())
+              {
+                a(paramK, paramInt, localObject3, ud.c.c);
+                m = b;
+              }
+              else if (i())
+              {
+                m = b + 1;
+              }
+            }
+          }
+        }
+        for (b = m;; b = m)
+        {
+          unlock();
+          m();
+          return null;
+          if (paramBoolean) {
+            c((Cd.m)localObject1);
+          }
+          for (;;)
+          {
+            unlock();
+            m();
+            return localObject3;
+            c += 1;
+            a(paramK, paramInt, localObject3, ud.c.b);
+            a((Cd.m)localObject1, paramV);
+          }
+          localObject1 = ((Cd.m)localObject1).c();
+          break;
+          c += 1;
+          paramK = a(paramK, paramInt, (Cd.m)localObject2);
+          a(paramK, paramV);
+          ((AtomicReferenceArray)localObject3).set(n, paramK);
+          if (i()) {
+            m = b + 1;
+          }
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        m();
+      }
+      for (;;) {}
+    }
+    
+    public void a()
+    {
+      if (b != 0) {
+        lock();
+      }
+      for (;;)
+      {
+        try
+        {
+          AtomicReferenceArray localAtomicReferenceArray = e;
+          if (a.v == Cd.i) {
+            break label178;
+          }
+          m = 0;
+          if (m >= localAtomicReferenceArray.length()) {
+            break label178;
+          }
+          Cd.m localM = (Cd.m)localAtomicReferenceArray.get(m);
+          if (localM == null) {
+            break label171;
+          }
+          if (!localM.a().c()) {
+            a(localM, ud.c.a);
+          }
+          localM = localM.c();
+          continue;
+          if (m < localAtomicReferenceArray.length())
+          {
+            localAtomicReferenceArray.set(m, null);
+            m += 1;
+            continue;
+          }
+          c();
+          k.clear();
+          l.clear();
+          j.set(0);
+          c += 1;
+          b = 0;
+          return;
+        }
+        finally
+        {
+          unlock();
+          m();
+        }
+        return;
+        label171:
+        m += 1;
+        continue;
+        label178:
+        int m = 0;
+      }
+    }
+    
+    public void a(Cd.m<K, V> paramM, long paramLong)
+    {
+      paramM.a(a.y.a() + paramLong);
+    }
+    
+    public void a(Cd.m<K, V> paramM, ud.c paramC)
+    {
+      a(paramM.getKey(), paramM.b(), paramM.a().get(), paramC);
+    }
+    
+    @a("Segment.this")
+    public void a(Cd.m<K, V> paramM, V paramV)
+    {
+      paramM.a(a.r.a(this, paramM, paramV));
+      e(paramM);
+    }
+    
+    public void a(@h K paramK, int paramInt, @h V paramV, ud.c paramC)
+    {
+      if (a.v != Cd.i)
+      {
+        paramK = new ud.e(paramK, paramV, paramC);
+        a.v.offer(paramK);
+      }
+    }
+    
+    public void a(AtomicReferenceArray<Cd.m<K, V>> paramAtomicReferenceArray)
+    {
+      d = (paramAtomicReferenceArray.length() * 3 / 4);
+      int m = d;
+      if (m == f) {
+        d = (m + 1);
+      }
+      e = paramAtomicReferenceArray;
+    }
+    
+    public boolean a(Cd.B<K, V> paramB)
+    {
+      boolean bool2 = paramB.c();
+      boolean bool1 = false;
+      if (bool2) {
+        return false;
+      }
+      if (paramB.get() == null) {
+        bool1 = true;
+      }
+      return bool1;
+    }
+    
+    public boolean a(Cd.m<K, V> paramM, int paramInt)
+    {
+      lock();
+      try
+      {
+        int m = b;
+        AtomicReferenceArray localAtomicReferenceArray = e;
+        m = localAtomicReferenceArray.length() - 1 & paramInt;
+        Cd.m localM2 = (Cd.m)localAtomicReferenceArray.get(m);
+        for (Cd.m localM1 = localM2; localM1 != null; localM1 = localM1.c()) {
+          if (localM1 == paramM)
+          {
+            c += 1;
+            a(localM1.getKey(), paramInt, localM1.a().get(), ud.c.c);
+            paramM = b(localM2, localM1);
+            paramInt = b;
+            localAtomicReferenceArray.set(m, paramM);
+            b = (paramInt - 1);
+            unlock();
+            m();
+            return true;
+          }
+        }
+        unlock();
+        m();
+        return false;
+      }
+      finally
+      {
+        unlock();
+        m();
+      }
+      for (;;)
+      {
+        throw paramM;
+      }
+    }
+    
+    @a("Segment.this")
+    public boolean a(Cd.m<K, V> paramM, int paramInt, ud.c paramC)
+    {
+      int m = b;
+      AtomicReferenceArray localAtomicReferenceArray = e;
+      m = localAtomicReferenceArray.length() - 1 & paramInt;
+      Cd.m localM2 = (Cd.m)localAtomicReferenceArray.get(m);
+      for (Cd.m localM1 = localM2; localM1 != null; localM1 = localM1.c()) {
+        if (localM1 == paramM)
+        {
+          c += 1;
+          a(localM1.getKey(), paramInt, localM1.a().get(), paramC);
+          paramM = b(localM2, localM1);
+          paramInt = b;
+          localAtomicReferenceArray.set(m, paramM);
+          b = (paramInt - 1);
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    @d
+    public boolean a(Object paramObject)
+    {
+      try
+      {
+        if (b != 0)
+        {
+          AtomicReferenceArray localAtomicReferenceArray = e;
+          int n = localAtomicReferenceArray.length();
+          int m = 0;
+          while (m < n)
+          {
+            for (Cd.m localM = (Cd.m)localAtomicReferenceArray.get(m); localM != null; localM = localM.c())
+            {
+              Object localObject = a(localM);
+              if (localObject != null)
+              {
+                boolean bool = a.p.b(paramObject, localObject);
+                if (bool)
+                {
+                  l();
+                  return true;
+                }
+              }
+            }
+            m += 1;
+          }
+        }
+        l();
+        return false;
+      }
+      finally
+      {
+        l();
+      }
+      for (;;)
+      {
+        throw paramObject;
+      }
+    }
+    
+    public boolean a(Object paramObject, int paramInt)
+    {
+      try
+      {
+        int m = b;
+        boolean bool = false;
+        if (m != 0)
+        {
+          paramObject = d(paramObject, paramInt);
+          if (paramObject == null) {
+            return false;
+          }
+          paramObject = paramObject.a().get();
+          if (paramObject != null) {
+            bool = true;
+          }
+          return bool;
+        }
+        return false;
+      }
+      finally
+      {
+        l();
+      }
+    }
+    
+    public boolean a(K paramK, int paramInt, Cd.B<K, V> paramB)
+    {
+      lock();
+      try
+      {
+        AtomicReferenceArray localAtomicReferenceArray = e;
+        int m = localAtomicReferenceArray.length() - 1 & paramInt;
+        Cd.m localM2 = (Cd.m)localAtomicReferenceArray.get(m);
+        for (Cd.m localM1 = localM2;; localM1 = localM1.c())
+        {
+          if (localM1 != null)
+          {
+            Object localObject = localM1.getKey();
+            if ((localM1.b() != paramInt) || (localObject == null) || (!a.o.b(paramK, localObject))) {
+              continue;
+            }
+            if (localM1.a() == paramB)
+            {
+              localAtomicReferenceArray.set(m, b(localM2, localM1));
+              unlock();
+              m();
+              return true;
+            }
+          }
+          unlock();
+          m();
+          return false;
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        m();
+      }
+      for (;;) {}
+    }
+    
+    public boolean a(Object paramObject1, int paramInt, Object paramObject2)
+    {
+      lock();
+      try
+      {
+        n();
+        int m = b;
+        AtomicReferenceArray localAtomicReferenceArray = e;
+        m = localAtomicReferenceArray.length();
+        boolean bool = true;
+        m = m - 1 & paramInt;
+        Cd.m localM2 = (Cd.m)localAtomicReferenceArray.get(m);
+        for (Cd.m localM1 = localM2;; localM1 = localM1.c())
+        {
+          if (localM1 != null)
+          {
+            Object localObject1 = localM1.getKey();
+            if ((localM1.b() != paramInt) || (localObject1 == null) || (!a.o.b(paramObject1, localObject1))) {
+              continue;
+            }
+            paramObject1 = localM1.a();
+            Object localObject2 = paramObject1.get();
+            if (a.p.b(paramObject2, localObject2))
+            {
+              paramObject1 = ud.c.a;
+            }
+            else
+            {
+              if (!a(paramObject1)) {
+                break label226;
+              }
+              paramObject1 = ud.c.c;
+            }
+            c += 1;
+            a(localObject1, paramInt, localObject2, paramObject1);
+            paramObject2 = b(localM2, localM1);
+            paramInt = b;
+            localAtomicReferenceArray.set(m, paramObject2);
+            b = (paramInt - 1);
+            paramObject2 = ud.c.a;
+            if (paramObject1 != paramObject2) {
+              bool = false;
+            }
+            unlock();
+            m();
+            return bool;
+          }
+          label226:
+          unlock();
+          m();
+          return false;
+        }
+        throw paramObject1;
+      }
+      finally
+      {
+        unlock();
+        m();
+      }
+      for (;;) {}
+    }
+    
+    public boolean a(K paramK, int paramInt, V paramV1, V paramV2)
+    {
+      lock();
+      try
+      {
+        n();
+        AtomicReferenceArray localAtomicReferenceArray = e;
+        int m = localAtomicReferenceArray.length() - 1 & paramInt;
+        Cd.m localM2 = (Cd.m)localAtomicReferenceArray.get(m);
+        for (Cd.m localM1 = localM2;; localM1 = localM1.c())
+        {
+          Object localObject2;
+          if (localM1 != null)
+          {
+            Object localObject1 = localM1.getKey();
+            if ((localM1.b() != paramInt) || (localObject1 == null) || (!a.o.b(paramK, localObject1))) {
+              continue;
+            }
+            Cd.B localB = localM1.a();
+            localObject2 = localB.get();
+            if (localObject2 != null) {
+              break label186;
+            }
+            if (a(localB))
+            {
+              int n = b;
+              c += 1;
+              a(localObject1, paramInt, localObject2, ud.c.c);
+              paramK = b(localM2, localM1);
+              paramInt = b;
+              localAtomicReferenceArray.set(m, paramK);
+              b = (paramInt - 1);
+            }
+          }
+          for (;;)
+          {
+            unlock();
+            m();
+            return false;
+            label186:
+            if (a.p.b(paramV1, localObject2))
+            {
+              c += 1;
+              a(paramK, paramInt, localObject2, ud.c.b);
+              a(localM1, paramV2);
+              unlock();
+              m();
+              return true;
+            }
+            c(localM1);
+          }
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        m();
+      }
+      for (;;) {}
+    }
+    
+    @a("Segment.this")
+    public Cd.m<K, V> b(Cd.m<K, V> paramM1, Cd.m<K, V> paramM2)
+    {
+      k.remove(paramM2);
+      l.remove(paramM2);
+      int m = b;
+      Object localObject = paramM2.c();
+      while (paramM1 != paramM2)
+      {
+        Cd.m localM = a(paramM1, (Cd.m)localObject);
+        if (localM != null)
+        {
+          localObject = localM;
+        }
+        else
+        {
+          f(paramM1);
+          m -= 1;
+        }
+        paramM1 = paramM1.c();
+      }
+      b = m;
+      return localObject;
+    }
+    
+    public V b(Object paramObject, int paramInt)
+    {
+      try
+      {
+        paramObject = d(paramObject, paramInt);
+        if (paramObject == null) {
+          return null;
+        }
+        Object localObject = paramObject.a().get();
+        if (localObject != null) {
+          d(paramObject);
+        } else {
+          r();
+        }
+        return localObject;
+      }
+      finally
+      {
+        l();
+      }
+    }
+    
+    public V b(K paramK, int paramInt, V paramV)
+    {
+      lock();
+      try
+      {
+        n();
+        AtomicReferenceArray localAtomicReferenceArray = e;
+        int m = localAtomicReferenceArray.length() - 1 & paramInt;
+        Cd.m localM2 = (Cd.m)localAtomicReferenceArray.get(m);
+        for (Cd.m localM1 = localM2;; localM1 = localM1.c())
+        {
+          Object localObject2;
+          if (localM1 != null)
+          {
+            Object localObject1 = localM1.getKey();
+            if ((localM1.b() != paramInt) || (localObject1 == null) || (!a.o.b(paramK, localObject1))) {
+              continue;
+            }
+            Cd.B localB = localM1.a();
+            localObject2 = localB.get();
+            if (localObject2 != null) {
+              break label186;
+            }
+            if (a(localB))
+            {
+              int n = b;
+              c += 1;
+              a(localObject1, paramInt, localObject2, ud.c.c);
+              paramK = b(localM2, localM1);
+              paramInt = b;
+              localAtomicReferenceArray.set(m, paramK);
+              b = (paramInt - 1);
+            }
+          }
+          unlock();
+          m();
+          return null;
+          label186:
+          c += 1;
+          a(paramK, paramInt, localObject2, ud.c.b);
+          a(localM1, paramV);
+          unlock();
+          m();
+          return localObject2;
+        }
+        throw paramK;
+      }
+      finally
+      {
+        unlock();
+        m();
+      }
+      for (;;) {}
+    }
+    
+    public AtomicReferenceArray<Cd.m<K, V>> b(int paramInt)
+    {
+      return new AtomicReferenceArray(paramInt);
+    }
+    
+    public void b()
+    {
+      while (g.poll() != null) {}
+    }
+    
+    public boolean b(Cd.m<K, V> paramM)
+    {
+      if (paramM.getKey() == null) {
+        return true;
+      }
+      return a(paramM.a());
+    }
+    
+    public boolean b(K paramK, int paramInt, Cd.B<K, V> paramB)
+    {
+      lock();
+      try
+      {
+        int m = b;
+        AtomicReferenceArray localAtomicReferenceArray = e;
+        m = localAtomicReferenceArray.length() - 1 & paramInt;
+        Cd.m localM2 = (Cd.m)localAtomicReferenceArray.get(m);
+        for (Cd.m localM1 = localM2; localM1 != null; localM1 = localM1.c())
+        {
+          Object localObject = localM1.getKey();
+          if ((localM1.b() == paramInt) && (localObject != null) && (a.o.b(paramK, localObject)))
+          {
+            if (localM1.a() == paramB)
+            {
+              c += 1;
+              a(paramK, paramInt, paramB.get(), ud.c.c);
+              paramK = b(localM2, localM1);
+              paramInt = b;
+              localAtomicReferenceArray.set(m, paramK);
+              b = (paramInt - 1);
+              unlock();
+              if (!isHeldByCurrentThread()) {
+                m();
+              }
+              return true;
+            }
+            unlock();
+            if (!isHeldByCurrentThread()) {
+              m();
+            }
+            return false;
+          }
+        }
+        unlock();
+        if (!isHeldByCurrentThread()) {
+          m();
+        }
+        return false;
+      }
+      finally
+      {
+        unlock();
+        if (!isHeldByCurrentThread()) {
+          m();
+        }
+      }
+      for (;;)
+      {
+        throw paramK;
+      }
+    }
+    
+    public Cd.m<K, V> c(Object paramObject, int paramInt)
+    {
+      if (b != 0) {
+        for (Cd.m localM = a(paramInt); localM != null; localM = localM.c()) {
+          if (localM.b() == paramInt)
+          {
+            Object localObject = localM.getKey();
+            if (localObject == null) {
+              r();
+            } else if (a.o.b(paramObject, localObject)) {
+              return localM;
+            }
+          }
+        }
+      }
+      return null;
+    }
+    
+    public void c()
+    {
+      if (a.j()) {
+        b();
+      }
+      if (a.k()) {
+        d();
+      }
+    }
+    
+    @a("Segment.this")
+    public void c(Cd.m<K, V> paramM)
+    {
+      k.add(paramM);
+      if (a.d())
+      {
+        a(paramM, a.t);
+        l.add(paramM);
+      }
+    }
+    
+    public Cd.m<K, V> d(Object paramObject, int paramInt)
+    {
+      paramObject = c(paramObject, paramInt);
+      if (paramObject == null) {
+        return null;
+      }
+      if ((a.c()) && (a.b(paramObject)))
+      {
+        s();
+        return null;
+      }
+      return paramObject;
+    }
+    
+    public void d()
+    {
+      while (h.poll() != null) {}
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      if (a.d()) {
+        a(paramM, a.t);
+      }
+      i.add(paramM);
+    }
+    
+    public V e(Object paramObject, int paramInt)
+    {
+      lock();
+      try
+      {
+        n();
+        int m = b;
+        AtomicReferenceArray localAtomicReferenceArray = e;
+        m = localAtomicReferenceArray.length() - 1 & paramInt;
+        Cd.m localM2 = (Cd.m)localAtomicReferenceArray.get(m);
+        for (Cd.m localM1 = localM2;; localM1 = localM1.c())
+        {
+          if (localM1 != null)
+          {
+            Object localObject1 = localM1.getKey();
+            if ((localM1.b() != paramInt) || (localObject1 == null) || (!a.o.b(paramObject, localObject1))) {
+              continue;
+            }
+            paramObject = localM1.a();
+            Object localObject2 = paramObject.get();
+            if (localObject2 != null)
+            {
+              paramObject = ud.c.a;
+            }
+            else
+            {
+              if (!a(paramObject)) {
+                break label189;
+              }
+              paramObject = ud.c.c;
+            }
+            c += 1;
+            a(localObject1, paramInt, localObject2, paramObject);
+            paramObject = b(localM2, localM1);
+            paramInt = b;
+            localAtomicReferenceArray.set(m, paramObject);
+            b = (paramInt - 1);
+            unlock();
+            m();
+            return localObject2;
+          }
+          label189:
+          unlock();
+          m();
+          return null;
+        }
+        throw paramObject;
+      }
+      finally
+      {
+        unlock();
+        m();
+      }
+      for (;;) {}
+    }
+    
+    @a("Segment.this")
+    public void e()
+    {
+      int m = 0;
+      int n;
+      do
+      {
+        Object localObject = g.poll();
+        if (localObject == null) {
+          break;
+        }
+        localObject = (Cd.m)localObject;
+        a.f((Cd.m)localObject);
+        n = m + 1;
+        m = n;
+      } while (n != 16);
+    }
+    
+    @a("Segment.this")
+    public void e(Cd.m<K, V> paramM)
+    {
+      f();
+      k.add(paramM);
+      if (a.c())
+      {
+        long l1;
+        if (a.d()) {
+          l1 = a.t;
+        } else {
+          l1 = a.u;
+        }
+        a(paramM, l1);
+        l.add(paramM);
+      }
+    }
+    
+    @a("Segment.this")
+    public void f()
+    {
+      for (;;)
+      {
+        Cd.m localM = (Cd.m)i.poll();
+        if (localM == null) {
+          break;
+        }
+        if (k.contains(localM)) {
+          k.add(localM);
+        }
+        if ((a.d()) && (l.contains(localM))) {
+          l.add(localM);
+        }
+      }
+    }
+    
+    public void f(Cd.m<K, V> paramM)
+    {
+      a(paramM, ud.c.c);
+      k.remove(paramM);
+      l.remove(paramM);
+    }
+    
+    @a("Segment.this")
+    public void g()
+    {
+      if (a.j()) {
+        e();
+      }
+      if (a.k()) {
+        h();
+      }
+    }
+    
+    @a("Segment.this")
+    public void h()
+    {
+      int m = 0;
+      int n;
+      do
+      {
+        Object localObject = h.poll();
+        if (localObject == null) {
+          break;
+        }
+        localObject = (Cd.B)localObject;
+        a.a((Cd.B)localObject);
+        n = m + 1;
+        m = n;
+      } while (n != 16);
+    }
+    
+    @a("Segment.this")
+    public boolean i()
+    {
+      if ((a.b()) && (b >= f))
+      {
+        f();
+        Cd.m localM = (Cd.m)k.remove();
+        if (a(localM, localM.b(), ud.c.e)) {
+          return true;
+        }
+        throw new AssertionError();
+      }
+      return false;
+    }
+    
+    @a("Segment.this")
+    public void j()
+    {
+      AtomicReferenceArray localAtomicReferenceArray1 = e;
+      int i4 = localAtomicReferenceArray1.length();
+      if (i4 >= 1073741824) {
+        return;
+      }
+      int m = b;
+      AtomicReferenceArray localAtomicReferenceArray2 = b(i4 << 1);
+      d = (localAtomicReferenceArray2.length() * 3 / 4);
+      int i5 = localAtomicReferenceArray2.length() - 1;
+      int n = 0;
+      while (n < i4)
+      {
+        Cd.m localM2 = (Cd.m)localAtomicReferenceArray1.get(n);
+        int i1 = m;
+        if (localM2 != null)
+        {
+          Cd.m localM1 = localM2.c();
+          i1 = localM2.b() & i5;
+          if (localM1 == null)
+          {
+            localAtomicReferenceArray2.set(i1, localM2);
+            i1 = m;
+          }
+          else
+          {
+            Cd.m localM3 = localM2;
+            while (localM1 != null)
+            {
+              int i3 = localM1.b() & i5;
+              int i2 = i1;
+              if (i3 != i1)
+              {
+                localM3 = localM1;
+                i2 = i3;
+              }
+              localM1 = localM1.c();
+              i1 = i2;
+            }
+            localAtomicReferenceArray2.set(i1, localM3);
+            for (;;)
+            {
+              i1 = m;
+              if (localM2 == localM3) {
+                break;
+              }
+              i1 = localM2.b() & i5;
+              localM1 = a(localM2, (Cd.m)localAtomicReferenceArray2.get(i1));
+              if (localM1 != null)
+              {
+                localAtomicReferenceArray2.set(i1, localM1);
+              }
+              else
+              {
+                f(localM2);
+                m -= 1;
+              }
+              localM2 = localM2.c();
+            }
+          }
+        }
+        n += 1;
+        m = i1;
+      }
+      e = localAtomicReferenceArray2;
+      b = m;
+    }
+    
+    @a("Segment.this")
+    public void k()
+    {
+      f();
+      if (l.isEmpty()) {
+        return;
+      }
+      long l1 = a.y.a();
+      Cd.m localM;
+      do
+      {
+        localM = (Cd.m)l.peek();
+        if ((localM == null) || (!a.a(localM, l1))) {
+          break;
+        }
+      } while (a(localM, localM.b(), ud.c.d));
+      throw new AssertionError();
+    }
+    
+    public void l()
+    {
+      if ((j.incrementAndGet() & 0x3F) == 0) {
+        o();
+      }
+    }
+    
+    public void m()
+    {
+      q();
+    }
+    
+    @a("Segment.this")
+    public void n()
+    {
+      p();
+    }
+    
+    public void o()
+    {
+      p();
+      q();
+    }
+    
+    public void p()
+    {
+      if (tryLock()) {
+        try
+        {
+          g();
+          k();
+          j.set(0);
+          return;
+        }
+        finally
+        {
+          unlock();
+        }
+      }
+    }
+    
+    public void q()
+    {
+      if (!isHeldByCurrentThread()) {
+        a.h();
+      }
+    }
+    
+    public void r()
+    {
+      if (tryLock()) {
+        try
+        {
+          g();
+          return;
+        }
+        finally
+        {
+          unlock();
+        }
+      }
+    }
+    
+    public void s()
+    {
+      if (tryLock()) {
+        try
+        {
+          k();
+          return;
+        }
+        finally
+        {
+          unlock();
+        }
+      }
+    }
+  }
+  
+  private static final class o<K, V>
+    extends Cd.b<K, V>
+  {
+    public static final long l = 3L;
+    
+    public o(Cd.u paramU1, Cd.u paramU2, C<Object> paramC1, C<Object> paramC2, long paramLong1, long paramLong2, int paramInt1, int paramInt2, ud.d<? super K, ? super V> paramD, ConcurrentMap<K, V> paramConcurrentMap)
+    {
+      super(paramU2, paramC1, paramC2, paramLong1, paramLong2, paramInt1, paramInt2, paramD, paramConcurrentMap);
+    }
+    
+    private void b(ObjectOutputStream paramObjectOutputStream)
+      throws IOException
+    {
+      paramObjectOutputStream.defaultWriteObject();
+      a(paramObjectOutputStream);
+    }
+    
+    private void c(ObjectInputStream paramObjectInputStream)
+      throws IOException, ClassNotFoundException
+    {
+      paramObjectInputStream.defaultReadObject();
+      k = b(paramObjectInputStream).c();
+      a(paramObjectInputStream);
+    }
+    
+    private Object x()
+    {
+      return k;
+    }
+  }
+  
+  public static class p<K, V>
+    extends SoftReference<K>
+    implements Cd.m<K, V>
+  {
+    public final int a;
+    public final Cd.m<K, V> b;
+    public volatile Cd.B<K, V> c = Cd.h;
+    
+    public p(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramReferenceQueue);
+      a = paramInt;
+      b = paramM;
+    }
+    
+    public Cd.B<K, V> a()
+    {
+      return c;
+    }
+    
+    public void a(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(Cd.B<K, V> paramB)
+    {
+      Cd.B localB = c;
+      c = paramB;
+      localB.a(paramB);
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int b()
+    {
+      return a;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> c()
+    {
+      return b;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public long e()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public K getKey()
+    {
+      return get();
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  public static final class q<K, V>
+    extends Cd.p<K, V>
+    implements Cd.m<K, V>
+  {
+    @a("Segment.this")
+    public Cd.m<K, V> d = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> e = Cd.g();
+    
+    public q(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramK, paramInt, paramM);
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      e = paramM;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      d = paramM;
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      return e;
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      return d;
+    }
+  }
+  
+  public static final class r<K, V>
+    extends Cd.p<K, V>
+    implements Cd.m<K, V>
+  {
+    public volatile long d = Long.MAX_VALUE;
+    @a("Segment.this")
+    public Cd.m<K, V> e = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> f = Cd.g();
+    
+    public r(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramK, paramInt, paramM);
+    }
+    
+    public void a(long paramLong)
+    {
+      d = paramLong;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      e = paramM;
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      f = paramM;
+    }
+    
+    public long e()
+    {
+      return d;
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      return f;
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      return e;
+    }
+  }
+  
+  public static final class s<K, V>
+    extends Cd.p<K, V>
+    implements Cd.m<K, V>
+  {
+    public volatile long d = Long.MAX_VALUE;
+    @a("Segment.this")
+    public Cd.m<K, V> e = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> f = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> g = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> h = Cd.g();
+    
+    public s(ReferenceQueue<K> paramReferenceQueue, K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramK, paramInt, paramM);
+    }
+    
+    public void a(long paramLong)
+    {
+      d = paramLong;
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      h = paramM;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      g = paramM;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      e = paramM;
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      return h;
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      f = paramM;
+    }
+    
+    public long e()
+    {
+      return d;
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      return f;
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      return g;
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      return e;
+    }
+  }
+  
+  public static final class t<K, V>
+    extends SoftReference<V>
+    implements Cd.B<K, V>
+  {
+    public final Cd.m<K, V> a;
+    
+    public t(ReferenceQueue<V> paramReferenceQueue, V paramV, Cd.m<K, V> paramM)
+    {
+      super(paramReferenceQueue);
+      a = paramM;
+    }
+    
+    public Cd.B<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, Cd.m<K, V> paramM)
+    {
+      return new t(paramReferenceQueue, paramV, paramM);
+    }
+    
+    public Cd.m<K, V> a()
+    {
+      return a;
+    }
+    
+    public void a(Cd.B<K, V> paramB)
+    {
+      clear();
+    }
+    
+    public V b()
+    {
+      return get();
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+  }
+  
+  public static abstract enum u
+  {
+    public u() {}
+    
+    public abstract C<Object> a();
+    
+    public abstract <K, V> Cd.B<K, V> a(Cd.n<K, V> paramN, Cd.m<K, V> paramM, V paramV);
+  }
+  
+  public static class v<K, V>
+    implements Cd.m<K, V>
+  {
+    public final K a;
+    public final int b;
+    public final Cd.m<K, V> c;
+    public volatile Cd.B<K, V> d = Cd.h;
+    
+    public v(K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      a = paramK;
+      b = paramInt;
+      c = paramM;
+    }
+    
+    public Cd.B<K, V> a()
+    {
+      return d;
+    }
+    
+    public void a(long paramLong)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(Cd.B<K, V> paramB)
+    {
+      Cd.B localB = d;
+      d = paramB;
+      localB.a(paramB);
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int b()
+    {
+      return b;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> c()
+    {
+      return c;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public long e()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public K getKey()
+    {
+      return a;
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  public static final class w<K, V>
+    extends Cd.v<K, V>
+    implements Cd.m<K, V>
+  {
+    @a("Segment.this")
+    public Cd.m<K, V> e = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> f = Cd.g();
+    
+    public w(K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramInt, paramM);
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      f = paramM;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      e = paramM;
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      return f;
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      return e;
+    }
+  }
+  
+  public static final class x<K, V>
+    extends Cd.v<K, V>
+    implements Cd.m<K, V>
+  {
+    public volatile long e = Long.MAX_VALUE;
+    @a("Segment.this")
+    public Cd.m<K, V> f = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> g = Cd.g();
+    
+    public x(K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramInt, paramM);
+    }
+    
+    public void a(long paramLong)
+    {
+      e = paramLong;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      f = paramM;
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      g = paramM;
+    }
+    
+    public long e()
+    {
+      return e;
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      return g;
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      return f;
+    }
+  }
+  
+  public static final class y<K, V>
+    extends Cd.v<K, V>
+    implements Cd.m<K, V>
+  {
+    public volatile long e = Long.MAX_VALUE;
+    @a("Segment.this")
+    public Cd.m<K, V> f = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> g = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> h = Cd.g();
+    @a("Segment.this")
+    public Cd.m<K, V> i = Cd.g();
+    
+    public y(K paramK, int paramInt, @h Cd.m<K, V> paramM)
+    {
+      super(paramInt, paramM);
+    }
+    
+    public void a(long paramLong)
+    {
+      e = paramLong;
+    }
+    
+    public void a(Cd.m<K, V> paramM)
+    {
+      i = paramM;
+    }
+    
+    public void b(Cd.m<K, V> paramM)
+    {
+      h = paramM;
+    }
+    
+    public void c(Cd.m<K, V> paramM)
+    {
+      f = paramM;
+    }
+    
+    public Cd.m<K, V> d()
+    {
+      return i;
+    }
+    
+    public void d(Cd.m<K, V> paramM)
+    {
+      g = paramM;
+    }
+    
+    public long e()
+    {
+      return e;
+    }
+    
+    public Cd.m<K, V> f()
+    {
+      return g;
+    }
+    
+    public Cd.m<K, V> g()
+    {
+      return h;
+    }
+    
+    public Cd.m<K, V> h()
+    {
+      return f;
+    }
+  }
+  
+  public static final class z<K, V>
+    implements Cd.B<K, V>
+  {
+    public final V a;
+    
+    public z(V paramV)
+    {
+      a = paramV;
+    }
+    
+    public Cd.B<K, V> a(ReferenceQueue<V> paramReferenceQueue, V paramV, Cd.m<K, V> paramM)
+    {
+      return this;
+    }
+    
+    public Cd.m<K, V> a()
+    {
+      return null;
+    }
+    
+    public void a(Cd.B<K, V> paramB) {}
+    
+    public V b()
+    {
+      return get();
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+    
+    public V get()
+    {
+      return a;
+    }
+  }
+}

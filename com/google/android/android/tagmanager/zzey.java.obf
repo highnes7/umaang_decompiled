@@ -1,0 +1,418 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
+import com.google.android.gms.internal.zzbl;
+import com.google.android.gms.internal.zzdbm;
+import com.google.android.gms.internal.zzdbo;
+import com.google.android.gms.internal.zzdbs;
+import com.google.android.gms.internal.zzdbw;
+import com.google.android.gms.internal.zzeym;
+import com.google.android.gms.internal.zzeyn;
+import f.a.a.a.a;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import org.json.JSONException;
+
+public final class zzey
+  implements zzah
+{
+  public final Context mContext;
+  public final ExecutorService zzisa;
+  public final String zzjoz;
+  public zzdi<zzdbm> zzjty;
+  
+  public zzey(Context paramContext, String paramString)
+  {
+    mContext = paramContext;
+    zzjoz = paramString;
+    zzisa = Executors.newSingleThreadExecutor();
+  }
+  
+  public static zzdbs zza(ByteArrayOutputStream paramByteArrayOutputStream)
+  {
+    try
+    {
+      paramByteArrayOutputStream = zzdb.zzlv(paramByteArrayOutputStream.toString("UTF-8"));
+      return paramByteArrayOutputStream;
+    }
+    catch (UnsupportedEncodingException paramByteArrayOutputStream)
+    {
+      for (;;) {}
+    }
+    catch (JSONException paramByteArrayOutputStream)
+    {
+      for (;;) {}
+    }
+    zzdj.zzjss.zzcr("Failed to extract the container from the resource file. Resource is a UTF-8 encoded string but doesn't contain a JSON container");
+    return null;
+    zzdj.zzjss.zzca("Failed to convert binary resource to string for JSON parsing; the file format is not UTF-8 format.");
+    return null;
+  }
+  
+  private final File zzben()
+  {
+    String str = String.valueOf(zzjoz);
+    if (str.length() != 0) {
+      str = "resource_".concat(str);
+    } else {
+      str = new String("resource_");
+    }
+    return new File(mContext.getDir("google_tagmanager", 0), str);
+  }
+  
+  public static zzdbs zzy(byte[] paramArrayOfByte)
+  {
+    try
+    {
+      zzbl localZzbl = new zzbl();
+      zzeyn.zza(localZzbl, paramArrayOfByte, 0, paramArrayOfByte.length);
+      paramArrayOfByte = zzdbo.zza(localZzbl);
+      zzdj.zzjss.v("The container was successfully loaded from the resource (using binary file)");
+      return paramArrayOfByte;
+    }
+    catch (zzeym paramArrayOfByte)
+    {
+      for (;;) {}
+    }
+    catch (zzdbw paramArrayOfByte)
+    {
+      for (;;) {}
+    }
+    zzdj.zzjss.zzcr("The resource file is invalid. The container from the binary file is invalid");
+    return null;
+    zzdj.zzjss.e("The resource file is corrupted. The container cannot be extracted from the binary file");
+    return null;
+  }
+  
+  public final void release()
+  {
+    try
+    {
+      zzisa.shutdown();
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public final void zza(zzdbm paramZzdbm)
+  {
+    zzisa.execute(new zzfa(this, paramZzdbm));
+  }
+  
+  public final void zza(zzdi<zzdbm> paramZzdi)
+  {
+    zzjty = paramZzdi;
+  }
+  
+  /* Error */
+  public final boolean zzb(zzdbm paramZzdbm)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: invokespecial 164	com/google/android/gms/tagmanager/zzey:zzben	()Ljava/io/File;
+    //   4: astore_3
+    //   5: new 166	java/io/FileOutputStream
+    //   8: dup
+    //   9: aload_3
+    //   10: invokespecial 169	java/io/FileOutputStream:<init>	(Ljava/io/File;)V
+    //   13: astore_2
+    //   14: aload_2
+    //   15: aload_1
+    //   16: invokestatic 173	com/google/android/gms/internal/zzeyn:zzc	(Lcom/google/android/gms/internal/zzeyn;)[B
+    //   19: invokevirtual 177	java/io/FileOutputStream:write	([B)V
+    //   22: aload_2
+    //   23: invokevirtual 180	java/io/FileOutputStream:close	()V
+    //   26: goto +13 -> 39
+    //   29: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   32: ldc -74
+    //   34: invokeinterface 67 2 0
+    //   39: iconst_1
+    //   40: ireturn
+    //   41: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   44: ldc -72
+    //   46: invokeinterface 67 2 0
+    //   51: aload_3
+    //   52: invokevirtual 188	java/io/File:delete	()Z
+    //   55: pop
+    //   56: aload_2
+    //   57: invokevirtual 180	java/io/FileOutputStream:close	()V
+    //   60: iconst_0
+    //   61: ireturn
+    //   62: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   65: ldc -74
+    //   67: invokeinterface 67 2 0
+    //   72: iconst_0
+    //   73: ireturn
+    //   74: astore_1
+    //   75: aload_2
+    //   76: invokevirtual 180	java/io/FileOutputStream:close	()V
+    //   79: goto +13 -> 92
+    //   82: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   85: ldc -74
+    //   87: invokeinterface 67 2 0
+    //   92: aload_1
+    //   93: athrow
+    //   94: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   97: ldc -66
+    //   99: invokeinterface 135 2 0
+    //   104: iconst_0
+    //   105: ireturn
+    //   106: astore_1
+    //   107: goto -13 -> 94
+    //   110: astore_1
+    //   111: goto -70 -> 41
+    //   114: astore_1
+    //   115: goto -86 -> 29
+    //   118: astore_1
+    //   119: goto -57 -> 62
+    //   122: astore_2
+    //   123: goto -41 -> 82
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	126	0	this	zzey
+    //   0	126	1	paramZzdbm	zzdbm
+    //   13	63	2	localFileOutputStream	java.io.FileOutputStream
+    //   122	1	2	localIOException	IOException
+    //   4	48	3	localFile	File
+    // Exception table:
+    //   from	to	target	type
+    //   14	22	74	finally
+    //   41	56	74	finally
+    //   5	14	106	java/io/FileNotFoundException
+    //   14	22	110	java/io/IOException
+    //   22	26	114	java/io/IOException
+    //   56	60	118	java/io/IOException
+    //   75	79	122	java/io/IOException
+  }
+  
+  public final void zzbcw()
+  {
+    zzisa.execute(new zzez(this));
+  }
+  
+  /* Error */
+  public final void zzbem()
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: getfield 154	com/google/android/gms/tagmanager/zzey:zzjty	Lcom/google/android/gms/tagmanager/zzdi;
+    //   4: ifnull +272 -> 276
+    //   7: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   10: ldc -55
+    //   12: invokeinterface 128 2 0
+    //   17: invokestatic 207	com/google/android/gms/tagmanager/zzei:zzbeh	()Lcom/google/android/gms/tagmanager/zzei;
+    //   20: invokevirtual 211	com/google/android/gms/tagmanager/zzei:zzbei	()Lcom/google/android/gms/tagmanager/zzei$zza;
+    //   23: getstatic 217	com/google/android/gms/tagmanager/zzei$zza:zzjtn	Lcom/google/android/gms/tagmanager/zzei$zza;
+    //   26: if_acmpeq +15 -> 41
+    //   29: invokestatic 207	com/google/android/gms/tagmanager/zzei:zzbeh	()Lcom/google/android/gms/tagmanager/zzei;
+    //   32: invokevirtual 211	com/google/android/gms/tagmanager/zzei:zzbei	()Lcom/google/android/gms/tagmanager/zzei$zza;
+    //   35: getstatic 220	com/google/android/gms/tagmanager/zzei$zza:zzjto	Lcom/google/android/gms/tagmanager/zzei$zza;
+    //   38: if_acmpne +32 -> 70
+    //   41: aload_0
+    //   42: getfield 24	com/google/android/gms/tagmanager/zzey:zzjoz	Ljava/lang/String;
+    //   45: invokestatic 207	com/google/android/gms/tagmanager/zzei:zzbeh	()Lcom/google/android/gms/tagmanager/zzei;
+    //   48: invokevirtual 224	com/google/android/gms/tagmanager/zzei:getContainerId	()Ljava/lang/String;
+    //   51: invokevirtual 228	java/lang/String:equals	(Ljava/lang/Object;)Z
+    //   54: ifeq +16 -> 70
+    //   57: aload_0
+    //   58: getfield 154	com/google/android/gms/tagmanager/zzey:zzjty	Lcom/google/android/gms/tagmanager/zzdi;
+    //   61: getstatic 234	com/google/android/gms/tagmanager/zzda:zzjsk	I
+    //   64: invokeinterface 240 2 0
+    //   69: return
+    //   70: new 242	java/io/FileInputStream
+    //   73: dup
+    //   74: aload_0
+    //   75: invokespecial 164	com/google/android/gms/tagmanager/zzey:zzben	()Ljava/io/File;
+    //   78: invokespecial 243	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   81: astore_1
+    //   82: new 43	java/io/ByteArrayOutputStream
+    //   85: dup
+    //   86: invokespecial 244	java/io/ByteArrayOutputStream:<init>	()V
+    //   89: astore_2
+    //   90: aload_1
+    //   91: aload_2
+    //   92: invokestatic 247	com/google/android/gms/internal/zzdbo:zzb	(Ljava/io/InputStream;Ljava/io/OutputStream;)V
+    //   95: aload_2
+    //   96: invokevirtual 251	java/io/ByteArrayOutputStream:toByteArray	()[B
+    //   99: astore_2
+    //   100: new 253	com/google/android/gms/internal/zzdbm
+    //   103: dup
+    //   104: invokespecial 254	com/google/android/gms/internal/zzdbm:<init>	()V
+    //   107: astore_3
+    //   108: aload_3
+    //   109: aload_2
+    //   110: invokestatic 257	com/google/android/gms/internal/zzeyn:zza	(Lcom/google/android/gms/internal/zzeyn;[B)Lcom/google/android/gms/internal/zzeyn;
+    //   113: pop
+    //   114: aload_3
+    //   115: checkcast 253	com/google/android/gms/internal/zzdbm
+    //   118: astore_2
+    //   119: aload_2
+    //   120: getfield 261	com/google/android/gms/internal/zzdbm:zzxx	Lcom/google/android/gms/internal/zzbl;
+    //   123: ifnonnull +24 -> 147
+    //   126: aload_2
+    //   127: getfield 265	com/google/android/gms/internal/zzdbm:zzkfk	Lcom/google/android/gms/internal/zzbo;
+    //   130: ifnull +6 -> 136
+    //   133: goto +14 -> 147
+    //   136: new 199	java/lang/IllegalArgumentException
+    //   139: dup
+    //   140: ldc_w 267
+    //   143: invokespecial 268	java/lang/IllegalArgumentException:<init>	(Ljava/lang/String;)V
+    //   146: athrow
+    //   147: aload_0
+    //   148: getfield 154	com/google/android/gms/tagmanager/zzey:zzjty	Lcom/google/android/gms/tagmanager/zzdi;
+    //   151: aload_2
+    //   152: invokeinterface 272 2 0
+    //   157: aload_1
+    //   158: invokevirtual 273	java/io/FileInputStream:close	()V
+    //   161: goto +69 -> 230
+    //   164: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   167: ldc_w 275
+    //   170: invokeinterface 67 2 0
+    //   175: goto +55 -> 230
+    //   178: aload_0
+    //   179: getfield 154	com/google/android/gms/tagmanager/zzey:zzjty	Lcom/google/android/gms/tagmanager/zzdi;
+    //   182: getstatic 278	com/google/android/gms/tagmanager/zzda:zzjsl	I
+    //   185: invokeinterface 240 2 0
+    //   190: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   193: ldc_w 280
+    //   196: invokeinterface 67 2 0
+    //   201: goto -44 -> 157
+    //   204: aload_0
+    //   205: getfield 154	com/google/android/gms/tagmanager/zzey:zzjty	Lcom/google/android/gms/tagmanager/zzdi;
+    //   208: getstatic 278	com/google/android/gms/tagmanager/zzda:zzjsl	I
+    //   211: invokeinterface 240 2 0
+    //   216: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   219: ldc_w 282
+    //   222: invokeinterface 67 2 0
+    //   227: goto -70 -> 157
+    //   230: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   233: ldc_w 284
+    //   236: invokeinterface 128 2 0
+    //   241: return
+    //   242: aload_1
+    //   243: invokevirtual 273	java/io/FileInputStream:close	()V
+    //   246: goto +14 -> 260
+    //   249: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   252: ldc_w 275
+    //   255: invokeinterface 67 2 0
+    //   260: aload_2
+    //   261: athrow
+    //   262: getstatic 59	com/google/android/gms/tagmanager/zzdj:zzjss	Lcom/google/android/gms/tagmanager/zzdk;
+    //   265: ldc_w 286
+    //   268: invokeinterface 72 2 0
+    //   273: goto -216 -> 57
+    //   276: new 288	java/lang/IllegalStateException
+    //   279: dup
+    //   280: ldc_w 290
+    //   283: invokespecial 291	java/lang/IllegalStateException:<init>	(Ljava/lang/String;)V
+    //   286: astore_1
+    //   287: goto +5 -> 292
+    //   290: aload_1
+    //   291: athrow
+    //   292: goto -2 -> 290
+    //   295: astore_1
+    //   296: goto -34 -> 262
+    //   299: astore_2
+    //   300: goto -96 -> 204
+    //   303: astore_2
+    //   304: goto -126 -> 178
+    //   307: astore_1
+    //   308: goto -144 -> 164
+    //   311: astore_1
+    //   312: goto -63 -> 249
+    //   315: astore_2
+    //   316: goto -74 -> 242
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	319	0	this	zzey
+    //   81	210	1	localObject1	Object
+    //   295	1	1	localFileNotFoundException	java.io.FileNotFoundException
+    //   307	1	1	localIOException1	IOException
+    //   311	1	1	localIOException2	IOException
+    //   89	172	2	localObject2	Object
+    //   299	1	2	localIOException3	IOException
+    //   303	1	2	localIllegalArgumentException	IllegalArgumentException
+    //   315	1	2	localObject3	Object
+    //   107	8	3	localZzdbm	zzdbm
+    // Exception table:
+    //   from	to	target	type
+    //   70	82	295	java/io/FileNotFoundException
+    //   82	133	299	java/io/IOException
+    //   136	147	299	java/io/IOException
+    //   147	157	299	java/io/IOException
+    //   82	133	303	java/lang/IllegalArgumentException
+    //   136	147	303	java/lang/IllegalArgumentException
+    //   147	157	303	java/lang/IllegalArgumentException
+    //   157	161	307	java/io/IOException
+    //   242	246	311	java/io/IOException
+    //   82	133	315	finally
+    //   136	147	315	finally
+    //   147	157	315	finally
+    //   178	201	315	finally
+    //   204	227	315	finally
+  }
+  
+  public final zzdbs zzee(int paramInt)
+  {
+    for (;;)
+    {
+      try
+      {
+        localObject1 = mContext.getResources().openRawResource(paramInt);
+        localObject2 = mContext.getResources().getResourceName(paramInt);
+        StringBuilder localStringBuilder = new StringBuilder(a.a(localObject2, 66));
+        localStringBuilder.append("Attempting to load a container from the resource ID ");
+        localStringBuilder.append(paramInt);
+        localStringBuilder.append(" (");
+        localStringBuilder.append((String)localObject2);
+        localStringBuilder.append(")");
+        localObject2 = localStringBuilder.toString();
+        zzdj.zzjss.v((String)localObject2);
+      }
+      catch (Resources.NotFoundException localNotFoundException)
+      {
+        Object localObject1;
+        Object localObject2;
+        continue;
+      }
+      try
+      {
+        localObject2 = new ByteArrayOutputStream();
+        zzdbo.zzb((InputStream)localObject1, (OutputStream)localObject2);
+        localObject1 = zza((ByteArrayOutputStream)localObject2);
+        if (localObject1 != null)
+        {
+          zzdj.zzjss.v("The container was successfully loaded from the resource (using JSON file format)");
+          return localObject1;
+        }
+        localObject1 = zzy(((ByteArrayOutputStream)localObject2).toByteArray());
+        return localObject1;
+      }
+      catch (IOException localIOException) {}
+    }
+    localObject1 = mContext.getResources().getResourceName(paramInt);
+    localObject2 = new StringBuilder(a.a(localObject1, 67));
+    ((StringBuilder)localObject2).append("Error reading the default container with resource ID ");
+    ((StringBuilder)localObject2).append(paramInt);
+    ((StringBuilder)localObject2).append(" (");
+    ((StringBuilder)localObject2).append((String)localObject1);
+    ((StringBuilder)localObject2).append(")");
+    for (localObject1 = ((StringBuilder)localObject2).toString();; localObject1 = a.a(98, "Failed to load the container. No default container resource found with the resource ID ", paramInt))
+    {
+      zzdj.zzjss.zzcr((String)localObject1);
+      return null;
+    }
+  }
+}

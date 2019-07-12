@@ -1,0 +1,599 @@
+package com.google.android.gms.internal;
+
+import android.os.Bundle;
+import b.b.a.G;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.measurement.AppMeasurement.Event;
+import com.google.android.gms.measurement.AppMeasurement.Param;
+import com.google.android.gms.measurement.AppMeasurement.UserProperty;
+import f.a.a.a.a;
+import java.util.Iterator;
+import java.util.Set;
+
+public final class zzcbu
+  extends zzcdu
+{
+  public static String[] zzipo = new String[AppMeasurement.Event.zzikj.length];
+  public static String[] zzipp = new String[AppMeasurement.Param.zzikl.length];
+  public static String[] zzipq = new String[AppMeasurement.UserProperty.zzikq.length];
+  
+  public zzcbu(zzccw paramZzccw)
+  {
+    super(paramZzccw);
+  }
+  
+  @G
+  public static String zza(String paramString, String[] paramArrayOfString1, String[] paramArrayOfString2, String[] paramArrayOfString3)
+  {
+    zzbp.zzu(paramArrayOfString1);
+    zzbp.zzu(paramArrayOfString2);
+    zzbp.zzu(paramArrayOfString3);
+    int j = paramArrayOfString1.length;
+    int k = paramArrayOfString2.length;
+    boolean bool2 = true;
+    int i = 0;
+    boolean bool1;
+    if (j == k) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    zzbp.zzbh(bool1);
+    if (paramArrayOfString1.length == paramArrayOfString3.length) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    zzbp.zzbh(bool1);
+    while (i < paramArrayOfString1.length)
+    {
+      if (zzcfw.zzas(paramString, paramArrayOfString1[i]))
+      {
+        if (paramArrayOfString3[i] == null) {}
+        try
+        {
+          paramString = new StringBuilder();
+          paramString.append(paramArrayOfString2[i]);
+          paramString.append("(");
+          paramString.append(paramArrayOfString1[i]);
+          paramString.append(")");
+          paramArrayOfString3[i] = paramString.toString();
+          paramString = paramArrayOfString3[i];
+          return paramString;
+        }
+        finally {}
+      }
+      i += 1;
+    }
+    return paramString;
+  }
+  
+  public static void zza(StringBuilder paramStringBuilder, int paramInt)
+  {
+    int i = 0;
+    while (i < paramInt)
+    {
+      paramStringBuilder.append("  ");
+      i += 1;
+    }
+  }
+  
+  private final void zza(StringBuilder paramStringBuilder, int paramInt, zzcfz paramZzcfz)
+  {
+    if (paramZzcfz == null) {
+      return;
+    }
+    zza(paramStringBuilder, paramInt);
+    paramStringBuilder.append("filter {\n");
+    zza(paramStringBuilder, paramInt, "complement", zzixv);
+    zza(paramStringBuilder, paramInt, "param_name", zzjd(zzixw));
+    int j = paramInt + 1;
+    zzcgc localZzcgc = zzixt;
+    if (localZzcgc != null)
+    {
+      zza(paramStringBuilder, j);
+      paramStringBuilder.append("string_filter");
+      paramStringBuilder.append(" {\n");
+      Object localObject = zziyf;
+      if (localObject != null)
+      {
+        switch (((Integer)localObject).intValue())
+        {
+        default: 
+          localObject = "UNKNOWN_MATCH_TYPE";
+          break;
+        case 6: 
+          localObject = "IN_LIST";
+          break;
+        case 5: 
+          localObject = "EXACT";
+          break;
+        case 4: 
+          localObject = "PARTIAL";
+          break;
+        case 3: 
+          localObject = "ENDS_WITH";
+          break;
+        case 2: 
+          localObject = "BEGINS_WITH";
+          break;
+        case 1: 
+          localObject = "REGEXP";
+        }
+        zza(paramStringBuilder, j, "match_type", localObject);
+      }
+      zza(paramStringBuilder, j, "expression", zziyg);
+      zza(paramStringBuilder, j, "case_sensitive", zziyh);
+      if (zziyi.length > 0)
+      {
+        zza(paramStringBuilder, j + 1);
+        paramStringBuilder.append("expression_list {\n");
+        localObject = zziyi;
+        int k = localObject.length;
+        int i = 0;
+        while (i < k)
+        {
+          localZzcgc = localObject[i];
+          zza(paramStringBuilder, j + 2);
+          paramStringBuilder.append(localZzcgc);
+          paramStringBuilder.append("\n");
+          i += 1;
+        }
+        paramStringBuilder.append("}\n");
+      }
+      zza(paramStringBuilder, j);
+      paramStringBuilder.append("}\n");
+    }
+    zza(paramStringBuilder, j, "number_filter", zzixu);
+    zza(paramStringBuilder, paramInt);
+    paramStringBuilder.append("}\n");
+  }
+  
+  private final void zza(StringBuilder paramStringBuilder, int paramInt, String paramString, zzcga paramZzcga)
+  {
+    if (paramZzcga == null) {
+      return;
+    }
+    zza(paramStringBuilder, paramInt);
+    paramStringBuilder.append(paramString);
+    paramStringBuilder.append(" {\n");
+    paramString = zzixx;
+    if (paramString != null)
+    {
+      int i = paramString.intValue();
+      if (i != 1)
+      {
+        if (i != 2)
+        {
+          if (i != 3)
+          {
+            if (i != 4) {
+              paramString = "UNKNOWN_COMPARISON_TYPE";
+            } else {
+              paramString = "BETWEEN";
+            }
+          }
+          else {
+            paramString = "EQUAL";
+          }
+        }
+        else {
+          paramString = "GREATER_THAN";
+        }
+      }
+      else {
+        paramString = "LESS_THAN";
+      }
+      zza(paramStringBuilder, paramInt, "comparison_type", paramString);
+    }
+    zza(paramStringBuilder, paramInt, "match_as_float", zzixy);
+    zza(paramStringBuilder, paramInt, "comparison_value", zzixz);
+    zza(paramStringBuilder, paramInt, "min_comparison_value", zziya);
+    zza(paramStringBuilder, paramInt, "max_comparison_value", zziyb);
+    zza(paramStringBuilder, paramInt);
+    paramStringBuilder.append("}\n");
+  }
+  
+  public static void zza(StringBuilder paramStringBuilder, int paramInt, String paramString, zzcgl paramZzcgl)
+  {
+    if (paramZzcgl == null) {
+      return;
+    }
+    int k = paramInt + 1;
+    zza(paramStringBuilder, k);
+    paramStringBuilder.append(paramString);
+    paramStringBuilder.append(" {\n");
+    paramString = zzjah;
+    int j = 0;
+    int m;
+    int i;
+    long l;
+    if (paramString != null)
+    {
+      zza(paramStringBuilder, k + 1);
+      paramStringBuilder.append("results: ");
+      paramString = zzjah;
+      m = paramString.length;
+      i = 0;
+      paramInt = 0;
+      while (i < m)
+      {
+        l = paramString[i];
+        if (paramInt != 0) {
+          paramStringBuilder.append(", ");
+        }
+        paramStringBuilder.append(Long.valueOf(l));
+        i += 1;
+        paramInt += 1;
+      }
+      paramStringBuilder.append('\n');
+    }
+    if (zzjag != null)
+    {
+      zza(paramStringBuilder, k + 1);
+      paramStringBuilder.append("status: ");
+      paramString = zzjag;
+      m = paramString.length;
+      paramInt = 0;
+      i = j;
+      while (i < m)
+      {
+        l = paramString[i];
+        if (paramInt != 0) {
+          paramStringBuilder.append(", ");
+        }
+        paramStringBuilder.append(Long.valueOf(l));
+        i += 1;
+        paramInt += 1;
+      }
+      paramStringBuilder.append('\n');
+    }
+    zza(paramStringBuilder, k);
+    paramStringBuilder.append("}\n");
+  }
+  
+  public static void zza(StringBuilder paramStringBuilder, int paramInt, String paramString, Object paramObject)
+  {
+    if (paramObject == null) {
+      return;
+    }
+    zza(paramStringBuilder, paramInt + 1);
+    paramStringBuilder.append(paramString);
+    paramStringBuilder.append(": ");
+    paramStringBuilder.append(paramObject);
+    paramStringBuilder.append('\n');
+  }
+  
+  private final void zza(StringBuilder paramStringBuilder, int paramInt, zzcgg[] paramArrayOfZzcgg)
+  {
+    if (paramArrayOfZzcgg == null) {
+      return;
+    }
+    int i = paramArrayOfZzcgg.length;
+    paramInt = 0;
+    while (paramInt < i)
+    {
+      zzcgg localZzcgg = paramArrayOfZzcgg[paramInt];
+      if (localZzcgg != null)
+      {
+        zza(paramStringBuilder, 2);
+        paramStringBuilder.append("audience_membership {\n");
+        zza(paramStringBuilder, 2, "audience_id", zzixj);
+        zza(paramStringBuilder, 2, "new_audience", zziyv);
+        zza(paramStringBuilder, 2, "current_data", zziyt);
+        zza(paramStringBuilder, 2, "previous_data", zziyu);
+        zza(paramStringBuilder, 2);
+        paramStringBuilder.append("}\n");
+      }
+      paramInt += 1;
+    }
+  }
+  
+  private final void zza(StringBuilder paramStringBuilder, int paramInt, zzcgh[] paramArrayOfZzcgh)
+  {
+    if (paramArrayOfZzcgh == null) {
+      return;
+    }
+    int j = paramArrayOfZzcgh.length;
+    paramInt = 0;
+    while (paramInt < j)
+    {
+      Object localObject1 = paramArrayOfZzcgh[paramInt];
+      if (localObject1 != null)
+      {
+        zza(paramStringBuilder, 2);
+        paramStringBuilder.append("event {\n");
+        zza(paramStringBuilder, 2, "name", zzjc(name));
+        zza(paramStringBuilder, 2, "timestamp_millis", zziyy);
+        zza(paramStringBuilder, 2, "previous_timestamp_millis", zziyz);
+        zza(paramStringBuilder, 2, "count", count);
+        localObject1 = zziyx;
+        if (localObject1 != null)
+        {
+          int k = localObject1.length;
+          int i = 0;
+          while (i < k)
+          {
+            Object localObject2 = localObject1[i];
+            if (localObject2 != null)
+            {
+              zza(paramStringBuilder, 3);
+              paramStringBuilder.append("param {\n");
+              zza(paramStringBuilder, 3, "name", zzjd(name));
+              zza(paramStringBuilder, 3, "string_value", zzfwo);
+              zza(paramStringBuilder, 3, "int_value", zzizb);
+              zza(paramStringBuilder, 3, "double_value", zzixc);
+              zza(paramStringBuilder, 3);
+              paramStringBuilder.append("}\n");
+            }
+            i += 1;
+          }
+        }
+        zza(paramStringBuilder, 2);
+        paramStringBuilder.append("}\n");
+      }
+      paramInt += 1;
+    }
+  }
+  
+  private final void zza(StringBuilder paramStringBuilder, int paramInt, zzcgm[] paramArrayOfZzcgm)
+  {
+    if (paramArrayOfZzcgm == null) {
+      return;
+    }
+    int i = paramArrayOfZzcgm.length;
+    paramInt = 0;
+    while (paramInt < i)
+    {
+      zzcgm localZzcgm = paramArrayOfZzcgm[paramInt];
+      if (localZzcgm != null)
+      {
+        zza(paramStringBuilder, 2);
+        paramStringBuilder.append("user_property {\n");
+        zza(paramStringBuilder, 2, "set_timestamp_millis", zzjaj);
+        zza(paramStringBuilder, 2, "name", zzje(name));
+        zza(paramStringBuilder, 2, "string_value", zzfwo);
+        zza(paramStringBuilder, 2, "int_value", zzizb);
+        zza(paramStringBuilder, 2, "double_value", zzixc);
+        zza(paramStringBuilder, 2);
+        paramStringBuilder.append("}\n");
+      }
+      paramInt += 1;
+    }
+  }
+  
+  private final boolean zzayc()
+  {
+    return zziki.zzaul().zzad(3);
+  }
+  
+  @G
+  private final String zzb(zzcbh paramZzcbh)
+  {
+    if (paramZzcbh == null) {
+      return null;
+    }
+    if (!zzayc()) {
+      return paramZzcbh.toString();
+    }
+    return zzx(paramZzcbh.zzaxz());
+  }
+  
+  @G
+  public final String zza(zzcbf paramZzcbf)
+  {
+    if (paramZzcbf == null) {
+      return null;
+    }
+    if (!zzayc()) {
+      return paramZzcbf.toString();
+    }
+    StringBuilder localStringBuilder = a.b("Event{appId='");
+    localStringBuilder.append(mAppId);
+    localStringBuilder.append("', name='");
+    localStringBuilder.append(zzjc(mName));
+    localStringBuilder.append("', params=");
+    return a.a(localStringBuilder, zzb(zzink), "}");
+  }
+  
+  public final String zza(zzcfy paramZzcfy)
+  {
+    if (paramZzcfy == null) {
+      return "null";
+    }
+    StringBuilder localStringBuilder = a.b("\nevent_filter {\n");
+    Integer localInteger = zzixn;
+    int i = 0;
+    zza(localStringBuilder, 0, "filter_id", localInteger);
+    zza(localStringBuilder, 0, "event_name", zzjc(zzixo));
+    zza(localStringBuilder, 1, "event_count_filter", zzixr);
+    localStringBuilder.append("  filters {\n");
+    paramZzcfy = zzixp;
+    int j = paramZzcfy.length;
+    while (i < j)
+    {
+      zza(localStringBuilder, 2, paramZzcfy[i]);
+      i += 1;
+    }
+    zza(localStringBuilder, 1);
+    localStringBuilder.append("}\n}\n");
+    return localStringBuilder.toString();
+  }
+  
+  public final String zza(zzcgb paramZzcgb)
+  {
+    if (paramZzcgb == null) {
+      return "null";
+    }
+    StringBuilder localStringBuilder = a.b("\nproperty_filter {\n");
+    zza(localStringBuilder, 0, "filter_id", zzixn);
+    zza(localStringBuilder, 0, "property_name", zzje(zziyd));
+    zza(localStringBuilder, 1, zziye);
+    localStringBuilder.append("}\n");
+    return localStringBuilder.toString();
+  }
+  
+  public final String zza(zzcgj paramZzcgj)
+  {
+    StringBuilder localStringBuilder = a.b("\nbatch {\n");
+    paramZzcgj = zzizc;
+    if (paramZzcgj != null)
+    {
+      int j = paramZzcgj.length;
+      int i = 0;
+      while (i < j)
+      {
+        Object localObject = paramZzcgj[i];
+        if (localObject != null)
+        {
+          zza(localStringBuilder, 1);
+          localStringBuilder.append("bundle {\n");
+          zza(localStringBuilder, 1, "protocol_version", zzize);
+          zza(localStringBuilder, 1, "platform", zzizm);
+          zza(localStringBuilder, 1, "gmp_version", zzizq);
+          zza(localStringBuilder, 1, "uploading_gmp_version", zzizr);
+          zza(localStringBuilder, 1, "config_version", zzjad);
+          zza(localStringBuilder, 1, "gmp_app_id", zzilu);
+          zza(localStringBuilder, 1, "app_id", zzci);
+          zza(localStringBuilder, 1, "app_version", zzhtt);
+          zza(localStringBuilder, 1, "app_version_major", zzizz);
+          zza(localStringBuilder, 1, "firebase_instance_id", zzimc);
+          zza(localStringBuilder, 1, "dev_cert_hash", zzizv);
+          zza(localStringBuilder, 1, "app_store", zzilv);
+          zza(localStringBuilder, 1, "upload_timestamp_millis", zzizh);
+          zza(localStringBuilder, 1, "start_timestamp_millis", zzizi);
+          zza(localStringBuilder, 1, "end_timestamp_millis", zzizj);
+          zza(localStringBuilder, 1, "previous_bundle_start_timestamp_millis", zzizk);
+          zza(localStringBuilder, 1, "previous_bundle_end_timestamp_millis", zzizl);
+          zza(localStringBuilder, 1, "app_instance_id", zzizu);
+          zza(localStringBuilder, 1, "resettable_device_id", zzizs);
+          zza(localStringBuilder, 1, "device_id", zzjac);
+          zza(localStringBuilder, 1, "limited_ad_tracking", zzizt);
+          zza(localStringBuilder, 1, "os_version", zzcw);
+          zza(localStringBuilder, 1, "device_model", zzizn);
+          zza(localStringBuilder, 1, "user_default_language", zzizo);
+          zza(localStringBuilder, 1, "time_zone_offset_minutes", zzizp);
+          zza(localStringBuilder, 1, "bundle_sequential_index", zzizw);
+          zza(localStringBuilder, 1, "service_upload", zzizx);
+          zza(localStringBuilder, 1, "health_monitor", zzily);
+          if (zzjae.longValue() != 0L) {
+            zza(localStringBuilder, 1, "android_id", zzjae);
+          }
+          zza(localStringBuilder, 1, zzizg);
+          zza(localStringBuilder, 1, zzizy);
+          zza(localStringBuilder, 1, zzizf);
+          zza(localStringBuilder, 1);
+          localStringBuilder.append("}\n");
+        }
+        i += 1;
+      }
+    }
+    localStringBuilder.append("}\n");
+    return localStringBuilder.toString();
+  }
+  
+  public final void zzatu()
+  {
+    zzccw.zzatu();
+    throw null;
+  }
+  
+  public final void zzatv()
+  {
+    zzcax.zzawk();
+  }
+  
+  @G
+  public final String zzb(zzcbk paramZzcbk)
+  {
+    if (paramZzcbk == null) {
+      return null;
+    }
+    if (!zzayc()) {
+      return paramZzcbk.toString();
+    }
+    StringBuilder localStringBuilder = a.b("origin=");
+    localStringBuilder.append(zzimg);
+    localStringBuilder.append(",name=");
+    localStringBuilder.append(zzjc(name));
+    localStringBuilder.append(",params=");
+    localStringBuilder.append(zzb(zzinr));
+    return localStringBuilder.toString();
+  }
+  
+  @G
+  public final String zzjc(String paramString)
+  {
+    if (paramString == null) {
+      return null;
+    }
+    if (!zzayc()) {
+      return paramString;
+    }
+    return zza(paramString, AppMeasurement.Event.zzikk, AppMeasurement.Event.zzikj, zzipo);
+  }
+  
+  @G
+  public final String zzjd(String paramString)
+  {
+    if (paramString == null) {
+      return null;
+    }
+    if (!zzayc()) {
+      return paramString;
+    }
+    return zza(paramString, AppMeasurement.Param.zzikm, AppMeasurement.Param.zzikl, zzipp);
+  }
+  
+  @G
+  public final String zzje(String paramString)
+  {
+    if (paramString == null) {
+      return null;
+    }
+    if (!zzayc()) {
+      return paramString;
+    }
+    if (paramString.startsWith("_exp_"))
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("experiment_id");
+      localStringBuilder.append("(");
+      localStringBuilder.append(paramString);
+      localStringBuilder.append(")");
+      return localStringBuilder.toString();
+    }
+    return zza(paramString, AppMeasurement.UserProperty.zzikr, AppMeasurement.UserProperty.zzikq, zzipq);
+  }
+  
+  public final void zzuk() {}
+  
+  @G
+  public final String zzx(Bundle paramBundle)
+  {
+    if (paramBundle == null) {
+      return null;
+    }
+    if (!zzayc()) {
+      return paramBundle.toString();
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    Iterator localIterator = paramBundle.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      String str2 = (String)localIterator.next();
+      String str1;
+      if (localStringBuilder.length() != 0) {
+        str1 = ", ";
+      } else {
+        str1 = "Bundle[{";
+      }
+      localStringBuilder.append(str1);
+      localStringBuilder.append(zzjd(str2));
+      localStringBuilder.append("=");
+      localStringBuilder.append(paramBundle.get(str2));
+    }
+    localStringBuilder.append("}]");
+    return localStringBuilder.toString();
+  }
+}

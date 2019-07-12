@@ -1,0 +1,119 @@
+package com.google.android.gms.location;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+import com.google.android.gms.internal.zzcac;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class GeofencingRequest
+  extends zzbck
+{
+  public static final Parcelable.Creator<GeofencingRequest> CREATOR = new zzi();
+  public static final int INITIAL_TRIGGER_DWELL = 4;
+  public static final int INITIAL_TRIGGER_ENTER = 1;
+  public static final int INITIAL_TRIGGER_EXIT = 2;
+  public final String mTag;
+  public final List<zzcac> zzhxq;
+  public final int zzhxr;
+  
+  public GeofencingRequest(List<zzcac> paramList, int paramInt, String paramString)
+  {
+    zzhxq = paramList;
+    zzhxr = paramInt;
+    mTag = paramString;
+  }
+  
+  public List<Geofence> getGeofences()
+  {
+    ArrayList localArrayList = new ArrayList();
+    localArrayList.addAll(zzhxq);
+    return localArrayList;
+  }
+  
+  public int getInitialTrigger()
+  {
+    return zzhxr;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.d("GeofencingRequest[", "geofences=");
+    localStringBuilder.append(zzhxq);
+    int i = zzhxr;
+    Object localObject = new StringBuilder(30);
+    ((StringBuilder)localObject).append(", initialTrigger=");
+    ((StringBuilder)localObject).append(i);
+    ((StringBuilder)localObject).append(", ");
+    localStringBuilder.append(((StringBuilder)localObject).toString());
+    localObject = String.valueOf(mTag);
+    if (((String)localObject).length() != 0) {
+      localObject = "tag=".concat((String)localObject);
+    } else {
+      localObject = new String("tag=");
+    }
+    return a.a(localStringBuilder, (String)localObject, "]");
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzhxq, false);
+    zzbcn.zzc(paramParcel, 2, getInitialTrigger());
+    zzbcn.zza(paramParcel, 3, mTag, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+  
+  public static final class Builder
+  {
+    public String mTag = "";
+    public final List<zzcac> zzhxq = new ArrayList();
+    public int zzhxr = 5;
+    
+    public Builder() {}
+    
+    public final Builder addGeofence(Geofence paramGeofence)
+    {
+      zzbp.zzb(paramGeofence, "geofence can't be null.");
+      zzbp.zzb(paramGeofence instanceof zzcac, "Geofence must be created using Geofence.Builder.");
+      zzhxq.add((zzcac)paramGeofence);
+      return this;
+    }
+    
+    public final Builder addGeofences(List<Geofence> paramList)
+    {
+      if (paramList != null)
+      {
+        if (paramList.isEmpty()) {
+          return this;
+        }
+        paramList = paramList.iterator();
+        while (paramList.hasNext())
+        {
+          Geofence localGeofence = (Geofence)paramList.next();
+          if (localGeofence != null) {
+            addGeofence(localGeofence);
+          }
+        }
+      }
+      return this;
+    }
+    
+    public final GeofencingRequest build()
+    {
+      zzbp.zzb(zzhxq.isEmpty() ^ true, "No geofence has been added to this request.");
+      return new GeofencingRequest(zzhxq, zzhxr, mTag);
+    }
+    
+    public final Builder setInitialTrigger(int paramInt)
+    {
+      zzhxr = (paramInt & 0x7);
+      return this;
+    }
+  }
+}

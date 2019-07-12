@@ -1,0 +1,231 @@
+package android.support.v7.app;
+
+import android.content.res.Resources;
+import android.os.Build.VERSION;
+import android.util.LongSparseArray;
+import b.b.a.F;
+import b.b.a.K;
+import java.lang.reflect.Field;
+import java.util.Map;
+
+public class ResourcesFlusher
+{
+  public static final String TAG = "ResourcesFlusher";
+  public static Field sDrawableCacheField;
+  public static boolean sDrawableCacheFieldFetched;
+  public static Field sResourcesImplField;
+  public static boolean sResourcesImplFieldFetched;
+  public static Class sThemedResourceCacheClazz;
+  public static boolean sThemedResourceCacheClazzFetched;
+  public static Field sThemedResourceCache_mUnthemedEntriesField;
+  public static boolean sThemedResourceCache_mUnthemedEntriesFieldFetched;
+  
+  public ResourcesFlusher() {}
+  
+  public static void flush(@F Resources paramResources)
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (i >= 28) {
+      return;
+    }
+    if (i >= 24)
+    {
+      flushNougats(paramResources);
+      return;
+    }
+    if (i >= 23)
+    {
+      flushMarshmallows(paramResources);
+      return;
+    }
+    if (i >= 21) {
+      flushLollipops(paramResources);
+    }
+  }
+  
+  @K(21)
+  public static void flushLollipops(@F Resources paramResources)
+  {
+    if (!sDrawableCacheFieldFetched) {}
+    try
+    {
+      sDrawableCacheField = Resources.class.getDeclaredField("mDrawableCache");
+      sDrawableCacheField.setAccessible(true);
+      sDrawableCacheFieldFetched = true;
+      Field localField = sDrawableCacheField;
+      if (localField != null) {}
+      try
+      {
+        paramResources = (Map)localField.get(paramResources);
+      }
+      catch (IllegalAccessException paramResources)
+      {
+        for (;;) {}
+      }
+      paramResources = null;
+      if (paramResources != null) {
+        paramResources.clear();
+      }
+      return;
+    }
+    catch (NoSuchFieldException localNoSuchFieldException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  @K(23)
+  public static void flushMarshmallows(@F Resources paramResources)
+  {
+    if (!sDrawableCacheFieldFetched) {}
+    try
+    {
+      sDrawableCacheField = Resources.class.getDeclaredField("mDrawableCache");
+      sDrawableCacheField.setAccessible(true);
+      sDrawableCacheFieldFetched = true;
+      localObject3 = null;
+      localField = sDrawableCacheField;
+      localObject1 = localObject3;
+      if (localField == null) {}
+    }
+    catch (NoSuchFieldException localNoSuchFieldException)
+    {
+      try
+      {
+        Field localField;
+        Object localObject1 = localField.get(paramResources);
+        if (localObject1 == null) {
+          return;
+        }
+        flushThemedResourcesCache(localObject1);
+        return;
+        localNoSuchFieldException = localNoSuchFieldException;
+      }
+      catch (IllegalAccessException paramResources)
+      {
+        for (;;)
+        {
+          Object localObject3;
+          Object localObject2 = localObject3;
+        }
+      }
+    }
+  }
+  
+  @K(24)
+  public static void flushNougats(@F Resources paramResources)
+  {
+    if (!sResourcesImplFieldFetched) {}
+    try
+    {
+      sResourcesImplField = Resources.class.getDeclaredField("mResourcesImpl");
+      sResourcesImplField.setAccessible(true);
+      sResourcesImplFieldFetched = true;
+      localObject1 = sResourcesImplField;
+      if (localObject1 == null) {
+        return;
+      }
+      localObject3 = null;
+    }
+    catch (NoSuchFieldException localNoSuchFieldException2)
+    {
+      try
+      {
+        paramResources = ((Field)localObject1).get(paramResources);
+        break label49;
+        paramResources = null;
+        label49:
+        if (paramResources == null) {
+          return;
+        }
+        if (sDrawableCacheFieldFetched) {}
+      }
+      catch (IllegalAccessException localNoSuchFieldException2)
+      {
+        try
+        {
+          sDrawableCacheField = paramResources.getClass().getDeclaredField("mDrawableCache");
+          sDrawableCacheField.setAccessible(true);
+          sDrawableCacheFieldFetched = true;
+          localField = sDrawableCacheField;
+          localObject1 = localObject3;
+          if (localField == null) {}
+        }
+        catch (NoSuchFieldException localNoSuchFieldException2)
+        {
+          try
+          {
+            for (;;)
+            {
+              Field localField;
+              Object localObject1 = localField.get(paramResources);
+              if (localObject1 != null) {
+                flushThemedResourcesCache(localObject1);
+              }
+              return;
+              localNoSuchFieldException1 = localNoSuchFieldException1;
+              continue;
+              paramResources = paramResources;
+            }
+            localNoSuchFieldException2 = localNoSuchFieldException2;
+          }
+          catch (IllegalAccessException paramResources)
+          {
+            for (;;)
+            {
+              Object localObject3;
+              Object localObject2 = localObject3;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  @K(16)
+  public static void flushThemedResourcesCache(@F Object paramObject)
+  {
+    if (!sThemedResourceCacheClazzFetched) {}
+    try
+    {
+      sThemedResourceCacheClazz = Class.forName("android.content.res.ThemedResourceCache");
+      sThemedResourceCacheClazzFetched = true;
+      localObject = sThemedResourceCacheClazz;
+      if (localObject == null) {
+        return;
+      }
+      if (sThemedResourceCache_mUnthemedEntriesFieldFetched) {}
+    }
+    catch (ClassNotFoundException localClassNotFoundException)
+    {
+      try
+      {
+        sThemedResourceCache_mUnthemedEntriesField = ((Class)localObject).getDeclaredField("mUnthemedEntries");
+        sThemedResourceCache_mUnthemedEntriesField.setAccessible(true);
+        sThemedResourceCache_mUnthemedEntriesFieldFetched = true;
+        Object localObject = sThemedResourceCache_mUnthemedEntriesField;
+        if (localObject == null) {
+          return;
+        }
+        try
+        {
+          paramObject = (LongSparseArray)((Field)localObject).get(paramObject);
+        }
+        catch (IllegalAccessException paramObject)
+        {
+          for (;;) {}
+        }
+        paramObject = null;
+        if (paramObject != null) {
+          paramObject.clear();
+        }
+        return;
+        localClassNotFoundException = localClassNotFoundException;
+      }
+      catch (NoSuchFieldException localNoSuchFieldException)
+      {
+        for (;;) {}
+      }
+    }
+  }
+}

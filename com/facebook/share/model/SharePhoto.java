@@ -1,0 +1,168 @@
+package com.facebook.share.model;
+
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public final class SharePhoto
+  extends ShareMedia
+{
+  public static final Parcelable.Creator<SharePhoto> CREATOR = new Parcelable.Creator()
+  {
+    public SharePhoto createFromParcel(Parcel paramAnonymousParcel)
+    {
+      return new SharePhoto(paramAnonymousParcel);
+    }
+    
+    public SharePhoto[] newArray(int paramAnonymousInt)
+    {
+      return new SharePhoto[paramAnonymousInt];
+    }
+  };
+  public final Bitmap bitmap;
+  public final String caption;
+  public final Uri imageUrl;
+  public final boolean userGenerated;
+  
+  public SharePhoto(Parcel paramParcel)
+  {
+    super(paramParcel);
+    bitmap = ((Bitmap)paramParcel.readParcelable(Bitmap.class.getClassLoader()));
+    imageUrl = ((Uri)paramParcel.readParcelable(Uri.class.getClassLoader()));
+    boolean bool;
+    if (paramParcel.readByte() != 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    userGenerated = bool;
+    caption = paramParcel.readString();
+  }
+  
+  public SharePhoto(Builder paramBuilder)
+  {
+    super(paramBuilder);
+    bitmap = bitmap;
+    imageUrl = imageUrl;
+    userGenerated = userGenerated;
+    caption = caption;
+  }
+  
+  public int describeContents()
+  {
+    return 0;
+  }
+  
+  public Bitmap getBitmap()
+  {
+    return bitmap;
+  }
+  
+  public String getCaption()
+  {
+    return caption;
+  }
+  
+  public Uri getImageUrl()
+  {
+    return imageUrl;
+  }
+  
+  public boolean getUserGenerated()
+  {
+    return userGenerated;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramParcel.writeBundle(params);
+    paramParcel.writeParcelable(bitmap, 0);
+    paramParcel.writeParcelable(imageUrl, 0);
+    paramParcel.writeByte((byte)userGenerated);
+    paramParcel.writeString(caption);
+  }
+  
+  public static final class Builder
+    extends ShareMedia.Builder<SharePhoto, Builder>
+  {
+    public Bitmap bitmap;
+    public String caption;
+    public Uri imageUrl;
+    public boolean userGenerated;
+    
+    public Builder() {}
+    
+    public static List readListFrom(Parcel paramParcel)
+    {
+      ArrayList localArrayList = new ArrayList();
+      paramParcel.readTypedList(localArrayList, SharePhoto.CREATOR);
+      return localArrayList;
+    }
+    
+    public static void writeListTo(Parcel paramParcel, List paramList)
+    {
+      ArrayList localArrayList = new ArrayList();
+      paramList = paramList.iterator();
+      while (paramList.hasNext()) {
+        localArrayList.add((SharePhoto)paramList.next());
+      }
+      paramParcel.writeTypedList(localArrayList);
+    }
+    
+    public SharePhoto build()
+    {
+      return new SharePhoto(this);
+    }
+    
+    public Bitmap getBitmap()
+    {
+      return bitmap;
+    }
+    
+    public Uri getImageUrl()
+    {
+      return imageUrl;
+    }
+    
+    public Builder readFrom(Parcel paramParcel)
+    {
+      return readFrom((SharePhoto)paramParcel.readParcelable(SharePhoto.class.getClassLoader()));
+    }
+    
+    public Builder readFrom(SharePhoto paramSharePhoto)
+    {
+      if (paramSharePhoto == null) {
+        return this;
+      }
+      return ((Builder)super.readFrom(paramSharePhoto)).setBitmap(paramSharePhoto.getBitmap()).setImageUrl(paramSharePhoto.getImageUrl()).setUserGenerated(paramSharePhoto.getUserGenerated()).setCaption(paramSharePhoto.getCaption());
+    }
+    
+    public Builder setBitmap(Bitmap paramBitmap)
+    {
+      bitmap = paramBitmap;
+      return this;
+    }
+    
+    public Builder setCaption(String paramString)
+    {
+      caption = paramString;
+      return this;
+    }
+    
+    public Builder setImageUrl(Uri paramUri)
+    {
+      imageUrl = paramUri;
+      return this;
+    }
+    
+    public Builder setUserGenerated(boolean paramBoolean)
+    {
+      userGenerated = paramBoolean;
+      return this;
+    }
+  }
+}

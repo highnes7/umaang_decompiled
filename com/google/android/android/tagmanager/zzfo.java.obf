@@ -1,0 +1,169 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+
+public final class zzfo
+  extends zzfn
+{
+  public static final Object zzjvf = new Object();
+  public static zzfo zzjvr;
+  public boolean connected = true;
+  public Context zzjvg;
+  public zzcc zzjvh;
+  public volatile zzbz zzjvi;
+  public int zzjvj = 1800000;
+  public boolean zzjvk = true;
+  public boolean zzjvl = false;
+  public boolean zzjvm = true;
+  public zzcd zzjvn = new zzfp(this);
+  public zzfr zzjvo;
+  public zzdo zzjvp;
+  public boolean zzjvq = false;
+  
+  public zzfo() {}
+  
+  private final boolean isPowerSaveMode()
+  {
+    return (zzjvq) || (!connected) || (zzjvj <= 0);
+  }
+  
+  public static zzfo zzbez()
+  {
+    if (zzjvr == null) {
+      zzjvr = new zzfo();
+    }
+    return zzjvr;
+  }
+  
+  public final void dispatch()
+  {
+    try
+    {
+      if (!zzjvl)
+      {
+        zzdj.zzjss.v("Dispatch call queued. Dispatch will run once initialization is complete.");
+        zzjvk = true;
+        return;
+      }
+      zzjvi.zzk(new zzfq(this));
+      return;
+    }
+    finally {}
+  }
+  
+  public final void zza(Context paramContext, zzbz paramZzbz)
+  {
+    try
+    {
+      Context localContext = zzjvg;
+      if (localContext != null) {
+        return;
+      }
+      zzjvg = paramContext.getApplicationContext();
+      if (zzjvi == null) {
+        zzjvi = paramZzbz;
+      }
+      return;
+    }
+    finally {}
+  }
+  
+  public final void zzbey()
+  {
+    try
+    {
+      if (!isPowerSaveMode()) {
+        zzjvo.zzbfc();
+      }
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public final zzcc zzbfa()
+  {
+    try
+    {
+      if (zzjvh == null) {
+        if (zzjvg != null) {
+          zzjvh = new zzec(zzjvn, zzjvg);
+        } else {
+          throw new IllegalStateException("Cant get a store unless we have a context");
+        }
+      }
+      if (zzjvo == null)
+      {
+        zzjvo = new zzfs(this);
+        if (zzjvj > 0) {
+          zzjvo.zzs(zzjvj);
+        }
+      }
+      zzjvl = true;
+      if (zzjvk)
+      {
+        dispatch();
+        zzjvk = false;
+      }
+      if ((zzjvp == null) && (zzjvm))
+      {
+        zzjvp = new zzdo(this);
+        localObject1 = zzjvp;
+        Context localContext = zzjvg;
+        IntentFilter localIntentFilter = new IntentFilter();
+        localIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        localContext.registerReceiver((BroadcastReceiver)localObject1, localIntentFilter);
+        localIntentFilter = new IntentFilter();
+        localIntentFilter.addAction("com.google.analytics.RADIO_POWERED");
+        localIntentFilter.addCategory(localContext.getPackageName());
+        localContext.registerReceiver((BroadcastReceiver)localObject1, localIntentFilter);
+      }
+      Object localObject1 = zzjvh;
+      return localObject1;
+    }
+    finally {}
+  }
+  
+  public final void zzbv(boolean paramBoolean)
+  {
+    try
+    {
+      zzd(zzjvq, paramBoolean);
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public final void zzd(boolean paramBoolean1, boolean paramBoolean2)
+  {
+    try
+    {
+      boolean bool = isPowerSaveMode();
+      zzjvq = paramBoolean1;
+      connected = paramBoolean2;
+      paramBoolean1 = isPowerSaveMode();
+      if (paramBoolean1 == bool) {
+        return;
+      }
+      if (isPowerSaveMode())
+      {
+        zzjvo.cancel();
+        zzdj.zzjss.v("PowerSaveMode initiated.");
+        return;
+      }
+      zzjvo.zzs(zzjvj);
+      zzdj.zzjss.v("PowerSaveMode terminated.");
+      return;
+    }
+    finally {}
+  }
+}

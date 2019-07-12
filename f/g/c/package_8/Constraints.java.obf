@@ -1,0 +1,394 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.RandomAccess;
+import java.util.Set;
+import java.util.SortedSet;
+
+@a
+@b
+public final class ha
+{
+  public ha() {}
+  
+  public static <E> Ye<E> a(Ye<E> paramYe, ga<? super E> paramGa)
+  {
+    return new d(paramYe, paramGa);
+  }
+  
+  public static <E> ga<E> a()
+  {
+    return h.a;
+  }
+  
+  public static <E> List<E> a(List<E> paramList, ga<? super E> paramGa)
+  {
+    if ((paramList instanceof RandomAccess)) {
+      return new e(paramList, paramGa);
+    }
+    return new b(paramList, paramGa);
+  }
+  
+  public static <E> Set<E> a(Set<E> paramSet, ga<? super E> paramGa)
+  {
+    return new f(paramSet, paramGa);
+  }
+  
+  public static <E> SortedSet<E> a(SortedSet<E> paramSortedSet, ga<? super E> paramGa)
+  {
+    return new g(paramSortedSet, paramGa);
+  }
+  
+  public static <E> Collection<E> b(Collection<E> paramCollection, ga<? super E> paramGa)
+  {
+    paramCollection = fd.b(paramCollection);
+    Iterator localIterator = paramCollection.iterator();
+    while (localIterator.hasNext()) {
+      paramGa.a(localIterator.next());
+    }
+    return paramCollection;
+  }
+  
+  public static <E> ListIterator<E> b(ListIterator<E> paramListIterator, ga<? super E> paramGa)
+  {
+    return new c(paramListIterator, paramGa);
+  }
+  
+  public static <E> Collection<E> c(Collection<E> paramCollection, ga<? super E> paramGa)
+  {
+    return new a(paramCollection, paramGa);
+  }
+  
+  public static <E> Collection<E> d(Collection<E> paramCollection, ga<E> paramGa)
+  {
+    if ((paramCollection instanceof SortedSet)) {
+      return new g((SortedSet)paramCollection, paramGa);
+    }
+    if ((paramCollection instanceof Set)) {
+      return new f((Set)paramCollection, paramGa);
+    }
+    if ((paramCollection instanceof List)) {
+      return a((List)paramCollection, paramGa);
+    }
+    return new a(paramCollection, paramGa);
+  }
+  
+  public static class a<E>
+    extends Ja<E>
+  {
+    public final Collection<E> a;
+    public final ga<? super E> b;
+    
+    public a(Collection<E> paramCollection, ga<? super E> paramGa)
+    {
+      if (paramCollection != null)
+      {
+        a = paramCollection;
+        if (paramGa != null)
+        {
+          b = paramGa;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean add(E paramE)
+    {
+      b.a(paramE);
+      return a.add(paramE);
+    }
+    
+    public boolean addAll(Collection<? extends E> paramCollection)
+    {
+      return a.addAll(ha.b(paramCollection, b));
+    }
+    
+    public Collection<E> q()
+    {
+      return a;
+    }
+  }
+  
+  @b
+  private static class b<E>
+    extends Pa<E>
+  {
+    public final List<E> a;
+    public final ga<? super E> b;
+    
+    public b(List<E> paramList, ga<? super E> paramGa)
+    {
+      if (paramList != null)
+      {
+        a = paramList;
+        if (paramGa != null)
+        {
+          b = paramGa;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public void add(int paramInt, E paramE)
+    {
+      b.a(paramE);
+      a.add(paramInt, paramE);
+    }
+    
+    public boolean add(E paramE)
+    {
+      b.a(paramE);
+      return a.add(paramE);
+    }
+    
+    public boolean addAll(int paramInt, Collection<? extends E> paramCollection)
+    {
+      return a.addAll(paramInt, ha.b(paramCollection, b));
+    }
+    
+    public boolean addAll(Collection<? extends E> paramCollection)
+    {
+      return a.addAll(ha.b(paramCollection, b));
+    }
+    
+    public ListIterator<E> listIterator()
+    {
+      return new ha.c(a.listIterator(), b);
+    }
+    
+    public ListIterator<E> listIterator(int paramInt)
+    {
+      return new ha.c(a.listIterator(paramInt), b);
+    }
+    
+    public List<E> q()
+    {
+      return a;
+    }
+    
+    public E set(int paramInt, E paramE)
+    {
+      b.a(paramE);
+      return a.set(paramInt, paramE);
+    }
+    
+    public List<E> subList(int paramInt1, int paramInt2)
+    {
+      return ha.a(a.subList(paramInt1, paramInt2), b);
+    }
+  }
+  
+  public static class c<E>
+    extends Qa<E>
+  {
+    public final ListIterator<E> a;
+    public final ga<? super E> b;
+    
+    public c(ListIterator<E> paramListIterator, ga<? super E> paramGa)
+    {
+      a = paramListIterator;
+      b = paramGa;
+    }
+    
+    public void add(E paramE)
+    {
+      b.a(paramE);
+      a.add(paramE);
+    }
+    
+    public ListIterator<E> q()
+    {
+      return a;
+    }
+    
+    public void set(E paramE)
+    {
+      b.a(paramE);
+      a.set(paramE);
+    }
+  }
+  
+  public static class d<E>
+    extends Va<E>
+  {
+    public Ye<E> a;
+    public final ga<? super E> b;
+    
+    public d(Ye<E> paramYe, ga<? super E> paramGa)
+    {
+      if (paramYe != null)
+      {
+        a = paramYe;
+        if (paramGa != null)
+        {
+          b = paramGa;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public int a(E paramE, int paramInt)
+    {
+      b.a(paramE);
+      return a.a(paramE, paramInt);
+    }
+    
+    public boolean a(E paramE, int paramInt1, int paramInt2)
+    {
+      b.a(paramE);
+      return a.a(paramE, paramInt1, paramInt2);
+    }
+    
+    public boolean add(E paramE)
+    {
+      return m(paramE);
+    }
+    
+    public boolean addAll(Collection<? extends E> paramCollection)
+    {
+      return a.addAll(ha.b(paramCollection, b));
+    }
+    
+    public int c(E paramE, int paramInt)
+    {
+      b.a(paramE);
+      return a.c(paramE, paramInt);
+    }
+    
+    public Ye<E> q()
+    {
+      return a;
+    }
+  }
+  
+  public static class e<E>
+    extends ha.b<E>
+    implements RandomAccess
+  {
+    public e(List<E> paramList, ga<? super E> paramGa)
+    {
+      super(paramGa);
+    }
+  }
+  
+  public static class f<E>
+    extends Ya<E>
+  {
+    public final Set<E> a;
+    public final ga<? super E> b;
+    
+    public f(Set<E> paramSet, ga<? super E> paramGa)
+    {
+      if (paramSet != null)
+      {
+        a = paramSet;
+        if (paramGa != null)
+        {
+          b = paramGa;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean add(E paramE)
+    {
+      b.a(paramE);
+      return a.add(paramE);
+    }
+    
+    public boolean addAll(Collection<? extends E> paramCollection)
+    {
+      return a.addAll(ha.b(paramCollection, b));
+    }
+    
+    public Set<E> q()
+    {
+      return a;
+    }
+  }
+  
+  private static class g<E>
+    extends ab<E>
+  {
+    public final SortedSet<E> a;
+    public final ga<? super E> b;
+    
+    public g(SortedSet<E> paramSortedSet, ga<? super E> paramGa)
+    {
+      if (paramSortedSet != null)
+      {
+        a = paramSortedSet;
+        if (paramGa != null)
+        {
+          b = paramGa;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean add(E paramE)
+    {
+      b.a(paramE);
+      return a.add(paramE);
+    }
+    
+    public boolean addAll(Collection<? extends E> paramCollection)
+    {
+      return a.addAll(ha.b(paramCollection, b));
+    }
+    
+    public SortedSet<E> headSet(E paramE)
+    {
+      return new g(a.headSet(paramE), b);
+    }
+    
+    public SortedSet<E> q()
+    {
+      return a;
+    }
+    
+    public SortedSet<E> subSet(E paramE1, E paramE2)
+    {
+      return new g(a.subSet(paramE1, paramE2), b);
+    }
+    
+    public SortedSet<E> tailSet(E paramE)
+    {
+      return new g(a.tailSet(paramE), b);
+    }
+  }
+  
+  private static enum h
+    implements ga<Object>
+  {
+    public h() {}
+    
+    public Object a(Object paramObject)
+    {
+      if (paramObject != null) {
+        return paramObject;
+      }
+      throw new NullPointerException();
+    }
+    
+    public String toString()
+    {
+      return "Not null";
+    }
+  }
+}

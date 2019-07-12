@@ -1,0 +1,70 @@
+package com.coremedia.iso.boxes.fragment;
+
+import f.b.a.h;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class MovieExtendsHeaderBox
+  extends c
+{
+  public static final String TYPE = "mehd";
+  public long fragmentDuration;
+  
+  static {}
+  
+  public MovieExtendsHeaderBox()
+  {
+    super("mehd");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    long l;
+    if (getVersion() == 1) {
+      l = h.l(paramByteBuffer);
+    } else {
+      l = h.j(paramByteBuffer);
+    }
+    fragmentDuration = l;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    if (getVersion() == 1)
+    {
+      paramByteBuffer.putLong(fragmentDuration);
+      return;
+    }
+    paramByteBuffer.putInt((int)fragmentDuration);
+  }
+  
+  public long getContentSize()
+  {
+    int i;
+    if (getVersion() == 1) {
+      i = 12;
+    } else {
+      i = 8;
+    }
+    return i;
+  }
+  
+  public long getFragmentDuration()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return fragmentDuration;
+  }
+  
+  public void setFragmentDuration(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    fragmentDuration = paramLong;
+  }
+}

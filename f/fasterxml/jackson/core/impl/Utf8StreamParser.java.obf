@@ -1,0 +1,207 @@
+package f.d.a.a.c;
+
+import java.util.Arrays;
+
+public final class b
+{
+  public static final char[] a = "0123456789ABCDEF".toCharArray();
+  public static final byte[] b;
+  public static final int[] c;
+  public static final int[] d;
+  public static final int[] e;
+  public static final int[] f;
+  public static final int[] g;
+  public static final int[] h;
+  public static final int[] i;
+  
+  static
+  {
+    int k = a.length;
+    b = new byte[k];
+    int m = 0;
+    int j = 0;
+    while (j < k)
+    {
+      b[j] = ((byte)a[j]);
+      j += 1;
+    }
+    int[] arrayOfInt1 = new int['?'];
+    j = 0;
+    while (j < 32)
+    {
+      arrayOfInt1[j] = -1;
+      j += 1;
+    }
+    arrayOfInt1[34] = 1;
+    arrayOfInt1[92] = 1;
+    c = arrayOfInt1;
+    arrayOfInt1 = c;
+    int[] arrayOfInt2 = new int[arrayOfInt1.length];
+    System.arraycopy(arrayOfInt1, 0, arrayOfInt2, 0, arrayOfInt1.length);
+    k = 128;
+    while (k < 256)
+    {
+      if ((k & 0xE0) == 192) {
+        j = 2;
+      } else if ((k & 0xF0) == 224) {
+        j = 3;
+      } else if ((k & 0xF8) == 240) {
+        j = 4;
+      } else {
+        j = -1;
+      }
+      arrayOfInt2[k] = j;
+      k += 1;
+    }
+    d = arrayOfInt2;
+    arrayOfInt1 = new int['?'];
+    Arrays.fill(arrayOfInt1, -1);
+    j = 33;
+    while (j < 256)
+    {
+      if (Character.isJavaIdentifierPart((char)j)) {
+        arrayOfInt1[j] = 0;
+      }
+      j += 1;
+    }
+    arrayOfInt1[64] = 0;
+    arrayOfInt1[35] = 0;
+    arrayOfInt1[42] = 0;
+    arrayOfInt1[45] = 0;
+    arrayOfInt1[43] = 0;
+    e = arrayOfInt1;
+    arrayOfInt1 = new int['?'];
+    arrayOfInt2 = e;
+    System.arraycopy(arrayOfInt2, 0, arrayOfInt1, 0, arrayOfInt2.length);
+    Arrays.fill(arrayOfInt1, 128, 128, 0);
+    f = arrayOfInt1;
+    g = new int['?'];
+    System.arraycopy(d, 128, g, 128, 128);
+    Arrays.fill(g, 0, 32, -1);
+    arrayOfInt1 = g;
+    arrayOfInt1[9] = 0;
+    arrayOfInt1[10] = 10;
+    arrayOfInt1[13] = 13;
+    arrayOfInt1[42] = 42;
+    arrayOfInt1 = new int['?'];
+    j = 0;
+    while (j < 32)
+    {
+      arrayOfInt1[j] = -1;
+      j += 1;
+    }
+    arrayOfInt1[34] = 34;
+    arrayOfInt1[92] = 92;
+    arrayOfInt1[8] = 98;
+    arrayOfInt1[9] = 116;
+    arrayOfInt1[12] = 102;
+    arrayOfInt1[10] = 110;
+    arrayOfInt1[13] = 114;
+    h = arrayOfInt1;
+    i = new int['?'];
+    Arrays.fill(i, -1);
+    k = 0;
+    for (;;)
+    {
+      j = m;
+      if (k >= 10) {
+        break;
+      }
+      i[(k + 48)] = k;
+      k += 1;
+    }
+    while (j < 6)
+    {
+      arrayOfInt1 = i;
+      k = j + 10;
+      arrayOfInt1[(j + 97)] = k;
+      arrayOfInt1[(j + 65)] = k;
+      j += 1;
+    }
+  }
+  
+  public b() {}
+  
+  public static int a(int paramInt)
+  {
+    if (paramInt > 127) {
+      return -1;
+    }
+    return i[paramInt];
+  }
+  
+  public static void a(StringBuilder paramStringBuilder, String paramString)
+  {
+    int[] arrayOfInt = h;
+    int m = arrayOfInt.length;
+    int n = paramString.length();
+    int k = 0;
+    while (k < n)
+    {
+      int j = paramString.charAt(k);
+      if ((j < m) && (arrayOfInt[j] != 0))
+      {
+        paramStringBuilder.append('\\');
+        int i1 = arrayOfInt[j];
+        if (i1 < 0)
+        {
+          paramStringBuilder.append('u');
+          paramStringBuilder.append('0');
+          paramStringBuilder.append('0');
+          i1 = -(i1 + 1);
+          paramStringBuilder.append(a[(i1 >> 4)]);
+          paramStringBuilder.append(a[(i1 & 0xF)]);
+        }
+        else
+        {
+          paramStringBuilder.append((char)i1);
+        }
+      }
+      else
+      {
+        paramStringBuilder.append(j);
+      }
+      k += 1;
+    }
+  }
+  
+  public static byte[] a()
+  {
+    return (byte[])b.clone();
+  }
+  
+  public static char[] b()
+  {
+    return (char[])a.clone();
+  }
+  
+  public static int[] c()
+  {
+    return h;
+  }
+  
+  public static int[] d()
+  {
+    return g;
+  }
+  
+  public static int[] e()
+  {
+    return c;
+  }
+  
+  public static int[] f()
+  {
+    return e;
+  }
+  
+  public static int[] g()
+  {
+    return d;
+  }
+  
+  public static int[] h()
+  {
+    return f;
+  }
+}

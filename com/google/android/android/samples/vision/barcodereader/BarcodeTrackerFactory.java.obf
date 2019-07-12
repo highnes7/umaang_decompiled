@@ -1,0 +1,26 @@
+package com.google.android.gms.samples.vision.barcodereader;
+
+import com.google.android.gms.samples.vision.barcodereader.ui.camera.GraphicOverlay;
+import com.google.android.gms.vision.MultiProcessor.Factory;
+import com.google.android.gms.vision.Tracker;
+import com.google.android.gms.vision.barcode.Barcode;
+
+public abstract class BarcodeTrackerFactory
+  implements MultiProcessor.Factory<Barcode>
+{
+  public GraphicOverlay<BarcodeGraphic> mGraphicOverlay;
+  
+  public BarcodeTrackerFactory(GraphicOverlay<BarcodeGraphic> paramGraphicOverlay)
+  {
+    mGraphicOverlay = paramGraphicOverlay;
+  }
+  
+  public Tracker<Barcode> create(Barcode paramBarcode)
+  {
+    onCodeDetected(paramBarcode);
+    paramBarcode = new BarcodeGraphic(mGraphicOverlay);
+    return new BarcodeGraphicTracker(mGraphicOverlay, paramBarcode);
+  }
+  
+  public abstract void onCodeDetected(Barcode paramBarcode);
+}

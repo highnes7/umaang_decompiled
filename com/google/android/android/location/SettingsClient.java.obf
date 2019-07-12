@@ -1,0 +1,29 @@
+package com.google.android.gms.location;
+
+import android.app.Activity;
+import android.content.Context;
+import b.b.a.F;
+import com.google.android.gms.common.api.Api.ApiOptions.NoOptions;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.internal.zzg;
+import com.google.android.gms.common.internal.zzbi;
+import com.google.android.gms.tasks.Task;
+
+public class SettingsClient
+  extends GoogleApi<Api.ApiOptions.NoOptions>
+{
+  public SettingsClient(@F Activity paramActivity)
+  {
+    super(paramActivity, LocationServices.API, null, new zzg());
+  }
+  
+  public SettingsClient(@F Context paramContext)
+  {
+    super(paramContext, LocationServices.API, null, new zzg());
+  }
+  
+  public Task<LocationSettingsResponse> checkLocationSettings(LocationSettingsRequest paramLocationSettingsRequest)
+  {
+    return zzbi.zza(LocationServices.SettingsApi.checkLocationSettings(zzafl(), paramLocationSettingsRequest), new LocationSettingsResponse());
+  }
+}

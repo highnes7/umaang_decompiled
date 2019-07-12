@@ -1,0 +1,391 @@
+package f.g.c.b;
+
+import f.g.c.a.b;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Map;
+import m.a.h;
+
+@b
+public final class M
+{
+  public M() {}
+  
+  public static <E> J<E, E> a()
+  {
+    return e.a;
+  }
+  
+  public static <A, B, C> J<A, C> a(J<B, C> paramJ, J<A, ? extends B> paramJ1)
+  {
+    return new c(paramJ, paramJ1);
+  }
+  
+  public static <T> J<T, Boolean> a(ca<T> paramCa)
+  {
+    return new f(paramCa, null);
+  }
+  
+  @f.g.c.a.a
+  public static <T> J<Object, T> a(ya<T> paramYa)
+  {
+    return new g(paramYa, null);
+  }
+  
+  public static <E> J<Object, E> a(@h E paramE)
+  {
+    return new a(paramE);
+  }
+  
+  public static <K, V> J<K, V> a(Map<K, V> paramMap)
+  {
+    return new d(paramMap);
+  }
+  
+  public static <K, V> J<K, V> a(Map<K, ? extends V> paramMap, @h V paramV)
+  {
+    return new b(paramMap, paramV);
+  }
+  
+  public static J<Object, String> b()
+  {
+    return h.a;
+  }
+  
+  private static class a<E>
+    implements J<Object, E>, Serializable
+  {
+    public static final long a = 0L;
+    public final E b;
+    
+    public a(@h E paramE)
+    {
+      b = paramE;
+    }
+    
+    public E apply(@h Object paramObject)
+    {
+      return b;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof a))
+      {
+        paramObject = (a)paramObject;
+        return U.a(b, b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      Object localObject = b;
+      if (localObject == null) {
+        return 0;
+      }
+      return localObject.hashCode();
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("constant("), b, ")");
+    }
+  }
+  
+  private static class b<K, V>
+    implements J<K, V>, Serializable
+  {
+    public static final long a = 0L;
+    public final Map<K, ? extends V> b;
+    public final V c;
+    
+    public b(Map<K, ? extends V> paramMap, @h V paramV)
+    {
+      if (paramMap != null)
+      {
+        b = paramMap;
+        c = paramV;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public V apply(K paramK)
+    {
+      Object localObject2 = b.get(paramK);
+      Object localObject1 = localObject2;
+      if (localObject2 == null)
+      {
+        if (b.containsKey(paramK)) {
+          return localObject2;
+        }
+        localObject1 = c;
+      }
+      return localObject1;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof b;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (b)paramObject;
+        bool1 = bool2;
+        if (b.equals(b))
+        {
+          bool1 = bool2;
+          if (U.a(c, c)) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      return Arrays.hashCode(new Object[] { b, c });
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("forMap(");
+      localStringBuilder.append(b);
+      localStringBuilder.append(", defaultValue=");
+      return f.a.a.a.a.a(localStringBuilder, c, ")");
+    }
+  }
+  
+  private static class c<A, B, C>
+    implements J<A, C>, Serializable
+  {
+    public static final long a = 0L;
+    public final J<B, C> b;
+    public final J<A, ? extends B> c;
+    
+    public c(J<B, C> paramJ, J<A, ? extends B> paramJ1)
+    {
+      if (paramJ != null)
+      {
+        b = paramJ;
+        if (paramJ1 != null)
+        {
+          c = paramJ1;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public C apply(A paramA)
+    {
+      return b.apply(c.apply(paramA));
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof c;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (c)paramObject;
+        bool1 = bool2;
+        if (c.equals(c))
+        {
+          bool1 = bool2;
+          if (b.equals(b)) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      return c.hashCode() ^ b.hashCode();
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(b.toString());
+      localStringBuilder.append("(");
+      return f.a.a.a.a.a(c, localStringBuilder, ")");
+    }
+  }
+  
+  private static class d<K, V>
+    implements J<K, V>, Serializable
+  {
+    public static final long a = 0L;
+    public final Map<K, V> b;
+    
+    public d(Map<K, V> paramMap)
+    {
+      if (paramMap != null)
+      {
+        b = paramMap;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public V apply(K paramK)
+    {
+      Object localObject = b.get(paramK);
+      boolean bool;
+      if ((localObject == null) && (!b.containsKey(paramK))) {
+        bool = false;
+      } else {
+        bool = true;
+      }
+      ba.a(bool, "Key '%s' not present in map", new Object[] { paramK });
+      return localObject;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof d))
+      {
+        paramObject = (d)paramObject;
+        return b.equals(b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode();
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("forMap("), b, ")");
+    }
+  }
+  
+  private static enum e
+    implements J<Object, Object>
+  {
+    public e() {}
+    
+    public Object apply(Object paramObject)
+    {
+      return paramObject;
+    }
+    
+    public String toString()
+    {
+      return "identity";
+    }
+  }
+  
+  private static class f<T>
+    implements J<T, Boolean>, Serializable
+  {
+    public static final long a = 0L;
+    public final ca<T> b;
+    
+    public f(ca<T> paramCa)
+    {
+      if (paramCa != null)
+      {
+        b = paramCa;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public Boolean apply(T paramT)
+    {
+      return Boolean.valueOf(b.apply(paramT));
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof f))
+      {
+        paramObject = (f)paramObject;
+        return b.equals(b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode();
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("forPredicate("), b, ")");
+    }
+  }
+  
+  private static class g<T>
+    implements J<Object, T>, Serializable
+  {
+    public static final long a = 0L;
+    public final ya<T> b;
+    
+    public g(ya<T> paramYa)
+    {
+      if (paramYa != null)
+      {
+        b = paramYa;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public T apply(@h Object paramObject)
+    {
+      return b.get();
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof g))
+      {
+        paramObject = (g)paramObject;
+        return b.equals(b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode();
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("forSupplier("), b, ")");
+    }
+  }
+  
+  private static enum h
+    implements J<Object, String>
+  {
+    public h() {}
+    
+    public String apply(Object paramObject)
+    {
+      if (paramObject != null) {
+        return paramObject.toString();
+      }
+      throw new NullPointerException();
+    }
+    
+    public String toString()
+    {
+      return "toString";
+    }
+  }
+}

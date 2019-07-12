@@ -1,0 +1,67 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Handler;
+import android.util.Log;
+import b.b.a.F;
+import b.b.a.X;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api.zze;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.internal.zzam;
+import com.google.android.gms.common.internal.zzj;
+import java.util.Map;
+import java.util.Set;
+
+public final class zzbv
+  implements zzcy, zzj
+{
+  public Set<Scope> zzecm = null;
+  public final zzh<?> zzfgs;
+  public final Api.zze zzfkh;
+  public zzam zzflt = null;
+  public boolean zzfof = false;
+  
+  public zzbv(Api.zze paramZze, zzh<?> paramZzh)
+  {
+    zzfkh = paramZzh;
+    Object localObject;
+    zzfgs = localObject;
+  }
+  
+  @X
+  private final void zzaid()
+  {
+    if (zzfof)
+    {
+      zzam localZzam = zzflt;
+      if (localZzam != null) {
+        zzfkh.zza(localZzam, zzecm);
+      }
+    }
+  }
+  
+  @X
+  public final void zzb(zzam paramZzam, Set<Scope> paramSet)
+  {
+    if ((paramZzam != null) && (paramSet != null))
+    {
+      zzflt = paramZzam;
+      zzecm = paramSet;
+      zzaid();
+      return;
+    }
+    Log.wtf("GoogleApiManager", "Received null response from onSignInSuccess", new Exception());
+    zzh(new ConnectionResult(4));
+  }
+  
+  public final void zzf(@F ConnectionResult paramConnectionResult)
+  {
+    zzbp.zza(zzfnu).post(new zzbw(this, paramConnectionResult));
+  }
+  
+  @X
+  public final void zzh(ConnectionResult paramConnectionResult)
+  {
+    ((zzbr)zzbp.zzj(zzfnu).get(zzfgs)).zzh(paramConnectionResult);
+  }
+}

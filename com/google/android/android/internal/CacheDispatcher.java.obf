@@ -1,0 +1,99 @@
+package com.google.android.gms.internal;
+
+import android.os.Process;
+import java.util.concurrent.BlockingQueue;
+
+public final class zzd
+  extends Thread
+{
+  public static final boolean DEBUG = zzab.DEBUG;
+  public final BlockingQueue<zzp<?>> zzg;
+  public final BlockingQueue<zzp<?>> zzh;
+  public final zzb zzi;
+  public final zzw zzj;
+  public volatile boolean zzk = false;
+  
+  public zzd(BlockingQueue<zzp<?>> paramBlockingQueue1, BlockingQueue<zzp<?>> paramBlockingQueue2, zzb paramZzb, zzw paramZzw)
+  {
+    zzg = paramBlockingQueue1;
+    zzh = paramBlockingQueue2;
+    zzi = paramZzb;
+    zzj = paramZzw;
+  }
+  
+  public final void quit()
+  {
+    zzk = true;
+    interrupt();
+  }
+  
+  public final void run()
+  {
+    if (DEBUG) {
+      zzab.zza("start new dispatcher", new Object[0]);
+    }
+    Process.setThreadPriority(10);
+    zzi.initialize();
+    do
+    {
+      for (;;)
+      {
+        try
+        {
+          localZzp = (zzp)zzg.take();
+          localZzp.zzb("cache-queue-take");
+          localObject = zzi.zza(localZzp.getUrl());
+          if (localObject == null)
+          {
+            localZzp.zzb("cache-miss");
+            localObject = zzh;
+            ((BlockingQueue)localObject).put(localZzp);
+            continue;
+          }
+          if (zzd >= System.currentTimeMillis()) {
+            continue;
+          }
+          i = 1;
+        }
+        catch (InterruptedException localInterruptedException)
+        {
+          zzp localZzp;
+          Object localObject;
+          zzt localZzt;
+          continue;
+          int i = 0;
+          continue;
+          i = 0;
+          continue;
+        }
+        if (i != 0)
+        {
+          localZzp.zzb("cache-hit-expired");
+          localZzp.zza((zzc)localObject);
+          localObject = zzh;
+        }
+        else
+        {
+          localZzp.zzb("cache-hit");
+          localZzt = localZzp.zza(new zzn(data, zzf));
+          localZzp.zzb("cache-hit-parsed");
+          if (zze >= System.currentTimeMillis()) {
+            continue;
+          }
+          i = 1;
+          if (i == 0)
+          {
+            zzj.zza(localZzp, localZzt);
+          }
+          else
+          {
+            localZzp.zzb("cache-hit-refresh-needed");
+            localZzp.zza((zzc)localObject);
+            zzbg = true;
+            zzj.zza(localZzp, localZzt, new zze(this, localZzp));
+          }
+        }
+      }
+    } while (!zzk);
+  }
+}

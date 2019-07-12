@@ -1,0 +1,750 @@
+package f.c.a.c;
+
+import android.content.Context;
+import f.c.a.a.z;
+import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import javax.net.ssl.HttpsURLConnection;
+import l.a.a.a.a.b.i;
+import l.a.a.a.a.b.l;
+import l.a.a.a.a.b.x;
+import l.a.a.a.a.b.y;
+import l.a.a.a.a.c.j;
+import l.a.a.a.a.c.t;
+import l.a.a.a.a.e.c;
+import l.a.a.a.a.e.d;
+import l.a.a.a.a.e.m;
+import l.a.a.a.a.f.b;
+import l.a.a.a.a.f.e;
+import l.a.a.a.g;
+import l.a.a.a.n;
+
+@j({ja.class})
+public class fa
+  extends n<Void>
+{
+  public static final String g = "The Crashlytics build ID is missing. This occurs when Crashlytics tooling is absent from your app's build configuration. Please review Crashlytics onboarding instructions and ensure you have a valid Crashlytics account.";
+  public static final String h = "CrashlyticsCore";
+  public static final float i = 1.0F;
+  public static final String j = "com.crashlytics.RequireBuildId";
+  public static final boolean k = true;
+  public static final int l = 64;
+  public static final int m = 1024;
+  public static final int n = 4;
+  public static final String o = "com.crashlytics.android.core.CrashlyticsCore";
+  public static final String p = "initialization_marker";
+  public static final String q = "crash_marker";
+  public float A;
+  public boolean B;
+  public final Ha C;
+  public l.a.a.a.a.e.o D;
+  public u E;
+  public ja F;
+  public final long r;
+  public final ConcurrentHashMap<String, String> s;
+  public ga t;
+  public ga u;
+  public ha v;
+  public Z w;
+  public String x = null;
+  public String y = null;
+  public String z = null;
+  
+  public fa()
+  {
+    this(1.0F, null, null, false);
+  }
+  
+  public fa(float paramFloat, ha paramHa, Ha paramHa1, boolean paramBoolean)
+  {
+    this(paramFloat, paramHa, paramHa1, paramBoolean, l.a.a.a.a.b.u.a("Crashlytics Exception Handler"));
+  }
+  
+  public fa(float paramFloat, ha paramHa, Ha paramHa1, boolean paramBoolean, ExecutorService paramExecutorService)
+  {
+    A = paramFloat;
+    if (paramHa == null) {
+      paramHa = new c(null);
+    }
+    v = paramHa;
+    C = paramHa1;
+    B = paramBoolean;
+    E = new u(paramExecutorService);
+    s = new ConcurrentHashMap();
+    r = System.currentTimeMillis();
+  }
+  
+  private void A()
+  {
+    Boolean localBoolean = (Boolean)E.b(new b(u));
+    if (!Boolean.TRUE.equals(localBoolean)) {
+      return;
+    }
+    try
+    {
+      v.a();
+      return;
+    }
+    catch (Exception localException)
+    {
+      g.h().c("CrashlyticsCore", "Exception thrown by CrashlyticsListener while notifying of previous crash.", localException);
+    }
+  }
+  
+  private void B()
+  {
+    Object localObject = new ca(this);
+    Iterator localIterator = e().iterator();
+    while (localIterator.hasNext()) {
+      ((l.a.a.a.a.c.r)localObject).a((t)localIterator.next());
+    }
+    localObject = f().e().submit((Callable)localObject);
+    g.h().d("CrashlyticsCore", "Crashlytics detected incomplete initialization on previous app launch. Will initialize synchronously.");
+    try
+    {
+      ((Future)localObject).get(4L, TimeUnit.SECONDS);
+      return;
+    }
+    catch (TimeoutException localTimeoutException)
+    {
+      g.h().c("CrashlyticsCore", "Crashlytics timed out during initialization.", localTimeoutException);
+      return;
+    }
+    catch (ExecutionException localExecutionException)
+    {
+      g.h().c("CrashlyticsCore", "Problem encountered during Crashlytics initialization.", localExecutionException);
+      return;
+    }
+    catch (InterruptedException localInterruptedException)
+    {
+      g.h().c("CrashlyticsCore", "Crashlytics was interrupted during initialization.", localInterruptedException);
+    }
+  }
+  
+  public static String a(int paramInt, String paramString1, String paramString2)
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(l.a(paramInt));
+    localStringBuilder.append("/");
+    localStringBuilder.append(paramString1);
+    localStringBuilder.append(" ");
+    localStringBuilder.append(paramString2);
+    return localStringBuilder.toString();
+  }
+  
+  public static boolean a(String paramString)
+  {
+    Object localObject = s();
+    if ((localObject != null) && (w != null)) {
+      return true;
+    }
+    localObject = g.h();
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Crashlytics must be initialized by calling Fabric.with(Context) ");
+    localStringBuilder.append(paramString);
+    ((l.a.a.a.q)localObject).c("CrashlyticsCore", localStringBuilder.toString(), null);
+    return false;
+  }
+  
+  public static boolean a(String paramString, boolean paramBoolean)
+  {
+    if (!paramBoolean)
+    {
+      g.h().d("CrashlyticsCore", "Configured not to require a build ID.");
+      return true;
+    }
+    return !l.c(paramString);
+  }
+  
+  public static String c(String paramString)
+  {
+    String str = paramString;
+    if (paramString != null)
+    {
+      paramString = paramString.trim();
+      str = paramString;
+      if (paramString.length() > 1024) {
+        str = paramString.substring(0, 1024);
+      }
+    }
+    return str;
+  }
+  
+  private void c(int paramInt, String paramString1, String paramString2)
+  {
+    if (B) {
+      return;
+    }
+    if (!a("prior to logging messages.")) {
+      return;
+    }
+    long l1 = System.currentTimeMillis();
+    long l2 = r;
+    w.a(l1 - l2, a(paramInt, paramString1, paramString2));
+  }
+  
+  public static fa s()
+  {
+    return (fa)g.a(fa.class);
+  }
+  
+  @Deprecated
+  public void a(ha paramHa)
+  {
+    try
+    {
+      g.h().a("CrashlyticsCore", "Use of setListener is deprecated.");
+      if (paramHa != null)
+      {
+        v = paramHa;
+        return;
+      }
+      throw new IllegalArgumentException("listener must not be null.");
+    }
+    finally {}
+  }
+  
+  public void a(ja paramJa)
+  {
+    F = paramJa;
+  }
+  
+  public void a(String paramString, double paramDouble)
+  {
+    a(paramString, Double.toString(paramDouble));
+  }
+  
+  public void a(String paramString, float paramFloat)
+  {
+    a(paramString, Float.toString(paramFloat));
+  }
+  
+  public void a(String paramString, int paramInt)
+  {
+    a(paramString, Integer.toString(paramInt));
+  }
+  
+  public void a(String paramString, long paramLong)
+  {
+    a(paramString, Long.toString(paramLong));
+  }
+  
+  public void a(String paramString1, String paramString2)
+  {
+    if (B) {
+      return;
+    }
+    if (!a("prior to setting keys.")) {
+      return;
+    }
+    if (paramString1 == null)
+    {
+      paramString1 = d();
+      if ((paramString1 != null) && (l.j(paramString1))) {
+        throw new IllegalArgumentException("Custom attribute key must not be null.");
+      }
+      g.h().c("CrashlyticsCore", "Attempting to set custom attribute with null key, ignoring.", null);
+      return;
+    }
+    String str = c(paramString1);
+    if ((s.size() >= 64) && (!s.containsKey(str)))
+    {
+      g.h().d("CrashlyticsCore", "Exceeded maximum number of custom attributes (64)");
+      return;
+    }
+    if (paramString2 == null) {
+      paramString1 = "";
+    } else {
+      paramString1 = c(paramString2);
+    }
+    s.put(str, paramString1);
+    w.a(s);
+  }
+  
+  public void a(Throwable paramThrowable)
+  {
+    if (B) {
+      return;
+    }
+    if (!a("prior to logging exceptions.")) {
+      return;
+    }
+    if (paramThrowable == null)
+    {
+      g.h().a(5, "CrashlyticsCore", "Crashlytics is ignoring a request to log a null exception.");
+      return;
+    }
+    w.a(Thread.currentThread(), paramThrowable);
+  }
+  
+  public boolean a(Context paramContext)
+  {
+    if (!l.a.a.a.a.b.o.a(paramContext).a())
+    {
+      g.h().d("CrashlyticsCore", "Crashlytics is disabled, because data collection is disabled by Firebase.");
+      B = true;
+    }
+    if (B) {
+      return false;
+    }
+    Object localObject3 = new i().e(paramContext);
+    if (localObject3 == null) {
+      return false;
+    }
+    Object localObject4 = l.o(paramContext);
+    if (a((String)localObject4, l.a(paramContext, "com.crashlytics.RequireBuildId", true))) {}
+    for (;;)
+    {
+      try
+      {
+        localObject1 = g.h();
+        Object localObject2 = new StringBuilder();
+        ((StringBuilder)localObject2).append("Initializing Crashlytics Core ");
+        ((StringBuilder)localObject2).append(j());
+        ((l.a.a.a.q)localObject1).e("CrashlyticsCore", ((StringBuilder)localObject2).toString());
+        localObject2 = new b(this);
+        u = new ga("crash_marker", (l.a.a.a.a.f.a)localObject2);
+        t = new ga("initialization_marker", (l.a.a.a.a.f.a)localObject2);
+        Ia localIa = Ia.a(new e(d(), "com.crashlytics.android.core.CrashlyticsCore"), this);
+        if (C == null) {
+          break label432;
+        }
+        localObject1 = new ka(C);
+        D = new c(g.h());
+        D.a((l.a.a.a.a.e.q)localObject1);
+        localObject1 = g();
+        localObject3 = a.a(paramContext, (y)localObject1, (String)localObject3, (String)localObject4);
+        localObject4 = new Ra(paramContext, new za(paramContext, d));
+        pa localPa = new pa(this);
+        z localZ = f.c.a.a.q.b(paramContext);
+        w = new Z(this, E, D, (y)localObject1, localIa, (l.a.a.a.a.f.a)localObject2, (a)localObject3, (Xa)localObject4, localPa, localZ);
+        boolean bool1 = p();
+        A();
+        boolean bool2 = new x().e(paramContext);
+        w.a(Thread.getDefaultUncaughtExceptionHandler(), bool2);
+        if ((bool1) && (l.b(paramContext)))
+        {
+          g.h().d("CrashlyticsCore", "Crashlytics did not finish previous background initialization. Initializing synchronously.");
+          B();
+          return false;
+        }
+        g.h().d("CrashlyticsCore", "Exception handling initialization successful");
+        return true;
+      }
+      catch (Exception paramContext)
+      {
+        g.h().c("CrashlyticsCore", "Crashlytics was not started due to an exception during initialization", paramContext);
+        w = null;
+        return false;
+      }
+      throw new l.a.a.a.a.c.u("The Crashlytics build ID is missing. This occurs when Crashlytics tooling is absent from your app's build configuration. Please review Crashlytics onboarding instructions and ensure you have a valid Crashlytics account.");
+      label432:
+      Object localObject1 = null;
+    }
+  }
+  
+  public boolean a(URL paramURL)
+  {
+    if (u() != null)
+    {
+      paramURL = D.a(d.a, paramURL.toString());
+      ((HttpsURLConnection)paramURL.w()).setInstanceFollowRedirects(false);
+      paramURL.n();
+      return true;
+    }
+    return false;
+  }
+  
+  public void b(int paramInt, String paramString1, String paramString2)
+  {
+    c(paramInt, paramString1, paramString2);
+    g.h().a(paramInt, f.a.a.a.a.c("", paramString1), f.a.a.a.a.c("", paramString2), true);
+  }
+  
+  public void b(String paramString)
+  {
+    c(3, "CrashlyticsCore", paramString);
+  }
+  
+  public void b(String paramString, boolean paramBoolean)
+  {
+    a(paramString, Boolean.toString(paramBoolean));
+  }
+  
+  public boolean b(URL paramURL)
+  {
+    try
+    {
+      boolean bool = a(paramURL);
+      return bool;
+    }
+    catch (Exception paramURL)
+    {
+      g.h().c("CrashlyticsCore", "Could not verify SSL pinning", paramURL);
+    }
+    return false;
+  }
+  
+  /* Error */
+  public Void c()
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: invokevirtual 572	f/c/a/c/fa:z	()V
+    //   4: aload_0
+    //   5: getfield 274	f/c/a/c/fa:w	Lf/c/a/c/Z;
+    //   8: invokevirtual 574	f/c/a/c/Z:b	()V
+    //   11: aload_0
+    //   12: getfield 274	f/c/a/c/fa:w	Lf/c/a/c/Z;
+    //   15: invokevirtual 576	f/c/a/c/Z:m	()V
+    //   18: invokestatic 581	l/a/a/a/a/g/s:c	()Ll/a/a/a/a/g/s;
+    //   21: invokevirtual 584	l/a/a/a/a/g/s:a	()Ll/a/a/a/a/g/v;
+    //   24: astore_1
+    //   25: aload_1
+    //   26: ifnonnull +22 -> 48
+    //   29: invokestatic 162	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   32: ldc 30
+    //   34: ldc_w 586
+    //   37: invokeinterface 316 3 0
+    //   42: aload_0
+    //   43: invokevirtual 588	f/c/a/c/fa:y	()V
+    //   46: aconst_null
+    //   47: areturn
+    //   48: aload_0
+    //   49: getfield 274	f/c/a/c/fa:w	Lf/c/a/c/Z;
+    //   52: aload_1
+    //   53: invokevirtual 591	f/c/a/c/Z:a	(Ll/a/a/a/a/g/v;)V
+    //   56: aload_1
+    //   57: getfield 596	l/a/a/a/a/g/v:d	Ll/a/a/a/a/g/n;
+    //   60: getfield 600	l/a/a/a/a/g/n:c	Z
+    //   63: ifne +22 -> 85
+    //   66: invokestatic 162	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   69: ldc 30
+    //   71: ldc_w 602
+    //   74: invokeinterface 224 3 0
+    //   79: aload_0
+    //   80: invokevirtual 588	f/c/a/c/fa:y	()V
+    //   83: aconst_null
+    //   84: areturn
+    //   85: aload_0
+    //   86: invokevirtual 356	l/a/a/a/n:d	()Landroid/content/Context;
+    //   89: invokestatic 403	l/a/a/a/a/b/o:a	(Landroid/content/Context;)Ll/a/a/a/a/b/o;
+    //   92: invokevirtual 405	l/a/a/a/a/b/o:a	()Z
+    //   95: ifne +22 -> 117
+    //   98: invokestatic 162	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   101: ldc 30
+    //   103: ldc_w 604
+    //   106: invokeinterface 224 3 0
+    //   111: aload_0
+    //   112: invokevirtual 588	f/c/a/c/fa:y	()V
+    //   115: aconst_null
+    //   116: areturn
+    //   117: aload_0
+    //   118: invokevirtual 607	f/c/a/c/fa:t	()Lf/c/a/c/ia;
+    //   121: astore_2
+    //   122: aload_2
+    //   123: ifnull +27 -> 150
+    //   126: aload_0
+    //   127: getfield 274	f/c/a/c/fa:w	Lf/c/a/c/Z;
+    //   130: aload_2
+    //   131: invokevirtual 610	f/c/a/c/Z:a	(Lf/c/a/c/ia;)Z
+    //   134: ifne +16 -> 150
+    //   137: invokestatic 162	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   140: ldc 30
+    //   142: ldc_w 612
+    //   145: invokeinterface 224 3 0
+    //   150: aload_0
+    //   151: getfield 274	f/c/a/c/fa:w	Lf/c/a/c/Z;
+    //   154: aload_1
+    //   155: getfield 615	l/a/a/a/a/g/v:b	Ll/a/a/a/a/g/q;
+    //   158: invokevirtual 618	f/c/a/c/Z:b	(Ll/a/a/a/a/g/q;)Z
+    //   161: ifne +16 -> 177
+    //   164: invokestatic 162	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   167: ldc 30
+    //   169: ldc_w 620
+    //   172: invokeinterface 224 3 0
+    //   177: aload_0
+    //   178: getfield 274	f/c/a/c/fa:w	Lf/c/a/c/Z;
+    //   181: aload_0
+    //   182: getfield 104	f/c/a/c/fa:A	F
+    //   185: aload_1
+    //   186: invokevirtual 623	f/c/a/c/Z:a	(FLl/a/a/a/a/g/v;)V
+    //   189: goto +22 -> 211
+    //   192: astore_1
+    //   193: goto +24 -> 217
+    //   196: astore_1
+    //   197: invokestatic 162	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   200: ldc 30
+    //   202: ldc_w 625
+    //   205: aload_1
+    //   206: invokeinterface 169 4 0
+    //   211: aload_0
+    //   212: invokevirtual 588	f/c/a/c/fa:y	()V
+    //   215: aconst_null
+    //   216: areturn
+    //   217: aload_0
+    //   218: invokevirtual 588	f/c/a/c/fa:y	()V
+    //   221: aload_1
+    //   222: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	223	0	this	fa
+    //   24	162	1	localV	l.a.a.a.a.g.v
+    //   192	1	1	localObject	Object
+    //   196	26	1	localException	Exception
+    //   121	10	2	localIa	ia
+    // Exception table:
+    //   from	to	target	type
+    //   11	25	192	finally
+    //   29	42	192	finally
+    //   48	79	192	finally
+    //   85	111	192	finally
+    //   117	122	192	finally
+    //   126	150	192	finally
+    //   150	177	192	finally
+    //   177	189	192	finally
+    //   197	211	192	finally
+    //   11	25	196	java/lang/Exception
+    //   29	42	196	java/lang/Exception
+    //   48	79	196	java/lang/Exception
+    //   85	111	196	java/lang/Exception
+    //   117	122	196	java/lang/Exception
+    //   126	150	196	java/lang/Exception
+    //   150	177	196	java/lang/Exception
+    //   177	189	196	java/lang/Exception
+  }
+  
+  public void d(String paramString)
+  {
+    if (B) {
+      return;
+    }
+    if (!a("prior to setting user data.")) {
+      return;
+    }
+    y = c(paramString);
+    w.a(x, z, y);
+  }
+  
+  public void e(String paramString)
+  {
+    if (B) {
+      return;
+    }
+    if (!a("prior to setting user data.")) {
+      return;
+    }
+    x = c(paramString);
+    w.a(x, z, y);
+  }
+  
+  public void f(String paramString)
+  {
+    if (B) {
+      return;
+    }
+    if (!a("prior to setting user data.")) {
+      return;
+    }
+    z = c(paramString);
+    w.a(x, z, y);
+  }
+  
+  public String h()
+  {
+    return "com.crashlytics.sdk.android.crashlytics-core";
+  }
+  
+  public String j()
+  {
+    return "2.7.0.33";
+  }
+  
+  public boolean m()
+  {
+    return a(c);
+  }
+  
+  public void n()
+  {
+    new r().a();
+  }
+  
+  public void o()
+  {
+    u.a();
+  }
+  
+  public boolean p()
+  {
+    return t.b();
+  }
+  
+  public Map<String, String> q()
+  {
+    return Collections.unmodifiableMap(s);
+  }
+  
+  public Z r()
+  {
+    return w;
+  }
+  
+  public ia t()
+  {
+    ja localJa = F;
+    if (localJa != null) {
+      return localJa.a();
+    }
+    return null;
+  }
+  
+  public Ha u()
+  {
+    if (!B) {
+      return C;
+    }
+    return null;
+  }
+  
+  public String v()
+  {
+    if (g().a()) {
+      return y;
+    }
+    return null;
+  }
+  
+  public String w()
+  {
+    if (g().a()) {
+      return x;
+    }
+    return null;
+  }
+  
+  public String x()
+  {
+    if (g().a()) {
+      return z;
+    }
+    return null;
+  }
+  
+  public void y()
+  {
+    E.a(new ea(this));
+  }
+  
+  public void z()
+  {
+    E.b(new da(this));
+  }
+  
+  public static class a
+  {
+    public float a = -1.0F;
+    public ha b;
+    public Ha c;
+    public boolean d = false;
+    
+    public a() {}
+    
+    public a a(float paramFloat)
+    {
+      if (paramFloat > 0.0F)
+      {
+        if (a <= 0.0F)
+        {
+          a = paramFloat;
+          return this;
+        }
+        throw new IllegalStateException("delay already set.");
+      }
+      throw new IllegalArgumentException("delay must be greater than 0");
+    }
+    
+    @Deprecated
+    public a a(Ha paramHa)
+    {
+      if (paramHa != null)
+      {
+        if (c == null)
+        {
+          c = paramHa;
+          return this;
+        }
+        throw new IllegalStateException("pinningInfoProvider already set.");
+      }
+      throw new IllegalArgumentException("pinningInfoProvider must not be null.");
+    }
+    
+    public a a(ha paramHa)
+    {
+      if (paramHa != null)
+      {
+        if (b == null)
+        {
+          b = paramHa;
+          return this;
+        }
+        throw new IllegalStateException("listener already set.");
+      }
+      throw new IllegalArgumentException("listener must not be null.");
+    }
+    
+    public a a(boolean paramBoolean)
+    {
+      d = paramBoolean;
+      return this;
+    }
+    
+    public fa a()
+    {
+      if (a < 0.0F) {
+        a = 1.0F;
+      }
+      return new fa(a, b, c, d);
+    }
+  }
+  
+  private static final class b
+    implements Callable<Boolean>
+  {
+    public final ga a;
+    
+    public b(ga paramGa)
+    {
+      a = paramGa;
+    }
+    
+    public Boolean call()
+      throws Exception
+    {
+      if (!a.b()) {
+        return Boolean.FALSE;
+      }
+      g.h().d("CrashlyticsCore", "Found previous crash marker.");
+      a.c();
+      return Boolean.TRUE;
+    }
+  }
+  
+  private static final class c
+    implements ha
+  {
+    public c() {}
+    
+    public void a() {}
+  }
+}

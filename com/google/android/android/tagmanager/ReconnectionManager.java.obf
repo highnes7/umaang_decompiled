@@ -1,0 +1,62 @@
+package com.google.android.gms.tagmanager;
+
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient.Info;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import java.io.IOException;
+
+public final class zzb
+  implements zzd
+{
+  public zzb(zza paramZza) {}
+  
+  public final AdvertisingIdClient.Info zzbci()
+  {
+    try
+    {
+      AdvertisingIdClient.Info localInfo = AdvertisingIdClient.getAdvertisingIdInfo(zza.zza(zzjop));
+      return localInfo;
+    }
+    catch (Exception localException)
+    {
+      localZzdk = zzdj.zzjss;
+      str = "Unknown exception. Could not get the Advertising Id Info.";
+      localZzdk.zzc(str, localException);
+    }
+    catch (GooglePlayServicesNotAvailableException localGooglePlayServicesNotAvailableException)
+    {
+      for (;;)
+      {
+        zzjop.close();
+        localZzdk = zzdj.zzjss;
+        str = "GooglePlayServicesNotAvailableException getting Advertising Id Info";
+      }
+    }
+    catch (IOException localIOException)
+    {
+      for (;;)
+      {
+        localZzdk = zzdj.zzjss;
+        str = "IOException getting Ad Id Info";
+      }
+    }
+    catch (GooglePlayServicesRepairableException localGooglePlayServicesRepairableException)
+    {
+      for (;;)
+      {
+        localZzdk = zzdj.zzjss;
+        str = "GooglePlayServicesRepairableException getting Advertising Id Info";
+      }
+    }
+    catch (IllegalStateException localIllegalStateException)
+    {
+      for (;;)
+      {
+        zzdk localZzdk = zzdj.zzjss;
+        String str = "IllegalStateException getting Advertising Id Info";
+      }
+    }
+    return null;
+  }
+}

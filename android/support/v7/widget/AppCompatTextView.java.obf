@@ -1,0 +1,372 @@
+package android.support.v7.widget;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.view.ActionMode.Callback;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.widget.TextView;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.I;
+import b.b.a.p;
+import b.b.a.x;
+import b.b.x.m.d;
+import b.b.x.m.d.a;
+import b.b.x.o.E;
+import b.b.x.p.b;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+public class AppCompatTextView
+  extends TextView
+  implements E, b
+{
+  public final AppCompatBackgroundHelper mBackgroundTintHelper = new AppCompatBackgroundHelper(this);
+  @G
+  public Future<d> mPrecomputedTextFuture;
+  public final AppCompatTextHelper mTextHelper;
+  
+  public AppCompatTextView(Context paramContext)
+  {
+    this(paramContext, null, 16842884);
+  }
+  
+  public AppCompatTextView(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    this(paramContext, paramAttributeSet, 16842884);
+  }
+  
+  public AppCompatTextView(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(TintContextWrapper.wrap(paramContext), paramAttributeSet, paramInt);
+    mBackgroundTintHelper.loadFromAttributes(paramAttributeSet, paramInt);
+    mTextHelper = new AppCompatTextHelper(this);
+    mTextHelper.loadFromAttributes(paramAttributeSet, paramInt);
+    mTextHelper.applyCompoundDrawablesTints();
+  }
+  
+  private void consumeTextFutureAndSetBlocking()
+  {
+    Future localFuture = mPrecomputedTextFuture;
+    if (localFuture != null) {}
+    try
+    {
+      mPrecomputedTextFuture = null;
+      b.b.x.p.N.a(this, (d)localFuture.get());
+      return;
+    }
+    catch (InterruptedException|ExecutionException localInterruptedException) {}
+  }
+  
+  public void drawableStateChanged()
+  {
+    super.drawableStateChanged();
+    Object localObject = mBackgroundTintHelper;
+    if (localObject != null) {
+      ((AppCompatBackgroundHelper)localObject).applySupportBackgroundTint();
+    }
+    localObject = mTextHelper;
+    if (localObject != null) {
+      ((AppCompatTextHelper)localObject).applyCompoundDrawablesTints();
+    }
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public int getAutoSizeMaxTextSize()
+  {
+    if (b.a) {
+      return super.getAutoSizeMaxTextSize();
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      return localAppCompatTextHelper.getAutoSizeMaxTextSize();
+    }
+    return -1;
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public int getAutoSizeMinTextSize()
+  {
+    if (b.a) {
+      return super.getAutoSizeMinTextSize();
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      return localAppCompatTextHelper.getAutoSizeMinTextSize();
+    }
+    return -1;
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public int getAutoSizeStepGranularity()
+  {
+    if (b.a) {
+      return super.getAutoSizeStepGranularity();
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      return localAppCompatTextHelper.getAutoSizeStepGranularity();
+    }
+    return -1;
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public int[] getAutoSizeTextAvailableSizes()
+  {
+    if (b.a) {
+      return super.getAutoSizeTextAvailableSizes();
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      return localAppCompatTextHelper.getAutoSizeTextAvailableSizes();
+    }
+    return new int[0];
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public int getAutoSizeTextType()
+  {
+    boolean bool = b.a;
+    int i = 0;
+    if (bool)
+    {
+      if (super.getAutoSizeTextType() == 1) {
+        i = 1;
+      }
+      return i;
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      return localAppCompatTextHelper.getAutoSizeTextType();
+    }
+    return 0;
+  }
+  
+  public int getFirstBaselineToTopHeight()
+  {
+    return b.b.x.p.N.g(this);
+  }
+  
+  public int getLastBaselineToBottomHeight()
+  {
+    return b.b.x.p.N.h(this);
+  }
+  
+  @G
+  @b.b.a.N({b.b.a.N.a.b})
+  public ColorStateList getSupportBackgroundTintList()
+  {
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      return localAppCompatBackgroundHelper.getSupportBackgroundTintList();
+    }
+    return null;
+  }
+  
+  @G
+  @b.b.a.N({b.b.a.N.a.b})
+  public PorterDuff.Mode getSupportBackgroundTintMode()
+  {
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      return localAppCompatBackgroundHelper.getSupportBackgroundTintMode();
+    }
+    return null;
+  }
+  
+  public CharSequence getText()
+  {
+    consumeTextFutureAndSetBlocking();
+    return super.getText();
+  }
+  
+  @F
+  public d.a getTextMetricsParamsCompat()
+  {
+    return b.b.x.p.N.l(this);
+  }
+  
+  public InputConnection onCreateInputConnection(EditorInfo paramEditorInfo)
+  {
+    InputConnection localInputConnection = super.onCreateInputConnection(paramEditorInfo);
+    AppCompatHintHelper.onCreateInputConnection(localInputConnection, paramEditorInfo, this);
+    return localInputConnection;
+  }
+  
+  public void onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    super.onLayout(paramBoolean, paramInt1, paramInt2, paramInt3, paramInt4);
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.onLayout(paramBoolean, paramInt1, paramInt2, paramInt3, paramInt4);
+    }
+  }
+  
+  public void onMeasure(int paramInt1, int paramInt2)
+  {
+    consumeTextFutureAndSetBlocking();
+    super.onMeasure(paramInt1, paramInt2);
+  }
+  
+  public void onTextChanged(CharSequence paramCharSequence, int paramInt1, int paramInt2, int paramInt3)
+  {
+    super.onTextChanged(paramCharSequence, paramInt1, paramInt2, paramInt3);
+    paramCharSequence = mTextHelper;
+    if ((paramCharSequence != null) && (!b.a) && (paramCharSequence.isAutoSizeEnabled())) {
+      mTextHelper.autoSizeText();
+    }
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void setAutoSizeTextTypeUniformWithConfiguration(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+    throws IllegalArgumentException
+  {
+    if (b.a)
+    {
+      super.setAutoSizeTextTypeUniformWithConfiguration(paramInt1, paramInt2, paramInt3, paramInt4);
+      return;
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.setAutoSizeTextTypeUniformWithConfiguration(paramInt1, paramInt2, paramInt3, paramInt4);
+    }
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void setAutoSizeTextTypeUniformWithPresetSizes(@F int[] paramArrayOfInt, int paramInt)
+    throws IllegalArgumentException
+  {
+    if (b.a)
+    {
+      super.setAutoSizeTextTypeUniformWithPresetSizes(paramArrayOfInt, paramInt);
+      return;
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.setAutoSizeTextTypeUniformWithPresetSizes(paramArrayOfInt, paramInt);
+    }
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void setAutoSizeTextTypeWithDefaults(int paramInt)
+  {
+    if (b.a)
+    {
+      super.setAutoSizeTextTypeWithDefaults(paramInt);
+      return;
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.setAutoSizeTextTypeWithDefaults(paramInt);
+    }
+  }
+  
+  public void setBackgroundDrawable(Drawable paramDrawable)
+  {
+    super.setBackgroundDrawable(paramDrawable);
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      localAppCompatBackgroundHelper.onSetBackgroundDrawable(paramDrawable);
+    }
+  }
+  
+  public void setBackgroundResource(@p int paramInt)
+  {
+    super.setBackgroundResource(paramInt);
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      localAppCompatBackgroundHelper.onSetBackgroundResource(paramInt);
+    }
+  }
+  
+  public void setCustomSelectionActionModeCallback(ActionMode.Callback paramCallback)
+  {
+    super.setCustomSelectionActionModeCallback(b.b.x.p.N.b(this, paramCallback));
+  }
+  
+  public void setFirstBaselineToTopHeight(@I @x(from=0L) int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 28)
+    {
+      super.setFirstBaselineToTopHeight(paramInt);
+      return;
+    }
+    b.b.x.p.N.b(this, paramInt);
+  }
+  
+  public void setLastBaselineToBottomHeight(@I @x(from=0L) int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 28)
+    {
+      super.setLastBaselineToBottomHeight(paramInt);
+      return;
+    }
+    b.b.x.p.N.c(this, paramInt);
+  }
+  
+  public void setLineHeight(@I @x(from=0L) int paramInt)
+  {
+    b.b.x.p.N.d(this, paramInt);
+  }
+  
+  public void setPrecomputedText(@F d paramD)
+  {
+    b.b.x.p.N.a(this, paramD);
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void setSupportBackgroundTintList(@G ColorStateList paramColorStateList)
+  {
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      localAppCompatBackgroundHelper.setSupportBackgroundTintList(paramColorStateList);
+    }
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void setSupportBackgroundTintMode(@G PorterDuff.Mode paramMode)
+  {
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      localAppCompatBackgroundHelper.setSupportBackgroundTintMode(paramMode);
+    }
+  }
+  
+  public void setTextAppearance(Context paramContext, int paramInt)
+  {
+    super.setTextAppearance(paramContext, paramInt);
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.onSetTextAppearance(paramContext, paramInt);
+    }
+  }
+  
+  public void setTextFuture(@F Future<d> paramFuture)
+  {
+    mPrecomputedTextFuture = paramFuture;
+    requestLayout();
+  }
+  
+  public void setTextMetricsParamsCompat(@F d.a paramA)
+  {
+    b.b.x.p.N.a(this, paramA);
+  }
+  
+  public void setTextSize(int paramInt, float paramFloat)
+  {
+    if (b.a)
+    {
+      super.setTextSize(paramInt, paramFloat);
+      return;
+    }
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.setTextSize(paramInt, paramFloat);
+    }
+  }
+}

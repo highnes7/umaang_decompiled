@@ -1,0 +1,92 @@
+package com.google.android.gms.internal;
+
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
+import java.util.EmptyStackException;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Stack;
+
+public final class zzdow<K, V>
+  implements Iterator<Map.Entry<K, V>>
+{
+  public final Stack<zzdpf<K, V>> zzlsk = new Stack();
+  public final boolean zzlsl;
+  
+  public zzdow(zzdpb<K, V> paramZzdpb, K paramK, Comparator<K> paramComparator, boolean paramBoolean)
+  {
+    zzlsl = paramBoolean;
+    while (!paramZzdpb.isEmpty())
+    {
+      int i;
+      if (paramK != null)
+      {
+        if (paramBoolean) {
+          i = paramComparator.compare(paramK, paramZzdpb.getKey());
+        } else {
+          i = paramComparator.compare(paramZzdpb.getKey(), paramK);
+        }
+      }
+      else {
+        i = 1;
+      }
+      if (i < 0)
+      {
+        if (paramBoolean) {}
+      }
+      else {
+        do
+        {
+          paramZzdpb = paramZzdpb.zzbqn();
+          break;
+          if (i == 0)
+          {
+            zzlsk.push((zzdpf)paramZzdpb);
+            return;
+          }
+          zzlsk.push((zzdpf)paramZzdpb);
+        } while (paramBoolean);
+      }
+      paramZzdpb = paramZzdpb.zzbqm();
+    }
+  }
+  
+  private final Map.Entry<K, V> next()
+  {
+    try
+    {
+      localObject = (zzdpf)zzlsk.pop();
+      AbstractMap.SimpleEntry localSimpleEntry = new AbstractMap.SimpleEntry(((zzdpf)localObject).getKey(), ((zzdpf)localObject).getValue());
+      if (zzlsl) {
+        for (localObject = ((zzdpf)localObject).zzbqm(); !((zzdpb)localObject).isEmpty(); localObject = ((zzdpb)localObject).zzbqn()) {
+          zzlsk.push((zzdpf)localObject);
+        }
+      }
+      for (localObject = ((zzdpf)localObject).zzbqn(); !((zzdpb)localObject).isEmpty(); localObject = ((zzdpb)localObject).zzbqm()) {
+        zzlsk.push((zzdpf)localObject);
+      }
+      return localSimpleEntry;
+    }
+    catch (EmptyStackException localEmptyStackException)
+    {
+      Object localObject;
+      for (;;) {}
+    }
+    localObject = new NoSuchElementException();
+    for (;;)
+    {
+      throw ((Throwable)localObject);
+    }
+  }
+  
+  public final boolean hasNext()
+  {
+    return zzlsk.size() > 0;
+  }
+  
+  public final void remove()
+  {
+    throw new UnsupportedOperationException("remove called on immutable collection");
+  }
+}

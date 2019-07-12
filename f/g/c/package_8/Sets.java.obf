@@ -1,0 +1,822 @@
+package f.g.c.d;
+
+import f.a.a.a.a;
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import f.g.c.b.ca;
+import f.g.c.b.ea;
+import f.g.c.h.g;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.AbstractSet;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.concurrent.CopyOnWriteArraySet;
+import m.a.h;
+
+@b(emulated=true)
+public final class gg
+{
+  public gg() {}
+  
+  public static int a(Set<?> paramSet)
+  {
+    paramSet = paramSet.iterator();
+    int i = 0;
+    while (paramSet.hasNext())
+    {
+      Object localObject = paramSet.next();
+      int j;
+      if (localObject != null) {
+        j = localObject.hashCode();
+      } else {
+        j = 0;
+      }
+      i += j;
+    }
+    return i;
+  }
+  
+  @b(serializable=true)
+  public static <E extends Enum<E>> Nb<E> a(E paramE, E... paramVarArgs)
+  {
+    return new tb(EnumSet.of(paramE, paramVarArgs));
+  }
+  
+  public static <E> g<E> a(Set<E> paramSet, Set<?> paramSet1)
+  {
+    ba.a(paramSet, "set1");
+    ba.a(paramSet1, "set2");
+    return new eg(paramSet, ea.a(ea.a(paramSet1)), paramSet1);
+  }
+  
+  public static <E extends Enum<E>> EnumSet<E> a(Iterable<E> paramIterable, Class<E> paramClass)
+  {
+    if (paramIterable != null)
+    {
+      paramClass = EnumSet.noneOf(paramClass);
+      rc.a(paramClass, paramIterable);
+      return paramClass;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E extends Enum<E>> EnumSet<E> a(Collection<E> paramCollection)
+  {
+    if ((paramCollection instanceof EnumSet)) {
+      return EnumSet.complementOf((EnumSet)paramCollection);
+    }
+    ba.a(paramCollection.isEmpty() ^ true, "collection is empty; use the other version of this method");
+    return b(paramCollection, ((Enum)paramCollection.iterator().next()).getDeclaringClass());
+  }
+  
+  public static <E extends Enum<E>> EnumSet<E> a(Collection<E> paramCollection, Class<E> paramClass)
+  {
+    if (paramCollection != null)
+    {
+      if ((paramCollection instanceof EnumSet)) {
+        return EnumSet.complementOf((EnumSet)paramCollection);
+      }
+      return b(paramCollection, paramClass);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> HashSet<E> a(int paramInt)
+  {
+    return new HashSet(fe.a(paramInt));
+  }
+  
+  public static <E> HashSet<E> a(Iterator<? extends E> paramIterator)
+  {
+    HashSet localHashSet = new HashSet();
+    while (paramIterator.hasNext()) {
+      localHashSet.add(paramIterator.next());
+    }
+    return localHashSet;
+  }
+  
+  public static <E> HashSet<E> a(E... paramVarArgs)
+  {
+    HashSet localHashSet = a(paramVarArgs.length);
+    Collections.addAll(localHashSet, paramVarArgs);
+    return localHashSet;
+  }
+  
+  public static <B> Set<List<B>> a(List<? extends Set<? extends B>> paramList)
+  {
+    Iterator localIterator = paramList.iterator();
+    while (localIterator.hasNext()) {
+      if (((Set)localIterator.next()).isEmpty()) {
+        return Nb.g();
+      }
+    }
+    return new a(paramList);
+  }
+  
+  public static <E> Set<E> a(Map<E, Boolean> paramMap)
+  {
+    return new f(paramMap);
+  }
+  
+  public static <E> Set<E> a(Set<E> paramSet, ca<? super E> paramCa)
+  {
+    if ((paramSet instanceof SortedSet)) {
+      return a((SortedSet)paramSet, paramCa);
+    }
+    if ((paramSet instanceof b))
+    {
+      paramSet = (b)paramSet;
+      paramCa = ea.a(b, paramCa);
+      return new b((Set)a, paramCa);
+    }
+    if (paramSet != null)
+    {
+      if (paramCa != null) {
+        return new b(paramSet, paramCa);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <B> Set<List<B>> a(Set<? extends B>... paramVarArgs)
+  {
+    return a(Arrays.asList(paramVarArgs));
+  }
+  
+  public static <T> SortedSet<T> a(Iterable<T> paramIterable)
+  {
+    return (SortedSet)paramIterable;
+  }
+  
+  public static <E> SortedSet<E> a(SortedSet<E> paramSortedSet, ca<? super E> paramCa)
+  {
+    if ((paramSortedSet instanceof b))
+    {
+      paramSortedSet = (b)paramSortedSet;
+      paramCa = ea.a(b, paramCa);
+      return new c((SortedSet)a, paramCa);
+    }
+    if (paramSortedSet != null)
+    {
+      if (paramCa != null) {
+        return new c(paramSortedSet, paramCa);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> TreeSet<E> a(Comparator<? super E> paramComparator)
+  {
+    if (paramComparator != null) {
+      return new TreeSet(paramComparator);
+    }
+    throw new NullPointerException();
+  }
+  
+  @c("CopyOnWriteArraySet")
+  public static <E> CopyOnWriteArraySet<E> a()
+  {
+    return new CopyOnWriteArraySet();
+  }
+  
+  public static boolean a(Set<?> paramSet, @h Object paramObject)
+  {
+    if (paramSet == paramObject) {
+      return true;
+    }
+    if ((paramObject instanceof Set)) {
+      paramObject = (Set)paramObject;
+    }
+    try
+    {
+      if (paramSet.size() == paramObject.size())
+      {
+        boolean bool = paramSet.containsAll(paramObject);
+        if (bool) {
+          return true;
+        }
+      }
+      return false;
+    }
+    catch (NullPointerException|ClassCastException paramSet) {}
+    return false;
+    return false;
+  }
+  
+  public static boolean a(Set<?> paramSet, Collection<?> paramCollection)
+  {
+    if (paramCollection != null)
+    {
+      Object localObject = paramCollection;
+      if ((paramCollection instanceof Ye)) {
+        localObject = ((Ye)paramCollection).u();
+      }
+      if (((localObject instanceof Set)) && (((Collection)localObject).size() > paramSet.size()))
+      {
+        paramSet = paramSet.iterator();
+        boolean bool = false;
+        while (paramSet.hasNext()) {
+          if (((Collection)localObject).contains(paramSet.next()))
+          {
+            bool = true;
+            paramSet.remove();
+          }
+        }
+        return bool;
+      }
+      return a(paramSet, ((Collection)localObject).iterator());
+    }
+    paramSet = new NullPointerException();
+    for (;;)
+    {
+      throw paramSet;
+    }
+  }
+  
+  public static boolean a(Set<?> paramSet, Iterator<?> paramIterator)
+  {
+    boolean bool = false;
+    while (paramIterator.hasNext()) {
+      bool |= paramSet.remove(paramIterator.next());
+    }
+    return bool;
+  }
+  
+  @b(serializable=true)
+  public static <E extends Enum<E>> Nb<E> b(Iterable<E> paramIterable)
+  {
+    Iterator localIterator = paramIterable.iterator();
+    if (!localIterator.hasNext()) {
+      return Nb.g();
+    }
+    if ((paramIterable instanceof EnumSet)) {
+      return new tb(EnumSet.copyOf((EnumSet)paramIterable));
+    }
+    paramIterable = EnumSet.of((Enum)localIterator.next());
+    while (localIterator.hasNext()) {
+      paramIterable.add(localIterator.next());
+    }
+    return new tb(paramIterable);
+  }
+  
+  public static <E> g<E> b(Set<E> paramSet, Set<?> paramSet1)
+  {
+    ba.a(paramSet, "set1");
+    ba.a(paramSet1, "set2");
+    return new dg(paramSet, ea.a(paramSet1), paramSet1);
+  }
+  
+  public static <E extends Enum<E>> EnumSet<E> b(Collection<E> paramCollection, Class<E> paramClass)
+  {
+    paramClass = EnumSet.allOf(paramClass);
+    paramClass.removeAll(paramCollection);
+    return paramClass;
+  }
+  
+  public static <E> HashSet<E> b()
+  {
+    return new HashSet();
+  }
+  
+  public static <E> LinkedHashSet<E> b(int paramInt)
+  {
+    return new LinkedHashSet(fe.a(paramInt));
+  }
+  
+  @b(serializable=false)
+  public static <E> Set<Set<E>> b(Set<E> paramSet)
+  {
+    paramSet = Nb.b(paramSet);
+    boolean bool;
+    if (paramSet.size() <= 30) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "Too many elements to create power set: %s > 30", new Object[] { Integer.valueOf(paramSet.size()) });
+    return new e(paramSet);
+  }
+  
+  public static <E> g<E> c(Set<? extends E> paramSet1, Set<? extends E> paramSet2)
+  {
+    ba.a(paramSet1, "set1");
+    ba.a(paramSet2, "set2");
+    return a(d(paramSet1, paramSet2), b(paramSet1, paramSet2));
+  }
+  
+  public static <E> Set<E> c()
+  {
+    return new f(fe.c());
+  }
+  
+  @c("CopyOnWriteArraySet")
+  public static <E> CopyOnWriteArraySet<E> c(Iterable<? extends E> paramIterable)
+  {
+    if ((paramIterable instanceof Collection)) {
+      paramIterable = V.a(paramIterable);
+    } else {
+      paramIterable = fd.b(paramIterable);
+    }
+    return new CopyOnWriteArraySet(paramIterable);
+  }
+  
+  public static <E> g<E> d(Set<? extends E> paramSet1, Set<? extends E> paramSet2)
+  {
+    ba.a(paramSet1, "set1");
+    ba.a(paramSet2, "set2");
+    return new cg(paramSet1, a(paramSet2, paramSet1), paramSet2);
+  }
+  
+  public static <E> HashSet<E> d(Iterable<? extends E> paramIterable)
+  {
+    if ((paramIterable instanceof Collection)) {
+      return new HashSet(V.a(paramIterable));
+    }
+    return a(paramIterable.iterator());
+  }
+  
+  public static <E> LinkedHashSet<E> d()
+  {
+    return new LinkedHashSet();
+  }
+  
+  public static <E> LinkedHashSet<E> e(Iterable<? extends E> paramIterable)
+  {
+    if ((paramIterable instanceof Collection)) {
+      return new LinkedHashSet(V.a(paramIterable));
+    }
+    LinkedHashSet localLinkedHashSet = new LinkedHashSet();
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext()) {
+      localLinkedHashSet.add(paramIterable.next());
+    }
+    return localLinkedHashSet;
+  }
+  
+  public static <E extends Comparable> TreeSet<E> e()
+  {
+    return new TreeSet();
+  }
+  
+  public static <E extends Comparable> TreeSet<E> f(Iterable<? extends E> paramIterable)
+  {
+    TreeSet localTreeSet = new TreeSet();
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext()) {
+      localTreeSet.add((Comparable)paramIterable.next());
+    }
+    return localTreeSet;
+  }
+  
+  private static class a<B>
+    extends AbstractSet<List<B>>
+  {
+    public final vb<a<B>.a> a;
+    public final int b;
+    
+    public a(List<? extends Set<? extends B>> paramList)
+    {
+      vb.a localA = vb.e();
+      try
+      {
+        paramList = paramList.iterator();
+        a localA1;
+        for (int i = 1; paramList.hasNext(); i = g.c(i, localA1.a()))
+        {
+          localA1 = new a((Set)paramList.next(), i);
+          localA.a(localA1);
+        }
+        a = localA.a();
+        b = i;
+        return;
+      }
+      catch (ArithmeticException paramList)
+      {
+        for (;;) {}
+      }
+      paramList = new IllegalArgumentException("cartesian product too big");
+      for (;;)
+      {
+        throw paramList;
+      }
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      if (!(paramObject instanceof List)) {
+        return false;
+      }
+      paramObject = (List)paramObject;
+      int j = a.size();
+      if (paramObject.size() != j) {
+        return false;
+      }
+      int i = 0;
+      while (i < j)
+      {
+        if (!((a)a.get(i)).a(paramObject.get(i))) {
+          return false;
+        }
+        i += 1;
+      }
+      return true;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof a))
+      {
+        paramObject = (a)paramObject;
+        return a.equals(a);
+      }
+      return super.equals(paramObject);
+    }
+    
+    public int hashCode()
+    {
+      int j = b - 1;
+      int i = 0;
+      while (i < a.size())
+      {
+        j *= 31;
+        i += 1;
+      }
+      return a.hashCode() + j;
+    }
+    
+    public th<List<B>> iterator()
+    {
+      return new fg(this, b);
+    }
+    
+    public int size()
+    {
+      return b;
+    }
+    
+    private class a
+    {
+      public final Nb<? extends B> a;
+      public final vb<? extends B> b;
+      public final int c;
+      
+      public a(int paramInt)
+      {
+        a = Nb.b(paramInt);
+        b = a.a();
+        int i;
+        c = i;
+      }
+      
+      public int a()
+      {
+        return a.size();
+      }
+      
+      public B a(int paramInt)
+      {
+        return b.get(paramInt / c % a());
+      }
+      
+      public boolean a(Object paramObject)
+      {
+        return a.contains(paramObject);
+      }
+      
+      public boolean equals(Object paramObject)
+      {
+        if ((paramObject instanceof a))
+        {
+          paramObject = (a)paramObject;
+          return a.equals(a);
+        }
+        return false;
+      }
+      
+      public int hashCode()
+      {
+        int i = b / a.size();
+        return a.hashCode() * i;
+      }
+    }
+  }
+  
+  private static class b<E>
+    extends V.a<E>
+    implements Set<E>
+  {
+    public b(Set<E> paramSet, ca<? super E> paramCa)
+    {
+      super(paramCa);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      return gg.a(this, paramObject);
+    }
+    
+    public int hashCode()
+    {
+      return gg.a(this);
+    }
+  }
+  
+  private static class c<E>
+    extends V.a<E>
+    implements SortedSet<E>
+  {
+    public c(SortedSet<E> paramSortedSet, ca<? super E> paramCa)
+    {
+      super(paramCa);
+    }
+    
+    public Comparator<? super E> comparator()
+    {
+      return ((SortedSet)a).comparator();
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      return gg.a(this, paramObject);
+    }
+    
+    public E first()
+    {
+      return iterator().next();
+    }
+    
+    public int hashCode()
+    {
+      return gg.a(this);
+    }
+    
+    public SortedSet<E> headSet(E paramE)
+    {
+      return new c(((SortedSet)a).headSet(paramE), b);
+    }
+    
+    public E last()
+    {
+      Object localObject;
+      for (SortedSet localSortedSet = (SortedSet)a;; localSortedSet = localSortedSet.headSet(localObject))
+      {
+        localObject = localSortedSet.last();
+        if (b.apply(localObject)) {
+          return localObject;
+        }
+      }
+    }
+    
+    public SortedSet<E> subSet(E paramE1, E paramE2)
+    {
+      return new c(((SortedSet)a).subSet(paramE1, paramE2), b);
+    }
+    
+    public SortedSet<E> tailSet(E paramE)
+    {
+      return new c(((SortedSet)a).tailSet(paramE), b);
+    }
+  }
+  
+  public static abstract class d<E>
+    extends AbstractSet<E>
+  {
+    public d() {}
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      return gg.a(this, paramCollection);
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      if (paramCollection != null) {
+        return super.retainAll(paramCollection);
+      }
+      throw new NullPointerException();
+    }
+  }
+  
+  private static final class e<E>
+    extends AbstractSet<Set<E>>
+  {
+    public final Nb<E> a;
+    public final vb<E> b;
+    public final int c;
+    
+    public e(Nb<E> paramNb)
+    {
+      a = paramNb;
+      b = paramNb.a();
+      c = (1 << paramNb.size());
+    }
+    
+    public boolean contains(@h Object paramObject)
+    {
+      if ((paramObject instanceof Set))
+      {
+        paramObject = (Set)paramObject;
+        return a.containsAll(paramObject);
+      }
+      return false;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof e))
+      {
+        paramObject = (e)paramObject;
+        return a.equals(a);
+      }
+      return super.equals(paramObject);
+    }
+    
+    public int hashCode()
+    {
+      return a.hashCode() << a.size() - 1;
+    }
+    
+    public boolean isEmpty()
+    {
+      return false;
+    }
+    
+    public Iterator<Set<E>> iterator()
+    {
+      return new ig(this, c);
+    }
+    
+    public int size()
+    {
+      return c;
+    }
+    
+    public String toString()
+    {
+      return a.a(a.b("powerSet("), a, ")");
+    }
+    
+    private static final class a<E>
+      extends th<E>
+    {
+      public final vb<E> a;
+      public int b;
+      
+      public a(vb<E> paramVb, int paramInt)
+      {
+        a = paramVb;
+        b = paramInt;
+      }
+      
+      public boolean hasNext()
+      {
+        return b != 0;
+      }
+      
+      public E next()
+      {
+        int i = Integer.numberOfTrailingZeros(b);
+        if (i != 32)
+        {
+          b = ((1 << i ^ 0xFFFFFFFF) & b);
+          return a.get(i);
+        }
+        throw new NoSuchElementException();
+      }
+    }
+  }
+  
+  private static class f<E>
+    extends AbstractSet<E>
+    implements Set<E>, Serializable
+  {
+    @c("not needed in emulated source")
+    public static final long a = 0L;
+    public final Map<E, Boolean> b;
+    public transient Set<E> c;
+    
+    public f(Map<E, Boolean> paramMap)
+    {
+      ba.a(paramMap.isEmpty(), "Map is non-empty");
+      b = paramMap;
+      c = paramMap.keySet();
+    }
+    
+    @c("java.io.ObjectInputStream")
+    private void a(ObjectInputStream paramObjectInputStream)
+      throws IOException, ClassNotFoundException
+    {
+      paramObjectInputStream.defaultReadObject();
+      c = b.keySet();
+    }
+    
+    public boolean add(E paramE)
+    {
+      return b.put(paramE, Boolean.TRUE) == null;
+    }
+    
+    public void clear()
+    {
+      b.clear();
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return b.containsKey(paramObject);
+    }
+    
+    public boolean containsAll(Collection<?> paramCollection)
+    {
+      return c.containsAll(paramCollection);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      return (this == paramObject) || (c.equals(paramObject));
+    }
+    
+    public int hashCode()
+    {
+      return c.hashCode();
+    }
+    
+    public boolean isEmpty()
+    {
+      return b.isEmpty();
+    }
+    
+    public Iterator<E> iterator()
+    {
+      return c.iterator();
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      return b.remove(paramObject) != null;
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      return c.removeAll(paramCollection);
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      return c.retainAll(paramCollection);
+    }
+    
+    public int size()
+    {
+      return b.size();
+    }
+    
+    public Object[] toArray()
+    {
+      return c.toArray();
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      return c.toArray(paramArrayOfT);
+    }
+    
+    public String toString()
+    {
+      return c.toString();
+    }
+  }
+  
+  public static abstract class g<E>
+    extends AbstractSet<E>
+  {
+    public g() {}
+    
+    public Nb<E> a()
+    {
+      return Nb.b(this);
+    }
+    
+    public <S extends Set<E>> S a(S paramS)
+    {
+      paramS.addAll(this);
+      return paramS;
+    }
+  }
+}

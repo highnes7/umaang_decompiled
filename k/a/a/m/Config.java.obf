@@ -1,0 +1,126 @@
+package k.a.a.m;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build.VERSION;
+import android.preference.PreferenceManager;
+import f.a.a.a.a;
+import in.spicedigital.umang.application.MyApplication;
+import java.util.Locale;
+
+public class O
+{
+  public static final String a = "Locale.Helper.Selected.Language";
+  
+  public O() {}
+  
+  public static String a(Context paramContext)
+  {
+    return a(paramContext, Locale.getDefault().getLanguage());
+  }
+  
+  public static String a(Context paramContext, String paramString)
+  {
+    return PreferenceManager.getDefaultSharedPreferences(paramContext).getString("Locale.Helper.Selected.Language", paramString);
+  }
+  
+  public static Context b(Context paramContext)
+  {
+    String str = a(paramContext, Locale.getDefault().getLanguage());
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("lang: ");
+    localStringBuilder.append(str);
+    localStringBuilder.toString();
+    return d(paramContext, str);
+  }
+  
+  public static Context b(Context paramContext, String paramString)
+  {
+    paramString = a(paramContext, paramString);
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("lang: ");
+    localStringBuilder.append(paramString);
+    localStringBuilder.toString();
+    return d(paramContext, paramString);
+  }
+  
+  public static void c(Context paramContext, String paramString)
+  {
+    paramContext = PreferenceManager.getDefaultSharedPreferences(paramContext).edit();
+    paramContext.putString("Locale.Helper.Selected.Language", paramString);
+    paramContext.apply();
+  }
+  
+  public static Context d(Context paramContext, String paramString)
+  {
+    c(paramContext, paramString);
+    if (Build.VERSION.SDK_INT >= 25) {
+      return e(paramContext, paramString);
+    }
+    f(paramContext, paramString);
+    return paramContext;
+  }
+  
+  @TargetApi(25)
+  public static Context e(Context paramContext, String paramString)
+  {
+    Object localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("language : ");
+    ((StringBuilder)localObject).append(paramString);
+    ((StringBuilder)localObject).toString();
+    paramString = new Locale(paramString);
+    Locale.setDefault(paramString);
+    localObject = new V(paramContext);
+    Configuration localConfiguration = paramContext.getResources().getConfiguration();
+    localConfiguration.setLocale(paramString);
+    if (!MyApplication.o.equalsIgnoreCase(""))
+    {
+      StringBuilder localStringBuilder = a.b("orientation : ");
+      localStringBuilder.append(((V)localObject).a("orientation", "1"));
+      localStringBuilder.toString();
+      localConfiguration.setLayoutDirection(paramString);
+      if (((V)localObject).a(V.u, "normal").equalsIgnoreCase("small")) {
+        fontScale = 0.85F;
+      } else if (((V)localObject).a(V.u, "normal").equalsIgnoreCase("normal")) {
+        fontScale = 1.0F;
+      } else {
+        fontScale = 1.15F;
+      }
+    }
+    return paramContext.createConfigurationContext(localConfiguration);
+  }
+  
+  public static Context f(Context paramContext, String paramString)
+  {
+    try
+    {
+      paramString = new Locale(paramString);
+      Locale.setDefault(paramString);
+      Resources localResources = paramContext.getResources();
+      Configuration localConfiguration = localResources.getConfiguration();
+      locale = paramString;
+      V localV = new V(paramContext);
+      if (!MyApplication.o.equalsIgnoreCase("")) {
+        if (localV.a(V.u, "normal").equalsIgnoreCase("small")) {
+          fontScale = 0.85F;
+        } else if (localV.a(V.u, "normal").equalsIgnoreCase("normal")) {
+          fontScale = 1.0F;
+        } else {
+          fontScale = 1.15F;
+        }
+      }
+      localConfiguration.setLayoutDirection(paramString);
+      localResources.updateConfiguration(localConfiguration, localResources.getDisplayMetrics());
+      return paramContext;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return paramContext;
+  }
+}

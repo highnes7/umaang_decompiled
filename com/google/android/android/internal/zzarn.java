@@ -1,0 +1,13 @@
+package com.google.android.android.internal;
+
+import android.os.IBinder;
+
+public final class zzarn
+  extends zzeb
+  implements zzarm
+{
+  public zzarn(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.gms.auth.api.accountactivationstate.internal.IAccountActivationStateService");
+  }
+}

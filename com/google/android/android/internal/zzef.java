@@ -1,0 +1,29 @@
+package com.google.android.android.internal;
+
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Parcel;
+import android.os.RemoteException;
+
+public abstract class zzef
+  extends zzec
+  implements zzee
+{
+  public static zzee asInterface(IBinder paramIBinder)
+  {
+    if (paramIBinder == null) {
+      return null;
+    }
+    IInterface localIInterface = paramIBinder.queryLocalInterface("com.google.android.auth.IAuthManagerService");
+    if ((localIInterface instanceof zzee)) {
+      return (zzee)localIInterface;
+    }
+    return new zzeg(paramIBinder);
+  }
+  
+  public boolean onTransact(int paramInt1, Parcel paramParcel1, Parcel paramParcel2, int paramInt2)
+    throws RemoteException
+  {
+    throw new NoSuchMethodError();
+  }
+}

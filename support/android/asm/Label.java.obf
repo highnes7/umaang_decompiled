@@ -1,0 +1,117 @@
+package b.b.v;
+
+import android.content.Context;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.A;
+import b.b.a.F;
+import b.b.a.G;
+
+public class O
+{
+  public Context a;
+  public int b = -1;
+  public ViewGroup c;
+  public View d;
+  public Runnable e;
+  public Runnable f;
+  
+  public O(@F ViewGroup paramViewGroup)
+  {
+    c = paramViewGroup;
+  }
+  
+  public O(ViewGroup paramViewGroup, int paramInt, Context paramContext)
+  {
+    a = paramContext;
+    c = paramViewGroup;
+    b = paramInt;
+  }
+  
+  public O(@F ViewGroup paramViewGroup, @F View paramView)
+  {
+    c = paramViewGroup;
+    d = paramView;
+  }
+  
+  public static O a(View paramView)
+  {
+    return (O)paramView.getTag(M.e.transition_current_scene);
+  }
+  
+  @F
+  public static O a(@F ViewGroup paramViewGroup, @A int paramInt, @F Context paramContext)
+  {
+    Object localObject2 = (SparseArray)paramViewGroup.getTag(M.e.transition_scene_layoutid_cache);
+    Object localObject1 = localObject2;
+    if (localObject2 == null)
+    {
+      localObject1 = new SparseArray();
+      paramViewGroup.setTag(M.e.transition_scene_layoutid_cache, localObject1);
+    }
+    localObject2 = (O)((SparseArray)localObject1).get(paramInt);
+    if (localObject2 != null) {
+      return localObject2;
+    }
+    paramViewGroup = new O(paramViewGroup, paramInt, paramContext);
+    ((SparseArray)localObject1).put(paramInt, paramViewGroup);
+    return paramViewGroup;
+  }
+  
+  public static void a(View paramView, O paramO)
+  {
+    paramView.setTag(M.e.transition_current_scene, paramO);
+  }
+  
+  public void a()
+  {
+    if ((b > 0) || (d != null))
+    {
+      c().removeAllViews();
+      if (b > 0) {
+        LayoutInflater.from(a).inflate(b, c);
+      } else {
+        c.addView(d);
+      }
+    }
+    Runnable localRunnable = e;
+    if (localRunnable != null) {
+      localRunnable.run();
+    }
+    c.setTag(M.e.transition_current_scene, this);
+  }
+  
+  public void a(@G Runnable paramRunnable)
+  {
+    e = paramRunnable;
+  }
+  
+  public void b()
+  {
+    if (a(c) == this)
+    {
+      Runnable localRunnable = f;
+      if (localRunnable != null) {
+        localRunnable.run();
+      }
+    }
+  }
+  
+  public void b(@G Runnable paramRunnable)
+  {
+    f = paramRunnable;
+  }
+  
+  @F
+  public ViewGroup c()
+  {
+    return c;
+  }
+  
+  public boolean d()
+  {
+    return b > 0;
+  }
+}

@@ -1,0 +1,32 @@
+package com.google.android.gms.measurement;
+
+import android.content.Context;
+import android.content.Intent;
+import b.b.a.C;
+import b.b.x.b.q;
+import com.google.android.gms.internal.zzccn;
+import com.google.android.gms.internal.zzccp;
+
+public final class AppMeasurementReceiver
+  extends q
+  implements zzccp
+{
+  public zzccn zziks;
+  
+  public AppMeasurementReceiver() {}
+  
+  @C
+  public final void doStartService(Context paramContext, Intent paramIntent)
+  {
+    q.startWakefulService(paramContext, paramIntent);
+  }
+  
+  @C
+  public final void onReceive(Context paramContext, Intent paramIntent)
+  {
+    if (zziks == null) {
+      zziks = new zzccn(this);
+    }
+    zziks.onReceive(paramContext, paramIntent);
+  }
+}

@@ -1,0 +1,68 @@
+package com.google.android.gms.internal;
+
+import com.google.android.gms.tagmanager.zzdj;
+import com.google.android.gms.tagmanager.zzdk;
+import f.a.a.a.a;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public final class zzdby
+  implements zzdbz
+{
+  public HttpURLConnection zzkdu;
+  public InputStream zzkdv = null;
+  
+  public zzdby() {}
+  
+  public final void close()
+  {
+    HttpURLConnection localHttpURLConnection = zzkdu;
+    try
+    {
+      if (zzkdv != null) {
+        zzkdv.close();
+      }
+    }
+    catch (IOException localIOException)
+    {
+      String str = String.valueOf(localIOException.getMessage());
+      if (str.length() != 0) {
+        str = "HttpUrlConnectionNetworkClient: Error when closing http input stream: ".concat(str);
+      } else {
+        str = new String("HttpUrlConnectionNetworkClient: Error when closing http input stream: ");
+      }
+      zzdj.zzjss.zzb(str, localIOException);
+    }
+    if (localHttpURLConnection != null) {
+      localHttpURLConnection.disconnect();
+    }
+  }
+  
+  public final InputStream zznb(String paramString)
+    throws IOException
+  {
+    paramString = (HttpURLConnection)new URL(paramString).openConnection();
+    paramString.setReadTimeout(20000);
+    paramString.setConnectTimeout(20000);
+    zzkdu = paramString;
+    paramString = zzkdu;
+    int i = paramString.getResponseCode();
+    if (i == 200)
+    {
+      zzkdv = paramString.getInputStream();
+      return zzkdv;
+    }
+    paramString = a.a(25, "Bad response: ", i);
+    if (i != 404)
+    {
+      if (i == 503) {
+        throw new zzdcb(paramString);
+      }
+      throw new IOException(paramString);
+    }
+    throw new FileNotFoundException(paramString);
+  }
+}

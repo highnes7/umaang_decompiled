@@ -1,0 +1,102 @@
+package f.g.c.g;
+
+import f.g.c.a.a;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.List;
+
+@a
+public final class M
+{
+  public M() {}
+  
+  public static y<InputStream> a(URL paramURL)
+  {
+    if (paramURL != null) {
+      return new L(paramURL);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static y<InputStreamReader> a(URL paramURL, Charset paramCharset)
+  {
+    if (paramURL != null)
+    {
+      paramURL = new L(paramURL);
+      if (paramCharset != null) {
+        return new k(paramURL, paramCharset);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> T a(URL paramURL, Charset paramCharset, B<T> paramB)
+    throws IOException
+  {
+    return n.a(a(paramURL, paramCharset), paramB);
+  }
+  
+  public static URL a(Class<?> paramClass, String paramString)
+  {
+    URL localURL = paramClass.getResource(paramString);
+    boolean bool;
+    if (localURL != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "resource %s relative to %s not found.", new Object[] { paramString, paramClass.getName() });
+    return localURL;
+  }
+  
+  public static URL a(String paramString)
+  {
+    URL localURL = M.class.getClassLoader().getResource(paramString);
+    boolean bool;
+    if (localURL != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "resource %s not found.", new Object[] { paramString });
+    return localURL;
+  }
+  
+  public static void a(URL paramURL, OutputStream paramOutputStream)
+    throws IOException
+  {
+    if (paramURL != null)
+    {
+      i.a(new L(paramURL), paramOutputStream);
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static List<String> b(URL paramURL, Charset paramCharset)
+    throws IOException
+  {
+    return n.b(a(paramURL, paramCharset));
+  }
+  
+  public static byte[] b(URL paramURL)
+    throws IOException
+  {
+    if (paramURL != null) {
+      return i.b(new L(paramURL));
+    }
+    throw new NullPointerException();
+  }
+  
+  public static String c(URL paramURL, Charset paramCharset)
+    throws IOException
+  {
+    return n.c(a(paramURL, paramCharset));
+  }
+}

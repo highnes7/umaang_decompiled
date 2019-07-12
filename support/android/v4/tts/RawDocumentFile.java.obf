@@ -1,0 +1,187 @@
+package b.b.x.l;
+
+import android.net.Uri;
+import android.webkit.MimeTypeMap;
+import b.b.a.G;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class s
+  extends a
+{
+  public File c;
+  
+  public s(@G a paramA, File paramFile)
+  {
+    super(paramA);
+    c = paramFile;
+  }
+  
+  public static boolean b(File paramFile)
+  {
+    paramFile = paramFile.listFiles();
+    boolean bool1 = true;
+    if (paramFile != null)
+    {
+      int j = paramFile.length;
+      int i = 0;
+      bool1 = true;
+      while (i < j)
+      {
+        File localFile = paramFile[i];
+        boolean bool2 = bool1;
+        if (localFile.isDirectory()) {
+          bool2 = bool1 & b(localFile);
+        }
+        bool1 = bool2;
+        if (!localFile.delete())
+        {
+          f.a.a.a.a.b("Failed to delete ", localFile);
+          bool1 = false;
+        }
+        i += 1;
+      }
+    }
+    return bool1;
+  }
+  
+  public static String d(String paramString)
+  {
+    int i = paramString.lastIndexOf('.');
+    if (i >= 0)
+    {
+      paramString = paramString.substring(i + 1).toLowerCase();
+      paramString = MimeTypeMap.getSingleton().getMimeTypeFromExtension(paramString);
+      if (paramString != null) {
+        return paramString;
+      }
+    }
+    return "application/octet-stream";
+  }
+  
+  @G
+  public a a(String paramString)
+  {
+    paramString = new File(c, paramString);
+    if ((!paramString.isDirectory()) && (!paramString.mkdir())) {
+      return null;
+    }
+    return new s(this, paramString);
+  }
+  
+  @G
+  public a a(String paramString1, String paramString2)
+  {
+    String str = MimeTypeMap.getSingleton().getExtensionFromMimeType(paramString1);
+    paramString1 = paramString2;
+    if (str != null) {
+      paramString1 = f.a.a.a.a.a(paramString2, ".", str);
+    }
+    paramString1 = new File(c, paramString1);
+    try
+    {
+      paramString1.createNewFile();
+      paramString1 = new s(this, paramString1);
+      return paramString1;
+    }
+    catch (IOException paramString1)
+    {
+      f.a.a.a.a.b("Failed to createFile: ", paramString1);
+    }
+    return null;
+  }
+  
+  public boolean a()
+  {
+    return c.canRead();
+  }
+  
+  public boolean b()
+  {
+    return c.canWrite();
+  }
+  
+  public boolean c()
+  {
+    b(c);
+    return c.delete();
+  }
+  
+  public boolean c(String paramString)
+  {
+    paramString = new File(c.getParentFile(), paramString);
+    if (c.renameTo(paramString))
+    {
+      c = paramString;
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean d()
+  {
+    return c.exists();
+  }
+  
+  public String e()
+  {
+    return c.getName();
+  }
+  
+  @G
+  public String g()
+  {
+    if (c.isDirectory()) {
+      return null;
+    }
+    return d(c.getName());
+  }
+  
+  public Uri h()
+  {
+    return Uri.fromFile(c);
+  }
+  
+  public boolean i()
+  {
+    return c.isDirectory();
+  }
+  
+  public boolean j()
+  {
+    return c.isFile();
+  }
+  
+  public boolean k()
+  {
+    return false;
+  }
+  
+  public long l()
+  {
+    return c.lastModified();
+  }
+  
+  public long m()
+  {
+    return c.length();
+  }
+  
+  public a[] n()
+  {
+    ArrayList localArrayList = new ArrayList();
+    File[] arrayOfFile = c.listFiles();
+    if (arrayOfFile != null)
+    {
+      int j = arrayOfFile.length;
+      int i = 0;
+      while (i < j)
+      {
+        localArrayList.add(new s(this, arrayOfFile[i]));
+        i += 1;
+      }
+    }
+    return (a[])localArrayList.toArray(new a[localArrayList.size()]);
+  }
+}

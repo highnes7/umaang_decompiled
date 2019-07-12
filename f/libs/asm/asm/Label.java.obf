@@ -1,0 +1,156 @@
+package f.c.a.a;
+
+import android.app.Activity;
+import f.a.a.a.a;
+import java.util.Collections;
+import java.util.Map;
+
+public final class X
+{
+  public static final String a = "activity";
+  public static final String b = "sessionId";
+  public static final String c = "installedAt";
+  public static final String d = "exceptionName";
+  public final Y e;
+  public final long f;
+  public final b g;
+  public final Map<String, String> h;
+  public final String i;
+  public final Map<String, Object> j;
+  public final String k;
+  public final Map<String, Object> l;
+  public String m;
+  
+  public X(Y paramY, long paramLong, b paramB, Map<String, String> paramMap, String paramString1, Map<String, Object> paramMap1, String paramString2, Map<String, Object> paramMap2)
+  {
+    e = paramY;
+    f = paramLong;
+    g = paramB;
+    h = paramMap;
+    i = paramString1;
+    j = paramMap1;
+    k = paramString2;
+    l = paramMap2;
+  }
+  
+  public static a a(long paramLong)
+  {
+    return new a(b.f).b(Collections.singletonMap("installedAt", String.valueOf(paramLong)));
+  }
+  
+  public static a a(I<?> paramI)
+  {
+    return new a(b.h).b(paramI.c()).c(paramI.b()).a(paramI.a());
+  }
+  
+  public static a a(b paramB, Activity paramActivity)
+  {
+    paramActivity = Collections.singletonMap("activity", paramActivity.getClass().getName());
+    return new a(paramB).b(paramActivity);
+  }
+  
+  public static a a(v paramV)
+  {
+    return new a(b.g).a(paramV.b()).a(paramV.a());
+  }
+  
+  public static a a(String paramString)
+  {
+    paramString = Collections.singletonMap("sessionId", paramString);
+    return new a(b.e).b(paramString);
+  }
+  
+  public static a a(String paramString1, String paramString2)
+  {
+    return a(paramString1).a(Collections.singletonMap("exceptionName", paramString2));
+  }
+  
+  public String toString()
+  {
+    if (m == null)
+    {
+      StringBuilder localStringBuilder = a.b("[");
+      localStringBuilder.append(X.class.getSimpleName());
+      localStringBuilder.append(": ");
+      localStringBuilder.append("timestamp=");
+      localStringBuilder.append(f);
+      localStringBuilder.append(", type=");
+      localStringBuilder.append(g);
+      localStringBuilder.append(", details=");
+      localStringBuilder.append(h);
+      localStringBuilder.append(", customType=");
+      localStringBuilder.append(i);
+      localStringBuilder.append(", customAttributes=");
+      localStringBuilder.append(j);
+      localStringBuilder.append(", predefinedType=");
+      localStringBuilder.append(k);
+      localStringBuilder.append(", predefinedAttributes=");
+      localStringBuilder.append(l);
+      localStringBuilder.append(", metadata=[");
+      m = a.a(localStringBuilder, e, "]]");
+    }
+    return m;
+  }
+  
+  public static class a
+  {
+    public final X.b a;
+    public final long b;
+    public Map<String, String> c;
+    public String d;
+    public Map<String, Object> e;
+    public String f;
+    public Map<String, Object> g;
+    
+    public a(X.b paramB)
+    {
+      a = paramB;
+      b = System.currentTimeMillis();
+      c = null;
+      d = null;
+      e = null;
+      f = null;
+      g = null;
+    }
+    
+    public a a(String paramString)
+    {
+      d = paramString;
+      return this;
+    }
+    
+    public a a(Map<String, Object> paramMap)
+    {
+      e = paramMap;
+      return this;
+    }
+    
+    public X a(Y paramY)
+    {
+      return new X(paramY, b, a, c, d, e, f, g);
+    }
+    
+    public a b(String paramString)
+    {
+      f = paramString;
+      return this;
+    }
+    
+    public a b(Map<String, String> paramMap)
+    {
+      c = paramMap;
+      return this;
+    }
+    
+    public a c(Map<String, Object> paramMap)
+    {
+      g = paramMap;
+      return this;
+    }
+  }
+  
+  public static enum b
+  {
+    public b() {}
+  }
+}

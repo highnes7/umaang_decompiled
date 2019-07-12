@@ -1,0 +1,1133 @@
+package l.b;
+
+import java.util.NoSuchElementException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import l.b.g.e.b.da;
+import l.b.g.e.b.nb;
+import l.b.g.e.d.Za;
+import l.b.g.e.f.B;
+import l.b.g.e.f.C;
+import l.b.g.e.f.E.a;
+import l.b.g.e.f.E.b;
+import l.b.g.e.f.E.e;
+import l.b.g.e.f.F;
+import l.b.g.e.f.I;
+import l.b.g.e.f.O;
+import l.b.g.e.f.P;
+import l.b.g.e.f.Q;
+import l.b.g.e.f.S;
+import l.b.g.e.f.T;
+import l.b.g.e.f.U;
+import l.b.g.e.f.V;
+import l.b.g.e.f.W;
+import l.b.g.e.f.p;
+import l.b.g.e.f.t;
+import l.b.g.e.f.w;
+import l.b.i.u.a;
+import org.reactivestreams.Publisher;
+
+public abstract class H<T>
+  implements M<T>
+{
+  public H() {}
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> a(Iterable<? extends M<? extends T>> paramIterable)
+  {
+    l.b.g.b.b.a(paramIterable, "sources is null");
+    return l.b.k.a.a(new l.b.g.e.f.a(null, paramIterable));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T, R> H<R> a(Iterable<? extends M<? extends T>> paramIterable, l.b.f.o<? super Object[], ? extends R> paramO)
+  {
+    l.b.g.b.b.a(paramO, "zipper is null");
+    l.b.g.b.b.a(paramIterable, "sources is null");
+    return l.b.k.a.a(new W(paramIterable, paramO));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> a(Throwable paramThrowable)
+  {
+    l.b.g.b.b.a(paramThrowable, "error is null");
+    return b(l.b.g.b.a.b(paramThrowable));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> a(Callable<? extends M<? extends T>> paramCallable)
+  {
+    l.b.g.b.b.a(paramCallable, "singleSupplier is null");
+    return l.b.k.a.a(new l.b.g.e.f.e(paramCallable));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T, U> H<T> a(Callable<U> paramCallable, l.b.f.o<? super U, ? extends M<? extends T>> paramO, l.b.f.g<? super U> paramG)
+  {
+    return a(paramCallable, paramO, paramG, true);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T, U> H<T> a(Callable<U> paramCallable, l.b.f.o<? super U, ? extends M<? extends T>> paramO, l.b.f.g<? super U> paramG, boolean paramBoolean)
+  {
+    l.b.g.b.b.a(paramCallable, "resourceSupplier is null");
+    l.b.g.b.b.a(paramO, "singleFunction is null");
+    l.b.g.b.b.a(paramG, "disposer is null");
+    return l.b.k.a.a(new U(paramCallable, paramO, paramG, paramBoolean));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> a(Future<? extends T> paramFuture)
+  {
+    return a(k.a(paramFuture));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> a(Future<? extends T> paramFuture, long paramLong, TimeUnit paramTimeUnit)
+  {
+    return a(k.a(paramFuture, paramLong, paramTimeUnit));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public static <T> H<T> a(Future<? extends T> paramFuture, long paramLong, TimeUnit paramTimeUnit, G paramG)
+  {
+    return a(k.a(paramFuture, paramLong, paramTimeUnit, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public static <T> H<T> a(Future<? extends T> paramFuture, G paramG)
+  {
+    return a(k.a(paramFuture, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> a(K<T> paramK)
+  {
+    l.b.g.b.b.a(paramK, "source is null");
+    return l.b.k.a.a(new l.b.g.e.f.d(paramK));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> H<R> a(M<? extends T1> paramM, M<? extends T2> paramM1, M<? extends T3> paramM2, M<? extends T4> paramM3, M<? extends T5> paramM4, M<? extends T6> paramM5, M<? extends T7> paramM6, M<? extends T8> paramM7, M<? extends T9> paramM8, l.b.f.n<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> paramN)
+  {
+    l.b.g.b.b.a(paramM, "source1 is null");
+    l.b.g.b.b.a(paramM1, "source2 is null");
+    l.b.g.b.b.a(paramM2, "source3 is null");
+    l.b.g.b.b.a(paramM3, "source4 is null");
+    l.b.g.b.b.a(paramM4, "source5 is null");
+    l.b.g.b.b.a(paramM5, "source6 is null");
+    l.b.g.b.b.a(paramM6, "source7 is null");
+    l.b.g.b.b.a(paramM7, "source8 is null");
+    l.b.g.b.b.a(paramM8, "source9 is null");
+    return a(l.b.g.b.a.a(paramN), new M[] { paramM, paramM1, paramM2, paramM3, paramM4, paramM5, paramM6, paramM7, paramM8 });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T1, T2, T3, T4, T5, T6, T7, T8, R> H<R> a(M<? extends T1> paramM, M<? extends T2> paramM1, M<? extends T3> paramM2, M<? extends T4> paramM3, M<? extends T5> paramM4, M<? extends T6> paramM5, M<? extends T7> paramM6, M<? extends T8> paramM7, l.b.f.m<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> paramM8)
+  {
+    l.b.g.b.b.a(paramM, "source1 is null");
+    l.b.g.b.b.a(paramM1, "source2 is null");
+    l.b.g.b.b.a(paramM2, "source3 is null");
+    l.b.g.b.b.a(paramM3, "source4 is null");
+    l.b.g.b.b.a(paramM4, "source5 is null");
+    l.b.g.b.b.a(paramM5, "source6 is null");
+    l.b.g.b.b.a(paramM6, "source7 is null");
+    l.b.g.b.b.a(paramM7, "source8 is null");
+    return a(l.b.g.b.a.a(paramM8), new M[] { paramM, paramM1, paramM2, paramM3, paramM4, paramM5, paramM6, paramM7 });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T1, T2, T3, T4, T5, T6, T7, R> H<R> a(M<? extends T1> paramM, M<? extends T2> paramM1, M<? extends T3> paramM2, M<? extends T4> paramM3, M<? extends T5> paramM4, M<? extends T6> paramM5, M<? extends T7> paramM6, l.b.f.l<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> paramL)
+  {
+    l.b.g.b.b.a(paramM, "source1 is null");
+    l.b.g.b.b.a(paramM1, "source2 is null");
+    l.b.g.b.b.a(paramM2, "source3 is null");
+    l.b.g.b.b.a(paramM3, "source4 is null");
+    l.b.g.b.b.a(paramM4, "source5 is null");
+    l.b.g.b.b.a(paramM5, "source6 is null");
+    l.b.g.b.b.a(paramM6, "source7 is null");
+    return a(l.b.g.b.a.a(paramL), new M[] { paramM, paramM1, paramM2, paramM3, paramM4, paramM5, paramM6 });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T1, T2, T3, T4, T5, T6, R> H<R> a(M<? extends T1> paramM, M<? extends T2> paramM1, M<? extends T3> paramM2, M<? extends T4> paramM3, M<? extends T5> paramM4, M<? extends T6> paramM5, l.b.f.k<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> paramK)
+  {
+    l.b.g.b.b.a(paramM, "source1 is null");
+    l.b.g.b.b.a(paramM1, "source2 is null");
+    l.b.g.b.b.a(paramM2, "source3 is null");
+    l.b.g.b.b.a(paramM3, "source4 is null");
+    l.b.g.b.b.a(paramM4, "source5 is null");
+    l.b.g.b.b.a(paramM5, "source6 is null");
+    return a(l.b.g.b.a.a(paramK), new M[] { paramM, paramM1, paramM2, paramM3, paramM4, paramM5 });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T1, T2, T3, T4, T5, R> H<R> a(M<? extends T1> paramM, M<? extends T2> paramM1, M<? extends T3> paramM2, M<? extends T4> paramM3, M<? extends T5> paramM4, l.b.f.j<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> paramJ)
+  {
+    l.b.g.b.b.a(paramM, "source1 is null");
+    l.b.g.b.b.a(paramM1, "source2 is null");
+    l.b.g.b.b.a(paramM2, "source3 is null");
+    l.b.g.b.b.a(paramM3, "source4 is null");
+    l.b.g.b.b.a(paramM4, "source5 is null");
+    return a(l.b.g.b.a.a(paramJ), new M[] { paramM, paramM1, paramM2, paramM3, paramM4 });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T1, T2, T3, T4, R> H<R> a(M<? extends T1> paramM, M<? extends T2> paramM1, M<? extends T3> paramM2, M<? extends T4> paramM3, l.b.f.i<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> paramI)
+  {
+    l.b.g.b.b.a(paramM, "source1 is null");
+    l.b.g.b.b.a(paramM1, "source2 is null");
+    l.b.g.b.b.a(paramM2, "source3 is null");
+    l.b.g.b.b.a(paramM3, "source4 is null");
+    return a(l.b.g.b.a.a(paramI), new M[] { paramM, paramM1, paramM2, paramM3 });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T1, T2, T3, R> H<R> a(M<? extends T1> paramM, M<? extends T2> paramM1, M<? extends T3> paramM2, l.b.f.h<? super T1, ? super T2, ? super T3, ? extends R> paramH)
+  {
+    l.b.g.b.b.a(paramM, "source1 is null");
+    l.b.g.b.b.a(paramM1, "source2 is null");
+    l.b.g.b.b.a(paramM2, "source3 is null");
+    return a(l.b.g.b.a.a(paramH), new M[] { paramM, paramM1, paramM2 });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T1, T2, R> H<R> a(M<? extends T1> paramM, M<? extends T2> paramM1, l.b.f.c<? super T1, ? super T2, ? extends R> paramC)
+  {
+    l.b.g.b.b.a(paramM, "source1 is null");
+    l.b.g.b.b.a(paramM1, "source2 is null");
+    return a(l.b.g.b.a.a(paramC), new M[] { paramM, paramM1 });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T, R> H<R> a(l.b.f.o<? super Object[], ? extends R> paramO, M<? extends T>... paramVarArgs)
+  {
+    l.b.g.b.b.a(paramO, "zipper is null");
+    l.b.g.b.b.a(paramVarArgs, "sources is null");
+    if (paramVarArgs.length == 0) {
+      return a(new NoSuchElementException());
+    }
+    return l.b.k.a.a(new V(paramVarArgs, paramO));
+  }
+  
+  public static <T> H<T> a(k<T> paramK)
+  {
+    return l.b.k.a.a(new nb(paramK, null));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> a(M<? extends T>... paramVarArgs)
+  {
+    if (paramVarArgs.length == 0) {
+      return b(E.a.a);
+    }
+    if (paramVarArgs.length == 1) {
+      return h(paramVarArgs[0]);
+    }
+    return l.b.k.a.a(new l.b.g.e.f.a(paramVarArgs, null));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> a(M<? extends T> paramM1, M<? extends T> paramM2)
+  {
+    l.b.g.b.b.a(paramM1, "source1 is null");
+    l.b.g.b.b.a(paramM2, "source2 is null");
+    return a(k.a(new M[] { paramM1, paramM2 }));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> a(M<? extends T> paramM1, M<? extends T> paramM2, M<? extends T> paramM3)
+  {
+    l.b.g.b.b.a(paramM1, "source1 is null");
+    l.b.g.b.b.a(paramM2, "source2 is null");
+    l.b.g.b.b.a(paramM3, "source3 is null");
+    return a(k.a(new M[] { paramM1, paramM2, paramM3 }));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> a(M<? extends T> paramM1, M<? extends T> paramM2, M<? extends T> paramM3, M<? extends T> paramM4)
+  {
+    l.b.g.b.b.a(paramM1, "source1 is null");
+    l.b.g.b.b.a(paramM2, "source2 is null");
+    l.b.g.b.b.a(paramM3, "source3 is null");
+    l.b.g.b.b.a(paramM4, "source4 is null");
+    return a(k.a(new M[] { paramM1, paramM2, paramM3, paramM4 }));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> a(Publisher<? extends M<? extends T>> paramPublisher)
+  {
+    return a(paramPublisher, 2);
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> a(Publisher<? extends M<? extends T>> paramPublisher, int paramInt)
+  {
+    l.b.g.b.b.a(paramPublisher, "sources is null");
+    l.b.g.b.b.a(paramInt, "prefetch");
+    return l.b.k.a.a(new l.b.g.e.b.A(paramPublisher, E.b.a, paramInt, l.b.g.j.j.a));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> z<T> a(D<? extends M<? extends T>> paramD)
+  {
+    l.b.g.b.b.a(paramD, "sources is null");
+    return l.b.k.a.a(new l.b.g.e.d.v(paramD, E.e.a, 2, l.b.g.j.j.a));
+  }
+  
+  private H<T> b(long paramLong, TimeUnit paramTimeUnit, G paramG, M<? extends T> paramM)
+  {
+    l.b.g.b.b.a(paramTimeUnit, "unit is null");
+    l.b.g.b.b.a(paramG, "scheduler is null");
+    return l.b.k.a.a(new O(this, paramLong, paramTimeUnit, paramG, paramM));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> b(T paramT)
+  {
+    l.b.g.b.b.a(paramT, "value is null");
+    return l.b.k.a.a(new F(paramT));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> b(Callable<? extends Throwable> paramCallable)
+  {
+    l.b.g.b.b.a(paramCallable, "errorSupplier is null");
+    return l.b.k.a.a(new l.b.g.e.f.u(paramCallable));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<Boolean> b(M<? extends T> paramM1, M<? extends T> paramM2)
+  {
+    l.b.g.b.b.a(paramM1, "first is null");
+    l.b.g.b.b.a(paramM2, "second is null");
+    return l.b.k.a.a(new t(paramM1, paramM2));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> b(Iterable<? extends M<? extends T>> paramIterable)
+  {
+    return a(k.e(paramIterable));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> b(M<? extends T> paramM1, M<? extends T> paramM2, M<? extends T> paramM3)
+  {
+    l.b.g.b.b.a(paramM1, "source1 is null");
+    l.b.g.b.b.a(paramM2, "source2 is null");
+    l.b.g.b.b.a(paramM3, "source3 is null");
+    return d(k.a(new M[] { paramM1, paramM2, paramM3 }));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> b(M<? extends T> paramM1, M<? extends T> paramM2, M<? extends T> paramM3, M<? extends T> paramM4)
+  {
+    l.b.g.b.b.a(paramM1, "source1 is null");
+    l.b.g.b.b.a(paramM2, "source2 is null");
+    l.b.g.b.b.a(paramM3, "source3 is null");
+    l.b.g.b.b.a(paramM4, "source4 is null");
+    return d(k.a(new M[] { paramM1, paramM2, paramM3, paramM4 }));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> b(M<? extends T>... paramVarArgs)
+  {
+    return l.b.k.a.a(new l.b.g.e.b.x(k.a(paramVarArgs), E.b.a, 2, l.b.g.j.j.b));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> c(Callable<? extends T> paramCallable)
+  {
+    l.b.g.b.b.a(paramCallable, "callable is null");
+    return l.b.k.a.a(new l.b.g.e.f.A(paramCallable));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> c(D<? extends T> paramD)
+  {
+    l.b.g.b.b.a(paramD, "observableSource is null");
+    return l.b.k.a.a(new Za(paramD, null));
+  }
+  
+  @l.b.b.b(l.b.b.a.d)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> c(Publisher<? extends T> paramPublisher)
+  {
+    l.b.g.b.b.a(paramPublisher, "publisher is null");
+    return l.b.k.a.a(new B(paramPublisher));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> c(Iterable<? extends M<? extends T>> paramIterable)
+  {
+    return d(k.e(paramIterable));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> c(M<? extends T> paramM1, M<? extends T> paramM2)
+  {
+    l.b.g.b.b.a(paramM1, "source1 is null");
+    l.b.g.b.b.a(paramM2, "source2 is null");
+    return d(k.a(new M[] { paramM1, paramM2 }));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("io.reactivex:computation")
+  public static H<Long> d(long paramLong, TimeUnit paramTimeUnit)
+  {
+    return d(paramLong, paramTimeUnit, l.b.m.a.a());
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public static H<Long> d(long paramLong, TimeUnit paramTimeUnit, G paramG)
+  {
+    l.b.g.b.b.a(paramTimeUnit, "unit is null");
+    l.b.g.b.b.a(paramG, "scheduler is null");
+    return l.b.k.a.a(new P(paramLong, paramTimeUnit, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> d(M<? extends M<? extends T>> paramM)
+  {
+    l.b.g.b.b.a(paramM, "source is null");
+    return l.b.k.a.a(new l.b.g.e.f.v(paramM, l.b.g.b.a.a));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> k<T> d(Publisher<? extends M<? extends T>> paramPublisher)
+  {
+    l.b.g.b.b.a(paramPublisher, "sources is null");
+    return l.b.k.a.a(new da(paramPublisher, E.b.a, false, Integer.MAX_VALUE, k.a));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> g(M<T> paramM)
+  {
+    l.b.g.b.b.a(paramM, "onSubscribe is null");
+    if (!(paramM instanceof H)) {
+      return l.b.k.a.a(new C(paramM));
+    }
+    throw new IllegalArgumentException("unsafeCreate(Single) should be upgraded");
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> h()
+  {
+    return l.b.k.a.a(I.a);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public static <T> H<T> h(M<T> paramM)
+  {
+    l.b.g.b.b.a(paramM, "source is null");
+    if ((paramM instanceof H)) {
+      return l.b.k.a.a((H)paramM);
+    }
+    return l.b.k.a.a(new C(paramM));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("io.reactivex:computation")
+  public final H<T> a(long paramLong, TimeUnit paramTimeUnit)
+  {
+    return a(paramLong, paramTimeUnit, l.b.m.a.a(), false);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public final H<T> a(long paramLong, TimeUnit paramTimeUnit, G paramG)
+  {
+    return a(paramLong, paramTimeUnit, paramG, false);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public final H<T> a(long paramLong, TimeUnit paramTimeUnit, G paramG, M<? extends T> paramM)
+  {
+    l.b.g.b.b.a(paramM, "other is null");
+    return b(paramLong, paramTimeUnit, paramG, paramM);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  @l.b.b.e
+  public final H<T> a(long paramLong, TimeUnit paramTimeUnit, G paramG, boolean paramBoolean)
+  {
+    l.b.g.b.b.a(paramTimeUnit, "unit is null");
+    l.b.g.b.b.a(paramG, "scheduler is null");
+    return l.b.k.a.a(new l.b.g.e.f.f(this, paramLong, paramTimeUnit, paramG, paramBoolean));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("io.reactivex:computation")
+  public final H<T> a(long paramLong, TimeUnit paramTimeUnit, M<? extends T> paramM)
+  {
+    l.b.g.b.b.a(paramM, "other is null");
+    return b(paramLong, paramTimeUnit, l.b.m.a.a(), paramM);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("io.reactivex:computation")
+  @l.b.b.e
+  public final H<T> a(long paramLong, TimeUnit paramTimeUnit, boolean paramBoolean)
+  {
+    return a(paramLong, paramTimeUnit, l.b.m.a.a(), paramBoolean);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <U> H<U> a(Class<? extends U> paramClass)
+  {
+    l.b.g.b.b.a(paramClass, "clazz is null");
+    return h(l.b.g.b.a.a(paramClass));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<Boolean> a(Object paramObject)
+  {
+    return a(paramObject, l.b.g.b.b.a);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<Boolean> a(Object paramObject, l.b.f.d<Object, Object> paramD)
+  {
+    l.b.g.b.b.a(paramObject, "value is null");
+    l.b.g.b.b.a(paramD, "comparer is null");
+    return l.b.k.a.a(new l.b.g.e.f.c(this, paramObject, paramD));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public final H<T> a(G paramG)
+  {
+    l.b.g.b.b.a(paramG, "scheduler is null");
+    return l.b.k.a.a(new l.b.g.e.f.J(this, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> a(H<? extends T> paramH)
+  {
+    l.b.g.b.b.a(paramH, "resumeSingleInCaseOfError is null");
+    return i(l.b.g.b.a.c(paramH));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <R> H<R> a(L<? extends R, ? super T> paramL)
+  {
+    l.b.g.b.b.a(paramL, "onLift is null");
+    return l.b.k.a.a(new l.b.g.e.f.G(this, paramL));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> a(M<? extends T> paramM)
+  {
+    l.b.g.b.b.a(paramM, "other is null");
+    return a(new M[] { this, paramM });
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <U, R> H<R> a(M<U> paramM, l.b.f.c<? super T, ? super U, ? extends R> paramC)
+  {
+    return a(this, paramM, paramC);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <R> H<R> a(N<? super T, ? extends R> paramN)
+  {
+    l.b.g.b.b.a(paramN, "transformer is null");
+    return h(((N)paramN).a(this));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> a(l.b.f.a paramA)
+  {
+    l.b.g.b.b.a(paramA, "onAfterTerminate is null");
+    return l.b.k.a.a(new l.b.g.e.f.m(this, paramA));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> a(l.b.f.b<? super T, ? super Throwable> paramB)
+  {
+    l.b.g.b.b.a(paramB, "onEvent is null");
+    return l.b.k.a.a(new l.b.g.e.f.q(this, paramB));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> a(l.b.f.d<? super Integer, ? super Throwable> paramD)
+  {
+    return a(o().b(paramD));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> a(l.b.f.g<? super T> paramG)
+  {
+    l.b.g.b.b.a(paramG, "doAfterSuccess is null");
+    return l.b.k.a.a(new l.b.g.e.f.l(this, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <R> H<R> a(l.b.f.o<? super T, ? extends M<? extends R>> paramO)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    return l.b.k.a.a(new l.b.g.e.f.v(this, paramO));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> a(h paramH)
+  {
+    l.b.g.b.b.a(paramH, "other is null");
+    return l.b.k.a.a(new l.b.g.e.f.g(this, paramH));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final l.b.c.c a(l.b.f.g<? super T> paramG, l.b.f.g<? super Throwable> paramG1)
+  {
+    l.b.g.b.b.a(paramG, "onSuccess is null");
+    l.b.g.b.b.a(paramG1, "onError is null");
+    paramG = new l.b.g.d.k(paramG, paramG1);
+    a(paramG);
+    return paramG;
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final l.b.i.u<T> a(boolean paramBoolean)
+  {
+    l.b.i.u localU = new l.b.i.u(u.a.a);
+    if (paramBoolean) {
+      localU.cancel();
+    }
+    a(localU);
+    return localU;
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final k<T> a(long paramLong)
+  {
+    return o().c(paramLong);
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final k<T> a(l.b.f.e paramE)
+  {
+    return o().a(paramE);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final q<T> a(l.b.f.r<? super T> paramR)
+  {
+    l.b.g.b.b.a(paramR, "predicate is null");
+    return l.b.k.a.a(new l.b.g.e.c.y(this, paramR));
+  }
+  
+  @l.b.b.h("none")
+  public final void a(J<? super T> paramJ)
+  {
+    l.b.g.b.b.a(paramJ, "subscriber is null");
+    paramJ = l.b.k.a.a(this, paramJ);
+    l.b.g.b.b.a(paramJ, "subscriber returned by the RxJavaPlugins hook is null");
+    try
+    {
+      b(paramJ);
+      return;
+    }
+    catch (Throwable paramJ)
+    {
+      l.b.d.b.b(paramJ);
+      NullPointerException localNullPointerException = new NullPointerException("subscribeActual failed");
+      localNullPointerException.initCause(paramJ);
+      throw localNullPointerException;
+    }
+    catch (NullPointerException paramJ)
+    {
+      throw paramJ;
+    }
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> b(long paramLong)
+  {
+    return a(o().d(paramLong));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("io.reactivex:computation")
+  public final H<T> b(long paramLong, TimeUnit paramTimeUnit)
+  {
+    return b(paramLong, paramTimeUnit, l.b.m.a.a());
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public final H<T> b(long paramLong, TimeUnit paramTimeUnit, G paramG)
+  {
+    return b(z.p(paramLong, paramTimeUnit, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <U> H<T> b(D<U> paramD)
+  {
+    l.b.g.b.b.a(paramD, "other is null");
+    return l.b.k.a.a(new l.b.g.e.f.h(this, paramD));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public final H<T> b(G paramG)
+  {
+    l.b.g.b.b.a(paramG, "scheduler is null");
+    return l.b.k.a.a(new l.b.g.e.f.M(this, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> b(l.b.f.a paramA)
+  {
+    l.b.g.b.b.a(paramA, "onFinally is null");
+    return l.b.k.a.a(new l.b.g.e.f.n(this, paramA));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> b(l.b.f.g<? super Throwable> paramG)
+  {
+    l.b.g.b.b.a(paramG, "onError is null");
+    return l.b.k.a.a(new p(this, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> b(l.b.f.r<? super Throwable> paramR)
+  {
+    return a(o().e(paramR));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> b(h paramH)
+  {
+    l.b.g.b.b.a(paramH, "other is null");
+    return e(new l.b.g.e.a.L(paramH));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <U> H<T> b(Publisher<U> paramPublisher)
+  {
+    l.b.g.b.b.a(paramPublisher, "other is null");
+    return l.b.k.a.a(new l.b.g.e.f.i(this, paramPublisher));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final l.b.c.c b(l.b.f.b<? super T, ? super Throwable> paramB)
+  {
+    l.b.g.b.b.a(paramB, "onCallback is null");
+    paramB = new l.b.g.d.d(paramB);
+    a(paramB);
+    return paramB;
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final c b(l.b.f.o<? super T, ? extends h> paramO)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    return l.b.k.a.a(new w(this, paramO));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final k<T> b(M<? extends T> paramM)
+  {
+    return a(this, paramM);
+  }
+  
+  public abstract void b(@l.b.b.f J<? super T> paramJ);
+  
+  @l.b.b.d
+  @l.b.b.h("io.reactivex:computation")
+  public final H<T> c(long paramLong, TimeUnit paramTimeUnit)
+  {
+    return b(paramLong, paramTimeUnit, l.b.m.a.a(), null);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  public final H<T> c(long paramLong, TimeUnit paramTimeUnit, G paramG)
+  {
+    return b(paramLong, paramTimeUnit, paramG, null);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> c(T paramT)
+  {
+    l.b.g.b.b.a(paramT, "value is null");
+    return l.b.k.a.a(new l.b.g.e.f.K(this, null, paramT));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("custom")
+  @l.b.b.e
+  public final H<T> c(G paramG)
+  {
+    l.b.g.b.b.a(paramG, "scheduler is null");
+    return l.b.k.a.a(new T(this, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <U> H<T> c(M<U> paramM)
+  {
+    l.b.g.b.b.a(paramM, "other is null");
+    return l.b.k.a.a(new l.b.g.e.f.j(this, paramM));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> c(l.b.f.a paramA)
+  {
+    l.b.g.b.b.a(paramA, "onDispose is null");
+    return l.b.k.a.a(new l.b.g.e.f.o(this, paramA));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> c(l.b.f.g<? super l.b.c.c> paramG)
+  {
+    l.b.g.b.b.a(paramG, "onSubscribe is null");
+    return l.b.k.a.a(new l.b.g.e.f.r(this, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <E extends J<? super T>> E c(E paramE)
+  {
+    a(paramE);
+    return paramE;
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <R> q<R> c(l.b.f.o<? super T, ? extends v<? extends R>> paramO)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    return l.b.k.a.a(new l.b.g.e.f.z(this, paramO));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> d(l.b.f.g<? super T> paramG)
+  {
+    l.b.g.b.b.a(paramG, "onSuccess is null");
+    return l.b.k.a.a(new l.b.g.e.f.s(this, paramG));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <R> z<R> d(l.b.f.o<? super T, ? extends D<? extends R>> paramO)
+  {
+    return r().i(paramO);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final T e()
+  {
+    l.b.g.d.h localH = new l.b.g.d.h();
+    a(localH);
+    return localH.a();
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <E> H<T> e(Publisher<E> paramPublisher)
+  {
+    l.b.g.b.b.a(paramPublisher, "other is null");
+    return l.b.k.a.a(new l.b.g.e.f.N(this, paramPublisher));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final l.b.c.c e(l.b.f.g<? super T> paramG)
+  {
+    return a(paramG, l.b.g.b.a.f);
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final k<T> e(M<? extends T> paramM)
+  {
+    return c(this, paramM);
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <R> k<R> e(l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO)
+  {
+    return o().i(paramO);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> f()
+  {
+    return l.b.k.a.a(new l.b.g.e.f.b(this));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <E> H<T> f(M<? extends E> paramM)
+  {
+    l.b.g.b.b.a(paramM, "other is null");
+    return e(new Q(paramM));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <U> k<U> f(l.b.f.o<? super T, ? extends Iterable<? extends U>> paramO)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    return l.b.k.a.a(new l.b.g.e.f.x(this, paramO));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> g()
+  {
+    return l.b.k.a.a(new l.b.g.e.f.D(this));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <U> z<U> g(l.b.f.o<? super T, ? extends Iterable<? extends U>> paramO)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    return l.b.k.a.a(new l.b.g.e.f.y(this, paramO));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <R> H<R> h(l.b.f.o<? super T, ? extends R> paramO)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    return l.b.k.a.a(new l.b.g.e.f.H(this, paramO));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  @l.b.b.e
+  public final H<T> i()
+  {
+    return l.b.k.a.a(new l.b.g.e.f.k(this));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> i(l.b.f.o<? super Throwable, ? extends M<? extends T>> paramO)
+  {
+    l.b.g.b.b.a(paramO, "resumeFunctionInCaseOfError is null");
+    return l.b.k.a.a(new l.b.g.e.f.L(this, paramO));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> j(l.b.f.o<Throwable, ? extends T> paramO)
+  {
+    l.b.g.b.b.a(paramO, "resumeFunction is null");
+    return l.b.k.a.a(new l.b.g.e.f.K(this, paramO, null));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final k<T> j()
+  {
+    return o().F();
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> k()
+  {
+    return a(o().H());
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final k<T> k(l.b.f.o<? super k<Object>, ? extends Publisher<?>> paramO)
+  {
+    return o().s(paramO);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final H<T> l(l.b.f.o<? super k<Throwable>, ? extends Publisher<?>> paramO)
+  {
+    return a(o().u(paramO));
+  }
+  
+  @l.b.b.h("none")
+  public final l.b.c.c l()
+  {
+    return a(l.b.g.b.a.d, l.b.g.b.a.f);
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final <R> R m(l.b.f.o<? super H<T>, R> paramO)
+  {
+    try
+    {
+      l.b.g.b.b.a(paramO, "convert is null");
+      paramO = ((l.b.f.o)paramO).apply(this);
+      return paramO;
+    }
+    catch (Throwable paramO)
+    {
+      l.b.d.b.b(paramO);
+      throw l.b.g.j.k.c(paramO);
+    }
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final l.b.i.u<T> m()
+  {
+    l.b.i.u localU = new l.b.i.u(u.a.a);
+    a(localU);
+    return localU;
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final c n()
+  {
+    return l.b.k.a.a(new l.b.g.e.a.u(this));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final k<T> o()
+  {
+    if ((this instanceof l.b.g.c.b)) {
+      return ((l.b.g.c.b)this).c();
+    }
+    return l.b.k.a.a(new Q(this));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final Future<T> p()
+  {
+    return (Future)c(new l.b.g.d.s());
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final q<T> q()
+  {
+    if ((this instanceof l.b.g.c.c)) {
+      return ((l.b.g.c.c)this).d();
+    }
+    return l.b.k.a.a(new l.b.g.e.c.M(this));
+  }
+  
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final z<T> r()
+  {
+    if ((this instanceof l.b.g.c.d)) {
+      return ((l.b.g.c.d)this).a();
+    }
+    return l.b.k.a.a(new S(this));
+  }
+}

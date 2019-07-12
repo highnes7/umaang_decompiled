@@ -1,0 +1,64 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.os.Handler;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+
+public abstract class zzcbc
+{
+  public static volatile Handler zzdqs;
+  public volatile long zzdqt;
+  public final zzccw zziki;
+  public boolean zzine;
+  public final Runnable zzv;
+  
+  public zzcbc(zzccw paramZzccw)
+  {
+    zzbp.zzu(paramZzccw);
+    zziki = paramZzccw;
+    zzine = true;
+    zzv = new zzcbd(this);
+  }
+  
+  private final Handler getHandler()
+  {
+    if (zzdqs != null) {
+      return zzdqs;
+    }
+    try
+    {
+      if (zzdqs == null) {
+        zzdqs = new Handler(zziki.getContext().getMainLooper());
+      }
+      Handler localHandler = zzdqs;
+      return localHandler;
+    }
+    finally {}
+  }
+  
+  public final void cancel()
+  {
+    zzdqt = 0L;
+    getHandler().removeCallbacks(zzv);
+  }
+  
+  public abstract void run();
+  
+  public final boolean zzdp()
+  {
+    return zzdqt != 0L;
+  }
+  
+  public final void zzs(long paramLong)
+  {
+    cancel();
+    if (paramLong >= 0L)
+    {
+      zzdqt = zziki.zzvx().currentTimeMillis();
+      if (!getHandler().postDelayed(zzv, paramLong)) {
+        zziki.zzaul().zzayd().zzj("Failed to schedule delayed post. time", Long.valueOf(paramLong));
+      }
+    }
+  }
+}

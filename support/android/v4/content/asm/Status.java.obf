@@ -1,0 +1,190 @@
+package b.b.x.b.b;
+
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.content.res.TypedArray;
+import android.graphics.LinearGradient;
+import android.graphics.RadialGradient;
+import android.graphics.Shader;
+import android.graphics.Shader.TileMode;
+import android.graphics.SweepGradient;
+import android.util.AttributeSet;
+import android.util.Xml;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.k;
+import b.b.c.a.j;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+@N({b.b.a.N.a.b})
+public final class e
+{
+  public static final int a = 0;
+  public static final int b = 1;
+  public static final int c = 2;
+  
+  public e() {}
+  
+  public static Shader.TileMode a(int paramInt)
+  {
+    if (paramInt != 1)
+    {
+      if (paramInt != 2) {
+        return Shader.TileMode.CLAMP;
+      }
+      return Shader.TileMode.MIRROR;
+    }
+    return Shader.TileMode.REPEAT;
+  }
+  
+  public static Shader a(@F Resources paramResources, @F XmlPullParser paramXmlPullParser, @G Resources.Theme paramTheme)
+    throws XmlPullParserException, IOException
+  {
+    AttributeSet localAttributeSet = Xml.asAttributeSet(paramXmlPullParser);
+    int i;
+    do
+    {
+      i = paramXmlPullParser.next();
+    } while ((i != 2) && (i != 1));
+    if (i == 2) {
+      return a(paramResources, paramXmlPullParser, localAttributeSet, paramTheme);
+    }
+    paramResources = new XmlPullParserException("No start tag found");
+    for (;;)
+    {
+      throw paramResources;
+    }
+  }
+  
+  public static Shader a(@F Resources paramResources, @F XmlPullParser paramXmlPullParser, @F AttributeSet paramAttributeSet, @G Resources.Theme paramTheme)
+    throws IOException, XmlPullParserException
+  {
+    Object localObject = paramXmlPullParser.getName();
+    if (((String)localObject).equals("gradient"))
+    {
+      localObject = j.a(paramResources, paramTheme, paramAttributeSet, a.j.GradientColor);
+      float f1 = j.a((TypedArray)localObject, paramXmlPullParser, "startX", a.j.GradientColor_android_startX, 0.0F);
+      float f2 = j.a((TypedArray)localObject, paramXmlPullParser, "startY", a.j.GradientColor_android_startY, 0.0F);
+      float f3 = j.a((TypedArray)localObject, paramXmlPullParser, "endX", a.j.GradientColor_android_endX, 0.0F);
+      float f4 = j.a((TypedArray)localObject, paramXmlPullParser, "endY", a.j.GradientColor_android_endY, 0.0F);
+      float f5 = j.a((TypedArray)localObject, paramXmlPullParser, "centerX", a.j.GradientColor_android_centerX, 0.0F);
+      float f6 = j.a((TypedArray)localObject, paramXmlPullParser, "centerY", a.j.GradientColor_android_centerY, 0.0F);
+      int i = j.b((TypedArray)localObject, paramXmlPullParser, "type", a.j.GradientColor_android_type, 0);
+      int j = j.a((TypedArray)localObject, paramXmlPullParser, "startColor", a.j.GradientColor_android_startColor, 0);
+      boolean bool = j.a(paramXmlPullParser, "centerColor");
+      int k = j.a((TypedArray)localObject, paramXmlPullParser, "centerColor", a.j.GradientColor_android_centerColor, 0);
+      int m = j.a((TypedArray)localObject, paramXmlPullParser, "endColor", a.j.GradientColor_android_endColor, 0);
+      int n = j.b((TypedArray)localObject, paramXmlPullParser, "tileMode", a.j.GradientColor_android_tileMode, 0);
+      float f7 = j.a((TypedArray)localObject, paramXmlPullParser, "gradientRadius", a.j.GradientColor_android_gradientRadius, 0.0F);
+      ((TypedArray)localObject).recycle();
+      paramResources = a(b(paramResources, paramXmlPullParser, paramAttributeSet, paramTheme), j, m, bool, k);
+      if (i != 1)
+      {
+        if (i != 2) {
+          return new LinearGradient(f1, f2, f3, f4, a, b, a(n));
+        }
+        return new SweepGradient(f5, f6, a, b);
+      }
+      if (f7 > 0.0F) {
+        return new RadialGradient(f5, f6, f7, a, b, a(n));
+      }
+      throw new XmlPullParserException("<gradient> tag requires 'gradientRadius' attribute with radial type");
+    }
+    paramResources = new StringBuilder();
+    paramResources.append(paramXmlPullParser.getPositionDescription());
+    paramResources.append(": invalid gradient color tag ");
+    paramResources.append((String)localObject);
+    throw new XmlPullParserException(paramResources.toString());
+  }
+  
+  public static a a(@G a paramA, @k int paramInt1, @k int paramInt2, boolean paramBoolean, @k int paramInt3)
+  {
+    if (paramA != null) {
+      return paramA;
+    }
+    if (paramBoolean) {
+      return new a(paramInt1, paramInt3, paramInt2);
+    }
+    return new a(paramInt1, paramInt2);
+  }
+  
+  public static a b(@F Resources paramResources, @F XmlPullParser paramXmlPullParser, @F AttributeSet paramAttributeSet, @G Resources.Theme paramTheme)
+    throws XmlPullParserException, IOException
+  {
+    int i = paramXmlPullParser.getDepth() + 1;
+    ArrayList localArrayList1 = new ArrayList(20);
+    ArrayList localArrayList2 = new ArrayList(20);
+    for (;;)
+    {
+      int j = paramXmlPullParser.next();
+      if (j == 1) {
+        break label244;
+      }
+      int k = paramXmlPullParser.getDepth();
+      if ((k < i) && (j == 3)) {
+        break label244;
+      }
+      if ((j == 2) && (k <= i) && (paramXmlPullParser.getName().equals("item")))
+      {
+        TypedArray localTypedArray = j.a(paramResources, paramTheme, paramAttributeSet, a.j.GradientColorItem);
+        boolean bool1 = localTypedArray.hasValue(a.j.GradientColorItem_android_color);
+        boolean bool2 = localTypedArray.hasValue(a.j.GradientColorItem_android_offset);
+        if ((!bool1) || (!bool2)) {
+          break;
+        }
+        j = localTypedArray.getColor(a.j.GradientColorItem_android_color, 0);
+        float f = localTypedArray.getFloat(a.j.GradientColorItem_android_offset, 0.0F);
+        localTypedArray.recycle();
+        localArrayList2.add(Integer.valueOf(j));
+        localArrayList1.add(Float.valueOf(f));
+      }
+    }
+    paramResources = new StringBuilder();
+    paramResources.append(paramXmlPullParser.getPositionDescription());
+    paramResources.append(": <item> tag requires a 'color' attribute and a 'offset' ");
+    paramResources.append("attribute!");
+    throw new XmlPullParserException(paramResources.toString());
+    label244:
+    if (localArrayList2.size() > 0) {
+      return new a(localArrayList2, localArrayList1);
+    }
+    return null;
+  }
+  
+  public static final class a
+  {
+    public final int[] a;
+    public final float[] b;
+    
+    public a(@k int paramInt1, @k int paramInt2)
+    {
+      a = new int[] { paramInt1, paramInt2 };
+      b = new float[] { 0.0F, 1.0F };
+    }
+    
+    public a(@k int paramInt1, @k int paramInt2, @k int paramInt3)
+    {
+      a = new int[] { paramInt1, paramInt2, paramInt3 };
+      b = new float[] { 0.0F, 0.5F, 1.0F };
+    }
+    
+    public a(@F List<Integer> paramList, @F List<Float> paramList1)
+    {
+      int j = paramList.size();
+      a = new int[j];
+      b = new float[j];
+      int i = 0;
+      while (i < j)
+      {
+        a[i] = ((Integer)paramList.get(i)).intValue();
+        b[i] = ((Float)paramList1.get(i)).floatValue();
+        i += 1;
+      }
+    }
+  }
+}

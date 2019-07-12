@@ -1,0 +1,121 @@
+package android.support.v7.widget;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.support.v7.appcompat.R.styleable;
+import android.support.v7.content.res.AppCompatResources;
+import android.util.AttributeSet;
+import android.widget.CompoundButton;
+import b.b.a.G;
+import b.b.x.d.a.a;
+import b.b.x.p.g;
+
+public class AppCompatCompoundButtonHelper
+{
+  public ColorStateList mButtonTintList = null;
+  public PorterDuff.Mode mButtonTintMode = null;
+  public boolean mHasButtonTint = false;
+  public boolean mHasButtonTintMode = false;
+  public boolean mSkipNextApply;
+  public final CompoundButton mView;
+  
+  public AppCompatCompoundButtonHelper(CompoundButton paramCompoundButton)
+  {
+    mView = paramCompoundButton;
+  }
+  
+  public void applyButtonTint()
+  {
+    Drawable localDrawable = g.a(mView);
+    if ((localDrawable != null) && ((mHasButtonTint) || (mHasButtonTintMode)))
+    {
+      localDrawable = a.i(localDrawable).mutate();
+      if (mHasButtonTint) {
+        a.a(localDrawable, mButtonTintList);
+      }
+      if (mHasButtonTintMode) {
+        a.a(localDrawable, mButtonTintMode);
+      }
+      if (localDrawable.isStateful()) {
+        localDrawable.setState(mView.getDrawableState());
+      }
+      mView.setButtonDrawable(localDrawable);
+    }
+  }
+  
+  public int getCompoundPaddingLeft(int paramInt)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return paramInt;
+  }
+  
+  public ColorStateList getSupportButtonTintList()
+  {
+    return mButtonTintList;
+  }
+  
+  public PorterDuff.Mode getSupportButtonTintMode()
+  {
+    return mButtonTintMode;
+  }
+  
+  public void loadFromAttributes(AttributeSet paramAttributeSet, int paramInt)
+  {
+    paramAttributeSet = mView.getContext().obtainStyledAttributes(paramAttributeSet, R.styleable.CompoundButton, paramInt, 0);
+    try
+    {
+      if (paramAttributeSet.hasValue(R.styleable.CompoundButton_android_button))
+      {
+        paramInt = paramAttributeSet.getResourceId(R.styleable.CompoundButton_android_button, 0);
+        if (paramInt != 0) {
+          mView.setButtonDrawable(AppCompatResources.getDrawable(mView.getContext(), paramInt));
+        }
+      }
+      if (paramAttributeSet.hasValue(R.styleable.CompoundButton_buttonTint)) {
+        g.a(mView, paramAttributeSet.getColorStateList(R.styleable.CompoundButton_buttonTint));
+      }
+      if (paramAttributeSet.hasValue(R.styleable.CompoundButton_buttonTintMode)) {
+        g.a(mView, DrawableUtils.parseTintMode(paramAttributeSet.getInt(R.styleable.CompoundButton_buttonTintMode, -1), null));
+      }
+      return;
+    }
+    finally
+    {
+      paramAttributeSet.recycle();
+    }
+  }
+  
+  public void onSetButtonDrawable()
+  {
+    if (mSkipNextApply)
+    {
+      mSkipNextApply = false;
+      return;
+    }
+    mSkipNextApply = true;
+    applyButtonTint();
+  }
+  
+  public void setSupportButtonTintList(ColorStateList paramColorStateList)
+  {
+    mButtonTintList = paramColorStateList;
+    mHasButtonTint = true;
+    applyButtonTint();
+  }
+  
+  public void setSupportButtonTintMode(@G PorterDuff.Mode paramMode)
+  {
+    mButtonTintMode = paramMode;
+    mHasButtonTintMode = true;
+    applyButtonTint();
+  }
+  
+  public static abstract interface DirectSetButtonDrawableInterface
+  {
+    public abstract void setButtonDrawable(Drawable paramDrawable);
+  }
+}

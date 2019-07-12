@@ -1,0 +1,39 @@
+package f.g.b.a.c.a;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
+
+public final class f
+  extends org.apache.http.conn.ssl.SSLSocketFactory
+{
+  public final javax.net.ssl.SSLSocketFactory a;
+  
+  public f(SSLContext paramSSLContext)
+    throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException
+  {
+    super(null);
+    a = paramSSLContext.getSocketFactory();
+  }
+  
+  public Socket createSocket()
+    throws IOException
+  {
+    return a.createSocket();
+  }
+  
+  public Socket createSocket(Socket paramSocket, String paramString, int paramInt, boolean paramBoolean)
+    throws IOException, UnknownHostException
+  {
+    paramSocket = (SSLSocket)a.createSocket(paramSocket, paramString, paramInt, paramBoolean);
+    getHostnameVerifier().verify(paramString, paramSocket);
+    return paramSocket;
+  }
+}

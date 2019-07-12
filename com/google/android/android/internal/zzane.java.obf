@@ -1,0 +1,249 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build.VERSION;
+import f.a.a.a.a;
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+
+public final class zzane
+  extends SQLiteOpenHelper
+{
+  public zzane(zzand paramZzand, Context paramContext, String paramString)
+  {
+    super(paramContext, paramString, null, 1);
+  }
+  
+  public static void zza(SQLiteDatabase paramSQLiteDatabase)
+  {
+    paramSQLiteDatabase = zzb(paramSQLiteDatabase, "properties");
+    int i = 0;
+    while (i < 6)
+    {
+      String str = new String[] { "app_uid", "cid", "tid", "params", "adid", "hits_count" }[i];
+      if (!paramSQLiteDatabase.remove(str))
+      {
+        paramSQLiteDatabase = String.valueOf(str);
+        if (paramSQLiteDatabase.length() != 0) {
+          paramSQLiteDatabase = "Database properties is missing required column: ".concat(paramSQLiteDatabase);
+        } else {
+          paramSQLiteDatabase = new String("Database properties is missing required column: ");
+        }
+        throw new SQLiteException(paramSQLiteDatabase);
+      }
+      i += 1;
+    }
+    if (paramSQLiteDatabase.isEmpty()) {
+      return;
+    }
+    paramSQLiteDatabase = new SQLiteException("Database properties table has extra columns");
+    for (;;)
+    {
+      throw paramSQLiteDatabase;
+    }
+  }
+  
+  /* Error */
+  private final boolean zza(SQLiteDatabase paramSQLiteDatabase, String paramString)
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 5
+    //   3: aconst_null
+    //   4: astore 4
+    //   6: aload_1
+    //   7: ldc 71
+    //   9: iconst_1
+    //   10: anewarray 24	java/lang/String
+    //   13: dup
+    //   14: iconst_0
+    //   15: ldc 73
+    //   17: aastore
+    //   18: ldc 75
+    //   20: iconst_1
+    //   21: anewarray 24	java/lang/String
+    //   24: dup
+    //   25: iconst_0
+    //   26: aload_2
+    //   27: aastore
+    //   28: aconst_null
+    //   29: aconst_null
+    //   30: aconst_null
+    //   31: invokevirtual 81	android/database/sqlite/SQLiteDatabase:query	(Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+    //   34: astore_1
+    //   35: aload_1
+    //   36: astore 4
+    //   38: aload_1
+    //   39: astore 5
+    //   41: aload_1
+    //   42: invokeinterface 86 1 0
+    //   47: istore_3
+    //   48: aload_1
+    //   49: invokeinterface 90 1 0
+    //   54: iload_3
+    //   55: ireturn
+    //   56: astore_1
+    //   57: goto +33 -> 90
+    //   60: astore_1
+    //   61: aload 5
+    //   63: astore 4
+    //   65: aload_0
+    //   66: getfield 10	com/google/android/gms/internal/zzane:zzdpo	Lcom/google/android/gms/internal/zzand;
+    //   69: ldc 92
+    //   71: aload_2
+    //   72: aload_1
+    //   73: invokevirtual 98	com/google/android/gms/internal/zzamr:zzc	(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+    //   76: aload 5
+    //   78: ifnull +10 -> 88
+    //   81: aload 5
+    //   83: invokeinterface 90 1 0
+    //   88: iconst_0
+    //   89: ireturn
+    //   90: aload 4
+    //   92: ifnull +10 -> 102
+    //   95: aload 4
+    //   97: invokeinterface 90 1 0
+    //   102: aload_1
+    //   103: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	104	0	this	zzane
+    //   0	104	1	paramSQLiteDatabase	SQLiteDatabase
+    //   0	104	2	paramString	String
+    //   47	8	3	bool	boolean
+    //   4	92	4	localSQLiteDatabase1	SQLiteDatabase
+    //   1	81	5	localSQLiteDatabase2	SQLiteDatabase
+    // Exception table:
+    //   from	to	target	type
+    //   6	35	56	finally
+    //   41	48	56	finally
+    //   65	76	56	finally
+    //   6	35	60	android/database/sqlite/SQLiteException
+    //   41	48	60	android/database/sqlite/SQLiteException
+  }
+  
+  public static Set<String> zzb(SQLiteDatabase paramSQLiteDatabase, String paramString)
+  {
+    HashSet localHashSet = new HashSet();
+    paramSQLiteDatabase = paramSQLiteDatabase.rawQuery(a.a(a.a(paramString, 22), "SELECT * FROM ", paramString, " LIMIT 0"), null);
+    try
+    {
+      paramString = paramSQLiteDatabase.getColumnNames();
+      int i = 0;
+      while (i < paramString.length)
+      {
+        localHashSet.add(paramString[i]);
+        i += 1;
+      }
+      paramSQLiteDatabase.close();
+      return localHashSet;
+    }
+    finally
+    {
+      paramSQLiteDatabase.close();
+    }
+    for (;;)
+    {
+      throw paramString;
+    }
+  }
+  
+  public final SQLiteDatabase getWritableDatabase()
+  {
+    if (zzand.zza(zzdpo).zzu(3600000L)) {}
+    try
+    {
+      localObject = super.getWritableDatabase();
+      return localObject;
+    }
+    catch (SQLiteException localSQLiteException2)
+    {
+      Object localObject;
+      for (;;) {}
+    }
+    zzand.zza(zzdpo).start();
+    zzdpo.zzdq("Opening the database failed, dropping the table and recreating it");
+    localObject = zzand.zzb(zzdpo);
+    zzdpo.getContext().getDatabasePath((String)localObject).delete();
+    try
+    {
+      localObject = super.getWritableDatabase();
+      zzand.zza(zzdpo).clear();
+      return localObject;
+    }
+    catch (SQLiteException localSQLiteException1)
+    {
+      zzdpo.zze("Failed to open freshly created database", localSQLiteException1);
+      throw localSQLiteException1;
+    }
+    throw new SQLiteException("Database open failed");
+  }
+  
+  public final void onCreate(SQLiteDatabase paramSQLiteDatabase)
+  {
+    paramSQLiteDatabase = paramSQLiteDatabase.getPath();
+    if (zzaoc.version() >= 9)
+    {
+      paramSQLiteDatabase = new File(paramSQLiteDatabase);
+      paramSQLiteDatabase.setReadable(false, false);
+      paramSQLiteDatabase.setWritable(false, false);
+      paramSQLiteDatabase.setReadable(true, true);
+      paramSQLiteDatabase.setWritable(true, true);
+    }
+  }
+  
+  public final void onOpen(SQLiteDatabase paramSQLiteDatabase)
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (!zza(paramSQLiteDatabase, "hits2")) {}
+    for (Object localObject = zzand.zzdpj;; localObject = "ALTER TABLE hits2 ADD COLUMN hit_app_id INTEGER")
+    {
+      paramSQLiteDatabase.execSQL((String)localObject);
+      break;
+      localObject = zzb(paramSQLiteDatabase, "hits2");
+      i = 0;
+      while (i < 4)
+      {
+        String str = new String[] { "hit_id", "hit_string", "hit_time", "hit_url" }[i];
+        if (!((Set)localObject).remove(str))
+        {
+          paramSQLiteDatabase = String.valueOf(str);
+          if (paramSQLiteDatabase.length() != 0) {
+            paramSQLiteDatabase = "Database hits2 is missing required column: ".concat(paramSQLiteDatabase);
+          } else {
+            paramSQLiteDatabase = new String("Database hits2 is missing required column: ");
+          }
+          throw new SQLiteException(paramSQLiteDatabase);
+        }
+        i += 1;
+      }
+      boolean bool = ((Set)localObject).remove("hit_app_id");
+      if (!((Set)localObject).isEmpty()) {
+        break label187;
+      }
+      if (!(bool ^ true)) {
+        break;
+      }
+    }
+    if (!zza(paramSQLiteDatabase, "properties"))
+    {
+      paramSQLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS properties ( app_uid INTEGER NOT NULL, cid TEXT NOT NULL, tid TEXT NOT NULL, params TEXT NOT NULL, adid INTEGER NOT NULL, hits_count INTEGER NOT NULL, PRIMARY KEY (app_uid, cid, tid)) ;");
+      return;
+    }
+    zza(paramSQLiteDatabase);
+    return;
+    label187:
+    paramSQLiteDatabase = new SQLiteException("Database hits2 has extra columns");
+    for (;;)
+    {
+      throw paramSQLiteDatabase;
+    }
+  }
+  
+  public final void onUpgrade(SQLiteDatabase paramSQLiteDatabase, int paramInt1, int paramInt2) {}
+}

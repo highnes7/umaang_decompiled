@@ -1,0 +1,103 @@
+package android.support.v7.view.menu;
+
+import android.content.Context;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import b.b.x.f.a.c;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+public abstract class BaseMenuWrapper<T>
+  extends BaseWrapper<T>
+{
+  public final Context mContext;
+  public Map<b.b.x.f.a.b, MenuItem> mMenuItems;
+  public Map<c, SubMenu> mSubMenus;
+  
+  public BaseMenuWrapper(Context paramContext, T paramT)
+  {
+    super(paramT);
+    mContext = paramContext;
+  }
+  
+  public final MenuItem getMenuItemWrapper(MenuItem paramMenuItem)
+  {
+    MenuItem localMenuItem = paramMenuItem;
+    if ((paramMenuItem instanceof b.b.x.f.a.b))
+    {
+      b.b.x.f.a.b localB = (b.b.x.f.a.b)paramMenuItem;
+      if (mMenuItems == null) {
+        mMenuItems = new b.b.x.n.b();
+      }
+      paramMenuItem = (MenuItem)mMenuItems.get(paramMenuItem);
+      localMenuItem = paramMenuItem;
+      if (paramMenuItem == null)
+      {
+        localMenuItem = MenuWrapperFactory.wrapSupportMenuItem(mContext, localB);
+        mMenuItems.put(localB, localMenuItem);
+      }
+    }
+    return localMenuItem;
+  }
+  
+  public final SubMenu getSubMenuWrapper(SubMenu paramSubMenu)
+  {
+    if ((paramSubMenu instanceof c))
+    {
+      c localC = (c)paramSubMenu;
+      if (mSubMenus == null) {
+        mSubMenus = new b.b.x.n.b();
+      }
+      SubMenu localSubMenu = (SubMenu)mSubMenus.get(localC);
+      paramSubMenu = localSubMenu;
+      if (localSubMenu == null)
+      {
+        paramSubMenu = new SubMenuWrapperICS(mContext, localC);
+        mSubMenus.put(localC, paramSubMenu);
+      }
+      return paramSubMenu;
+    }
+    return paramSubMenu;
+  }
+  
+  public final void internalClear()
+  {
+    Map localMap = mMenuItems;
+    if (localMap != null) {
+      localMap.clear();
+    }
+    localMap = mSubMenus;
+    if (localMap != null) {
+      localMap.clear();
+    }
+  }
+  
+  public final void internalRemoveGroup(int paramInt)
+  {
+    Object localObject = mMenuItems;
+    if (localObject == null) {
+      return;
+    }
+    localObject = ((Map)localObject).keySet().iterator();
+    while (((Iterator)localObject).hasNext()) {
+      if (paramInt == ((MenuItem)((Iterator)localObject).next()).getGroupId()) {
+        ((Iterator)localObject).remove();
+      }
+    }
+  }
+  
+  public final void internalRemoveItem(int paramInt)
+  {
+    Object localObject = mMenuItems;
+    if (localObject == null) {
+      return;
+    }
+    localObject = ((Map)localObject).keySet().iterator();
+    while (((Iterator)localObject).hasNext()) {
+      if (paramInt == ((MenuItem)((Iterator)localObject).next()).getItemId()) {
+        ((Iterator)localObject).remove();
+      }
+    }
+  }
+}

@@ -1,0 +1,188 @@
+package b.b.x.j;
+
+import android.os.Build.VERSION;
+import android.os.CancellationSignal;
+
+public final class b
+{
+  public boolean a;
+  public a b;
+  public Object c;
+  public boolean d;
+  
+  public b() {}
+  
+  private void e()
+  {
+    while (d) {
+      try
+      {
+        wait();
+      }
+      catch (InterruptedException localInterruptedException)
+      {
+        for (;;) {}
+      }
+    }
+  }
+  
+  /* Error */
+  public void a()
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: monitorenter
+    //   2: aload_0
+    //   3: getfield 28	b/b/x/j/b:a	Z
+    //   6: ifeq +6 -> 12
+    //   9: aload_0
+    //   10: monitorexit
+    //   11: return
+    //   12: aload_0
+    //   13: iconst_1
+    //   14: putfield 28	b/b/x/j/b:a	Z
+    //   17: aload_0
+    //   18: iconst_1
+    //   19: putfield 23	b/b/x/j/b:d	Z
+    //   22: aload_0
+    //   23: getfield 30	b/b/x/j/b:b	Lb/b/x/j/b$a;
+    //   26: astore_2
+    //   27: aload_0
+    //   28: getfield 32	b/b/x/j/b:c	Ljava/lang/Object;
+    //   31: astore_3
+    //   32: aload_0
+    //   33: monitorexit
+    //   34: aload_2
+    //   35: ifnull +12 -> 47
+    //   38: aload_2
+    //   39: invokeinterface 35 1 0
+    //   44: goto +3 -> 47
+    //   47: aload_3
+    //   48: ifnull +37 -> 85
+    //   51: getstatic 41	android/os/Build$VERSION:SDK_INT	I
+    //   54: istore_1
+    //   55: aload_3
+    //   56: checkcast 43	android/os/CancellationSignal
+    //   59: invokevirtual 46	android/os/CancellationSignal:cancel	()V
+    //   62: goto +23 -> 85
+    //   65: aload_0
+    //   66: monitorenter
+    //   67: aload_0
+    //   68: iconst_0
+    //   69: putfield 23	b/b/x/j/b:d	Z
+    //   72: aload_0
+    //   73: invokevirtual 49	java/lang/Object:notifyAll	()V
+    //   76: aload_0
+    //   77: monitorexit
+    //   78: aload_2
+    //   79: athrow
+    //   80: astore_2
+    //   81: aload_0
+    //   82: monitorexit
+    //   83: aload_2
+    //   84: athrow
+    //   85: aload_0
+    //   86: monitorenter
+    //   87: aload_0
+    //   88: iconst_0
+    //   89: putfield 23	b/b/x/j/b:d	Z
+    //   92: aload_0
+    //   93: invokevirtual 49	java/lang/Object:notifyAll	()V
+    //   96: aload_0
+    //   97: monitorexit
+    //   98: return
+    //   99: astore_2
+    //   100: aload_0
+    //   101: monitorexit
+    //   102: aload_2
+    //   103: athrow
+    //   104: astore_2
+    //   105: aload_0
+    //   106: monitorexit
+    //   107: aload_2
+    //   108: athrow
+    //   109: astore_2
+    //   110: goto -45 -> 65
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	113	0	this	b
+    //   54	1	1	i	int
+    //   26	53	2	localA	a
+    //   80	4	2	localObject1	Object
+    //   99	4	2	localObject2	Object
+    //   104	4	2	localObject3	Object
+    //   109	1	2	localObject4	Object
+    //   31	25	3	localObject5	Object
+    // Exception table:
+    //   from	to	target	type
+    //   67	78	80	finally
+    //   81	83	80	finally
+    //   87	98	99	finally
+    //   100	102	99	finally
+    //   2	11	104	finally
+    //   12	34	104	finally
+    //   105	107	104	finally
+    //   38	44	109	finally
+    //   51	62	109	finally
+  }
+  
+  public void a(a paramA)
+  {
+    try
+    {
+      e();
+      if (b == paramA) {
+        return;
+      }
+      b = paramA;
+      if ((a) && (paramA != null))
+      {
+        paramA.onCancel();
+        return;
+      }
+      return;
+    }
+    finally {}
+  }
+  
+  public Object b()
+  {
+    int i = Build.VERSION.SDK_INT;
+    try
+    {
+      if (c == null)
+      {
+        c = new CancellationSignal();
+        if (a) {
+          ((CancellationSignal)c).cancel();
+        }
+      }
+      Object localObject1 = c;
+      return localObject1;
+    }
+    finally {}
+  }
+  
+  public boolean c()
+  {
+    try
+    {
+      boolean bool = a;
+      return bool;
+    }
+    finally {}
+  }
+  
+  public void d()
+  {
+    if (!c()) {
+      return;
+    }
+    throw new k(null);
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void onCancel();
+  }
+}

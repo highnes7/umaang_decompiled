@@ -1,0 +1,371 @@
+package android.support.v7.util;
+
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class MessageThreadUtil<T>
+  implements ThreadUtil<T>
+{
+  public MessageThreadUtil() {}
+  
+  public ThreadUtil.BackgroundCallback getBackgroundProxy(final ThreadUtil.BackgroundCallback paramBackgroundCallback)
+  {
+    new ThreadUtil.BackgroundCallback()
+    {
+      public static final int LOAD_TILE = 3;
+      public static final int RECYCLE_TILE = 4;
+      public static final int REFRESH = 1;
+      public static final int UPDATE_RANGE = 2;
+      public Runnable mBackgroundRunnable = new Runnable()
+      {
+        public void run()
+        {
+          for (;;)
+          {
+            MessageThreadUtil.SyncQueueItem localSyncQueueItem = mQueue.next();
+            if (localSyncQueueItem == null)
+            {
+              mBackgroundRunning.set(false);
+              return;
+            }
+            int i = what;
+            if (i != 1)
+            {
+              if (i != 2)
+              {
+                if (i != 3)
+                {
+                  if (i != 4)
+                  {
+                    StringBuilder localStringBuilder = f.sufficientlysecure.rootcommands.util.StringBuilder.append("Unsupported message, what=");
+                    localStringBuilder.append(what);
+                    localStringBuilder.toString();
+                  }
+                  else
+                  {
+                    val$callback.recycleTile((TileList.Tile)data);
+                  }
+                }
+                else {
+                  val$callback.loadTile(arg1, arg2);
+                }
+              }
+              else
+              {
+                mQueue.removeMessages(2);
+                mQueue.removeMessages(3);
+                val$callback.updateRange(arg1, arg2, arg3, arg4, arg5);
+              }
+            }
+            else
+            {
+              mQueue.removeMessages(1);
+              val$callback.refresh(arg1);
+            }
+          }
+        }
+      };
+      public AtomicBoolean mBackgroundRunning = new AtomicBoolean(false);
+      public final Executor mExecutor = AsyncTask.THREAD_POOL_EXECUTOR;
+      public final MessageThreadUtil.MessageQueue mQueue = new MessageThreadUtil.MessageQueue();
+      
+      private void maybeExecuteBackgroundRunnable()
+      {
+        if (mBackgroundRunning.compareAndSet(false, true)) {
+          mExecutor.execute(mBackgroundRunnable);
+        }
+      }
+      
+      private void sendMessage(MessageThreadUtil.SyncQueueItem paramAnonymousSyncQueueItem)
+      {
+        mQueue.sendMessage(paramAnonymousSyncQueueItem);
+        maybeExecuteBackgroundRunnable();
+      }
+      
+      private void sendMessageAtFrontOfQueue(MessageThreadUtil.SyncQueueItem paramAnonymousSyncQueueItem)
+      {
+        mQueue.sendMessageAtFrontOfQueue(paramAnonymousSyncQueueItem);
+        maybeExecuteBackgroundRunnable();
+      }
+      
+      public void loadTile(int paramAnonymousInt1, int paramAnonymousInt2)
+      {
+        MessageThreadUtil.SyncQueueItem localSyncQueueItem = MessageThreadUtil.SyncQueueItem.obtainMessage(3, paramAnonymousInt1, paramAnonymousInt2);
+        mQueue.sendMessage(localSyncQueueItem);
+        maybeExecuteBackgroundRunnable();
+      }
+      
+      public void recycleTile(TileList.Tile paramAnonymousTile)
+      {
+        paramAnonymousTile = MessageThreadUtil.SyncQueueItem.obtainMessage(4, 0, paramAnonymousTile);
+        mQueue.sendMessage(paramAnonymousTile);
+        maybeExecuteBackgroundRunnable();
+      }
+      
+      public void refresh(int paramAnonymousInt)
+      {
+        MessageThreadUtil.SyncQueueItem localSyncQueueItem = MessageThreadUtil.SyncQueueItem.obtainMessage(1, paramAnonymousInt, null);
+        mQueue.sendMessageAtFrontOfQueue(localSyncQueueItem);
+        maybeExecuteBackgroundRunnable();
+      }
+      
+      public void updateRange(int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3, int paramAnonymousInt4, int paramAnonymousInt5)
+      {
+        MessageThreadUtil.SyncQueueItem localSyncQueueItem = MessageThreadUtil.SyncQueueItem.obtainMessage(2, paramAnonymousInt1, paramAnonymousInt2, paramAnonymousInt3, paramAnonymousInt4, paramAnonymousInt5, null);
+        mQueue.sendMessageAtFrontOfQueue(localSyncQueueItem);
+        maybeExecuteBackgroundRunnable();
+      }
+    };
+  }
+  
+  public ThreadUtil.MainThreadCallback getMainThreadProxy(final ThreadUtil.MainThreadCallback paramMainThreadCallback)
+  {
+    new ThreadUtil.MainThreadCallback()
+    {
+      public static final int ADD_TILE = 2;
+      public static final int REMOVE_TILE = 3;
+      public static final int UPDATE_ITEM_COUNT = 1;
+      public final Handler mMainThreadHandler = new Handler(Looper.getMainLooper());
+      public Runnable mMainThreadRunnable = new Runnable()
+      {
+        public void run()
+        {
+          for (MessageThreadUtil.SyncQueueItem localSyncQueueItem = mQueue.next(); localSyncQueueItem != null; localSyncQueueItem = mQueue.next())
+          {
+            int i = what;
+            if (i != 1)
+            {
+              if (i != 2)
+              {
+                if (i != 3)
+                {
+                  StringBuilder localStringBuilder = f.sufficientlysecure.rootcommands.util.StringBuilder.append("Unsupported message, what=");
+                  localStringBuilder.append(what);
+                  localStringBuilder.toString();
+                }
+                else
+                {
+                  val$callback.removeTile(arg1, arg2);
+                }
+              }
+              else {
+                val$callback.addTile(arg1, (TileList.Tile)data);
+              }
+            }
+            else {
+              val$callback.updateItemCount(arg1, arg2);
+            }
+          }
+        }
+      };
+      public final MessageThreadUtil.MessageQueue mQueue = new MessageThreadUtil.MessageQueue();
+      
+      private void sendMessage(MessageThreadUtil.SyncQueueItem paramAnonymousSyncQueueItem)
+      {
+        mQueue.sendMessage(paramAnonymousSyncQueueItem);
+        mMainThreadHandler.post(mMainThreadRunnable);
+      }
+      
+      public void addTile(int paramAnonymousInt, TileList.Tile paramAnonymousTile)
+      {
+        paramAnonymousTile = MessageThreadUtil.SyncQueueItem.obtainMessage(2, paramAnonymousInt, paramAnonymousTile);
+        mQueue.sendMessage(paramAnonymousTile);
+        mMainThreadHandler.post(mMainThreadRunnable);
+      }
+      
+      public void removeTile(int paramAnonymousInt1, int paramAnonymousInt2)
+      {
+        MessageThreadUtil.SyncQueueItem localSyncQueueItem = MessageThreadUtil.SyncQueueItem.obtainMessage(3, paramAnonymousInt1, paramAnonymousInt2);
+        mQueue.sendMessage(localSyncQueueItem);
+        mMainThreadHandler.post(mMainThreadRunnable);
+      }
+      
+      public void updateItemCount(int paramAnonymousInt1, int paramAnonymousInt2)
+      {
+        MessageThreadUtil.SyncQueueItem localSyncQueueItem = MessageThreadUtil.SyncQueueItem.obtainMessage(1, paramAnonymousInt1, paramAnonymousInt2);
+        mQueue.sendMessage(localSyncQueueItem);
+        mMainThreadHandler.post(mMainThreadRunnable);
+      }
+    };
+  }
+  
+  public static class MessageQueue
+  {
+    public MessageThreadUtil.SyncQueueItem mRoot;
+    
+    public MessageQueue() {}
+    
+    public MessageThreadUtil.SyncQueueItem next()
+    {
+      try
+      {
+        MessageThreadUtil.SyncQueueItem localSyncQueueItem = mRoot;
+        if (localSyncQueueItem == null) {
+          return null;
+        }
+        localSyncQueueItem = mRoot;
+        mRoot = mRoot.next;
+        return localSyncQueueItem;
+      }
+      catch (Throwable localThrowable)
+      {
+        throw localThrowable;
+      }
+    }
+    
+    public void removeMessages(int paramInt)
+    {
+      try
+      {
+        Object localObject1;
+        while ((mRoot != null) && (mRoot.what == paramInt))
+        {
+          localObject1 = mRoot;
+          mRoot = mRoot.next;
+          ((MessageThreadUtil.SyncQueueItem)localObject1).recycle();
+        }
+        if (mRoot != null)
+        {
+          Object localObject2 = mRoot;
+          MessageThreadUtil.SyncQueueItem localSyncQueueItem;
+          for (localObject1 = next; localObject1 != null; localObject1 = localSyncQueueItem)
+          {
+            localSyncQueueItem = next;
+            if (what == paramInt)
+            {
+              next = localSyncQueueItem;
+              ((MessageThreadUtil.SyncQueueItem)localObject1).recycle();
+            }
+            else
+            {
+              localObject2 = localObject1;
+            }
+          }
+        }
+        return;
+      }
+      catch (Throwable localThrowable)
+      {
+        throw localThrowable;
+      }
+    }
+    
+    public void sendMessage(MessageThreadUtil.SyncQueueItem paramSyncQueueItem)
+    {
+      try
+      {
+        if (mRoot == null)
+        {
+          mRoot = paramSyncQueueItem;
+          return;
+        }
+        for (MessageThreadUtil.SyncQueueItem localSyncQueueItem = mRoot; next != null; localSyncQueueItem = next) {}
+        next = paramSyncQueueItem;
+        return;
+      }
+      catch (Throwable paramSyncQueueItem)
+      {
+        throw paramSyncQueueItem;
+      }
+    }
+    
+    public void sendMessageAtFrontOfQueue(MessageThreadUtil.SyncQueueItem paramSyncQueueItem)
+    {
+      try
+      {
+        next = mRoot;
+        mRoot = paramSyncQueueItem;
+        return;
+      }
+      catch (Throwable paramSyncQueueItem)
+      {
+        throw paramSyncQueueItem;
+      }
+    }
+  }
+  
+  public static class SyncQueueItem
+  {
+    public static SyncQueueItem sPool;
+    public static final Object sPoolLock = new Object();
+    public int arg1;
+    public int arg2;
+    public int arg3;
+    public int arg4;
+    public int arg5;
+    public Object data;
+    public SyncQueueItem next;
+    public int what;
+    
+    public SyncQueueItem() {}
+    
+    public static SyncQueueItem obtainMessage(int paramInt1, int paramInt2, int paramInt3)
+    {
+      return obtainMessage(paramInt1, paramInt2, paramInt3, 0, 0, 0, null);
+    }
+    
+    public static SyncQueueItem obtainMessage(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, Object paramObject)
+    {
+      Object localObject = sPoolLock;
+      try
+      {
+        SyncQueueItem localSyncQueueItem;
+        if (sPool == null)
+        {
+          localSyncQueueItem = new SyncQueueItem();
+        }
+        else
+        {
+          localSyncQueueItem = sPool;
+          sPool = sPoolnext;
+          next = null;
+        }
+        what = paramInt1;
+        arg1 = paramInt2;
+        arg2 = paramInt3;
+        arg3 = paramInt4;
+        arg4 = paramInt5;
+        arg5 = paramInt6;
+        data = paramObject;
+        return localSyncQueueItem;
+      }
+      catch (Throwable paramObject)
+      {
+        throw paramObject;
+      }
+    }
+    
+    public static SyncQueueItem obtainMessage(int paramInt1, int paramInt2, Object paramObject)
+    {
+      return obtainMessage(paramInt1, paramInt2, 0, 0, 0, 0, paramObject);
+    }
+    
+    public void recycle()
+    {
+      next = null;
+      arg5 = 0;
+      arg4 = 0;
+      arg3 = 0;
+      arg2 = 0;
+      arg1 = 0;
+      what = 0;
+      data = null;
+      Object localObject = sPoolLock;
+      try
+      {
+        if (sPool != null) {
+          next = sPool;
+        }
+        sPool = this;
+        return;
+      }
+      catch (Throwable localThrowable)
+      {
+        throw localThrowable;
+      }
+    }
+  }
+}

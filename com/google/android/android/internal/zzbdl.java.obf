@@ -1,0 +1,170 @@
+package com.google.android.gms.internal;
+
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzb;
+import com.google.android.gms.common.util.zzo;
+import com.google.android.gms.common.util.zzp;
+import f.a.a.a.a;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+public abstract class zzbdl
+{
+  public zzbdl() {}
+  
+  public static <O, I> I zza(zzbdm<I, O> paramZzbdm, Object paramObject)
+  {
+    if (zzbdm.zzc(paramZzbdm) != null) {
+      return paramZzbdm.convertBack(paramObject);
+    }
+    return paramObject;
+  }
+  
+  public static void zza(StringBuilder paramStringBuilder, zzbdm paramZzbdm, Object paramObject)
+  {
+    int i = zzfwq;
+    if (i == 11) {
+      paramZzbdm = ((zzbdl)zzfww.cast(paramObject)).toString();
+    }
+    for (;;)
+    {
+      paramStringBuilder.append(paramZzbdm);
+      return;
+      if (i != 7) {
+        break;
+      }
+      paramZzbdm = "\"";
+      paramStringBuilder.append("\"");
+      paramStringBuilder.append(zzo.zzgl((String)paramObject));
+    }
+    paramStringBuilder.append(paramObject);
+  }
+  
+  public static void zza(StringBuilder paramStringBuilder, zzbdm paramZzbdm, ArrayList<Object> paramArrayList)
+  {
+    paramStringBuilder.append("[");
+    int j = paramArrayList.size();
+    int i = 0;
+    while (i < j)
+    {
+      if (i > 0) {
+        paramStringBuilder.append(",");
+      }
+      Object localObject = paramArrayList.get(i);
+      if (localObject != null) {
+        zza(paramStringBuilder, paramZzbdm, localObject);
+      }
+      i += 1;
+    }
+    paramStringBuilder.append("]");
+  }
+  
+  public String toString()
+  {
+    Map localMap = zzzz();
+    StringBuilder localStringBuilder = new StringBuilder(100);
+    Iterator localIterator = localMap.keySet().iterator();
+    String str1;
+    while (localIterator.hasNext())
+    {
+      String str2 = (String)localIterator.next();
+      zzbdm localZzbdm = (zzbdm)localMap.get(str2);
+      if (zza(localZzbdm))
+      {
+        Object localObject = zza(localZzbdm, zzb(localZzbdm));
+        if (localStringBuilder.length() == 0) {
+          str1 = "{";
+        } else {
+          str1 = ",";
+        }
+        a.b(localStringBuilder, str1, "\"", str2, "\":");
+        if (localObject == null) {
+          localStringBuilder.append("null");
+        } else {
+          switch (zzfws)
+          {
+          default: 
+            if (zzfwr) {
+              zza(localStringBuilder, localZzbdm, (ArrayList)localObject);
+            }
+            break;
+          case 10: 
+            zzp.zza(localStringBuilder, (HashMap)localObject);
+            break;
+          case 9: 
+            localStringBuilder.append("\"");
+            str1 = zzb.zzk((byte[])localObject);
+            break;
+          case 8: 
+            localStringBuilder.append("\"");
+            str1 = zzb.zzj((byte[])localObject);
+            localStringBuilder.append(str1);
+            localStringBuilder.append("\"");
+            continue;
+            zza(localStringBuilder, localZzbdm, localObject);
+          }
+        }
+      }
+    }
+    if (localStringBuilder.length() > 0) {
+      str1 = "}";
+    } else {
+      str1 = "{}";
+    }
+    localStringBuilder.append(str1);
+    return localStringBuilder.toString();
+  }
+  
+  public boolean zza(zzbdm paramZzbdm)
+  {
+    if (zzfws == 11)
+    {
+      if (zzfwt)
+      {
+        paramZzbdm = zzfwu;
+        throw new UnsupportedOperationException("Concrete type arrays not supported");
+      }
+      paramZzbdm = zzfwu;
+      throw new UnsupportedOperationException("Concrete types not supported");
+    }
+    return zzgj(zzfwu);
+  }
+  
+  public Object zzb(zzbdm paramZzbdm)
+  {
+    Object localObject = zzfwu;
+    if (zzfww != null)
+    {
+      zzgi((String)localObject);
+      zzbp.zza(true, "Concrete field shouldn't be value object: %s", new Object[] { zzfwu });
+      boolean bool = zzfwt;
+      try
+      {
+        char c = Character.toUpperCase(((String)localObject).charAt(0));
+        paramZzbdm = ((String)localObject).substring(1);
+        localObject = new StringBuilder(String.valueOf(paramZzbdm).length() + 4);
+        ((StringBuilder)localObject).append("get");
+        ((StringBuilder)localObject).append(c);
+        ((StringBuilder)localObject).append(paramZzbdm);
+        paramZzbdm = ((StringBuilder)localObject).toString();
+        paramZzbdm = getClass().getMethod(paramZzbdm, new Class[0]).invoke(this, new Object[0]);
+        return paramZzbdm;
+      }
+      catch (Exception paramZzbdm)
+      {
+        throw new RuntimeException(paramZzbdm);
+      }
+    }
+    return zzgi((String)localObject);
+  }
+  
+  public abstract Object zzgi(String paramString);
+  
+  public abstract boolean zzgj(String paramString);
+  
+  public abstract Map<String, zzbdm<?, ?>> zzzz();
+}

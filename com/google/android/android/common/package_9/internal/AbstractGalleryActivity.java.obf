@@ -1,0 +1,168 @@
+package com.google.android.gms.common.api.internal;
+
+import android.app.PendingIntent;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import b.b.a.G;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import java.util.concurrent.atomic.AtomicReference;
+
+public abstract class zzo
+  extends LifecycleCallback
+  implements DialogInterface.OnCancelListener
+{
+  public volatile boolean mStarted;
+  public final GoogleApiAvailability zzfhl;
+  public final AtomicReference<zzp> zzfiw = new AtomicReference(null);
+  public final Handler zzfix = new Handler(Looper.getMainLooper());
+  
+  public zzo(zzcg paramZzcg)
+  {
+    this(paramZzcg, GoogleApiAvailability.zzffi);
+  }
+  
+  public zzo(zzcg paramZzcg, GoogleApiAvailability paramGoogleApiAvailability)
+  {
+    super(paramZzcg);
+    zzfhl = paramGoogleApiAvailability;
+  }
+  
+  public static int zza(@G zzp paramZzp)
+  {
+    if (paramZzp == null) {
+      return -1;
+    }
+    return paramZzp.zzagc();
+  }
+  
+  public final void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
+  {
+    zzp localZzp2 = (zzp)zzfiw.get();
+    int j = 1;
+    int i = 1;
+    zzp localZzp1;
+    if (paramInt1 != 1)
+    {
+      if (paramInt1 != 2)
+      {
+        localZzp1 = localZzp2;
+      }
+      else
+      {
+        j = zzfhl.isGooglePlayServicesAvailable(getActivity());
+        if (j == 0) {
+          paramInt1 = i;
+        } else {
+          paramInt1 = 0;
+        }
+        if (localZzp2 == null) {
+          return;
+        }
+        localZzp1 = localZzp2;
+        paramInt2 = paramInt1;
+        if (localZzp2.zzagd().getErrorCode() != 18) {
+          break label173;
+        }
+        localZzp1 = localZzp2;
+        paramInt2 = paramInt1;
+        if (j != 18) {
+          break label173;
+        }
+      }
+    }
+    else
+    {
+      if (paramInt2 == -1)
+      {
+        localZzp1 = localZzp2;
+        paramInt2 = j;
+        break label173;
+      }
+      localZzp1 = localZzp2;
+      if (paramInt2 == 0)
+      {
+        paramInt1 = 13;
+        if (paramIntent != null) {
+          paramInt1 = paramIntent.getIntExtra("<<ResolutionFailureErrorDetail>>", 13);
+        }
+        localZzp1 = new zzp(new ConnectionResult(paramInt1, null), zza(localZzp2));
+        zzfiw.set(localZzp1);
+      }
+    }
+    paramInt2 = 0;
+    label173:
+    if (paramInt2 != 0)
+    {
+      zzagb();
+      return;
+    }
+    if (localZzp1 != null) {
+      zza(localZzp1.zzagd(), localZzp1.zzagc());
+    }
+  }
+  
+  public void onCancel(DialogInterface paramDialogInterface)
+  {
+    zza(new ConnectionResult(13, null), zza((zzp)zzfiw.get()));
+    zzagb();
+  }
+  
+  public final void onCreate(Bundle paramBundle)
+  {
+    if (paramBundle != null)
+    {
+      AtomicReference localAtomicReference = zzfiw;
+      if (paramBundle.getBoolean("resolving_error", false)) {
+        paramBundle = new zzp(new ConnectionResult(paramBundle.getInt("failed_status"), (PendingIntent)paramBundle.getParcelable("failed_resolution")), paramBundle.getInt("failed_client_id", -1));
+      } else {
+        paramBundle = null;
+      }
+      localAtomicReference.set(paramBundle);
+    }
+  }
+  
+  public final void onSaveInstanceState(Bundle paramBundle)
+  {
+    zzp localZzp = (zzp)zzfiw.get();
+    if (localZzp != null)
+    {
+      paramBundle.putBoolean("resolving_error", true);
+      paramBundle.putInt("failed_client_id", localZzp.zzagc());
+      paramBundle.putInt("failed_status", localZzp.zzagd().getErrorCode());
+      paramBundle.putParcelable("failed_resolution", localZzp.zzagd().getResolution());
+    }
+  }
+  
+  public void onStart()
+  {
+    mStarted = true;
+  }
+  
+  public void onStop()
+  {
+    mStarted = false;
+  }
+  
+  public abstract void zza(ConnectionResult paramConnectionResult, int paramInt);
+  
+  public abstract void zzafw();
+  
+  public final void zzagb()
+  {
+    zzfiw.set(null);
+    zzafw();
+  }
+  
+  public final void zzb(ConnectionResult paramConnectionResult, int paramInt)
+  {
+    paramConnectionResult = new zzp(paramConnectionResult, paramInt);
+    if (zzfiw.compareAndSet(null, paramConnectionResult)) {
+      zzfix.post(new zzq(this, paramConnectionResult));
+    }
+  }
+}

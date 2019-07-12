@@ -1,0 +1,398 @@
+package com.google.android.gms.internal;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzeve<FieldDescriptorType extends zzevg<FieldDescriptorType>>
+{
+  public static final zzeve zzoob = new zzeve(true);
+  public boolean zzkff;
+  public final zzewx<FieldDescriptorType, Object> zzonz;
+  public boolean zzooa = false;
+  
+  public zzeve()
+  {
+    zzonz = zzewx.zzku(16);
+  }
+  
+  public zzeve(boolean paramBoolean)
+  {
+    zzonz = zzewx.zzku(0);
+    if (!zzkff)
+    {
+      zzonz.zzbhs();
+      zzkff = true;
+    }
+  }
+  
+  public static int zza(zzexu paramZzexu, int paramInt, Object paramObject)
+  {
+    paramInt = zzeuy.zzkb(paramInt);
+    int i = paramInt;
+    if (paramZzexu == zzexu.zzosh)
+    {
+      zzevu.zzg((zzewl)paramObject);
+      i = paramInt << 1;
+    }
+    int j = zzevf.zzood[paramZzexu.ordinal()];
+    paramInt = 4;
+    switch (j)
+    {
+    default: 
+      throw new RuntimeException("There is no way to get here, but the compiler thinks otherwise.");
+    case 18: 
+      if ((paramObject instanceof zzevv)) {}
+      for (paramInt = ((zzevv)paramObject).zzhk();; paramInt = ((Integer)paramObject).intValue())
+      {
+        paramInt = zzeuy.zzkc(paramInt);
+        break;
+      }
+    case 17: 
+      paramInt = zzeuy.zzcw(((Long)paramObject).longValue());
+      break;
+    case 16: 
+      paramInt = zzeuy.zzke(((Integer)paramObject).intValue());
+      break;
+    case 15: 
+      zzeuy.zzcy(((Long)paramObject).longValue());
+      break;
+    case 14: 
+      zzeuy.zzkg(((Integer)paramObject).intValue());
+      break;
+    case 13: 
+      paramInt = zzeuy.zzkd(((Integer)paramObject).intValue());
+      break;
+    case 12: 
+      if (!(paramObject instanceof zzeuk)) {
+        paramInt = zzeuy.zzbd((byte[])paramObject);
+      }
+      break;
+    case 11: 
+      if ((paramObject instanceof zzeuk)) {
+        paramInt = zzeuy.zzan((zzeuk)paramObject);
+      } else {
+        paramInt = zzeuy.zztk((String)paramObject);
+      }
+      break;
+    case 10: 
+      if ((paramObject instanceof zzewb)) {
+        paramInt = zzeuy.zza((zzewb)paramObject);
+      } else {
+        paramInt = zzeuy.zze((zzewl)paramObject);
+      }
+      break;
+    case 9: 
+      paramInt = zzeuy.zzf((zzewl)paramObject);
+      break;
+    case 8: 
+      zzeuy.zzcy(((Boolean)paramObject).booleanValue());
+      paramInt = 1;
+      break;
+    case 7: 
+      zzeuy.zzkf(((Integer)paramObject).intValue());
+      break;
+    case 6: 
+      zzeuy.zzcx(((Long)paramObject).longValue());
+      break;
+    case 5: 
+      paramInt = zzeuy.zzkc(((Integer)paramObject).intValue());
+      break;
+    case 4: 
+      paramInt = zzeuy.zzcv(((Long)paramObject).longValue());
+      break;
+    case 3: 
+      paramInt = zzeuy.zzcv(((Long)paramObject).longValue());
+      break;
+    case 2: 
+      zzeuy.zzf(((Float)paramObject).floatValue());
+      break;
+    }
+    zzeuy.zzm(((Double)paramObject).doubleValue());
+    paramInt = 8;
+    return i + paramInt;
+  }
+  
+  public static Object zza(zzeut paramZzeut, zzexu paramZzexu, boolean paramBoolean)
+    throws IOException
+  {
+    zzeya localZzeya = zzeya.zzotf;
+    switch (zzext.zzood[paramZzexu.ordinal()])
+    {
+    default: 
+      throw new RuntimeException("There is no way to get here, but the compiler thinks otherwise.");
+    case 18: 
+      throw new IllegalArgumentException("readPrimitiveField() cannot handle enums.");
+    case 17: 
+      throw new IllegalArgumentException("readPrimitiveField() cannot handle embedded messages.");
+    case 16: 
+      throw new IllegalArgumentException("readPrimitiveField() cannot handle nested groups.");
+    case 15: 
+      return localZzeya.zzb(paramZzeut);
+    case 14: 
+      return Long.valueOf(paramZzeut.zzctb());
+    case 13: 
+      return Integer.valueOf(paramZzeut.zzcta());
+    case 12: 
+      return Long.valueOf(paramZzeut.zzcsz());
+    case 11: 
+      return Integer.valueOf(paramZzeut.zzcsy());
+    case 10: 
+      return Integer.valueOf(paramZzeut.zzcsw());
+    case 9: 
+      return paramZzeut.zzcsv();
+    case 8: 
+      return Boolean.valueOf(paramZzeut.zzcst());
+    case 7: 
+      return Integer.valueOf(paramZzeut.zzcss());
+    case 6: 
+      return Long.valueOf(paramZzeut.zzcsr());
+    case 5: 
+      return Integer.valueOf(paramZzeut.zzcsq());
+    case 4: 
+      return Long.valueOf(paramZzeut.zzcso());
+    case 3: 
+      return Long.valueOf(paramZzeut.zzcsp());
+    case 2: 
+      return Float.valueOf(paramZzeut.readFloat());
+    }
+    return Double.valueOf(paramZzeut.readDouble());
+  }
+  
+  public static void zza(zzeuy paramZzeuy, zzexu paramZzexu, int paramInt, Object paramObject)
+    throws IOException
+  {
+    if (paramZzexu == zzexu.zzosh)
+    {
+      paramZzexu = (zzewl)paramObject;
+      zzevu.zzg(paramZzexu);
+      paramZzeuy.zzw(paramInt, 3);
+      paramZzexu.zza(paramZzeuy);
+      paramZzeuy.zzw(paramInt, 4);
+      return;
+    }
+    paramZzeuy.zzw(paramInt, paramZzexu.zzcvy());
+    switch (zzevf.zzood[paramZzexu.ordinal()])
+    {
+    default: 
+      return;
+    case 18: 
+      if ((paramObject instanceof zzevv))
+      {
+        paramZzeuy.zzjx(((zzevv)paramObject).zzhk());
+        return;
+      }
+      paramZzeuy.zzjx(((Integer)paramObject).intValue());
+      return;
+    case 17: 
+      paramZzeuy.zzcs(((Long)paramObject).longValue());
+      return;
+    case 16: 
+      paramZzeuy.zzjz(((Integer)paramObject).intValue());
+      return;
+    case 15: 
+      paramZzeuy.zzct(((Long)paramObject).longValue());
+      return;
+    case 14: 
+      paramZzeuy.zzka(((Integer)paramObject).intValue());
+      return;
+    case 13: 
+      paramZzeuy.zzjy(((Integer)paramObject).intValue());
+      return;
+    case 12: 
+      if ((paramObject instanceof zzeuk))
+      {
+        paramZzeuy.zzam((zzeuk)paramObject);
+        return;
+      }
+      paramZzexu = (byte[])paramObject;
+      paramZzeuy.zzh(paramZzexu, 0, paramZzexu.length);
+      return;
+    case 11: 
+      if ((paramObject instanceof zzeuk))
+      {
+        paramZzeuy.zzam((zzeuk)paramObject);
+        return;
+      }
+      paramZzeuy.zztj((String)paramObject);
+      return;
+    case 10: 
+      paramZzeuy.zzd((zzewl)paramObject);
+      return;
+    case 9: 
+      ((zzewl)paramObject).zza(paramZzeuy);
+      return;
+    case 8: 
+      paramZzeuy.write((byte)((Boolean)paramObject).booleanValue());
+      return;
+    case 7: 
+      paramZzeuy.zzka(((Integer)paramObject).intValue());
+      return;
+    case 6: 
+      paramZzeuy.zzct(((Long)paramObject).longValue());
+      return;
+    case 5: 
+      paramZzeuy.zzjx(((Integer)paramObject).intValue());
+      return;
+    case 4: 
+      paramZzeuy.zzcr(((Long)paramObject).longValue());
+      return;
+    case 3: 
+      paramZzeuy.zzcr(((Long)paramObject).longValue());
+      return;
+    case 2: 
+      paramZzeuy.zzka(Float.floatToRawIntBits(((Float)paramObject).floatValue()));
+      return;
+    }
+    paramZzeuy.zzct(Double.doubleToRawLongBits(((Double)paramObject).doubleValue()));
+  }
+  
+  private void zza(FieldDescriptorType paramFieldDescriptorType, Object paramObject)
+  {
+    if (paramFieldDescriptorType.zzctx())
+    {
+      if ((paramObject instanceof List))
+      {
+        ArrayList localArrayList = new ArrayList();
+        localArrayList.addAll((List)paramObject);
+        int j = localArrayList.size();
+        int i = 0;
+        while (i < j)
+        {
+          paramObject = localArrayList.get(i);
+          i += 1;
+          zza(paramFieldDescriptorType.zzctw(), paramObject);
+        }
+        paramObject = localArrayList;
+      }
+      else
+      {
+        throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
+      }
+    }
+    else {
+      zza(paramFieldDescriptorType.zzctw(), paramObject);
+    }
+    if ((paramObject instanceof zzewb)) {
+      zzooa = true;
+    }
+    zzonz.zza(paramFieldDescriptorType, paramObject);
+  }
+  
+  /* Error */
+  public static void zza(zzexu paramZzexu, Object paramObject)
+  {
+    // Byte code:
+    //   0: aload_1
+    //   1: invokestatic 369	com/google/android/gms/internal/zzevu:zzu	(Ljava/lang/Object;)Ljava/lang/Object;
+    //   4: pop
+    //   5: getstatic 372	com/google/android/gms/internal/zzevf:zzooc	[I
+    //   8: aload_0
+    //   9: invokevirtual 376	com/google/android/gms/internal/zzexu:zzcvx	()Lcom/google/android/gms/internal/zzexz;
+    //   12: invokevirtual 73	java/lang/Enum:ordinal	()I
+    //   15: iaload
+    //   16: istore_2
+    //   17: iconst_0
+    //   18: istore_3
+    //   19: iload_2
+    //   20: tableswitch	default:+52->72, 1:+148->168, 2:+140->160, 3:+132->152, 4:+124->144, 5:+116->136, 6:+108->128, 7:+91->111, 8:+72->92, 9:+55->75
+    //   72: goto +101 -> 173
+    //   75: aload_1
+    //   76: instanceof 55
+    //   79: ifne +27 -> 106
+    //   82: aload_1
+    //   83: instanceof 135
+    //   86: ifeq +87 -> 173
+    //   89: goto +17 -> 106
+    //   92: aload_1
+    //   93: instanceof 90
+    //   96: ifne +10 -> 106
+    //   99: aload_1
+    //   100: instanceof 82
+    //   103: ifeq +70 -> 173
+    //   106: iconst_1
+    //   107: istore_3
+    //   108: goto +65 -> 173
+    //   111: aload_1
+    //   112: instanceof 117
+    //   115: ifne -9 -> 106
+    //   118: aload_1
+    //   119: instanceof 119
+    //   122: ifeq +51 -> 173
+    //   125: goto -19 -> 106
+    //   128: aload_1
+    //   129: instanceof 129
+    //   132: istore_3
+    //   133: goto +40 -> 173
+    //   136: aload_1
+    //   137: instanceof 147
+    //   140: istore_3
+    //   141: goto +32 -> 173
+    //   144: aload_1
+    //   145: instanceof 174
+    //   148: istore_3
+    //   149: goto +24 -> 173
+    //   152: aload_1
+    //   153: instanceof 165
+    //   156: istore_3
+    //   157: goto +16 -> 173
+    //   160: aload_1
+    //   161: instanceof 95
+    //   164: istore_3
+    //   165: goto +8 -> 173
+    //   168: aload_1
+    //   169: instanceof 90
+    //   172: istore_3
+    //   173: iload_3
+    //   174: ifeq +4 -> 178
+    //   177: return
+    //   178: new 196	java/lang/IllegalArgumentException
+    //   181: dup
+    //   182: ldc_w 360
+    //   185: invokespecial 199	java/lang/IllegalArgumentException:<init>	(Ljava/lang/String;)V
+    //   188: astore_0
+    //   189: goto +5 -> 194
+    //   192: aload_0
+    //   193: athrow
+    //   194: goto -2 -> 192
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	197	0	paramZzexu	zzexu
+    //   0	197	1	paramObject	Object
+    //   16	4	2	i	int
+    //   18	156	3	bool	boolean
+  }
+  
+  public static <T extends zzevg<T>> zzeve<T> zzctv()
+  {
+    return new zzeve();
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (!(paramObject instanceof zzeve)) {
+      return false;
+    }
+    paramObject = (zzeve)paramObject;
+    return zzonz.equals(zzonz);
+  }
+  
+  public final int hashCode()
+  {
+    return zzonz.hashCode();
+  }
+  
+  public final Iterator<Map.Entry<FieldDescriptorType, Object>> iterator()
+  {
+    if (zzooa) {
+      return new zzewe(zzonz.entrySet().iterator());
+    }
+    return zzonz.entrySet().iterator();
+  }
+}

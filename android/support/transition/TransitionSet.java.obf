@@ -1,0 +1,627 @@
+package android.support.transition;
+
+import android.animation.TimeInterpolator;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
+import android.util.AndroidRuntimeException;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.v;
+import b.b.v.X;
+import b.b.v.ca;
+import b.b.v.fa;
+import b.b.v.ga;
+import b.b.v.ia;
+import b.b.v.ja;
+import b.b.x.b.b.j;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class TransitionSet
+  extends Transition
+{
+  public static final int a = 1;
+  public static final int b = 2;
+  public static final int c = 4;
+  public static final int d = 8;
+  public static final int e = 0;
+  public static final int f = 1;
+  public ArrayList<Transition> g = new ArrayList();
+  public boolean h = true;
+  public int i;
+  public boolean j = false;
+  public int k = 0;
+  
+  public TransitionSet() {}
+  
+  public TransitionSet(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, X.i);
+    b(j.b(paramContext, (XmlResourceParser)paramAttributeSet, "transitionOrdering", 0, 0));
+    paramContext.recycle();
+  }
+  
+  private void f()
+  {
+    a localA = new a(this);
+    Iterator localIterator = g.iterator();
+    while (localIterator.hasNext()) {
+      ((Transition)localIterator.next()).addListener(localA);
+    }
+    i = g.size();
+  }
+  
+  public Transition a(int paramInt)
+  {
+    if ((paramInt >= 0) && (paramInt < g.size())) {
+      return (Transition)g.get(paramInt);
+    }
+    return null;
+  }
+  
+  @F
+  public TransitionSet a(@F Transition paramTransition)
+  {
+    g.add(paramTransition);
+    mParent = this;
+    long l = mDuration;
+    if (l >= 0L) {
+      paramTransition.setDuration(l);
+    }
+    if ((k & 0x1) != 0) {
+      paramTransition.setInterpolator(getInterpolator());
+    }
+    if ((k & 0x2) != 0) {
+      paramTransition.setPropagation(getPropagation());
+    }
+    if ((k & 0x4) != 0) {
+      paramTransition.setPathMotion(getPathMotion());
+    }
+    if ((k & 0x8) != 0) {
+      paramTransition.setEpicenterCallback(getEpicenterCallback());
+    }
+    return this;
+  }
+  
+  @F
+  public TransitionSet addListener(@F Transition.e paramE)
+  {
+    super.addListener(paramE);
+    return (TransitionSet)this;
+  }
+  
+  @F
+  public TransitionSet addTarget(@v int paramInt)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).addTarget(paramInt);
+      m += 1;
+    }
+    super.addTarget(paramInt);
+    return (TransitionSet)this;
+  }
+  
+  @F
+  public TransitionSet addTarget(@F View paramView)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).addTarget(paramView);
+      m += 1;
+    }
+    mTargets.add(paramView);
+    return this;
+  }
+  
+  @F
+  public TransitionSet addTarget(@F Class paramClass)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).addTarget(paramClass);
+      m += 1;
+    }
+    super.addTarget(paramClass);
+    return (TransitionSet)this;
+  }
+  
+  @F
+  public TransitionSet addTarget(@F String paramString)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).addTarget(paramString);
+      m += 1;
+    }
+    super.addTarget(paramString);
+    return (TransitionSet)this;
+  }
+  
+  public int b()
+  {
+    return h ^ true;
+  }
+  
+  @F
+  public TransitionSet b(int paramInt)
+  {
+    if (paramInt != 0)
+    {
+      if (paramInt == 1)
+      {
+        h = false;
+        return this;
+      }
+      throw new AndroidRuntimeException(a.a("Invalid parameter for TransitionSet ordering: ", paramInt));
+    }
+    h = true;
+    return this;
+  }
+  
+  @F
+  public TransitionSet b(@F Transition paramTransition)
+  {
+    g.remove(paramTransition);
+    mParent = null;
+    return this;
+  }
+  
+  public int c()
+  {
+    return g.size();
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void cancel()
+  {
+    super.cancel();
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).cancel();
+      m += 1;
+    }
+  }
+  
+  public void captureEndValues(@F ia paramIa)
+  {
+    if (isValidTarget(b))
+    {
+      Iterator localIterator = g.iterator();
+      while (localIterator.hasNext())
+      {
+        Transition localTransition = (Transition)localIterator.next();
+        if (localTransition.isValidTarget(b))
+        {
+          localTransition.captureEndValues(paramIa);
+          c.add(localTransition);
+        }
+      }
+    }
+  }
+  
+  public void capturePropagationValues(ia paramIa)
+  {
+    super.capturePropagationValues(paramIa);
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).capturePropagationValues(paramIa);
+      m += 1;
+    }
+  }
+  
+  public void captureStartValues(@F ia paramIa)
+  {
+    if (isValidTarget(b))
+    {
+      Iterator localIterator = g.iterator();
+      while (localIterator.hasNext())
+      {
+        Transition localTransition = (Transition)localIterator.next();
+        if (localTransition.isValidTarget(b))
+        {
+          localTransition.captureStartValues(paramIa);
+          c.add(localTransition);
+        }
+      }
+    }
+  }
+  
+  public Transition clone()
+  {
+    TransitionSet localTransitionSet = (TransitionSet)super.clone();
+    g = new ArrayList();
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      localTransitionSet.a(((Transition)g.get(m)).clone());
+      m += 1;
+    }
+    return localTransitionSet;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void createAnimators(ViewGroup paramViewGroup, ja paramJa1, ja paramJa2, ArrayList<ia> paramArrayList1, ArrayList<ia> paramArrayList2)
+  {
+    long l1 = getStartDelay();
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      Transition localTransition = (Transition)g.get(m);
+      if ((l1 > 0L) && ((h) || (m == 0)))
+      {
+        long l2 = localTransition.getStartDelay();
+        if (l2 > 0L) {
+          localTransition.setStartDelay(l2 + l1);
+        } else {
+          localTransition.setStartDelay(l1);
+        }
+      }
+      localTransition.createAnimators(paramViewGroup, paramJa1, paramJa2, paramArrayList1, paramArrayList2);
+      m += 1;
+    }
+  }
+  
+  @F
+  public Transition excludeTarget(int paramInt, boolean paramBoolean)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).excludeTarget(paramInt, paramBoolean);
+      m += 1;
+    }
+    super.excludeTarget(paramInt, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeTarget(@F View paramView, boolean paramBoolean)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).excludeTarget(paramView, paramBoolean);
+      m += 1;
+    }
+    super.excludeTarget(paramView, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeTarget(@F Class paramClass, boolean paramBoolean)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).excludeTarget(paramClass, paramBoolean);
+      m += 1;
+    }
+    super.excludeTarget(paramClass, paramBoolean);
+    return this;
+  }
+  
+  @F
+  public Transition excludeTarget(@F String paramString, boolean paramBoolean)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).excludeTarget(paramString, paramBoolean);
+      m += 1;
+    }
+    mTargetNameExcludes = Transition.excludeObject(mTargetNameExcludes, paramString, paramBoolean);
+    return this;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void forceToEnd(ViewGroup paramViewGroup)
+  {
+    super.forceToEnd(paramViewGroup);
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).forceToEnd(paramViewGroup);
+      m += 1;
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void pause(View paramView)
+  {
+    super.pause(paramView);
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).pause(paramView);
+      m += 1;
+    }
+  }
+  
+  @F
+  public TransitionSet removeListener(@F Transition.e paramE)
+  {
+    super.removeListener(paramE);
+    return (TransitionSet)this;
+  }
+  
+  @F
+  public TransitionSet removeTarget(@v int paramInt)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).removeTarget(paramInt);
+      m += 1;
+    }
+    super.removeTarget(paramInt);
+    return (TransitionSet)this;
+  }
+  
+  @F
+  public TransitionSet removeTarget(@F View paramView)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).removeTarget(paramView);
+      m += 1;
+    }
+    mTargets.remove(paramView);
+    return this;
+  }
+  
+  @F
+  public TransitionSet removeTarget(@F Class paramClass)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).removeTarget(paramClass);
+      m += 1;
+    }
+    ArrayList localArrayList = mTargetTypes;
+    if (localArrayList != null) {
+      localArrayList.remove(paramClass);
+    }
+    return this;
+  }
+  
+  @F
+  public TransitionSet removeTarget(@F String paramString)
+  {
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).removeTarget(paramString);
+      m += 1;
+    }
+    ArrayList localArrayList = mTargetNames;
+    if (localArrayList != null) {
+      localArrayList.remove(paramString);
+    }
+    return this;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void resume(View paramView)
+  {
+    super.resume(paramView);
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).resume(paramView);
+      m += 1;
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void runAnimators()
+  {
+    if (g.isEmpty())
+    {
+      start();
+      end();
+      return;
+    }
+    f();
+    Object localObject;
+    if (!h)
+    {
+      int m = 1;
+      while (m < g.size())
+      {
+        ((Transition)g.get(m - 1)).addListener(new ga(this, (Transition)g.get(m)));
+        m += 1;
+      }
+      localObject = (Transition)g.get(0);
+      if (localObject != null) {
+        ((Transition)localObject).runAnimators();
+      }
+    }
+    else
+    {
+      localObject = g.iterator();
+      while (((Iterator)localObject).hasNext()) {
+        ((Transition)((Iterator)localObject).next()).runAnimators();
+      }
+    }
+  }
+  
+  public void setCanRemoveViews(boolean paramBoolean)
+  {
+    mCanRemoveViews = paramBoolean;
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).setCanRemoveViews(paramBoolean);
+      m += 1;
+    }
+  }
+  
+  @F
+  public TransitionSet setDuration(long paramLong)
+  {
+    mDuration = paramLong;
+    if (mDuration >= 0L)
+    {
+      int n = g.size();
+      int m = 0;
+      while (m < n)
+      {
+        ((Transition)g.get(m)).setDuration(paramLong);
+        m += 1;
+      }
+    }
+    return this;
+  }
+  
+  public void setEpicenterCallback(Transition.c paramC)
+  {
+    mEpicenterCallback = paramC;
+    k |= 0x8;
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).setEpicenterCallback(paramC);
+      m += 1;
+    }
+  }
+  
+  @F
+  public TransitionSet setInterpolator(@G TimeInterpolator paramTimeInterpolator)
+  {
+    k |= 0x1;
+    ArrayList localArrayList = g;
+    if (localArrayList != null)
+    {
+      int n = localArrayList.size();
+      int m = 0;
+      while (m < n)
+      {
+        ((Transition)g.get(m)).setInterpolator(paramTimeInterpolator);
+        m += 1;
+      }
+    }
+    mInterpolator = paramTimeInterpolator;
+    return this;
+  }
+  
+  public void setPathMotion(PathMotion paramPathMotion)
+  {
+    super.setPathMotion(paramPathMotion);
+    k |= 0x4;
+    int m = 0;
+    while (m < g.size())
+    {
+      ((Transition)g.get(m)).setPathMotion(paramPathMotion);
+      m += 1;
+    }
+  }
+  
+  public void setPropagation(fa paramFa)
+  {
+    mPropagation = paramFa;
+    k |= 0x2;
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).setPropagation(paramFa);
+      m += 1;
+    }
+  }
+  
+  public TransitionSet setSceneRoot(ViewGroup paramViewGroup)
+  {
+    mSceneRoot = paramViewGroup;
+    int n = g.size();
+    int m = 0;
+    while (m < n)
+    {
+      ((Transition)g.get(m)).setSceneRoot(paramViewGroup);
+      m += 1;
+    }
+    return this;
+  }
+  
+  @F
+  public TransitionSet setStartDelay(long paramLong)
+  {
+    mStartDelay = paramLong;
+    return this;
+  }
+  
+  public String toString(String paramString)
+  {
+    Object localObject = super.toString(paramString);
+    int m = 0;
+    while (m < g.size())
+    {
+      localObject = a.d((String)localObject, "\n");
+      Transition localTransition = (Transition)g.get(m);
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(paramString);
+      localStringBuilder.append("  ");
+      ((StringBuilder)localObject).append(localTransition.toString(localStringBuilder.toString()));
+      localObject = ((StringBuilder)localObject).toString();
+      m += 1;
+    }
+    return localObject;
+  }
+  
+  public static class a
+    extends ca
+  {
+    public TransitionSet a;
+    
+    public a(TransitionSet paramTransitionSet)
+    {
+      a = paramTransitionSet;
+    }
+    
+    public void c(@F Transition paramTransition)
+    {
+      paramTransition = a;
+      if (!j)
+      {
+        paramTransition.start();
+        a.j = true;
+      }
+    }
+    
+    public void d(@F Transition paramTransition)
+    {
+      TransitionSet localTransitionSet = a;
+      i -= 1;
+      if (i == 0)
+      {
+        j = false;
+        localTransitionSet.end();
+      }
+      paramTransition.removeListener(this);
+    }
+  }
+}

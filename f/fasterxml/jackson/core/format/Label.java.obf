@@ -1,0 +1,149 @@
+package f.d.a.a.b;
+
+import f.d.a.a.e;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+
+public class a
+{
+  public static final int a = 64;
+  public final e[] b;
+  public final d c;
+  public final d d;
+  public final int e;
+  
+  public a(Collection<e> paramCollection)
+  {
+    this((e[])paramCollection.toArray(new e[paramCollection.size()]));
+  }
+  
+  public a(e... paramVarArgs)
+  {
+    b = paramVarArgs;
+    c = localD1;
+    d = localD2;
+    e = 64;
+  }
+  
+  public a(e[] paramArrayOfE, d paramD1, d paramD2, int paramInt)
+  {
+    b = paramArrayOfE;
+    c = paramD1;
+    d = paramD2;
+    e = paramInt;
+  }
+  
+  private b a(c.a paramA)
+    throws IOException
+  {
+    e[] arrayOfE = b;
+    int j = arrayOfE.length;
+    Object localObject2 = null;
+    int i = 0;
+    Object localObject3;
+    Object localObject4;
+    for (Object localObject1 = null;; localObject1 = localObject4)
+    {
+      localObject3 = localObject2;
+      localObject4 = localObject1;
+      if (i >= j) {
+        break;
+      }
+      e localE = arrayOfE[i];
+      paramA.reset();
+      localObject3 = localE.a(paramA);
+      Object localObject5 = localObject2;
+      localObject4 = localObject1;
+      if (localObject3 != null) {
+        if (((Enum)localObject3).ordinal() < d.ordinal())
+        {
+          localObject5 = localObject2;
+          localObject4 = localObject1;
+        }
+        else if ((localObject2 != null) && (localObject1.ordinal() >= ((Enum)localObject3).ordinal()))
+        {
+          localObject5 = localObject2;
+          localObject4 = localObject1;
+        }
+        else
+        {
+          if (((Enum)localObject3).ordinal() >= c.ordinal())
+          {
+            localObject4 = localObject3;
+            localObject3 = localE;
+            break;
+          }
+          localObject4 = localObject3;
+          localObject5 = localE;
+        }
+      }
+      i += 1;
+      localObject2 = localObject5;
+    }
+    return paramA.a((e)localObject3, localObject4);
+  }
+  
+  public a a(int paramInt)
+  {
+    if (paramInt == e) {
+      return this;
+    }
+    return new a(b, c, d, paramInt);
+  }
+  
+  public a a(d paramD)
+  {
+    if (paramD == d) {
+      return this;
+    }
+    return new a(b, c, paramD, e);
+  }
+  
+  public b a(InputStream paramInputStream)
+    throws IOException
+  {
+    return a(new c.a(paramInputStream, new byte[e]));
+  }
+  
+  public b a(byte[] paramArrayOfByte)
+    throws IOException
+  {
+    return a(new c.a(paramArrayOfByte));
+  }
+  
+  public b a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    return a(new c.a(paramArrayOfByte, paramInt1, paramInt2));
+  }
+  
+  public a b(d paramD)
+  {
+    if (paramD == c) {
+      return this;
+    }
+    return new a(b, paramD, d, e);
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append('[');
+    e[] arrayOfE = b;
+    int j = arrayOfE.length;
+    if (j > 0)
+    {
+      localStringBuilder.append(arrayOfE[0].e());
+      int i = 1;
+      while (i < j)
+      {
+        localStringBuilder.append(", ");
+        localStringBuilder.append(b[i].e());
+        i += 1;
+      }
+    }
+    localStringBuilder.append(']');
+    return localStringBuilder.toString();
+  }
+}

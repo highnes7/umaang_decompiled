@@ -1,0 +1,34 @@
+package com.google.android.gms.internal;
+
+import android.os.Handler;
+import java.util.concurrent.Executor;
+
+public final class zzh
+  implements zzw
+{
+  public final Executor zzr;
+  
+  public zzh(Handler paramHandler)
+  {
+    zzr = new zzi(this, paramHandler);
+  }
+  
+  public final void zza(zzp<?> paramZzp, zzaa paramZzaa)
+  {
+    paramZzp.zzb("post-error");
+    paramZzaa = new zzt(paramZzaa);
+    zzr.execute(new zzj(this, paramZzp, paramZzaa, null));
+  }
+  
+  public final void zza(zzp<?> paramZzp, zzt<?> paramZzt)
+  {
+    zza(paramZzp, paramZzt, null);
+  }
+  
+  public final void zza(zzp<?> paramZzp, zzt<?> paramZzt, Runnable paramRunnable)
+  {
+    paramZzp.zzk();
+    paramZzp.zzb("post-response");
+    zzr.execute(new zzj(this, paramZzp, paramZzt, paramRunnable));
+  }
+}

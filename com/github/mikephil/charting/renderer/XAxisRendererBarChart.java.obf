@@ -1,0 +1,113 @@
+package com.github.mikephil.charting.renderer;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.ComponentBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.utils.Transformer;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import java.util.List;
+
+public class XAxisRendererBarChart
+  extends XAxisRenderer
+{
+  public BarChart mChart;
+  
+  public XAxisRendererBarChart(ViewPortHandler paramViewPortHandler, XAxis paramXAxis, Transformer paramTransformer, BarChart paramBarChart)
+  {
+    super(paramViewPortHandler, paramXAxis, paramTransformer);
+    mChart = paramBarChart;
+  }
+  
+  public void drawLabels(Canvas paramCanvas, float paramFloat, PointF paramPointF)
+  {
+    float f1 = mXAxis.getLabelRotationAngle();
+    float[] arrayOfFloat = new float[2];
+    float[] tmp16_14 = arrayOfFloat;
+    tmp16_14[0] = 0.0F;
+    float[] tmp20_16 = tmp16_14;
+    tmp20_16[1] = 0.0F;
+    tmp20_16;
+    BarData localBarData = (BarData)mChart.getData();
+    int j = localBarData.getDataSetCount();
+    int i = mMinX;
+    while (i <= mMaxX)
+    {
+      float f2 = i * j;
+      float f3 = i;
+      float f4 = localBarData.getGroupSpace();
+      arrayOfFloat[0] = (localBarData.getGroupSpace() / 2.0F + (f4 * f3 + f2));
+      if (j > 1)
+      {
+        f2 = arrayOfFloat[0];
+        arrayOfFloat[0] = ((j - 1.0F) / 2.0F + f2);
+      }
+      mTrans.pointValuesToPixel(arrayOfFloat);
+      if ((mViewPortHandler.isInBoundsX(arrayOfFloat[0])) && (i >= 0) && (i < mXAxis.getValues().size()))
+      {
+        String str = (String)mXAxis.getValues().get(i);
+        if (mXAxis.isAvoidFirstLastClippingEnabled()) {
+          if (i == mXAxis.getValues().size() - 1)
+          {
+            f3 = Utils.calcTextWidth(mAxisLabelPaint, str);
+            f2 = arrayOfFloat[0];
+            f3 /= 2.0F;
+            if (f2 + f3 > mViewPortHandler.contentRight()) {
+              arrayOfFloat[0] = (mViewPortHandler.contentRight() - f3);
+            }
+          }
+          else if (i == 0)
+          {
+            f3 = Utils.calcTextWidth(mAxisLabelPaint, str);
+            f2 = arrayOfFloat[0];
+            f3 /= 2.0F;
+            if (f2 - f3 < mViewPortHandler.contentLeft()) {
+              arrayOfFloat[0] = (mViewPortHandler.contentLeft() + f3);
+            }
+          }
+        }
+        drawLabel(paramCanvas, str, i, arrayOfFloat[0], paramFloat, paramPointF, f1);
+      }
+      i += mXAxis.mAxisLabelModulus;
+    }
+  }
+  
+  public void renderGridLines(Canvas paramCanvas)
+  {
+    if (mXAxis.isDrawGridLinesEnabled())
+    {
+      if (!mXAxis.isEnabled()) {
+        return;
+      }
+      float[] arrayOfFloat = new float[2];
+      float[] tmp28_26 = arrayOfFloat;
+      tmp28_26[0] = 0.0F;
+      float[] tmp32_28 = tmp28_26;
+      tmp32_28[1] = 0.0F;
+      tmp32_28;
+      mGridPaint.setColor(mXAxis.getGridColor());
+      mGridPaint.setStrokeWidth(mXAxis.getGridLineWidth());
+      BarData localBarData = (BarData)mChart.getData();
+      int j = localBarData.getDataSetCount();
+      int i = mMinX;
+      while (i < mMaxX)
+      {
+        float f1 = i * j;
+        float f2 = i;
+        arrayOfFloat[0] = (localBarData.getGroupSpace() * f2 + f1 - 0.5F);
+        mTrans.pointValuesToPixel(arrayOfFloat);
+        if (mViewPortHandler.isInBoundsX(arrayOfFloat[0])) {
+          paramCanvas.drawLine(arrayOfFloat[0], mViewPortHandler.offsetTop(), arrayOfFloat[0], mViewPortHandler.contentBottom(), mGridPaint);
+        }
+        i += mXAxis.mAxisLabelModulus;
+      }
+    }
+  }
+}

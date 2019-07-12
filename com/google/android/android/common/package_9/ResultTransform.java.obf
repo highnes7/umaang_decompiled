@@ -1,0 +1,27 @@
+package com.google.android.gms.common.api;
+
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.X;
+import com.google.android.gms.common.api.internal.zzcu;
+
+public abstract class ResultTransform<R extends Result, S extends Result>
+{
+  public ResultTransform() {}
+  
+  @F
+  public final PendingResult<S> createFailedResult(@F Status paramStatus)
+  {
+    return new zzcu(paramStatus);
+  }
+  
+  @F
+  public Status onFailure(@F Status paramStatus)
+  {
+    return paramStatus;
+  }
+  
+  @G
+  @X
+  public abstract PendingResult<S> onSuccess(@F R paramR);
+}

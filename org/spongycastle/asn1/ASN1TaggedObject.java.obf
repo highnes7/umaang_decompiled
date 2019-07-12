@@ -1,0 +1,168 @@
+package org.spongycastle.asn1;
+
+import f.a.a.a.a;
+import java.io.IOException;
+
+public abstract class ASN1TaggedObject
+  extends ASN1Primitive
+  implements ASN1TaggedObjectParser
+{
+  public boolean empty = false;
+  public boolean explicit = true;
+  public ASN1Encodable obj = null;
+  public int tagNo;
+  
+  public ASN1TaggedObject(boolean paramBoolean, int paramInt, ASN1Encodable paramASN1Encodable)
+  {
+    if ((paramASN1Encodable instanceof ASN1Choice)) {
+      explicit = true;
+    } else {
+      explicit = paramBoolean;
+    }
+    tagNo = paramInt;
+    if (explicit)
+    {
+      obj = paramASN1Encodable;
+      return;
+    }
+    paramBoolean = paramASN1Encodable.toASN1Primitive() instanceof ASN1Set;
+    obj = paramASN1Encodable;
+  }
+  
+  public static ASN1TaggedObject getInstance(Object paramObject)
+  {
+    if ((paramObject != null) && (!(paramObject instanceof ASN1TaggedObject)))
+    {
+      if ((paramObject instanceof byte[])) {
+        try
+        {
+          paramObject = getInstance(ASN1Primitive.fromByteArray((byte[])paramObject));
+          return paramObject;
+        }
+        catch (IOException paramObject)
+        {
+          throw new IllegalArgumentException(a.a(paramObject, a.b("failed to construct tagged object from byte[]: ")));
+        }
+      }
+      throw new IllegalArgumentException(a.a(paramObject, a.b("unknown object in getInstance: ")));
+    }
+    return (ASN1TaggedObject)paramObject;
+  }
+  
+  public static ASN1TaggedObject getInstance(ASN1TaggedObject paramASN1TaggedObject, boolean paramBoolean)
+  {
+    if (paramBoolean) {
+      return (ASN1TaggedObject)paramASN1TaggedObject.getObject();
+    }
+    throw new IllegalArgumentException("implicitly tagged tagged object");
+  }
+  
+  public boolean asn1Equals(ASN1Primitive paramASN1Primitive)
+  {
+    if (!(paramASN1Primitive instanceof ASN1TaggedObject)) {
+      return false;
+    }
+    paramASN1Primitive = (ASN1TaggedObject)paramASN1Primitive;
+    if ((tagNo == tagNo) && (empty == empty))
+    {
+      if (explicit != explicit) {
+        return false;
+      }
+      ASN1Encodable localASN1Encodable = obj;
+      if (localASN1Encodable == null)
+      {
+        if (obj != null) {
+          return false;
+        }
+      }
+      else if (!localASN1Encodable.toASN1Primitive().equals(obj.toASN1Primitive())) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+  
+  public abstract void encode(ASN1OutputStream paramASN1OutputStream)
+    throws IOException;
+  
+  public ASN1Primitive getLoadedObject()
+  {
+    return toASN1Primitive();
+  }
+  
+  public ASN1Primitive getObject()
+  {
+    ASN1Encodable localASN1Encodable = obj;
+    if (localASN1Encodable != null) {
+      return localASN1Encodable.toASN1Primitive();
+    }
+    return null;
+  }
+  
+  public ASN1Encodable getObjectParser(int paramInt, boolean paramBoolean)
+    throws IOException
+  {
+    if (paramInt != 4)
+    {
+      if (paramInt != 16)
+      {
+        if (paramInt != 17)
+        {
+          if (paramBoolean) {
+            return getObject();
+          }
+          throw new ASN1Exception(a.a("implicit tagging not implemented for tag: ", paramInt));
+        }
+        return ASN1Set.getInstance(this, paramBoolean).parser();
+      }
+      return ASN1Sequence.getInstance(this, paramBoolean).parser();
+    }
+    return ASN1OctetString.getInstance(this, paramBoolean).parser();
+  }
+  
+  public int getTagNo()
+  {
+    return tagNo;
+  }
+  
+  public int hashCode()
+  {
+    int j = tagNo;
+    ASN1Encodable localASN1Encodable = obj;
+    int i = j;
+    if (localASN1Encodable != null) {
+      i = j ^ localASN1Encodable.hashCode();
+    }
+    return i;
+  }
+  
+  public boolean isEmpty()
+  {
+    return empty;
+  }
+  
+  public boolean isExplicit()
+  {
+    return explicit;
+  }
+  
+  public ASN1Primitive toDERObject()
+  {
+    return new DERTaggedObject(explicit, tagNo, obj);
+  }
+  
+  public ASN1Primitive toDLObject()
+  {
+    return new DLTaggedObject(explicit, tagNo, obj);
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.b("[");
+    localStringBuilder.append(tagNo);
+    localStringBuilder.append("]");
+    localStringBuilder.append(obj);
+    return localStringBuilder.toString();
+  }
+}

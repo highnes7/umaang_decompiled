@@ -1,0 +1,36 @@
+package com.google.android.gms.vision.face.internal.client;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.apps.common.proguard.UsedByNative;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+@UsedByNative("wrapper.cc")
+public final class LandmarkParcel
+  extends zzbck
+{
+  public static final Parcelable.Creator<LandmarkParcel> CREATOR = new zzi();
+  public final int type;
+  public int versionCode;
+  public final float x;
+  public final float y;
+  
+  public LandmarkParcel(int paramInt1, float paramFloat1, float paramFloat2, int paramInt2)
+  {
+    versionCode = paramInt1;
+    x = paramFloat1;
+    y = paramFloat2;
+    type = paramInt2;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, versionCode);
+    zzbcn.zza(paramParcel, 2, x);
+    zzbcn.zza(paramParcel, 3, y);
+    zzbcn.zzc(paramParcel, 4, type);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+}

@@ -1,0 +1,81 @@
+package com.google.android.gms.internal;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import b.b.a.C;
+import b.b.a.X;
+import com.google.android.gms.common.internal.zzbp;
+
+public class zzccf
+  extends BroadcastReceiver
+{
+  public static String zzdtj = "com.google.android.gms.internal.zzccf";
+  public boolean mRegistered;
+  public boolean zzdtk;
+  public final zzccw zziki;
+  
+  public zzccf(zzccw paramZzccw)
+  {
+    zzbp.zzu(paramZzccw);
+    zziki = paramZzccw;
+  }
+  
+  @C
+  public void onReceive(Context paramContext, Intent paramIntent)
+  {
+    zziki.zzwk();
+    paramContext = paramIntent.getAction();
+    zziki.zzaul().zzayj().zzj("NetworkBroadcastReceiver received action", paramContext);
+    if ("android.net.conn.CONNECTIVITY_CHANGE".equals(paramContext))
+    {
+      boolean bool = zziki.zzaza().zzyx();
+      if (zzdtk != bool)
+      {
+        zzdtk = bool;
+        zziki.zzauk().zzg(new zzccg(this, bool));
+      }
+      return;
+    }
+    zziki.zzaul().zzayf().zzj("NetworkBroadcastReceiver received unknown action", paramContext);
+  }
+  
+  @X
+  public final void unregister()
+  {
+    zziki.zzwk();
+    zziki.zzauk().zzuj();
+    zziki.zzauk().zzuj();
+    if (!mRegistered) {
+      return;
+    }
+    zziki.zzaul().zzayj().log("Unregistering connectivity change receiver");
+    mRegistered = false;
+    zzdtk = false;
+    Context localContext = zziki.getContext();
+    try
+    {
+      localContext.unregisterReceiver(this);
+      return;
+    }
+    catch (IllegalArgumentException localIllegalArgumentException)
+    {
+      zziki.zzaul().zzayd().zzj("Failed to unregister the network broadcast receiver", localIllegalArgumentException);
+    }
+  }
+  
+  @X
+  public final void zzyu()
+  {
+    zziki.zzwk();
+    zziki.zzauk().zzuj();
+    if (mRegistered) {
+      return;
+    }
+    zziki.getContext().registerReceiver(this, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+    zzdtk = zziki.zzaza().zzyx();
+    zziki.zzaul().zzayj().zzj("Registering connectivity change receiver. Network connected", Boolean.valueOf(zzdtk));
+    mRegistered = true;
+  }
+}

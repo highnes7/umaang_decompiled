@@ -1,0 +1,97 @@
+package com.google.android.gms.internal;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+public final class zzdpi<A, B, C>
+{
+  public final Map<B, C> values;
+  public final List<A> zzlsw;
+  public final zzdov<A, B> zzlsx;
+  public zzdpf<A, C> zzlsy;
+  public zzdpf<A, C> zzlsz;
+  
+  public zzdpi(List<A> paramList, Map<B, C> paramMap, zzdov<A, B> paramZzdov)
+  {
+    zzlsw = paramList;
+    values = paramMap;
+    zzlsx = paramZzdov;
+  }
+  
+  private final C zzbi(A paramA)
+  {
+    return values.get(zzlsx.zzbd(paramA));
+  }
+  
+  public static <A, B, C> zzdpg<A, C> zzc(List<A> paramList, Map<B, C> paramMap, zzdov<A, B> paramZzdov, Comparator<A> paramComparator)
+  {
+    paramMap = new zzdpi(paramList, paramMap, paramZzdov);
+    Collections.sort(paramList, paramComparator);
+    paramZzdov = new zzdpj(paramList.size()).iterator();
+    int i = paramList.size();
+    while (paramZzdov.hasNext())
+    {
+      paramList = (zzdpl)paramZzdov.next();
+      int j = zzltd;
+      i -= j;
+      if (zzltc)
+      {
+        paramMap.zze(zzdpc.zzlsq, j, i);
+      }
+      else
+      {
+        paramMap.zze(zzdpc.zzlsq, j, i);
+        j = zzltd;
+        i -= j;
+        paramMap.zze(zzdpc.zzlsp, j, i);
+      }
+    }
+    paramMap = zzlsy;
+    paramList = paramMap;
+    if (paramMap == null) {
+      paramList = zzdpa.zzlso;
+    }
+    return new zzdpg(paramList, paramComparator, null);
+  }
+  
+  private final void zze(int paramInt1, int paramInt2, int paramInt3)
+  {
+    Object localObject1 = zzr(paramInt3 + 1, paramInt2 - 1);
+    Object localObject2 = zzlsw.get(paramInt3);
+    if (paramInt1 == zzdpc.zzlsp) {
+      localObject1 = new zzdpe(localObject2, zzbi(localObject2), null, (zzdpb)localObject1);
+    } else {
+      localObject1 = new zzdoz(localObject2, zzbi(localObject2), null, (zzdpb)localObject1);
+    }
+    if (zzlsy == null) {
+      zzlsy = ((zzdpf)localObject1);
+    }
+    for (;;)
+    {
+      zzlsz = ((zzdpf)localObject1);
+      return;
+      zzlsz.zza((zzdpb)localObject1);
+    }
+  }
+  
+  private final zzdpb<A, C> zzr(int paramInt1, int paramInt2)
+  {
+    if (paramInt2 == 0) {
+      return zzdpa.zzlso;
+    }
+    if (paramInt2 == 1)
+    {
+      localObject1 = zzlsw.get(paramInt1);
+      return new zzdoz(localObject1, zzbi(localObject1), null, null);
+    }
+    paramInt2 /= 2;
+    int i = paramInt1 + paramInt2;
+    Object localObject1 = zzr(paramInt1, paramInt2);
+    zzdpb localZzdpb = zzr(i + 1, paramInt2);
+    Object localObject2 = zzlsw.get(i);
+    return new zzdoz(localObject2, zzbi(localObject2), (zzdpb)localObject1, localZzdpb);
+  }
+}

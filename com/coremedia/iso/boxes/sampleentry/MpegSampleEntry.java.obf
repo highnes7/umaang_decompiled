@@ -1,0 +1,67 @@
+package com.coremedia.iso.boxes.sampleentry;
+
+import f.b.a.d;
+import f.b.a.h;
+import f.b.a.j;
+import f.h.a.b;
+import f.h.a.e;
+import f.h.a.f;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.WritableByteChannel;
+import java.util.Arrays;
+import java.util.List;
+
+public class MpegSampleEntry
+  extends AbstractSampleEntry
+{
+  public MpegSampleEntry()
+  {
+    super("mp4s");
+  }
+  
+  public MpegSampleEntry(String paramString)
+  {
+    super(paramString);
+  }
+  
+  public void getBox(WritableByteChannel paramWritableByteChannel)
+    throws IOException
+  {
+    paramWritableByteChannel.write(getHeader());
+    ByteBuffer localByteBuffer = ByteBuffer.allocate(8);
+    localByteBuffer.position(6);
+    j.a(localByteBuffer, dataReferenceIndex);
+    paramWritableByteChannel.write((ByteBuffer)localByteBuffer.rewind());
+    writeContainer(paramWritableByteChannel);
+  }
+  
+  public long getSize()
+  {
+    long l = getContainerSize() + 8L;
+    int i;
+    if ((!largeBox) && (l < 4294967296L)) {
+      i = 8;
+    } else {
+      i = 16;
+    }
+    return l + i;
+  }
+  
+  public void parse(f paramF, ByteBuffer paramByteBuffer, long paramLong, d paramD)
+    throws IOException
+  {
+    paramByteBuffer = ByteBuffer.allocate(8);
+    paramF.read(paramByteBuffer);
+    paramByteBuffer.position(6);
+    dataReferenceIndex = h.g(paramByteBuffer);
+    parseContainer(paramF, paramLong - 8L, paramD);
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder("MpegSampleEntry");
+    localStringBuilder.append(Arrays.asList(new List[] { getBoxes() }));
+    return localStringBuilder.toString();
+  }
+}

@@ -1,0 +1,256 @@
+package android.support.design.widget;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.support.design.R.attr;
+import android.support.design.R.layout;
+import android.support.design.snackbar.ContentViewCallback;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.accessibility.AccessibilityManager;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.x;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+public final class Snackbar
+  extends BaseTransientBottomBar<Snackbar>
+{
+  public static final int LENGTH_INDEFINITE = -2;
+  public static final int LENGTH_LONG = 0;
+  public static final int LENGTH_SHORT = -1;
+  public static final int[] SNACKBAR_BUTTON_STYLE_ATTR = { R.attr.snackbarButtonStyle };
+  public final AccessibilityManager accessibilityManager;
+  @G
+  public BaseTransientBottomBar.BaseCallback<Snackbar> callback;
+  public boolean hasAction;
+  
+  public Snackbar(ViewGroup paramViewGroup, View paramView, ContentViewCallback paramContentViewCallback)
+  {
+    super(paramViewGroup, paramView, paramContentViewCallback);
+    accessibilityManager = ((AccessibilityManager)paramViewGroup.getContext().getSystemService("accessibility"));
+  }
+  
+  public static ViewGroup findSuitableParent(View paramView)
+  {
+    Object localObject2 = null;
+    View localView = paramView;
+    Object localObject1;
+    do
+    {
+      if ((localView instanceof CoordinatorLayout)) {
+        return (ViewGroup)localView;
+      }
+      localObject1 = localObject2;
+      if ((localView instanceof FrameLayout))
+      {
+        if (localView.getId() == 16908290) {
+          return (ViewGroup)localView;
+        }
+        localObject1 = (ViewGroup)localView;
+      }
+      paramView = localView;
+      if (localView != null)
+      {
+        paramView = localView.getParent();
+        if ((paramView instanceof View)) {
+          paramView = (View)paramView;
+        } else {
+          paramView = null;
+        }
+      }
+      localObject2 = localObject1;
+      localView = paramView;
+    } while (paramView != null);
+    return localObject1;
+  }
+  
+  public static boolean hasSnackbarButtonStyleAttr(Context paramContext)
+  {
+    paramContext = paramContext.obtainStyledAttributes(SNACKBAR_BUTTON_STYLE_ATTR);
+    int i = paramContext.getResourceId(0, -1);
+    paramContext.recycle();
+    return i != -1;
+  }
+  
+  public static Snackbar make(View paramView, int paramInt1, int paramInt2)
+  {
+    return make(paramView, paramView.getResources().getText(paramInt1), paramInt2);
+  }
+  
+  public static Snackbar make(View paramView, CharSequence paramCharSequence, int paramInt)
+  {
+    paramView = findSuitableParent(paramView);
+    if (paramView != null)
+    {
+      Object localObject = LayoutInflater.from(paramView.getContext());
+      int i;
+      if (hasSnackbarButtonStyleAttr(paramView.getContext())) {
+        i = R.layout.mtrl_layout_snackbar_include;
+      } else {
+        i = R.layout.design_layout_snackbar_include;
+      }
+      localObject = (SnackbarContentLayout)((LayoutInflater)localObject).inflate(i, paramView, false);
+      paramView = new Snackbar(paramView, (View)localObject, (ContentViewCallback)localObject);
+      paramView.setText(paramCharSequence);
+      paramView.setDuration(paramInt);
+      return paramView;
+    }
+    throw new IllegalArgumentException("No suitable parent found from the given view. Please provide a valid view.");
+  }
+  
+  public void dismiss()
+  {
+    dispatchDismiss(3);
+  }
+  
+  public int getDuration()
+  {
+    if ((hasAction) && (accessibilityManager.isTouchExplorationEnabled())) {
+      return -2;
+    }
+    return duration;
+  }
+  
+  public boolean isShown()
+  {
+    return super.isShown();
+  }
+  
+  public Snackbar setAction(int paramInt, View.OnClickListener paramOnClickListener)
+  {
+    return setAction(getContext().getText(paramInt), paramOnClickListener);
+  }
+  
+  public Snackbar setAction(CharSequence paramCharSequence, final View.OnClickListener paramOnClickListener)
+  {
+    Button localButton = ((SnackbarContentLayout)view.getChildAt(0)).getActionView();
+    if ((!TextUtils.isEmpty(paramCharSequence)) && (paramOnClickListener != null))
+    {
+      hasAction = true;
+      localButton.setVisibility(0);
+      localButton.setText(paramCharSequence);
+      localButton.setOnClickListener(new View.OnClickListener()
+      {
+        public void onClick(View paramAnonymousView)
+        {
+          paramOnClickListener.onClick(paramAnonymousView);
+          dispatchDismiss(1);
+        }
+      });
+      return this;
+    }
+    localButton.setVisibility(8);
+    localButton.setOnClickListener(null);
+    hasAction = false;
+    return this;
+  }
+  
+  public Snackbar setActionTextColor(int paramInt)
+  {
+    ((SnackbarContentLayout)view.getChildAt(0)).getActionView().setTextColor(paramInt);
+    return this;
+  }
+  
+  public Snackbar setActionTextColor(ColorStateList paramColorStateList)
+  {
+    ((SnackbarContentLayout)view.getChildAt(0)).getActionView().setTextColor(paramColorStateList);
+    return this;
+  }
+  
+  public Snackbar setCallback(Callback paramCallback)
+  {
+    BaseTransientBottomBar.BaseCallback localBaseCallback = callback;
+    if (localBaseCallback != null) {
+      removeCallback(localBaseCallback);
+    }
+    if (paramCallback != null) {
+      addCallback(paramCallback);
+    }
+    callback = paramCallback;
+    return this;
+  }
+  
+  public Snackbar setText(int paramInt)
+  {
+    return setText(getContext().getText(paramInt));
+  }
+  
+  public Snackbar setText(CharSequence paramCharSequence)
+  {
+    ((SnackbarContentLayout)view.getChildAt(0)).getMessageView().setText(paramCharSequence);
+    return this;
+  }
+  
+  public void show()
+  {
+    super.show();
+  }
+  
+  public static class Callback
+    extends BaseTransientBottomBar.BaseCallback<Snackbar>
+  {
+    public static final int DISMISS_EVENT_ACTION = 1;
+    public static final int DISMISS_EVENT_CONSECUTIVE = 4;
+    public static final int DISMISS_EVENT_MANUAL = 3;
+    public static final int DISMISS_EVENT_SWIPE = 0;
+    public static final int DISMISS_EVENT_TIMEOUT = 2;
+    
+    public Callback() {}
+    
+    public void onDismissed(Snackbar paramSnackbar, int paramInt) {}
+    
+    public void onShown(Snackbar paramSnackbar) {}
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  @x(from=1L)
+  public static @interface Duration {}
+  
+  @N({b.b.a.N.a.b})
+  public static final class SnackbarLayout
+    extends BaseTransientBottomBar.SnackbarBaseLayout
+  {
+    public SnackbarLayout(Context paramContext)
+    {
+      super(null);
+    }
+    
+    public SnackbarLayout(Context paramContext, AttributeSet paramAttributeSet)
+    {
+      super(paramAttributeSet);
+    }
+    
+    public void onMeasure(int paramInt1, int paramInt2)
+    {
+      super.onMeasure(paramInt1, paramInt2);
+      paramInt2 = getChildCount();
+      int i = getMeasuredWidth();
+      int j = getPaddingLeft();
+      int k = getPaddingRight();
+      paramInt1 = 0;
+      while (paramInt1 < paramInt2)
+      {
+        View localView = getChildAt(paramInt1);
+        if (getLayoutParamswidth == -1) {
+          localView.measure(View.MeasureSpec.makeMeasureSpec(i - j - k, 1073741824), View.MeasureSpec.makeMeasureSpec(localView.getMeasuredHeight(), 1073741824));
+        }
+        paramInt1 += 1;
+      }
+    }
+  }
+}

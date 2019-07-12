@@ -1,0 +1,217 @@
+package com.github.mikephil.charting.renderer;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PointF;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.PieRadarChartBase;
+import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.ComponentBase;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import java.util.List;
+
+public class YAxisRendererRadarChart
+  extends YAxisRenderer
+{
+  public RadarChart mChart;
+  
+  public YAxisRendererRadarChart(ViewPortHandler paramViewPortHandler, YAxis paramYAxis, RadarChart paramRadarChart)
+  {
+    super(paramViewPortHandler, paramYAxis, null);
+    mChart = paramRadarChart;
+  }
+  
+  public void computeAxis(float paramFloat1, float paramFloat2)
+  {
+    computeAxisValues(paramFloat1, paramFloat2);
+  }
+  
+  public void computeAxisValues(float paramFloat1, float paramFloat2)
+  {
+    int j = mYAxis.getLabelCount();
+    double d3 = Math.abs(paramFloat2 - paramFloat1);
+    if ((j != 0) && (d3 > 0.0D))
+    {
+      double d1 = j;
+      Double.isNaN(d3);
+      Double.isNaN(d1);
+      d1 = Utils.roundToNextSignificant(d3 / d1);
+      double d4 = Math.pow(10.0D, (int)Math.log10(d1));
+      Double.isNaN(d1);
+      double d2 = d1;
+      if ((int)(d1 / d4) > 5) {
+        d2 = Math.floor(d4 * 10.0D);
+      }
+      int i;
+      if (mYAxis.isForceLabelsEnabled())
+      {
+        float f = (float)d3 / (j - 1);
+        localObject = mYAxis;
+        mEntryCount = j;
+        if (mEntries.length < j) {
+          mEntries = new float[j];
+        }
+        paramFloat2 = paramFloat1;
+        i = 0;
+        while (i < j)
+        {
+          mYAxis.mEntries[i] = paramFloat2;
+          paramFloat2 += f;
+          i += 1;
+        }
+      }
+      if (mYAxis.isShowOnlyMinMaxEnabled())
+      {
+        localObject = mYAxis;
+        mEntryCount = 2;
+        mEntries = new float[2];
+        localObject = mEntries;
+        localObject[0] = paramFloat1;
+        localObject[1] = paramFloat2;
+      }
+      else
+      {
+        d1 = paramFloat1;
+        Double.isNaN(d1);
+        d1 /= d2;
+        if (d1 < 0.0D) {
+          d1 = Math.floor(d1);
+        } else {
+          d1 = Math.ceil(d1);
+        }
+        d3 = d1 * d2;
+        d1 = d3;
+        if (d3 == 0.0D) {
+          d1 = 0.0D;
+        }
+        d3 = paramFloat2;
+        Double.isNaN(d3);
+        d4 = Utils.nextUp(Math.floor(d3 / d2) * d2);
+        d3 = d1;
+        i = 0;
+        while (d3 <= d4)
+        {
+          i += 1;
+          d3 += d2;
+        }
+        j = i;
+        if (!mYAxis.isAxisMaxCustom()) {
+          j = i + 1;
+        }
+        localObject = mYAxis;
+        mEntryCount = j;
+        if (mEntries.length < j) {
+          mEntries = new float[j];
+        }
+        i = 0;
+        while (i < j)
+        {
+          mYAxis.mEntries[i] = ((float)d1);
+          d1 += d2;
+          i += 1;
+        }
+      }
+      if (d2 < 1.0D) {
+        mYAxis.mDecimals = ((int)Math.ceil(-Math.log10(d2)));
+      } else {
+        mYAxis.mDecimals = 0;
+      }
+      localObject = mYAxis;
+      float[] arrayOfFloat = mEntries;
+      if (arrayOfFloat[0] < paramFloat1) {
+        mAxisMinimum = arrayOfFloat[0];
+      }
+      localObject = mYAxis;
+      mAxisMaximum = mEntries[(mEntryCount - 1)];
+      mAxisRange = Math.abs(mAxisMaximum - mAxisMinimum);
+      return;
+    }
+    Object localObject = mYAxis;
+    mEntries = new float[0];
+    mEntryCount = 0;
+  }
+  
+  public void renderAxisLabels(Canvas paramCanvas)
+  {
+    if (mYAxis.isEnabled())
+    {
+      if (!mYAxis.isDrawLabelsEnabled()) {
+        return;
+      }
+      mAxisLabelPaint.setTypeface(mYAxis.getTypeface());
+      mAxisLabelPaint.setTextSize(mYAxis.getTextSize());
+      mAxisLabelPaint.setColor(mYAxis.getTextColor());
+      PointF localPointF = mChart.getCenterOffsets();
+      float f = mChart.getFactor();
+      Object localObject2 = mYAxis;
+      Object localObject1 = this;
+      int j = mEntryCount;
+      int i = 0;
+      while (i < j)
+      {
+        localObject2 = localObject1;
+        if (i == j - 1)
+        {
+          localObject3 = mYAxis;
+          localObject2 = localObject1;
+          if (!((YAxis)localObject3).isDrawTopYLabelEntryEnabled()) {
+            return;
+          }
+        }
+        localObject1 = mYAxis;
+        Object localObject3 = Utils.getPosition(localPointF, (mEntries[i] - mAxisMinimum) * f, mChart.getRotationAngle());
+        YAxis localYAxis = mYAxis;
+        localObject1 = localObject2;
+        paramCanvas.drawText(localYAxis.getFormattedLabel(i), x + 10.0F, y, mAxisLabelPaint);
+        i += 1;
+      }
+    }
+  }
+  
+  public void renderLimitLines(Canvas paramCanvas)
+  {
+    List localList = mYAxis.getLimitLines();
+    if (localList == null) {
+      return;
+    }
+    float f1 = mChart.getSliceAngle();
+    float f2 = mChart.getFactor();
+    PointF localPointF1 = mChart.getCenterOffsets();
+    int i = 0;
+    while (i < localList.size())
+    {
+      Object localObject = (LimitLine)localList.get(i);
+      if (((ComponentBase)localObject).isEnabled())
+      {
+        mLimitLinePaint.setColor(((LimitLine)localObject).getLineColor());
+        mLimitLinePaint.setPathEffect(((LimitLine)localObject).getDashPathEffect());
+        mLimitLinePaint.setStrokeWidth(((LimitLine)localObject).getLineWidth());
+        float f3 = ((LimitLine)localObject).getLimit();
+        float f4 = mChart.getYChartMin();
+        localObject = new Path();
+        int j = 0;
+        while (j < ((RadarData)mChart.getData()).getXValCount())
+        {
+          float f5 = j;
+          PointF localPointF2 = Utils.getPosition(localPointF1, (f3 - f4) * f2, mChart.getRotationAngle() + f5 * f1);
+          if (j == 0) {
+            ((Path)localObject).moveTo(x, y);
+          } else {
+            ((Path)localObject).lineTo(x, y);
+          }
+          j += 1;
+        }
+        ((Path)localObject).close();
+        paramCanvas.drawPath((Path)localObject, mLimitLinePaint);
+      }
+      i += 1;
+    }
+  }
+}

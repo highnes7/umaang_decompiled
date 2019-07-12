@@ -1,0 +1,77 @@
+package l.a.a.a.a.b;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import l.a.a.a.a.e.d;
+import l.a.a.a.a.e.m;
+import l.a.a.a.a.e.o;
+import l.a.a.a.n;
+
+public abstract class a
+{
+  public static final String a = "X-CRASHLYTICS-API-KEY";
+  public static final String b = "X-CRASHLYTICS-DEVELOPER-TOKEN";
+  public static final String c = "X-CRASHLYTICS-API-CLIENT-TYPE";
+  public static final String d = "X-CRASHLYTICS-API-CLIENT-VERSION";
+  public static final String e = "X-REQUEST-ID";
+  public static final String f = "User-Agent";
+  public static final String g = "Accept";
+  public static final String h = "Crashlytics Android SDK/";
+  public static final String i = "application/json";
+  public static final String j = "470fa2b4ae81cd56ecbcda9735803434cec591fa";
+  public static final int k = 10000;
+  public static final String l = "android";
+  public static final Pattern m = Pattern.compile("http(s?)://[^\\/]+", 2);
+  public final String n;
+  public final o o;
+  public final d p;
+  public final String q;
+  public final n r;
+  
+  public a(n paramN, String paramString1, String paramString2, o paramO, d paramD)
+  {
+    if (paramString2 != null)
+    {
+      if (paramO != null)
+      {
+        r = paramN;
+        q = paramString1;
+        n = a(paramString2);
+        o = paramO;
+        p = paramD;
+        return;
+      }
+      throw new IllegalArgumentException("requestFactory must not be null.");
+    }
+    throw new IllegalArgumentException("url must not be null.");
+  }
+  
+  private String a(String paramString)
+  {
+    String str = paramString;
+    if (!l.c(q)) {
+      str = m.matcher(paramString).replaceFirst(q);
+    }
+    return str;
+  }
+  
+  public m a()
+  {
+    return a(Collections.emptyMap());
+  }
+  
+  public m a(Map<String, String> paramMap)
+  {
+    paramMap = o.a(p, b(), paramMap).e(false).c(10000);
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Crashlytics Android SDK/");
+    localStringBuilder.append(r.j());
+    return paramMap.d("User-Agent", localStringBuilder.toString()).d("X-CRASHLYTICS-DEVELOPER-TOKEN", "470fa2b4ae81cd56ecbcda9735803434cec591fa");
+  }
+  
+  public String b()
+  {
+    return n;
+  }
+}

@@ -1,0 +1,121 @@
+package com.google.android.gms.internal;
+
+import com.google.android.gms.common.internal.zzbp;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.Semaphore;
+
+public final class zzccv
+  extends Thread
+{
+  public final Object zzisp;
+  public final BlockingQueue<FutureTask<?>> zzisq;
+  
+  public zzccv(String paramString, BlockingQueue<FutureTask<?>> paramBlockingQueue)
+  {
+    zzbp.zzu(paramBlockingQueue);
+    Object localObject;
+    zzbp.zzu(localObject);
+    zzisp = new Object();
+    zzisq = localObject;
+    setName(paramBlockingQueue);
+  }
+  
+  private final void zza(InterruptedException paramInterruptedException)
+  {
+    zzism.zzaul().zzayf().zzj(String.valueOf(getName()).concat(" was interrupted"), paramInterruptedException);
+  }
+  
+  public final void run()
+  {
+    int i = 0;
+    while (i == 0) {
+      try
+      {
+        zzccr.zza(zzism).acquire();
+        i = 1;
+      }
+      catch (InterruptedException localInterruptedException1)
+      {
+        zza(localInterruptedException1);
+      }
+    }
+    try
+    {
+      for (;;)
+      {
+        ??? = (FutureTask)zzisq.poll();
+        if (??? == null) {
+          break;
+        }
+        ((FutureTask)???).run();
+      }
+      synchronized (zzisp)
+      {
+        if (zzisq.peek() == null)
+        {
+          boolean bool = zzccr.zzb(zzism);
+          if (!bool) {
+            try
+            {
+              zzisp.wait(30000L);
+            }
+            catch (InterruptedException localInterruptedException2)
+            {
+              zza(localInterruptedException2);
+            }
+          }
+        }
+        synchronized (zzccr.zzc(zzism))
+        {
+          if (zzisq.peek() == null) {
+            synchronized (zzccr.zzc(zzism))
+            {
+              zzccr.zza(zzism).release();
+              zzccr.zzc(zzism).notifyAll();
+              if (this == zzccr.zzd(zzism)) {
+                zzccr.zza(zzism, null);
+              } else if (this == zzccr.zze(zzism)) {
+                zzccr.zzb(zzism, null);
+              } else {
+                zzism.zzaul().zzayd().log("Current scheduler thread is neither worker nor network");
+              }
+              return;
+            }
+          }
+        }
+      }
+      throw localObject6;
+    }
+    finally
+    {
+      synchronized (zzccr.zzc(zzism))
+      {
+        zzccr.zza(zzism).release();
+        zzccr.zzc(zzism).notifyAll();
+        if (this != zzccr.zzd(zzism))
+        {
+          if (this == zzccr.zze(zzism)) {
+            zzccr.zzb(zzism, null);
+          } else {
+            zzism.zzaul().zzayd().log("Current scheduler thread is neither worker nor network");
+          }
+        }
+        else {
+          zzccr.zza(zzism, null);
+        }
+        throw localObject5;
+      }
+    }
+    for (;;) {}
+  }
+  
+  public final void zzml()
+  {
+    synchronized (zzisp)
+    {
+      zzisp.notifyAll();
+      return;
+    }
+  }
+}

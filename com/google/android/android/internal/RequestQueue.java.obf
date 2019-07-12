@@ -1,0 +1,154 @@
+package com.google.android.gms.internal;
+
+import android.os.Handler;
+import android.os.Looper;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public final class zzs
+{
+  public AtomicInteger zzaw = new AtomicInteger();
+  public final Map<String, Queue<zzp<?>>> zzax = new HashMap();
+  public final Set<zzp<?>> zzay = new HashSet();
+  public final PriorityBlockingQueue<zzp<?>> zzaz = new PriorityBlockingQueue();
+  public final PriorityBlockingQueue<zzp<?>> zzba = new PriorityBlockingQueue();
+  public zzl[] zzbb;
+  public zzd zzbc;
+  public List<Object> zzbd = new ArrayList();
+  public final zzb zzi;
+  public final zzw zzj;
+  public final zzk zzx;
+  
+  public zzs(zzb paramZzb, zzk paramZzk)
+  {
+    this(paramZzb, paramZzk, 4);
+  }
+  
+  public zzs(zzb paramZzb, zzk paramZzk, int paramInt)
+  {
+    this(paramZzb, paramZzk, 4, new zzh(new Handler(Looper.getMainLooper())));
+  }
+  
+  public zzs(zzb paramZzb, zzk paramZzk, int paramInt, zzw paramZzw)
+  {
+    zzi = paramZzb;
+    zzx = paramZzk;
+    zzbb = new zzl[4];
+    zzj = paramZzw;
+  }
+  
+  public final void start()
+  {
+    Object localObject = zzbc;
+    if (localObject != null) {
+      ((zzd)localObject).quit();
+    }
+    int j = 0;
+    int i = 0;
+    for (;;)
+    {
+      localObject = zzbb;
+      if (i >= localObject.length) {
+        break;
+      }
+      if (localObject[i] != null) {
+        localObject[i].quit();
+      }
+      i += 1;
+    }
+    zzbc = new zzd(zzaz, zzba, zzi, zzj);
+    zzbc.start();
+    i = j;
+    while (i < zzbb.length)
+    {
+      localObject = new zzl(zzba, zzx, zzi, zzj);
+      zzbb[i] = localObject;
+      ((Thread)localObject).start();
+      i += 1;
+    }
+  }
+  
+  public final <T> zzp<T> zzc(zzp<T> paramZzp)
+  {
+    paramZzp.zza(this);
+    synchronized (zzay)
+    {
+      zzay.add(paramZzp);
+      paramZzp.zza(zzaw.incrementAndGet());
+      paramZzp.zzb("add-to-queue");
+      if (!paramZzp.zzh())
+      {
+        zzba.add(paramZzp);
+        return paramZzp;
+      }
+      synchronized (zzax)
+      {
+        String str = paramZzp.zzd();
+        if (zzax.containsKey(str))
+        {
+          Queue localQueue = (Queue)zzax.get(str);
+          ??? = localQueue;
+          if (localQueue == null) {
+            ??? = new LinkedList();
+          }
+          ((Queue)???).add(paramZzp);
+          zzax.put(str, ???);
+          if (zzab.DEBUG) {
+            zzab.zza("Request for cacheKey=%s is in flight, putting on hold.", new Object[] { str });
+          }
+        }
+        else
+        {
+          zzax.put(str, null);
+          zzaz.add(paramZzp);
+        }
+        return paramZzp;
+      }
+    }
+  }
+  
+  public final <T> void zzd(zzp<T> paramZzp)
+  {
+    synchronized (zzay)
+    {
+      zzay.remove(paramZzp);
+      synchronized (zzbd)
+      {
+        Object localObject2 = zzbd.iterator();
+        while (((Iterator)localObject2).hasNext()) {
+          ((Iterator)localObject2).next();
+        }
+        if (paramZzp.zzh()) {
+          synchronized (zzax)
+          {
+            paramZzp = paramZzp.zzd();
+            localObject2 = (Queue)zzax.remove(paramZzp);
+            if (localObject2 != null)
+            {
+              if (zzab.DEBUG) {
+                zzab.zza("Releasing %d waiting requests for cacheKey=%s.", new Object[] { Integer.valueOf(((Queue)localObject2).size()), paramZzp });
+              }
+              zzaz.addAll((Collection)localObject2);
+            }
+            return;
+          }
+        }
+        return;
+      }
+    }
+    for (;;)
+    {
+      throw paramZzp;
+    }
+  }
+}

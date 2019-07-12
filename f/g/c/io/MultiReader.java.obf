@@ -1,0 +1,96 @@
+package f.g.c.g;
+
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Iterator;
+
+public class H
+  extends Reader
+{
+  public final Iterator<? extends y<? extends Reader>> a;
+  public Reader b;
+  
+  public H(Iterator<? extends y<? extends Reader>> paramIterator)
+    throws IOException
+  {
+    a = paramIterator;
+    u();
+  }
+  
+  private void u()
+    throws IOException
+  {
+    close();
+    if (a.hasNext()) {
+      b = ((Reader)((y)a.next()).a());
+    }
+  }
+  
+  public void close()
+    throws IOException
+  {
+    Reader localReader = b;
+    if (localReader != null) {
+      try
+      {
+        localReader.close();
+        return;
+      }
+      finally
+      {
+        b = null;
+      }
+    }
+  }
+  
+  public int read(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    Reader localReader = b;
+    if (localReader == null) {
+      return -1;
+    }
+    int i = localReader.read(paramArrayOfChar, paramInt1, paramInt2);
+    if (i == -1)
+    {
+      u();
+      return read(paramArrayOfChar, paramInt1, paramInt2);
+    }
+    return i;
+  }
+  
+  public boolean ready()
+    throws IOException
+  {
+    Reader localReader = b;
+    return (localReader != null) && (localReader.ready());
+  }
+  
+  public long skip(long paramLong)
+    throws IOException
+  {
+    boolean bool;
+    if (paramLong >= 0L) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "n is negative");
+    if (paramLong > 0L) {
+      for (;;)
+      {
+        Reader localReader = b;
+        if (localReader == null) {
+          break;
+        }
+        long l = localReader.skip(paramLong);
+        if (l > 0L) {
+          return l;
+        }
+        u();
+      }
+    }
+    return 0L;
+  }
+}

@@ -1,0 +1,79 @@
+package android.support.v7.view.menu;
+
+import android.content.Context;
+import android.view.ActionProvider;
+import android.view.ActionProvider.VisibilityListener;
+import android.view.MenuItem;
+import android.view.View;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.x.f.a.b;
+import b.b.x.o.c.b;
+
+@K(16)
+@N({b.b.a.N.a.b})
+public class MenuItemWrapperJB
+  extends MenuItemWrapperICS
+{
+  public MenuItemWrapperJB(Context paramContext, b paramB)
+  {
+    super(paramContext, paramB);
+  }
+  
+  public MenuItemWrapperICS.ActionProviderWrapper createActionProviderWrapper(ActionProvider paramActionProvider)
+  {
+    return new ActionProviderWrapperJB(mContext, paramActionProvider);
+  }
+  
+  public class ActionProviderWrapperJB
+    extends MenuItemWrapperICS.ActionProviderWrapper
+    implements ActionProvider.VisibilityListener
+  {
+    public c.b mListener;
+    
+    public ActionProviderWrapperJB(Context paramContext, ActionProvider paramActionProvider)
+    {
+      super(paramContext, paramActionProvider);
+    }
+    
+    public boolean isVisible()
+    {
+      return mInner.isVisible();
+    }
+    
+    public void onActionProviderVisibilityChanged(boolean paramBoolean)
+    {
+      c.b localB = mListener;
+      if (localB != null) {
+        localB.onActionProviderVisibilityChanged(paramBoolean);
+      }
+    }
+    
+    public View onCreateActionView(MenuItem paramMenuItem)
+    {
+      return mInner.onCreateActionView(paramMenuItem);
+    }
+    
+    public boolean overridesItemVisibility()
+    {
+      return mInner.overridesItemVisibility();
+    }
+    
+    public void refreshVisibility()
+    {
+      mInner.refreshVisibility();
+    }
+    
+    public void setVisibilityListener(c.b paramB)
+    {
+      mListener = paramB;
+      ActionProvider localActionProvider = mInner;
+      if (paramB != null) {
+        paramB = this;
+      } else {
+        paramB = null;
+      }
+      localActionProvider.setVisibilityListener(paramB);
+    }
+  }
+}

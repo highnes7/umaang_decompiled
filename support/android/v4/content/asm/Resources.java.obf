@@ -1,0 +1,352 @@
+package b.b.x.b.b;
+
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.os.Build.VERSION;
+import android.util.Base64;
+import android.util.TypedValue;
+import android.util.Xml;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.e;
+import b.b.c.a.j;
+import b.b.x.l.c;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+@N({b.b.a.N.a.b})
+public class d
+{
+  public static final int a = 400;
+  public static final int b = 1;
+  public static final int c = 0;
+  public static final int d = 1;
+  public static final int e = -1;
+  public static final int f = 500;
+  
+  public d() {}
+  
+  public static int a(TypedArray paramTypedArray, int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramTypedArray.getType(paramInt);
+    }
+    TypedValue localTypedValue = new TypedValue();
+    paramTypedArray.getValue(paramInt, localTypedValue);
+    return type;
+  }
+  
+  @G
+  public static a a(XmlPullParser paramXmlPullParser, Resources paramResources)
+    throws XmlPullParserException, IOException
+  {
+    int i;
+    do
+    {
+      i = paramXmlPullParser.next();
+    } while ((i != 2) && (i != 1));
+    if (i == 2) {
+      return b(paramXmlPullParser, paramResources);
+    }
+    paramXmlPullParser = new XmlPullParserException("No start tag found");
+    for (;;)
+    {
+      throw paramXmlPullParser;
+    }
+  }
+  
+  public static List<List<byte[]>> a(Resources paramResources, @e int paramInt)
+  {
+    if (paramInt == 0) {
+      return Collections.emptyList();
+    }
+    localTypedArray = paramResources.obtainTypedArray(paramInt);
+    try
+    {
+      if (localTypedArray.length() == 0)
+      {
+        paramResources = Collections.emptyList();
+        localTypedArray.recycle();
+        return paramResources;
+      }
+      localArrayList = new ArrayList();
+      if (a(localTypedArray, 0) != 1) {
+        break label89;
+      }
+      paramInt = 0;
+    }
+    finally
+    {
+      for (;;)
+      {
+        ArrayList localArrayList;
+        int i;
+        label89:
+        localTypedArray.recycle();
+        for (;;)
+        {
+          throw paramResources;
+        }
+        paramInt += 1;
+      }
+    }
+    if (paramInt < localTypedArray.length())
+    {
+      i = localTypedArray.getResourceId(paramInt, 0);
+      if (i != 0)
+      {
+        localArrayList.add(a(paramResources.getStringArray(i)));
+        break label125;
+        localArrayList.add(a(paramResources.getStringArray(paramInt)));
+      }
+    }
+    else
+    {
+      localTypedArray.recycle();
+      return localArrayList;
+    }
+  }
+  
+  public static List<byte[]> a(String[] paramArrayOfString)
+  {
+    ArrayList localArrayList = new ArrayList();
+    int j = paramArrayOfString.length;
+    int i = 0;
+    while (i < j)
+    {
+      localArrayList.add(Base64.decode(paramArrayOfString[i], 0));
+      i += 1;
+    }
+    return localArrayList;
+  }
+  
+  public static void a(XmlPullParser paramXmlPullParser)
+    throws XmlPullParserException, IOException
+  {
+    int i = 1;
+    while (i > 0)
+    {
+      int j = paramXmlPullParser.next();
+      if (j != 2)
+      {
+        if (j == 3) {
+          i -= 1;
+        }
+      }
+      else {
+        i += 1;
+      }
+    }
+  }
+  
+  @G
+  public static a b(XmlPullParser paramXmlPullParser, Resources paramResources)
+    throws XmlPullParserException, IOException
+  {
+    paramXmlPullParser.require(2, null, "font-family");
+    if (paramXmlPullParser.getName().equals("font-family")) {
+      return c(paramXmlPullParser, paramResources);
+    }
+    a(paramXmlPullParser);
+    return null;
+  }
+  
+  @G
+  public static a c(XmlPullParser paramXmlPullParser, Resources paramResources)
+    throws XmlPullParserException, IOException
+  {
+    Object localObject = paramResources.obtainAttributes(Xml.asAttributeSet(paramXmlPullParser), a.j.FontFamily);
+    String str1 = ((TypedArray)localObject).getString(a.j.FontFamily_fontProviderAuthority);
+    String str2 = ((TypedArray)localObject).getString(a.j.FontFamily_fontProviderPackage);
+    String str3 = ((TypedArray)localObject).getString(a.j.FontFamily_fontProviderQuery);
+    int i = ((TypedArray)localObject).getResourceId(a.j.FontFamily_fontProviderCerts, 0);
+    int j = ((TypedArray)localObject).getInteger(a.j.FontFamily_fontProviderFetchStrategy, 1);
+    int k = ((TypedArray)localObject).getInteger(a.j.FontFamily_fontProviderFetchTimeout, 500);
+    ((TypedArray)localObject).recycle();
+    if ((str1 != null) && (str2 != null) && (str3 != null))
+    {
+      while (paramXmlPullParser.next() != 3) {
+        a(paramXmlPullParser);
+      }
+      return new e(new c(str1, str2, str3, a(paramResources, i)), j, k);
+    }
+    localObject = new ArrayList();
+    while (paramXmlPullParser.next() != 3) {
+      if (paramXmlPullParser.getEventType() == 2) {
+        if (paramXmlPullParser.getName().equals("font")) {
+          ((List)localObject).add(d(paramXmlPullParser, paramResources));
+        } else {
+          a(paramXmlPullParser);
+        }
+      }
+    }
+    if (((List)localObject).isEmpty()) {
+      return null;
+    }
+    return new c((d[])((List)localObject).toArray(new d[((List)localObject).size()]));
+  }
+  
+  public static d d(XmlPullParser paramXmlPullParser, Resources paramResources)
+    throws XmlPullParserException, IOException
+  {
+    paramResources = paramResources.obtainAttributes(Xml.asAttributeSet(paramXmlPullParser), a.j.FontFamilyFont);
+    int i;
+    if (paramResources.hasValue(a.j.FontFamilyFont_fontWeight)) {
+      i = a.j.FontFamilyFont_fontWeight;
+    } else {
+      i = a.j.FontFamilyFont_android_fontWeight;
+    }
+    int k = paramResources.getInt(i, 400);
+    if (paramResources.hasValue(a.j.FontFamilyFont_fontStyle)) {
+      i = a.j.FontFamilyFont_fontStyle;
+    } else {
+      i = a.j.FontFamilyFont_android_fontStyle;
+    }
+    boolean bool;
+    if (1 == paramResources.getInt(i, 0)) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    if (paramResources.hasValue(a.j.FontFamilyFont_ttcIndex)) {
+      i = a.j.FontFamilyFont_ttcIndex;
+    } else {
+      i = a.j.FontFamilyFont_android_ttcIndex;
+    }
+    if (paramResources.hasValue(a.j.FontFamilyFont_fontVariationSettings)) {
+      j = a.j.FontFamilyFont_fontVariationSettings;
+    } else {
+      j = a.j.FontFamilyFont_android_fontVariationSettings;
+    }
+    String str1 = paramResources.getString(j);
+    int j = paramResources.getInt(i, 0);
+    if (paramResources.hasValue(a.j.FontFamilyFont_font)) {
+      i = a.j.FontFamilyFont_font;
+    } else {
+      i = a.j.FontFamilyFont_android_font;
+    }
+    int m = paramResources.getResourceId(i, 0);
+    String str2 = paramResources.getString(i);
+    paramResources.recycle();
+    while (paramXmlPullParser.next() != 3) {
+      a(paramXmlPullParser);
+    }
+    return new d(str2, k, bool, str1, j, m);
+  }
+  
+  public static abstract interface a {}
+  
+  @Retention(RetentionPolicy.SOURCE)
+  public static @interface b {}
+  
+  public static final class c
+    implements d.a
+  {
+    @F
+    public final d.d[] a;
+    
+    public c(@F d.d[] paramArrayOfD)
+    {
+      a = paramArrayOfD;
+    }
+    
+    @F
+    public d.d[] a()
+    {
+      return a;
+    }
+  }
+  
+  public static final class d
+  {
+    @F
+    public final String a;
+    public int b;
+    public boolean c;
+    public String d;
+    public int e;
+    public int f;
+    
+    public d(@F String paramString1, int paramInt1, boolean paramBoolean, @G String paramString2, int paramInt2, int paramInt3)
+    {
+      a = paramString1;
+      b = paramInt1;
+      c = paramBoolean;
+      d = paramString2;
+      e = paramInt2;
+      f = paramInt3;
+    }
+    
+    @F
+    public String a()
+    {
+      return a;
+    }
+    
+    public int b()
+    {
+      return f;
+    }
+    
+    public int c()
+    {
+      return e;
+    }
+    
+    @G
+    public String d()
+    {
+      return d;
+    }
+    
+    public int e()
+    {
+      return b;
+    }
+    
+    public boolean f()
+    {
+      return c;
+    }
+  }
+  
+  public static final class e
+    implements d.a
+  {
+    @F
+    public final c a;
+    public final int b;
+    public final int c;
+    
+    public e(@F c paramC, int paramInt1, int paramInt2)
+    {
+      a = paramC;
+      c = paramInt1;
+      b = paramInt2;
+    }
+    
+    public int a()
+    {
+      return c;
+    }
+    
+    @F
+    public c b()
+    {
+      return a;
+    }
+    
+    public int c()
+    {
+      return b;
+    }
+  }
+}

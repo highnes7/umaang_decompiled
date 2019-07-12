@@ -1,0 +1,88 @@
+package android.support.v4.app;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import b.a.b.h;
+import b.a.b.h.b;
+import b.a.b.l;
+import b.a.b.v;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.i;
+import b.b.x.n.t;
+import b.b.x.o.H;
+import b.b.x.o.j.a;
+
+@N({b.b.a.N.a.b})
+public class SupportActivity
+  extends Activity
+  implements b.a.b.j, j.a
+{
+  public t<Class<? extends ExtraData>, ExtraData> mExtraDataMap = new t();
+  public l mLifecycleRegistry = new l(this);
+  
+  public SupportActivity() {}
+  
+  public boolean dispatchKeyEvent(KeyEvent paramKeyEvent)
+  {
+    View localView = getWindow().getDecorView();
+    if ((localView != null) && (H.b(localView, paramKeyEvent))) {
+      return true;
+    }
+    return b.b.x.o.j.a(this, localView, this, paramKeyEvent);
+  }
+  
+  public boolean dispatchKeyShortcutEvent(KeyEvent paramKeyEvent)
+  {
+    View localView = getWindow().getDecorView();
+    if ((localView != null) && (H.b(localView, paramKeyEvent))) {
+      return true;
+    }
+    return super.dispatchKeyShortcutEvent(paramKeyEvent);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public <T extends ExtraData> T getExtraData(Class<T> paramClass)
+  {
+    return (ExtraData)mExtraDataMap.get(paramClass);
+  }
+  
+  public h getLifecycle()
+  {
+    return mLifecycleRegistry;
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    v.b(this);
+  }
+  
+  @i
+  public void onSaveInstanceState(Bundle paramBundle)
+  {
+    mLifecycleRegistry.b(h.b.c);
+    super.onSaveInstanceState(paramBundle);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public void putExtraData(ExtraData paramExtraData)
+  {
+    mExtraDataMap.put(paramExtraData.getClass(), paramExtraData);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public boolean superDispatchKeyEvent(KeyEvent paramKeyEvent)
+  {
+    return super.dispatchKeyEvent(paramKeyEvent);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static class ExtraData
+  {
+    public ExtraData() {}
+  }
+}

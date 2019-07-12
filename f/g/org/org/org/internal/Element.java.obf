@@ -1,0 +1,347 @@
+package f.g.b.a.b.i;
+
+import f.g.b.a.c.B;
+import f.g.b.a.c.C;
+import f.g.b.a.c.L;
+import f.g.b.a.c.f;
+import f.g.b.a.c.j;
+import f.g.b.a.c.k;
+import f.g.b.a.c.p;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.c.z;
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.w;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public abstract class c<T>
+  extends w
+{
+  public static final String c = "Google-API-Java-Client";
+  public final a d;
+  public final String e;
+  public final String f;
+  public final p g;
+  public t h = new t();
+  public t i;
+  public int j = -1;
+  public String k;
+  public boolean l;
+  public Class<T> m;
+  public f.g.b.a.b.g.c n;
+  public f.g.b.a.b.g.a o;
+  
+  public c(a paramA, String paramString1, String paramString2, p paramP, Class<T> paramClass)
+  {
+    if (paramClass != null)
+    {
+      m = paramClass;
+      if (paramA != null)
+      {
+        d = paramA;
+        if (paramString1 != null)
+        {
+          e = paramString1;
+          if (paramString2 != null)
+          {
+            f = paramString2;
+            g = paramP;
+            paramA = paramA.b();
+            if (paramA != null)
+            {
+              paramString1 = h;
+              int i1 = paramA.length();
+              paramString2 = new StringBuilder("Google-API-Java-Client".length() + (i1 + 1));
+              paramString2.append(paramA);
+              paramString2.append(" ");
+              paramString2.append("Google-API-Java-Client");
+              paramString1.z(paramString2.toString());
+              return;
+            }
+            h.z("Google-API-Java-Client");
+            return;
+          }
+          throw new NullPointerException();
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  private y b(boolean paramBoolean)
+    throws IOException
+  {
+    Object localObject = n;
+    boolean bool2 = true;
+    if (localObject == null) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    g.a(bool1);
+    boolean bool1 = bool2;
+    if (paramBoolean) {
+      if (e.equals("GET")) {
+        bool1 = bool2;
+      } else {
+        bool1 = false;
+      }
+    }
+    g.a(bool1);
+    if (paramBoolean) {
+      localObject = "HEAD";
+    } else {
+      localObject = e;
+    }
+    localObject = o().f().a((String)localObject, h(), g);
+    new f.g.b.a.b.b().a((y)localObject);
+    ((y)localObject).a(o().e());
+    if ((g == null) && ((e.equals("POST")) || (e.equals("PUT")) || (e.equals("PATCH")))) {
+      ((y)localObject).a(new f());
+    }
+    ((y)localObject).i().putAll(h);
+    if (!l) {
+      ((y)localObject).a(new j());
+    }
+    ((y)localObject).a(new b(this, ((y)localObject).q(), (y)localObject));
+    return localObject;
+  }
+  
+  private B c(boolean paramBoolean)
+    throws IOException
+  {
+    Object localObject;
+    if (n == null)
+    {
+      localObject = b(paramBoolean).a();
+    }
+    else
+    {
+      localObject = h();
+      paramBoolean = o().f().a(e, (k)localObject, g).u();
+      B localB = n.a(h).b(l).a((k)localObject);
+      localB.i().a(o().e());
+      localObject = localB;
+      if (paramBoolean) {
+        if (localB.o()) {
+          localObject = localB;
+        } else {
+          throw a(localB);
+        }
+      }
+    }
+    i = ((B)localObject).g();
+    j = ((B)localObject).j();
+    k = ((B)localObject).k();
+    return localObject;
+  }
+  
+  public final void A()
+  {
+    z localZ = d.f();
+    o = new f.g.b.a.b.g.a(localZ.b(), localZ.a());
+  }
+  
+  public c<T> a(t paramT)
+  {
+    h = paramT;
+    return this;
+  }
+  
+  public c<T> a(boolean paramBoolean)
+  {
+    l = paramBoolean;
+    return this;
+  }
+  
+  public IOException a(B paramB)
+  {
+    return new C(paramB);
+  }
+  
+  public final <E> void a(f.g.b.a.b.c.b paramB, Class<E> paramClass, f.g.b.a.b.c.a<T, E> paramA)
+    throws IOException
+  {
+    boolean bool;
+    if (n == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    g.a(bool, "Batching media requests is not supported");
+    paramB.a(g(), y(), paramClass, paramA);
+  }
+  
+  public final void a(f.g.b.a.c.b paramB)
+  {
+    z localZ = d.f();
+    n = new f.g.b.a.b.g.c(paramB, localZ.b(), localZ.a());
+    n.a(e);
+    paramB = g;
+    if (paramB != null) {
+      n.a(paramB);
+    }
+  }
+  
+  public void a(OutputStream paramOutputStream)
+    throws IOException
+  {
+    m().a(paramOutputStream);
+  }
+  
+  public final void a(Object paramObject, String paramString)
+  {
+    boolean bool;
+    if ((!d.j()) && (paramObject == null)) {
+      bool = false;
+    } else {
+      bool = true;
+    }
+    g.a(bool, "Required parameter %s must be specified", new Object[] { paramString });
+  }
+  
+  public c<T> b(String paramString, Object paramObject)
+  {
+    super.b(paramString, paramObject);
+    return (c)this;
+  }
+  
+  public void b(OutputStream paramOutputStream)
+    throws IOException
+  {
+    f.g.b.a.b.g.a localA = o;
+    if (localA == null)
+    {
+      k().a(paramOutputStream);
+      return;
+    }
+    localA.a(h(), h, paramOutputStream);
+  }
+  
+  public T execute()
+    throws IOException
+  {
+    return m().a(m);
+  }
+  
+  public y g()
+    throws IOException
+  {
+    return b(false);
+  }
+  
+  public k h()
+  {
+    return new k(L.a(d.c(), f, this, true));
+  }
+  
+  public y i()
+    throws IOException
+  {
+    return b(true);
+  }
+  
+  public InputStream j()
+    throws IOException
+  {
+    return m().b();
+  }
+  
+  public B k()
+    throws IOException
+  {
+    b("alt", "media");
+    return m();
+  }
+  
+  public InputStream l()
+    throws IOException
+  {
+    return k().b();
+  }
+  
+  public B m()
+    throws IOException
+  {
+    return c(false);
+  }
+  
+  public B n()
+    throws IOException
+  {
+    boolean bool;
+    if (n == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    g.a(bool);
+    B localB = c(true);
+    localB.m();
+    return localB;
+  }
+  
+  public a o()
+  {
+    return d;
+  }
+  
+  public final boolean p()
+  {
+    return l;
+  }
+  
+  public final p q()
+  {
+    return g;
+  }
+  
+  public final t r()
+  {
+    return i;
+  }
+  
+  public final int s()
+  {
+    return j;
+  }
+  
+  public final String t()
+  {
+    return k;
+  }
+  
+  public final f.g.b.a.b.g.a u()
+  {
+    return o;
+  }
+  
+  public final f.g.b.a.b.g.c v()
+  {
+    return n;
+  }
+  
+  public final t w()
+  {
+    return h;
+  }
+  
+  public final String x()
+  {
+    return e;
+  }
+  
+  public final Class<T> y()
+  {
+    return m;
+  }
+  
+  public final String z()
+  {
+    return f;
+  }
+}

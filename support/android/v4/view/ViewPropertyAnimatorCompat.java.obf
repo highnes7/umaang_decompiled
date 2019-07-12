@@ -1,0 +1,455 @@
+package b.b.x.o;
+
+import android.os.Build.VERSION;
+import android.view.View;
+import android.view.ViewPropertyAnimator;
+import android.view.animation.Interpolator;
+import java.lang.ref.WeakReference;
+
+public final class T
+{
+  public static final String a = "ViewAnimatorCompat";
+  public static final int b = 2113929216;
+  public WeakReference<View> c;
+  public Runnable d = null;
+  public Runnable e = null;
+  public int f = -1;
+  
+  public T(View paramView)
+  {
+    c = new WeakReference(paramView);
+  }
+  
+  private void a(View paramView, U paramU)
+  {
+    if (paramU != null)
+    {
+      paramView.animate().setListener(new Q(this, paramU, paramView));
+      return;
+    }
+    paramView.animate().setListener(null);
+  }
+  
+  public T a(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().alpha(paramFloat);
+    }
+    return this;
+  }
+  
+  public T a(long paramLong)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().setDuration(paramLong);
+    }
+    return this;
+  }
+  
+  public T a(Interpolator paramInterpolator)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().setInterpolator(paramInterpolator);
+    }
+    return this;
+  }
+  
+  public T a(U paramU)
+  {
+    View localView = (View)c.get();
+    if (localView != null)
+    {
+      int i = Build.VERSION.SDK_INT;
+      a(localView, paramU);
+    }
+    return this;
+  }
+  
+  public T a(W paramW)
+  {
+    View localView = (View)c.get();
+    if (localView != null)
+    {
+      int i = Build.VERSION.SDK_INT;
+      S localS = null;
+      if (paramW != null) {
+        localS = new S(this, paramW, localView);
+      }
+      localView.animate().setUpdateListener(localS);
+    }
+    return this;
+  }
+  
+  public T a(Runnable paramRunnable)
+  {
+    View localView = (View)c.get();
+    if (localView != null)
+    {
+      int i = Build.VERSION.SDK_INT;
+      localView.animate().withEndAction(paramRunnable);
+    }
+    return this;
+  }
+  
+  public void a()
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().cancel();
+    }
+  }
+  
+  public long b()
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      return localView.animate().getDuration();
+    }
+    return 0L;
+  }
+  
+  public T b(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().alphaBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T b(long paramLong)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().setStartDelay(paramLong);
+    }
+    return this;
+  }
+  
+  public T b(Runnable paramRunnable)
+  {
+    View localView = (View)c.get();
+    if (localView != null)
+    {
+      int i = Build.VERSION.SDK_INT;
+      localView.animate().withStartAction(paramRunnable);
+    }
+    return this;
+  }
+  
+  public Interpolator c()
+  {
+    View localView = (View)c.get();
+    if (localView != null)
+    {
+      int i = Build.VERSION.SDK_INT;
+      return (Interpolator)localView.animate().getInterpolator();
+    }
+    return null;
+  }
+  
+  public T c(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().rotation(paramFloat);
+    }
+    return this;
+  }
+  
+  public long d()
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      return localView.animate().getStartDelay();
+    }
+    return 0L;
+  }
+  
+  public T d(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().rotationBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T e(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().rotationX(paramFloat);
+    }
+    return this;
+  }
+  
+  public void e()
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().start();
+    }
+  }
+  
+  public T f()
+  {
+    View localView = (View)c.get();
+    if (localView != null)
+    {
+      int i = Build.VERSION.SDK_INT;
+      localView.animate().withLayer();
+    }
+    return this;
+  }
+  
+  public T f(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().rotationXBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T g(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().rotationY(paramFloat);
+    }
+    return this;
+  }
+  
+  public T h(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().rotationYBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T i(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().scaleX(paramFloat);
+    }
+    return this;
+  }
+  
+  public T j(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().scaleXBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T k(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().scaleY(paramFloat);
+    }
+    return this;
+  }
+  
+  public T l(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().scaleYBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T m(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().translationX(paramFloat);
+    }
+    return this;
+  }
+  
+  public T n(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().translationXBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T o(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().translationY(paramFloat);
+    }
+    return this;
+  }
+  
+  public T p(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().translationYBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T q(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if ((localView != null) && (Build.VERSION.SDK_INT >= 21)) {
+      localView.animate().translationZ(paramFloat);
+    }
+    return this;
+  }
+  
+  public T r(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if ((localView != null) && (Build.VERSION.SDK_INT >= 21)) {
+      localView.animate().translationZBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T s(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().x(paramFloat);
+    }
+    return this;
+  }
+  
+  public T t(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().xBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T u(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().y(paramFloat);
+    }
+    return this;
+  }
+  
+  public T v(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if (localView != null) {
+      localView.animate().yBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public T w(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if ((localView != null) && (Build.VERSION.SDK_INT >= 21)) {
+      localView.animate().z(paramFloat);
+    }
+    return this;
+  }
+  
+  public T x(float paramFloat)
+  {
+    View localView = (View)c.get();
+    if ((localView != null) && (Build.VERSION.SDK_INT >= 21)) {
+      localView.animate().zBy(paramFloat);
+    }
+    return this;
+  }
+  
+  public static class a
+    implements U
+  {
+    public T a;
+    public boolean b;
+    
+    public a(T paramT)
+    {
+      a = paramT;
+    }
+    
+    public void onAnimationCancel(View paramView)
+    {
+      Object localObject = paramView.getTag(2113929216);
+      if ((localObject instanceof U)) {
+        localObject = (U)localObject;
+      } else {
+        localObject = null;
+      }
+      if (localObject != null) {
+        ((U)localObject).onAnimationCancel(paramView);
+      }
+    }
+    
+    public void onAnimationEnd(View paramView)
+    {
+      int i = a.f;
+      U localU = null;
+      if (i > -1)
+      {
+        paramView.setLayerType(i, null);
+        a.f = -1;
+      }
+      i = Build.VERSION.SDK_INT;
+      Object localObject = a;
+      Runnable localRunnable = e;
+      if (localRunnable != null)
+      {
+        e = null;
+        localRunnable.run();
+      }
+      localObject = paramView.getTag(2113929216);
+      if ((localObject instanceof U)) {
+        localU = (U)localObject;
+      }
+      if (localU != null) {
+        localU.onAnimationEnd(paramView);
+      }
+      b = true;
+    }
+    
+    public void onAnimationStart(View paramView)
+    {
+      b = false;
+      int i = a.f;
+      U localU = null;
+      if (i > -1) {
+        paramView.setLayerType(2, null);
+      }
+      Object localObject = a;
+      Runnable localRunnable = d;
+      if (localRunnable != null)
+      {
+        d = null;
+        localRunnable.run();
+      }
+      localObject = paramView.getTag(2113929216);
+      if ((localObject instanceof U)) {
+        localU = (U)localObject;
+      }
+      if (localU != null) {
+        localU.onAnimationStart(paramView);
+      }
+    }
+  }
+}

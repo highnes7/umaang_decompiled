@@ -1,0 +1,283 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.d;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+import m.a.h;
+
+@b(emulated=true)
+public abstract class rb<E>
+  implements Collection<E>, Serializable
+{
+  public static final rb<Object> a = new c(null);
+  public transient vb<E> b;
+  
+  public rb() {}
+  
+  public vb<E> a()
+  {
+    vb localVb2 = b;
+    vb localVb1 = localVb2;
+    if (localVb2 == null)
+    {
+      localVb1 = b();
+      b = localVb1;
+    }
+    return localVb1;
+  }
+  
+  public final boolean add(E paramE)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final boolean addAll(Collection<? extends E> paramCollection)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public vb<E> b()
+  {
+    int i = size();
+    if (i != 0)
+    {
+      if (i != 1) {
+        return new zf(this, toArray());
+      }
+      return vb.b(iterator().next());
+    }
+    return vb.f();
+  }
+  
+  public abstract boolean c();
+  
+  public final void clear()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public boolean contains(@h Object paramObject)
+  {
+    return (paramObject != null) && (Jc.a(iterator(), paramObject));
+  }
+  
+  public boolean containsAll(Collection<?> paramCollection)
+  {
+    return V.a(this, paramCollection);
+  }
+  
+  public Object d()
+  {
+    return new d(toArray());
+  }
+  
+  public boolean isEmpty()
+  {
+    return size() == 0;
+  }
+  
+  public abstract th<E> iterator();
+  
+  public final boolean remove(Object paramObject)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final boolean removeAll(Collection<?> paramCollection)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final boolean retainAll(Collection<?> paramCollection)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public Object[] toArray()
+  {
+    return kf.a(this);
+  }
+  
+  public <T> T[] toArray(T[] paramArrayOfT)
+  {
+    return kf.a(this, paramArrayOfT);
+  }
+  
+  public String toString()
+  {
+    return V.b(this);
+  }
+  
+  private static class a<E>
+    extends rb<E>
+  {
+    public final E[] c;
+    
+    public a(E[] paramArrayOfE)
+    {
+      c = paramArrayOfE;
+    }
+    
+    public vb<E> b()
+    {
+      Object[] arrayOfObject = c;
+      if (arrayOfObject.length == 1) {
+        return new jg(arrayOfObject[0]);
+      }
+      return new Bf(arrayOfObject);
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+    
+    public boolean isEmpty()
+    {
+      return false;
+    }
+    
+    public th<E> iterator()
+    {
+      return Jc.b(c);
+    }
+    
+    public int size()
+    {
+      return c.length;
+    }
+  }
+  
+  public static abstract class b<E>
+  {
+    public static final int a = 4;
+    
+    public b() {}
+    
+    @d
+    public static int a(int paramInt1, int paramInt2)
+    {
+      if (paramInt2 >= 0)
+      {
+        int i = paramInt1 + (paramInt1 >> 1) + 1;
+        paramInt1 = i;
+        if (i < paramInt2) {
+          paramInt1 = Integer.highestOneBit(paramInt2 - 1) << 1;
+        }
+        paramInt2 = paramInt1;
+        if (paramInt1 < 0) {
+          paramInt2 = Integer.MAX_VALUE;
+        }
+        return paramInt2;
+      }
+      throw new AssertionError("cannot store more than MAX_VALUE elements");
+    }
+    
+    public b<E> a(Iterable<? extends E> paramIterable)
+    {
+      paramIterable = paramIterable.iterator();
+      while (paramIterable.hasNext()) {
+        a(paramIterable.next());
+      }
+      return this;
+    }
+    
+    public abstract b<E> a(E paramE);
+    
+    public b<E> a(Iterator<? extends E> paramIterator)
+    {
+      while (paramIterator.hasNext()) {
+        a(paramIterator.next());
+      }
+      return this;
+    }
+    
+    public b<E> a(E... paramVarArgs)
+    {
+      int j = paramVarArgs.length;
+      int i = 0;
+      while (i < j)
+      {
+        a(paramVarArgs[i]);
+        i += 1;
+      }
+      return this;
+    }
+    
+    public abstract rb<E> a();
+  }
+  
+  private static class c
+    extends rb<Object>
+  {
+    public static final Object[] c = new Object[0];
+    
+    public c() {}
+    
+    public vb<Object> b()
+    {
+      return vb.f();
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+    
+    public boolean contains(@h Object paramObject)
+    {
+      return false;
+    }
+    
+    public boolean isEmpty()
+    {
+      return true;
+    }
+    
+    public th<Object> iterator()
+    {
+      return Jc.a;
+    }
+    
+    public int size()
+    {
+      return 0;
+    }
+    
+    public Object[] toArray()
+    {
+      return c;
+    }
+    
+    public <T> T[] toArray(T[] paramArrayOfT)
+    {
+      if (paramArrayOfT.length > 0) {
+        paramArrayOfT[0] = null;
+      }
+      return paramArrayOfT;
+    }
+  }
+  
+  private static class d
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final Object[] b;
+    
+    public d(Object[] paramArrayOfObject)
+    {
+      b = paramArrayOfObject;
+    }
+    
+    public Object a()
+    {
+      Object[] arrayOfObject = b;
+      if (arrayOfObject.length == 0) {
+        return rb.a;
+      }
+      return new rb.a(of.a(arrayOfObject));
+    }
+  }
+}

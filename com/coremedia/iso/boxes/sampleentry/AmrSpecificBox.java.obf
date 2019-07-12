@@ -1,0 +1,107 @@
+package com.coremedia.iso.boxes.sampleentry;
+
+import f.b.a.g;
+import f.b.a.h;
+import f.h.a.a;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class AmrSpecificBox
+  extends a
+{
+  public static final String TYPE = "damr";
+  public int decoderVersion;
+  public int framesPerSample;
+  public int modeChangePeriod;
+  public int modeSet;
+  public String vendor;
+  
+  static {}
+  
+  public AmrSpecificBox()
+  {
+    super("damr");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    byte[] arrayOfByte = new byte[4];
+    paramByteBuffer.get(arrayOfByte);
+    vendor = g.a(arrayOfByte);
+    decoderVersion = h.m(paramByteBuffer);
+    modeSet = h.g(paramByteBuffer);
+    modeChangePeriod = h.m(paramByteBuffer);
+    framesPerSample = h.m(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this, paramByteBuffer);
+    f.h.a.j.b().a(localJoinPoint);
+    paramByteBuffer.put(g.b(vendor));
+    paramByteBuffer.put((byte)(decoderVersion & 0xFF));
+    f.b.a.j.a(paramByteBuffer, modeSet);
+    paramByteBuffer.put((byte)(modeChangePeriod & 0xFF));
+    paramByteBuffer.put((byte)(framesPerSample & 0xFF));
+  }
+  
+  public long getContentSize()
+  {
+    return 9L;
+  }
+  
+  public int getDecoderVersion()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return decoderVersion;
+  }
+  
+  public int getFramesPerSample()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return framesPerSample;
+  }
+  
+  public int getModeChangePeriod()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return modeChangePeriod;
+  }
+  
+  public int getModeSet()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return modeSet;
+  }
+  
+  public String getVendor()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return vendor;
+  }
+  
+  public String toString()
+  {
+    Object localObject = Factory.makeJP(ajc$tjp_6, this, this);
+    f.h.a.j.b().a((JoinPoint)localObject);
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("AmrSpecificBox[vendor=");
+    ((StringBuilder)localObject).append(getVendor());
+    ((StringBuilder)localObject).append(";decoderVersion=");
+    ((StringBuilder)localObject).append(getDecoderVersion());
+    ((StringBuilder)localObject).append(";modeSet=");
+    ((StringBuilder)localObject).append(getModeSet());
+    ((StringBuilder)localObject).append(";modeChangePeriod=");
+    ((StringBuilder)localObject).append(getModeChangePeriod());
+    ((StringBuilder)localObject).append(";framesPerSample=");
+    ((StringBuilder)localObject).append(getFramesPerSample());
+    ((StringBuilder)localObject).append("]");
+    return ((StringBuilder)localObject).toString();
+  }
+}

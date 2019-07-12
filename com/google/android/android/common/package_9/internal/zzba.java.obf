@@ -1,0 +1,45 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Bundle;
+import b.b.a.F;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.internal.zzcps;
+import java.util.concurrent.locks.Lock;
+
+public final class zzba
+  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+{
+  public zzba(zzar paramZzar) {}
+  
+  public final void onConnected(Bundle paramBundle)
+  {
+    paramBundle = zzflx;
+    zzflp.zza(new zzay(paramBundle));
+  }
+  
+  public final void onConnectionFailed(@F ConnectionResult paramConnectionResult)
+  {
+    zzflx.zzfke.lock();
+    try
+    {
+      if (zzar.zzb(zzflx, paramConnectionResult))
+      {
+        zzar.zzi(zzflx);
+        zzar.zzj(zzflx);
+      }
+      else
+      {
+        zzar.zza(zzflx, paramConnectionResult);
+      }
+      return;
+    }
+    finally
+    {
+      zzflx.zzfke.unlock();
+    }
+  }
+  
+  public final void onConnectionSuspended(int paramInt) {}
+}

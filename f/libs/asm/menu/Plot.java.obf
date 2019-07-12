@@ -1,0 +1,407 @@
+package f.c.a.c;
+
+import f.a.a.a.a;
+import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import l.a.a.a.a.b.j;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class Qa
+{
+  public static final Map<String, String> a = Collections.singletonMap("X-CRASHLYTICS-INVALID-SESSION", "1");
+  public static final short[] b = { 10, 20, 30, 60, 120, 300 };
+  public final Object c = new Object();
+  public final na d;
+  public final String e;
+  public final c f;
+  public final b g;
+  public Thread h;
+  
+  public Qa(String paramString, na paramNa, c paramC, b paramB)
+  {
+    if (paramNa != null)
+    {
+      d = paramNa;
+      e = paramString;
+      f = paramC;
+      g = paramB;
+      return;
+    }
+    throw new IllegalArgumentException("createReportCall must not be null.");
+  }
+  
+  public void a(float paramFloat, d paramD)
+  {
+    try
+    {
+      if (h != null)
+      {
+        g.h().d("CrashlyticsCore", "Report upload has already been started.");
+        return;
+      }
+      h = new Thread(new e(paramFloat, paramD), "Crashlytics Report Uploader");
+      h.start();
+      return;
+    }
+    finally {}
+  }
+  
+  /* Error */
+  public boolean a(Pa paramPa)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: getfield 60	f/c/a/c/Qa:c	Ljava/lang/Object;
+    //   4: astore 6
+    //   6: aload 6
+    //   8: monitorenter
+    //   9: iconst_0
+    //   10: istore_3
+    //   11: new 113	f/c/a/c/ma
+    //   14: dup
+    //   15: aload_0
+    //   16: getfield 64	f/c/a/c/Qa:e	Ljava/lang/String;
+    //   19: aload_1
+    //   20: invokespecial 116	f/c/a/c/ma:<init>	(Ljava/lang/String;Lf/c/a/c/Pa;)V
+    //   23: astore 5
+    //   25: aload_0
+    //   26: getfield 62	f/c/a/c/Qa:d	Lf/c/a/c/na;
+    //   29: aload 5
+    //   31: invokeinterface 121 2 0
+    //   36: istore 4
+    //   38: invokestatic 86	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   41: astore 7
+    //   43: new 123	java/lang/StringBuilder
+    //   46: dup
+    //   47: invokespecial 124	java/lang/StringBuilder:<init>	()V
+    //   50: astore 8
+    //   52: aload 8
+    //   54: ldc 126
+    //   56: invokevirtual 130	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   59: pop
+    //   60: iload 4
+    //   62: ifeq +125 -> 187
+    //   65: ldc -124
+    //   67: astore 5
+    //   69: goto +3 -> 72
+    //   72: aload 8
+    //   74: aload 5
+    //   76: invokevirtual 130	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   79: pop
+    //   80: aload 8
+    //   82: aload_1
+    //   83: invokeinterface 137 1 0
+    //   88: invokevirtual 130	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   91: pop
+    //   92: aload 7
+    //   94: ldc 88
+    //   96: aload 8
+    //   98: invokevirtual 140	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   101: invokeinterface 142 3 0
+    //   106: iload_3
+    //   107: istore_2
+    //   108: iload 4
+    //   110: ifeq +67 -> 177
+    //   113: aload_1
+    //   114: invokeinterface 145 1 0
+    //   119: iconst_1
+    //   120: istore_2
+    //   121: goto +56 -> 177
+    //   124: astore_1
+    //   125: goto +57 -> 182
+    //   128: astore 5
+    //   130: invokestatic 86	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   133: astore 7
+    //   135: new 123	java/lang/StringBuilder
+    //   138: dup
+    //   139: invokespecial 124	java/lang/StringBuilder:<init>	()V
+    //   142: astore 8
+    //   144: aload 8
+    //   146: ldc -109
+    //   148: invokevirtual 130	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   151: pop
+    //   152: aload 8
+    //   154: aload_1
+    //   155: invokevirtual 150	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   158: pop
+    //   159: aload 7
+    //   161: ldc 88
+    //   163: aload 8
+    //   165: invokevirtual 140	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   168: aload 5
+    //   170: invokeinterface 153 4 0
+    //   175: iload_3
+    //   176: istore_2
+    //   177: aload 6
+    //   179: monitorexit
+    //   180: iload_2
+    //   181: ireturn
+    //   182: aload 6
+    //   184: monitorexit
+    //   185: aload_1
+    //   186: athrow
+    //   187: ldc -101
+    //   189: astore 5
+    //   191: goto -119 -> 72
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	194	0	this	Qa
+    //   0	194	1	paramPa	Pa
+    //   107	74	2	bool1	boolean
+    //   10	166	3	bool2	boolean
+    //   36	73	4	bool3	boolean
+    //   23	52	5	localObject1	Object
+    //   128	41	5	localException	Exception
+    //   189	1	5	str	String
+    //   4	179	6	localObject2	Object
+    //   41	119	7	localQ	q
+    //   50	114	8	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   11	60	124	finally
+    //   72	106	124	finally
+    //   113	119	124	finally
+    //   130	175	124	finally
+    //   177	180	124	finally
+    //   182	185	124	finally
+    //   11	60	128	java/lang/Exception
+    //   72	106	128	java/lang/Exception
+    //   113	119	128	java/lang/Exception
+  }
+  
+  public List<Pa> b()
+  {
+    g.h().d("CrashlyticsCore", "Checking for crash reports...");
+    synchronized (c)
+    {
+      Object localObject4 = f.c();
+      Object localObject3 = f.b();
+      File[] arrayOfFile = f.a();
+      ??? = new LinkedList();
+      int j = 0;
+      int k;
+      int i;
+      Object localObject5;
+      Object localObject6;
+      StringBuilder localStringBuilder;
+      if (localObject4 != null)
+      {
+        k = localObject4.length;
+        i = 0;
+        while (i < k)
+        {
+          localObject5 = localObject4[i];
+          localObject6 = g.h();
+          localStringBuilder = a.b("Found crash report ");
+          localStringBuilder.append(((File)localObject5).getPath());
+          ((q)localObject6).d("CrashlyticsCore", localStringBuilder.toString());
+          ((List)???).add(new Ta((File)localObject5));
+          i += 1;
+        }
+      }
+      localObject4 = new HashMap();
+      if (localObject3 != null)
+      {
+        k = localObject3.length;
+        i = 0;
+        while (i < k)
+        {
+          localObject5 = localObject3[i];
+          localObject6 = Z.a((File)localObject5);
+          if (!((Map)localObject4).containsKey(localObject6)) {
+            ((Map)localObject4).put(localObject6, new LinkedList());
+          }
+          ((List)((Map)localObject4).get(localObject6)).add(localObject5);
+          i += 1;
+        }
+      }
+      localObject3 = ((Map)localObject4).keySet().iterator();
+      while (((Iterator)localObject3).hasNext())
+      {
+        localObject5 = (String)((Iterator)localObject3).next();
+        localObject6 = g.h();
+        localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Found invalid session: ");
+        localStringBuilder.append((String)localObject5);
+        ((q)localObject6).d("CrashlyticsCore", localStringBuilder.toString());
+        localObject6 = (List)((Map)localObject4).get(localObject5);
+        ((List)???).add(new wa((String)localObject5, (File[])((List)localObject6).toArray(new File[((List)localObject6).size()])));
+      }
+      if (arrayOfFile != null)
+      {
+        k = arrayOfFile.length;
+        i = j;
+        while (i < k)
+        {
+          ((List)???).add(new Ga(arrayOfFile[i]));
+          i += 1;
+        }
+      }
+      if (((List)???).isEmpty()) {
+        g.h().d("CrashlyticsCore", "No reports found.");
+      }
+      return ???;
+    }
+    for (;;)
+    {
+      throw localObject1;
+    }
+  }
+  
+  public boolean c()
+  {
+    return h != null;
+  }
+  
+  public static final class a
+    implements Qa.d
+  {
+    public a() {}
+    
+    public boolean a()
+    {
+      return true;
+    }
+  }
+  
+  public static abstract interface b
+  {
+    public abstract boolean a();
+  }
+  
+  public static abstract interface c
+  {
+    public abstract File[] a();
+    
+    public abstract File[] b();
+    
+    public abstract File[] c();
+  }
+  
+  public static abstract interface d
+  {
+    public abstract boolean a();
+  }
+  
+  private class e
+    extends j
+  {
+    public final float a;
+    public final Qa.d b;
+    
+    public e(float paramFloat, Qa.d paramD)
+    {
+      a = paramFloat;
+      b = paramD;
+    }
+    
+    private void b()
+    {
+      Object localObject1 = g.h();
+      Object localObject2 = a.b("Starting report processing in ");
+      ((StringBuilder)localObject2).append(a);
+      ((StringBuilder)localObject2).append(" second(s)...");
+      ((q)localObject1).d("CrashlyticsCore", ((StringBuilder)localObject2).toString());
+      float f = a;
+      long l;
+      if (f > 0.0F) {
+        l = (f * 1000.0F);
+      }
+      try
+      {
+        Thread.sleep(l);
+      }
+      catch (InterruptedException localInterruptedException1)
+      {
+        StringBuilder localStringBuilder;
+        int i;
+        label444:
+        for (;;) {}
+      }
+      Thread.currentThread().interrupt();
+      return;
+      localObject1 = b();
+      if (Qa.a(Qa.this).a()) {
+        return;
+      }
+      if ((!((List)localObject1).isEmpty()) && (!b.a()))
+      {
+        localObject2 = g.h();
+        localStringBuilder = a.b("User declined to send. Removing ");
+        localStringBuilder.append(((List)localObject1).size());
+        localStringBuilder.append(" Report(s).");
+        ((q)localObject2).d("CrashlyticsCore", localStringBuilder.toString());
+        localObject1 = ((List)localObject1).iterator();
+        while (((Iterator)localObject1).hasNext()) {
+          ((Pa)((Iterator)localObject1).next()).remove();
+        }
+        return;
+      }
+      i = 0;
+      for (;;)
+      {
+        if (((List)localObject1).isEmpty()) {
+          break label444;
+        }
+        if (Qa.a(Qa.this).a()) {
+          return;
+        }
+        localObject2 = g.h();
+        localStringBuilder = a.b("Attempting to send ");
+        localStringBuilder.append(((List)localObject1).size());
+        localStringBuilder.append(" report(s)");
+        ((q)localObject2).d("CrashlyticsCore", localStringBuilder.toString());
+        localObject1 = ((List)localObject1).iterator();
+        while (((Iterator)localObject1).hasNext())
+        {
+          localObject2 = (Pa)((Iterator)localObject1).next();
+          a((Pa)localObject2);
+        }
+        localObject2 = b();
+        localObject1 = localObject2;
+        if (!((List)localObject2).isEmpty())
+        {
+          localObject1 = Qa.b;
+          l = localObject1[Math.min(i, localObject1.length - 1)];
+          localObject1 = g.h();
+          localStringBuilder = new StringBuilder();
+          localStringBuilder.append("Report submisson: scheduling delayed retry in ");
+          localStringBuilder.append(l);
+          localStringBuilder.append(" seconds");
+          ((q)localObject1).d("CrashlyticsCore", localStringBuilder.toString());
+        }
+        try
+        {
+          Thread.sleep(l * 1000L);
+          i += 1;
+          localObject1 = localObject2;
+        }
+        catch (InterruptedException localInterruptedException2)
+        {
+          for (;;) {}
+        }
+      }
+      Thread.currentThread().interrupt();
+    }
+    
+    public void a()
+    {
+      try
+      {
+        b();
+      }
+      catch (Exception localException)
+      {
+        g.h().c("CrashlyticsCore", "An unexpected error occurred while attempting to upload crash reports.", localException);
+      }
+      Qa.a(Qa.this, null);
+    }
+  }
+}

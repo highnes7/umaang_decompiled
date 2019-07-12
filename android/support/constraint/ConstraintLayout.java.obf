@@ -1,0 +1,1304 @@
+package android.support.constraint;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.util.SparseArray;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import b.b.d.a.a.b;
+import b.b.d.a.a.b.b;
+import b.b.d.a.a.b.c;
+import b.b.d.a.a.f;
+import b.b.d.a.a.f.b;
+import b.b.d.a.a.h;
+import b.b.d.a.a.j;
+import b.b.d.a.a.n;
+import b.b.d.c;
+import b.b.d.d.c;
+import java.util.ArrayList;
+
+public class ConstraintLayout
+  extends ViewGroup
+{
+  public static final boolean a = false;
+  public static final String b = "ConstraintLayout-1.0.0";
+  public static final String c = "ConstraintLayout";
+  public static final boolean d = true;
+  public SparseArray<View> e = new SparseArray();
+  public final ArrayList<f> f = new ArrayList(100);
+  public h g = new h();
+  public int h = 0;
+  public int i = 0;
+  public int j = Integer.MAX_VALUE;
+  public int k = Integer.MAX_VALUE;
+  public boolean l = true;
+  public int m = 2;
+  public c n = null;
+  
+  public ConstraintLayout(Context paramContext)
+  {
+    super(paramContext);
+    a(null);
+  }
+  
+  public ConstraintLayout(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    a(paramAttributeSet);
+  }
+  
+  public ConstraintLayout(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+    a(paramAttributeSet);
+  }
+  
+  private final f a(int paramInt)
+  {
+    if (paramInt == 0) {
+      return g;
+    }
+    View localView = (View)e.get(paramInt);
+    if (localView == this) {
+      return g;
+    }
+    if (localView == null) {
+      return null;
+    }
+    return getLayoutParamsqa;
+  }
+  
+  private final f a(View paramView)
+  {
+    if (paramView == this) {
+      return g;
+    }
+    if (paramView == null) {
+      return null;
+    }
+    return getLayoutParamsqa;
+  }
+  
+  private void a(int paramInt1, int paramInt2)
+  {
+    int i1 = getPaddingTop();
+    int i6 = getPaddingBottom() + i1;
+    i1 = getPaddingLeft();
+    int i7 = getPaddingRight() + i1;
+    int i8 = getChildCount();
+    int i3 = 0;
+    while (i3 < i8)
+    {
+      View localView = getChildAt(i3);
+      if (localView.getVisibility() != 8)
+      {
+        LayoutParams localLayoutParams = (LayoutParams)localView.getLayoutParams();
+        f localF = qa;
+        if (!ia)
+        {
+          int i4 = width;
+          int i5 = height;
+          boolean bool = fa;
+          int i2 = 1;
+          if ((!bool) && (!ga) && ((bool) || (W != 1)) && (width != -1) && ((ga) || ((X != 1) && (height != -1)))) {
+            i1 = 0;
+          } else {
+            i1 = 1;
+          }
+          if (i1 != 0)
+          {
+            if ((i4 != 0) && (i4 != -1))
+            {
+              i4 = ViewGroup.getChildMeasureSpec(paramInt1, i7, i4);
+              i1 = 0;
+            }
+            else
+            {
+              i4 = ViewGroup.getChildMeasureSpec(paramInt1, i7, -2);
+              i1 = 1;
+            }
+            if ((i5 != 0) && (i5 != -1))
+            {
+              i5 = ViewGroup.getChildMeasureSpec(paramInt2, i6, i5);
+              i2 = 0;
+            }
+            else
+            {
+              i5 = ViewGroup.getChildMeasureSpec(paramInt2, i6, -2);
+            }
+            localView.measure(i4, i5);
+            i4 = localView.getMeasuredWidth();
+            i5 = localView.getMeasuredHeight();
+          }
+          else
+          {
+            i1 = 0;
+            i2 = 0;
+          }
+          localF.n(i4);
+          localF.h(i5);
+          if (i1 != 0) {
+            localF.p(i4);
+          }
+          if (i2 != 0) {
+            localF.o(i5);
+          }
+          if (ha)
+          {
+            i1 = localView.getBaseline();
+            if (i1 != -1) {
+              localF.b(i1);
+            }
+          }
+        }
+      }
+      i3 += 1;
+    }
+  }
+  
+  private void a(AttributeSet paramAttributeSet)
+  {
+    g.a(this);
+    e.put(getId(), this);
+    n = null;
+    if (paramAttributeSet != null)
+    {
+      paramAttributeSet = getContext().obtainStyledAttributes(paramAttributeSet, d.c.ConstraintLayout_Layout);
+      int i2 = paramAttributeSet.getIndexCount();
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        int i3 = paramAttributeSet.getIndex(i1);
+        if (i3 == d.c.ConstraintLayout_Layout_android_minWidth)
+        {
+          h = paramAttributeSet.getDimensionPixelOffset(i3, h);
+        }
+        else if (i3 == d.c.ConstraintLayout_Layout_android_minHeight)
+        {
+          i = paramAttributeSet.getDimensionPixelOffset(i3, i);
+        }
+        else if (i3 == d.c.ConstraintLayout_Layout_android_maxWidth)
+        {
+          j = paramAttributeSet.getDimensionPixelOffset(i3, j);
+        }
+        else if (i3 == d.c.ConstraintLayout_Layout_android_maxHeight)
+        {
+          k = paramAttributeSet.getDimensionPixelOffset(i3, k);
+        }
+        else if (i3 == d.c.ConstraintLayout_Layout_layout_optimizationLevel)
+        {
+          m = paramAttributeSet.getInt(i3, m);
+        }
+        else if (i3 == d.c.ConstraintLayout_Layout_constraintSet)
+        {
+          i3 = paramAttributeSet.getResourceId(i3, 0);
+          n = new c();
+          n.b(getContext(), i3);
+        }
+        i1 += 1;
+      }
+      paramAttributeSet.recycle();
+    }
+    g.t(m);
+  }
+  
+  private void b()
+  {
+    Object localObject1 = n;
+    if (localObject1 != null) {
+      ((c)localObject1).b(this);
+    }
+    int i3 = getChildCount();
+    g.ia();
+    int i1 = 0;
+    while (i1 < i3)
+    {
+      Object localObject3 = getChildAt(i1);
+      Object localObject2 = a((View)localObject3);
+      if (localObject2 != null)
+      {
+        do
+        {
+          for (;;)
+          {
+            localObject1 = (LayoutParams)((View)localObject3).getLayoutParams();
+            ((f)localObject2).aa();
+            ((f)localObject2).m(((View)localObject3).getVisibility());
+            ((f)localObject2).a(localObject3);
+            g.f((f)localObject2);
+            if ((!ga) || (!fa)) {
+              f.add(localObject2);
+            }
+            if (!ia) {
+              break;
+            }
+            localObject2 = (j)localObject2;
+            i2 = r;
+            if (i2 != -1) {
+              ((j)localObject2).s(i2);
+            }
+            i2 = s;
+            if (i2 != -1) {
+              ((j)localObject2).t(i2);
+            }
+            f1 = t;
+            if (f1 != -1.0F) {
+              ((j)localObject2).e(f1);
+            }
+          }
+        } while ((ja == -1) && (ka == -1) && (la == -1) && (ma == -1) && (y == -1) && (z == -1) && (A == -1) && (B == -1) && (C == -1) && (ca == -1) && (da == -1) && (width != -1) && (height != -1));
+        int i6 = ja;
+        int i7 = ka;
+        int i4 = la;
+        int i5 = ma;
+        int i8 = na;
+        int i2 = oa;
+        float f1 = pa;
+        int i9 = Build.VERSION.SDK_INT;
+        Object localObject4;
+        if (i6 != -1)
+        {
+          localObject3 = a(i6);
+          if (localObject3 != null)
+          {
+            localObject4 = b.c.b;
+            ((f)localObject2).a((b.c)localObject4, (f)localObject3, (b.c)localObject4, leftMargin, i8);
+          }
+        }
+        else if (i7 != -1)
+        {
+          localObject3 = a(i7);
+          if (localObject3 != null) {
+            ((f)localObject2).a(b.c.b, (f)localObject3, b.c.d, leftMargin, i8);
+          }
+        }
+        if (i4 != -1)
+        {
+          localObject3 = a(i4);
+          if (localObject3 != null) {
+            ((f)localObject2).a(b.c.d, (f)localObject3, b.c.b, rightMargin, i2);
+          }
+        }
+        else if (i5 != -1)
+        {
+          localObject3 = a(i5);
+          if (localObject3 != null)
+          {
+            localObject4 = b.c.d;
+            ((f)localObject2).a((b.c)localObject4, (f)localObject3, (b.c)localObject4, rightMargin, i2);
+          }
+        }
+        i2 = y;
+        if (i2 != -1)
+        {
+          localObject3 = a(i2);
+          if (localObject3 != null)
+          {
+            localObject4 = b.c.c;
+            ((f)localObject2).a((b.c)localObject4, (f)localObject3, (b.c)localObject4, topMargin, I);
+          }
+        }
+        else
+        {
+          i2 = z;
+          if (i2 != -1)
+          {
+            localObject3 = a(i2);
+            if (localObject3 != null) {
+              ((f)localObject2).a(b.c.c, (f)localObject3, b.c.e, topMargin, I);
+            }
+          }
+        }
+        i2 = A;
+        if (i2 != -1)
+        {
+          localObject3 = a(i2);
+          if (localObject3 != null) {
+            ((f)localObject2).a(b.c.e, (f)localObject3, b.c.c, bottomMargin, K);
+          }
+        }
+        else
+        {
+          i2 = B;
+          if (i2 != -1)
+          {
+            localObject3 = a(i2);
+            if (localObject3 != null)
+            {
+              localObject4 = b.c.e;
+              ((f)localObject2).a((b.c)localObject4, (f)localObject3, (b.c)localObject4, bottomMargin, K);
+            }
+          }
+        }
+        i2 = C;
+        if (i2 != -1)
+        {
+          localObject4 = (View)e.get(i2);
+          localObject3 = a(C);
+          if ((localObject3 != null) && (localObject4 != null) && ((((View)localObject4).getLayoutParams() instanceof LayoutParams)))
+          {
+            localObject4 = (LayoutParams)((View)localObject4).getLayoutParams();
+            ha = true;
+            ha = true;
+            ((f)localObject2).a(b.c.f).a(((f)localObject3).a(b.c.f), 0, -1, b.b.b, 0, true);
+            ((f)localObject2).a(b.c.c).p();
+            ((f)localObject2).a(b.c.e).p();
+          }
+        }
+        if ((f1 >= 0.0F) && (f1 != 0.5F)) {
+          ((f)localObject2).a(f1);
+        }
+        f1 = O;
+        if ((f1 >= 0.0F) && (f1 != 0.5F)) {
+          ((f)localObject2).c(f1);
+        }
+        if ((isInEditMode()) && ((ca != -1) || (da != -1))) {
+          ((f)localObject2).e(ca, da);
+        }
+        if (!fa)
+        {
+          if (width == -1)
+          {
+            ((f)localObject2).a(f.b.d);
+            abl = leftMargin;
+            adl = rightMargin;
+          }
+          else
+          {
+            ((f)localObject2).a(f.b.c);
+            ((f)localObject2).n(0);
+          }
+        }
+        else
+        {
+          ((f)localObject2).a(f.b.a);
+          ((f)localObject2).n(width);
+        }
+        if (!ga)
+        {
+          if (height == -1)
+          {
+            ((f)localObject2).b(f.b.d);
+            acl = topMargin;
+            ael = bottomMargin;
+          }
+          else
+          {
+            ((f)localObject2).b(f.b.c);
+            ((f)localObject2).h(0);
+          }
+        }
+        else
+        {
+          ((f)localObject2).b(f.b.a);
+          ((f)localObject2).h(height);
+        }
+        localObject3 = P;
+        if (localObject3 != null) {
+          ((f)localObject2).b((String)localObject3);
+        }
+        ((f)localObject2).b(S);
+        ((f)localObject2).d(T);
+        ((f)localObject2).i(U);
+        ((f)localObject2).l(V);
+        ((f)localObject2).a(W, Y, aa);
+        ((f)localObject2).b(X, Z, ba);
+      }
+      i1 += 1;
+    }
+  }
+  
+  private void b(int paramInt1, int paramInt2)
+  {
+    int i4 = View.MeasureSpec.getMode(paramInt1);
+    paramInt1 = View.MeasureSpec.getSize(paramInt1);
+    int i1 = View.MeasureSpec.getMode(paramInt2);
+    paramInt2 = View.MeasureSpec.getSize(paramInt2);
+    int i2 = getPaddingTop();
+    int i3 = getPaddingBottom();
+    int i5 = getPaddingLeft();
+    int i6 = getPaddingRight();
+    f.b localB1 = f.b.a;
+    getLayoutParams();
+    if (i4 != Integer.MIN_VALUE)
+    {
+      if (i4 != 0) {
+        if (i4 == 1073741824) {}
+      }
+      for (localB2 = localB1;; localB2 = f.b.b)
+      {
+        paramInt1 = 0;
+        break;
+        paramInt1 = Math.min(j, paramInt1) - (i6 + i5);
+        localB2 = localB1;
+        break;
+      }
+    }
+    f.b localB2 = f.b.b;
+    if (i1 != Integer.MIN_VALUE)
+    {
+      if (i1 != 0) {
+        if (i1 == 1073741824) {}
+      }
+      for (;;)
+      {
+        paramInt2 = 0;
+        break;
+        paramInt2 = Math.min(k, paramInt2) - (i3 + i2);
+        break;
+        localB1 = f.b.b;
+      }
+    }
+    localB1 = f.b.b;
+    g.k(0);
+    g.j(0);
+    g.a(localB2);
+    g.n(paramInt1);
+    g.b(localB1);
+    g.h(paramInt2);
+    g.k(h - getPaddingLeft() - getPaddingRight());
+    g.j(i - getPaddingTop() - getPaddingBottom());
+  }
+  
+  private void c()
+  {
+    int i4 = getChildCount();
+    int i3 = 0;
+    int i1 = 0;
+    int i2;
+    for (;;)
+    {
+      i2 = i3;
+      if (i1 >= i4) {
+        break;
+      }
+      if (getChildAt(i1).isLayoutRequested())
+      {
+        i2 = 1;
+        break;
+      }
+      i1 += 1;
+    }
+    if (i2 != 0)
+    {
+      f.clear();
+      b();
+    }
+  }
+  
+  public void a()
+  {
+    g.ha();
+  }
+  
+  public void addView(View paramView, int paramInt, ViewGroup.LayoutParams paramLayoutParams)
+  {
+    super.addView(paramView, paramInt, paramLayoutParams);
+    paramInt = Build.VERSION.SDK_INT;
+  }
+  
+  public boolean checkLayoutParams(ViewGroup.LayoutParams paramLayoutParams)
+  {
+    return paramLayoutParams instanceof LayoutParams;
+  }
+  
+  public LayoutParams generateDefaultLayoutParams()
+  {
+    return new LayoutParams(-2, -2);
+  }
+  
+  public LayoutParams generateLayoutParams(AttributeSet paramAttributeSet)
+  {
+    return new LayoutParams(getContext(), paramAttributeSet);
+  }
+  
+  public ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams paramLayoutParams)
+  {
+    return new LayoutParams(paramLayoutParams);
+  }
+  
+  public int getMaxHeight()
+  {
+    return k;
+  }
+  
+  public int getMaxWidth()
+  {
+    return j;
+  }
+  
+  public int getMinHeight()
+  {
+    return i;
+  }
+  
+  public int getMinWidth()
+  {
+    return h;
+  }
+  
+  public void onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    paramInt2 = getChildCount();
+    paramBoolean = isInEditMode();
+    paramInt1 = 0;
+    while (paramInt1 < paramInt2)
+    {
+      View localView = getChildAt(paramInt1);
+      Object localObject = (LayoutParams)localView.getLayoutParams();
+      if ((localView.getVisibility() != 8) || (ia) || (paramBoolean))
+      {
+        localObject = qa;
+        paramInt3 = ((f)localObject).n();
+        paramInt4 = ((f)localObject).o();
+        localView.layout(paramInt3, paramInt4, ((f)localObject).P() + paramInt3, ((f)localObject).p() + paramInt4);
+      }
+      paramInt1 += 1;
+    }
+  }
+  
+  public void onMeasure(int paramInt1, int paramInt2)
+  {
+    int i2 = getPaddingLeft();
+    int i3 = getPaddingTop();
+    g.q(i2);
+    g.r(i3);
+    b(paramInt1, paramInt2);
+    boolean bool = l;
+    int i1 = 0;
+    int i7 = 0;
+    if (bool)
+    {
+      l = false;
+      c();
+    }
+    a(paramInt1, paramInt2);
+    if (getChildCount() > 0) {
+      a();
+    }
+    int i6 = f.size();
+    int i9 = getPaddingBottom() + i3;
+    int i10 = getPaddingRight() + i2;
+    if (i6 > 0)
+    {
+      if (g.t() == f.b.b) {
+        i4 = 1;
+      } else {
+        i4 = 0;
+      }
+      int i5;
+      if (g.N() == f.b.b) {
+        i5 = 1;
+      } else {
+        i5 = 0;
+      }
+      i2 = 0;
+      i1 = 0;
+      while (i7 < i6)
+      {
+        f localF = (f)f.get(i7);
+        View localView;
+        if (!(localF instanceof j))
+        {
+          localView = (View)localF.e();
+          if ((localView != null) && (localView.getVisibility() == 8)) {}
+        }
+        else
+        {
+          LayoutParams localLayoutParams = (LayoutParams)localView.getLayoutParams();
+          if (width == -2) {
+            i3 = ViewGroup.getChildMeasureSpec(paramInt1, i10, width);
+          } else {
+            i3 = View.MeasureSpec.makeMeasureSpec(localF.P(), 1073741824);
+          }
+          if (height == -2) {
+            i8 = ViewGroup.getChildMeasureSpec(paramInt2, i9, height);
+          } else {
+            i8 = View.MeasureSpec.makeMeasureSpec(localF.p(), 1073741824);
+          }
+          localView.measure(i3, i8);
+          int i8 = localView.getMeasuredWidth();
+          i3 = localView.getMeasuredHeight();
+          if (i8 != localF.P())
+          {
+            localF.n(i8);
+            if ((i4 != 0) && (localF.E() > g.P()))
+            {
+              i2 = localF.E();
+              i8 = localF.a(b.c.d).d();
+              g.n(Math.max(h, i8 + i2));
+            }
+            i2 = 1;
+          }
+          if (i3 != localF.p())
+          {
+            localF.h(i3);
+            if ((i5 != 0) && (localF.d() > g.p()))
+            {
+              i2 = localF.d();
+              i3 = localF.a(b.c.e).d();
+              g.h(Math.max(i, i3 + i2));
+            }
+            i3 = 1;
+          }
+          else
+          {
+            i3 = i2;
+          }
+          i2 = i3;
+          if (ha)
+          {
+            i8 = localView.getBaseline();
+            i2 = i3;
+            if (i8 != -1)
+            {
+              i2 = i3;
+              if (i8 != localF.c())
+              {
+                localF.b(i8);
+                i2 = 1;
+              }
+            }
+          }
+          i3 = Build.VERSION.SDK_INT;
+          i1 = ViewGroup.combineMeasuredStates(i1, localView.getMeasuredState());
+        }
+        i7 += 1;
+      }
+      if (i2 != 0) {
+        a();
+      }
+    }
+    i3 = g.P();
+    i2 = g.p();
+    int i4 = Build.VERSION.SDK_INT;
+    paramInt1 = ViewGroup.resolveSizeAndState(i3 + i10, paramInt1, i1);
+    paramInt2 = ViewGroup.resolveSizeAndState(i2 + i9, paramInt2, i1 << 16);
+    paramInt1 = Math.min(j, paramInt1);
+    i1 = Math.min(k, paramInt2);
+    paramInt2 = paramInt1 & 0xFFFFFF;
+    i1 &= 0xFFFFFF;
+    paramInt1 = paramInt2;
+    if (g.oa()) {
+      paramInt1 = paramInt2 | 0x1000000;
+    }
+    paramInt2 = i1;
+    if (g.na()) {
+      paramInt2 = i1 | 0x1000000;
+    }
+    setMeasuredDimension(paramInt1, paramInt2);
+  }
+  
+  public void onViewAdded(View paramView)
+  {
+    int i1 = Build.VERSION.SDK_INT;
+    super.onViewAdded(paramView);
+    Object localObject = a(paramView);
+    if (((paramView instanceof Guideline)) && (!(localObject instanceof j)))
+    {
+      localObject = (LayoutParams)paramView.getLayoutParams();
+      qa = new j();
+      ia = true;
+      ((j)qa).w(ea);
+      localObject = qa;
+    }
+    e.put(paramView.getId(), paramView);
+    l = true;
+  }
+  
+  public void onViewRemoved(View paramView)
+  {
+    int i1 = Build.VERSION.SDK_INT;
+    super.onViewRemoved(paramView);
+    e.remove(paramView.getId());
+    g.g(a(paramView));
+    l = true;
+  }
+  
+  public void removeView(View paramView)
+  {
+    super.removeView(paramView);
+    int i1 = Build.VERSION.SDK_INT;
+  }
+  
+  public void requestLayout()
+  {
+    super.requestLayout();
+    l = true;
+  }
+  
+  public void setConstraintSet(c paramC)
+  {
+    n = paramC;
+  }
+  
+  public void setId(int paramInt)
+  {
+    e.remove(getId());
+    super.setId(paramInt);
+    e.put(getId(), this);
+  }
+  
+  public void setMaxHeight(int paramInt)
+  {
+    if (paramInt == k) {
+      return;
+    }
+    k = paramInt;
+    requestLayout();
+  }
+  
+  public void setMaxWidth(int paramInt)
+  {
+    if (paramInt == j) {
+      return;
+    }
+    j = paramInt;
+    requestLayout();
+  }
+  
+  public void setMinHeight(int paramInt)
+  {
+    if (paramInt == i) {
+      return;
+    }
+    i = paramInt;
+    requestLayout();
+  }
+  
+  public void setMinWidth(int paramInt)
+  {
+    if (paramInt == h) {
+      return;
+    }
+    h = paramInt;
+    requestLayout();
+  }
+  
+  public void setOptimizationLevel(int paramInt)
+  {
+    g.t(paramInt);
+  }
+  
+  public static class LayoutParams
+    extends ViewGroup.MarginLayoutParams
+  {
+    public static final int a = 0;
+    public static final int b = 0;
+    public static final int c = -1;
+    public static final int d = 0;
+    public static final int e = 1;
+    public static final int f = 1;
+    public static final int g = 2;
+    public static final int h = 3;
+    public static final int i = 4;
+    public static final int j = 5;
+    public static final int k = 6;
+    public static final int l = 7;
+    public static final int m = 1;
+    public static final int n = 0;
+    public static final int o = 0;
+    public static final int p = 1;
+    public static final int q = 2;
+    public int A = -1;
+    public int B = -1;
+    public int C = -1;
+    public int D = -1;
+    public int E = -1;
+    public int F = -1;
+    public int G = -1;
+    public int H = -1;
+    public int I = -1;
+    public int J = -1;
+    public int K = -1;
+    public int L = -1;
+    public int M = -1;
+    public float N = 0.5F;
+    public float O = 0.5F;
+    public String P = null;
+    public float Q = 0.0F;
+    public int R = 1;
+    public float S = 0.0F;
+    public float T = 0.0F;
+    public int U = 0;
+    public int V = 0;
+    public int W = 0;
+    public int X = 0;
+    public int Y = 0;
+    public int Z = 0;
+    public int aa = 0;
+    public int ba = 0;
+    public int ca = -1;
+    public int da = -1;
+    public int ea = -1;
+    public boolean fa = true;
+    public boolean ga = true;
+    public boolean ha = false;
+    public boolean ia = false;
+    public int ja = -1;
+    public int ka = -1;
+    public int la = -1;
+    public int ma = -1;
+    public int na = -1;
+    public int oa = -1;
+    public float pa = 0.5F;
+    public f qa = new f();
+    public int r = -1;
+    public int s = -1;
+    public float t = -1.0F;
+    public int u = -1;
+    public int v = -1;
+    public int w = -1;
+    public int x = -1;
+    public int y = -1;
+    public int z = -1;
+    
+    public LayoutParams(int paramInt1, int paramInt2)
+    {
+      super(paramInt2);
+    }
+    
+    public LayoutParams(Context paramContext, AttributeSet paramAttributeSet)
+    {
+      super(paramAttributeSet);
+      paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, d.c.ConstraintLayout_Layout);
+      int i3 = paramContext.getIndexCount();
+      int i1 = 0;
+      while (i1 < i3)
+      {
+        int i2 = paramContext.getIndex(i1);
+        String str;
+        if (i2 == d.c.ConstraintLayout_Layout_layout_constraintLeft_toLeftOf)
+        {
+          u = paramContext.getResourceId(i2, u);
+          if (u == -1) {
+            u = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintLeft_toRightOf)
+        {
+          v = paramContext.getResourceId(i2, v);
+          if (v == -1) {
+            v = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintRight_toLeftOf)
+        {
+          w = paramContext.getResourceId(i2, w);
+          if (w == -1) {
+            w = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintRight_toRightOf)
+        {
+          x = paramContext.getResourceId(i2, x);
+          if (x == -1) {
+            x = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintTop_toTopOf)
+        {
+          y = paramContext.getResourceId(i2, y);
+          if (y == -1) {
+            y = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintTop_toBottomOf)
+        {
+          z = paramContext.getResourceId(i2, z);
+          if (z == -1) {
+            z = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintBottom_toTopOf)
+        {
+          A = paramContext.getResourceId(i2, A);
+          if (A == -1) {
+            A = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintBottom_toBottomOf)
+        {
+          B = paramContext.getResourceId(i2, B);
+          if (B == -1) {
+            B = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintBaseline_toBaselineOf)
+        {
+          C = paramContext.getResourceId(i2, C);
+          if (C == -1) {
+            C = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_editor_absoluteX)
+        {
+          ca = paramContext.getDimensionPixelOffset(i2, ca);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_editor_absoluteY)
+        {
+          da = paramContext.getDimensionPixelOffset(i2, da);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintGuide_begin)
+        {
+          r = paramContext.getDimensionPixelOffset(i2, r);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintGuide_end)
+        {
+          s = paramContext.getDimensionPixelOffset(i2, s);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintGuide_percent)
+        {
+          t = paramContext.getFloat(i2, t);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_android_orientation)
+        {
+          ea = paramContext.getInt(i2, ea);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintStart_toEndOf)
+        {
+          D = paramContext.getResourceId(i2, D);
+          if (D == -1) {
+            D = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintStart_toStartOf)
+        {
+          E = paramContext.getResourceId(i2, E);
+          if (E == -1) {
+            E = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintEnd_toStartOf)
+        {
+          F = paramContext.getResourceId(i2, F);
+          if (F == -1) {
+            F = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintEnd_toEndOf)
+        {
+          G = paramContext.getResourceId(i2, G);
+          if (G == -1) {
+            G = paramContext.getInt(i2, -1);
+          }
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_goneMarginLeft)
+        {
+          H = paramContext.getDimensionPixelSize(i2, H);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_goneMarginTop)
+        {
+          I = paramContext.getDimensionPixelSize(i2, I);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_goneMarginRight)
+        {
+          J = paramContext.getDimensionPixelSize(i2, J);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_goneMarginBottom)
+        {
+          K = paramContext.getDimensionPixelSize(i2, K);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_goneMarginStart)
+        {
+          L = paramContext.getDimensionPixelSize(i2, L);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_goneMarginEnd)
+        {
+          M = paramContext.getDimensionPixelSize(i2, M);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintHorizontal_bias)
+        {
+          N = paramContext.getFloat(i2, N);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintVertical_bias)
+        {
+          O = paramContext.getFloat(i2, O);
+        }
+        else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintDimensionRatio)
+        {
+          P = paramContext.getString(i2);
+          Q = NaN.0F;
+          R = -1;
+          paramAttributeSet = P;
+          if (paramAttributeSet == null) {
+            break label1792;
+          }
+          int i4 = paramAttributeSet.length();
+          i2 = P.indexOf(',');
+          if ((i2 > 0) && (i2 < i4 - 1))
+          {
+            paramAttributeSet = P.substring(0, i2);
+            if (paramAttributeSet.equalsIgnoreCase("W")) {
+              R = 0;
+            } else if (paramAttributeSet.equalsIgnoreCase("H")) {
+              R = 1;
+            }
+            i2 += 1;
+          }
+          else
+          {
+            i2 = 0;
+          }
+          int i5 = P.indexOf(':');
+          if ((i5 >= 0) && (i5 < i4 - 1))
+          {
+            paramAttributeSet = P.substring(i2, i5);
+            str = P.substring(i5 + 1);
+            if ((paramAttributeSet.length() <= 0) || (str.length() <= 0)) {
+              break label1792;
+            }
+          }
+        }
+        try
+        {
+          float f1 = Float.parseFloat(paramAttributeSet);
+          float f2 = Float.parseFloat(str);
+          if ((f1 <= 0.0F) || (f2 <= 0.0F)) {
+            break label1792;
+          }
+          if (R == 1) {
+            Q = Math.abs(f2 / f1);
+          } else {
+            Q = Math.abs(f1 / f2);
+          }
+        }
+        catch (NumberFormatException paramAttributeSet)
+        {
+          label1792:
+          for (;;) {}
+        }
+        paramAttributeSet = P.substring(i2);
+        if (paramAttributeSet.length() > 0)
+        {
+          Q = Float.parseFloat(paramAttributeSet);
+          break label1792;
+          if (i2 == d.c.ConstraintLayout_Layout_layout_constraintHorizontal_weight) {
+            S = paramContext.getFloat(i2, 0.0F);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintVertical_weight) {
+            T = paramContext.getFloat(i2, 0.0F);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintHorizontal_chainStyle) {
+            U = paramContext.getInt(i2, 0);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintVertical_chainStyle) {
+            V = paramContext.getInt(i2, 0);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintWidth_default) {
+            W = paramContext.getInt(i2, 0);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintHeight_default) {
+            X = paramContext.getInt(i2, 0);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintWidth_min) {
+            Y = paramContext.getDimensionPixelSize(i2, Y);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintWidth_max) {
+            aa = paramContext.getDimensionPixelSize(i2, aa);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintHeight_min) {
+            Z = paramContext.getDimensionPixelSize(i2, Z);
+          } else if (i2 == d.c.ConstraintLayout_Layout_layout_constraintHeight_max) {
+            ba = paramContext.getDimensionPixelSize(i2, ba);
+          } else if ((i2 != d.c.ConstraintLayout_Layout_layout_constraintLeft_creator) && (i2 != d.c.ConstraintLayout_Layout_layout_constraintTop_creator) && (i2 != d.c.ConstraintLayout_Layout_layout_constraintRight_creator) && (i2 != d.c.ConstraintLayout_Layout_layout_constraintBottom_creator)) {
+            i2 = d.c.ConstraintLayout_Layout_layout_constraintBaseline_creator;
+          }
+        }
+        i1 += 1;
+      }
+      paramContext.recycle();
+      a();
+    }
+    
+    public LayoutParams(LayoutParams paramLayoutParams)
+    {
+      super();
+      r = r;
+      s = s;
+      t = t;
+      u = u;
+      v = v;
+      w = w;
+      x = x;
+      y = y;
+      z = z;
+      A = A;
+      B = B;
+      C = C;
+      D = D;
+      E = E;
+      F = F;
+      G = G;
+      H = H;
+      I = I;
+      J = J;
+      K = K;
+      L = L;
+      M = M;
+      N = N;
+      O = O;
+      P = P;
+      Q = Q;
+      R = R;
+      S = S;
+      T = T;
+      U = U;
+      V = V;
+      W = W;
+      X = X;
+      Y = Y;
+      aa = aa;
+      Z = Z;
+      ba = ba;
+      ca = ca;
+      da = da;
+      ea = ea;
+      fa = fa;
+      ga = ga;
+      ha = ha;
+      ia = ia;
+      ja = ja;
+      ka = ka;
+      la = la;
+      ma = ma;
+      na = na;
+      oa = oa;
+      pa = pa;
+      qa = qa;
+    }
+    
+    public LayoutParams(ViewGroup.LayoutParams paramLayoutParams)
+    {
+      super();
+    }
+    
+    public void a()
+    {
+      ia = false;
+      fa = true;
+      ga = true;
+      if ((width == 0) || (width == -1)) {
+        fa = false;
+      }
+      if ((height == 0) || (height == -1)) {
+        ga = false;
+      }
+      if ((t != -1.0F) || (r != -1) || (s != -1))
+      {
+        ia = true;
+        fa = true;
+        ga = true;
+        if (!(qa instanceof j)) {
+          qa = new j();
+        }
+        ((j)qa).w(ea);
+      }
+    }
+    
+    @TargetApi(17)
+    public void resolveLayoutDirection(int paramInt)
+    {
+      super.resolveLayoutDirection(paramInt);
+      la = -1;
+      ma = -1;
+      ja = -1;
+      ka = -1;
+      na = -1;
+      oa = -1;
+      na = H;
+      oa = J;
+      pa = N;
+      int i1 = getLayoutDirection();
+      paramInt = 1;
+      if (1 != i1) {
+        paramInt = 0;
+      }
+      if (paramInt != 0)
+      {
+        paramInt = D;
+        if (paramInt != -1)
+        {
+          la = paramInt;
+        }
+        else
+        {
+          paramInt = E;
+          if (paramInt != -1) {
+            ma = paramInt;
+          }
+        }
+        paramInt = F;
+        if (paramInt != -1) {
+          ka = paramInt;
+        }
+        paramInt = G;
+        if (paramInt != -1) {
+          ja = paramInt;
+        }
+        paramInt = L;
+        if (paramInt != -1) {
+          oa = paramInt;
+        }
+        paramInt = M;
+        if (paramInt != -1) {
+          na = paramInt;
+        }
+        pa = (1.0F - N);
+      }
+      else
+      {
+        paramInt = D;
+        if (paramInt != -1) {
+          ka = paramInt;
+        }
+        paramInt = E;
+        if (paramInt != -1) {
+          ja = paramInt;
+        }
+        paramInt = F;
+        if (paramInt != -1) {
+          la = paramInt;
+        }
+        paramInt = G;
+        if (paramInt != -1) {
+          ma = paramInt;
+        }
+        paramInt = L;
+        if (paramInt != -1) {
+          na = paramInt;
+        }
+        paramInt = M;
+        if (paramInt != -1) {
+          oa = paramInt;
+        }
+      }
+      if ((F == -1) && (G == -1))
+      {
+        paramInt = w;
+        if (paramInt != -1)
+        {
+          la = paramInt;
+        }
+        else
+        {
+          paramInt = x;
+          if (paramInt != -1) {
+            ma = paramInt;
+          }
+        }
+      }
+      if ((E == -1) && (D == -1))
+      {
+        paramInt = u;
+        if (paramInt != -1)
+        {
+          ja = paramInt;
+          return;
+        }
+        paramInt = v;
+        if (paramInt != -1) {
+          ka = paramInt;
+        }
+      }
+    }
+  }
+}

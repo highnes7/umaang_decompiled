@@ -1,0 +1,59 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.g;
+import f.b.a.h;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class OriginalFormatBox
+  extends f.h.a.a
+{
+  public static final String TYPE = "frma";
+  public String dataFormat = "    ";
+  
+  static {}
+  
+  public OriginalFormatBox()
+  {
+    super("frma");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    dataFormat = h.a(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.put(g.b(dataFormat));
+  }
+  
+  public long getContentSize()
+  {
+    return 4L;
+  }
+  
+  public String getDataFormat()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return dataFormat;
+  }
+  
+  public void setDataFormat(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramString);
+    j.b().a(localJoinPoint);
+    dataFormat = paramString;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.a(Factory.makeJP(ajc$tjp_2, this, this), "OriginalFormatBox[dataFormat=");
+    localStringBuilder.append(getDataFormat());
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+}

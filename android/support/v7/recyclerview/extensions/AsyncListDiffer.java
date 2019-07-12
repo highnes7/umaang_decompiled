@@ -1,0 +1,158 @@
+package android.support.v7.recyclerview.extensions;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.util.AdapterListUpdateCallback;
+import android.support.v7.util.DiffUtil;
+import android.support.v7.util.DiffUtil.Callback;
+import android.support.v7.util.DiffUtil.DiffResult;
+import android.support.v7.util.DiffUtil.ItemCallback;
+import android.support.v7.util.ListUpdateCallback;
+import android.support.v7.widget.RecyclerView.Adapter;
+import b.b.a.F;
+import b.b.a.G;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Executor;
+
+public class AsyncListDiffer<T>
+{
+  public static final Executor sMainThreadExecutor = new MainThreadExecutor();
+  public final AsyncDifferConfig<T> mConfig;
+  @G
+  public List<T> mList;
+  public final Executor mMainThreadExecutor;
+  public int mMaxScheduledGeneration;
+  @F
+  public List<T> mReadOnlyList = Collections.emptyList();
+  public final ListUpdateCallback mUpdateCallback;
+  
+  public AsyncListDiffer(ListUpdateCallback paramListUpdateCallback, AsyncDifferConfig paramAsyncDifferConfig)
+  {
+    mUpdateCallback = paramListUpdateCallback;
+    mConfig = paramAsyncDifferConfig;
+    if (paramAsyncDifferConfig.getMainThreadExecutor() != null)
+    {
+      mMainThreadExecutor = paramAsyncDifferConfig.getMainThreadExecutor();
+      return;
+    }
+    mMainThreadExecutor = sMainThreadExecutor;
+  }
+  
+  public AsyncListDiffer(RecyclerView.Adapter paramAdapter, DiffUtil.ItemCallback paramItemCallback)
+  {
+    this(new AdapterListUpdateCallback(paramAdapter), new AsyncDifferConfig.Builder(paramItemCallback).build());
+  }
+  
+  public List getCurrentList()
+  {
+    return mReadOnlyList;
+  }
+  
+  public void latchList(List paramList, DiffUtil.DiffResult paramDiffResult)
+  {
+    mList = paramList;
+    mReadOnlyList = Collections.unmodifiableList(paramList);
+    paramDiffResult.dispatchUpdatesTo(mUpdateCallback);
+  }
+  
+  public void submitList(final List paramList)
+  {
+    final int i = mMaxScheduledGeneration + 1;
+    mMaxScheduledGeneration = i;
+    final List localList = mList;
+    if (paramList == localList) {
+      return;
+    }
+    if (paramList == null)
+    {
+      i = localList.size();
+      mList = null;
+      mReadOnlyList = Collections.emptyList();
+      mUpdateCallback.onRemoved(0, i);
+      return;
+    }
+    if (localList == null)
+    {
+      mList = paramList;
+      mReadOnlyList = Collections.unmodifiableList(paramList);
+      mUpdateCallback.onInserted(0, paramList.size());
+      return;
+    }
+    mConfig.getBackgroundThreadExecutor().execute(new Runnable()
+    {
+      public void run()
+      {
+        final DiffUtil.DiffResult localDiffResult = DiffUtil.calculateDiff(new DiffUtil.Callback()
+        {
+          public boolean areContentsTheSame(int paramAnonymous2Int1, int paramAnonymous2Int2)
+          {
+            Object localObject1 = val$oldList.get(paramAnonymous2Int1);
+            Object localObject2 = val$newList.get(paramAnonymous2Int2);
+            if ((localObject1 != null) && (localObject2 != null)) {
+              return mConfig.getDiffCallback().areContentsTheSame(localObject1, localObject2);
+            }
+            if ((localObject1 == null) && (localObject2 == null)) {
+              return true;
+            }
+            throw new AssertionError();
+          }
+          
+          public boolean areItemsTheSame(int paramAnonymous2Int1, int paramAnonymous2Int2)
+          {
+            Object localObject1 = val$oldList.get(paramAnonymous2Int1);
+            Object localObject2 = val$newList.get(paramAnonymous2Int2);
+            if ((localObject1 != null) && (localObject2 != null)) {
+              return mConfig.getDiffCallback().areItemsTheSame(localObject1, localObject2);
+            }
+            return (localObject1 == null) && (localObject2 == null);
+          }
+          
+          public Object getChangePayload(int paramAnonymous2Int1, int paramAnonymous2Int2)
+          {
+            Object localObject1 = val$oldList.get(paramAnonymous2Int1);
+            Object localObject2 = val$newList.get(paramAnonymous2Int2);
+            if ((localObject1 != null) && (localObject2 != null)) {
+              return mConfig.getDiffCallback().getChangePayload(localObject1, localObject2);
+            }
+            throw new AssertionError();
+          }
+          
+          public int getNewListSize()
+          {
+            return val$newList.size();
+          }
+          
+          public int getOldListSize()
+          {
+            return val$oldList.size();
+          }
+        });
+        mMainThreadExecutor.execute(new Runnable()
+        {
+          public void run()
+          {
+            AsyncListDiffer.1 local1 = AsyncListDiffer.1.this;
+            AsyncListDiffer localAsyncListDiffer = this$0;
+            if (mMaxScheduledGeneration == val$runGeneration) {
+              localAsyncListDiffer.latchList(val$newList, localDiffResult);
+            }
+          }
+        });
+      }
+    });
+  }
+  
+  private static class MainThreadExecutor
+    implements Executor
+  {
+    public final Handler mHandler = new Handler(Looper.getMainLooper());
+    
+    public MainThreadExecutor() {}
+    
+    public void execute(Runnable paramRunnable)
+    {
+      mHandler.post(paramRunnable);
+    }
+  }
+}

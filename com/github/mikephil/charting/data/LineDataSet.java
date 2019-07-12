@@ -1,0 +1,224 @@
+package com.github.mikephil.charting.data;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import com.github.mikephil.charting.formatter.DefaultFillFormatter;
+import com.github.mikephil.charting.formatter.FillFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.Utils;
+import java.util.ArrayList;
+import java.util.List;
+
+public class LineDataSet
+  extends LineRadarDataSet<Entry>
+  implements ILineDataSet
+{
+  public int mCircleColorHole = -1;
+  public List<Integer> mCircleColors = null;
+  public float mCircleRadius = 8.0F;
+  public float mCubicIntensity = 0.2F;
+  public DashPathEffect mDashPathEffect = null;
+  public boolean mDrawCircleHole = true;
+  public boolean mDrawCircles = true;
+  public boolean mDrawCubic = false;
+  public boolean mDrawStepped = false;
+  public FillFormatter mFillFormatter = new DefaultFillFormatter();
+  
+  public LineDataSet(List paramList, String paramString)
+  {
+    super(paramList, paramString);
+    mCircleColors.add(Integer.valueOf(Color.rgb(140, 234, 255)));
+  }
+  
+  public DataSet copy()
+  {
+    Object localObject = new ArrayList();
+    int i = 0;
+    while (i < mYVals.size())
+    {
+      ((List)localObject).add(((Entry)mYVals.get(i)).copy());
+      i += 1;
+    }
+    localObject = new LineDataSet((List)localObject, getLabel());
+    mColors = mColors;
+    mCircleRadius = mCircleRadius;
+    mCircleColors = mCircleColors;
+    mDashPathEffect = mDashPathEffect;
+    mDrawCircles = mDrawCircles;
+    mDrawCubic = mDrawCubic;
+    mHighLightColor = mHighLightColor;
+    return localObject;
+  }
+  
+  public void disableDashedLine()
+  {
+    mDashPathEffect = null;
+  }
+  
+  public void enableDashedLine(float paramFloat1, float paramFloat2, float paramFloat3)
+  {
+    mDashPathEffect = new DashPathEffect(new float[] { paramFloat1, paramFloat2 }, paramFloat3);
+  }
+  
+  public int getCircleColor(int paramInt)
+  {
+    List localList = mCircleColors;
+    return ((Integer)localList.get(paramInt % localList.size())).intValue();
+  }
+  
+  public List getCircleColors()
+  {
+    return mCircleColors;
+  }
+  
+  public int getCircleHoleColor()
+  {
+    return mCircleColorHole;
+  }
+  
+  public float getCircleRadius()
+  {
+    return mCircleRadius;
+  }
+  
+  public float getCircleSize()
+  {
+    return getCircleRadius();
+  }
+  
+  public float getCubicIntensity()
+  {
+    return mCubicIntensity;
+  }
+  
+  public DashPathEffect getDashPathEffect()
+  {
+    return mDashPathEffect;
+  }
+  
+  public FillFormatter getFillFormatter()
+  {
+    return mFillFormatter;
+  }
+  
+  public boolean isDashedLineEnabled()
+  {
+    return mDashPathEffect != null;
+  }
+  
+  public boolean isDrawCircleHoleEnabled()
+  {
+    return mDrawCircleHole;
+  }
+  
+  public boolean isDrawCirclesEnabled()
+  {
+    return mDrawCircles;
+  }
+  
+  public boolean isDrawCubicEnabled()
+  {
+    return mDrawCubic;
+  }
+  
+  public boolean isDrawSteppedEnabled()
+  {
+    return mDrawStepped;
+  }
+  
+  public void resetCircleColors()
+  {
+    mCircleColors = new ArrayList();
+  }
+  
+  public void setCircleColor(int paramInt)
+  {
+    resetCircleColors();
+    mCircleColors.add(Integer.valueOf(paramInt));
+  }
+  
+  public void setCircleColorHole(int paramInt)
+  {
+    mCircleColorHole = paramInt;
+  }
+  
+  public void setCircleColors(List paramList)
+  {
+    mCircleColors = paramList;
+  }
+  
+  public void setCircleColors(int[] paramArrayOfInt)
+  {
+    mCircleColors = ColorTemplate.createColors(paramArrayOfInt);
+  }
+  
+  public void setCircleColors(int[] paramArrayOfInt, Context paramContext)
+  {
+    ArrayList localArrayList = new ArrayList();
+    int j = paramArrayOfInt.length;
+    int i = 0;
+    while (i < j)
+    {
+      int k = paramArrayOfInt[i];
+      localArrayList.add(Integer.valueOf(paramContext.getResources().getColor(k)));
+      i += 1;
+    }
+    mCircleColors = localArrayList;
+  }
+  
+  public void setCircleRadius(float paramFloat)
+  {
+    mCircleRadius = Utils.convertDpToPixel(paramFloat);
+  }
+  
+  public void setCircleSize(float paramFloat)
+  {
+    setCircleRadius(paramFloat);
+  }
+  
+  public void setCubicIntensity(float paramFloat)
+  {
+    float f = paramFloat;
+    if (paramFloat > 1.0F) {
+      f = 1.0F;
+    }
+    paramFloat = f;
+    if (f < 0.05F) {
+      paramFloat = 0.05F;
+    }
+    mCubicIntensity = paramFloat;
+  }
+  
+  public void setDrawCircleHole(boolean paramBoolean)
+  {
+    mDrawCircleHole = paramBoolean;
+  }
+  
+  public void setDrawCircles(boolean paramBoolean)
+  {
+    mDrawCircles = paramBoolean;
+  }
+  
+  public void setDrawCubic(boolean paramBoolean)
+  {
+    mDrawCubic = paramBoolean;
+  }
+  
+  public void setDrawStepped(boolean paramBoolean)
+  {
+    mDrawStepped = paramBoolean;
+  }
+  
+  public void setFillFormatter(FillFormatter paramFillFormatter)
+  {
+    if (paramFillFormatter == null)
+    {
+      mFillFormatter = new DefaultFillFormatter();
+      return;
+    }
+    mFillFormatter = paramFillFormatter;
+  }
+}

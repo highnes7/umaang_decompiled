@@ -1,0 +1,46 @@
+package f.g.c.d;
+
+import f.g.c.b.ba;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public final class Dc
+  implements Iterator<T>
+{
+  public Iterator<T> a = Jc.a;
+  public Iterator<T> b;
+  
+  public Dc(Iterable paramIterable) {}
+  
+  public boolean hasNext()
+  {
+    if (!a.hasNext()) {
+      a = c.iterator();
+    }
+    return a.hasNext();
+  }
+  
+  public T next()
+  {
+    if (hasNext())
+    {
+      Iterator localIterator = a;
+      b = localIterator;
+      return localIterator.next();
+    }
+    throw new NoSuchElementException();
+  }
+  
+  public void remove()
+  {
+    boolean bool;
+    if (b != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "no calls to next() since last call to remove()");
+    b.remove();
+    b = null;
+  }
+}

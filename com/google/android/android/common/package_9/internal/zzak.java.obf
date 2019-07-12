@@ -1,0 +1,73 @@
+package com.google.android.gms.common.api.internal;
+
+import android.app.Activity;
+import b.b.x.n.d;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+public class zzak
+  extends zzo
+{
+  public zzbp zzfgv;
+  public final d<zzh<?>> zzfle = new d(0);
+  
+  public zzak(zzcg paramZzcg)
+  {
+    super(paramZzcg, GoogleApiAvailability.zzffi);
+    zzfoo.zza("ConnectionlessLifecycleHelper", this);
+  }
+  
+  public static void zza(Activity paramActivity, zzbp paramZzbp, zzh<?> paramZzh)
+  {
+    LifecycleCallback.zzn(paramActivity);
+    zzcg localZzcg = LifecycleCallback.zzn(paramActivity);
+    zzak localZzak = (zzak)localZzcg.zza("ConnectionlessLifecycleHelper", zzak.class);
+    paramActivity = localZzak;
+    if (localZzak == null) {
+      paramActivity = new zzak(localZzcg);
+    }
+    zzfgv = paramZzbp;
+    com.google.android.gms.common.internal.zzbp.zzb(paramZzh, "ApiKey cannot be null");
+    zzfle.add(paramZzh);
+    paramZzbp.zza(paramActivity);
+  }
+  
+  private final void zzagw()
+  {
+    if (!zzfle.isEmpty()) {
+      zzfgv.zza(this);
+    }
+  }
+  
+  public final void onResume()
+  {
+    zzagw();
+  }
+  
+  public final void onStart()
+  {
+    mStarted = true;
+    zzagw();
+  }
+  
+  public final void onStop()
+  {
+    mStarted = false;
+    zzfgv.zzb(this);
+  }
+  
+  public final void zza(ConnectionResult paramConnectionResult, int paramInt)
+  {
+    zzfgv.zza(paramConnectionResult, paramInt);
+  }
+  
+  public final void zzafw()
+  {
+    zzfgv.zzafw();
+  }
+  
+  public final d<zzh<?>> zzagv()
+  {
+    return zzfle;
+  }
+}

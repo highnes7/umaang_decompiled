@@ -1,0 +1,111 @@
+package com.google.android.gms.internal;
+
+import android.app.PendingIntent;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import b.b.a.G;
+import com.google.android.gms.location.zzj;
+import com.google.android.gms.location.zzk;
+import com.google.android.gms.location.zzm;
+import com.google.android.gms.location.zzn;
+
+public final class zzcaa
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzcaa> CREATOR = new zzcab();
+  public PendingIntent mPendingIntent;
+  public int zziaa;
+  public zzbzy zziab;
+  public zzm zziac;
+  public zzj zziad;
+  public zzbzf zziae;
+  
+  public zzcaa(int paramInt, zzbzy paramZzbzy, IBinder paramIBinder1, PendingIntent paramPendingIntent, IBinder paramIBinder2, IBinder paramIBinder3)
+  {
+    zziaa = paramInt;
+    zziab = paramZzbzy;
+    Object localObject = null;
+    if (paramIBinder1 == null) {
+      paramZzbzy = null;
+    } else {
+      paramZzbzy = zzn.zzbb(paramIBinder1);
+    }
+    zziac = paramZzbzy;
+    mPendingIntent = paramPendingIntent;
+    if (paramIBinder2 == null) {
+      paramZzbzy = null;
+    } else {
+      paramZzbzy = zzk.zzba(paramIBinder2);
+    }
+    zziad = paramZzbzy;
+    if (paramIBinder3 == null)
+    {
+      paramZzbzy = localObject;
+    }
+    else
+    {
+      paramZzbzy = paramIBinder3.queryLocalInterface("com.google.android.gms.location.internal.IFusedLocationProviderCallback");
+      if ((paramZzbzy instanceof zzbzf)) {
+        paramZzbzy = (zzbzf)paramZzbzy;
+      } else {
+        paramZzbzy = new zzbzh(paramIBinder3);
+      }
+    }
+    zziae = paramZzbzy;
+  }
+  
+  public static zzcaa zza(zzj paramZzj, @G zzbzf paramZzbzf)
+  {
+    IBinder localIBinder = paramZzj.asBinder();
+    if (paramZzbzf != null) {
+      paramZzj = paramZzbzf.asBinder();
+    } else {
+      paramZzj = null;
+    }
+    return new zzcaa(2, null, null, null, localIBinder, paramZzj);
+  }
+  
+  public static zzcaa zza(zzm paramZzm, @G zzbzf paramZzbzf)
+  {
+    IBinder localIBinder = paramZzm.asBinder();
+    if (paramZzbzf != null) {
+      paramZzm = paramZzbzf.asBinder();
+    } else {
+      paramZzm = null;
+    }
+    return new zzcaa(2, null, localIBinder, null, null, paramZzm);
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zziaa);
+    zzbcn.zza(paramParcel, 2, zziab, paramInt, false);
+    Object localObject1 = zziac;
+    Object localObject2 = null;
+    if (localObject1 == null) {
+      localObject1 = null;
+    } else {
+      localObject1 = ((IInterface)localObject1).asBinder();
+    }
+    zzbcn.zza(paramParcel, 3, (IBinder)localObject1, false);
+    zzbcn.zza(paramParcel, 4, mPendingIntent, paramInt, false);
+    localObject1 = zziad;
+    if (localObject1 == null) {
+      localObject1 = null;
+    } else {
+      localObject1 = ((IInterface)localObject1).asBinder();
+    }
+    zzbcn.zza(paramParcel, 5, (IBinder)localObject1, false);
+    localObject1 = zziae;
+    if (localObject1 == null) {
+      localObject1 = localObject2;
+    } else {
+      localObject1 = ((IInterface)localObject1).asBinder();
+    }
+    zzbcn.zza(paramParcel, 6, (IBinder)localObject1, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+}

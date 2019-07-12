@@ -1,0 +1,48 @@
+package f.c.a.a;
+
+import java.math.BigDecimal;
+import java.util.Currency;
+
+public class da
+  extends I<da>
+{
+  public static final String f = "startCheckout";
+  public static final BigDecimal g = BigDecimal.valueOf(1000000L);
+  public static final String h = "totalPrice";
+  public static final String i = "currency";
+  public static final String j = "itemCount";
+  
+  public da() {}
+  
+  public long a(BigDecimal paramBigDecimal)
+  {
+    return g.multiply(paramBigDecimal).longValue();
+  }
+  
+  public da a(int paramInt)
+  {
+    e.a("itemCount", Integer.valueOf(paramInt));
+    return this;
+  }
+  
+  public da a(Currency paramCurrency)
+  {
+    if (!c.a(paramCurrency, "currency")) {
+      e.a("currency", paramCurrency.getCurrencyCode());
+    }
+    return this;
+  }
+  
+  public da b(BigDecimal paramBigDecimal)
+  {
+    if (!c.a(paramBigDecimal, "totalPrice")) {
+      e.a("totalPrice", Long.valueOf(a(paramBigDecimal)));
+    }
+    return this;
+  }
+  
+  public String c()
+  {
+    return "startCheckout";
+  }
+}

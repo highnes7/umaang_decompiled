@@ -1,0 +1,251 @@
+package com.google.android.gms.internal;
+
+import java.util.Comparator;
+
+public abstract class zzdpf<K, V>
+  implements zzdpb<K, V>
+{
+  public final V value;
+  public final K zzlss;
+  public zzdpb<K, V> zzlst;
+  public final zzdpb<K, V> zzlsu;
+  
+  public zzdpf(K paramK, V paramV, zzdpb<K, V> paramZzdpb1, zzdpb<K, V> paramZzdpb2)
+  {
+    zzlss = paramK;
+    value = paramV;
+    paramK = paramZzdpb1;
+    if (paramZzdpb1 == null) {
+      paramK = zzdpa.zzlso;
+    }
+    zzlst = paramK;
+    paramK = paramZzdpb2;
+    if (paramZzdpb2 == null) {
+      paramK = zzdpa.zzlso;
+    }
+    zzlsu = paramK;
+  }
+  
+  public static int zzb(zzdpb paramZzdpb)
+  {
+    if (paramZzdpb.zzbqk()) {
+      return zzdpc.zzlsq;
+    }
+    return zzdpc.zzlsp;
+  }
+  
+  private final zzdpf<K, V> zzb(K paramK, V paramV, Integer paramInteger, zzdpb<K, V> paramZzdpb1, zzdpb<K, V> paramZzdpb2)
+  {
+    Object localObject1 = zzlss;
+    Object localObject2 = value;
+    paramK = paramZzdpb1;
+    if (paramZzdpb1 == null) {
+      paramK = zzlst;
+    }
+    paramV = paramZzdpb2;
+    if (paramZzdpb2 == null) {
+      paramV = zzlsu;
+    }
+    if (paramInteger == zzdpc.zzlsp) {
+      return new zzdpe(localObject1, localObject2, paramK, paramV);
+    }
+    return new zzdoz(localObject1, localObject2, paramK, paramV);
+  }
+  
+  private final zzdpb<K, V> zzbqq()
+  {
+    if (zzlst.isEmpty()) {
+      return zzdpa.zzlso;
+    }
+    zzdpf localZzdpf;
+    if ((!zzlst.zzbqk()) && (!zzlst.zzbqm().zzbqk())) {
+      localZzdpf = zzbqr();
+    } else {
+      localZzdpf = this;
+    }
+    return localZzdpf.zza(null, null, ((zzdpf)zzlst).zzbqq(), null).zzbqs();
+  }
+  
+  private final zzdpf<K, V> zzbqr()
+  {
+    zzdpf localZzdpf2 = zzbqv();
+    zzdpf localZzdpf1 = localZzdpf2;
+    if (zzlsu.zzbqm().zzbqk()) {
+      localZzdpf1 = localZzdpf2.zza(null, null, null, ((zzdpf)zzlsu).zzbqu()).zzbqt().zzbqv();
+    }
+    return localZzdpf1;
+  }
+  
+  private final zzdpf<K, V> zzbqs()
+  {
+    if ((zzlsu.zzbqk()) && (!zzlst.zzbqk())) {
+      localObject2 = zzbqt();
+    } else {
+      localObject2 = this;
+    }
+    Object localObject1 = localObject2;
+    if (zzlst.zzbqk())
+    {
+      localObject1 = localObject2;
+      if (zzlst).zzlst.zzbqk()) {
+        localObject1 = ((zzdpf)localObject2).zzbqu();
+      }
+    }
+    Object localObject2 = localObject1;
+    if (zzlst.zzbqk())
+    {
+      localObject2 = localObject1;
+      if (zzlsu.zzbqk()) {
+        localObject2 = ((zzdpf)localObject1).zzbqv();
+      }
+    }
+    return localObject2;
+  }
+  
+  private final zzdpf<K, V> zzbqt()
+  {
+    zzdpf localZzdpf = zzb(null, null, zzdpc.zzlsp, null, zzlsu).zzlst);
+    return (zzdpf)zzlsu.zza(null, null, zzbqj(), localZzdpf, null);
+  }
+  
+  private final zzdpf<K, V> zzbqu()
+  {
+    zzdpf localZzdpf = zzb(null, null, zzdpc.zzlsp, zzlst).zzlsu, null);
+    return (zzdpf)zzlst.zza(null, null, zzbqj(), null, localZzdpf);
+  }
+  
+  private final zzdpf<K, V> zzbqv()
+  {
+    zzdpb localZzdpb1 = zzlst;
+    localZzdpb1 = localZzdpb1.zza(null, null, zzb(localZzdpb1), null, null);
+    zzdpb localZzdpb2 = zzlsu;
+    localZzdpb2 = localZzdpb2.zza(null, null, zzb(localZzdpb2), null, null);
+    int i;
+    if (zzbqk()) {
+      i = zzdpc.zzlsq;
+    } else {
+      i = zzdpc.zzlsp;
+    }
+    return zzb(null, null, i, localZzdpb1, localZzdpb2);
+  }
+  
+  public final K getKey()
+  {
+    return zzlss;
+  }
+  
+  public final V getValue()
+  {
+    return value;
+  }
+  
+  public final boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public final zzdpb<K, V> zza(K paramK, V paramV, Comparator<K> paramComparator)
+  {
+    int i = paramComparator.compare(paramK, zzlss);
+    if (i < 0) {
+      paramK = zza(null, null, zzlst.zza(paramK, paramV, paramComparator), null);
+    } else if (i == 0) {
+      paramK = zza(paramK, paramV, null, null);
+    } else {
+      paramK = zza(null, null, null, zzlsu.zza(paramK, paramV, paramComparator));
+    }
+    return paramK.zzbqs();
+  }
+  
+  public final zzdpb<K, V> zza(K paramK, Comparator<K> paramComparator)
+  {
+    Object localObject1;
+    if (paramComparator.compare(paramK, zzlss) < 0)
+    {
+      if ((!zzlst.isEmpty()) && (!zzlst.zzbqk()) && (!zzlst).zzlst.zzbqk())) {
+        localObject1 = zzbqr();
+      } else {
+        localObject1 = this;
+      }
+      paramK = ((zzdpf)localObject1).zza(null, null, zzlst.zza(paramK, paramComparator), null);
+    }
+    else
+    {
+      if (zzlst.zzbqk()) {
+        localObject2 = zzbqu();
+      } else {
+        localObject2 = this;
+      }
+      localObject1 = localObject2;
+      if (!zzlsu.isEmpty())
+      {
+        localObject1 = localObject2;
+        if (!zzlsu.zzbqk())
+        {
+          localObject1 = localObject2;
+          if (!zzlsu).zzlst.zzbqk())
+          {
+            localObject2 = ((zzdpf)localObject2).zzbqv();
+            localObject1 = localObject2;
+            if (zzlst.zzbqm().zzbqk()) {
+              localObject1 = ((zzdpf)localObject2).zzbqu().zzbqv();
+            }
+          }
+        }
+      }
+      Object localObject2 = localObject1;
+      if (paramComparator.compare(paramK, zzlss) == 0)
+      {
+        if (zzlsu.isEmpty()) {
+          return zzdpa.zzlso;
+        }
+        localObject2 = zzlsu.zzbqo();
+        localObject2 = ((zzdpf)localObject1).zza(((zzdpb)localObject2).getKey(), ((zzdpb)localObject2).getValue(), null, ((zzdpf)zzlsu).zzbqq());
+      }
+      paramK = ((zzdpf)localObject2).zza(null, null, null, zzlsu.zza(paramK, paramComparator));
+    }
+    return paramK.zzbqs();
+  }
+  
+  public abstract zzdpf<K, V> zza(K paramK, V paramV, zzdpb<K, V> paramZzdpb1, zzdpb<K, V> paramZzdpb2);
+  
+  public void zza(zzdpb<K, V> paramZzdpb)
+  {
+    zzlst = paramZzdpb;
+  }
+  
+  public final void zza(zzdpd<K, V> paramZzdpd)
+  {
+    zzlst.zza(paramZzdpd);
+    paramZzdpd.zzh(zzlss, value);
+    zzlsu.zza(paramZzdpd);
+  }
+  
+  public abstract int zzbqj();
+  
+  public final zzdpb<K, V> zzbqm()
+  {
+    return zzlst;
+  }
+  
+  public final zzdpb<K, V> zzbqn()
+  {
+    return zzlsu;
+  }
+  
+  public final zzdpb<K, V> zzbqo()
+  {
+    if (zzlst.isEmpty()) {
+      return this;
+    }
+    return zzlst.zzbqo();
+  }
+  
+  public final zzdpb<K, V> zzbqp()
+  {
+    if (zzlsu.isEmpty()) {
+      return this;
+    }
+    return zzlsu.zzbqp();
+  }
+}

@@ -1,0 +1,104 @@
+package b.b.x.o;
+
+import android.graphics.Rect;
+import android.os.Build.VERSION;
+import android.view.DisplayCutout;
+import f.a.a.a.a;
+import java.util.List;
+
+public final class f
+{
+  public final Object a;
+  
+  public f(Rect paramRect, List<Rect> paramList)
+  {
+    a = paramRect;
+  }
+  
+  public f(Object paramObject)
+  {
+    a = paramObject;
+  }
+  
+  public static f a(Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    return new f(paramObject);
+  }
+  
+  public List<Rect> a()
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return ((DisplayCutout)a).getBoundingRects();
+    }
+    return null;
+  }
+  
+  public int b()
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return ((DisplayCutout)a).getSafeInsetBottom();
+    }
+    return 0;
+  }
+  
+  public int c()
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return ((DisplayCutout)a).getSafeInsetLeft();
+    }
+    return 0;
+  }
+  
+  public int d()
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return ((DisplayCutout)a).getSafeInsetRight();
+    }
+    return 0;
+  }
+  
+  public int e()
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return ((DisplayCutout)a).getSafeInsetTop();
+    }
+    return 0;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (paramObject != null)
+    {
+      if (f.class != paramObject.getClass()) {
+        return false;
+      }
+      paramObject = (f)paramObject;
+      Object localObject = a;
+      if (localObject == null) {
+        return a == null;
+      }
+      return localObject.equals(a);
+    }
+    return false;
+  }
+  
+  public int hashCode()
+  {
+    Object localObject = a;
+    if (localObject == null) {
+      return 0;
+    }
+    return localObject.hashCode();
+  }
+  
+  public String toString()
+  {
+    return a.a(a.b("DisplayCutoutCompat{"), a, "}");
+  }
+}

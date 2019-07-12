@@ -1,0 +1,45 @@
+package f.g.b.a.g;
+
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class D
+  extends FilterOutputStream
+{
+  public final B a;
+  
+  public D(OutputStream paramOutputStream, Logger paramLogger, Level paramLevel, int paramInt)
+  {
+    super(paramOutputStream);
+    a = new B(paramLogger, paramLevel, paramInt);
+  }
+  
+  public void close()
+    throws IOException
+  {
+    a.close();
+    super.close();
+  }
+  
+  public final B u()
+  {
+    return a;
+  }
+  
+  public void write(int paramInt)
+    throws IOException
+  {
+    out.write(paramInt);
+    a.write(paramInt);
+  }
+  
+  public void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    out.write(paramArrayOfByte, paramInt1, paramInt2);
+    a.write(paramArrayOfByte, paramInt1, paramInt2);
+  }
+}

@@ -1,0 +1,175 @@
+package com.coremedia.iso.boxes.threegpp26244;
+
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class LocationInformationBox
+  extends c
+{
+  public static final String TYPE = "loci";
+  public String additionalNotes = "";
+  public double altitude;
+  public String astronomicalBody = "";
+  public String language;
+  public double latitude;
+  public double longitude;
+  public String name = "";
+  public int role;
+  
+  static {}
+  
+  public LocationInformationBox()
+  {
+    super("loci");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    language = h.e(paramByteBuffer);
+    name = h.f(paramByteBuffer);
+    role = h.m(paramByteBuffer);
+    longitude = h.c(paramByteBuffer);
+    latitude = h.c(paramByteBuffer);
+    altitude = h.c(paramByteBuffer);
+    astronomicalBody = h.f(paramByteBuffer);
+    additionalNotes = h.f(paramByteBuffer);
+  }
+  
+  public String getAdditionalNotes()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_14, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return additionalNotes;
+  }
+  
+  public double getAltitude()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_10, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return altitude;
+  }
+  
+  public String getAstronomicalBody()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_12, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return astronomicalBody;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    f.b.a.j.a(paramByteBuffer, language);
+    paramByteBuffer.put(m.a(name));
+    paramByteBuffer.put((byte)0);
+    paramByteBuffer.put((byte)(role & 0xFF));
+    f.b.a.j.b(paramByteBuffer, longitude);
+    f.b.a.j.b(paramByteBuffer, latitude);
+    f.b.a.j.b(paramByteBuffer, altitude);
+    paramByteBuffer.put(m.a(astronomicalBody));
+    paramByteBuffer.put((byte)0);
+    paramByteBuffer.put(m.a(additionalNotes));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public long getContentSize()
+  {
+    return m.a(name).length + 22 + m.a(astronomicalBody).length + m.a(additionalNotes).length;
+  }
+  
+  public String getLanguage()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return language;
+  }
+  
+  public double getLatitude()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_8, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return latitude;
+  }
+  
+  public double getLongitude()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_6, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return longitude;
+  }
+  
+  public String getName()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return name;
+  }
+  
+  public int getRole()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return role;
+  }
+  
+  public void setAdditionalNotes(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_15, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    additionalNotes = paramString;
+  }
+  
+  public void setAltitude(double paramDouble)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_11, this, this, new Double(paramDouble));
+    f.h.a.j.b().a(localJoinPoint);
+    altitude = paramDouble;
+  }
+  
+  public void setAstronomicalBody(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_13, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    astronomicalBody = paramString;
+  }
+  
+  public void setLanguage(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    language = paramString;
+  }
+  
+  public void setLatitude(double paramDouble)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_9, this, this, new Double(paramDouble));
+    f.h.a.j.b().a(localJoinPoint);
+    latitude = paramDouble;
+  }
+  
+  public void setLongitude(double paramDouble)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_7, this, this, new Double(paramDouble));
+    f.h.a.j.b().a(localJoinPoint);
+    longitude = paramDouble;
+  }
+  
+  public void setName(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    name = paramString;
+  }
+  
+  public void setRole(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    role = paramInt;
+  }
+}

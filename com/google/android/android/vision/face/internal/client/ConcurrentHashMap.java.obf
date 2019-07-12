@@ -1,0 +1,48 @@
+package com.google.android.gms.vision.face.internal.client;
+
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.dynamic.IObjectWrapper;
+import com.google.android.gms.internal.zzdck;
+import com.google.android.gms.internal.zzeb;
+import com.google.android.gms.internal.zzed;
+
+public final class zzf
+  extends zzeb
+  implements zze
+{
+  public zzf(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.gms.vision.face.internal.client.INativeFaceDetector");
+  }
+  
+  public final void zzbin()
+    throws RemoteException
+  {
+    zzb(3, zzax());
+  }
+  
+  public final FaceParcel[] zzc(IObjectWrapper paramIObjectWrapper, zzdck paramZzdck)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramIObjectWrapper);
+    zzed.zza(localParcel, paramZzdck);
+    paramIObjectWrapper = zza(1, localParcel);
+    paramZzdck = (FaceParcel[])paramIObjectWrapper.createTypedArray(FaceParcel.CREATOR);
+    paramIObjectWrapper.recycle();
+    return paramZzdck;
+  }
+  
+  public final boolean zzeu(int paramInt)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    localParcel.writeInt(paramInt);
+    localParcel = zza(2, localParcel);
+    boolean bool = zzed.zza(localParcel);
+    localParcel.recycle();
+    return bool;
+  }
+}

@@ -1,0 +1,188 @@
+package com.google.android.gms.internal;
+
+import f.a.a.a.a;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+public final class zzeyi<M extends zzeyh<M>, T>
+{
+  public final int tag;
+  public int type;
+  public final Class<T> zzmlw;
+  public zzevh<?, ?> zzoog;
+  public final boolean zzotm;
+  
+  public zzeyi(int paramInt1, Class<T> paramClass, int paramInt2, boolean paramBoolean)
+  {
+    this(11, paramClass, null, paramInt2, false);
+  }
+  
+  public zzeyi(int paramInt1, Class<T> paramClass, zzevh<?, ?> paramZzevh, int paramInt2, boolean paramBoolean)
+  {
+    type = paramInt1;
+    zzmlw = paramClass;
+    tag = paramInt2;
+    zzotm = false;
+    zzoog = null;
+  }
+  
+  public static <M extends zzeyh<M>, T extends zzeyn> zzeyi<M, T> zza(int paramInt, Class<T> paramClass, long paramLong)
+  {
+    return new zzeyi(11, paramClass, (int)paramLong, false);
+  }
+  
+  private final Object zzb(zzeye paramZzeye)
+  {
+    Object localObject1;
+    if (zzotm) {
+      localObject1 = zzmlw.getComponentType();
+    } else {
+      localObject1 = zzmlw;
+    }
+    try
+    {
+      int i = type;
+      if (i != 10)
+      {
+        if (i == 11)
+        {
+          localObject2 = (zzeyn)((Class)localObject1).newInstance();
+          paramZzeye.zza((zzeyn)localObject2);
+          return localObject2;
+        }
+        i = type;
+        paramZzeye = new StringBuilder(24);
+        paramZzeye.append("Unknown type ");
+        paramZzeye.append(i);
+        throw new IllegalArgumentException(paramZzeye.toString());
+      }
+      localObject2 = (zzeyn)((Class)localObject1).newInstance();
+      paramZzeye.zza((zzeyn)localObject2, tag >>> 3);
+      return localObject2;
+    }
+    catch (IOException paramZzeye)
+    {
+      throw new IllegalArgumentException("Error reading extension field", paramZzeye);
+    }
+    catch (IllegalAccessException paramZzeye)
+    {
+      localObject1 = String.valueOf(localObject1);
+      localObject2 = new StringBuilder(((String)localObject1).length() + 33);
+      ((StringBuilder)localObject2).append("Error creating instance of class ");
+      ((StringBuilder)localObject2).append((String)localObject1);
+      throw new IllegalArgumentException(((StringBuilder)localObject2).toString(), paramZzeye);
+    }
+    catch (InstantiationException paramZzeye)
+    {
+      localObject1 = String.valueOf(localObject1);
+      Object localObject2 = new StringBuilder(((String)localObject1).length() + 33);
+      ((StringBuilder)localObject2).append("Error creating instance of class ");
+      ((StringBuilder)localObject2).append((String)localObject1);
+      throw new IllegalArgumentException(((StringBuilder)localObject2).toString(), paramZzeye);
+    }
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (!(paramObject instanceof zzeyi)) {
+      return false;
+    }
+    paramObject = (zzeyi)paramObject;
+    return (type == type) && (zzmlw == zzmlw) && (tag == tag) && (zzotm == zzotm);
+  }
+  
+  public final int hashCode()
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.e1expr(TypeTransformer.java:496)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:713)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.e2expr(TypeTransformer.java:632)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:716)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  public final void zza(Object paramObject, zzeyf paramZzeyf)
+  {
+    try
+    {
+      paramZzeyf.zzlc(tag);
+      int i = type;
+      if (i != 10)
+      {
+        if (i == 11)
+        {
+          paramZzeyf.zzb((zzeyn)paramObject);
+          return;
+        }
+        i = type;
+        paramObject = new StringBuilder(24);
+        paramObject.append("Unknown type ");
+        paramObject.append(i);
+        throw new IllegalArgumentException(paramObject.toString());
+      }
+      i = tag;
+      ((zzeyn)paramObject).zza(paramZzeyf);
+      paramZzeyf.zzw(i >>> 3, 4);
+      return;
+    }
+    catch (IOException paramObject)
+    {
+      throw new IllegalStateException(paramObject);
+    }
+  }
+  
+  public final T zzbn(List<zzeyp> paramList)
+  {
+    if (paramList == null) {
+      return null;
+    }
+    if (zzotm)
+    {
+      ArrayList localArrayList = new ArrayList();
+      int j = 0;
+      int i = 0;
+      while (i < paramList.size())
+      {
+        byte[] arrayOfByte = getbytes;
+        if (arrayOfByte.length != 0) {
+          localArrayList.add(zzb(zzeye.zzbe(arrayOfByte)));
+        }
+        i += 1;
+      }
+      int k = localArrayList.size();
+      if (k == 0) {
+        return null;
+      }
+      paramList = zzmlw;
+      paramList = paramList.cast(Array.newInstance(paramList.getComponentType(), k));
+      i = j;
+      while (i < k)
+      {
+        Array.set(paramList, i, localArrayList.get(i));
+        i += 1;
+      }
+      return paramList;
+    }
+    if (paramList.isEmpty()) {
+      return null;
+    }
+    paramList = (zzeyp)a.a(paramList, -1);
+    return zzmlw.cast(zzb(zzeye.zzbe(bytes)));
+  }
+  
+  public final int zzcg(Object paramObject)
+  {
+    int i = tag >>> 3;
+    int j = type;
+    if (j != 10)
+    {
+      if (j == 11) {
+        return zzeyf.zzb(i, (zzeyn)paramObject);
+      }
+      throw new IllegalArgumentException(a.a(24, "Unknown type ", j));
+    }
+    paramObject = (zzeyn)paramObject;
+    i = zzeyf.zzkb(i);
+    return paramObject.zzhi() + (i << 1);
+  }
+}

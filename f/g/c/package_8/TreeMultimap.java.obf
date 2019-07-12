@@ -1,0 +1,122 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+@b(emulated=true, serializable=true)
+public class lh<K, V>
+  extends z<K, V>
+{
+  @c("not needed in emulated source")
+  public static final long k = 0L;
+  public transient Comparator<? super K> l;
+  public transient Comparator<? super V> m;
+  
+  public lh(Comparator<? super K> paramComparator, Comparator<? super V> paramComparator1)
+  {
+    super(new TreeMap(paramComparator));
+    l = paramComparator;
+    m = paramComparator1;
+  }
+  
+  public lh(Comparator<? super K> paramComparator, Comparator<? super V> paramComparator1, ve<? extends K, ? extends V> paramVe)
+  {
+    this(paramComparator, paramComparator1);
+    a(paramVe);
+  }
+  
+  public static <K, V> lh<K, V> a(Comparator<? super K> paramComparator, Comparator<? super V> paramComparator1)
+  {
+    if (paramComparator != null)
+    {
+      if (paramComparator1 != null) {
+        return new lh(paramComparator, paramComparator1);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  @c("java.io.ObjectInputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    Comparator localComparator = (Comparator)paramObjectInputStream.readObject();
+    ba.a(localComparator);
+    l = ((Comparator)localComparator);
+    localComparator = (Comparator)paramObjectInputStream.readObject();
+    ba.a(localComparator);
+    m = ((Comparator)localComparator);
+    a(new TreeMap(l));
+    ag.a(this, paramObjectInputStream, paramObjectInputStream.readInt());
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeObject(i());
+    paramObjectOutputStream.writeObject(d());
+    ag.a(this, paramObjectOutputStream);
+  }
+  
+  public static <K extends Comparable, V extends Comparable> lh<K, V> b(ve<? extends K, ? extends V> paramVe)
+  {
+    lh localLh = new lh(mf.d(), mf.d());
+    localLh.a(paramVe);
+    return localLh;
+  }
+  
+  public static <K extends Comparable, V extends Comparable> lh<K, V> h()
+  {
+    return new lh(mf.d(), mf.d());
+  }
+  
+  public SortedMap<K, Collection<V>> a()
+  {
+    return (SortedMap)super.a();
+  }
+  
+  public boolean containsKey(Object paramObject)
+  {
+    return b.containsKey(paramObject);
+  }
+  
+  public Comparator<? super V> d()
+  {
+    return m;
+  }
+  
+  public SortedSet<V> e()
+  {
+    return new TreeSet(m);
+  }
+  
+  public Comparator<? super K> i()
+  {
+    return l;
+  }
+  
+  public SortedSet<K> keySet()
+  {
+    return (SortedSet)super.keySet();
+  }
+  
+  public int size()
+  {
+    return c;
+  }
+}

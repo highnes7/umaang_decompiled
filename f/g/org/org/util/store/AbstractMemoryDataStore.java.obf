@@ -1,0 +1,234 @@
+package f.g.b.a.g.b;
+
+import f.g.b.a.g.x;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class c<V extends Serializable>
+  extends a<V>
+{
+  public final Lock c = new ReentrantLock();
+  public HashMap<String, byte[]> d = new HashMap();
+  
+  public c(e paramE, String paramString)
+  {
+    super(paramE, paramString);
+  }
+  
+  public final d<V> a(String paramString, V paramV)
+    throws IOException
+  {
+    if (paramString != null)
+    {
+      if (paramV != null)
+      {
+        c.lock();
+        try
+        {
+          d.put(paramString, x.a(paramV));
+          b();
+          return this;
+        }
+        finally
+        {
+          c.unlock();
+        }
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean a(V paramV)
+    throws IOException
+  {
+    if (paramV == null) {
+      return false;
+    }
+    c.lock();
+    try
+    {
+      paramV = x.a(paramV);
+      Iterator localIterator = d.values().iterator();
+      while (localIterator.hasNext())
+      {
+        boolean bool = Arrays.equals(paramV, (byte[])localIterator.next());
+        if (bool)
+        {
+          c.unlock();
+          return true;
+        }
+      }
+      c.unlock();
+      return false;
+    }
+    finally
+    {
+      c.unlock();
+    }
+    for (;;)
+    {
+      throw paramV;
+    }
+  }
+  
+  public boolean a(String paramString)
+    throws IOException
+  {
+    if (paramString == null) {
+      return false;
+    }
+    c.lock();
+    try
+    {
+      boolean bool = d.containsKey(paramString);
+      return bool;
+    }
+    finally
+    {
+      c.unlock();
+    }
+  }
+  
+  public void b()
+    throws IOException
+  {}
+  
+  public final d<V> clear()
+    throws IOException
+  {
+    c.lock();
+    try
+    {
+      d.clear();
+      b();
+      return this;
+    }
+    finally
+    {
+      c.unlock();
+    }
+  }
+  
+  public d<V> delete(String paramString)
+    throws IOException
+  {
+    if (paramString == null) {
+      return this;
+    }
+    c.lock();
+    try
+    {
+      d.remove(paramString);
+      b();
+      return this;
+    }
+    finally
+    {
+      c.unlock();
+    }
+  }
+  
+  public final V get(String paramString)
+    throws IOException
+  {
+    if (paramString == null) {
+      return null;
+    }
+    c.lock();
+    try
+    {
+      paramString = x.a((byte[])d.get(paramString));
+      return paramString;
+    }
+    finally
+    {
+      c.unlock();
+    }
+  }
+  
+  public boolean isEmpty()
+    throws IOException
+  {
+    c.lock();
+    try
+    {
+      boolean bool = d.isEmpty();
+      return bool;
+    }
+    finally
+    {
+      c.unlock();
+    }
+  }
+  
+  public final Set<String> keySet()
+    throws IOException
+  {
+    c.lock();
+    try
+    {
+      Set localSet = Collections.unmodifiableSet(d.keySet());
+      return localSet;
+    }
+    finally
+    {
+      c.unlock();
+    }
+  }
+  
+  public int size()
+    throws IOException
+  {
+    c.lock();
+    try
+    {
+      int i = d.size();
+      return i;
+    }
+    finally
+    {
+      c.unlock();
+    }
+  }
+  
+  public String toString()
+  {
+    return f.a(this);
+  }
+  
+  public final Collection<V> values()
+    throws IOException
+  {
+    c.lock();
+    try
+    {
+      Object localObject1 = new ArrayList();
+      Iterator localIterator = d.values().iterator();
+      while (localIterator.hasNext()) {
+        ((List)localObject1).add(x.a((byte[])localIterator.next()));
+      }
+      localObject1 = Collections.unmodifiableList((List)localObject1);
+      c.unlock();
+      return localObject1;
+    }
+    finally
+    {
+      c.unlock();
+    }
+    for (;;)
+    {
+      throw localObject2;
+    }
+  }
+}

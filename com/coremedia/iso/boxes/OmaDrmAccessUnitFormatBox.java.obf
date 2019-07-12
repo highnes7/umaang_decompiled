@@ -1,0 +1,102 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.h;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public final class OmaDrmAccessUnitFormatBox
+  extends c
+{
+  public static final String TYPE = "odaf";
+  public byte allBits;
+  public int initVectorLength;
+  public int keyIndicatorLength;
+  public boolean selectiveEncryption;
+  
+  static {}
+  
+  public OmaDrmAccessUnitFormatBox()
+  {
+    super("odaf");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    allBits = ((byte)h.m(paramByteBuffer));
+    boolean bool;
+    if ((allBits & 0x80) == 128) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    selectiveEncryption = bool;
+    keyIndicatorLength = h.m(paramByteBuffer);
+    initVectorLength = h.m(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.put((byte)(allBits & 0xFF));
+    paramByteBuffer.put((byte)(keyIndicatorLength & 0xFF));
+    paramByteBuffer.put((byte)(initVectorLength & 0xFF));
+  }
+  
+  public long getContentSize()
+  {
+    return 7L;
+  }
+  
+  public int getInitVectorLength()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    j.b().a(localJoinPoint);
+    return initVectorLength;
+  }
+  
+  public int getKeyIndicatorLength()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    j.b().a(localJoinPoint);
+    return keyIndicatorLength;
+  }
+  
+  public boolean isSelectiveEncryption()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return selectiveEncryption;
+  }
+  
+  public void setAllBits(byte paramByte)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this, new Byte(paramByte));
+    j.b().a(localJoinPoint);
+    allBits = paramByte;
+    boolean bool;
+    if ((paramByte & 0x80) == 128) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    selectiveEncryption = bool;
+  }
+  
+  public void setInitVectorLength(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, new Integer(paramInt));
+    j.b().a(localJoinPoint);
+    initVectorLength = paramInt;
+  }
+  
+  public void setKeyIndicatorLength(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this, new Integer(paramInt));
+    j.b().a(localJoinPoint);
+    keyIndicatorLength = paramInt;
+  }
+}

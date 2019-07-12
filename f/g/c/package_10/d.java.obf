@@ -1,0 +1,137 @@
+package f.g.c.b;
+
+import f.g.c.a.b;
+import f.g.c.a.d;
+
+@b
+public final class ka
+  extends w
+{
+  public static final int p = 63;
+  public static final int q = 128;
+  public final boolean r;
+  public final char[] s;
+  public final boolean t;
+  public final long u;
+  
+  public ka(char[] paramArrayOfChar, long paramLong, boolean paramBoolean1, boolean paramBoolean2, String paramString)
+  {
+    super(paramString);
+    s = paramArrayOfChar;
+    u = paramLong;
+    t = paramBoolean1;
+    r = paramBoolean2;
+  }
+  
+  public static w a(char[] paramArrayOfChar, String paramString)
+  {
+    int j = paramArrayOfChar.length;
+    boolean bool1;
+    if (paramArrayOfChar[0] == 0) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    int k = paramArrayOfChar.length;
+    long l = 0L;
+    int i = 0;
+    while (i < k)
+    {
+      l |= 1L << paramArrayOfChar[i];
+      i += 1;
+    }
+    char[] arrayOfChar = null;
+    i = j;
+    while (i < 128)
+    {
+      arrayOfChar = a(i, paramArrayOfChar, false);
+      if (arrayOfChar != null) {
+        break;
+      }
+      i += 1;
+    }
+    boolean bool2;
+    if (arrayOfChar == null)
+    {
+      paramArrayOfChar = a(128, paramArrayOfChar, true);
+      bool2 = true;
+    }
+    else
+    {
+      bool2 = false;
+      paramArrayOfChar = arrayOfChar;
+    }
+    return new ka(paramArrayOfChar, l, bool1, bool2, paramString);
+  }
+  
+  private boolean a(int paramInt)
+  {
+    return 1L == (u >> paramInt & 1L);
+  }
+  
+  @d
+  public static char[] a(int paramInt, char[] paramArrayOfChar, boolean paramBoolean)
+  {
+    char[] arrayOfChar = new char[paramInt];
+    int k = 0;
+    while (k < paramArrayOfChar.length)
+    {
+      int i = paramArrayOfChar[k];
+      int m = i % paramInt;
+      int j = m;
+      if (m < 0) {
+        j = m + paramInt;
+      }
+      if ((arrayOfChar[j] != 0) && (!paramBoolean)) {
+        return null;
+      }
+      m = j;
+      if (paramBoolean) {
+        for (;;)
+        {
+          m = j;
+          if (arrayOfChar[j] == 0) {
+            break;
+          }
+          j = (j + 1) % paramInt;
+        }
+      }
+      arrayOfChar[m] = i;
+      k += 1;
+    }
+    return arrayOfChar;
+  }
+  
+  public w b()
+  {
+    return this;
+  }
+  
+  public boolean c(char paramChar)
+  {
+    if (paramChar == 0) {
+      return t;
+    }
+    if (!a(paramChar)) {
+      return false;
+    }
+    char[] arrayOfChar = s;
+    int j = paramChar % arrayOfChar.length;
+    int i = j;
+    if (j < 0) {}
+    for (i = j + arrayOfChar.length;; i = (i + 1) % arrayOfChar.length)
+    {
+      arrayOfChar = s;
+      if (arrayOfChar[i] == 0) {
+        return false;
+      }
+      if (arrayOfChar[i] == paramChar) {
+        return true;
+      }
+      if (!r) {
+        break;
+      }
+    }
+    return false;
+  }
+}

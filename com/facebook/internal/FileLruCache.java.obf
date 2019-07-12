@@ -1,0 +1,819 @@
+package com.facebook.internal;
+
+import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
+import f.a.a.a.a;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidParameterException;
+import java.util.Date;
+import java.util.PriorityQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicLong;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+public final class FileLruCache
+{
+  public static final String HEADER_CACHEKEY_KEY = "key";
+  public static final String HEADER_CACHE_CONTENT_TAG_KEY = "tag";
+  public static final String TAG = "FileLruCache";
+  public static final AtomicLong bufferIndex = new AtomicLong();
+  public final File directory;
+  public boolean isTrimInProgress;
+  public boolean isTrimPending;
+  public AtomicLong lastClearCacheTime = new AtomicLong(0L);
+  public final Limits limits;
+  public final Object lock;
+  public final String tag;
+  
+  public FileLruCache(String paramString, Limits paramLimits)
+  {
+    tag = paramString;
+    limits = paramLimits;
+    directory = new File(FacebookSdk.getCacheDir(), paramString);
+    lock = new Object();
+    if ((directory.mkdirs()) || (directory.isDirectory())) {
+      BufferFile.deleteAll(directory);
+    }
+  }
+  
+  private void postTrim()
+  {
+    synchronized (lock)
+    {
+      if (!isTrimPending)
+      {
+        isTrimPending = true;
+        FacebookSdk.getExecutor().execute(new Runnable()
+        {
+          public void run()
+          {
+            FileLruCache.access$200(FileLruCache.this);
+          }
+        });
+      }
+      return;
+    }
+  }
+  
+  private void renameToTargetAndTrim(String paramString, File paramFile)
+  {
+    if (!paramFile.renameTo(new File(directory, Utility.md5hash(paramString)))) {
+      paramFile.delete();
+    }
+    postTrim();
+  }
+  
+  private void trim()
+  {
+    synchronized (lock)
+    {
+      isTrimPending = false;
+      isTrimInProgress = true;
+      try
+      {
+        Logger.log(LoggingBehavior.CACHE, 3, TAG, "trim started");
+        ??? = new PriorityQueue();
+        File[] arrayOfFile = directory.listFiles(BufferFile.filterExcludeBufferFiles);
+        long l2 = 0L;
+        long l1;
+        if (arrayOfFile != null)
+        {
+          int j = arrayOfFile.length;
+          l1 = 0L;
+          l2 = l1;
+          int i = 0;
+          while (i < j)
+          {
+            Object localObject6 = arrayOfFile[i];
+            Object localObject7 = new ModifiedFile((File)localObject6);
+            ((PriorityQueue)???).add(localObject7);
+            Object localObject8 = LoggingBehavior.CACHE;
+            String str = TAG;
+            StringBuilder localStringBuilder = new StringBuilder();
+            localStringBuilder.append("  trim considering time=");
+            localStringBuilder.append(Long.valueOf(((ModifiedFile)localObject7).getModified()));
+            localStringBuilder.append(" name=");
+            localStringBuilder.append(((ModifiedFile)localObject7).getFile().getName());
+            Logger.log((LoggingBehavior)localObject8, 3, str, localStringBuilder.toString());
+            l2 += ((File)localObject6).length();
+            l1 += 1L;
+            i += 1;
+            continue;
+            for (;;)
+            {
+              if (l2 <= limits.getByteCount())
+              {
+                i = limits.getFileCount();
+                if (l1 <= i) {
+                  synchronized (lock)
+                  {
+                    isTrimInProgress = false;
+                    lock.notifyAll();
+                    return;
+                  }
+                }
+              }
+              File localFile = ((ModifiedFile)((PriorityQueue)???).remove()).getFile();
+              localObject6 = LoggingBehavior.CACHE;
+              localObject7 = TAG;
+              localObject8 = new StringBuilder();
+              ((StringBuilder)localObject8).append("  trim removing ");
+              ((StringBuilder)localObject8).append(localFile.getName());
+              Logger.log((LoggingBehavior)localObject6, 3, (String)localObject7, ((StringBuilder)localObject8).toString());
+              l2 -= localFile.length();
+              l1 -= 1L;
+              localFile.delete();
+            }
+          }
+        }
+        synchronized (lock)
+        {
+          isTrimInProgress = false;
+          lock.notifyAll();
+          throw localObject3;
+        }
+      }
+      finally {}
+    }
+  }
+  
+  public void clearCache()
+  {
+    final File[] arrayOfFile = directory.listFiles(BufferFile.filterExcludeBufferFiles);
+    lastClearCacheTime.set(System.currentTimeMillis());
+    if (arrayOfFile != null) {
+      FacebookSdk.getExecutor().execute(new Runnable()
+      {
+        public void run()
+        {
+          File[] arrayOfFile = arrayOfFile;
+          int j = arrayOfFile.length;
+          int i = 0;
+          while (i < j)
+          {
+            arrayOfFile[i].delete();
+            i += 1;
+          }
+        }
+      });
+    }
+  }
+  
+  public InputStream get(String paramString)
+    throws IOException
+  {
+    return get(paramString, null);
+  }
+  
+  public InputStream get(String paramString1, String paramString2)
+    throws IOException
+  {
+    File localFile = new File(directory, Utility.md5hash(paramString1));
+    try
+    {
+      Object localObject1 = new FileInputStream(localFile);
+      localObject1 = new BufferedInputStream((InputStream)localObject1, 8192);
+      try
+      {
+        Object localObject2 = StreamHeader.readHeader((InputStream)localObject1);
+        if (localObject2 == null)
+        {
+          ((BufferedInputStream)localObject1).close();
+          return null;
+        }
+        String str = ((JSONObject)localObject2).optString("key");
+        if ((str != null) && (str.equals(paramString1)))
+        {
+          paramString1 = ((JSONObject)localObject2).optString("tag", null);
+          if ((paramString2 != null) || (paramString1 == null))
+          {
+            if (paramString2 != null)
+            {
+              boolean bool = paramString2.equals(paramString1);
+              if (bool) {}
+            }
+          }
+          else
+          {
+            ((BufferedInputStream)localObject1).close();
+            return null;
+          }
+          long l = new Date().getTime();
+          paramString1 = LoggingBehavior.CACHE;
+          paramString2 = TAG;
+          localObject2 = new StringBuilder();
+          ((StringBuilder)localObject2).append("Setting lastModified to ");
+          ((StringBuilder)localObject2).append(Long.valueOf(l));
+          ((StringBuilder)localObject2).append(" for ");
+          ((StringBuilder)localObject2).append(localFile.getName());
+          Logger.log(paramString1, 3, paramString2, ((StringBuilder)localObject2).toString());
+          localFile.setLastModified(l);
+          return localObject1;
+        }
+      }
+      finally
+      {
+        break label227;
+        ((BufferedInputStream)localObject1).close();
+        return null;
+        label227:
+        ((BufferedInputStream)localObject1).close();
+      }
+      return null;
+    }
+    catch (IOException paramString1) {}
+  }
+  
+  public String getLocation()
+  {
+    return directory.getPath();
+  }
+  
+  public InputStream interceptAndPut(String paramString, InputStream paramInputStream)
+    throws IOException
+  {
+    return new CopyingInputStream(paramInputStream, openPutStream(paramString));
+  }
+  
+  public OutputStream openPutStream(String paramString)
+    throws IOException
+  {
+    return openPutStream(paramString, null);
+  }
+  
+  /* Error */
+  public OutputStream openPutStream(final String paramString1, String paramString2)
+    throws IOException
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: getfield 91	com/facebook/internal/FileLruCache:directory	Ljava/io/File;
+    //   4: invokestatic 323	com/facebook/internal/FileLruCache$BufferFile:newFile	(Ljava/io/File;)Ljava/io/File;
+    //   7: astore_3
+    //   8: aload_3
+    //   9: invokevirtual 147	java/io/File:delete	()Z
+    //   12: pop
+    //   13: aload_3
+    //   14: invokevirtual 326	java/io/File:createNewFile	()Z
+    //   17: ifeq +214 -> 231
+    //   20: new 328	java/io/FileOutputStream
+    //   23: dup
+    //   24: aload_3
+    //   25: invokespecial 329	java/io/FileOutputStream:<init>	(Ljava/io/File;)V
+    //   28: astore 4
+    //   30: new 331	java/io/BufferedOutputStream
+    //   33: dup
+    //   34: new 19	com/facebook/internal/FileLruCache$CloseCallbackOutputStream
+    //   37: dup
+    //   38: aload 4
+    //   40: new 6	com/facebook/internal/FileLruCache$1
+    //   43: dup
+    //   44: aload_0
+    //   45: invokestatic 243	java/lang/System:currentTimeMillis	()J
+    //   48: aload_3
+    //   49: aload_1
+    //   50: invokespecial 334	com/facebook/internal/FileLruCache$1:<init>	(Lcom/facebook/internal/FileLruCache;JLjava/io/File;Ljava/lang/String;)V
+    //   53: invokespecial 337	com/facebook/internal/FileLruCache$CloseCallbackOutputStream:<init>	(Ljava/io/OutputStream;Lcom/facebook/internal/FileLruCache$StreamCloseCallback;)V
+    //   56: sipush 8192
+    //   59: invokespecial 340	java/io/BufferedOutputStream:<init>	(Ljava/io/OutputStream;I)V
+    //   62: astore_3
+    //   63: new 274	org/json/JSONObject
+    //   66: dup
+    //   67: invokespecial 341	org/json/JSONObject:<init>	()V
+    //   70: astore 4
+    //   72: aload 4
+    //   74: ldc 39
+    //   76: aload_1
+    //   77: invokevirtual 345	org/json/JSONObject:put	(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+    //   80: pop
+    //   81: aload_2
+    //   82: invokestatic 349	com/facebook/internal/Utility:isNullOrEmpty	(Ljava/lang/String;)Z
+    //   85: ifne +12 -> 97
+    //   88: aload 4
+    //   90: ldc 42
+    //   92: aload_2
+    //   93: invokevirtual 345	org/json/JSONObject:put	(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+    //   96: pop
+    //   97: aload_3
+    //   98: aload 4
+    //   100: invokestatic 353	com/facebook/internal/FileLruCache$StreamHeader:writeHeader	(Ljava/io/OutputStream;Lorg/json/JSONObject;)V
+    //   103: aload_3
+    //   104: areturn
+    //   105: astore_1
+    //   106: goto +62 -> 168
+    //   109: astore_1
+    //   110: getstatic 157	com/facebook/LoggingBehavior:CACHE	Lcom/facebook/LoggingBehavior;
+    //   113: astore_2
+    //   114: getstatic 159	com/facebook/internal/FileLruCache:TAG	Ljava/lang/String;
+    //   117: astore 4
+    //   119: new 186	java/lang/StringBuilder
+    //   122: dup
+    //   123: invokespecial 187	java/lang/StringBuilder:<init>	()V
+    //   126: astore 5
+    //   128: aload 5
+    //   130: ldc_w 355
+    //   133: invokevirtual 193	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   136: pop
+    //   137: aload 5
+    //   139: aload_1
+    //   140: invokevirtual 206	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   143: pop
+    //   144: aload_2
+    //   145: iconst_5
+    //   146: aload 4
+    //   148: aload 5
+    //   150: invokevirtual 218	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   153: invokestatic 167	com/facebook/internal/Logger:log	(Lcom/facebook/LoggingBehavior;ILjava/lang/String;Ljava/lang/String;)V
+    //   156: new 253	java/io/IOException
+    //   159: dup
+    //   160: aload_1
+    //   161: invokevirtual 360	java/lang/Exception:getMessage	()Ljava/lang/String;
+    //   164: invokespecial 363	java/io/IOException:<init>	(Ljava/lang/String;)V
+    //   167: athrow
+    //   168: aload_3
+    //   169: invokevirtual 364	java/io/BufferedOutputStream:close	()V
+    //   172: aload_1
+    //   173: athrow
+    //   174: astore_1
+    //   175: getstatic 157	com/facebook/LoggingBehavior:CACHE	Lcom/facebook/LoggingBehavior;
+    //   178: astore_2
+    //   179: getstatic 159	com/facebook/internal/FileLruCache:TAG	Ljava/lang/String;
+    //   182: astore_3
+    //   183: new 186	java/lang/StringBuilder
+    //   186: dup
+    //   187: invokespecial 187	java/lang/StringBuilder:<init>	()V
+    //   190: astore 4
+    //   192: aload 4
+    //   194: ldc_w 366
+    //   197: invokevirtual 193	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   200: pop
+    //   201: aload 4
+    //   203: aload_1
+    //   204: invokevirtual 206	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   207: pop
+    //   208: aload_2
+    //   209: iconst_5
+    //   210: aload_3
+    //   211: aload 4
+    //   213: invokevirtual 218	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   216: invokestatic 167	com/facebook/internal/Logger:log	(Lcom/facebook/LoggingBehavior;ILjava/lang/String;Ljava/lang/String;)V
+    //   219: new 253	java/io/IOException
+    //   222: dup
+    //   223: aload_1
+    //   224: invokevirtual 367	java/io/FileNotFoundException:getMessage	()Ljava/lang/String;
+    //   227: invokespecial 363	java/io/IOException:<init>	(Ljava/lang/String;)V
+    //   230: athrow
+    //   231: ldc_w 369
+    //   234: invokestatic 374	f/a/a/a/a:b	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   237: astore_1
+    //   238: aload_1
+    //   239: aload_3
+    //   240: invokevirtual 377	java/io/File:getAbsolutePath	()Ljava/lang/String;
+    //   243: invokevirtual 193	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   246: pop
+    //   247: new 253	java/io/IOException
+    //   250: dup
+    //   251: aload_1
+    //   252: invokevirtual 218	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   255: invokespecial 363	java/io/IOException:<init>	(Ljava/lang/String;)V
+    //   258: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	259	0	this	FileLruCache
+    //   0	259	1	paramString1	String
+    //   0	259	2	paramString2	String
+    //   7	233	3	localObject1	Object
+    //   28	184	4	localObject2	Object
+    //   126	23	5	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   63	97	105	finally
+    //   97	103	105	finally
+    //   110	168	105	finally
+    //   63	97	109	org/json/JSONException
+    //   97	103	109	org/json/JSONException
+    //   20	30	174	java/io/FileNotFoundException
+  }
+  
+  public long sizeInBytesForTest()
+  {
+    for (;;)
+    {
+      synchronized (lock)
+      {
+        if ((!isTrimPending) && (!isTrimInProgress))
+        {
+          ??? = directory.listFiles();
+          long l1 = 0L;
+          long l2 = l1;
+          if (??? != null)
+          {
+            int j = ???.length;
+            int i = 0;
+            l2 = l1;
+            if (i < j)
+            {
+              l1 += ???[i].length();
+              i += 1;
+              continue;
+            }
+          }
+          return l2;
+        }
+      }
+    }
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.b("{FileLruCache: tag:");
+    localStringBuilder.append(tag);
+    localStringBuilder.append(" file:");
+    localStringBuilder.append(directory.getName());
+    localStringBuilder.append("}");
+    return localStringBuilder.toString();
+  }
+  
+  private static class BufferFile
+  {
+    public static final String FILE_NAME_PREFIX = "buffer";
+    public static final FilenameFilter filterExcludeBufferFiles = new FilenameFilter()
+    {
+      public boolean accept(File paramAnonymousFile, String paramAnonymousString)
+      {
+        return paramAnonymousString.startsWith("buffer") ^ true;
+      }
+    };
+    public static final FilenameFilter filterExcludeNonBufferFiles = new FilenameFilter()
+    {
+      public boolean accept(File paramAnonymousFile, String paramAnonymousString)
+      {
+        return paramAnonymousString.startsWith("buffer");
+      }
+    };
+    
+    public BufferFile() {}
+    
+    public static void deleteAll(File paramFile)
+    {
+      paramFile = paramFile.listFiles(filterExcludeNonBufferFiles);
+      if (paramFile != null)
+      {
+        int j = paramFile.length;
+        int i = 0;
+        while (i < j)
+        {
+          paramFile[i].delete();
+          i += 1;
+        }
+      }
+    }
+    
+    public static FilenameFilter excludeBufferFiles()
+    {
+      return filterExcludeBufferFiles;
+    }
+    
+    public static FilenameFilter excludeNonBufferFiles()
+    {
+      return filterExcludeNonBufferFiles;
+    }
+    
+    public static File newFile(File paramFile)
+    {
+      StringBuilder localStringBuilder = a.b("buffer");
+      localStringBuilder.append(Long.valueOf(FileLruCache.bufferIndex.incrementAndGet()).toString());
+      return new File(paramFile, localStringBuilder.toString());
+    }
+  }
+  
+  private static class CloseCallbackOutputStream
+    extends OutputStream
+  {
+    public final FileLruCache.StreamCloseCallback callback;
+    public final OutputStream innerStream;
+    
+    public CloseCallbackOutputStream(OutputStream paramOutputStream, FileLruCache.StreamCloseCallback paramStreamCloseCallback)
+    {
+      innerStream = paramOutputStream;
+      callback = paramStreamCloseCallback;
+    }
+    
+    public void close()
+      throws IOException
+    {
+      try
+      {
+        innerStream.close();
+        return;
+      }
+      finally
+      {
+        callback.onClose();
+      }
+    }
+    
+    public void flush()
+      throws IOException
+    {
+      innerStream.flush();
+    }
+    
+    public void write(int paramInt)
+      throws IOException
+    {
+      innerStream.write(paramInt);
+    }
+    
+    public void write(byte[] paramArrayOfByte)
+      throws IOException
+    {
+      innerStream.write(paramArrayOfByte);
+    }
+    
+    public void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+      throws IOException
+    {
+      innerStream.write(paramArrayOfByte, paramInt1, paramInt2);
+    }
+  }
+  
+  private static final class CopyingInputStream
+    extends InputStream
+  {
+    public final InputStream input;
+    public final OutputStream output;
+    
+    public CopyingInputStream(InputStream paramInputStream, OutputStream paramOutputStream)
+    {
+      input = paramInputStream;
+      output = paramOutputStream;
+    }
+    
+    public int available()
+      throws IOException
+    {
+      return input.available();
+    }
+    
+    public void close()
+      throws IOException
+    {
+      try
+      {
+        input.close();
+        return;
+      }
+      finally
+      {
+        output.close();
+      }
+    }
+    
+    public void mark(int paramInt)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean markSupported()
+    {
+      return false;
+    }
+    
+    public int read()
+      throws IOException
+    {
+      int i = input.read();
+      if (i >= 0) {
+        output.write(i);
+      }
+      return i;
+    }
+    
+    public int read(byte[] paramArrayOfByte)
+      throws IOException
+    {
+      int i = input.read(paramArrayOfByte);
+      if (i > 0) {
+        output.write(paramArrayOfByte, 0, i);
+      }
+      return i;
+    }
+    
+    public int read(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+      throws IOException
+    {
+      paramInt2 = input.read(paramArrayOfByte, paramInt1, paramInt2);
+      if (paramInt2 > 0) {
+        output.write(paramArrayOfByte, paramInt1, paramInt2);
+      }
+      return paramInt2;
+    }
+    
+    public void reset()
+    {
+      try
+      {
+        throw new UnsupportedOperationException();
+      }
+      finally {}
+    }
+    
+    public long skip(long paramLong)
+      throws IOException
+    {
+      byte[] arrayOfByte = new byte['?'];
+      int i;
+      for (long l = 0L; l < paramLong; l += i)
+      {
+        i = read(arrayOfByte, 0, (int)Math.min(paramLong - l, arrayOfByte.length));
+        if (i < 0) {
+          return l;
+        }
+      }
+      return l;
+    }
+  }
+  
+  public static final class Limits
+  {
+    public int byteCount = 1048576;
+    public int fileCount = 1024;
+    
+    public Limits() {}
+    
+    public int getByteCount()
+    {
+      return byteCount;
+    }
+    
+    public int getFileCount()
+    {
+      return fileCount;
+    }
+    
+    public void setByteCount(int paramInt)
+    {
+      if (paramInt >= 0)
+      {
+        byteCount = paramInt;
+        return;
+      }
+      throw new InvalidParameterException("Cache byte-count limit must be >= 0");
+    }
+    
+    public void setFileCount(int paramInt)
+    {
+      if (paramInt >= 0)
+      {
+        fileCount = paramInt;
+        return;
+      }
+      throw new InvalidParameterException("Cache file count limit must be >= 0");
+    }
+  }
+  
+  private static final class ModifiedFile
+    implements Comparable<ModifiedFile>
+  {
+    public static final int HASH_MULTIPLIER = 37;
+    public static final int HASH_SEED = 29;
+    public final File file;
+    public final long modified;
+    
+    public ModifiedFile(File paramFile)
+    {
+      file = paramFile;
+      modified = paramFile.lastModified();
+    }
+    
+    public int compareTo(ModifiedFile paramModifiedFile)
+    {
+      if (getModified() < paramModifiedFile.getModified()) {
+        return -1;
+      }
+      if (getModified() > paramModifiedFile.getModified()) {
+        return 1;
+      }
+      return getFile().compareTo(paramModifiedFile.getFile());
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      return ((paramObject instanceof ModifiedFile)) && (compareTo((ModifiedFile)paramObject) == 0);
+    }
+    
+    public File getFile()
+    {
+      return file;
+    }
+    
+    public long getModified()
+    {
+      return modified;
+    }
+    
+    public int hashCode()
+    {
+      return (file.hashCode() + 1073) * 37 + (int)(modified % 2147483647L);
+    }
+  }
+  
+  private static abstract interface StreamCloseCallback
+  {
+    public abstract void onClose();
+  }
+  
+  private static final class StreamHeader
+  {
+    public static final int HEADER_VERSION = 0;
+    
+    public StreamHeader() {}
+    
+    public static JSONObject readHeader(InputStream paramInputStream)
+      throws IOException
+    {
+      if (paramInputStream.read() != 0) {
+        return null;
+      }
+      int k = 0;
+      int i = 0;
+      int j = 0;
+      while (i < 3)
+      {
+        int m = paramInputStream.read();
+        if (m == -1)
+        {
+          Logger.log(LoggingBehavior.CACHE, 3, FileLruCache.TAG, "readHeader: stream.read returned -1 while reading header size");
+          return null;
+        }
+        j = (j << 8) + (m & 0xFF);
+        i += 1;
+      }
+      Object localObject = new byte[j];
+      i = k;
+      String str;
+      StringBuilder localStringBuilder;
+      while (i < localObject.length)
+      {
+        j = paramInputStream.read((byte[])localObject, i, localObject.length - i);
+        if (j < 1)
+        {
+          paramInputStream = LoggingBehavior.CACHE;
+          str = FileLruCache.TAG;
+          localStringBuilder = a.b("readHeader: stream.read stopped at ");
+          localStringBuilder.append(Integer.valueOf(i));
+          localStringBuilder.append(" when expected ");
+          localStringBuilder.append(localObject.length);
+          Logger.log(paramInputStream, 3, str, localStringBuilder.toString());
+          return null;
+        }
+        i += j;
+      }
+      paramInputStream = new JSONTokener(new String((byte[])localObject));
+      try
+      {
+        paramInputStream = paramInputStream.nextValue();
+        if (!(paramInputStream instanceof JSONObject))
+        {
+          localObject = LoggingBehavior.CACHE;
+          str = FileLruCache.TAG;
+          localStringBuilder = new StringBuilder();
+          localStringBuilder.append("readHeader: expected JSONObject, got ");
+          localStringBuilder.append(paramInputStream.getClass().getCanonicalName());
+          Logger.log((LoggingBehavior)localObject, 3, str, localStringBuilder.toString());
+          return null;
+        }
+        paramInputStream = (JSONObject)paramInputStream;
+        return paramInputStream;
+      }
+      catch (JSONException paramInputStream)
+      {
+        paramInputStream = new IOException(paramInputStream.getMessage());
+      }
+      for (;;)
+      {
+        throw paramInputStream;
+      }
+    }
+    
+    public static void writeHeader(OutputStream paramOutputStream, JSONObject paramJSONObject)
+      throws IOException
+    {
+      paramJSONObject = paramJSONObject.toString().getBytes();
+      paramOutputStream.write(0);
+      paramOutputStream.write(paramJSONObject.length >> 16 & 0xFF);
+      paramOutputStream.write(paramJSONObject.length >> 8 & 0xFF);
+      paramOutputStream.write(paramJSONObject.length >> 0 & 0xFF);
+      paramOutputStream.write(paramJSONObject);
+    }
+  }
+}

@@ -1,0 +1,104 @@
+package f.g.c.d;
+
+import java.util.List;
+import java.util.Map.Entry;
+import m.a.h;
+
+public final class Kf<K, V>
+  extends Sb<K, V>
+{
+  public final transient Of<K> h;
+  public final transient vb<V> i;
+  
+  public Kf(Of<K> paramOf, vb<V> paramVb)
+  {
+    h = paramOf;
+    i = paramVb;
+  }
+  
+  public Kf(Of<K> paramOf, vb<V> paramVb, Sb<K, V> paramSb)
+  {
+    super(paramSb);
+    h = paramOf;
+    i = paramVb;
+  }
+  
+  private Sb<K, V> a(int paramInt1, int paramInt2)
+  {
+    if ((paramInt1 == 0) && (paramInt2 == size())) {
+      return this;
+    }
+    if (paramInt1 == paramInt2) {
+      return Sb.a(comparator());
+    }
+    return Sb.a(h.a(paramInt1, paramInt2), i.subList(paramInt1, paramInt2));
+  }
+  
+  public Nb<Map.Entry<K, V>> b()
+  {
+    return new a(null);
+  }
+  
+  public V get(@h Object paramObject)
+  {
+    int j = h.indexOf(paramObject);
+    if (j == -1) {
+      return null;
+    }
+    return i.get(j);
+  }
+  
+  public Sb<K, V> headMap(K paramK, boolean paramBoolean)
+  {
+    Of localOf = h;
+    if (paramK != null) {
+      return a(0, localOf.c(paramK, paramBoolean));
+    }
+    throw new NullPointerException();
+  }
+  
+  public Sb<K, V> i()
+  {
+    return new Kf((Of)h.descendingSet(), i.g(), this);
+  }
+  
+  public Wb<K> keySet()
+  {
+    return h;
+  }
+  
+  public Sb<K, V> tailMap(K paramK, boolean paramBoolean)
+  {
+    Of localOf = h;
+    if (paramK != null) {
+      return a(localOf.d(paramK, paramBoolean), size());
+    }
+    throw new NullPointerException();
+  }
+  
+  public rb<V> values()
+  {
+    return i;
+  }
+  
+  private class a
+    extends Bb<K, V>
+  {
+    public a() {}
+    
+    public vb<Map.Entry<K, V>> b()
+    {
+      return new Jf(this);
+    }
+    
+    public Ab<K, V> h()
+    {
+      return Kf.this;
+    }
+    
+    public th<Map.Entry<K, V>> iterator()
+    {
+      return a().iterator();
+    }
+  }
+}

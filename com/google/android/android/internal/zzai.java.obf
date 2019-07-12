@@ -1,0 +1,97 @@
+package com.google.android.gms.internal;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzai
+{
+  public String key;
+  public String zza;
+  public long zzb;
+  public long zzbz;
+  public long zzc;
+  public long zzd;
+  public long zze;
+  public Map<String, String> zzf;
+  
+  public zzai() {}
+  
+  public zzai(String paramString, zzc paramZzc)
+  {
+    key = paramString;
+    zzbz = data.length;
+    zza = zza;
+    zzb = zzb;
+    zzc = zzc;
+    zzd = zzd;
+    zze = zze;
+    zzf = zzf;
+  }
+  
+  public static zzai zzf(InputStream paramInputStream)
+    throws IOException
+  {
+    zzai localZzai = new zzai();
+    if (zzag.zzb(paramInputStream) == 538247942)
+    {
+      key = zzag.zzd(paramInputStream);
+      zza = zzag.zzd(paramInputStream);
+      if (zza.equals("")) {
+        zza = null;
+      }
+      zzb = zzag.zzc(paramInputStream);
+      zzc = zzag.zzc(paramInputStream);
+      zzd = zzag.zzc(paramInputStream);
+      zze = zzag.zzc(paramInputStream);
+      zzf = zzag.zze(paramInputStream);
+      return localZzai;
+    }
+    throw new IOException();
+  }
+  
+  public final boolean zza(OutputStream paramOutputStream)
+  {
+    try
+    {
+      zzag.zza(paramOutputStream, 538247942);
+      zzag.zza(paramOutputStream, key);
+      if (zza == null) {
+        localObject = "";
+      } else {
+        localObject = zza;
+      }
+      zzag.zza(paramOutputStream, (String)localObject);
+      zzag.zza(paramOutputStream, zzb);
+      zzag.zza(paramOutputStream, zzc);
+      zzag.zza(paramOutputStream, zzd);
+      zzag.zza(paramOutputStream, zze);
+      localObject = zzf;
+      if (localObject != null)
+      {
+        zzag.zza(paramOutputStream, ((Map)localObject).size());
+        localObject = ((Map)localObject).entrySet().iterator();
+        while (((Iterator)localObject).hasNext())
+        {
+          Map.Entry localEntry = (Map.Entry)((Iterator)localObject).next();
+          zzag.zza(paramOutputStream, (String)localEntry.getKey());
+          zzag.zza(paramOutputStream, (String)localEntry.getValue());
+        }
+      }
+      zzag.zza(paramOutputStream, 0);
+      paramOutputStream.flush();
+      return true;
+    }
+    catch (IOException paramOutputStream)
+    {
+      paramOutputStream = paramOutputStream.toString();
+      Object localObject = zzab.TAG;
+      zzab.zzd("%s", new Object[] { paramOutputStream });
+    }
+    return false;
+  }
+}

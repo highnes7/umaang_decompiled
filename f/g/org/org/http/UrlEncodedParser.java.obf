@@ -1,0 +1,182 @@
+package f.g.b.a.c;
+
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.e.a.a.a.b.i;
+import f.g.b.a.g.J;
+import f.g.b.a.g.a.a;
+import f.g.b.a.g.b;
+import f.g.b.a.g.ba;
+import f.g.b.a.g.l;
+import f.g.b.a.g.n;
+import f.g.b.a.g.r;
+import f.g.b.a.g.w;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+public class N
+  implements J
+{
+  public static final String a = "application/x-www-form-urlencoded";
+  public static final String b = new v("application/x-www-form-urlencoded").a(l.a).a();
+  
+  public N() {}
+  
+  public static Object a(Type paramType, List<Type> paramList, String paramString)
+  {
+    return r.a(r.a(paramList, paramType), paramString);
+  }
+  
+  public static void a(Reader paramReader, Object paramObject)
+    throws IOException
+  {
+    Object localObject1 = paramObject.getClass();
+    n localN = n.a((Class)localObject1);
+    List localList = Arrays.asList(new Type[] { localObject1 });
+    w localW;
+    if (w.class.isAssignableFrom((Class)localObject1)) {
+      localW = (w)paramObject;
+    } else {
+      localW = null;
+    }
+    if (Map.class.isAssignableFrom((Class)localObject1)) {
+      localObject1 = (Map)paramObject;
+    } else {
+      localObject1 = null;
+    }
+    b localB = new b(paramObject);
+    Object localObject3 = new StringWriter();
+    Object localObject2 = new StringWriter();
+    int j;
+    do
+    {
+      int i = 1;
+      for (;;)
+      {
+        j = paramReader.read();
+        if ((j == -1) || (j == 38)) {
+          break;
+        }
+        if (j != 61)
+        {
+          if (i != 0) {
+            ((StringWriter)localObject3).write(j);
+          } else {
+            ((StringWriter)localObject2).write(j);
+          }
+        }
+        else {
+          i = 0;
+        }
+      }
+      Object localObject4 = a.a(((StringWriter)localObject3).toString());
+      if (((String)localObject4).length() != 0)
+      {
+        String str = a.a(((StringWriter)localObject2).toString());
+        f.g.b.a.g.v localV = localN.b((String)localObject4);
+        if (localV != null)
+        {
+          localObject4 = r.a(localList, localV.d());
+          if (ba.d((Type)localObject4))
+          {
+            localObject2 = ba.a(localList, ba.a((Type)localObject4));
+            localB.a(localV.c(), (Class)localObject2, a((Type)localObject2, localList, str));
+          }
+          else if (ba.a(ba.a(localList, (Type)localObject4), Iterable.class))
+          {
+            localObject3 = (Collection)localV.a(paramObject);
+            localObject2 = localObject3;
+            if (localObject3 == null)
+            {
+              localObject2 = r.b((Type)localObject4);
+              localV.a(paramObject, localObject2);
+            }
+            if (localObject4 == Object.class) {
+              localObject3 = null;
+            } else {
+              localObject3 = ba.b((Type)localObject4);
+            }
+            ((Collection)localObject2).add(a((Type)localObject3, localList, str));
+          }
+          else
+          {
+            localV.a(paramObject, a((Type)localObject4, localList, str));
+          }
+        }
+        else if (localObject1 != null)
+        {
+          localObject3 = (ArrayList)((Map)localObject1).get(localObject4);
+          localObject2 = localObject3;
+          if (localObject3 == null)
+          {
+            localObject2 = new ArrayList();
+            if (localW != null) {
+              localW.b((String)localObject4, localObject2);
+            } else {
+              ((Map)localObject1).put(localObject4, localObject2);
+            }
+          }
+          ((ArrayList)localObject2).add(str);
+        }
+      }
+      localObject3 = new StringWriter();
+      localObject2 = new StringWriter();
+    } while (j != -1);
+    localB.a();
+  }
+  
+  public static void a(String paramString, Object paramObject)
+  {
+    if (paramString == null) {
+      return;
+    }
+    try
+    {
+      a(new StringReader(paramString), paramObject);
+      return;
+    }
+    catch (IOException paramString)
+    {
+      i.d(paramString);
+      throw null;
+    }
+  }
+  
+  public <T> T a(InputStream paramInputStream, Charset paramCharset, Class<T> paramClass)
+    throws IOException
+  {
+    return a(new InputStreamReader(paramInputStream, paramCharset), paramClass);
+  }
+  
+  public Object a(InputStream paramInputStream, Charset paramCharset, Type paramType)
+    throws IOException
+  {
+    return a(new InputStreamReader(paramInputStream, paramCharset), paramType);
+  }
+  
+  public <T> T a(Reader paramReader, Class<T> paramClass)
+    throws IOException
+  {
+    return a(paramReader, paramClass);
+  }
+  
+  public Object a(Reader paramReader, Type paramType)
+    throws IOException
+  {
+    g.a(paramType instanceof Class, "dataType has to be of type Class<?>");
+    paramType = ba.a((Class)paramType);
+    a(new BufferedReader(paramReader), paramType);
+    return paramType;
+  }
+}

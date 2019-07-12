@@ -1,0 +1,110 @@
+package com.rma.myspeed.common;
+
+import android.app.Application;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Environment;
+import f.p.a.a.l;
+import f.p.a.b.g;
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+
+public class NPTApplication
+  extends Application
+{
+  public static File a;
+  public static boolean b = false;
+  public static boolean c = false;
+  public static boolean d = false;
+  public static ApplicationInfo e;
+  public static boolean f = true;
+  public static boolean g = false;
+  public static String h = "";
+  public static String i = "";
+  public static String j = "";
+  
+  public NPTApplication() {}
+  
+  public static void a(Context paramContext)
+  {
+    f.p.a.b.c.o = g.c();
+    Object localObject = new ContextWrapper(paramContext);
+    if (!g)
+    {
+      a = ((ContextWrapper)localObject).getDir("NPT", 0);
+    }
+    else
+    {
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append(Environment.getExternalStorageDirectory());
+      ((StringBuilder)localObject).append("/");
+      ((StringBuilder)localObject).append(paramContext.getString(a.l.app_name));
+      a = new File(((StringBuilder)localObject).toString());
+    }
+    if (!a.exists()) {
+      a.mkdir();
+    }
+    try
+    {
+      h = getPackageManagergetPackageInfogetPackageName0versionName;
+      i = g.c(paramContext, "uuid", "");
+      paramContext = paramContext.getPackageManager().getInstalledApplications(0).iterator();
+      while (paramContext.hasNext())
+      {
+        localObject = (ApplicationInfo)paramContext.next();
+        if (packageName.equals("com.rma.myspeed")) {
+          e = (ApplicationInfo)localObject;
+        }
+      }
+      return;
+    }
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void onCreate()
+  {
+    super.onCreate();
+    f.p.a.b.c.o = g.c();
+    Object localObject = new ContextWrapper(this);
+    if (!g)
+    {
+      a = ((ContextWrapper)localObject).getDir("NPT", 0);
+    }
+    else
+    {
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append(Environment.getExternalStorageDirectory());
+      ((StringBuilder)localObject).append("/");
+      ((StringBuilder)localObject).append(getString(a.l.app_name));
+      a = new File(((StringBuilder)localObject).toString());
+    }
+    if (!a.exists()) {
+      a.mkdir();
+    }
+    try
+    {
+      h = getApplicationContextgetPackageManagergetPackageInfogetPackageName0versionName;
+      i = g.c(this, "uuid", "");
+      localObject = getPackageManager().getInstalledApplications(0).iterator();
+      while (((Iterator)localObject).hasNext())
+      {
+        ApplicationInfo localApplicationInfo = (ApplicationInfo)((Iterator)localObject).next();
+        if (packageName.equals("com.rma.myspeed")) {
+          e = localApplicationInfo;
+        }
+      }
+      return;
+    }
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
+  }
+}

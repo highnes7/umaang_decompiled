@@ -1,0 +1,102 @@
+package f.c.a.c;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import l.a.a.a.a.b.D;
+import l.a.a.a.a.e.d;
+import l.a.a.a.a.e.m;
+import l.a.a.a.a.e.o;
+import l.a.a.a.g;
+import l.a.a.a.n;
+import l.a.a.a.q;
+
+public class qa
+  extends l.a.a.a.a.b.a
+  implements na
+{
+  public static final String s = "report[file";
+  public static final String t = "report[file]";
+  public static final String u = "report[identifier]";
+  public static final String v = "application/octet-stream";
+  
+  public qa(n paramN, String paramString1, String paramString2, o paramO)
+  {
+    super(paramN, paramString1, paramString2, paramO, d.b);
+  }
+  
+  public qa(n paramN, String paramString1, String paramString2, o paramO, d paramD)
+  {
+    super(paramN, paramString1, paramString2, paramO, paramD);
+  }
+  
+  private m a(m paramM, Pa paramPa)
+  {
+    paramM.f("report[identifier]", paramPa.b());
+    StringBuilder localStringBuilder1;
+    if (paramPa.d().length == 1)
+    {
+      localObject1 = g.h();
+      localStringBuilder1 = f.a.a.a.a.b("Adding single file ");
+      localStringBuilder1.append(paramPa.getFileName());
+      localStringBuilder1.append(" to report ");
+      localStringBuilder1.append(paramPa.b());
+      ((q)localObject1).d("CrashlyticsCore", localStringBuilder1.toString());
+      return paramM.a("report[file]", paramPa.getFileName(), "application/octet-stream", paramPa.c());
+    }
+    Object localObject1 = paramPa.d();
+    int k = localObject1.length;
+    int i = 0;
+    int j = 0;
+    while (i < k)
+    {
+      localStringBuilder1 = localObject1[i];
+      Object localObject2 = g.h();
+      StringBuilder localStringBuilder2 = f.a.a.a.a.b("Adding file ");
+      localStringBuilder2.append(localStringBuilder1.getName());
+      localStringBuilder2.append(" to report ");
+      localStringBuilder2.append(paramPa.b());
+      ((q)localObject2).d("CrashlyticsCore", localStringBuilder2.toString());
+      localObject2 = new StringBuilder();
+      ((StringBuilder)localObject2).append("report[file");
+      ((StringBuilder)localObject2).append(j);
+      ((StringBuilder)localObject2).append("]");
+      paramM.a(((StringBuilder)localObject2).toString(), localStringBuilder1.getName(), "application/octet-stream", localStringBuilder1);
+      j += 1;
+      i += 1;
+    }
+    return paramM;
+  }
+  
+  private m a(m paramM, ma paramMa)
+  {
+    paramM = paramM.d("X-CRASHLYTICS-API-KEY", a).d("X-CRASHLYTICS-API-CLIENT-TYPE", "android").d("X-CRASHLYTICS-API-CLIENT-VERSION", r.j());
+    paramMa = b.a().entrySet().iterator();
+    while (paramMa.hasNext()) {
+      paramM = paramM.b((Map.Entry)paramMa.next());
+    }
+    return paramM;
+  }
+  
+  public boolean a(ma paramMa)
+  {
+    paramMa = a(a(a(), paramMa), b);
+    Object localObject = g.h();
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Sending report to: ");
+    localStringBuilder.append(b());
+    ((q)localObject).d("CrashlyticsCore", localStringBuilder.toString());
+    int i = paramMa.n();
+    localObject = g.h();
+    localStringBuilder = f.a.a.a.a.b("Create report request ID: ");
+    localStringBuilder.append(paramMa.m("X-REQUEST-ID"));
+    ((q)localObject).d("CrashlyticsCore", localStringBuilder.toString());
+    paramMa = g.h();
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("Result was: ");
+    ((StringBuilder)localObject).append(i);
+    paramMa.d("CrashlyticsCore", ((StringBuilder)localObject).toString());
+    return D.a(i) == 0;
+  }
+}

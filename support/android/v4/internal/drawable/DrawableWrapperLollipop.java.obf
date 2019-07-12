@@ -1,0 +1,170 @@
+package b.b.x.d.a;
+
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Outline;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build.VERSION;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import java.lang.reflect.Method;
+
+@K(21)
+public class h
+  extends g
+{
+  public static final String h = "WrappedDrawableApi21";
+  public static Method i;
+  
+  public h(Drawable paramDrawable)
+  {
+    super(paramDrawable);
+    e();
+  }
+  
+  public h(g.a paramA, Resources paramResources)
+  {
+    super(paramA, paramResources);
+    e();
+  }
+  
+  private void e()
+  {
+    if (i == null) {}
+    try
+    {
+      i = Drawable.class.getDeclaredMethod("isProjected", new Class[0]);
+      return;
+    }
+    catch (Exception localException) {}
+  }
+  
+  public boolean b()
+  {
+    int j = Build.VERSION.SDK_INT;
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (j == 21)
+    {
+      Drawable localDrawable = g;
+      if ((!(localDrawable instanceof GradientDrawable)) && (!(localDrawable instanceof DrawableContainer)) && (!(localDrawable instanceof InsetDrawable)))
+      {
+        bool1 = bool2;
+        if (!(localDrawable instanceof RippleDrawable)) {}
+      }
+      else
+      {
+        bool1 = true;
+      }
+    }
+    return bool1;
+  }
+  
+  @F
+  public g.a c()
+  {
+    return new a(e, null);
+  }
+  
+  public boolean d()
+  {
+    Drawable localDrawable = g;
+    Method localMethod;
+    if (localDrawable != null)
+    {
+      localMethod = i;
+      if (localMethod == null) {}
+    }
+    try
+    {
+      boolean bool = ((Boolean)localMethod.invoke(localDrawable, new Object[0])).booleanValue();
+      return bool;
+    }
+    catch (Exception localException) {}
+    return false;
+    return false;
+  }
+  
+  @F
+  public Rect getDirtyBounds()
+  {
+    return g.getDirtyBounds();
+  }
+  
+  public void getOutline(@F Outline paramOutline)
+  {
+    g.getOutline(paramOutline);
+  }
+  
+  public void setHotspot(float paramFloat1, float paramFloat2)
+  {
+    g.setHotspot(paramFloat1, paramFloat2);
+  }
+  
+  public void setHotspotBounds(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    g.setHotspotBounds(paramInt1, paramInt2, paramInt3, paramInt4);
+  }
+  
+  public boolean setState(@F int[] paramArrayOfInt)
+  {
+    if (super.setState(paramArrayOfInt))
+    {
+      invalidateSelf();
+      return true;
+    }
+    return false;
+  }
+  
+  public void setTint(int paramInt)
+  {
+    if (b())
+    {
+      super.setTint(paramInt);
+      return;
+    }
+    g.setTint(paramInt);
+  }
+  
+  public void setTintList(ColorStateList paramColorStateList)
+  {
+    if (b())
+    {
+      super.setTintList(paramColorStateList);
+      return;
+    }
+    g.setTintList(paramColorStateList);
+  }
+  
+  public void setTintMode(PorterDuff.Mode paramMode)
+  {
+    if (b())
+    {
+      super.setTintMode(paramMode);
+      return;
+    }
+    g.setTintMode(paramMode);
+  }
+  
+  private static class a
+    extends g.a
+  {
+    public a(@G g.a paramA, @G Resources paramResources)
+    {
+      super(paramResources);
+    }
+    
+    @F
+    public Drawable newDrawable(@G Resources paramResources)
+    {
+      return new h(this, paramResources);
+    }
+  }
+}

@@ -1,0 +1,73 @@
+package com.google.android.gms.internal;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+public final class zzbds
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzbds> CREATOR = new zzbdv();
+  public final String className;
+  public int versionCode;
+  public ArrayList<zzbdt> zzfxd;
+  
+  public zzbds(int paramInt, String paramString, ArrayList<zzbdt> paramArrayList)
+  {
+    versionCode = paramInt;
+    className = paramString;
+    zzfxd = paramArrayList;
+  }
+  
+  public zzbds(String paramString, Map<String, zzbdm<?, ?>> paramMap)
+  {
+    versionCode = 1;
+    className = paramString;
+    if (paramMap == null)
+    {
+      paramString = null;
+    }
+    else
+    {
+      ArrayList localArrayList = new ArrayList();
+      Iterator localIterator = paramMap.keySet().iterator();
+      for (;;)
+      {
+        paramString = localArrayList;
+        if (!localIterator.hasNext()) {
+          break;
+        }
+        paramString = (String)localIterator.next();
+        localArrayList.add(new zzbdt(paramString, (zzbdm)paramMap.get(paramString)));
+      }
+    }
+    zzfxd = paramString;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, versionCode);
+    zzbcn.zza(paramParcel, 2, className, false);
+    zzbcn.zzc(paramParcel, 3, zzfxd, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+  
+  public final HashMap<String, zzbdm<?, ?>> zzakw()
+  {
+    HashMap localHashMap = new HashMap();
+    int j = zzfxd.size();
+    int i = 0;
+    while (i < j)
+    {
+      zzbdt localZzbdt = (zzbdt)zzfxd.get(i);
+      localHashMap.put(key, zzfxe);
+      i += 1;
+    }
+    return localHashMap;
+  }
+}

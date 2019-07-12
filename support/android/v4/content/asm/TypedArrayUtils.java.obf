@@ -1,0 +1,186 @@
+package b.b.x.b.b;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.T;
+import b.b.a.c;
+import b.b.a.k;
+import org.xmlpull.v1.XmlPullParser;
+
+@N({b.b.a.N.a.b})
+public class j
+{
+  public static final String a = "http://schemas.android.com/apk/res/android";
+  
+  public j() {}
+  
+  public static float a(@F TypedArray paramTypedArray, @F XmlPullParser paramXmlPullParser, @F String paramString, @T int paramInt, float paramFloat)
+  {
+    if (!a(paramXmlPullParser, paramString)) {
+      return paramFloat;
+    }
+    return paramTypedArray.getFloat(paramInt, paramFloat);
+  }
+  
+  public static int a(@F Context paramContext, int paramInt1, int paramInt2)
+  {
+    TypedValue localTypedValue = new TypedValue();
+    paramContext.getTheme().resolveAttribute(paramInt1, localTypedValue, true);
+    if (resourceId != 0) {
+      return paramInt1;
+    }
+    return paramInt2;
+  }
+  
+  public static int a(@F TypedArray paramTypedArray, @T int paramInt1, @T int paramInt2, int paramInt3)
+  {
+    return paramTypedArray.getInt(paramInt1, paramTypedArray.getInt(paramInt2, paramInt3));
+  }
+  
+  @k
+  public static int a(@F TypedArray paramTypedArray, @F XmlPullParser paramXmlPullParser, @F String paramString, @T int paramInt1, @k int paramInt2)
+  {
+    if (!a(paramXmlPullParser, paramString)) {
+      return paramInt2;
+    }
+    return paramTypedArray.getColor(paramInt1, paramInt2);
+  }
+  
+  @F
+  public static TypedArray a(@F Resources paramResources, @G Resources.Theme paramTheme, @F AttributeSet paramAttributeSet, @F int[] paramArrayOfInt)
+  {
+    if (paramTheme == null) {
+      return paramResources.obtainAttributes(paramAttributeSet, paramArrayOfInt);
+    }
+    return paramTheme.obtainStyledAttributes(paramAttributeSet, paramArrayOfInt, 0, 0);
+  }
+  
+  @G
+  public static Drawable a(@F TypedArray paramTypedArray, @T int paramInt1, @T int paramInt2)
+  {
+    Drawable localDrawable2 = paramTypedArray.getDrawable(paramInt1);
+    Drawable localDrawable1 = localDrawable2;
+    if (localDrawable2 == null) {
+      localDrawable1 = paramTypedArray.getDrawable(paramInt2);
+    }
+    return localDrawable1;
+  }
+  
+  public static b a(@F TypedArray paramTypedArray, @F XmlPullParser paramXmlPullParser, @G Resources.Theme paramTheme, @F String paramString, @T int paramInt1, @k int paramInt2)
+  {
+    if (a(paramXmlPullParser, paramString))
+    {
+      paramXmlPullParser = new TypedValue();
+      paramTypedArray.getValue(paramInt1, paramXmlPullParser);
+      int i = type;
+      if ((i >= 28) && (i <= 31)) {
+        return b.a(data);
+      }
+      paramTypedArray = b.b(paramTypedArray.getResources(), paramTypedArray.getResourceId(paramInt1, 0), paramTheme);
+      if (paramTypedArray != null) {
+        return paramTypedArray;
+      }
+    }
+    return b.a(paramInt2);
+  }
+  
+  @G
+  public static String a(@F TypedArray paramTypedArray, @F XmlPullParser paramXmlPullParser, @F String paramString, @T int paramInt)
+  {
+    if (!a(paramXmlPullParser, paramString)) {
+      return null;
+    }
+    return paramTypedArray.getString(paramInt);
+  }
+  
+  public static boolean a(@F TypedArray paramTypedArray, @T int paramInt1, @T int paramInt2, boolean paramBoolean)
+  {
+    return paramTypedArray.getBoolean(paramInt1, paramTypedArray.getBoolean(paramInt2, paramBoolean));
+  }
+  
+  public static boolean a(@F TypedArray paramTypedArray, @F XmlPullParser paramXmlPullParser, @F String paramString, @T int paramInt, boolean paramBoolean)
+  {
+    if (!a(paramXmlPullParser, paramString)) {
+      return paramBoolean;
+    }
+    return paramTypedArray.getBoolean(paramInt, paramBoolean);
+  }
+  
+  public static boolean a(@F XmlPullParser paramXmlPullParser, @F String paramString)
+  {
+    return paramXmlPullParser.getAttributeValue("http://schemas.android.com/apk/res/android", paramString) != null;
+  }
+  
+  @c
+  public static int b(@F TypedArray paramTypedArray, @T int paramInt1, @T int paramInt2, @c int paramInt3)
+  {
+    return paramTypedArray.getResourceId(paramInt1, paramTypedArray.getResourceId(paramInt2, paramInt3));
+  }
+  
+  public static int b(@F TypedArray paramTypedArray, @F XmlPullParser paramXmlPullParser, @F String paramString, @T int paramInt1, int paramInt2)
+  {
+    if (!a(paramXmlPullParser, paramString)) {
+      return paramInt2;
+    }
+    return paramTypedArray.getInt(paramInt1, paramInt2);
+  }
+  
+  @G
+  public static TypedValue b(@F TypedArray paramTypedArray, @F XmlPullParser paramXmlPullParser, @F String paramString, int paramInt)
+  {
+    if (!a(paramXmlPullParser, paramString)) {
+      return null;
+    }
+    return paramTypedArray.peekValue(paramInt);
+  }
+  
+  @G
+  public static String b(@F TypedArray paramTypedArray, @T int paramInt1, @T int paramInt2)
+  {
+    String str2 = paramTypedArray.getString(paramInt1);
+    String str1 = str2;
+    if (str2 == null) {
+      str1 = paramTypedArray.getString(paramInt2);
+    }
+    return str1;
+  }
+  
+  @c
+  public static int c(@F TypedArray paramTypedArray, @F XmlPullParser paramXmlPullParser, @F String paramString, @T int paramInt1, @c int paramInt2)
+  {
+    if (!a(paramXmlPullParser, paramString)) {
+      return paramInt2;
+    }
+    return paramTypedArray.getResourceId(paramInt1, paramInt2);
+  }
+  
+  @G
+  public static CharSequence c(@F TypedArray paramTypedArray, @T int paramInt1, @T int paramInt2)
+  {
+    CharSequence localCharSequence2 = paramTypedArray.getText(paramInt1);
+    CharSequence localCharSequence1 = localCharSequence2;
+    if (localCharSequence2 == null) {
+      localCharSequence1 = paramTypedArray.getText(paramInt2);
+    }
+    return localCharSequence1;
+  }
+  
+  @G
+  public static CharSequence[] d(@F TypedArray paramTypedArray, @T int paramInt1, @T int paramInt2)
+  {
+    CharSequence[] arrayOfCharSequence2 = paramTypedArray.getTextArray(paramInt1);
+    CharSequence[] arrayOfCharSequence1 = arrayOfCharSequence2;
+    if (arrayOfCharSequence2 == null) {
+      arrayOfCharSequence1 = paramTypedArray.getTextArray(paramInt2);
+    }
+    return arrayOfCharSequence1;
+  }
+}

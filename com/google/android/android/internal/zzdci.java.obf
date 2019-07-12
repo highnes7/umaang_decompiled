@@ -1,0 +1,41 @@
+package com.google.android.gms.internal;
+
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.dynamic.IObjectWrapper;
+
+public final class zzdci
+  extends zzeb
+  implements zzdch
+{
+  public zzdci(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.gms.vision.barcode.internal.client.INativeBarcodeDetectorCreator");
+  }
+  
+  public final zzdcf zza(IObjectWrapper paramIObjectWrapper, zzdcc paramZzdcc)
+    throws RemoteException
+  {
+    Object localObject = zzax();
+    zzed.zza((Parcel)localObject, paramIObjectWrapper);
+    zzed.zza((Parcel)localObject, paramZzdcc);
+    paramZzdcc = zza(1, (Parcel)localObject);
+    paramIObjectWrapper = paramZzdcc.readStrongBinder();
+    if (paramIObjectWrapper == null)
+    {
+      paramIObjectWrapper = null;
+    }
+    else
+    {
+      localObject = paramIObjectWrapper.queryLocalInterface("com.google.android.gms.vision.barcode.internal.client.INativeBarcodeDetector");
+      if ((localObject instanceof zzdcf)) {
+        paramIObjectWrapper = (zzdcf)localObject;
+      } else {
+        paramIObjectWrapper = new zzdcg(paramIObjectWrapper);
+      }
+    }
+    paramZzdcc.recycle();
+    return paramIObjectWrapper;
+  }
+}

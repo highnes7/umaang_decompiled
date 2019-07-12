@@ -1,0 +1,95 @@
+package f.c.a.a;
+
+import android.content.Context;
+import android.os.Bundle;
+import java.lang.reflect.Method;
+
+public class q
+  implements z
+{
+  public static final String a = "logEventInternal";
+  public static final String b = "com.google.android.gms.measurement.AppMeasurement";
+  public static final String c = "getInstance";
+  public final Method d;
+  public final Object e;
+  
+  public q(Object paramObject, Method paramMethod)
+  {
+    e = paramObject;
+    d = paramMethod;
+  }
+  
+  public static Class a(Context paramContext)
+  {
+    try
+    {
+      paramContext = paramContext.getClassLoader().loadClass("com.google.android.gms.measurement.AppMeasurement");
+      return paramContext;
+    }
+    catch (Exception paramContext)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static Object a(Context paramContext, Class paramClass)
+  {
+    try
+    {
+      paramContext = paramClass.getDeclaredMethod("getInstance", new Class[] { Context.class }).invoke(paramClass, new Object[] { paramContext });
+      return paramContext;
+    }
+    catch (Exception paramContext)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static z b(Context paramContext)
+  {
+    Class localClass = a(paramContext);
+    if (localClass == null) {
+      return null;
+    }
+    Object localObject = a(paramContext, localClass);
+    if (localObject == null) {
+      return null;
+    }
+    paramContext = b(paramContext, localClass);
+    if (paramContext == null) {
+      return null;
+    }
+    return new q(localObject, paramContext);
+  }
+  
+  public static Method b(Context paramContext, Class paramClass)
+  {
+    try
+    {
+      paramContext = paramClass.getDeclaredMethod("logEventInternal", new Class[] { String.class, String.class, Bundle.class });
+      return paramContext;
+    }
+    catch (Exception paramContext)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public void a(String paramString, Bundle paramBundle)
+  {
+    a("fab", paramString, paramBundle);
+  }
+  
+  public void a(String paramString1, String paramString2, Bundle paramBundle)
+  {
+    try
+    {
+      d.invoke(e, new Object[] { paramString1, paramString2, paramBundle });
+      return;
+    }
+    catch (Exception paramString1) {}
+  }
+}

@@ -1,0 +1,429 @@
+package f.d.a.a.d;
+
+import f.d.a.a.b.c;
+import f.d.a.a.c.g;
+import f.d.a.a.c.m;
+import f.d.a.a.i;
+import f.d.a.a.o;
+import java.io.ByteArrayInputStream;
+import java.io.CharConversionException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
+public final class b
+{
+  public static final byte a = -17;
+  public static final byte b = -69;
+  public static final byte c = -65;
+  public final f.d.a.a.c.d d;
+  public final InputStream e;
+  public final byte[] f;
+  public int g;
+  public int h;
+  public final boolean i;
+  public int j;
+  public boolean k = true;
+  public int l = 0;
+  
+  public b(f.d.a.a.c.d paramD, InputStream paramInputStream)
+  {
+    d = paramD;
+    e = paramInputStream;
+    f = paramD.c();
+    g = 0;
+    h = 0;
+    j = 0;
+    i = true;
+  }
+  
+  public b(f.d.a.a.c.d paramD, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    d = paramD;
+    e = null;
+    f = paramArrayOfByte;
+    g = paramInt1;
+    h = (paramInt2 + paramInt1);
+    j = (-paramInt1);
+    i = false;
+  }
+  
+  public static int a(c paramC, byte paramByte)
+    throws IOException
+  {
+    for (;;)
+    {
+      paramByte &= 0xFF;
+      if ((paramByte != 32) && (paramByte != 13) && (paramByte != 10) && (paramByte != 9)) {
+        return paramByte;
+      }
+      if (!paramC.b()) {
+        return -1;
+      }
+      paramByte = paramC.a();
+    }
+  }
+  
+  public static f.d.a.a.b.d a(c paramC)
+    throws IOException
+  {
+    if (!paramC.b()) {
+      return f.d.a.a.b.d.b;
+    }
+    byte b2 = paramC.a();
+    byte b1 = b2;
+    if (b2 == -17)
+    {
+      if (!paramC.b()) {
+        return f.d.a.a.b.d.b;
+      }
+      if (paramC.a() != -69) {
+        return f.d.a.a.b.d.a;
+      }
+      if (!paramC.b()) {
+        return f.d.a.a.b.d.b;
+      }
+      if (paramC.a() != -65) {
+        return f.d.a.a.b.d.a;
+      }
+      if (!paramC.b()) {
+        return f.d.a.a.b.d.b;
+      }
+      b1 = paramC.a();
+    }
+    int m = a(paramC, b1);
+    if (m < 0) {
+      return f.d.a.a.b.d.b;
+    }
+    if (m == 123)
+    {
+      m = b(paramC);
+      if (m < 0) {
+        return f.d.a.a.b.d.b;
+      }
+      if ((m != 34) && (m != 125)) {
+        return f.d.a.a.b.d.a;
+      }
+      return f.d.a.a.b.d.d;
+    }
+    if (m == 91)
+    {
+      m = b(paramC);
+      if (m < 0) {
+        return f.d.a.a.b.d.b;
+      }
+      if ((m != 93) && (m != 91)) {
+        return f.d.a.a.b.d.d;
+      }
+      return f.d.a.a.b.d.d;
+    }
+    f.d.a.a.b.d localD = f.d.a.a.b.d.c;
+    if (m == 34) {
+      return localD;
+    }
+    if ((m <= 57) && (m >= 48)) {
+      return localD;
+    }
+    if (m == 45)
+    {
+      m = b(paramC);
+      if (m < 0) {
+        return f.d.a.a.b.d.b;
+      }
+      if ((m <= 57) && (m >= 48)) {
+        return localD;
+      }
+      return f.d.a.a.b.d.a;
+    }
+    if (m == 110) {
+      return a(paramC, "ull", localD);
+    }
+    if (m == 116) {
+      return a(paramC, "rue", localD);
+    }
+    if (m == 102) {
+      return a(paramC, "alse", localD);
+    }
+    return f.d.a.a.b.d.a;
+  }
+  
+  public static f.d.a.a.b.d a(c paramC, String paramString, f.d.a.a.b.d paramD)
+    throws IOException
+  {
+    int n = paramString.length();
+    int m = 0;
+    while (m < n)
+    {
+      if (!paramC.b()) {
+        return f.d.a.a.b.d.b;
+      }
+      if (paramC.a() != paramString.charAt(m)) {
+        return f.d.a.a.b.d.a;
+      }
+      m += 1;
+    }
+    return paramD;
+  }
+  
+  private void a(String paramString)
+    throws IOException
+  {
+    throw new CharConversionException(f.a.a.a.a.a("Unsupported UCS-4 endianness (", paramString, ") detected"));
+  }
+  
+  public static int b(c paramC)
+    throws IOException
+  {
+    if (!paramC.b()) {
+      return -1;
+    }
+    return a(paramC, paramC.a());
+  }
+  
+  private boolean b(int paramInt)
+  {
+    if ((0xFF00 & paramInt) == 0)
+    {
+      k = true;
+    }
+    else
+    {
+      if ((paramInt & 0xFF) != 0) {
+        break label35;
+      }
+      k = false;
+    }
+    l = 2;
+    return true;
+    label35:
+    return false;
+  }
+  
+  private boolean c(int paramInt)
+    throws IOException
+  {
+    if (paramInt >> 8 == 0)
+    {
+      k = true;
+    }
+    else
+    {
+      if ((0xFFFFFF & paramInt) != 0) {
+        break label34;
+      }
+      k = false;
+    }
+    l = 4;
+    return true;
+    label34:
+    if ((0xFF00FFFF & paramInt) != 0)
+    {
+      if ((paramInt & 0xFFFF00FF) != 0) {
+        return false;
+      }
+      a("2143");
+      throw null;
+    }
+    a("3412");
+    throw null;
+  }
+  
+  private boolean d(int paramInt)
+    throws IOException
+  {
+    if (paramInt != -16842752)
+    {
+      if (paramInt != -131072)
+      {
+        if (paramInt != 65279)
+        {
+          if (paramInt != 65534)
+          {
+            int m = paramInt >>> 16;
+            if (m == 65279)
+            {
+              g += 2;
+              l = 2;
+              k = true;
+              return true;
+            }
+            if (m == 65534)
+            {
+              g += 2;
+              l = 2;
+              k = false;
+              return true;
+            }
+            if (paramInt >>> 8 == 15711167)
+            {
+              g += 3;
+              l = 1;
+              k = true;
+              return true;
+            }
+            return false;
+          }
+          a("2143");
+          throw null;
+        }
+        k = true;
+        g += 4;
+        l = 4;
+        return true;
+      }
+      g += 4;
+      l = 4;
+      k = false;
+      return true;
+    }
+    a("3412");
+    throw null;
+  }
+  
+  public f.d.a.a.k a(int paramInt, o paramO, f.d.a.a.e.a paramA, f.d.a.a.e.b paramB, boolean paramBoolean1, boolean paramBoolean2)
+    throws IOException, i
+  {
+    if ((b() == f.d.a.a.d.a) && (paramBoolean1))
+    {
+      paramA = paramA.a(paramBoolean1, paramBoolean2);
+      return new k(d, paramInt, e, paramO, paramA, f, g, h, i);
+    }
+    return new h(d, paramInt, a(), paramO, paramB.a(paramBoolean1, paramBoolean2));
+  }
+  
+  public Reader a()
+    throws IOException
+  {
+    f.d.a.a.d localD = d.g();
+    int m = localD.ordinal();
+    Object localObject;
+    if ((m != 0) && (m != 1) && (m != 2))
+    {
+      if ((m != 3) && (m != 4)) {
+        throw new RuntimeException("Internal error");
+      }
+      localObject = d;
+      return new m((f.d.a.a.c.d)localObject, e, f, g, h, ((f.d.a.a.c.d)localObject).g().b());
+    }
+    InputStream localInputStream = e;
+    if (localInputStream == null)
+    {
+      localObject = new ByteArrayInputStream(f, g, h);
+    }
+    else
+    {
+      m = g;
+      int n = h;
+      localObject = localInputStream;
+      if (m < n) {
+        localObject = new g(d, localInputStream, f, m, n);
+      }
+    }
+    return new InputStreamReader((InputStream)localObject, localD.a());
+  }
+  
+  public boolean a(int paramInt)
+    throws IOException
+  {
+    int m = h - g;
+    while (m < paramInt)
+    {
+      InputStream localInputStream = e;
+      int n;
+      if (localInputStream == null)
+      {
+        n = -1;
+      }
+      else
+      {
+        byte[] arrayOfByte = f;
+        n = h;
+        n = localInputStream.read(arrayOfByte, n, arrayOfByte.length - n);
+      }
+      if (n < 1) {
+        return false;
+      }
+      h += n;
+      m += n;
+    }
+    return true;
+  }
+  
+  public f.d.a.a.d b()
+    throws IOException, i
+  {
+    boolean bool = a(4);
+    int n = 0;
+    Object localObject;
+    int i1;
+    int i2;
+    if (bool)
+    {
+      localObject = f;
+      m = g;
+      i1 = localObject[m];
+      i2 = localObject[(m + 1)];
+      int i3 = localObject[(m + 2)];
+      i1 = localObject[(m + 3)] & 0xFF | i1 << 24 | (i2 & 0xFF) << 16 | (i3 & 0xFF) << 8;
+      if ((!d(i1)) && (!c(i1)))
+      {
+        m = n;
+        if (!b(i1 >>> 16)) {
+          break label178;
+        }
+      }
+    }
+    else
+    {
+      m = n;
+      if (!a(2)) {
+        break label178;
+      }
+      localObject = f;
+      i1 = g;
+      i2 = localObject[i1];
+      m = n;
+      if (!b(localObject[(i1 + 1)] & 0xFF | (i2 & 0xFF) << 8)) {
+        break label178;
+      }
+    }
+    int m = 1;
+    label178:
+    if (m == 0)
+    {
+      localObject = f.d.a.a.d.a;
+    }
+    else
+    {
+      m = l;
+      if (m != 1)
+      {
+        if (m != 2)
+        {
+          if (m == 4)
+          {
+            if (k) {
+              localObject = f.d.a.a.d.d;
+            } else {
+              localObject = f.d.a.a.d.e;
+            }
+          }
+          else {
+            throw new RuntimeException("Internal error");
+          }
+        }
+        else if (k) {
+          localObject = f.d.a.a.d.b;
+        } else {
+          localObject = f.d.a.a.d.c;
+        }
+      }
+      else {
+        localObject = f.d.a.a.d.a;
+      }
+    }
+    d.a((f.d.a.a.d)localObject);
+    return localObject;
+  }
+}

@@ -1,0 +1,583 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.J;
+import f.g.c.b.X;
+import f.g.c.b.ba;
+import f.g.c.b.ca;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.RandomAccess;
+import java.util.SortedSet;
+import m.a.h;
+
+@b(emulated=true)
+public final class rc
+{
+  public rc() {}
+  
+  @Deprecated
+  public static <E> Iterable<E> a(rb<E> paramRb)
+  {
+    if (paramRb != null) {
+      return paramRb;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <F, T> Iterable<T> a(Iterable<F> paramIterable, J<? super F, ? extends T> paramJ)
+  {
+    if (paramIterable != null)
+    {
+      if (paramJ != null) {
+        return new pc(paramIterable, paramJ);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  @c("Class.isInstance")
+  public static <T> Iterable<T> a(Iterable<?> paramIterable, Class<T> paramClass)
+  {
+    if (paramIterable != null)
+    {
+      if (paramClass != null) {
+        return new oc(paramIterable, paramClass);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> Iterable<T> a(Iterable<? extends T> paramIterable1, Iterable<? extends T> paramIterable2)
+  {
+    if (paramIterable1 != null)
+    {
+      if (paramIterable2 != null) {
+        return b(Arrays.asList(new Iterable[] { paramIterable1, paramIterable2 }));
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> Iterable<T> a(Iterable<? extends T> paramIterable1, Iterable<? extends T> paramIterable2, Iterable<? extends T> paramIterable3)
+  {
+    if (paramIterable1 != null)
+    {
+      if (paramIterable2 != null)
+      {
+        if (paramIterable3 != null) {
+          return b(Arrays.asList(new Iterable[] { paramIterable1, paramIterable2, paramIterable3 }));
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> Iterable<T> a(Iterable<? extends T> paramIterable1, Iterable<? extends T> paramIterable2, Iterable<? extends T> paramIterable3, Iterable<? extends T> paramIterable4)
+  {
+    if (paramIterable1 != null)
+    {
+      if (paramIterable2 != null)
+      {
+        if (paramIterable3 != null)
+        {
+          if (paramIterable4 != null) {
+            return b(Arrays.asList(new Iterable[] { paramIterable1, paramIterable2, paramIterable3, paramIterable4 }));
+          }
+          throw new NullPointerException();
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  @f.g.c.a.a
+  public static <T> Iterable<T> a(Iterable<? extends Iterable<? extends T>> paramIterable, Comparator<? super T> paramComparator)
+  {
+    ba.a(paramIterable, "iterables");
+    ba.a(paramComparator, "comparator");
+    return new b(new gc(paramIterable, paramComparator), null);
+  }
+  
+  public static <T> Iterable<T> a(Iterable<? extends T>... paramVarArgs)
+  {
+    return b(vb.c(paramVarArgs));
+  }
+  
+  public static <T> Iterable<T> a(T... paramVarArgs)
+  {
+    return new ic(fd.a(paramVarArgs));
+  }
+  
+  public static <T> T a(Iterable<T> paramIterable, int paramInt)
+  {
+    if (paramIterable != null)
+    {
+      if ((paramIterable instanceof List)) {
+        return ((List)paramIterable).get(paramInt);
+      }
+      if ((paramIterable instanceof Collection)) {
+        ba.c(paramInt, ((Collection)paramIterable).size(), "index");
+      } else {
+        a(paramInt);
+      }
+      return Jc.b(paramIterable.iterator(), paramInt);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> T a(Iterable<? extends T> paramIterable, int paramInt, @h T paramT)
+  {
+    if (paramIterable != null) {
+      a(paramInt);
+    }
+    try
+    {
+      paramIterable = a(paramIterable, paramInt);
+      return paramIterable;
+    }
+    catch (IndexOutOfBoundsException paramIterable) {}
+    throw new NullPointerException();
+    return paramT;
+  }
+  
+  public static <T> T a(Iterable<? extends T> paramIterable, ca<? super T> paramCa, @h T paramT)
+  {
+    return Jc.a(paramIterable.iterator(), paramCa, paramT);
+  }
+  
+  public static <T> T a(List<T> paramList)
+  {
+    return f.a.a.a.a.a(paramList, -1);
+  }
+  
+  public static void a(int paramInt)
+  {
+    if (paramInt >= 0) {
+      return;
+    }
+    throw new IndexOutOfBoundsException(f.a.a.a.a.a("position cannot be negative: ", paramInt));
+  }
+  
+  public static <T> void a(List<T> paramList, ca<? super T> paramCa, int paramInt1, int paramInt2)
+  {
+    int i = paramList.size() - 1;
+    while (i > paramInt2)
+    {
+      if (paramCa.apply(paramList.get(i))) {
+        paramList.remove(i);
+      }
+      i -= 1;
+    }
+    paramInt2 -= 1;
+    while (paramInt2 >= paramInt1)
+    {
+      paramList.remove(paramInt2);
+      paramInt2 -= 1;
+    }
+  }
+  
+  public static <T> boolean a(Iterable<T> paramIterable, ca<? super T> paramCa)
+  {
+    return Jc.a(paramIterable.iterator(), paramCa);
+  }
+  
+  public static boolean a(Iterable<?> paramIterable, @h Object paramObject)
+  {
+    if ((paramIterable instanceof Collection)) {
+      paramIterable = (Collection)paramIterable;
+    }
+    try
+    {
+      boolean bool = paramIterable.contains(paramObject);
+      return bool;
+    }
+    catch (NullPointerException|ClassCastException paramIterable) {}
+    return Jc.a(paramIterable.iterator(), paramObject);
+    return false;
+  }
+  
+  public static boolean a(Iterable<?> paramIterable, Collection<?> paramCollection)
+  {
+    if ((paramIterable instanceof Collection))
+    {
+      paramIterable = (Collection)paramIterable;
+      if (paramCollection != null) {
+        return paramIterable.removeAll(paramCollection);
+      }
+      throw new NullPointerException();
+    }
+    return Jc.a(paramIterable.iterator(), paramCollection);
+  }
+  
+  public static <T> boolean a(Collection<T> paramCollection, Iterable<? extends T> paramIterable)
+  {
+    if ((paramIterable instanceof Collection)) {
+      return paramCollection.addAll(V.a(paramIterable));
+    }
+    return Jc.a(paramCollection, paramIterable.iterator());
+  }
+  
+  public static <T> boolean a(List<T> paramList, ca<? super T> paramCa)
+  {
+    boolean bool = false;
+    int i = 0;
+    int k;
+    for (int j = 0; i < paramList.size(); j = k)
+    {
+      Object localObject = paramList.get(i);
+      k = j;
+      if ((paramCa.apply(localObject)) || (i > j)) {}
+      try
+      {
+        paramList.set(j, localObject);
+      }
+      catch (UnsupportedOperationException localUnsupportedOperationException)
+      {
+        for (;;) {}
+      }
+      a(paramList, paramCa, j, i);
+      return true;
+      k = j + 1;
+      i += 1;
+    }
+    paramList.subList(j, paramList.size()).clear();
+    if (i != j) {
+      bool = true;
+    }
+    return bool;
+  }
+  
+  public static int b(Iterable<?> paramIterable, @h Object paramObject)
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:659)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  public static <T> J<Iterable<? extends T>, Iterator<? extends T>> b()
+  {
+    return new hc();
+  }
+  
+  public static <T> Iterable<T> b(Iterable<? extends Iterable<? extends T>> paramIterable)
+  {
+    if (paramIterable != null) {
+      return new jc(paramIterable);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> Iterable<T> b(Iterable<T> paramIterable, int paramInt)
+  {
+    if (paramIterable != null)
+    {
+      boolean bool;
+      if (paramInt >= 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "limit is negative");
+      return new dc(paramIterable, paramInt);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> boolean b(Iterable<T> paramIterable, ca<? super T> paramCa)
+  {
+    return Jc.b(paramIterable.iterator(), paramCa);
+  }
+  
+  public static boolean b(Iterable<?> paramIterable1, Iterable<?> paramIterable2)
+  {
+    return Jc.b(paramIterable1.iterator(), paramIterable2.iterator());
+  }
+  
+  public static boolean b(Iterable<?> paramIterable, Collection<?> paramCollection)
+  {
+    if ((paramIterable instanceof Collection))
+    {
+      paramIterable = (Collection)paramIterable;
+      if (paramCollection != null) {
+        return paramIterable.retainAll(paramCollection);
+      }
+      throw new NullPointerException();
+    }
+    return Jc.b(paramIterable.iterator(), paramCollection);
+  }
+  
+  @c("Array.newInstance(Class, int)")
+  public static <T> T[] b(Iterable<? extends T> paramIterable, Class<T> paramClass)
+  {
+    paramIterable = k(paramIterable);
+    return paramIterable.toArray(kf.a(paramClass, paramIterable.size()));
+  }
+  
+  public static <T> Iterable<T> c(Iterable<T> paramIterable)
+  {
+    if ((paramIterable instanceof Queue)) {
+      return new ec(paramIterable);
+    }
+    if (paramIterable != null) {
+      return new fc(paramIterable);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> Iterable<List<T>> c(Iterable<T> paramIterable, int paramInt)
+  {
+    if (paramIterable != null)
+    {
+      boolean bool;
+      if (paramInt > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool);
+      return new mc(paramIterable, paramInt);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> Iterable<T> c(Iterable<T> paramIterable, ca<? super T> paramCa)
+  {
+    if (paramIterable != null)
+    {
+      if (paramCa != null) {
+        return new nc(paramIterable, paramCa);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> T c(Iterable<? extends T> paramIterable, @h T paramT)
+  {
+    return Jc.d(paramIterable.iterator(), paramT);
+  }
+  
+  public static <T> Iterable<T> d(Iterable<T> paramIterable)
+  {
+    if (paramIterable != null) {
+      return new ic(paramIterable);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> Iterable<List<T>> d(Iterable<T> paramIterable, int paramInt)
+  {
+    if (paramIterable != null)
+    {
+      boolean bool;
+      if (paramInt > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool);
+      return new lc(paramIterable, paramInt);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> T d(Iterable<T> paramIterable, ca<? super T> paramCa)
+  {
+    return Jc.d(paramIterable.iterator(), paramCa);
+  }
+  
+  public static <T> T d(Iterable<? extends T> paramIterable, @h T paramT)
+  {
+    if (((paramIterable instanceof Collection)) && (V.a(paramIterable).isEmpty())) {
+      return paramT;
+    }
+    if ((paramIterable instanceof List)) {
+      return a((List)paramIterable);
+    }
+    if ((paramIterable instanceof SortedSet)) {
+      return ((SortedSet)paramIterable).last();
+    }
+    return Jc.c(paramIterable.iterator(), paramT);
+  }
+  
+  public static <T> int e(Iterable<T> paramIterable, ca<? super T> paramCa)
+  {
+    return Jc.e(paramIterable.iterator(), paramCa);
+  }
+  
+  public static <T> Iterable<T> e(Iterable<T> paramIterable, int paramInt)
+  {
+    if (paramIterable != null)
+    {
+      boolean bool;
+      if (paramInt >= 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "number to skip cannot be negative");
+      if ((paramIterable instanceof List)) {
+        return new qc(paramInt, (List)paramIterable);
+      }
+      return new cc(paramIterable, paramInt);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> T e(Iterable<T> paramIterable)
+  {
+    if ((paramIterable instanceof List))
+    {
+      paramIterable = (List)paramIterable;
+      if (!paramIterable.isEmpty()) {
+        return paramIterable.get(paramIterable.size() - 1);
+      }
+      throw new NoSuchElementException();
+    }
+    if ((paramIterable instanceof SortedSet)) {
+      return ((SortedSet)paramIterable).last();
+    }
+    return Jc.f(paramIterable.iterator());
+  }
+  
+  public static <T> T e(Iterable<? extends T> paramIterable, @h T paramT)
+  {
+    return Jc.e(paramIterable.iterator(), paramT);
+  }
+  
+  public static <T> T f(Iterable<T> paramIterable)
+  {
+    return Jc.g(paramIterable.iterator());
+  }
+  
+  public static <T> boolean f(Iterable<T> paramIterable, ca<? super T> paramCa)
+  {
+    if (((paramIterable instanceof RandomAccess)) && ((paramIterable instanceof List)))
+    {
+      paramIterable = (List)paramIterable;
+      if (paramCa != null) {
+        return a(paramIterable, paramCa);
+      }
+      throw new NullPointerException();
+    }
+    return Jc.f(paramIterable.iterator(), paramCa);
+  }
+  
+  public static <T> X<T> g(Iterable<T> paramIterable, ca<? super T> paramCa)
+  {
+    return Jc.g(paramIterable.iterator(), paramCa);
+  }
+  
+  public static boolean g(Iterable<?> paramIterable)
+  {
+    if ((paramIterable instanceof Collection)) {
+      return ((Collection)paramIterable).isEmpty();
+    }
+    return paramIterable.iterator().hasNext() ^ true;
+  }
+  
+  public static <T> th<Iterator<? extends T>> h(Iterable<? extends Iterable<? extends T>> paramIterable)
+  {
+    return new kc(paramIterable.iterator());
+  }
+  
+  public static int i(Iterable<?> paramIterable)
+  {
+    if ((paramIterable instanceof Collection)) {
+      return ((Collection)paramIterable).size();
+    }
+    return Jc.i(paramIterable.iterator());
+  }
+  
+  public static Object[] j(Iterable<?> paramIterable)
+  {
+    return k(paramIterable).toArray();
+  }
+  
+  public static <E> Collection<E> k(Iterable<E> paramIterable)
+  {
+    if ((paramIterable instanceof Collection)) {
+      return (Collection)paramIterable;
+    }
+    return fd.a(paramIterable.iterator());
+  }
+  
+  public static String l(Iterable<?> paramIterable)
+  {
+    return Jc.j(paramIterable.iterator());
+  }
+  
+  public static <T> Iterable<T> m(Iterable<T> paramIterable)
+  {
+    if (paramIterable != null)
+    {
+      if (!(paramIterable instanceof b))
+      {
+        if ((paramIterable instanceof rb)) {
+          return paramIterable;
+        }
+        return new b(paramIterable, null);
+      }
+      return paramIterable;
+    }
+    throw new NullPointerException();
+  }
+  
+  private static class a<T>
+    extends g<T>
+  {
+    public final Queue<T> c;
+    
+    public a(Queue<T> paramQueue)
+    {
+      c = paramQueue;
+    }
+    
+    public T a()
+    {
+      try
+      {
+        Object localObject = c.remove();
+        return localObject;
+      }
+      catch (NoSuchElementException localNoSuchElementException)
+      {
+        for (;;) {}
+      }
+      return b();
+    }
+  }
+  
+  private static final class b<T>
+    extends Ia<T>
+  {
+    public final Iterable<T> b;
+    
+    public b(Iterable<T> paramIterable)
+    {
+      b = paramIterable;
+    }
+    
+    public Iterator<T> iterator()
+    {
+      return Jc.k(b.iterator());
+    }
+    
+    public String toString()
+    {
+      return b.toString();
+    }
+  }
+}

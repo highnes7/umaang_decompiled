@@ -1,0 +1,80 @@
+package b.b.x.d.a;
+
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.view.Gravity;
+import b.b.a.F;
+import b.b.a.G;
+import java.io.InputStream;
+
+public final class d
+{
+  public static final String a = "RoundedBitmapDrawableFa";
+  
+  public d() {}
+  
+  @F
+  public static c a(@F Resources paramResources, @G Bitmap paramBitmap)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return new b(paramResources, paramBitmap);
+    }
+    return new a(paramResources, paramBitmap);
+  }
+  
+  @F
+  public static c a(@F Resources paramResources, @F InputStream paramInputStream)
+  {
+    paramResources = a(paramResources, BitmapFactory.decodeStream(paramInputStream));
+    if (paramResources.a() == null) {
+      f.a.a.a.a.b("RoundedBitmapDrawable cannot decode ", paramInputStream);
+    }
+    return paramResources;
+  }
+  
+  @F
+  public static c a(@F Resources paramResources, @F String paramString)
+  {
+    paramResources = a(paramResources, BitmapFactory.decodeFile(paramString));
+    if (paramResources.a() == null) {
+      f.a.a.a.a.f("RoundedBitmapDrawable cannot decode ", paramString);
+    }
+    return paramResources;
+  }
+  
+  private static class a
+    extends c
+  {
+    public a(Resources paramResources, Bitmap paramBitmap)
+    {
+      super(paramBitmap);
+    }
+    
+    public void a(int paramInt1, int paramInt2, int paramInt3, Rect paramRect1, Rect paramRect2)
+    {
+      int i = Build.VERSION.SDK_INT;
+      Gravity.apply(paramInt1, paramInt2, paramInt3, paramRect1, paramRect2, 0);
+    }
+    
+    public void c(boolean paramBoolean)
+    {
+      Bitmap localBitmap = b;
+      if (localBitmap != null)
+      {
+        int i = Build.VERSION.SDK_INT;
+        localBitmap.setHasMipMap(paramBoolean);
+        invalidateSelf();
+      }
+    }
+    
+    public boolean f()
+    {
+      Bitmap localBitmap = b;
+      return (localBitmap != null) && (b.b.x.d.a.b(localBitmap));
+    }
+  }
+}

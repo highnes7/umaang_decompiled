@@ -1,0 +1,41 @@
+package com.google.android.gms.internal;
+
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import b.b.a.X;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzcck
+{
+  public final String zzbff;
+  public long zzdmt;
+  public boolean zzirj;
+  public final long zzirl;
+  
+  public zzcck(zzcch paramZzcch, String paramString, long paramLong)
+  {
+    zzbp.zzgg(paramString);
+    zzbff = paramString;
+    zzirl = paramLong;
+  }
+  
+  @X
+  public final long get()
+  {
+    if (!zzirj)
+    {
+      zzirj = true;
+      zzdmt = zzcch.zza(zzirk).getLong(zzbff, zzirl);
+    }
+    return zzdmt;
+  }
+  
+  @X
+  public final void set(long paramLong)
+  {
+    SharedPreferences.Editor localEditor = zzcch.zza(zzirk).edit();
+    localEditor.putLong(zzbff, paramLong);
+    localEditor.apply();
+    zzdmt = paramLong;
+  }
+}

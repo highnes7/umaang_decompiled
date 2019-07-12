@@ -1,0 +1,48 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Looper;
+import b.b.a.F;
+import com.google.android.gms.common.internal.zzbp;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.WeakHashMap;
+
+public final class zzcn
+{
+  public final Set<zzcj<?>> zzeuk = Collections.newSetFromMap(new WeakHashMap());
+  
+  public zzcn() {}
+  
+  public static <L> zzcl<L> zza(@F L paramL, @F String paramString)
+  {
+    zzbp.zzb(paramL, "Listener must not be null");
+    zzbp.zzb(paramString, "Listener type must not be null");
+    zzbp.zzh(paramString, "Listener type must not be empty");
+    return new zzcl(paramL, paramString);
+  }
+  
+  public static <L> zzcj<L> zzb(@F L paramL, @F Looper paramLooper, @F String paramString)
+  {
+    zzbp.zzb(paramL, "Listener must not be null");
+    zzbp.zzb(paramLooper, "Looper must not be null");
+    zzbp.zzb(paramString, "Listener type must not be null");
+    return new zzcj(paramLooper, paramL, paramString);
+  }
+  
+  public final void release()
+  {
+    Iterator localIterator = zzeuk.iterator();
+    while (localIterator.hasNext()) {
+      ((zzcj)localIterator.next()).clear();
+    }
+    zzeuk.clear();
+  }
+  
+  public final <L> zzcj<L> zza(@F L paramL, @F Looper paramLooper, @F String paramString)
+  {
+    paramL = zzb(paramL, paramLooper, paramString);
+    zzeuk.add(paramL);
+    return paramL;
+  }
+}

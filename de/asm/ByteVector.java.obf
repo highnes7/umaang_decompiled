@@ -1,0 +1,1234 @@
+package c.b;
+
+import android.os.BadParcelableException;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.NetworkOnMainThreadException;
+import android.os.Parcelable;
+import android.util.Size;
+import android.util.SizeF;
+import android.util.SparseBooleanArray;
+import b.b.a.F;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.x.n.d;
+import f.a.a.a.a;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+@N({b.b.a.N.a.b})
+public abstract class g
+{
+  public static final String a = "VersionedParcel";
+  public static final int b = -1;
+  public static final int c = -2;
+  public static final int d = -3;
+  public static final int e = -4;
+  public static final int f = -5;
+  public static final int g = -6;
+  public static final int h = -7;
+  public static final int i = -9;
+  public static final int j = 1;
+  public static final int k = 2;
+  public static final int l = 3;
+  public static final int m = 4;
+  public static final int n = 5;
+  
+  public g() {}
+  
+  private <T> int a(T paramT)
+  {
+    if ((paramT instanceof String)) {
+      return 4;
+    }
+    if ((paramT instanceof Parcelable)) {
+      return 2;
+    }
+    if ((paramT instanceof j)) {
+      return 1;
+    }
+    if ((paramT instanceof Serializable)) {
+      return 3;
+    }
+    if ((paramT instanceof IBinder)) {
+      return 5;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramT.getClass().getName());
+    localStringBuilder.append(" cannot be VersionedParcelled");
+    throw new IllegalArgumentException(localStringBuilder.toString());
+  }
+  
+  public static <T extends j> T a(String paramString, g paramG)
+  {
+    try
+    {
+      paramString = (j)Class.forName(paramString, true, g.class.getClassLoader()).getDeclaredMethod("read", new Class[] { g.class }).invoke(null, new Object[] { paramG });
+      return paramString;
+    }
+    catch (ClassNotFoundException paramString)
+    {
+      throw new RuntimeException("VersionedParcel encountered ClassNotFoundException", paramString);
+    }
+    catch (NoSuchMethodException paramString)
+    {
+      throw new RuntimeException("VersionedParcel encountered NoSuchMethodException", paramString);
+    }
+    catch (InvocationTargetException paramString)
+    {
+      if ((paramString.getCause() instanceof RuntimeException)) {
+        throw ((RuntimeException)paramString.getCause());
+      }
+      throw new RuntimeException("VersionedParcel encountered InvocationTargetException", paramString);
+    }
+    catch (IllegalAccessException paramString)
+    {
+      throw new RuntimeException("VersionedParcel encountered IllegalAccessException", paramString);
+    }
+  }
+  
+  public static <T extends j> Class a(T paramT)
+    throws ClassNotFoundException
+  {
+    return a(paramT.getClass());
+  }
+  
+  public static Class a(Class<? extends j> paramClass)
+    throws ClassNotFoundException
+  {
+    return Class.forName(String.format("%s.%sParcelizer", new Object[] { paramClass.getPackage().getName(), paramClass.getSimpleName() }), false, paramClass.getClassLoader());
+  }
+  
+  private Exception a(int paramInt, String paramString)
+  {
+    switch (paramInt)
+    {
+    case -8: 
+    default: 
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Unknown exception code: ");
+      localStringBuilder.append(paramInt);
+      localStringBuilder.append(" msg ");
+      localStringBuilder.append(paramString);
+      return new RuntimeException(localStringBuilder.toString());
+    case -1: 
+      return new SecurityException(paramString);
+    case -2: 
+      return new BadParcelableException(paramString);
+    case -3: 
+      return new IllegalArgumentException(paramString);
+    case -4: 
+      return new NullPointerException(paramString);
+    case -5: 
+      return new IllegalStateException(paramString);
+    case -6: 
+      return new NetworkOnMainThreadException();
+    case -7: 
+      return new UnsupportedOperationException(paramString);
+    }
+    return (Exception)p();
+  }
+  
+  @F
+  public static Throwable a(@F Throwable paramThrowable)
+  {
+    while (paramThrowable.getCause() != null) {
+      paramThrowable = paramThrowable.getCause();
+    }
+    return paramThrowable;
+  }
+  
+  private <T, S extends Collection<T>> S a(int paramInt, S paramS)
+  {
+    paramInt = l();
+    if (paramInt < 0) {
+      return null;
+    }
+    if (paramInt != 0)
+    {
+      int i2 = l();
+      if (paramInt < 0) {
+        return null;
+      }
+      int i1 = paramInt;
+      if (i2 != 1)
+      {
+        i1 = paramInt;
+        if (i2 != 2)
+        {
+          i1 = paramInt;
+          if (i2 != 3)
+          {
+            i1 = paramInt;
+            if (i2 != 4)
+            {
+              if (i2 != 5) {
+                return paramS;
+              }
+              while (paramInt > 0)
+              {
+                paramS.add(s());
+                paramInt -= 1;
+              }
+            }
+            while (i1 > 0)
+            {
+              paramS.add(r());
+              i1 -= 1;
+            }
+          }
+          while (i1 > 0)
+          {
+            paramS.add(q());
+            i1 -= 1;
+          }
+        }
+        while (i1 > 0)
+        {
+          paramS.add(p());
+          i1 -= 1;
+        }
+      }
+      while (i1 > 0)
+      {
+        paramS.add(t());
+        i1 -= 1;
+      }
+    }
+    return paramS;
+  }
+  
+  public static <T extends j> void a(T paramT, g paramG)
+  {
+    try
+    {
+      a(paramT.getClass()).getDeclaredMethod("write", new Class[] { paramT.getClass(), g.class }).invoke(null, new Object[] { paramT, paramG });
+      return;
+    }
+    catch (ClassNotFoundException paramT) {}catch (NoSuchMethodException paramT)
+    {
+      break label73;
+    }
+    catch (InvocationTargetException paramT)
+    {
+      break label84;
+    }
+    catch (IllegalAccessException paramT) {}
+    throw new RuntimeException("VersionedParcel encountered ClassNotFoundException", paramT);
+    label73:
+    throw new RuntimeException("VersionedParcel encountered NoSuchMethodException", paramT);
+    label84:
+    if ((paramT.getCause() instanceof RuntimeException)) {
+      throw ((RuntimeException)paramT.getCause());
+    }
+    throw new RuntimeException("VersionedParcel encountered InvocationTargetException", paramT);
+    throw new RuntimeException("VersionedParcel encountered IllegalAccessException", paramT);
+  }
+  
+  private void a(Serializable paramSerializable)
+  {
+    if (paramSerializable == null)
+    {
+      a(null);
+      return;
+    }
+    String str = paramSerializable.getClass().getName();
+    a(str);
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    try
+    {
+      ObjectOutputStream localObjectOutputStream = new ObjectOutputStream(localByteArrayOutputStream);
+      localObjectOutputStream.writeObject(paramSerializable);
+      localObjectOutputStream.close();
+      a(localByteArrayOutputStream.toByteArray());
+      return;
+    }
+    catch (IOException paramSerializable)
+    {
+      throw new RuntimeException(a.a("VersionedParcelable encountered IOException writing serializable object (name = ", str, ")"), paramSerializable);
+    }
+  }
+  
+  private <T> void a(Collection<T> paramCollection, int paramInt)
+  {
+    b(paramInt);
+    if (paramCollection == null)
+    {
+      c(-1);
+      return;
+    }
+    paramInt = paramCollection.size();
+    c(paramInt);
+    if (paramInt > 0)
+    {
+      paramInt = a(paramCollection.iterator().next());
+      c(paramInt);
+      if (paramInt != 1)
+      {
+        if (paramInt != 2)
+        {
+          if (paramInt != 3)
+          {
+            if (paramInt != 4)
+            {
+              if (paramInt != 5) {
+                return;
+              }
+              paramCollection = paramCollection.iterator();
+              while (paramCollection.hasNext()) {
+                a((IBinder)paramCollection.next());
+              }
+            }
+            paramCollection = paramCollection.iterator();
+            while (paramCollection.hasNext()) {
+              a((String)paramCollection.next());
+            }
+          }
+          paramCollection = paramCollection.iterator();
+          while (paramCollection.hasNext()) {
+            a((Serializable)paramCollection.next());
+          }
+        }
+        paramCollection = paramCollection.iterator();
+        while (paramCollection.hasNext()) {
+          a((Parcelable)paramCollection.next());
+        }
+      }
+      paramCollection = paramCollection.iterator();
+      while (paramCollection.hasNext()) {
+        b((j)paramCollection.next());
+      }
+    }
+  }
+  
+  private Exception b(int paramInt, String paramString)
+  {
+    return a(paramInt, paramString);
+  }
+  
+  private void c(j paramJ)
+  {
+    try
+    {
+      Class localClass = a(paramJ.getClass());
+      a(localClass.getName());
+      return;
+    }
+    catch (ClassNotFoundException localClassNotFoundException)
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(paramJ.getClass().getSimpleName());
+      localStringBuilder.append(" does not have a Parcelizer");
+      throw new RuntimeException(localStringBuilder.toString(), localClassNotFoundException);
+    }
+  }
+  
+  private int v()
+  {
+    return l();
+  }
+  
+  public byte a(byte paramByte, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramByte;
+    }
+    return (byte)(l() & 0xFF);
+  }
+  
+  public double a(double paramDouble, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramDouble;
+    }
+    return h();
+  }
+  
+  public float a(float paramFloat, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramFloat;
+    }
+    return j();
+  }
+  
+  public int a(int paramInt1, int paramInt2)
+  {
+    if (!a(paramInt2)) {
+      return paramInt1;
+    }
+    return l();
+  }
+  
+  public long a(long paramLong, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramLong;
+    }
+    return n();
+  }
+  
+  public Bundle a(Bundle paramBundle, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramBundle;
+    }
+    return f();
+  }
+  
+  public IBinder a(IBinder paramIBinder, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramIBinder;
+    }
+    return s();
+  }
+  
+  public <T extends Parcelable> T a(T paramT, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramT;
+    }
+    return p();
+  }
+  
+  @K(api=21)
+  public Size a(Size paramSize, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramSize;
+    }
+    if (d()) {
+      return new Size(l(), l());
+    }
+    return null;
+  }
+  
+  @K(api=21)
+  public SizeF a(SizeF paramSizeF, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramSizeF;
+    }
+    if (d()) {
+      return new SizeF(j(), j());
+    }
+    return null;
+  }
+  
+  public SparseBooleanArray a(SparseBooleanArray paramSparseBooleanArray, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramSparseBooleanArray;
+    }
+    int i1 = l();
+    if (i1 < 0) {
+      return null;
+    }
+    paramSparseBooleanArray = new SparseBooleanArray(i1);
+    paramInt = 0;
+    while (paramInt < i1)
+    {
+      paramSparseBooleanArray.put(l(), d());
+      paramInt += 1;
+    }
+    return paramSparseBooleanArray;
+  }
+  
+  public <T extends j> T a(T paramT, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramT;
+    }
+    return t();
+  }
+  
+  public Exception a(Exception paramException, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramException;
+    }
+    paramInt = l();
+    if (paramInt != 0) {
+      paramException = a(paramInt, r());
+    }
+    return paramException;
+  }
+  
+  public String a(String paramString, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramString;
+    }
+    return r();
+  }
+  
+  public <T> List<T> a(List<T> paramList, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramList;
+    }
+    return (List)a(paramInt, new ArrayList());
+  }
+  
+  public <T> Set<T> a(Set<T> paramSet, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramSet;
+    }
+    return (Set)a(paramInt, new d(0));
+  }
+  
+  public abstract void a();
+  
+  public abstract void a(double paramDouble);
+  
+  public abstract void a(float paramFloat);
+  
+  public abstract void a(long paramLong);
+  
+  public abstract void a(Bundle paramBundle);
+  
+  public abstract void a(IBinder paramIBinder);
+  
+  public abstract void a(IInterface paramIInterface);
+  
+  public void a(IInterface paramIInterface, int paramInt)
+  {
+    b(paramInt);
+    a(paramIInterface);
+  }
+  
+  public abstract void a(Parcelable paramParcelable);
+  
+  public void a(Serializable paramSerializable, int paramInt)
+  {
+    b(paramInt);
+    a(paramSerializable);
+  }
+  
+  public abstract void a(String paramString);
+  
+  public abstract void a(boolean paramBoolean);
+  
+  public void a(boolean paramBoolean1, boolean paramBoolean2) {}
+  
+  public abstract void a(byte[] paramArrayOfByte);
+  
+  public abstract void a(byte[] paramArrayOfByte, int paramInt1, int paramInt2);
+  
+  public void a(byte[] paramArrayOfByte, int paramInt1, int paramInt2, int paramInt3)
+  {
+    b(paramInt3);
+    a(paramArrayOfByte, paramInt1, paramInt2);
+  }
+  
+  public void a(double[] paramArrayOfDouble)
+  {
+    if (paramArrayOfDouble != null)
+    {
+      int i2 = paramArrayOfDouble.length;
+      c(i2);
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        a(paramArrayOfDouble[i1]);
+        i1 += 1;
+      }
+    }
+    c(-1);
+  }
+  
+  public void a(float[] paramArrayOfFloat)
+  {
+    if (paramArrayOfFloat != null)
+    {
+      int i2 = paramArrayOfFloat.length;
+      c(i2);
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        a(paramArrayOfFloat[i1]);
+        i1 += 1;
+      }
+    }
+    c(-1);
+  }
+  
+  public void a(int[] paramArrayOfInt)
+  {
+    if (paramArrayOfInt != null)
+    {
+      int i2 = paramArrayOfInt.length;
+      c(i2);
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        c(paramArrayOfInt[i1]);
+        i1 += 1;
+      }
+    }
+    c(-1);
+  }
+  
+  public void a(long[] paramArrayOfLong)
+  {
+    if (paramArrayOfLong != null)
+    {
+      int i2 = paramArrayOfLong.length;
+      c(i2);
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        a(paramArrayOfLong[i1]);
+        i1 += 1;
+      }
+    }
+    c(-1);
+  }
+  
+  public void a(boolean[] paramArrayOfBoolean)
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.e2expr(TypeTransformer.java:553)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:716)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:698)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  public abstract boolean a(int paramInt);
+  
+  public boolean a(boolean paramBoolean, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramBoolean;
+    }
+    return d();
+  }
+  
+  public byte[] a(byte[] paramArrayOfByte, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramArrayOfByte;
+    }
+    return g();
+  }
+  
+  public char[] a(char[] paramArrayOfChar, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramArrayOfChar;
+    }
+    int i1 = l();
+    if (i1 < 0) {
+      return null;
+    }
+    paramArrayOfChar = new char[i1];
+    paramInt = 0;
+    while (paramInt < i1)
+    {
+      paramArrayOfChar[paramInt] = ((char)l());
+      paramInt += 1;
+    }
+    return paramArrayOfChar;
+  }
+  
+  public double[] a(double[] paramArrayOfDouble, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramArrayOfDouble;
+    }
+    return i();
+  }
+  
+  public float[] a(float[] paramArrayOfFloat, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramArrayOfFloat;
+    }
+    return k();
+  }
+  
+  public int[] a(int[] paramArrayOfInt, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramArrayOfInt;
+    }
+    return m();
+  }
+  
+  public long[] a(long[] paramArrayOfLong, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramArrayOfLong;
+    }
+    return o();
+  }
+  
+  public <T> T[] a(T[] paramArrayOfT)
+  {
+    int i1 = l();
+    if (i1 < 0) {
+      return null;
+    }
+    ArrayList localArrayList = new ArrayList(i1);
+    if (i1 != 0)
+    {
+      int i3 = l();
+      if (i1 < 0) {
+        return null;
+      }
+      int i2 = i1;
+      if (i3 != 1)
+      {
+        i2 = i1;
+        if (i3 != 2)
+        {
+          i2 = i1;
+          if (i3 != 3)
+          {
+            i2 = i1;
+            if (i3 != 4)
+            {
+              if (i3 == 5) {
+                while (i1 > 0)
+                {
+                  localArrayList.add(s());
+                  i1 -= 1;
+                }
+              }
+            }
+            else {
+              while (i2 > 0)
+              {
+                localArrayList.add(r());
+                i2 -= 1;
+              }
+            }
+          }
+          else
+          {
+            while (i2 > 0)
+            {
+              localArrayList.add(q());
+              i2 -= 1;
+            }
+          }
+        }
+        else
+        {
+          while (i2 > 0)
+          {
+            localArrayList.add(p());
+            i2 -= 1;
+          }
+        }
+      }
+      else
+      {
+        while (i2 > 0)
+        {
+          localArrayList.add(t());
+          i2 -= 1;
+        }
+      }
+    }
+    return localArrayList.toArray(paramArrayOfT);
+  }
+  
+  public <T> T[] a(T[] paramArrayOfT, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramArrayOfT;
+    }
+    return a(paramArrayOfT);
+  }
+  
+  public boolean[] a(boolean[] paramArrayOfBoolean, int paramInt)
+  {
+    if (!a(paramInt)) {
+      return paramArrayOfBoolean;
+    }
+    return e();
+  }
+  
+  public abstract g b();
+  
+  public void b(byte paramByte, int paramInt)
+  {
+    b(paramInt);
+    c(paramByte);
+  }
+  
+  public void b(double paramDouble, int paramInt)
+  {
+    b(paramInt);
+    a(paramDouble);
+  }
+  
+  public void b(float paramFloat, int paramInt)
+  {
+    b(paramInt);
+    a(paramFloat);
+  }
+  
+  public abstract void b(int paramInt);
+  
+  public void b(int paramInt1, int paramInt2)
+  {
+    b(paramInt2);
+    c(paramInt1);
+  }
+  
+  public void b(long paramLong, int paramInt)
+  {
+    b(paramInt);
+    a(paramLong);
+  }
+  
+  public void b(Bundle paramBundle, int paramInt)
+  {
+    b(paramInt);
+    a(paramBundle);
+  }
+  
+  public void b(IBinder paramIBinder, int paramInt)
+  {
+    b(paramInt);
+    a(paramIBinder);
+  }
+  
+  public void b(Parcelable paramParcelable, int paramInt)
+  {
+    b(paramInt);
+    a(paramParcelable);
+  }
+  
+  @K(api=21)
+  public void b(Size paramSize, int paramInt)
+  {
+    b(paramInt);
+    boolean bool;
+    if (paramSize != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    a(bool);
+    if (paramSize != null)
+    {
+      c(paramSize.getWidth());
+      c(paramSize.getHeight());
+    }
+  }
+  
+  @K(api=21)
+  public void b(SizeF paramSizeF, int paramInt)
+  {
+    b(paramInt);
+    boolean bool;
+    if (paramSizeF != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    a(bool);
+    if (paramSizeF != null)
+    {
+      a(paramSizeF.getWidth());
+      a(paramSizeF.getHeight());
+    }
+  }
+  
+  public void b(SparseBooleanArray paramSparseBooleanArray, int paramInt)
+  {
+    b(paramInt);
+    if (paramSparseBooleanArray == null)
+    {
+      c(-1);
+      return;
+    }
+    int i1 = paramSparseBooleanArray.size();
+    c(i1);
+    paramInt = 0;
+    while (paramInt < i1)
+    {
+      c(paramSparseBooleanArray.keyAt(paramInt));
+      a(paramSparseBooleanArray.valueAt(paramInt));
+      paramInt += 1;
+    }
+  }
+  
+  public void b(j paramJ)
+  {
+    if (paramJ == null)
+    {
+      a(null);
+      return;
+    }
+    c(paramJ);
+    g localG = b();
+    a(paramJ, localG);
+    localG.a();
+  }
+  
+  public void b(j paramJ, int paramInt)
+  {
+    b(paramInt);
+    b(paramJ);
+  }
+  
+  public void b(Exception paramException, int paramInt)
+  {
+    b(paramInt);
+    if (paramException == null)
+    {
+      u();
+      return;
+    }
+    paramInt = 0;
+    if (((paramException instanceof Parcelable)) && (paramException.getClass().getClassLoader() == Parcelable.class.getClassLoader())) {
+      paramInt = -9;
+    } else if ((paramException instanceof SecurityException)) {
+      paramInt = -1;
+    } else if ((paramException instanceof BadParcelableException)) {
+      paramInt = -2;
+    } else if ((paramException instanceof IllegalArgumentException)) {
+      paramInt = -3;
+    } else if ((paramException instanceof NullPointerException)) {
+      paramInt = -4;
+    } else if ((paramException instanceof IllegalStateException)) {
+      paramInt = -5;
+    } else if ((paramException instanceof NetworkOnMainThreadException)) {
+      paramInt = -6;
+    } else if ((paramException instanceof UnsupportedOperationException)) {
+      paramInt = -7;
+    }
+    c(paramInt);
+    if (paramInt == 0)
+    {
+      if ((paramException instanceof RuntimeException)) {
+        throw ((RuntimeException)paramException);
+      }
+      throw new RuntimeException(paramException);
+    }
+    a(paramException.getMessage());
+    if (paramInt != -9) {
+      return;
+    }
+    a((Parcelable)paramException);
+  }
+  
+  public void b(String paramString, int paramInt)
+  {
+    b(paramInt);
+    a(paramString);
+  }
+  
+  public <T> void b(List<T> paramList, int paramInt)
+  {
+    a(paramList, paramInt);
+  }
+  
+  public <T> void b(Set<T> paramSet, int paramInt)
+  {
+    a(paramSet, paramInt);
+  }
+  
+  public void b(boolean paramBoolean, int paramInt)
+  {
+    b(paramInt);
+    a(paramBoolean);
+  }
+  
+  public void b(byte[] paramArrayOfByte, int paramInt)
+  {
+    b(paramInt);
+    a(paramArrayOfByte);
+  }
+  
+  public void b(char[] paramArrayOfChar, int paramInt)
+  {
+    b(paramInt);
+    if (paramArrayOfChar != null)
+    {
+      int i1 = paramArrayOfChar.length;
+      c(i1);
+      paramInt = 0;
+      while (paramInt < i1)
+      {
+        c(paramArrayOfChar[paramInt]);
+        paramInt += 1;
+      }
+    }
+    c(-1);
+  }
+  
+  public void b(double[] paramArrayOfDouble, int paramInt)
+  {
+    b(paramInt);
+    a(paramArrayOfDouble);
+  }
+  
+  public void b(float[] paramArrayOfFloat, int paramInt)
+  {
+    b(paramInt);
+    a(paramArrayOfFloat);
+  }
+  
+  public void b(int[] paramArrayOfInt, int paramInt)
+  {
+    b(paramInt);
+    a(paramArrayOfInt);
+  }
+  
+  public void b(long[] paramArrayOfLong, int paramInt)
+  {
+    b(paramInt);
+    a(paramArrayOfLong);
+  }
+  
+  public <T> void b(T[] paramArrayOfT)
+  {
+    if (paramArrayOfT == null)
+    {
+      c(-1);
+      return;
+    }
+    int i6 = paramArrayOfT.length;
+    c(i6);
+    if (i6 > 0)
+    {
+      int i3 = 0;
+      int i4 = 0;
+      int i5 = 0;
+      int i1 = 0;
+      int i2 = 0;
+      int i7 = a(paramArrayOfT[0]);
+      c(i7);
+      if (i7 != 1)
+      {
+        i1 = i5;
+        if (i7 != 2)
+        {
+          i1 = i4;
+          if (i7 != 3)
+          {
+            i1 = i3;
+            if (i7 != 4)
+            {
+              i1 = i2;
+              if (i7 != 5) {
+                return;
+              }
+              while (i1 < i6)
+              {
+                a((IBinder)paramArrayOfT[i1]);
+                i1 += 1;
+              }
+            }
+            while (i1 < i6)
+            {
+              a((String)paramArrayOfT[i1]);
+              i1 += 1;
+            }
+          }
+          while (i1 < i6)
+          {
+            a((Serializable)paramArrayOfT[i1]);
+            i1 += 1;
+          }
+        }
+        while (i1 < i6)
+        {
+          a((Parcelable)paramArrayOfT[i1]);
+          i1 += 1;
+        }
+      }
+      while (i1 < i6)
+      {
+        b((j)paramArrayOfT[i1]);
+        i1 += 1;
+      }
+    }
+  }
+  
+  public <T> void b(T[] paramArrayOfT, int paramInt)
+  {
+    b(paramInt);
+    b(paramArrayOfT);
+  }
+  
+  public void b(boolean[] paramArrayOfBoolean, int paramInt)
+  {
+    b(paramInt);
+    a(paramArrayOfBoolean);
+  }
+  
+  public abstract void c(int paramInt);
+  
+  public boolean c()
+  {
+    return false;
+  }
+  
+  public abstract boolean d();
+  
+  public boolean[] e()
+  {
+    int i2 = l();
+    if (i2 < 0) {
+      return null;
+    }
+    boolean[] arrayOfBoolean = new boolean[i2];
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      int i3;
+      if (l() != 0) {
+        i3 = 1;
+      } else {
+        i3 = 0;
+      }
+      arrayOfBoolean[i1] = i3;
+      i1 += 1;
+    }
+    return arrayOfBoolean;
+  }
+  
+  public abstract Bundle f();
+  
+  public abstract byte[] g();
+  
+  public abstract double h();
+  
+  public double[] i()
+  {
+    int i2 = l();
+    if (i2 < 0) {
+      return null;
+    }
+    double[] arrayOfDouble = new double[i2];
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      arrayOfDouble[i1] = h();
+      i1 += 1;
+    }
+    return arrayOfDouble;
+  }
+  
+  public abstract float j();
+  
+  public float[] k()
+  {
+    int i2 = l();
+    if (i2 < 0) {
+      return null;
+    }
+    float[] arrayOfFloat = new float[i2];
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      arrayOfFloat[i1] = j();
+      i1 += 1;
+    }
+    return arrayOfFloat;
+  }
+  
+  public abstract int l();
+  
+  public int[] m()
+  {
+    int i2 = l();
+    if (i2 < 0) {
+      return null;
+    }
+    int[] arrayOfInt = new int[i2];
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      arrayOfInt[i1] = l();
+      i1 += 1;
+    }
+    return arrayOfInt;
+  }
+  
+  public abstract long n();
+  
+  public long[] o()
+  {
+    int i2 = l();
+    if (i2 < 0) {
+      return null;
+    }
+    long[] arrayOfLong = new long[i2];
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      arrayOfLong[i1] = n();
+      i1 += 1;
+    }
+    return arrayOfLong;
+  }
+  
+  public abstract <T extends Parcelable> T p();
+  
+  public Serializable q()
+  {
+    String str = r();
+    if (str == null) {
+      return null;
+    }
+    Object localObject = new ByteArrayInputStream(g());
+    try
+    {
+      localObject = (Serializable)new f(this, (InputStream)localObject).readObject();
+      return localObject;
+    }
+    catch (ClassNotFoundException localClassNotFoundException)
+    {
+      throw new RuntimeException(a.a("VersionedParcelable encountered ClassNotFoundException reading a Serializable object (name = ", str, ")"), localClassNotFoundException);
+    }
+    catch (IOException localIOException)
+    {
+      throw new RuntimeException(a.a("VersionedParcelable encountered IOException reading a Serializable object (name = ", str, ")"), localIOException);
+    }
+  }
+  
+  public abstract String r();
+  
+  public abstract IBinder s();
+  
+  public <T extends j> T t()
+  {
+    String str = r();
+    if (str == null) {
+      return null;
+    }
+    return a(str, b());
+  }
+  
+  public void u()
+  {
+    c(0);
+  }
+  
+  public static class a
+    extends RuntimeException
+  {
+    public a(Throwable paramThrowable)
+    {
+      super();
+    }
+  }
+}

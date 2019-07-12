@@ -1,0 +1,31 @@
+package b.b.x.o;
+
+import android.annotation.SuppressLint;
+import android.os.Build.VERSION;
+import android.view.Menu;
+import android.view.MenuItem;
+import b.b.x.f.a.a;
+
+public final class n
+{
+  public n() {}
+  
+  @SuppressLint({"NewApi"})
+  public static void a(Menu paramMenu, boolean paramBoolean)
+  {
+    if ((paramMenu instanceof a))
+    {
+      ((a)paramMenu).setGroupDividerEnabled(paramBoolean);
+      return;
+    }
+    if (Build.VERSION.SDK_INT >= 28) {
+      paramMenu.setGroupDividerEnabled(paramBoolean);
+    }
+  }
+  
+  @Deprecated
+  public static void a(MenuItem paramMenuItem, int paramInt)
+  {
+    paramMenuItem.setShowAsAction(paramInt);
+  }
+}

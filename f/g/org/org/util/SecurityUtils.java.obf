@@ -1,0 +1,170 @@
+package f.g.b.a.g;
+
+import f.g.b.a.e.b.a.a.a.a.a;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import javax.net.ssl.X509TrustManager;
+
+public final class N
+{
+  public N() {}
+  
+  public static KeyStore a()
+    throws KeyStoreException
+  {
+    return KeyStore.getInstance(KeyStore.getDefaultType());
+  }
+  
+  public static PrivateKey a(KeyStore paramKeyStore, InputStream paramInputStream, String paramString1, String paramString2, String paramString3)
+    throws IOException, GeneralSecurityException
+  {
+    a(paramKeyStore, paramInputStream, paramString1);
+    return (PrivateKey)paramKeyStore.getKey(paramString2, paramString3.toCharArray());
+  }
+  
+  public static PrivateKey a(KeyStore paramKeyStore, String paramString1, String paramString2)
+    throws GeneralSecurityException
+  {
+    return (PrivateKey)paramKeyStore.getKey(paramString1, paramString2.toCharArray());
+  }
+  
+  public static X509Certificate a(Signature paramSignature, X509TrustManager paramX509TrustManager, List<String> paramList, byte[] paramArrayOfByte1, byte[] paramArrayOfByte2)
+    throws InvalidKeyException, SignatureException
+  {
+    for (;;)
+    {
+      try
+      {
+        localCertificateFactory = g();
+        arrayOfX509Certificate = new X509Certificate[paramList.size()];
+        paramList = paramList.iterator();
+        i = 0;
+        if (paramList.hasNext()) {
+          localObject = new ByteArrayInputStream(a.c((String)paramList.next()));
+        }
+      }
+      catch (CertificateException paramSignature)
+      {
+        CertificateFactory localCertificateFactory;
+        X509Certificate[] arrayOfX509Certificate;
+        int i;
+        Object localObject;
+        return null;
+      }
+      try
+      {
+        localObject = localCertificateFactory.generateCertificate((InputStream)localObject);
+        if (!(localObject instanceof X509Certificate)) {
+          return null;
+        }
+        arrayOfX509Certificate[i] = ((X509Certificate)localObject);
+        i += 1;
+      }
+      catch (CertificateException paramSignature) {}
+    }
+    paramX509TrustManager.checkServerTrusted(arrayOfX509Certificate, "RSA");
+    paramSignature.initVerify(arrayOfX509Certificate[0].getPublicKey());
+    paramSignature.update(paramArrayOfByte2);
+    if (paramSignature.verify(paramArrayOfByte1)) {
+      return arrayOfX509Certificate[0];
+    }
+    return null;
+    return null;
+  }
+  
+  public static void a(KeyStore paramKeyStore, InputStream paramInputStream, String paramString)
+    throws IOException, GeneralSecurityException
+  {
+    try
+    {
+      paramKeyStore.load(paramInputStream, paramString.toCharArray());
+      return;
+    }
+    finally
+    {
+      paramInputStream.close();
+    }
+  }
+  
+  public static void a(KeyStore paramKeyStore, CertificateFactory paramCertificateFactory, InputStream paramInputStream)
+    throws GeneralSecurityException
+  {
+    paramCertificateFactory = paramCertificateFactory.generateCertificates(paramInputStream).iterator();
+    int i = 0;
+    while (paramCertificateFactory.hasNext())
+    {
+      paramKeyStore.setCertificateEntry(String.valueOf(i), (Certificate)paramCertificateFactory.next());
+      i += 1;
+    }
+  }
+  
+  public static boolean a(Signature paramSignature, PublicKey paramPublicKey, byte[] paramArrayOfByte1, byte[] paramArrayOfByte2)
+    throws InvalidKeyException, SignatureException
+  {
+    paramSignature.initVerify(paramPublicKey);
+    paramSignature.update(paramArrayOfByte2);
+    return paramSignature.verify(paramArrayOfByte1);
+  }
+  
+  public static byte[] a(Signature paramSignature, PrivateKey paramPrivateKey, byte[] paramArrayOfByte)
+    throws InvalidKeyException, SignatureException
+  {
+    paramSignature.initSign(paramPrivateKey);
+    paramSignature.update(paramArrayOfByte);
+    return paramSignature.sign();
+  }
+  
+  public static KeyStore b()
+    throws KeyStoreException
+  {
+    return KeyStore.getInstance("JKS");
+  }
+  
+  public static KeyStore c()
+    throws KeyStoreException
+  {
+    return KeyStore.getInstance("PKCS12");
+  }
+  
+  public static KeyFactory d()
+    throws NoSuchAlgorithmException
+  {
+    return KeyFactory.getInstance("RSA");
+  }
+  
+  public static Signature e()
+    throws NoSuchAlgorithmException
+  {
+    return Signature.getInstance("SHA1withRSA");
+  }
+  
+  public static Signature f()
+    throws NoSuchAlgorithmException
+  {
+    return Signature.getInstance("SHA256withRSA");
+  }
+  
+  public static CertificateFactory g()
+    throws CertificateException
+  {
+    return CertificateFactory.getInstance("X.509");
+  }
+}

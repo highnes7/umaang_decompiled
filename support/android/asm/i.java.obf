@@ -1,0 +1,125 @@
+package b.b.v;
+
+import android.graphics.Matrix;
+import android.view.View;
+import b.b.a.F;
+import b.b.a.K;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@K(21)
+public class za
+  extends ya
+{
+  public static final String g = "ViewUtilsApi21";
+  public static Method h;
+  public static boolean i;
+  public static Method j;
+  public static boolean k;
+  public static Method l;
+  public static boolean m;
+  
+  public za() {}
+  
+  private void c()
+  {
+    if (!m) {}
+    try
+    {
+      l = View.class.getDeclaredMethod("setAnimationMatrix", new Class[] { Matrix.class });
+      l.setAccessible(true);
+      m = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  private void d()
+  {
+    if (!i) {}
+    try
+    {
+      h = View.class.getDeclaredMethod("transformMatrixToGlobal", new Class[] { Matrix.class });
+      h.setAccessible(true);
+      i = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  private void e()
+  {
+    if (!k) {}
+    try
+    {
+      j = View.class.getDeclaredMethod("transformMatrixToLocal", new Class[] { Matrix.class });
+      j.setAccessible(true);
+      k = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void a(@F View paramView, Matrix paramMatrix)
+  {
+    c();
+    Method localMethod = l;
+    if (localMethod != null) {}
+    try
+    {
+      localMethod.invoke(paramView, new Object[] { paramMatrix });
+      return;
+    }
+    catch (IllegalAccessException paramView)
+    {
+      throw new RuntimeException(paramView.getCause());
+      return;
+    }
+    catch (InvocationTargetException paramView) {}
+  }
+  
+  public void b(@F View paramView, @F Matrix paramMatrix)
+  {
+    d();
+    Method localMethod = h;
+    if (localMethod != null) {}
+    try
+    {
+      localMethod.invoke(paramView, new Object[] { paramMatrix });
+      return;
+    }
+    catch (InvocationTargetException paramView)
+    {
+      throw new RuntimeException(paramView.getCause());
+      return;
+    }
+    catch (IllegalAccessException paramView) {}
+  }
+  
+  public void c(@F View paramView, @F Matrix paramMatrix)
+  {
+    e();
+    Method localMethod = j;
+    if (localMethod != null) {}
+    try
+    {
+      localMethod.invoke(paramView, new Object[] { paramMatrix });
+      return;
+    }
+    catch (InvocationTargetException paramView)
+    {
+      throw new RuntimeException(paramView.getCause());
+      return;
+    }
+    catch (IllegalAccessException paramView) {}
+  }
+}

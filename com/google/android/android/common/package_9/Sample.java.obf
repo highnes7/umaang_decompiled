@@ -1,0 +1,178 @@
+package com.google.android.gms.common.api;
+
+import android.accounts.Account;
+import android.content.Context;
+import android.content.Intent;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Looper;
+import b.b.a.G;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.internal.zzam;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.internal.zzj;
+import com.google.android.gms.common.internal.zzq;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+public final class Api<O extends ApiOptions>
+{
+  public final String mName;
+  public final zza<?, O> zzfgf;
+  public final zzh<?, O> zzfgg;
+  public final zzf<?> zzfgh;
+  public final zzi<?> zzfgi;
+  
+  public <C extends zze> Api(String paramString, zza<C, O> paramZza, zzf<C> paramZzf)
+  {
+    zzbp.zzb(paramZza, "Cannot construct an Api with a null ClientBuilder");
+    zzbp.zzb(paramZzf, "Cannot construct an Api with a null ClientKey");
+    mName = paramString;
+    zzfgf = paramZza;
+    zzfgg = null;
+    zzfgh = paramZzf;
+    zzfgi = null;
+  }
+  
+  public final String getName()
+  {
+    return mName;
+  }
+  
+  public final zzd<?, O> zzafc()
+  {
+    return zzfgf;
+  }
+  
+  public final zza<?, O> zzafd()
+  {
+    boolean bool;
+    if (zzfgf != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    zzbp.zza(bool, "This API was constructed with a SimpleClientBuilder. Use getSimpleClientBuilder");
+    return zzfgf;
+  }
+  
+  public final zzc<?> zzafe()
+  {
+    zzf localZzf = zzfgh;
+    if (localZzf != null) {
+      return localZzf;
+    }
+    throw new IllegalStateException("This API was constructed with null client keys. This should not be possible.");
+  }
+  
+  public static abstract interface ApiOptions
+  {
+    public static abstract interface HasAccountOptions
+      extends Api.ApiOptions.HasOptions, Api.ApiOptions.NotRequiredOptions
+    {
+      public abstract Account getAccount();
+    }
+    
+    public static abstract interface HasGoogleSignInAccountOptions
+      extends Api.ApiOptions.HasOptions
+    {
+      public abstract GoogleSignInAccount getGoogleSignInAccount();
+    }
+    
+    public static abstract interface HasOptions
+      extends Api.ApiOptions
+    {}
+    
+    public static final class NoOptions
+      implements Api.ApiOptions.NotRequiredOptions
+    {
+      public NoOptions() {}
+    }
+    
+    public static abstract interface NotRequiredOptions
+      extends Api.ApiOptions
+    {}
+    
+    public static abstract interface Optional
+      extends Api.ApiOptions.HasOptions, Api.ApiOptions.NotRequiredOptions
+    {}
+  }
+  
+  public static abstract class zza<T extends Api.zze, O>
+    extends Api.zzd<T, O>
+  {
+    public zza() {}
+    
+    public abstract T zza(Context paramContext, Looper paramLooper, zzq paramZzq, O paramO, GoogleApiClient.ConnectionCallbacks paramConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener paramOnConnectionFailedListener);
+  }
+  
+  public static abstract interface zzb {}
+  
+  public static class zzc<C extends Api.zzb>
+  {
+    public zzc() {}
+  }
+  
+  public static class zzd<T extends Api.zzb, O>
+  {
+    public zzd() {}
+    
+    public int getPriority()
+    {
+      return Integer.MAX_VALUE;
+    }
+    
+    public List<Scope> zzn(O paramO)
+    {
+      return Collections.emptyList();
+    }
+  }
+  
+  public static abstract interface zze
+    extends Api.zzb
+  {
+    public abstract void disconnect();
+    
+    public abstract void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString);
+    
+    public abstract boolean isConnected();
+    
+    public abstract boolean isConnecting();
+    
+    public abstract void zza(zzam paramZzam, Set<Scope> paramSet);
+    
+    public abstract void zza(zzj paramZzj);
+    
+    public abstract boolean zzaac();
+    
+    public abstract boolean zzaal();
+    
+    public abstract Intent zzaam();
+    
+    public abstract boolean zzaff();
+    
+    @G
+    public abstract IBinder zzafg();
+  }
+  
+  public static final class zzf<C extends Api.zze>
+    extends Api.zzc<C>
+  {
+    public zzf() {}
+  }
+  
+  public static abstract interface zzg<T extends IInterface>
+    extends Api.zzb
+  {}
+  
+  public static class zzh<T extends Api.zzg, O>
+    extends Api.zzd<T, O>
+  {}
+  
+  public static final class zzi<C extends Api.zzg>
+    extends Api.zzc<C>
+  {}
+}

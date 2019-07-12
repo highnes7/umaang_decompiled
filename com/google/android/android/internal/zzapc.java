@@ -1,0 +1,18 @@
+package com.google.android.android.internal;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public final class zzapc
+  implements zzans
+{
+  public String zzdjo;
+  public double zzdug = -1.0D;
+  public int zzduh = -1;
+  public int zzdui = -1;
+  public int zzduj = -1;
+  public int zzduk = -1;
+  public Map<String, String> zzdul = new HashMap();
+  
+  public zzapc() {}
+}

@@ -1,0 +1,451 @@
+package f.e.a;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import b.b.a.G;
+import b.b.a.k;
+import b.b.a.m;
+import b.b.a.n;
+import b.b.a.v;
+import b.b.x.b.c;
+
+public class g
+{
+  public boolean A = false;
+  public float B = 0.54F;
+  public final CharSequence a;
+  @G
+  public final CharSequence b;
+  public float c = 0.96F;
+  public int d = 44;
+  public Rect e;
+  public Drawable f;
+  public Typeface g;
+  public Typeface h;
+  @m
+  public int i = -1;
+  @m
+  public int j = -1;
+  @m
+  public int k = -1;
+  @m
+  public int l = -1;
+  @m
+  public int m = -1;
+  public Integer n = null;
+  public Integer o = null;
+  public Integer p = null;
+  public Integer q = null;
+  public Integer r = null;
+  @n
+  public int s = -1;
+  @n
+  public int t = -1;
+  public int u = 20;
+  public int v = 18;
+  public int w = -1;
+  public boolean x = false;
+  public boolean y = true;
+  public boolean z = true;
+  
+  public g(Rect paramRect, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    this(paramCharSequence1, paramCharSequence2);
+    if (paramRect != null)
+    {
+      e = paramRect;
+      return;
+    }
+    throw new IllegalArgumentException("Cannot pass null bounds or title");
+  }
+  
+  public g(CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    if (paramCharSequence1 != null)
+    {
+      a = paramCharSequence1;
+      b = paramCharSequence2;
+      return;
+    }
+    throw new IllegalArgumentException("Cannot pass null title");
+  }
+  
+  private int a(Context paramContext, int paramInt1, @n int paramInt2)
+  {
+    if (paramInt2 != -1) {
+      return paramContext.getResources().getDimensionPixelSize(paramInt2);
+    }
+    return y.b(paramContext, paramInt1);
+  }
+  
+  public static g a(Rect paramRect, CharSequence paramCharSequence)
+  {
+    return new g(paramRect, paramCharSequence, null);
+  }
+  
+  public static g a(Rect paramRect, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    return new g(paramRect, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public static g a(android.support.v7.widget.Toolbar paramToolbar, @v int paramInt, CharSequence paramCharSequence)
+  {
+    return new x(paramToolbar, paramInt, paramCharSequence, null);
+  }
+  
+  public static g a(android.support.v7.widget.Toolbar paramToolbar, @v int paramInt, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    return new x(paramToolbar, paramInt, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public static g a(android.support.v7.widget.Toolbar paramToolbar, CharSequence paramCharSequence)
+  {
+    return a(paramToolbar, paramCharSequence, null);
+  }
+  
+  public static g a(android.support.v7.widget.Toolbar paramToolbar, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    return new x(paramToolbar, true, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public static g a(View paramView, CharSequence paramCharSequence)
+  {
+    return new A(paramView, paramCharSequence, null);
+  }
+  
+  public static g a(View paramView, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    return new A(paramView, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public static g a(android.widget.Toolbar paramToolbar, @v int paramInt, CharSequence paramCharSequence)
+  {
+    return new x(paramToolbar, paramInt, paramCharSequence, null);
+  }
+  
+  public static g a(android.widget.Toolbar paramToolbar, @v int paramInt, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    return new x(paramToolbar, paramInt, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public static g a(android.widget.Toolbar paramToolbar, CharSequence paramCharSequence)
+  {
+    return a(paramToolbar, paramCharSequence, null);
+  }
+  
+  public static g a(android.widget.Toolbar paramToolbar, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    return new x(paramToolbar, true, paramCharSequence1, paramCharSequence2);
+  }
+  
+  @G
+  private Integer a(Context paramContext, @G Integer paramInteger, @m int paramInt)
+  {
+    if (paramInt != -1) {
+      return Integer.valueOf(c.getColor(paramContext, paramInt));
+    }
+    return paramInteger;
+  }
+  
+  public static g b(android.support.v7.widget.Toolbar paramToolbar, CharSequence paramCharSequence)
+  {
+    return b(paramToolbar, paramCharSequence, null);
+  }
+  
+  public static g b(android.support.v7.widget.Toolbar paramToolbar, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    return new x(paramToolbar, false, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public static g b(android.widget.Toolbar paramToolbar, CharSequence paramCharSequence)
+  {
+    return b(paramToolbar, paramCharSequence, null);
+  }
+  
+  public static g b(android.widget.Toolbar paramToolbar, CharSequence paramCharSequence1, @G CharSequence paramCharSequence2)
+  {
+    return new x(paramToolbar, false, paramCharSequence1, paramCharSequence2);
+  }
+  
+  public Rect a()
+  {
+    Rect localRect = e;
+    if (localRect != null) {
+      return localRect;
+    }
+    throw new IllegalStateException("Requesting bounds that are not set! Make sure your target is ready");
+  }
+  
+  public g a(float paramFloat)
+  {
+    if ((paramFloat >= 0.0F) && (paramFloat <= 1.0F))
+    {
+      B = paramFloat;
+      return this;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Given an invalid alpha value: ");
+    localStringBuilder.append(paramFloat);
+    throw new IllegalArgumentException(localStringBuilder.toString());
+  }
+  
+  public g a(@m int paramInt)
+  {
+    m = paramInt;
+    return this;
+  }
+  
+  public g a(Typeface paramTypeface)
+  {
+    if (paramTypeface != null)
+    {
+      h = paramTypeface;
+      return this;
+    }
+    throw new IllegalArgumentException("Cannot use a null typeface");
+  }
+  
+  public g a(Drawable paramDrawable)
+  {
+    return a(paramDrawable, false);
+  }
+  
+  public g a(Drawable paramDrawable, boolean paramBoolean)
+  {
+    if (paramDrawable != null)
+    {
+      f = paramDrawable;
+      if (!paramBoolean)
+      {
+        paramDrawable = f;
+        paramDrawable.setBounds(new Rect(0, 0, paramDrawable.getIntrinsicWidth(), f.getIntrinsicHeight()));
+      }
+      return this;
+    }
+    throw new IllegalArgumentException("Cannot use null drawable");
+  }
+  
+  public g a(boolean paramBoolean)
+  {
+    y = paramBoolean;
+    return this;
+  }
+  
+  @G
+  public Integer a(Context paramContext)
+  {
+    return a(paramContext, r, m);
+  }
+  
+  public void a(Runnable paramRunnable)
+  {
+    paramRunnable.run();
+  }
+  
+  public int b()
+  {
+    return w;
+  }
+  
+  public int b(Context paramContext)
+  {
+    return a(paramContext, v, t);
+  }
+  
+  public g b(float paramFloat)
+  {
+    if ((paramFloat >= 0.0F) && (paramFloat <= 1.0F))
+    {
+      c = paramFloat;
+      return this;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Given an invalid alpha value: ");
+    localStringBuilder.append(paramFloat);
+    throw new IllegalArgumentException(localStringBuilder.toString());
+  }
+  
+  public g b(@k int paramInt)
+  {
+    r = Integer.valueOf(paramInt);
+    return this;
+  }
+  
+  public g b(Typeface paramTypeface)
+  {
+    if (paramTypeface != null)
+    {
+      g = paramTypeface;
+      h = paramTypeface;
+      return this;
+    }
+    throw new IllegalArgumentException("Cannot use a null typeface");
+  }
+  
+  public g b(boolean paramBoolean)
+  {
+    x = paramBoolean;
+    return this;
+  }
+  
+  public g c(@n int paramInt)
+  {
+    t = paramInt;
+    return this;
+  }
+  
+  public g c(Typeface paramTypeface)
+  {
+    if (paramTypeface != null)
+    {
+      g = paramTypeface;
+      return this;
+    }
+    throw new IllegalArgumentException("Cannot use a null typeface");
+  }
+  
+  public g c(boolean paramBoolean)
+  {
+    z = paramBoolean;
+    return this;
+  }
+  
+  @G
+  public Integer c(Context paramContext)
+  {
+    return a(paramContext, p, k);
+  }
+  
+  public g d(int paramInt)
+  {
+    if (paramInt >= 0)
+    {
+      v = paramInt;
+      return this;
+    }
+    throw new IllegalArgumentException("Given negative text size");
+  }
+  
+  public g d(boolean paramBoolean)
+  {
+    A = paramBoolean;
+    return this;
+  }
+  
+  @G
+  public Integer d(Context paramContext)
+  {
+    return a(paramContext, n, i);
+  }
+  
+  public g e(@m int paramInt)
+  {
+    k = paramInt;
+    return this;
+  }
+  
+  @G
+  public Integer e(Context paramContext)
+  {
+    return a(paramContext, o, j);
+  }
+  
+  public g f(@k int paramInt)
+  {
+    p = Integer.valueOf(paramInt);
+    return this;
+  }
+  
+  @G
+  public Integer f(Context paramContext)
+  {
+    return a(paramContext, q, l);
+  }
+  
+  public int g(Context paramContext)
+  {
+    return a(paramContext, u, s);
+  }
+  
+  public g g(int paramInt)
+  {
+    w = paramInt;
+    return this;
+  }
+  
+  public g h(@m int paramInt)
+  {
+    i = paramInt;
+    return this;
+  }
+  
+  public g i(@k int paramInt)
+  {
+    n = Integer.valueOf(paramInt);
+    return this;
+  }
+  
+  public g j(@m int paramInt)
+  {
+    j = paramInt;
+    return this;
+  }
+  
+  public g k(@k int paramInt)
+  {
+    o = Integer.valueOf(paramInt);
+    return this;
+  }
+  
+  public g l(int paramInt)
+  {
+    d = paramInt;
+    return this;
+  }
+  
+  public g m(@m int paramInt)
+  {
+    l = paramInt;
+    m = paramInt;
+    return this;
+  }
+  
+  public g n(@k int paramInt)
+  {
+    q = Integer.valueOf(paramInt);
+    r = Integer.valueOf(paramInt);
+    return this;
+  }
+  
+  public g o(@m int paramInt)
+  {
+    l = paramInt;
+    return this;
+  }
+  
+  public g p(@k int paramInt)
+  {
+    q = Integer.valueOf(paramInt);
+    return this;
+  }
+  
+  public g q(@n int paramInt)
+  {
+    s = paramInt;
+    return this;
+  }
+  
+  public g r(int paramInt)
+  {
+    if (paramInt >= 0)
+    {
+      u = paramInt;
+      return this;
+    }
+    throw new IllegalArgumentException("Given negative text size");
+  }
+}

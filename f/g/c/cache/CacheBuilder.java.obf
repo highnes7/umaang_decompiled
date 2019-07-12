@@ -1,0 +1,637 @@
+package f.g.c.c;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.b.C;
+import f.g.c.b.Ca;
+import f.g.c.b.U.a;
+import f.g.c.b.ba;
+import f.g.c.b.ya;
+import f.g.c.b.za.e;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+@b(emulated=true)
+public final class g<K, V>
+{
+  public static final int a = 16;
+  public static final int b = 4;
+  public static final int c = 0;
+  public static final int d = 0;
+  public static final ya<? extends a.b> e = new za.e(new d());
+  public static final k f = new k(0L, 0L, 0L, 0L, 0L, 0L);
+  public static final ya<a.b> g = new e();
+  public static final Ca h = new f();
+  public static final Logger i = Logger.getLogger(g.class.getName());
+  public static final int j = -1;
+  public boolean k = true;
+  public int l = -1;
+  public int m = -1;
+  public long n = -1L;
+  public long o = -1L;
+  public X<? super K, ? super V> p;
+  public q.r q;
+  public q.r r;
+  public long s = -1L;
+  public long t = -1L;
+  public long u = -1L;
+  public C<Object> v;
+  public C<Object> w;
+  public P<? super K, ? super V> x;
+  public Ca y;
+  public ya<? extends a.b> z = e;
+  
+  public g() {}
+  
+  @a
+  @f.g.c.a.c("To be supported")
+  public static g<Object, Object> a(i paramI)
+  {
+    return paramI.b().o();
+  }
+  
+  @a
+  @f.g.c.a.c("To be supported")
+  public static g<Object, Object> a(String paramString)
+  {
+    return i.a(paramString).b().o();
+  }
+  
+  public static g<Object, Object> p()
+  {
+    return new g();
+  }
+  
+  private void w()
+  {
+    boolean bool;
+    if (u == -1L) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "refreshAfterWrite requires a LoadingCache");
+  }
+  
+  private void x()
+  {
+    X localX = p;
+    boolean bool2 = true;
+    boolean bool1 = true;
+    if (localX == null)
+    {
+      if (o != -1L) {
+        bool1 = false;
+      }
+      ba.b(bool1, "maximumWeight requires weigher");
+      return;
+    }
+    if (k)
+    {
+      if (o != -1L) {
+        bool1 = bool2;
+      } else {
+        bool1 = false;
+      }
+      ba.b(bool1, "weigher requires maximumWeight");
+      return;
+    }
+    if (o == -1L) {
+      i.log(Level.WARNING, "ignoring weigher specified without maximumWeight");
+    }
+  }
+  
+  public Ca a(boolean paramBoolean)
+  {
+    Ca localCa = y;
+    if (localCa != null) {
+      return localCa;
+    }
+    if (paramBoolean) {
+      return Ca.a;
+    }
+    return h;
+  }
+  
+  public <K1 extends K, V1 extends V> c<K1, V1> a()
+  {
+    x();
+    w();
+    return new q.l(this);
+  }
+  
+  public g<K, V> a(int paramInt)
+  {
+    int i1 = m;
+    boolean bool2 = true;
+    boolean bool1;
+    if (i1 == -1) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1, "concurrency level was already set to %s", new Object[] { Integer.valueOf(m) });
+    if (paramInt > 0) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    ba.a(bool1);
+    m = paramInt;
+    return this;
+  }
+  
+  public g<K, V> a(long paramLong)
+  {
+    long l1 = n;
+    boolean bool2 = true;
+    boolean bool1;
+    if (l1 == -1L) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1, "maximum size was already set to %s", new Object[] { Long.valueOf(n) });
+    if (o == -1L) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1, "maximum weight was already set to %s", new Object[] { Long.valueOf(o) });
+    if (p == null) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1, "maximum size can not be combined with weigher");
+    if (paramLong >= 0L) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    ba.a(bool1, "maximum size must not be negative");
+    n = paramLong;
+    return this;
+  }
+  
+  public g<K, V> a(long paramLong, TimeUnit paramTimeUnit)
+  {
+    boolean bool;
+    if (t == -1L) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "expireAfterAccess was already set to %s ns", new Object[] { Long.valueOf(t) });
+    if (paramLong >= 0L) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "duration cannot be negative: %s %s", new Object[] { Long.valueOf(paramLong), paramTimeUnit });
+    t = paramTimeUnit.toNanos(paramLong);
+    return this;
+  }
+  
+  public g<K, V> a(C<Object> paramC)
+  {
+    boolean bool;
+    if (v == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "key equivalence was already set to %s", new Object[] { v });
+    if (paramC != null)
+    {
+      v = paramC;
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  @f.g.c.a.c("To be supported")
+  public g<K, V> a(Ca paramCa)
+  {
+    boolean bool;
+    if (y == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool);
+    if (paramCa != null)
+    {
+      y = paramCa;
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  @m.a.c
+  @f.g.c.a.c("To be supported")
+  public <K1 extends K, V1 extends V> g<K1, V1> a(P<? super K1, ? super V1> paramP)
+  {
+    boolean bool;
+    if (x == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool);
+    if (paramP != null)
+    {
+      x = paramP;
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public <K1 extends K, V1 extends V> g<K1, V1> a(X<? super K1, ? super V1> paramX)
+  {
+    boolean bool;
+    if (p == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool);
+    if (k)
+    {
+      if (n == -1L) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool, "weigher can not be combined with maximum size", new Object[] { Long.valueOf(n) });
+    }
+    if (paramX != null)
+    {
+      p = paramX;
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public g<K, V> a(q.r paramR)
+  {
+    boolean bool;
+    if (q == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "Key strength was already set to %s", new Object[] { q });
+    if (paramR != null)
+    {
+      q = paramR;
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public <K1 extends K, V1 extends V> n<K1, V1> a(j<? super K1, V1> paramJ)
+  {
+    x();
+    return new q.k(this, paramJ);
+  }
+  
+  public int b()
+  {
+    int i2 = m;
+    int i1 = i2;
+    if (i2 == -1) {
+      i1 = 4;
+    }
+    return i1;
+  }
+  
+  public g<K, V> b(int paramInt)
+  {
+    int i1 = l;
+    boolean bool2 = true;
+    boolean bool1;
+    if (i1 == -1) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1, "initial capacity was already set to %s", new Object[] { Integer.valueOf(l) });
+    if (paramInt >= 0) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    ba.a(bool1);
+    l = paramInt;
+    return this;
+  }
+  
+  public g<K, V> b(long paramLong)
+  {
+    long l1 = o;
+    boolean bool2 = true;
+    boolean bool1;
+    if (l1 == -1L) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1, "maximum weight was already set to %s", new Object[] { Long.valueOf(o) });
+    if (n == -1L) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.b(bool1, "maximum size was already set to %s", new Object[] { Long.valueOf(n) });
+    o = paramLong;
+    if (paramLong >= 0L) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    ba.a(bool1, "maximum weight must not be negative");
+    return this;
+  }
+  
+  public g<K, V> b(long paramLong, TimeUnit paramTimeUnit)
+  {
+    boolean bool;
+    if (s == -1L) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "expireAfterWrite was already set to %s ns", new Object[] { Long.valueOf(s) });
+    if (paramLong >= 0L) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "duration cannot be negative: %s %s", new Object[] { Long.valueOf(paramLong), paramTimeUnit });
+    s = paramTimeUnit.toNanos(paramLong);
+    return this;
+  }
+  
+  public g<K, V> b(C<Object> paramC)
+  {
+    boolean bool;
+    if (w == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "value equivalence was already set to %s", new Object[] { w });
+    if (paramC != null)
+    {
+      w = paramC;
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public g<K, V> b(q.r paramR)
+  {
+    boolean bool;
+    if (r == null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "Value strength was already set to %s", new Object[] { r });
+    if (paramR != null)
+    {
+      r = paramR;
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public long c()
+  {
+    long l2 = t;
+    long l1 = l2;
+    if (l2 == -1L) {
+      l1 = 0L;
+    }
+    return l1;
+  }
+  
+  @a
+  @f.g.c.a.c("To be supported")
+  public g<K, V> c(long paramLong, TimeUnit paramTimeUnit)
+  {
+    if (paramTimeUnit != null)
+    {
+      boolean bool;
+      if (u == -1L) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool, "refresh was already set to %s ns", new Object[] { Long.valueOf(u) });
+      if (paramLong > 0L) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "duration must be positive: %s %s", new Object[] { Long.valueOf(paramLong), paramTimeUnit });
+      u = paramTimeUnit.toNanos(paramLong);
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public long d()
+  {
+    long l2 = s;
+    long l1 = l2;
+    if (l2 == -1L) {
+      l1 = 0L;
+    }
+    return l1;
+  }
+  
+  public int e()
+  {
+    int i2 = l;
+    int i1 = i2;
+    if (i2 == -1) {
+      i1 = 16;
+    }
+    return i1;
+  }
+  
+  public C<Object> f()
+  {
+    return (C)f.g.c.b.U.b(v, g().a());
+  }
+  
+  public q.r g()
+  {
+    return (q.r)f.g.c.b.U.b(q, q.r.a);
+  }
+  
+  public long h()
+  {
+    if (s != 0L)
+    {
+      if (t == 0L) {
+        return 0L;
+      }
+      if (p == null) {
+        return n;
+      }
+      return o;
+    }
+    return 0L;
+  }
+  
+  public long i()
+  {
+    long l2 = u;
+    long l1 = l2;
+    if (l2 == -1L) {
+      l1 = 0L;
+    }
+    return l1;
+  }
+  
+  public <K1 extends K, V1 extends V> P<K1, V1> j()
+  {
+    return (P)f.g.c.b.U.b(x, a.a);
+  }
+  
+  public ya<? extends a.b> k()
+  {
+    return z;
+  }
+  
+  public C<Object> l()
+  {
+    return (C)f.g.c.b.U.b(w, m().a());
+  }
+  
+  public q.r m()
+  {
+    return (q.r)f.g.c.b.U.b(r, q.r.a);
+  }
+  
+  public <K1 extends K, V1 extends V> X<K1, V1> n()
+  {
+    return (X)f.g.c.b.U.b(p, b.a);
+  }
+  
+  public g<K, V> o()
+  {
+    k = false;
+    return this;
+  }
+  
+  public g<K, V> q()
+  {
+    z = g;
+    return this;
+  }
+  
+  @f.g.c.a.c("java.lang.ref.SoftReference")
+  public g<K, V> r()
+  {
+    return b(q.r.b);
+  }
+  
+  public g<K, V> s()
+  {
+    return a(q.r.a);
+  }
+  
+  public g<K, V> t()
+  {
+    return b(q.r.a);
+  }
+  
+  public String toString()
+  {
+    U.a localA = f.g.c.b.U.a(this);
+    int i1 = l;
+    if (i1 != -1) {
+      localA.a("initialCapacity", i1);
+    }
+    i1 = m;
+    if (i1 != -1) {
+      localA.a("concurrencyLevel", i1);
+    }
+    long l1 = o;
+    if (l1 != -1L) {
+      if (p == null) {
+        localA.a("maximumSize", l1);
+      } else {
+        localA.a("maximumWeight", l1);
+      }
+    }
+    if (s != -1L)
+    {
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append(s);
+      ((StringBuilder)localObject).append("ns");
+      localA.a("expireAfterWrite", ((StringBuilder)localObject).toString());
+    }
+    if (t != -1L)
+    {
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append(t);
+      ((StringBuilder)localObject).append("ns");
+      localA.a("expireAfterAccess", ((StringBuilder)localObject).toString());
+    }
+    Object localObject = q;
+    if (localObject != null) {
+      localA.a("keyStrength", f.g.c.b.d.a(((Enum)localObject).toString()));
+    }
+    localObject = r;
+    if (localObject != null) {
+      localA.a("valueStrength", f.g.c.b.d.a(((Enum)localObject).toString()));
+    }
+    if (v != null) {
+      localA.a("keyEquivalence");
+    }
+    if (w != null) {
+      localA.a("valueEquivalence");
+    }
+    if (x != null) {
+      localA.a("removalListener");
+    }
+    return localA.toString();
+  }
+  
+  @f.g.c.a.c("java.lang.ref.WeakReference")
+  public g<K, V> u()
+  {
+    return a(q.r.c);
+  }
+  
+  @f.g.c.a.c("java.lang.ref.WeakReference")
+  public g<K, V> v()
+  {
+    return b(q.r.c);
+  }
+  
+  public static enum a
+    implements P<Object, Object>
+  {
+    public a() {}
+    
+    public void a(U<Object, Object> paramU) {}
+  }
+  
+  public static enum b
+    implements X<Object, Object>
+  {
+    public b() {}
+    
+    public int a(Object paramObject1, Object paramObject2)
+    {
+      return 1;
+    }
+  }
+}

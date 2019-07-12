@@ -1,0 +1,53 @@
+package com.google.android.gms.internal;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzexd
+  implements Iterator<Map.Entry<K, V>>
+{
+  public int pos = -1;
+  public boolean zzoqr;
+  public Iterator<Map.Entry<K, V>> zzoqs;
+  
+  public zzexd(zzewx paramZzewx) {}
+  
+  private final Iterator<Map.Entry<K, V>> zzcvk()
+  {
+    if (zzoqs == null) {
+      zzoqs = zzewx.zzc(zzoqq).entrySet().iterator();
+    }
+    return zzoqs;
+  }
+  
+  public final boolean hasNext()
+  {
+    if (pos + 1 >= zzewx.zzb(zzoqq).size()) {
+      return zzcvk().hasNext();
+    }
+    return true;
+  }
+  
+  public final void remove()
+  {
+    if (zzoqr)
+    {
+      zzoqr = false;
+      zzewx.zza(zzoqq);
+      if (pos < zzewx.zzb(zzoqq).size())
+      {
+        zzewx localZzewx = zzoqq;
+        int i = pos;
+        pos = (i - 1);
+        zzewx.zza(localZzewx, i);
+        return;
+      }
+      zzcvk().remove();
+      return;
+    }
+    throw new IllegalStateException("remove() was called before next()");
+  }
+}

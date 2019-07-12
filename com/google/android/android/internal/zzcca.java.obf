@@ -1,0 +1,88 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import b.b.a.X;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+
+public final class zzcca
+  extends zzcdu
+{
+  public zzcca(zzccw paramZzccw)
+  {
+    super(paramZzccw);
+  }
+  
+  @X
+  public static byte[] zzc(HttpURLConnection paramHttpURLConnection)
+    throws IOException
+  {
+    byte[] arrayOfByte = null;
+    Object localObject = arrayOfByte;
+    try
+    {
+      ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+      localObject = arrayOfByte;
+      paramHttpURLConnection = paramHttpURLConnection.getInputStream();
+      localObject = paramHttpURLConnection;
+      arrayOfByte = new byte['?'];
+      for (;;)
+      {
+        localObject = paramHttpURLConnection;
+        int i = paramHttpURLConnection.read(arrayOfByte);
+        if (i <= 0) {
+          break;
+        }
+        localObject = paramHttpURLConnection;
+        localByteArrayOutputStream.write(arrayOfByte, 0, i);
+      }
+      localObject = paramHttpURLConnection;
+      arrayOfByte = localByteArrayOutputStream.toByteArray();
+      paramHttpURLConnection.close();
+      return arrayOfByte;
+    }
+    finally
+    {
+      if (localObject != null) {
+        ((InputStream)localObject).close();
+      }
+    }
+    for (;;)
+    {
+      throw paramHttpURLConnection;
+    }
+  }
+  
+  public final void zzatu()
+  {
+    zzccw.zzatu();
+    throw null;
+  }
+  
+  public final void zzatv()
+  {
+    zzcax.zzawk();
+  }
+  
+  public final void zzuk() {}
+  
+  public final boolean zzyx()
+  {
+    zzwk();
+    Object localObject = (ConnectivityManager)getContext().getSystemService("connectivity");
+    try
+    {
+      localObject = ((ConnectivityManager)localObject).getActiveNetworkInfo();
+    }
+    catch (SecurityException localSecurityException)
+    {
+      for (;;) {}
+    }
+    localObject = null;
+    return (localObject != null) && (((NetworkInfo)localObject).isConnected());
+  }
+}

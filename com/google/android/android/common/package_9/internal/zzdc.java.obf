@@ -1,0 +1,36 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Bundle;
+
+public final class zzdc
+  implements Runnable
+{
+  public zzdc(zzdb paramZzdb, LifecycleCallback paramLifecycleCallback, String paramString) {}
+  
+  public final void run()
+  {
+    if (zzdb.zza(zzfpg) > 0)
+    {
+      LifecycleCallback localLifecycleCallback = zzfos;
+      Bundle localBundle;
+      if (zzdb.zzb(zzfpg) != null) {
+        localBundle = zzdb.zzb(zzfpg).getBundle(zzao);
+      } else {
+        localBundle = null;
+      }
+      localLifecycleCallback.onCreate(localBundle);
+    }
+    if (zzdb.zza(zzfpg) >= 2) {
+      zzfos.onStart();
+    }
+    if (zzdb.zza(zzfpg) >= 3) {
+      zzfos.onResume();
+    }
+    if (zzdb.zza(zzfpg) >= 4) {
+      zzfos.onStop();
+    }
+    if (zzdb.zza(zzfpg) >= 5) {
+      zzfos.onDestroy();
+    }
+  }
+}

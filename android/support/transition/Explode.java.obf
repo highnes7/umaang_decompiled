@@ -1,0 +1,155 @@
+package android.support.transition;
+
+import android.animation.Animator;
+import android.animation.TimeInterpolator;
+import android.content.Context;
+import android.graphics.Rect;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import b.b.a.F;
+import b.b.v.M.e;
+import b.b.v.ia;
+import b.b.v.ka;
+import b.b.v.s;
+import java.util.Map;
+
+public class Explode
+  extends Visibility
+{
+  public static final TimeInterpolator h = new DecelerateInterpolator();
+  public static final TimeInterpolator i = new AccelerateInterpolator();
+  public static final String j = "android:explode:screenBounds";
+  public int[] k = new int[2];
+  
+  public Explode()
+  {
+    setPropagation(new s());
+  }
+  
+  public Explode(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    setPropagation(new s());
+  }
+  
+  public static float a(float paramFloat1, float paramFloat2)
+  {
+    return (float)Math.sqrt(paramFloat2 * paramFloat2 + paramFloat1 * paramFloat1);
+  }
+  
+  public static float a(View paramView, int paramInt1, int paramInt2)
+  {
+    paramInt1 = Math.max(paramInt1, paramView.getWidth() - paramInt1);
+    paramInt2 = Math.max(paramInt2, paramView.getHeight() - paramInt2);
+    return a(paramInt1, paramInt2);
+  }
+  
+  private void a(View paramView, Rect paramRect, int[] paramArrayOfInt)
+  {
+    paramView.getLocationOnScreen(k);
+    Object localObject = k;
+    int i1 = localObject[0];
+    int i2 = localObject[1];
+    localObject = getEpicenter();
+    int m;
+    int n;
+    if (localObject == null)
+    {
+      m = paramView.getWidth() / 2;
+      m = Math.round(paramView.getTranslationX()) + (m + i1);
+      n = paramView.getHeight() / 2;
+      n = Math.round(paramView.getTranslationY()) + (n + i2);
+    }
+    else
+    {
+      m = ((Rect)localObject).centerX();
+      n = ((Rect)localObject).centerY();
+    }
+    int i3 = paramRect.centerX();
+    int i4 = paramRect.centerY();
+    float f2 = i3 - m;
+    float f1 = i4 - n;
+    if ((f2 == 0.0F) && (f1 == 0.0F))
+    {
+      f2 = (float)(Math.random() * 2.0D) - 1.0F;
+      f1 = (float)(Math.random() * 2.0D) - 1.0F;
+    }
+    float f3 = a(f2, f1);
+    f2 /= f3;
+    f1 /= f3;
+    f3 = a(paramView, m - i1, n - i2);
+    paramArrayOfInt[0] = Math.round(f2 * f3);
+    paramArrayOfInt[1] = Math.round(f3 * f1);
+  }
+  
+  private void captureValues(ia paramIa)
+  {
+    View localView = b;
+    localView.getLocationOnScreen(k);
+    int[] arrayOfInt = k;
+    int m = arrayOfInt[0];
+    int n = arrayOfInt[1];
+    int i1 = localView.getWidth();
+    int i2 = localView.getHeight();
+    a.put("android:explode:screenBounds", new Rect(m, n, i1 + m, i2 + n));
+  }
+  
+  public Animator a(ViewGroup paramViewGroup, View paramView, ia paramIa1, ia paramIa2)
+  {
+    if (paramIa2 == null) {
+      return null;
+    }
+    paramIa1 = (Rect)a.get("android:explode:screenBounds");
+    float f1 = paramView.getTranslationX();
+    float f2 = paramView.getTranslationY();
+    a(paramViewGroup, paramIa1, k);
+    paramViewGroup = k;
+    float f3 = paramViewGroup[0];
+    float f4 = paramViewGroup[1];
+    return ka.a(paramView, paramIa2, left, top, f1 + f3, f2 + f4, f1, f2, h);
+  }
+  
+  public Animator b(ViewGroup paramViewGroup, View paramView, ia paramIa1, ia paramIa2)
+  {
+    if (paramIa1 == null) {
+      return null;
+    }
+    paramIa2 = (Rect)a.get("android:explode:screenBounds");
+    int m = left;
+    int n = top;
+    float f3 = paramView.getTranslationX();
+    float f4 = paramView.getTranslationY();
+    int[] arrayOfInt = (int[])b.getTag(M.e.transition_position);
+    float f1;
+    float f2;
+    if (arrayOfInt != null)
+    {
+      f1 = arrayOfInt[0] - left + f3;
+      f2 = arrayOfInt[1] - top + f4;
+      paramIa2.offsetTo(arrayOfInt[0], arrayOfInt[1]);
+    }
+    else
+    {
+      f1 = f3;
+      f2 = f4;
+    }
+    a(paramViewGroup, paramIa2, k);
+    paramViewGroup = k;
+    return ka.a(paramView, paramIa1, m, n, f3, f4, f1 + paramViewGroup[0], f2 + paramViewGroup[1], i);
+  }
+  
+  public void captureEndValues(@F ia paramIa)
+  {
+    super.captureEndValues(paramIa);
+    captureValues(paramIa);
+  }
+  
+  public void captureStartValues(@F ia paramIa)
+  {
+    super.captureStartValues(paramIa);
+    captureValues(paramIa);
+  }
+}

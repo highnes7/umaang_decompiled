@@ -1,0 +1,106 @@
+package f.b.a;
+
+import com.coremedia.iso.boxes.Box;
+import com.coremedia.iso.boxes.Container;
+import f.h.a.f;
+import java.io.EOFException;
+import java.io.IOException;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.util.logging.Logger;
+
+public abstract class b
+  implements d
+{
+  public static Logger a = Logger.getLogger(b.class.getName());
+  public ThreadLocal<ByteBuffer> b = new a(this);
+  
+  public b() {}
+  
+  public Box a(f paramF, Container paramContainer)
+    throws IOException
+  {
+    ((ByteBuffer)b.get()).rewind().limit(8);
+    int i = 0;
+    do
+    {
+      i += paramF.read((ByteBuffer)b.get());
+      if (i == 8)
+      {
+        ((ByteBuffer)b.get()).rewind();
+        long l = h.j((ByteBuffer)b.get());
+        Object localObject = null;
+        if ((l < 8L) && (l > 1L))
+        {
+          paramF = a;
+          paramContainer = new StringBuilder("Plausibility check failed: size < 8 (size = ");
+          paramContainer.append(l);
+          paramContainer.append("). Stop parsing!");
+          paramF.severe(paramContainer.toString());
+          return null;
+        }
+        String str2 = h.a((ByteBuffer)b.get());
+        if (l == 1L)
+        {
+          ((ByteBuffer)b.get()).limit(16);
+          paramF.read((ByteBuffer)b.get());
+          ((ByteBuffer)b.get()).position(8);
+          l = h.l((ByteBuffer)b.get()) - 16L;
+        }
+        else
+        {
+          if (l == 0L)
+          {
+            paramF.size();
+            paramF.position();
+            localObject = new StringBuilder("'");
+            ((StringBuilder)localObject).append(str2);
+            ((StringBuilder)localObject).append("' with '");
+            if ((paramContainer instanceof Box)) {
+              paramF = ((Box)paramContainer).getType();
+            } else {
+              paramF = "IsoFile";
+            }
+            throw new RuntimeException(f.a.a.a.a.a((StringBuilder)localObject, paramF, "' as parent has length == 0. That's not supported"));
+          }
+          l -= 8L;
+        }
+        if ("uuid".equals(str2))
+        {
+          ((ByteBuffer)b.get()).limit(((ByteBuffer)b.get()).limit() + 16);
+          paramF.read((ByteBuffer)b.get());
+          localObject = new byte[16];
+          i = ((ByteBuffer)b.get()).position() - 16;
+          for (;;)
+          {
+            if (i >= ((ByteBuffer)b.get()).position())
+            {
+              l -= 16L;
+              break;
+            }
+            localObject[(i - (((ByteBuffer)b.get()).position() - 16))] = ((ByteBuffer)b.get()).get(i);
+            i += 1;
+          }
+        }
+        String str1;
+        if ((paramContainer instanceof Box)) {
+          str1 = ((Box)paramContainer).getType();
+        } else {
+          str1 = "";
+        }
+        localObject = a(str2, (byte[])localObject, str1);
+        ((Box)localObject).setParent(paramContainer);
+        ((ByteBuffer)b.get()).rewind();
+        ((Box)localObject).parse(paramF, (ByteBuffer)b.get(), l, this);
+        return localObject;
+      }
+    } while (i >= 0);
+    paramF = new EOFException();
+    for (;;)
+    {
+      throw paramF;
+    }
+  }
+  
+  public abstract Box a(String paramString1, byte[] paramArrayOfByte, String paramString2);
+}

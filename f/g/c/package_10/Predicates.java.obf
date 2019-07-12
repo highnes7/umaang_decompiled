@@ -1,0 +1,614 @@
+package f.g.c.b;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import m.a.h;
+
+@b(emulated=true)
+public final class ea
+{
+  public static final Q a = new Q(",");
+  
+  public ea() {}
+  
+  public static <T> ca<T> a(ca<T> paramCa)
+  {
+    return new h(paramCa);
+  }
+  
+  public static <A, B> ca<A> a(ca<B> paramCa, J<A, ? extends B> paramJ)
+  {
+    return new c(paramCa, paramJ);
+  }
+  
+  public static <T> ca<T> a(ca<? super T> paramCa1, ca<? super T> paramCa2)
+  {
+    if (paramCa1 != null)
+    {
+      if (paramCa2 != null) {
+        return new a(b(paramCa1, paramCa2), null);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  @f.g.c.a.a
+  @c("Class.isAssignableFrom")
+  public static ca<Class<?>> a(Class<?> paramClass)
+  {
+    return new b(paramClass, null);
+  }
+  
+  public static <T> ca<T> a(Iterable<? extends ca<? super T>> paramIterable)
+  {
+    return new a(b(paramIterable), null);
+  }
+  
+  public static <T> ca<T> a(@h T paramT)
+  {
+    if (paramT == null) {
+      return d();
+    }
+    return new g(paramT, null);
+  }
+  
+  @c("java.util.regex.Pattern")
+  public static ca<CharSequence> a(String paramString)
+  {
+    return new d(paramString);
+  }
+  
+  public static <T> ca<T> a(Collection<? extends T> paramCollection)
+  {
+    return new e(paramCollection, null);
+  }
+  
+  @c("java.util.regex.Pattern")
+  public static ca<CharSequence> a(Pattern paramPattern)
+  {
+    return new d(paramPattern);
+  }
+  
+  public static <T> ca<T> a(ca<? super T>... paramVarArgs)
+  {
+    return new a(a(paramVarArgs), null);
+  }
+  
+  public static <T> List<T> a(T... paramVarArgs)
+  {
+    return b(Arrays.asList(paramVarArgs));
+  }
+  
+  @b(serializable=true)
+  public static <T> ca<T> b()
+  {
+    return i.b.a();
+  }
+  
+  @c("Class.isInstance")
+  public static ca<Object> b(Class<?> paramClass)
+  {
+    return new f(paramClass, null);
+  }
+  
+  public static <T> ca<T> b(ca<? super T>... paramVarArgs)
+  {
+    return new j(a(paramVarArgs), null);
+  }
+  
+  public static <T> List<ca<? super T>> b(ca<? super T> paramCa1, ca<? super T> paramCa2)
+  {
+    return Arrays.asList(new ca[] { paramCa1, paramCa2 });
+  }
+  
+  public static <T> List<T> b(Iterable<T> paramIterable)
+  {
+    ArrayList localArrayList = new ArrayList();
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext())
+    {
+      Object localObject = paramIterable.next();
+      ba.a(localObject);
+      localArrayList.add(localObject);
+    }
+    return localArrayList;
+  }
+  
+  @b(serializable=true)
+  public static <T> ca<T> c()
+  {
+    return i.a.a();
+  }
+  
+  public static <T> ca<T> c(ca<? super T> paramCa1, ca<? super T> paramCa2)
+  {
+    if (paramCa1 != null)
+    {
+      if (paramCa2 != null) {
+        return new j(b(paramCa1, paramCa2), null);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> ca<T> c(Iterable<? extends ca<? super T>> paramIterable)
+  {
+    return new j(b(paramIterable), null);
+  }
+  
+  @b(serializable=true)
+  public static <T> ca<T> d()
+  {
+    return i.c.a();
+  }
+  
+  @b(serializable=true)
+  public static <T> ca<T> e()
+  {
+    return i.d.a();
+  }
+  
+  private static class a<T>
+    implements ca<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final List<? extends ca<? super T>> b;
+    
+    public a(List<? extends ca<? super T>> paramList)
+    {
+      b = paramList;
+    }
+    
+    public boolean apply(T paramT)
+    {
+      int i = 0;
+      while (i < b.size())
+      {
+        if (!((ca)b.get(i)).apply(paramT)) {
+          return false;
+        }
+        i += 1;
+      }
+      return true;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof a))
+      {
+        paramObject = (a)paramObject;
+        return b.equals(b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode() + 306654252;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("And(");
+      localStringBuilder.append(ea.a.a(b));
+      localStringBuilder.append(")");
+      return localStringBuilder.toString();
+    }
+  }
+  
+  @c("Class.isAssignableFrom")
+  private static class b
+    implements ca<Class<?>>, Serializable
+  {
+    public static final long a = 0L;
+    public final Class<?> b;
+    
+    public b(Class<?> paramClass)
+    {
+      if (paramClass != null)
+      {
+        b = paramClass;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean a(Class<?> paramClass)
+    {
+      return b.isAssignableFrom(paramClass);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof b;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (b)paramObject;
+        bool1 = bool2;
+        if (b == b) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode();
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("IsAssignableFrom(");
+      return f.a.a.a.a.a(b, localStringBuilder, ")");
+    }
+  }
+  
+  private static class c<A, B>
+    implements ca<A>, Serializable
+  {
+    public static final long a = 0L;
+    public final ca<B> b;
+    public final J<A, ? extends B> c;
+    
+    public c(ca<B> paramCa, J<A, ? extends B> paramJ)
+    {
+      if (paramCa != null)
+      {
+        b = paramCa;
+        if (paramJ != null)
+        {
+          c = paramJ;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean apply(A paramA)
+    {
+      return b.apply(c.apply(paramA));
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof c;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (c)paramObject;
+        bool1 = bool2;
+        if (c.equals(c))
+        {
+          bool1 = bool2;
+          if (b.equals(b)) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      return c.hashCode() ^ b.hashCode();
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(b.toString());
+      localStringBuilder.append("(");
+      return f.a.a.a.a.a(c, localStringBuilder, ")");
+    }
+  }
+  
+  @c("Only used by other GWT-incompatible code.")
+  private static class d
+    implements ca<CharSequence>, Serializable
+  {
+    public static final long a = 0L;
+    public final Pattern b;
+    
+    public d(String paramString)
+    {
+      this(Pattern.compile(paramString));
+    }
+    
+    public d(Pattern paramPattern)
+    {
+      if (paramPattern != null)
+      {
+        b = paramPattern;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean a(CharSequence paramCharSequence)
+    {
+      return b.matcher(paramCharSequence).find();
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof d;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (d)paramObject;
+        bool1 = bool2;
+        if (U.a(b.pattern(), b.pattern()))
+        {
+          bool1 = bool2;
+          if (U.a(Integer.valueOf(b.flags()), Integer.valueOf(b.flags()))) {
+            bool1 = true;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      return Arrays.hashCode(new Object[] { b.pattern(), Integer.valueOf(b.flags()) });
+    }
+    
+    public String toString()
+    {
+      return U.a(this).a("pattern", b).a("pattern.flags", Integer.toHexString(b.flags())).toString();
+    }
+  }
+  
+  private static class e<T>
+    implements ca<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final Collection<?> b;
+    
+    public e(Collection<?> paramCollection)
+    {
+      if (paramCollection != null)
+      {
+        b = paramCollection;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean apply(T paramT)
+    {
+      try
+      {
+        boolean bool = b.contains(paramT);
+        return bool;
+      }
+      catch (NullPointerException|ClassCastException paramT) {}
+      return false;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof e))
+      {
+        paramObject = (e)paramObject;
+        return b.equals(b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode();
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("In("), b, ")");
+    }
+  }
+  
+  @c("Class.isInstance")
+  private static class f
+    implements ca<Object>, Serializable
+  {
+    public static final long a = 0L;
+    public final Class<?> b;
+    
+    public f(Class<?> paramClass)
+    {
+      if (paramClass != null)
+      {
+        b = paramClass;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean apply(@h Object paramObject)
+    {
+      return b.isInstance(paramObject);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof f;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (f)paramObject;
+        bool1 = bool2;
+        if (b == b) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode();
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("IsInstanceOf(");
+      return f.a.a.a.a.a(b, localStringBuilder, ")");
+    }
+  }
+  
+  private static class g<T>
+    implements ca<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final T b;
+    
+    public g(T paramT)
+    {
+      b = paramT;
+    }
+    
+    public boolean apply(T paramT)
+    {
+      return b.equals(paramT);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof g))
+      {
+        paramObject = (g)paramObject;
+        return b.equals(b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode();
+    }
+    
+    public String toString()
+    {
+      return f.a.a.a.a.a(f.a.a.a.a.b("IsEqualTo("), b, ")");
+    }
+  }
+  
+  private static class h<T>
+    implements ca<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final ca<T> b;
+    
+    public h(ca<T> paramCa)
+    {
+      if (paramCa != null)
+      {
+        b = paramCa;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean apply(T paramT)
+    {
+      return b.apply(paramT) ^ true;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof h))
+      {
+        paramObject = (h)paramObject;
+        return b.equals(b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode() ^ 0xFFFFFFFF;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("Not(");
+      return f.a.a.a.a.a(b, localStringBuilder, ")");
+    }
+  }
+  
+  public static abstract enum i
+    implements ca<Object>
+  {
+    public i() {}
+    
+    public <T> ca<T> a()
+    {
+      return this;
+    }
+  }
+  
+  private static class j<T>
+    implements ca<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final List<? extends ca<? super T>> b;
+    
+    public j(List<? extends ca<? super T>> paramList)
+    {
+      b = paramList;
+    }
+    
+    public boolean apply(T paramT)
+    {
+      int i = 0;
+      while (i < b.size())
+      {
+        if (((ca)b.get(i)).apply(paramT)) {
+          return true;
+        }
+        i += 1;
+      }
+      return false;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if ((paramObject instanceof j))
+      {
+        paramObject = (j)paramObject;
+        return b.equals(b);
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.hashCode() + 87855567;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("Or(");
+      localStringBuilder.append(ea.a.a(b));
+      localStringBuilder.append(")");
+      return localStringBuilder.toString();
+    }
+  }
+}

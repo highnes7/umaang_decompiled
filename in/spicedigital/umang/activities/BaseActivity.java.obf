@@ -1,0 +1,140 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog.Builder;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+import b.b.a.G;
+import in.spicedigital.umang.application.MyApplication;
+import k.a.a.a.bb;
+import k.a.a.a.cb;
+import k.a.a.a.db;
+import k.a.a.m.Ea;
+import k.a.a.m.N;
+import k.a.a.m.O;
+import k.a.a.m.V;
+import org.json.JSONObject;
+
+public class BaseActivity
+  extends AppCompatActivity
+{
+  public final String TAG = "BaseActivity";
+  public V a;
+  
+  public BaseActivity() {}
+  
+  private void d()
+  {
+    if (a.a(V.x, "true").equalsIgnoreCase("true"))
+    {
+      StringBuilder localStringBuilder = f.a.a.a.a.b("mpin set.........");
+      localStringBuilder.append(a.a(V.pa, ""));
+      localStringBuilder.toString();
+      if ((a.a(V.pa, "").equalsIgnoreCase("true")) && (a.a(V.y, "false").equalsIgnoreCase("true"))) {
+        f.a.a.a.a.a(this, LockScreen.class);
+      }
+    }
+  }
+  
+  private void initiateKeys(Context paramContext)
+  {
+    try
+    {
+      N.a(this, "umang_al_n");
+      paramContext = new V(paramContext);
+      if ((!paramContext.b(V.nc, "").equalsIgnoreCase("")) && (MyApplication.o.equalsIgnoreCase("")))
+      {
+        MyApplication.o = N.a("umang_al_n", paramContext.b(V.hc, ""));
+        MyApplication.p = N.a("umang_al_n", paramContext.b(V.ic, ""));
+        MyApplication.q = N.a("umang_al_n", paramContext.b(V.jc, ""));
+        MyApplication.r = N.a("umang_al_n", paramContext.b(V.kc, ""));
+        MyApplication.s = N.a("umang_al_n", paramContext.b(V.rc, ""));
+        MyApplication.t = N.a("umang_al_n", paramContext.b(V.lc, ""));
+        MyApplication.u = N.a("umang_al_n", paramContext.b(V.mc, ""));
+        MyApplication.v = N.a("umang_al_n", paramContext.b(V.nc, ""));
+        MyApplication.w = N.a("umang_al_n", paramContext.b(V.oc, ""));
+        MyApplication.x = N.a("umang_al_n", paramContext.b(V.pc, ""));
+        MyApplication.y = N.a("umang_al_n", paramContext.b(V.qc, ""));
+        return;
+      }
+    }
+    catch (Exception paramContext)
+    {
+      k.a.a.m.b.a(paramContext);
+      try
+      {
+        f.c.a.b.a(paramContext);
+        return;
+      }
+      catch (Exception paramContext)
+      {
+        k.a.a.m.b.a(paramContext);
+      }
+    }
+  }
+  
+  private void sendAuthRequest()
+  {
+    JSONObject localJSONObject2;
+    try
+    {
+      JSONObject localJSONObject1 = Ea.e(this);
+      localJSONObject1.put("khash", Ea.i(this));
+      localJSONObject1.put("rType", "key");
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localJSONObject2 = null;
+    }
+    if (localJSONObject2 != null) {
+      new k.a.a.l.a(new cb(this), "https://app.umang.gov.in/umang/coreapi/opn/ws2/skey", localJSONObject2, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+    }
+  }
+  
+  private void showError(Throwable paramThrowable)
+  {
+    k.a.a.m.b.a(paramThrowable);
+    new AlertDialog.Builder(this).setMessage(paramThrowable.getMessage()).setPositiveButton(17039370, new db(this)).show();
+  }
+  
+  public void attachBaseContext(Context paramContext)
+  {
+    super.attachBaseContext(O.b(paramContext));
+  }
+  
+  public void onAttachedToWindow()
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:659)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:698)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    a = new V(this);
+    initiateKeys(this);
+    if ((!a.b(V.nc, "").equalsIgnoreCase("")) && (MyApplication.o.equalsIgnoreCase(""))) {
+      sendAuthRequest();
+    }
+    if (Ea.l().equalsIgnoreCase("yes"))
+    {
+      paramBundle = f.a.a.a.a.a(this, 1, 2131493041, false);
+      ((TextView)paramBundle.findViewById(2131297214)).setOnClickListener(new bb(this, paramBundle));
+    }
+  }
+  
+  public void onDestroy()
+  {
+    super.onDestroy();
+  }
+  
+  public void onStart()
+  {
+    super.onStart();
+    MyApplication.C = false;
+  }
+}

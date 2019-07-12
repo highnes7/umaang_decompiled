@@ -1,0 +1,42 @@
+package com.google.android.gms.auth.api.signin.internal;
+
+import android.os.Binder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.internal.zzec;
+import com.google.android.gms.internal.zzed;
+
+public abstract class zzs
+  extends zzec
+  implements zzr
+{
+  public zzs()
+  {
+    attachInterface(this, "com.google.android.gms.auth.api.signin.internal.ISignInCallbacks");
+  }
+  
+  public boolean onTransact(int paramInt1, Parcel paramParcel1, Parcel paramParcel2, int paramInt2)
+    throws RemoteException
+  {
+    if (zza(paramInt1, paramParcel1, paramParcel2, paramInt2)) {
+      return true;
+    }
+    switch (paramInt1)
+    {
+    default: 
+      return false;
+    case 103: 
+      zzj((Status)zzed.zza(paramParcel1, Status.CREATOR));
+      break;
+    case 102: 
+      zzi((Status)zzed.zza(paramParcel1, Status.CREATOR));
+      break;
+    case 101: 
+      zza((GoogleSignInAccount)zzed.zza(paramParcel1, GoogleSignInAccount.CREATOR), (Status)zzed.zza(paramParcel1, Status.CREATOR));
+    }
+    paramParcel2.writeNoException();
+    return true;
+  }
+}

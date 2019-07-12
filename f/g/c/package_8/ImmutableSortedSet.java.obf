@@ -1,0 +1,419 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.SortedSet;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public abstract class Wb<E>
+  extends Xb<E>
+  implements SortedSet<E>, ng<E>
+{
+  public static final Comparator<Comparable> f = ;
+  public static final Wb<Comparable> g = new Ba(f);
+  public final transient Comparator<? super E> h;
+  @c("NavigableSet")
+  public transient Wb<E> i;
+  
+  public Wb(Comparator<? super E> paramComparator)
+  {
+    h = paramComparator;
+  }
+  
+  public static int a(Comparator<?> paramComparator, Object paramObject1, Object paramObject2)
+  {
+    return paramComparator.compare(paramObject1, paramObject2);
+  }
+  
+  public static <E extends Comparable<? super E>> Wb<E> a(E paramE)
+  {
+    return new Of(vb.b(paramE), mf.d());
+  }
+  
+  public static <E extends Comparable<? super E>> Wb<E> a(E paramE1, E paramE2)
+  {
+    return a(mf.d(), Arrays.asList(new Comparable[] { paramE1, paramE2 }));
+  }
+  
+  public static <E extends Comparable<? super E>> Wb<E> a(E paramE1, E paramE2, E paramE3)
+  {
+    return a(mf.d(), Arrays.asList(new Comparable[] { paramE1, paramE2, paramE3 }));
+  }
+  
+  public static <E extends Comparable<? super E>> Wb<E> a(E paramE1, E paramE2, E paramE3, E paramE4)
+  {
+    return a(mf.d(), Arrays.asList(new Comparable[] { paramE1, paramE2, paramE3, paramE4 }));
+  }
+  
+  public static <E extends Comparable<? super E>> Wb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5)
+  {
+    return a(mf.d(), Arrays.asList(new Comparable[] { paramE1, paramE2, paramE3, paramE4, paramE5 }));
+  }
+  
+  public static <E extends Comparable<? super E>> Wb<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E... paramVarArgs)
+  {
+    ArrayList localArrayList = new ArrayList(paramVarArgs.length + 6);
+    Collections.addAll(localArrayList, new Comparable[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6 });
+    Collections.addAll(localArrayList, paramVarArgs);
+    return a(mf.d(), localArrayList);
+  }
+  
+  public static <E> Wb<E> a(Iterable<? extends E> paramIterable)
+  {
+    return a(mf.d(), paramIterable);
+  }
+  
+  public static <E> Wb<E> a(Comparator<? super E> paramComparator)
+  {
+    if (f.equals(paramComparator)) {
+      return g;
+    }
+    return new Ba(paramComparator);
+  }
+  
+  public static <E> Wb<E> a(Comparator<? super E> paramComparator, int paramInt, E... paramVarArgs)
+  {
+    paramInt = b(paramComparator, paramInt, paramVarArgs);
+    if (paramInt == 0) {
+      return a(paramComparator);
+    }
+    Object localObject = paramVarArgs;
+    if (paramInt < paramVarArgs.length) {
+      localObject = kf.a(paramVarArgs, paramInt);
+    }
+    return new Of(vb.a((Object[])localObject), paramComparator);
+  }
+  
+  public static <E> Wb<E> a(Comparator<? super E> paramComparator, Iterable<? extends E> paramIterable)
+  {
+    if (paramComparator != null)
+    {
+      if ((og.a(paramComparator, paramIterable)) && ((paramIterable instanceof Wb)))
+      {
+        Wb localWb = (Wb)paramIterable;
+        if (!localWb.c()) {
+          return localWb;
+        }
+      }
+      paramIterable = rc.j(paramIterable);
+      return a(paramComparator, paramIterable.length, paramIterable);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> Wb<E> a(Comparator<? super E> paramComparator, Collection<? extends E> paramCollection)
+  {
+    return a(paramComparator, paramCollection);
+  }
+  
+  public static <E> Wb<E> a(Comparator<? super E> paramComparator, Iterator<? extends E> paramIterator)
+  {
+    return a(paramComparator, fd.a(paramIterator));
+  }
+  
+  public static <E> Wb<E> a(Iterator<? extends E> paramIterator)
+  {
+    return a(mf.d(), paramIterator);
+  }
+  
+  public static <E> Wb<E> a(SortedSet<E> paramSortedSet)
+  {
+    Comparator localComparator = paramSortedSet.comparator();
+    Object localObject = localComparator;
+    if (localComparator == null) {
+      localObject = mf.d();
+    }
+    paramSortedSet = paramSortedSet.toArray();
+    if (paramSortedSet.length == 0) {
+      return a((Comparator)localObject);
+    }
+    return new Of(vb.a(paramSortedSet), (Comparator)localObject);
+  }
+  
+  public static <E extends Comparable<? super E>> Wb<E> a(E[] paramArrayOfE)
+  {
+    return a(mf.d(), Arrays.asList(paramArrayOfE));
+  }
+  
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws InvalidObjectException
+  {
+    throw new InvalidObjectException("Use SerializedForm");
+  }
+  
+  public static <E> int b(Comparator<? super E> paramComparator, int paramInt, E... paramVarArgs)
+  {
+    if (paramInt == 0) {
+      return 0;
+    }
+    int j = 0;
+    while (j < paramInt)
+    {
+      kf.a(paramVarArgs[j], j);
+      j += 1;
+    }
+    Arrays.sort(paramVarArgs, 0, paramInt, paramComparator);
+    j = 1;
+    int m;
+    for (int k = 1; j < paramInt; k = m)
+    {
+      E ? = paramVarArgs[j];
+      m = k;
+      if (paramComparator.compare(?, paramVarArgs[(k - 1)]) != 0)
+      {
+        paramVarArgs[k] = ?;
+        m = k + 1;
+      }
+      j += 1;
+    }
+    Arrays.fill(paramVarArgs, k, paramInt, null);
+    return k;
+  }
+  
+  public static <E> a<E> b(Comparator<E> paramComparator)
+  {
+    return new a(paramComparator);
+  }
+  
+  public static <E> Wb<E> b(Collection<? extends E> paramCollection)
+  {
+    return a(mf.d(), paramCollection);
+  }
+  
+  public static <E> Wb<E> g()
+  {
+    return g;
+  }
+  
+  public static <E> Wb<E> i()
+  {
+    return g;
+  }
+  
+  public static <E extends Comparable<E>> a<E> j()
+  {
+    return new a(mf.d());
+  }
+  
+  public static <E extends Comparable<E>> a<E> k()
+  {
+    return new a(mf.d().g());
+  }
+  
+  public abstract Wb<E> a(E paramE, boolean paramBoolean);
+  
+  public abstract Wb<E> a(E paramE1, boolean paramBoolean1, E paramE2, boolean paramBoolean2);
+  
+  public int b(Object paramObject1, Object paramObject2)
+  {
+    return h.compare(paramObject1, paramObject2);
+  }
+  
+  public abstract Wb<E> b(E paramE, boolean paramBoolean);
+  
+  @c("NavigableSet")
+  public E ceiling(E paramE)
+  {
+    return rc.c(tailSet(paramE, true), null);
+  }
+  
+  public Comparator<? super E> comparator()
+  {
+    return h;
+  }
+  
+  public Object d()
+  {
+    return new b(h, toArray());
+  }
+  
+  @c("NavigableSet")
+  public th<E> descendingIterator()
+  {
+    return descendingSet().iterator();
+  }
+  
+  @c("NavigableSet")
+  public Wb<E> descendingSet()
+  {
+    Wb localWb2 = i;
+    Wb localWb1 = localWb2;
+    if (localWb2 == null)
+    {
+      localWb1 = h();
+      i = localWb1;
+      i = this;
+    }
+    return localWb1;
+  }
+  
+  @c("NavigableSet")
+  public E floor(E paramE)
+  {
+    return rc.c(headSet(paramE, true).descendingSet(), null);
+  }
+  
+  @c("NavigableSet")
+  public abstract Wb<E> h();
+  
+  public Wb<E> headSet(E paramE)
+  {
+    return headSet(paramE, false);
+  }
+  
+  @c("NavigableSet")
+  public Wb<E> headSet(E paramE, boolean paramBoolean)
+  {
+    if (paramE != null) {
+      return a(paramE, paramBoolean);
+    }
+    throw new NullPointerException();
+  }
+  
+  @c("NavigableSet")
+  public E higher(E paramE)
+  {
+    return rc.c(tailSet(paramE, false), null);
+  }
+  
+  public abstract int indexOf(@h Object paramObject);
+  
+  public abstract th<E> iterator();
+  
+  @c("NavigableSet")
+  public E lower(E paramE)
+  {
+    return rc.c(headSet(paramE, false).descendingSet(), null);
+  }
+  
+  @c("NavigableSet")
+  public final E pollFirst()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  @c("NavigableSet")
+  public final E pollLast()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public Wb<E> subSet(E paramE1, E paramE2)
+  {
+    return subSet(paramE1, true, paramE2, false);
+  }
+  
+  @c("NavigableSet")
+  public Wb<E> subSet(E paramE1, boolean paramBoolean1, E paramE2, boolean paramBoolean2)
+  {
+    if (paramE1 != null)
+    {
+      if (paramE2 != null)
+      {
+        boolean bool;
+        if (h.compare(paramE1, paramE2) <= 0) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool);
+        return a(paramE1, paramBoolean1, paramE2, paramBoolean2);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public Wb<E> tailSet(E paramE)
+  {
+    return tailSet(paramE, true);
+  }
+  
+  @c("NavigableSet")
+  public Wb<E> tailSet(E paramE, boolean paramBoolean)
+  {
+    if (paramE != null) {
+      return b(paramE, paramBoolean);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static final class a<E>
+    extends Nb.b<E>
+  {
+    public final Comparator<? super E> d;
+    
+    public a(Comparator<? super E> paramComparator)
+    {
+      super();
+      if (paramComparator != null)
+      {
+        d = paramComparator;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<E> a(Iterable<? extends E> paramIterable)
+    {
+      super.a(paramIterable);
+      return this;
+    }
+    
+    public a<E> a(E paramE)
+    {
+      super.a(paramE);
+      return this;
+    }
+    
+    public a<E> a(Iterator<? extends E> paramIterator)
+    {
+      super.a(paramIterator);
+      return this;
+    }
+    
+    public a<E> a(E... paramVarArgs)
+    {
+      super.a(paramVarArgs);
+      return this;
+    }
+    
+    public Wb<E> a()
+    {
+      Object localObject = b;
+      localObject = Wb.a(d, c, (Object[])localObject);
+      c = ((Collection)localObject).size();
+      return localObject;
+    }
+  }
+  
+  private static class b<E>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final Comparator<? super E> b;
+    public final Object[] c;
+    
+    public b(Comparator<? super E> paramComparator, Object[] paramArrayOfObject)
+    {
+      b = paramComparator;
+      c = paramArrayOfObject;
+    }
+    
+    public Object a()
+    {
+      return new Wb.a(b).a(c).a();
+    }
+  }
+}

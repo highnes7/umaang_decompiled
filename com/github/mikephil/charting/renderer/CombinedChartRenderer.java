@@ -1,0 +1,130 @@
+package com.github.mikephil.charting.renderer;
+
+import android.graphics.Canvas;
+import com.github.mikephil.charting.animation.ChartAnimator;
+import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.dataprovider.BarLineScatterCandleBubbleDataProvider;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class CombinedChartRenderer
+  extends DataRenderer
+{
+  public List<DataRenderer> mRenderers;
+  
+  public CombinedChartRenderer(CombinedChart paramCombinedChart, ChartAnimator paramChartAnimator, ViewPortHandler paramViewPortHandler)
+  {
+    super(paramChartAnimator, paramViewPortHandler);
+    createRenderers(paramCombinedChart, paramChartAnimator, paramViewPortHandler);
+  }
+  
+  public void calcXBounds(BarLineScatterCandleBubbleDataProvider paramBarLineScatterCandleBubbleDataProvider, int paramInt)
+  {
+    Iterator localIterator = mRenderers.iterator();
+    while (localIterator.hasNext()) {
+      ((DataRenderer)localIterator.next()).calcXBounds(paramBarLineScatterCandleBubbleDataProvider, paramInt);
+    }
+  }
+  
+  public void createRenderers(CombinedChart paramCombinedChart, ChartAnimator paramChartAnimator, ViewPortHandler paramViewPortHandler)
+  {
+    mRenderers = new ArrayList();
+    CombinedChart.DrawOrder[] arrayOfDrawOrder = paramCombinedChart.getDrawOrder();
+    int j = arrayOfDrawOrder.length;
+    int i = 0;
+    while (i < j)
+    {
+      int k = arrayOfDrawOrder[i].ordinal();
+      if (k != 0)
+      {
+        if (k != 1)
+        {
+          if (k != 2)
+          {
+            if (k != 3)
+            {
+              if ((k == 4) && (paramCombinedChart.getScatterData() != null)) {
+                mRenderers.add(new ScatterChartRenderer(paramCombinedChart, paramChartAnimator, paramViewPortHandler));
+              }
+            }
+            else if (paramCombinedChart.getCandleData() != null) {
+              mRenderers.add(new CandleStickChartRenderer(paramCombinedChart, paramChartAnimator, paramViewPortHandler));
+            }
+          }
+          else if (paramCombinedChart.getLineData() != null) {
+            mRenderers.add(new LineChartRenderer(paramCombinedChart, paramChartAnimator, paramViewPortHandler));
+          }
+        }
+        else if (paramCombinedChart.getBubbleData() != null) {
+          mRenderers.add(new BubbleChartRenderer(paramCombinedChart, paramChartAnimator, paramViewPortHandler));
+        }
+      }
+      else if (paramCombinedChart.getBarData() != null) {
+        mRenderers.add(new BarChartRenderer(paramCombinedChart, paramChartAnimator, paramViewPortHandler));
+      }
+      i += 1;
+    }
+  }
+  
+  public void drawData(Canvas paramCanvas)
+  {
+    Iterator localIterator = mRenderers.iterator();
+    while (localIterator.hasNext()) {
+      ((DataRenderer)localIterator.next()).drawData(paramCanvas);
+    }
+  }
+  
+  public void drawExtras(Canvas paramCanvas)
+  {
+    Iterator localIterator = mRenderers.iterator();
+    while (localIterator.hasNext()) {
+      ((DataRenderer)localIterator.next()).drawExtras(paramCanvas);
+    }
+  }
+  
+  public void drawHighlighted(Canvas paramCanvas, Highlight[] paramArrayOfHighlight)
+  {
+    Iterator localIterator = mRenderers.iterator();
+    while (localIterator.hasNext()) {
+      ((DataRenderer)localIterator.next()).drawHighlighted(paramCanvas, paramArrayOfHighlight);
+    }
+  }
+  
+  public void drawValues(Canvas paramCanvas)
+  {
+    Iterator localIterator = mRenderers.iterator();
+    while (localIterator.hasNext()) {
+      ((DataRenderer)localIterator.next()).drawValues(paramCanvas);
+    }
+  }
+  
+  public DataRenderer getSubRenderer(int paramInt)
+  {
+    if ((paramInt < mRenderers.size()) && (paramInt >= 0)) {
+      return (DataRenderer)mRenderers.get(paramInt);
+    }
+    return null;
+  }
+  
+  public List getSubRenderers()
+  {
+    return mRenderers;
+  }
+  
+  public void initBuffers()
+  {
+    Iterator localIterator = mRenderers.iterator();
+    while (localIterator.hasNext()) {
+      ((DataRenderer)localIterator.next()).initBuffers();
+    }
+  }
+  
+  public void setSubRenderers(List paramList)
+  {
+    mRenderers = paramList;
+  }
+}

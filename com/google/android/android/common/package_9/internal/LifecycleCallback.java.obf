@@ -1,0 +1,79 @@
+package com.google.android.gms.common.api.internal;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Keep;
+import android.support.v4.app.FragmentActivity;
+import b.b.a.C;
+import com.google.android.gms.common.internal.zzbp;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+
+public class LifecycleCallback
+{
+  public final zzcg zzfoo;
+  
+  public LifecycleCallback(zzcg paramZzcg)
+  {
+    zzfoo = paramZzcg;
+  }
+  
+  @Keep
+  public static zzcg getChimeraLifecycleFragmentImpl(zzcf paramZzcf)
+  {
+    throw new IllegalStateException("Method not available in SDK.");
+  }
+  
+  public static zzcg zzb(zzcf paramZzcf)
+  {
+    if (paramZzcf.zzaig()) {
+      return zzdb.zza(paramZzcf.zzaii());
+    }
+    if (paramZzcf.isAndroid()) {
+      return zzch.zzo(paramZzcf.zzaih());
+    }
+    throw new IllegalArgumentException("Can't get fragment for unexpected activity.");
+  }
+  
+  public static zzcg zzn(Activity paramActivity)
+  {
+    zzbp.zzb(paramActivity, "Activity must not be null");
+    if ((paramActivity instanceof FragmentActivity)) {
+      return zzdb.zza((FragmentActivity)paramActivity);
+    }
+    if ((paramActivity instanceof Activity)) {
+      return zzch.zzo(paramActivity);
+    }
+    throw new IllegalArgumentException("Can't get fragment for unexpected activity.");
+  }
+  
+  @C
+  public void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString) {}
+  
+  public final Activity getActivity()
+  {
+    return zzfoo.zzaij();
+  }
+  
+  @C
+  public void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent) {}
+  
+  @C
+  public void onCreate(Bundle paramBundle) {}
+  
+  @C
+  public void onDestroy() {}
+  
+  @C
+  public void onResume() {}
+  
+  @C
+  public void onSaveInstanceState(Bundle paramBundle) {}
+  
+  @C
+  public void onStart() {}
+  
+  @C
+  public void onStop() {}
+}

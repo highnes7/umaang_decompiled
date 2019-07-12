@@ -1,0 +1,795 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.d;
+import f.g.c.b.ba;
+import f.g.c.h.g;
+import java.util.AbstractQueue;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+
+@a
+public final class ue<E>
+  extends AbstractQueue<E>
+{
+  public static final int a = 1431655765;
+  public static final int b = -1431655766;
+  public static final int c = 11;
+  public final ue<E>.b d;
+  public final ue<E>.b e;
+  @d
+  public final int f;
+  public Object[] g;
+  public int h;
+  public int i;
+  
+  public ue(a<? super E> paramA, int paramInt)
+  {
+    Object localObject = a.a(paramA);
+    d = new b((mf)localObject);
+    e = new b(((mf)localObject).g());
+    localObject = d;
+    b localB = e;
+    b = localB;
+    b = ((b)localObject);
+    f = d;
+    g = new Object[paramInt];
+  }
+  
+  public static int a(int paramInt1, int paramInt2)
+  {
+    return Math.min(paramInt1 - 1, paramInt2) + 1;
+  }
+  
+  @d
+  public static int a(int paramInt1, int paramInt2, Iterable<?> paramIterable)
+  {
+    int j = paramInt1;
+    if (paramInt1 == -1) {
+      j = 11;
+    }
+    paramInt1 = j;
+    if ((paramIterable instanceof Collection)) {
+      paramInt1 = Math.max(j, ((Collection)paramIterable).size());
+    }
+    return a(paramInt1, paramInt2);
+  }
+  
+  public static <B> a<B> a(Comparator<B> paramComparator)
+  {
+    return new a(paramComparator);
+  }
+  
+  private c<E> a(int paramInt, E paramE)
+  {
+    b localB = f(paramInt);
+    int j = localB.a(paramInt);
+    int k = localB.b(j, paramE);
+    if (k == j) {
+      return localB.a(paramInt, j, paramE);
+    }
+    if (k < paramInt) {
+      return new c(paramE, a(paramInt));
+    }
+    return null;
+  }
+  
+  public static <E extends Comparable<E>> ue<E> a(Iterable<? extends E> paramIterable)
+  {
+    return new a(mf.d()).a(paramIterable);
+  }
+  
+  public static a<Comparable> b(int paramInt)
+  {
+    return new a(mf.d()).a(paramInt);
+  }
+  
+  public static <E extends Comparable<E>> ue<E> b()
+  {
+    return new a(mf.d()).a();
+  }
+  
+  @d
+  public static boolean c(int paramInt)
+  {
+    paramInt += 1;
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.b(bool, "negative index");
+    return (0x55555555 & paramInt) > (paramInt & 0xAAAAAAAA);
+  }
+  
+  private int d()
+  {
+    int j = g.length;
+    if (j < 64) {
+      j = (j + 1) * 2;
+    } else {
+      j = g.c(j / 2, 3);
+    }
+    return a(j, f);
+  }
+  
+  public static a<Comparable> d(int paramInt)
+  {
+    return new a(mf.d()).b(paramInt);
+  }
+  
+  private int e()
+  {
+    int k = h;
+    int j = 1;
+    if (k != 1)
+    {
+      if (k != 2)
+      {
+        if (e.a(1, 2) <= 0) {
+          return 1;
+        }
+        j = 2;
+      }
+      return j;
+    }
+    return 0;
+  }
+  
+  private ue<E>.b f(int paramInt)
+  {
+    if (c(paramInt)) {
+      return d;
+    }
+    return e;
+  }
+  
+  private void f()
+  {
+    if (h > g.length)
+    {
+      Object[] arrayOfObject1 = new Object[d()];
+      Object[] arrayOfObject2 = g;
+      System.arraycopy(arrayOfObject2, 0, arrayOfObject1, 0, arrayOfObject2.length);
+      g = arrayOfObject1;
+    }
+  }
+  
+  private E g(int paramInt)
+  {
+    Object localObject = a(paramInt);
+    e(paramInt);
+    return localObject;
+  }
+  
+  @d
+  public int a()
+  {
+    return g.length;
+  }
+  
+  public E a(int paramInt)
+  {
+    return g[paramInt];
+  }
+  
+  public boolean add(E paramE)
+  {
+    offer(paramE);
+    return true;
+  }
+  
+  public boolean addAll(Collection<? extends E> paramCollection)
+  {
+    paramCollection = paramCollection.iterator();
+    for (boolean bool = false; paramCollection.hasNext(); bool = true) {
+      offer(paramCollection.next());
+    }
+    return bool;
+  }
+  
+  @d
+  public boolean c()
+  {
+    int j = 1;
+    while (j < h)
+    {
+      if (!b.a(f(j), j)) {
+        return false;
+      }
+      j += 1;
+    }
+    return true;
+  }
+  
+  public void clear()
+  {
+    int j = 0;
+    while (j < h)
+    {
+      g[j] = null;
+      j += 1;
+    }
+    h = 0;
+  }
+  
+  public Comparator<? super E> comparator()
+  {
+    return d.a;
+  }
+  
+  @d
+  public c<E> e(int paramInt)
+  {
+    ba.d(paramInt, h, "index");
+    i += 1;
+    h -= 1;
+    int j = h;
+    if (j == paramInt)
+    {
+      g[j] = null;
+      return null;
+    }
+    Object localObject1 = a(j);
+    j = f(h).a(localObject1);
+    Object localObject2 = a(h);
+    g[h] = null;
+    c localC = a(paramInt, localObject2);
+    if (j < paramInt)
+    {
+      if (localC == null) {
+        return new c(localObject1, localObject2);
+      }
+      return new c(localObject1, b);
+    }
+    return localC;
+  }
+  
+  public Iterator<E> iterator()
+  {
+    return new d();
+  }
+  
+  public boolean offer(E paramE)
+  {
+    if (paramE != null)
+    {
+      int j = i;
+      boolean bool = true;
+      i = (j + 1);
+      j = h;
+      h = (j + 1);
+      f();
+      f(j).a(j, paramE);
+      if (h > f)
+      {
+        if (pollLast() != paramE) {
+          return true;
+        }
+        bool = false;
+      }
+      return bool;
+    }
+    throw new NullPointerException();
+  }
+  
+  public E peek()
+  {
+    if (isEmpty()) {
+      return null;
+    }
+    return a(0);
+  }
+  
+  public E peekFirst()
+  {
+    return peek();
+  }
+  
+  public E peekLast()
+  {
+    if (isEmpty()) {
+      return null;
+    }
+    return a(e());
+  }
+  
+  public E poll()
+  {
+    if (isEmpty()) {
+      return null;
+    }
+    return g(0);
+  }
+  
+  public E pollFirst()
+  {
+    return poll();
+  }
+  
+  public E pollLast()
+  {
+    if (isEmpty()) {
+      return null;
+    }
+    return g(e());
+  }
+  
+  public E removeFirst()
+  {
+    return remove();
+  }
+  
+  public E removeLast()
+  {
+    if (!isEmpty()) {
+      return g(e());
+    }
+    throw new NoSuchElementException();
+  }
+  
+  public int size()
+  {
+    return h;
+  }
+  
+  public Object[] toArray()
+  {
+    int j = h;
+    Object[] arrayOfObject = new Object[j];
+    System.arraycopy(g, 0, arrayOfObject, 0, j);
+    return arrayOfObject;
+  }
+  
+  @a
+  public static final class a<B>
+  {
+    public static final int a = -1;
+    public final Comparator<B> b;
+    public int c = -1;
+    public int d = Integer.MAX_VALUE;
+    
+    public a(Comparator<B> paramComparator)
+    {
+      if (paramComparator != null)
+      {
+        b = paramComparator;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    private <T extends B> mf<T> b()
+    {
+      return mf.b(b);
+    }
+    
+    public a<B> a(int paramInt)
+    {
+      boolean bool;
+      if (paramInt >= 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool);
+      c = paramInt;
+      return this;
+    }
+    
+    public <T extends B> ue<T> a()
+    {
+      return a(Collections.emptySet());
+    }
+    
+    public <T extends B> ue<T> a(Iterable<? extends T> paramIterable)
+    {
+      ue localUe = new ue(this, ue.a(c, d, paramIterable));
+      paramIterable = paramIterable.iterator();
+      while (paramIterable.hasNext()) {
+        localUe.offer(paramIterable.next());
+      }
+      return localUe;
+    }
+    
+    public a<B> b(int paramInt)
+    {
+      boolean bool;
+      if (paramInt > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool);
+      d = paramInt;
+      return this;
+    }
+  }
+  
+  private class b
+  {
+    public final mf<E> a;
+    public ue<E>.b b;
+    
+    public b()
+    {
+      Object localObject;
+      a = localObject;
+    }
+    
+    private int d(int paramInt)
+    {
+      return ((paramInt - 1) / 2 - 1) / 2;
+    }
+    
+    private int e(int paramInt)
+    {
+      return paramInt * 2 + 1;
+    }
+    
+    private int f(int paramInt)
+    {
+      return (paramInt - 1) / 2;
+    }
+    
+    private int g(int paramInt)
+    {
+      return paramInt * 2 + 2;
+    }
+    
+    private boolean h(int paramInt)
+    {
+      int i = paramInt * 2;
+      int j = i + 1;
+      if ((j < ue.b(ue.this)) && (a(paramInt, j) > 0)) {
+        return false;
+      }
+      i += 2;
+      if ((i < ue.b(ue.this)) && (a(paramInt, i) > 0)) {
+        return false;
+      }
+      if ((paramInt > 0) && (a(paramInt, (paramInt - 1) / 2) > 0)) {
+        return false;
+      }
+      return (paramInt <= 2) || (a(d(paramInt), paramInt) <= 0);
+    }
+    
+    public int a(int paramInt)
+    {
+      for (;;)
+      {
+        int i = c(paramInt);
+        if (i <= 0) {
+          break;
+        }
+        ue.a(ue.this)[paramInt] = a(i);
+        paramInt = i;
+      }
+      return paramInt;
+    }
+    
+    public int a(int paramInt1, int paramInt2)
+    {
+      return a.compare(a(paramInt1), a(paramInt2));
+    }
+    
+    public int a(E paramE)
+    {
+      int i = (ue.b(ue.this) - 1) / 2;
+      if (i != 0)
+      {
+        int j = (i - 1) / 2 * 2 + 2;
+        if ((j != i) && (j * 2 + 1 >= ue.b(ue.this)))
+        {
+          Object localObject = a(j);
+          if (a.compare(localObject, paramE) < 0)
+          {
+            ue.a(ue.this)[j] = paramE;
+            ue.a(ue.this)[ue.b(ue.this)] = localObject;
+            return j;
+          }
+        }
+      }
+      return ue.b(ue.this);
+    }
+    
+    public ue.c<E> a(int paramInt1, int paramInt2, E paramE)
+    {
+      int i = c(paramInt2, paramE);
+      if (i == paramInt2) {
+        return null;
+      }
+      Object localObject;
+      if (i < paramInt1) {
+        localObject = a(paramInt1);
+      } else {
+        localObject = a((paramInt1 - 1) / 2);
+      }
+      if (b.b(i, paramE) < paramInt1) {
+        return new ue.c(paramE, localObject);
+      }
+      return null;
+    }
+    
+    public void a(int paramInt, E paramE)
+    {
+      int i = d(paramInt, paramE);
+      b localB;
+      if (i == paramInt)
+      {
+        localB = this;
+      }
+      else
+      {
+        localB = b;
+        paramInt = i;
+      }
+      localB.b(paramInt, paramE);
+    }
+    
+    public int b(int paramInt)
+    {
+      return b(paramInt * 2 + 1, 2);
+    }
+    
+    public int b(int paramInt1, int paramInt2)
+    {
+      if (paramInt1 >= ue.b(ue.this)) {
+        return -1;
+      }
+      boolean bool;
+      if (paramInt1 > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.b(bool);
+      int k = Math.min(paramInt1, ue.b(ue.this) - paramInt2);
+      int i = paramInt1 + 1;
+      while (i < k + paramInt2)
+      {
+        int j = paramInt1;
+        if (a(i, paramInt1) < 0) {
+          j = i;
+        }
+        i += 1;
+        paramInt1 = j;
+      }
+      return paramInt1;
+    }
+    
+    public int b(int paramInt, E paramE)
+    {
+      while (paramInt > 2)
+      {
+        int i = d(paramInt);
+        Object localObject = a(i);
+        if (a.compare(localObject, paramE) <= 0) {
+          break;
+        }
+        ue.a(ue.this)[paramInt] = localObject;
+        paramInt = i;
+      }
+      ue.a(ue.this)[paramInt] = paramE;
+      return paramInt;
+    }
+    
+    public int c(int paramInt)
+    {
+      paramInt = paramInt * 2 + 1;
+      if (paramInt < 0) {
+        return -1;
+      }
+      return b(paramInt * 2 + 1, 4);
+    }
+    
+    public int c(int paramInt, E paramE)
+    {
+      int i = b(paramInt);
+      if ((i > 0) && (a.compare(a(i), paramE) < 0))
+      {
+        ue.a(ue.this)[paramInt] = a(i);
+        ue.a(ue.this)[i] = paramE;
+        return i;
+      }
+      return d(paramInt, paramE);
+    }
+    
+    public int d(int paramInt, E paramE)
+    {
+      if (paramInt == 0)
+      {
+        ue.a(ue.this)[0] = paramE;
+        return 0;
+      }
+      int j = (paramInt - 1) / 2;
+      Object localObject2 = a(j);
+      int i = j;
+      Object localObject1 = localObject2;
+      if (j != 0)
+      {
+        int k = (j - 1) / 2 * 2 + 2;
+        i = j;
+        localObject1 = localObject2;
+        if (k != j)
+        {
+          i = j;
+          localObject1 = localObject2;
+          if (k * 2 + 1 >= ue.b(ue.this))
+          {
+            Object localObject3 = a(k);
+            i = j;
+            localObject1 = localObject2;
+            if (a.compare(localObject3, localObject2) < 0)
+            {
+              i = k;
+              localObject1 = localObject3;
+            }
+          }
+        }
+      }
+      if (a.compare(localObject1, paramE) < 0)
+      {
+        ue.a(ue.this)[paramInt] = localObject1;
+        ue.a(ue.this)[i] = paramE;
+        return i;
+      }
+      ue.a(ue.this)[paramInt] = paramE;
+      return paramInt;
+    }
+  }
+  
+  public static class c<E>
+  {
+    public final E a;
+    public final E b;
+    
+    public c(E paramE1, E paramE2)
+    {
+      a = paramE1;
+      b = paramE2;
+    }
+  }
+  
+  private class d
+    implements Iterator<E>
+  {
+    public int a = -1;
+    public int b = ue.c(ue.this);
+    public Queue<E> c;
+    public List<E> d;
+    public E e;
+    public boolean f;
+    
+    public d() {}
+    
+    private int a(int paramInt)
+    {
+      int i = paramInt;
+      if (d != null) {
+        for (;;)
+        {
+          i = paramInt;
+          if (paramInt >= size()) {
+            break;
+          }
+          i = paramInt;
+          if (!a(d, a(paramInt))) {
+            break;
+          }
+          paramInt += 1;
+        }
+      }
+      return i;
+    }
+    
+    private boolean a(Iterable<E> paramIterable, E paramE)
+    {
+      paramIterable = paramIterable.iterator();
+      while (paramIterable.hasNext()) {
+        if (paramIterable.next() == paramE) {
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    public void a()
+    {
+      if (ue.c(ue.this) == b) {
+        return;
+      }
+      throw new ConcurrentModificationException();
+    }
+    
+    public boolean a(Object paramObject)
+    {
+      int i = 0;
+      while (i < ue.b(ue.this))
+      {
+        if (ue.a(ue.this)[i] == paramObject)
+        {
+          e(i);
+          return true;
+        }
+        i += 1;
+      }
+      return false;
+    }
+    
+    public boolean hasNext()
+    {
+      a();
+      int i = a;
+      boolean bool = true;
+      if (a(i + 1) >= size())
+      {
+        Queue localQueue = c;
+        if ((localQueue != null) && (!localQueue.isEmpty())) {
+          return true;
+        }
+        bool = false;
+      }
+      return bool;
+    }
+    
+    public E next()
+    {
+      a();
+      int i = a(a + 1);
+      if (i < size())
+      {
+        a = i;
+        f = true;
+        return a(a);
+      }
+      if (c != null)
+      {
+        a = size();
+        e = c.poll();
+        Object localObject = e;
+        if (localObject != null)
+        {
+          f = true;
+          return localObject;
+        }
+      }
+      throw new NoSuchElementException("iterator moved past last element in queue.");
+    }
+    
+    public void remove()
+    {
+      ba.b(f, "no calls to remove() since the last call to next()");
+      a();
+      f = false;
+      b += 1;
+      if (a < size())
+      {
+        ue.c localC = e(a);
+        if (localC != null)
+        {
+          if (c == null)
+          {
+            c = new LinkedList();
+            d = new ArrayList(3);
+          }
+          c.add(a);
+          d.add(b);
+        }
+        a -= 1;
+        return;
+      }
+      ba.b(a(e));
+      e = null;
+    }
+  }
+}

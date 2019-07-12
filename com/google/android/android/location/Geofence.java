@@ -1,0 +1,103 @@
+package com.google.android.android.location;
+
+import android.os.SystemClock;
+import com.google.android.android.internal.zzcac;
+
+public abstract interface Geofence
+{
+  public static final int GEOFENCE_TRANSITION_DWELL = 4;
+  public static final int GEOFENCE_TRANSITION_ENTER = 1;
+  public static final int GEOFENCE_TRANSITION_EXIT = 2;
+  public static final long NEVER_EXPIRE = -1L;
+  
+  public abstract String getRequestId();
+  
+  public final class Builder
+  {
+    public String zzcjw = null;
+    public int zzhxf = 0;
+    public long zzhxg = Long.MIN_VALUE;
+    public short zzhxh = -1;
+    public double zzhxi;
+    public double zzhxj;
+    public float zzhxk;
+    public int zzhxl = 0;
+    public int zzhxm = -1;
+    
+    public Builder() {}
+    
+    public final Geofence build()
+    {
+      if (zzcjw != null)
+      {
+        int i = zzhxf;
+        if (i != 0)
+        {
+          if (((i & 0x4) != 0) && (zzhxm < 0)) {
+            throw new IllegalArgumentException("Non-negative loitering delay needs to be set when transition types include GEOFENCE_TRANSITION_DWELLING.");
+          }
+          long l = zzhxg;
+          if (l != Long.MIN_VALUE)
+          {
+            if (zzhxh != -1)
+            {
+              i = zzhxl;
+              if (i >= 0) {
+                return new zzcac(zzcjw, zzhxf, (short)1, zzhxi, zzhxj, zzhxk, l, i, zzhxm);
+              }
+              throw new IllegalArgumentException("Notification responsiveness should be nonnegative.");
+            }
+            throw new IllegalArgumentException("Geofence region not set.");
+          }
+          throw new IllegalArgumentException("Expiration not set.");
+        }
+        throw new IllegalArgumentException("Transitions types not set.");
+      }
+      throw new IllegalArgumentException("Request ID not set.");
+    }
+    
+    public final Builder setCircularRegion(double paramDouble1, double paramDouble2, float paramFloat)
+    {
+      zzhxh = 1;
+      zzhxi = paramDouble1;
+      zzhxj = paramDouble2;
+      zzhxk = paramFloat;
+      return this;
+    }
+    
+    public final Builder setExpirationDuration(long paramLong)
+    {
+      if (paramLong < 0L)
+      {
+        zzhxg = -1L;
+        return this;
+      }
+      zzhxg = (SystemClock.elapsedRealtime() + paramLong);
+      return this;
+    }
+    
+    public final Builder setLoiteringDelay(int paramInt)
+    {
+      zzhxm = paramInt;
+      return this;
+    }
+    
+    public final Builder setNotificationResponsiveness(int paramInt)
+    {
+      zzhxl = paramInt;
+      return this;
+    }
+    
+    public final Builder setRequestId(String paramString)
+    {
+      zzcjw = paramString;
+      return this;
+    }
+    
+    public final Builder setTransitionTypes(int paramInt)
+    {
+      zzhxf = paramInt;
+      return this;
+    }
+  }
+}

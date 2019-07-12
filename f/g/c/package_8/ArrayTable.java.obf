@@ -1,0 +1,633 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.AbstractCollection;
+import java.util.AbstractSet;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@a
+public final class G<R, C, V>
+  implements Yg<R, C, V>, Serializable
+{
+  public static final long a = 0L;
+  public final vb<R> b;
+  public final vb<C> c;
+  public final Ab<R, Integer> d;
+  public final Ab<C, Integer> e;
+  public final V[][] f;
+  public transient G<R, C, V>.b g;
+  public transient G<R, C, V>.d h;
+  public transient G<R, C, V>.f i;
+  public transient Collection<V> j;
+  
+  public G(G<R, C, V> paramG)
+  {
+    b = b;
+    c = c;
+    d = d;
+    e = e;
+    Object[][] arrayOfObject1 = (Object[][])Array.newInstance(Object.class, new int[] { b.size(), c.size() });
+    f = arrayOfObject1;
+    int k = 0;
+    while (k < b.size())
+    {
+      Object[][] arrayOfObject2 = f;
+      System.arraycopy(arrayOfObject2[k], 0, arrayOfObject1[k], 0, arrayOfObject2[k].length);
+      k += 1;
+    }
+  }
+  
+  public G(Yg<R, C, V> paramYg)
+  {
+    this(paramYg.g(), paramYg.i());
+    a(paramYg);
+  }
+  
+  public G(Iterable<? extends R> paramIterable, Iterable<? extends C> paramIterable1)
+  {
+    b = vb.a(paramIterable);
+    c = vb.a(paramIterable1);
+    boolean bool1 = b.isEmpty();
+    boolean bool2 = true;
+    if (!bool1) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    ba.a(bool1);
+    if (!c.isEmpty()) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    ba.a(bool1);
+    d = a(b);
+    e = a(c);
+    f = ((Object[][])Array.newInstance(Object.class, new int[] { b.size(), c.size() }));
+  }
+  
+  public static <E> Ab<E, Integer> a(List<E> paramList)
+  {
+    Ab.a localA = Ab.a();
+    int k = 0;
+    while (k < paramList.size())
+    {
+      localA.a(paramList.get(k), Integer.valueOf(k));
+      k += 1;
+    }
+    return localA.a();
+  }
+  
+  public static <R, C, V> G<R, C, V> a(Iterable<? extends R> paramIterable, Iterable<? extends C> paramIterable1)
+  {
+    return new G(paramIterable, paramIterable1);
+  }
+  
+  public static <R, C, V> G<R, C, V> b(Yg<R, C, V> paramYg)
+  {
+    return new G(paramYg);
+  }
+  
+  public static <R, C, V> G<R, C, V> f(G<R, C, V> paramG)
+  {
+    return new G(paramG);
+  }
+  
+  public vb<C> a()
+  {
+    return c;
+  }
+  
+  public V a(int paramInt1, int paramInt2)
+  {
+    return f[paramInt1][paramInt2];
+  }
+  
+  public V a(int paramInt1, int paramInt2, @h V paramV)
+  {
+    Object[][] arrayOfObject = f;
+    Object localObject = arrayOfObject[paramInt1][paramInt2];
+    arrayOfObject[paramInt1][paramInt2] = paramV;
+    return localObject;
+  }
+  
+  public V a(@h Object paramObject1, @h Object paramObject2)
+  {
+    paramObject1 = (Integer)d.get(paramObject1);
+    paramObject2 = (Integer)e.get(paramObject2);
+    if (paramObject1 != null)
+    {
+      if (paramObject2 == null) {
+        return null;
+      }
+      return a(paramObject1.intValue(), paramObject2.intValue(), null);
+    }
+    return null;
+  }
+  
+  public V a(R paramR, C paramC, @h V paramV)
+  {
+    if (paramR != null)
+    {
+      if (paramC != null)
+      {
+        Integer localInteger = (Integer)d.get(paramR);
+        boolean bool;
+        if (localInteger != null) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool, "Row %s not in %s", new Object[] { paramR, b });
+        paramR = (Integer)e.get(paramC);
+        if (paramR != null) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool, "Column %s not in %s", new Object[] { paramC, c });
+        return a(localInteger.intValue(), paramR.intValue(), paramV);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public void a(Yg<? extends R, ? extends C, ? extends V> paramYg)
+  {
+    paramYg = paramYg.h().iterator();
+    while (paramYg.hasNext())
+    {
+      Yg.a localA = (Yg.a)paramYg.next();
+      a(localA.a(), localA.b(), localA.getValue());
+    }
+  }
+  
+  public V[][] a(Class<V> paramClass)
+  {
+    paramClass = (Object[][])Array.newInstance(paramClass, new int[] { b.size(), c.size() });
+    int k = 0;
+    while (k < b.size())
+    {
+      Object[][] arrayOfObject = f;
+      System.arraycopy(arrayOfObject[k], 0, paramClass[k], 0, arrayOfObject[k].length);
+      k += 1;
+    }
+    return paramClass;
+  }
+  
+  public void b()
+  {
+    Object[][] arrayOfObject = f;
+    int m = arrayOfObject.length;
+    int k = 0;
+    while (k < m)
+    {
+      Arrays.fill(arrayOfObject[k], null);
+      k += 1;
+    }
+  }
+  
+  public vb<R> c()
+  {
+    return b;
+  }
+  
+  public V c(@h Object paramObject1, @h Object paramObject2)
+  {
+    paramObject1 = (Integer)d.get(paramObject1);
+    paramObject2 = (Integer)e.get(paramObject2);
+    if ((paramObject1 != null) && (paramObject2 != null)) {
+      return f[paramObject1.intValue()][paramObject2.intValue()];
+    }
+    return null;
+  }
+  
+  @Deprecated
+  public void clear()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    Object[][] arrayOfObject = f;
+    int n = arrayOfObject.length;
+    int k = 0;
+    while (k < n)
+    {
+      Object[] arrayOfObject1 = arrayOfObject[k];
+      int i1 = arrayOfObject1.length;
+      int m = 0;
+      while (m < i1)
+      {
+        if (U.a(paramObject, arrayOfObject1[m])) {
+          return true;
+        }
+        m += 1;
+      }
+      k += 1;
+    }
+    return false;
+  }
+  
+  public boolean d(@h Object paramObject1, @h Object paramObject2)
+  {
+    return (g(paramObject1)) && (e(paramObject2));
+  }
+  
+  public Map<C, Map<R, V>> e()
+  {
+    d localD2 = h;
+    d localD1 = localD2;
+    if (localD2 == null)
+    {
+      localD1 = new d(null);
+      h = localD1;
+    }
+    return localD1;
+  }
+  
+  public boolean e(@h Object paramObject)
+  {
+    return e.containsKey(paramObject);
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if ((paramObject instanceof Yg))
+    {
+      paramObject = (Yg)paramObject;
+      return h().equals(paramObject.h());
+    }
+    return false;
+  }
+  
+  public Map<R, V> f(C paramC)
+  {
+    if (paramC != null)
+    {
+      paramC = (Integer)e.get(paramC);
+      if (paramC == null) {
+        return Ab.g();
+      }
+      return new c(paramC.intValue());
+    }
+    throw new NullPointerException();
+  }
+  
+  public Nb<R> g()
+  {
+    return d.keySet();
+  }
+  
+  public boolean g(@h Object paramObject)
+  {
+    return d.containsKey(paramObject);
+  }
+  
+  public Map<C, V> h(R paramR)
+  {
+    if (paramR != null)
+    {
+      paramR = (Integer)d.get(paramR);
+      if (paramR == null) {
+        return Ab.g();
+      }
+      return new e(paramR.intValue());
+    }
+    throw new NullPointerException();
+  }
+  
+  public Set<Yg.a<R, C, V>> h()
+  {
+    b localB2 = g;
+    b localB1 = localB2;
+    if (localB2 == null)
+    {
+      localB1 = new b(null);
+      g = localB1;
+    }
+    return localB1;
+  }
+  
+  public int hashCode()
+  {
+    return h().hashCode();
+  }
+  
+  public Nb<C> i()
+  {
+    return e.keySet();
+  }
+  
+  public boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public Map<R, Map<C, V>> j()
+  {
+    f localF2 = i;
+    f localF1 = localF2;
+    if (localF2 == null)
+    {
+      localF1 = new f(null);
+      i = localF1;
+    }
+    return localF1;
+  }
+  
+  @Deprecated
+  public V remove(Object paramObject1, Object paramObject2)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public int size()
+  {
+    int k = b.size();
+    return c.size() * k;
+  }
+  
+  public String toString()
+  {
+    return j().toString();
+  }
+  
+  public Collection<V> values()
+  {
+    Collection localCollection = j;
+    Object localObject = localCollection;
+    if (localCollection == null)
+    {
+      localObject = new g(null);
+      j = ((Collection)localObject);
+    }
+    return localObject;
+  }
+  
+  private static abstract class a<K, V>
+    extends fe.h<K, V>
+  {
+    public final Ab<K, Integer> d;
+    
+    public a(Ab<K, Integer> paramAb)
+    {
+      d = paramAb;
+    }
+    
+    public K a(int paramInt)
+    {
+      return d.keySet().a().get(paramInt);
+    }
+    
+    @h
+    public abstract V a(int paramInt, V paramV);
+    
+    public Set<Map.Entry<K, V>> a()
+    {
+      return new F(this);
+    }
+    
+    @h
+    public abstract V b(int paramInt);
+    
+    public abstract String b();
+    
+    public void clear()
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public boolean containsKey(@h Object paramObject)
+    {
+      return d.containsKey(paramObject);
+    }
+    
+    public V get(@h Object paramObject)
+    {
+      paramObject = (Integer)d.get(paramObject);
+      if (paramObject == null) {
+        return null;
+      }
+      return b(paramObject.intValue());
+    }
+    
+    public boolean isEmpty()
+    {
+      return d.isEmpty();
+    }
+    
+    public Set<K> keySet()
+    {
+      return d.keySet();
+    }
+    
+    public V put(K paramK, V paramV)
+    {
+      Integer localInteger = (Integer)d.get(paramK);
+      if (localInteger != null) {
+        return a(localInteger.intValue(), paramV);
+      }
+      paramV = new StringBuilder();
+      paramV.append(b());
+      paramV.append(" ");
+      paramV.append(paramK);
+      paramV.append(" not in ");
+      paramV.append(d.keySet());
+      throw new IllegalArgumentException(paramV.toString());
+    }
+    
+    public V remove(Object paramObject)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public int size()
+    {
+      return d.size();
+    }
+  }
+  
+  private class b
+    extends AbstractSet<Yg.a<R, C, V>>
+  {
+    public b() {}
+    
+    public boolean contains(Object paramObject)
+    {
+      boolean bool3 = paramObject instanceof Yg.a;
+      boolean bool2 = false;
+      boolean bool1 = bool2;
+      if (bool3)
+      {
+        paramObject = (Yg.a)paramObject;
+        Integer localInteger1 = (Integer)d.get(paramObject.a());
+        Integer localInteger2 = (Integer)e.get(paramObject.b());
+        bool1 = bool2;
+        if (localInteger1 != null)
+        {
+          bool1 = bool2;
+          if (localInteger2 != null)
+          {
+            bool1 = bool2;
+            if (U.a(f[localInteger1.intValue()][localInteger2.intValue()], paramObject.getValue())) {
+              bool1 = true;
+            }
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public Iterator<Yg.a<R, C, V>> iterator()
+    {
+      return new I(this, size());
+    }
+    
+    public int size()
+    {
+      return G.this.size();
+    }
+  }
+  
+  private class c
+    extends G.a<R, V>
+  {
+    public final int e;
+    
+    public c(int paramInt)
+    {
+      super(null);
+      e = paramInt;
+    }
+    
+    public V a(int paramInt, V paramV)
+    {
+      return a(paramInt, e, paramV);
+    }
+    
+    public V b(int paramInt)
+    {
+      return a(paramInt, e);
+    }
+    
+    public String b()
+    {
+      return "Row";
+    }
+  }
+  
+  private class d
+    extends G.a<C, Map<R, V>>
+  {
+    public d()
+    {
+      super(null);
+    }
+    
+    public Map<R, V> a(int paramInt, Map<R, V> paramMap)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Map<R, V> a(C paramC, Map<R, V> paramMap)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public String b()
+    {
+      return "Column";
+    }
+    
+    public Map<R, V> b(int paramInt)
+    {
+      return new G.c(G.this, paramInt);
+    }
+  }
+  
+  private class e
+    extends G.a<C, V>
+  {
+    public final int e;
+    
+    public e(int paramInt)
+    {
+      super(null);
+      e = paramInt;
+    }
+    
+    public V a(int paramInt, V paramV)
+    {
+      return a(e, paramInt, paramV);
+    }
+    
+    public V b(int paramInt)
+    {
+      return a(e, paramInt);
+    }
+    
+    public String b()
+    {
+      return "Column";
+    }
+  }
+  
+  private class f
+    extends G.a<R, Map<C, V>>
+  {
+    public f()
+    {
+      super(null);
+    }
+    
+    public Map<C, V> a(int paramInt, Map<C, V> paramMap)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public Map<C, V> a(R paramR, Map<C, V> paramMap)
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public String b()
+    {
+      return "Row";
+    }
+    
+    public Map<C, V> b(int paramInt)
+    {
+      return new G.e(G.this, paramInt);
+    }
+  }
+  
+  private class g
+    extends AbstractCollection<V>
+  {
+    public g() {}
+    
+    public Iterator<V> iterator()
+    {
+      return new J(this, h().iterator());
+    }
+    
+    public int size()
+    {
+      return G.this.size();
+    }
+  }
+}

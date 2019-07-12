@@ -1,0 +1,147 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.util.Iterator;
+import java.util.List;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public class Bf<E>
+  extends vb<E>
+{
+  public final transient int c;
+  public final transient int d;
+  public final transient Object[] e;
+  
+  public Bf(Object[] paramArrayOfObject)
+  {
+    c = 0;
+    d = i;
+    e = paramArrayOfObject;
+  }
+  
+  public Bf(Object[] paramArrayOfObject, int paramInt1, int paramInt2)
+  {
+    c = paramInt1;
+    d = paramInt2;
+    e = paramArrayOfObject;
+  }
+  
+  public vb<E> a(int paramInt1, int paramInt2)
+  {
+    return new Bf(e, c + paramInt1, paramInt2 - paramInt1);
+  }
+  
+  public boolean c()
+  {
+    return (c != 0) || (d != e.length);
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if (!(paramObject instanceof List)) {
+      return false;
+    }
+    Object localObject = (List)paramObject;
+    if (size() != ((List)localObject).size()) {
+      return false;
+    }
+    int i = c;
+    if ((paramObject instanceof Bf))
+    {
+      paramObject = (Bf)paramObject;
+      int j = c;
+      while (j < c + d)
+      {
+        if (!e[i].equals(e[j])) {
+          return false;
+        }
+        j += 1;
+        i += 1;
+      }
+    }
+    paramObject = ((List)localObject).iterator();
+    while (paramObject.hasNext())
+    {
+      localObject = paramObject.next();
+      if (!e[i].equals(localObject)) {
+        return false;
+      }
+      i += 1;
+    }
+    return true;
+  }
+  
+  public E get(int paramInt)
+  {
+    ba.c(paramInt, d, "index");
+    return e[(paramInt + c)];
+  }
+  
+  public boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public uh<E> listIterator(int paramInt)
+  {
+    return Jc.a(e, c, d, paramInt);
+  }
+  
+  public int size()
+  {
+    return d;
+  }
+  
+  public Object[] toArray()
+  {
+    Object[] arrayOfObject = new Object[size()];
+    System.arraycopy(e, c, arrayOfObject, 0, d);
+    return arrayOfObject;
+  }
+  
+  public <T> T[] toArray(T[] paramArrayOfT)
+  {
+    int i = paramArrayOfT.length;
+    int j = d;
+    Object localObject;
+    if (i < j)
+    {
+      localObject = kf.b(paramArrayOfT, j);
+    }
+    else
+    {
+      localObject = paramArrayOfT;
+      if (paramArrayOfT.length > j)
+      {
+        paramArrayOfT[j] = null;
+        localObject = paramArrayOfT;
+      }
+    }
+    System.arraycopy(e, c, localObject, 0, d);
+    return localObject;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = V.a(size());
+    localStringBuilder.append('[');
+    localStringBuilder.append(e[c]);
+    int i = c;
+    for (;;)
+    {
+      i += 1;
+      if (i >= c + d) {
+        break;
+      }
+      localStringBuilder.append(", ");
+      localStringBuilder.append(e[i]);
+    }
+    localStringBuilder.append(']');
+    return localStringBuilder.toString();
+  }
+}

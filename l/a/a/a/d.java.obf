@@ -1,0 +1,185 @@
+package l.a.a.a;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.Future;
+import l.a.a.a.a.b.l;
+import l.a.a.a.a.b.y;
+import l.a.a.a.a.e.c;
+import l.a.a.a.a.g.A;
+import l.a.a.a.a.g.d;
+import l.a.a.a.a.g.e;
+import l.a.a.a.a.g.s;
+import l.a.a.a.a.g.v;
+
+public class r
+  extends n<Boolean>
+{
+  public static final String g = "com.crashlytics.ApiEndpoint";
+  public static final String h = "binary";
+  public final l.a.a.a.a.e.o i = new c();
+  public PackageManager j;
+  public String k;
+  public PackageInfo l;
+  public String m;
+  public String n;
+  public String o;
+  public String p;
+  public String q;
+  public final Future<Map<String, p>> r;
+  public final Collection<n> s;
+  
+  public r(Future<Map<String, p>> paramFuture, Collection<n> paramCollection)
+  {
+    r = paramFuture;
+    s = paramCollection;
+  }
+  
+  private d a(l.a.a.a.a.g.o paramO, Collection<p> paramCollection)
+  {
+    Object localObject = d();
+    String str = new l.a.a.a.a.b.i().e((Context)localObject);
+    localObject = l.a(new String[] { l.o((Context)localObject) });
+    int i1 = l.a.a.a.a.b.p.a(o).getId();
+    return new d(str, g().e(), n, m, (String)localObject, p, i1, q, "0", paramO, paramCollection);
+  }
+  
+  private boolean a(String paramString, e paramE, Collection<p> paramCollection)
+  {
+    if ("new".equals(e))
+    {
+      if (b(paramString, paramE, paramCollection)) {
+        return s.c().e();
+      }
+      g.h().c("Fabric", "Failed to create app with Crashlytics service.", null);
+      return false;
+    }
+    if ("configured".equals(e)) {
+      return s.c().e();
+    }
+    if (i)
+    {
+      g.h().d("Fabric", "Server says an update is required - forcing a full App update.");
+      a(paramE, l.a.a.a.a.g.o.a(d(), paramString), paramCollection);
+    }
+    return true;
+  }
+  
+  private boolean a(e paramE, l.a.a.a.a.g.o paramO, Collection<p> paramCollection)
+  {
+    paramO = a(paramO, paramCollection);
+    return new A(this, n(), f, i).a(paramO);
+  }
+  
+  private boolean b(String paramString, e paramE, Collection<p> paramCollection)
+  {
+    paramString = a(l.a.a.a.a.g.o.a(d(), paramString), paramCollection);
+    return new l.a.a.a.a.g.i(this, n(), f, i).a(paramString);
+  }
+  
+  private boolean c(String paramString, e paramE, Collection<p> paramCollection)
+  {
+    return a(paramE, l.a.a.a.a.g.o.a(d(), paramString), paramCollection);
+  }
+  
+  private v o()
+  {
+    try
+    {
+      s.c().a(this, e, i, m, n, n(), l.a.a.a.a.b.o.a(d())).d();
+      v localV = s.c().a();
+      return localV;
+    }
+    catch (Exception localException)
+    {
+      g.h().c("Fabric", "Error dealing with settings", localException);
+    }
+    return null;
+  }
+  
+  public Map<String, p> a(Map<String, p> paramMap, Collection<n> paramCollection)
+  {
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext())
+    {
+      n localN = (n)paramCollection.next();
+      if (!paramMap.containsKey(localN.h())) {
+        paramMap.put(localN.h(), new p(localN.h(), localN.j(), "binary"));
+      }
+    }
+    return paramMap;
+  }
+  
+  public Boolean c()
+  {
+    String str = l.c(d());
+    v localV = o();
+    if (localV != null) {
+      try
+      {
+        if (r != null) {
+          localObject = (Map)r.get();
+        } else {
+          localObject = new HashMap();
+        }
+        Object localObject = a((Map)localObject, s);
+        bool = a(str, a, ((Map)localObject).values());
+      }
+      catch (Exception localException)
+      {
+        g.h().c("Fabric", "Error performing auto configuration.", localException);
+      }
+    }
+    boolean bool = false;
+    return Boolean.valueOf(bool);
+  }
+  
+  public String h()
+  {
+    return "io.fabric.sdk.android:fabric";
+  }
+  
+  public String j()
+  {
+    return "1.4.8.32";
+  }
+  
+  public boolean m()
+  {
+    try
+    {
+      o = g().i();
+      j = d().getPackageManager();
+      k = d().getPackageName();
+      l = j.getPackageInfo(k, 0);
+      m = Integer.toString(l.versionCode);
+      String str;
+      if (l.versionName == null) {
+        str = "0.0";
+      } else {
+        str = l.versionName;
+      }
+      n = str;
+      p = j.getApplicationLabel(d().getApplicationInfo()).toString();
+      q = Integer.toString(dgetApplicationInfotargetSdkVersion);
+      return true;
+    }
+    catch (PackageManager.NameNotFoundException localNameNotFoundException)
+    {
+      g.h().c("Fabric", "Failed init", localNameNotFoundException);
+    }
+    return false;
+  }
+  
+  public String n()
+  {
+    return l.b(d(), "com.crashlytics.ApiEndpoint");
+  }
+}

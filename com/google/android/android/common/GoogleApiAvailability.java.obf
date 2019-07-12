@@ -1,0 +1,320 @@
+package com.google.android.gms.common;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.app.Notification.BigTextStyle;
+import android.app.Notification.Builder;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat.BigTextStyle;
+import android.support.v4.app.NotificationCompat.Builder;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.ProgressBar;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import com.google.android.gms.R.drawable;
+import com.google.android.gms.R.string;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApiActivity;
+import com.google.android.gms.common.api.internal.zzby;
+import com.google.android.gms.common.api.internal.zzbz;
+import com.google.android.gms.common.api.internal.zzcg;
+import com.google.android.gms.common.api.internal.zzco;
+import com.google.android.gms.common.internal.zzt;
+import com.google.android.gms.common.internal.zzu;
+import com.google.android.gms.common.util.zzi;
+import com.google.android.gms.common.util.zzq;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class GoogleApiAvailability
+  extends zze
+{
+  public static final String GOOGLE_PLAY_SERVICES_PACKAGE = "com.google.android.gms";
+  public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE = zze.GOOGLE_PLAY_SERVICES_VERSION_CODE;
+  public static final GoogleApiAvailability zzffi = new GoogleApiAvailability();
+  
+  public GoogleApiAvailability() {}
+  
+  public static GoogleApiAvailability getInstance()
+  {
+    return zzffi;
+  }
+  
+  public static Dialog zza(Activity paramActivity, DialogInterface.OnCancelListener paramOnCancelListener)
+  {
+    Object localObject = new ProgressBar(paramActivity, null, 16842874);
+    ((ProgressBar)localObject).setIndeterminate(true);
+    ((ProgressBar)localObject).setVisibility(0);
+    AlertDialog.Builder localBuilder = new AlertDialog.Builder(paramActivity);
+    localBuilder.setView((View)localObject);
+    localBuilder.setMessage(zzt.zzi(paramActivity, 18));
+    localBuilder.setPositiveButton("", null);
+    localObject = localBuilder.create();
+    zza(paramActivity, (Dialog)localObject, "GooglePlayServicesUpdatingDialog", paramOnCancelListener);
+    return localObject;
+  }
+  
+  public static Dialog zza(Context paramContext, int paramInt, zzu paramZzu, DialogInterface.OnCancelListener paramOnCancelListener)
+  {
+    AlertDialog.Builder localBuilder = null;
+    if (paramInt == 0) {
+      return null;
+    }
+    Object localObject = new TypedValue();
+    paramContext.getTheme().resolveAttribute(16843529, (TypedValue)localObject, true);
+    if ("Theme.Dialog.Alert".equals(paramContext.getResources().getResourceEntryName(resourceId))) {
+      localBuilder = new AlertDialog.Builder(paramContext, 5);
+    }
+    localObject = localBuilder;
+    if (localBuilder == null) {
+      localObject = new AlertDialog.Builder(paramContext);
+    }
+    ((AlertDialog.Builder)localObject).setMessage(zzt.zzi(paramContext, paramInt));
+    if (paramOnCancelListener != null) {
+      ((AlertDialog.Builder)localObject).setOnCancelListener(paramOnCancelListener);
+    }
+    paramOnCancelListener = zzt.zzk(paramContext, paramInt);
+    if (paramOnCancelListener != null) {
+      ((AlertDialog.Builder)localObject).setPositiveButton(paramOnCancelListener, paramZzu);
+    }
+    paramContext = zzt.zzg(paramContext, paramInt);
+    if (paramContext != null) {
+      ((AlertDialog.Builder)localObject).setTitle(paramContext);
+    }
+    return ((AlertDialog.Builder)localObject).create();
+  }
+  
+  @G
+  public static zzby zza(Context paramContext, zzbz paramZzbz)
+  {
+    IntentFilter localIntentFilter = new IntentFilter("android.intent.action.PACKAGE_ADDED");
+    localIntentFilter.addDataScheme("package");
+    zzby localZzby = new zzby(paramZzbz);
+    paramContext.registerReceiver(localZzby, localIntentFilter);
+    localZzby.setContext(paramContext);
+    if (!zzo.zzx(paramContext, "com.google.android.gms"))
+    {
+      paramZzbz.zzage();
+      localZzby.unregister();
+      return null;
+    }
+    return localZzby;
+  }
+  
+  public static void zza(Activity paramActivity, Dialog paramDialog, String paramString, DialogInterface.OnCancelListener paramOnCancelListener)
+  {
+    if ((paramActivity instanceof FragmentActivity))
+    {
+      paramActivity = ((FragmentActivity)paramActivity).getSupportFragmentManager();
+      SupportErrorDialogFragment.newInstance(paramDialog, paramOnCancelListener).show(paramActivity, paramString);
+      return;
+    }
+    paramActivity = paramActivity.getFragmentManager();
+    ErrorDialogFragment.newInstance(paramDialog, paramOnCancelListener).show(paramActivity, paramString);
+  }
+  
+  @TargetApi(20)
+  private final void zza(Context paramContext, int paramInt, String paramString, PendingIntent paramPendingIntent)
+  {
+    if (paramInt == 18)
+    {
+      zzbt(paramContext);
+      return;
+    }
+    if (paramPendingIntent == null) {
+      return;
+    }
+    paramString = zzt.zzh(paramContext, paramInt);
+    String str = zzt.zzj(paramContext, paramInt);
+    Resources localResources = paramContext.getResources();
+    if (zzi.zzcj(paramContext))
+    {
+      com.google.android.gms.common.internal.zzbp.zzbg(zzq.zzali());
+      paramString = new Notification.Builder(paramContext).setSmallIcon(getApplicationInfoicon).setPriority(2).setAutoCancel(true).setContentTitle(paramString).setStyle(new Notification.BigTextStyle().bigText(str)).addAction(R.drawable.common_full_open_on_phone, localResources.getString(R.string.common_open_on_phone), paramPendingIntent).build();
+    }
+    else
+    {
+      paramString = new NotificationCompat.Builder(paramContext, null).setSmallIcon(17301642).setTicker(localResources.getString(R.string.common_google_play_services_notification_ticker)).setWhen(System.currentTimeMillis()).setAutoCancel(true).setContentIntent(paramPendingIntent).setContentTitle(paramString).setContentText(str).setLocalOnly(true).setStyle(new NotificationCompat.BigTextStyle().bigText(str)).build();
+    }
+    if ((paramInt != 1) && (paramInt != 2) && (paramInt != 3))
+    {
+      paramInt = 39789;
+    }
+    else
+    {
+      paramInt = 10436;
+      zzo.zzfga.set(false);
+    }
+    ((NotificationManager)paramContext.getSystemService("notification")).notify(paramInt, paramString);
+  }
+  
+  public Task<Void> checkApiAvailability(GoogleApi<?> paramGoogleApi, GoogleApi<?>... paramVarArgs)
+  {
+    com.google.android.gms.common.internal.zzbp.zzb(paramGoogleApi, "Requested API must not be null.");
+    int j = paramVarArgs.length;
+    int i = 0;
+    while (i < j)
+    {
+      com.google.android.gms.common.internal.zzbp.zzb(paramVarArgs[i], "Requested API must not be null.");
+      i += 1;
+    }
+    ArrayList localArrayList = new ArrayList(paramVarArgs.length + 1);
+    localArrayList.add(paramGoogleApi);
+    localArrayList.addAll(Arrays.asList(paramVarArgs));
+    return com.google.android.gms.common.api.internal.zzbp.zzaho().zza(localArrayList);
+  }
+  
+  public Dialog getErrorDialog(Activity paramActivity, int paramInt1, int paramInt2)
+  {
+    return getErrorDialog(paramActivity, paramInt1, paramInt2, null);
+  }
+  
+  public Dialog getErrorDialog(Activity paramActivity, int paramInt1, int paramInt2, DialogInterface.OnCancelListener paramOnCancelListener)
+  {
+    return zza(paramActivity, paramInt1, zzu.zza(paramActivity, zze.zza(paramActivity, paramInt1, "d"), paramInt2), paramOnCancelListener);
+  }
+  
+  @G
+  public PendingIntent getErrorResolutionPendingIntent(Context paramContext, int paramInt1, int paramInt2)
+  {
+    return zza(paramContext, paramInt1, paramInt2, null);
+  }
+  
+  @G
+  public PendingIntent getErrorResolutionPendingIntent(Context paramContext, ConnectionResult paramConnectionResult)
+  {
+    if (paramConnectionResult.hasResolution()) {
+      return paramConnectionResult.getResolution();
+    }
+    return getErrorResolutionPendingIntent(paramContext, paramConnectionResult.getErrorCode(), 0);
+  }
+  
+  public final String getErrorString(int paramInt)
+  {
+    return zzo.getErrorString(paramInt);
+  }
+  
+  public int isGooglePlayServicesAvailable(Context paramContext)
+  {
+    return super.isGooglePlayServicesAvailable(paramContext);
+  }
+  
+  public final boolean isUserResolvableError(int paramInt)
+  {
+    return zzo.isUserRecoverableError(paramInt);
+  }
+  
+  @C
+  public Task<Void> makeGooglePlayServicesAvailable(Activity paramActivity)
+  {
+    com.google.android.gms.common.internal.zzbp.zzfy("makeGooglePlayServicesAvailable must be called from the main thread");
+    int i = isGooglePlayServicesAvailable(paramActivity);
+    if (i == 0) {
+      return Tasks.forResult(null);
+    }
+    paramActivity = zzco.zzp(paramActivity);
+    paramActivity.zzb(new ConnectionResult(i, null), 0);
+    return paramActivity.getTask();
+  }
+  
+  public boolean showErrorDialogFragment(Activity paramActivity, int paramInt1, int paramInt2)
+  {
+    return showErrorDialogFragment(paramActivity, paramInt1, paramInt2, null);
+  }
+  
+  public boolean showErrorDialogFragment(Activity paramActivity, int paramInt1, int paramInt2, DialogInterface.OnCancelListener paramOnCancelListener)
+  {
+    Dialog localDialog = getErrorDialog(paramActivity, paramInt1, paramInt2, paramOnCancelListener);
+    if (localDialog == null) {
+      return false;
+    }
+    zza(paramActivity, localDialog, "GooglePlayServicesErrorDialog", paramOnCancelListener);
+    return true;
+  }
+  
+  public void showErrorNotification(Context paramContext, int paramInt)
+  {
+    zza(paramContext, paramInt, null, zza(paramContext, paramInt, 0, "n"));
+  }
+  
+  public void showErrorNotification(Context paramContext, ConnectionResult paramConnectionResult)
+  {
+    PendingIntent localPendingIntent = getErrorResolutionPendingIntent(paramContext, paramConnectionResult);
+    zza(paramContext, paramConnectionResult.getErrorCode(), null, localPendingIntent);
+  }
+  
+  public final boolean zza(Activity paramActivity, @F zzcg paramZzcg, int paramInt1, int paramInt2, DialogInterface.OnCancelListener paramOnCancelListener)
+  {
+    paramZzcg = zza(paramActivity, paramInt1, zzu.zza(paramZzcg, zze.zza(paramActivity, paramInt1, "d"), 2), paramOnCancelListener);
+    if (paramZzcg == null) {
+      return false;
+    }
+    zza(paramActivity, paramZzcg, "GooglePlayServicesErrorDialog", paramOnCancelListener);
+    return true;
+  }
+  
+  public final boolean zza(Context paramContext, ConnectionResult paramConnectionResult, int paramInt)
+  {
+    PendingIntent localPendingIntent = getErrorResolutionPendingIntent(paramContext, paramConnectionResult);
+    if (localPendingIntent != null)
+    {
+      zza(paramContext, paramConnectionResult.getErrorCode(), null, GoogleApiActivity.zza(paramContext, localPendingIntent, paramInt));
+      return true;
+    }
+    return false;
+  }
+  
+  public final void zzbt(Context paramContext)
+  {
+    new zza(paramContext).sendEmptyMessageDelayed(1, 120000L);
+  }
+  
+  @SuppressLint({"HandlerLeak"})
+  public final class zza
+    extends Handler
+  {
+    public final Context mApplicationContext;
+    
+    public zza(Context paramContext)
+    {
+      super();
+      mApplicationContext = paramContext.getApplicationContext();
+    }
+    
+    public final void handleMessage(Message paramMessage)
+    {
+      int i = what;
+      if (i != 1)
+      {
+        paramMessage = new StringBuilder(50);
+        paramMessage.append("Don't know how to handle this message: ");
+        paramMessage.append(i);
+        paramMessage.toString();
+        return;
+      }
+      i = isGooglePlayServicesAvailable(mApplicationContext);
+      if (isUserResolvableError(i)) {
+        showErrorNotification(mApplicationContext, i);
+      }
+    }
+  }
+}

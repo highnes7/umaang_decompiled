@@ -1,0 +1,38 @@
+package com.google.android.gms.internal;
+
+import android.accounts.Account;
+import com.google.android.gms.auth.account.WorkAccount;
+import com.google.android.gms.auth.account.WorkAccountApi;
+import com.google.android.gms.auth.account.WorkAccountApi.AddAccountResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+
+public final class zzaqy
+  implements WorkAccountApi
+{
+  public static final Status zzdxz = new Status(13);
+  
+  public zzaqy() {}
+  
+  public final PendingResult<WorkAccountApi.AddAccountResult> addWorkAccount(GoogleApiClient paramGoogleApiClient, String paramString)
+  {
+    return paramGoogleApiClient.zze(new zzara(this, WorkAccount.API, paramGoogleApiClient, paramString));
+  }
+  
+  public final PendingResult<Result> removeWorkAccount(GoogleApiClient paramGoogleApiClient, Account paramAccount)
+  {
+    return paramGoogleApiClient.zze(new zzarc(this, WorkAccount.API, paramGoogleApiClient, paramAccount));
+  }
+  
+  public final void setWorkAuthenticatorEnabled(GoogleApiClient paramGoogleApiClient, boolean paramBoolean)
+  {
+    setWorkAuthenticatorEnabledWithResult(paramGoogleApiClient, paramBoolean);
+  }
+  
+  public final PendingResult<Result> setWorkAuthenticatorEnabledWithResult(GoogleApiClient paramGoogleApiClient, boolean paramBoolean)
+  {
+    return paramGoogleApiClient.zze(new zzaqz(this, WorkAccount.API, paramGoogleApiClient, paramBoolean));
+  }
+}

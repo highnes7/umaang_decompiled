@@ -1,0 +1,67 @@
+package com.coremedia.iso.boxes.apple;
+
+import f.b.a.g;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class AppleDataReferenceBox
+  extends f.h.a.c
+{
+  public static final String TYPE = "rdrf";
+  public String dataReference;
+  public int dataReferenceSize;
+  public String dataReferenceType;
+  
+  static {}
+  
+  public AppleDataReferenceBox()
+  {
+    super("rdrf");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    dataReferenceType = h.a(paramByteBuffer);
+    dataReferenceSize = f.h.a.g.c.a(h.j(paramByteBuffer));
+    dataReference = h.a(paramByteBuffer, dataReferenceSize);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.put(g.b(dataReferenceType));
+    paramByteBuffer.putInt((int)dataReferenceSize);
+    paramByteBuffer.put(m.a(dataReference));
+  }
+  
+  public long getContentSize()
+  {
+    return dataReferenceSize + 12;
+  }
+  
+  public String getDataReference()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    j.b().a(localJoinPoint);
+    return dataReference;
+  }
+  
+  public long getDataReferenceSize()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return dataReferenceSize;
+  }
+  
+  public String getDataReferenceType()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    j.b().a(localJoinPoint);
+    return dataReferenceType;
+  }
+}

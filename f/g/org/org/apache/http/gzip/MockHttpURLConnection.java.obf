@@ -1,0 +1,161 @@
+package f.g.b.a.f.a.b;
+
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.h;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+@h
+public class a
+  extends HttpURLConnection
+{
+  @Deprecated
+  public static final byte[] a = new byte[1];
+  @Deprecated
+  public static final byte[] b = new byte[5];
+  public boolean c;
+  public OutputStream d = new ByteArrayOutputStream(0);
+  public InputStream e = null;
+  public InputStream f = null;
+  public Map<String, List<String>> g = new LinkedHashMap();
+  
+  public a(URL paramURL)
+  {
+    super(paramURL);
+  }
+  
+  public a a(int paramInt)
+  {
+    boolean bool;
+    if (paramInt >= -1) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    g.a(bool);
+    responseCode = paramInt;
+    return this;
+  }
+  
+  public a a(InputStream paramInputStream)
+  {
+    if (paramInputStream != null)
+    {
+      if (f == null) {
+        f = paramInputStream;
+      }
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public a a(OutputStream paramOutputStream)
+  {
+    d = paramOutputStream;
+    return this;
+  }
+  
+  public a a(String paramString1, String paramString2)
+  {
+    if (paramString1 != null)
+    {
+      if (paramString2 != null)
+      {
+        if (g.containsKey(paramString1))
+        {
+          ((List)g.get(paramString1)).add(paramString2);
+          return this;
+        }
+        paramString2 = f.a.a.a.a.a(paramString2);
+        g.put(paramString1, paramString2);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public final boolean a()
+  {
+    return c;
+  }
+  
+  public a b(InputStream paramInputStream)
+  {
+    if (paramInputStream != null)
+    {
+      if (e == null) {
+        e = paramInputStream;
+      }
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public void connect()
+    throws IOException
+  {}
+  
+  public void disconnect() {}
+  
+  public InputStream getErrorStream()
+  {
+    return f;
+  }
+  
+  public String getHeaderField(String paramString)
+  {
+    paramString = (List)g.get(paramString);
+    if (paramString == null) {
+      return null;
+    }
+    return (String)paramString.get(0);
+  }
+  
+  public Map<String, List<String>> getHeaderFields()
+  {
+    return g;
+  }
+  
+  public InputStream getInputStream()
+    throws IOException
+  {
+    if (responseCode < 400) {
+      return e;
+    }
+    throw new IOException();
+  }
+  
+  public OutputStream getOutputStream()
+    throws IOException
+  {
+    OutputStream localOutputStream = d;
+    if (localOutputStream != null) {
+      return localOutputStream;
+    }
+    return super.getOutputStream();
+  }
+  
+  public int getResponseCode()
+    throws IOException
+  {
+    return responseCode;
+  }
+  
+  public void setDoOutput(boolean paramBoolean)
+  {
+    c = true;
+  }
+  
+  public boolean usingProxy()
+  {
+    return false;
+  }
+}

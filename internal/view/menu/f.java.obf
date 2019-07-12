@@ -1,0 +1,189 @@
+package e.a.a;
+
+import android.content.Context;
+import android.content.res.Resources;
+import com.pnikosis.materialishprogress.ProgressWheel;
+
+public class c
+{
+  public ProgressWheel a;
+  public boolean b = true;
+  public float c = 0.75F;
+  public int d;
+  public int e;
+  public int f;
+  public int g;
+  public boolean h;
+  public float i;
+  public int j;
+  
+  public c(Context paramContext)
+  {
+    d = (paramContext.getResources().getDimensionPixelSize(d.e.common_circle_width) + 1);
+    e = paramContext.getResources().getColor(d.d.success_stroke_color);
+    f = 0;
+    g = 0;
+    h = false;
+    i = -1.0F;
+    j = paramContext.getResources().getDimensionPixelOffset(d.e.progress_circle_radius);
+  }
+  
+  private void m()
+  {
+    ProgressWheel localProgressWheel = a;
+    if (localProgressWheel != null)
+    {
+      if ((!b) && (localProgressWheel.a())) {
+        a.d();
+      } else if ((b) && (!a.a())) {
+        a.c();
+      }
+      if (c != a.getSpinSpeed()) {
+        a.setSpinSpeed(c);
+      }
+      if (d != a.getBarWidth()) {
+        a.setBarWidth(d);
+      }
+      if (e != a.getBarColor()) {
+        a.setBarColor(e);
+      }
+      if (f != a.getRimWidth()) {
+        a.setRimWidth(f);
+      }
+      if (g != a.getRimColor()) {
+        a.setRimColor(g);
+      }
+      if (i != a.getProgress()) {
+        if (h) {
+          a.setInstantProgress(i);
+        } else {
+          a.setProgress(i);
+        }
+      }
+      if (j != a.getCircleRadius()) {
+        a.setCircleRadius(j);
+      }
+    }
+  }
+  
+  public int a()
+  {
+    return e;
+  }
+  
+  public void a(float paramFloat)
+  {
+    i = paramFloat;
+    h = true;
+    m();
+  }
+  
+  public void a(int paramInt)
+  {
+    e = paramInt;
+    m();
+  }
+  
+  public void a(ProgressWheel paramProgressWheel)
+  {
+    a = paramProgressWheel;
+    m();
+  }
+  
+  public int b()
+  {
+    return d;
+  }
+  
+  public void b(float paramFloat)
+  {
+    h = false;
+    i = paramFloat;
+    m();
+  }
+  
+  public void b(int paramInt)
+  {
+    d = paramInt;
+    m();
+  }
+  
+  public int c()
+  {
+    return j;
+  }
+  
+  public void c(float paramFloat)
+  {
+    c = paramFloat;
+    m();
+  }
+  
+  public void c(int paramInt)
+  {
+    j = paramInt;
+    m();
+  }
+  
+  public float d()
+  {
+    return i;
+  }
+  
+  public void d(int paramInt)
+  {
+    g = paramInt;
+    m();
+  }
+  
+  public ProgressWheel e()
+  {
+    return a;
+  }
+  
+  public void e(int paramInt)
+  {
+    f = paramInt;
+    m();
+  }
+  
+  public int f()
+  {
+    return g;
+  }
+  
+  public int g()
+  {
+    return f;
+  }
+  
+  public float h()
+  {
+    return c;
+  }
+  
+  public boolean i()
+  {
+    return b;
+  }
+  
+  public void j()
+  {
+    ProgressWheel localProgressWheel = a;
+    if (localProgressWheel != null) {
+      localProgressWheel.b();
+    }
+  }
+  
+  public void k()
+  {
+    b = true;
+    m();
+  }
+  
+  public void l()
+  {
+    b = false;
+    m();
+  }
+}

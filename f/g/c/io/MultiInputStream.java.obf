@@ -1,0 +1,114 @@
+package f.g.c.g;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+
+public final class G
+  extends InputStream
+{
+  public Iterator<? extends y<? extends InputStream>> a;
+  public InputStream b;
+  
+  public G(Iterator<? extends y<? extends InputStream>> paramIterator)
+    throws IOException
+  {
+    a = paramIterator;
+    u();
+  }
+  
+  private void u()
+    throws IOException
+  {
+    close();
+    if (a.hasNext()) {
+      b = ((InputStream)((y)a.next()).a());
+    }
+  }
+  
+  public int available()
+    throws IOException
+  {
+    InputStream localInputStream = b;
+    if (localInputStream == null) {
+      return 0;
+    }
+    return localInputStream.available();
+  }
+  
+  public void close()
+    throws IOException
+  {
+    InputStream localInputStream = b;
+    if (localInputStream != null) {
+      try
+      {
+        localInputStream.close();
+        return;
+      }
+      finally
+      {
+        b = null;
+      }
+    }
+  }
+  
+  public boolean markSupported()
+  {
+    return false;
+  }
+  
+  public int read()
+    throws IOException
+  {
+    InputStream localInputStream = b;
+    if (localInputStream == null) {
+      return -1;
+    }
+    int j = localInputStream.read();
+    int i = j;
+    if (j == -1)
+    {
+      u();
+      i = read();
+    }
+    return i;
+  }
+  
+  public int read(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    InputStream localInputStream = b;
+    if (localInputStream == null) {
+      return -1;
+    }
+    int i = localInputStream.read(paramArrayOfByte, paramInt1, paramInt2);
+    if (i == -1)
+    {
+      u();
+      return read(paramArrayOfByte, paramInt1, paramInt2);
+    }
+    return i;
+  }
+  
+  public long skip(long paramLong)
+    throws IOException
+  {
+    InputStream localInputStream = b;
+    if (localInputStream != null)
+    {
+      if (paramLong <= 0L) {
+        return 0L;
+      }
+      long l = localInputStream.skip(paramLong);
+      if (l != 0L) {
+        return l;
+      }
+      if (read() == -1) {
+        return 0L;
+      }
+      return b.skip(paramLong - 1L) + 1L;
+    }
+    return 0L;
+  }
+}

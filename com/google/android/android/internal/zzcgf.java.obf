@@ -1,0 +1,131 @@
+package com.google.android.gms.internal;
+
+import f.a.a.a.a;
+import java.io.IOException;
+
+public final class zzcgf
+  extends zzeyh<zzcgf>
+{
+  public static volatile zzcgf[] zziyr;
+  public String key = null;
+  public String value = null;
+  
+  public zzcgf()
+  {
+    zzotl = null;
+    zzomu = -1;
+  }
+  
+  public static zzcgf[] zzbae()
+  {
+    if (zziyr == null) {
+      synchronized (zzeyl.zzott)
+      {
+        if (zziyr == null) {
+          zziyr = new zzcgf[0];
+        }
+      }
+    }
+    return zziyr;
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if (!(paramObject instanceof zzcgf)) {
+      return false;
+    }
+    paramObject = (zzcgf)paramObject;
+    Object localObject = key;
+    if (localObject == null)
+    {
+      if (key != null) {
+        return false;
+      }
+    }
+    else if (!((String)localObject).equals(key)) {
+      return false;
+    }
+    localObject = value;
+    if (localObject == null)
+    {
+      if (value != null) {
+        return false;
+      }
+    }
+    else if (!((String)localObject).equals(value)) {
+      return false;
+    }
+    localObject = zzotl;
+    if ((localObject != null) && (!((zzeyj)localObject).isEmpty())) {
+      return zzotl.equals(zzotl);
+    }
+    paramObject = zzotl;
+    if (paramObject != null) {
+      return paramObject.isEmpty();
+    }
+    return true;
+  }
+  
+  public final int hashCode()
+  {
+    int n = a.a(zzcgf.class, 527, 31);
+    Object localObject = key;
+    int m = 0;
+    int i;
+    if (localObject == null) {
+      i = 0;
+    } else {
+      i = ((String)localObject).hashCode();
+    }
+    localObject = value;
+    int j;
+    if (localObject == null) {
+      j = 0;
+    } else {
+      j = ((String)localObject).hashCode();
+    }
+    localObject = zzotl;
+    int k = m;
+    if (localObject != null) {
+      if (((zzeyj)localObject).isEmpty()) {
+        k = m;
+      } else {
+        k = zzotl.hashCode();
+      }
+    }
+    return ((n + i) * 31 + j) * 31 + k;
+  }
+  
+  public final void zza(zzeyf paramZzeyf)
+    throws IOException
+  {
+    String str = key;
+    if (str != null) {
+      paramZzeyf.zzm(1, str);
+    }
+    str = value;
+    if (str != null) {
+      paramZzeyf.zzm(2, str);
+    }
+    super.zza(paramZzeyf);
+  }
+  
+  public final int zzn()
+  {
+    int j = super.zzn();
+    String str = key;
+    int i = j;
+    if (str != null) {
+      i = j + zzeyf.zzn(1, str);
+    }
+    str = value;
+    j = i;
+    if (str != null) {
+      j = i + zzeyf.zzn(2, str);
+    }
+    return j;
+  }
+}

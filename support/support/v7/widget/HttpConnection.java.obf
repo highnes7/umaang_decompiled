@@ -1,0 +1,43 @@
+package b.a.a.a;
+
+import android.os.Handler;
+import android.os.Looper;
+import b.b.a.G;
+import b.b.a.N;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+@N({b.b.a.N.a.b})
+public class d
+  extends e
+{
+  public final Object a = new Object();
+  public ExecutorService b = Executors.newFixedThreadPool(2);
+  @G
+  public volatile Handler c;
+  
+  public d() {}
+  
+  public void a(Runnable paramRunnable)
+  {
+    b.execute(paramRunnable);
+  }
+  
+  public boolean a()
+  {
+    return Looper.getMainLooper().getThread() == Thread.currentThread();
+  }
+  
+  public void c(Runnable paramRunnable)
+  {
+    if (c == null) {
+      synchronized (a)
+      {
+        if (c == null) {
+          c = new Handler(Looper.getMainLooper());
+        }
+      }
+    }
+    c.post(paramRunnable);
+  }
+}

@@ -1,0 +1,312 @@
+package b.a.b;
+
+import android.arch.lifecycle.GenericLifecycleObserver;
+import b.a.a.b.c;
+import b.a.a.b.c.d;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+public class l
+  extends h
+{
+  public static final String a = "LifecycleRegistry";
+  public b.a.a.b.a<i, a> b = new b.a.a.b.a();
+  public h.b c;
+  public final WeakReference<j> d;
+  public int e = 0;
+  public boolean f = false;
+  public boolean g = false;
+  public ArrayList<h.b> h = new ArrayList();
+  
+  public l(@F j paramJ)
+  {
+    d = new WeakReference(paramJ);
+    c = h.b.b;
+  }
+  
+  public static h.a a(h.b paramB)
+  {
+    int i = paramB.ordinal();
+    if (i != 0)
+    {
+      if (i != 1)
+      {
+        if (i != 2)
+        {
+          if (i != 3)
+          {
+            if (i == 4) {
+              return h.a.ON_PAUSE;
+            }
+            throw new IllegalArgumentException(f.a.a.a.a.a("Unexpected state value ", paramB));
+          }
+          return h.a.ON_STOP;
+        }
+        return h.a.ON_DESTROY;
+      }
+      throw new IllegalArgumentException();
+    }
+    throw new IllegalArgumentException();
+  }
+  
+  public static h.b a(h.a paramA)
+  {
+    int i = paramA.ordinal();
+    if (i != 0)
+    {
+      if (i != 1) {
+        if (i != 2)
+        {
+          if (i != 3)
+          {
+            if (i == 4) {
+              break label60;
+            }
+            if (i == 5) {
+              return h.b.a;
+            }
+            throw new IllegalArgumentException(f.a.a.a.a.a("Unexpected event value ", paramA));
+          }
+        }
+        else {
+          return h.b.e;
+        }
+      }
+      return h.b.d;
+    }
+    label60:
+    return h.b.c;
+  }
+  
+  public static h.b a(@F h.b paramB1, @G h.b paramB2)
+  {
+    h.b localB = paramB1;
+    if (paramB2 != null)
+    {
+      localB = paramB1;
+      if (paramB2.compareTo(paramB1) < 0) {
+        localB = paramB2;
+      }
+    }
+    return localB;
+  }
+  
+  private void a(j paramJ)
+  {
+    Iterator localIterator = b.descendingIterator();
+    while ((localIterator.hasNext()) && (!g))
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      a localA = (a)localEntry.getValue();
+      while ((a.compareTo(c) > 0) && (!g) && (b.contains(localEntry.getKey())))
+      {
+        h.a localA1 = a(a);
+        h.b localB = a(localA1);
+        h.add(localB);
+        localA.a(paramJ, localA1);
+        d();
+      }
+    }
+  }
+  
+  private void b(j paramJ)
+  {
+    c.d localD = b.b();
+    while ((localD.hasNext()) && (!g))
+    {
+      Map.Entry localEntry = (Map.Entry)localD.next();
+      a localA = (a)localEntry.getValue();
+      while ((a.compareTo(c) < 0) && (!g) && (b.contains(localEntry.getKey())))
+      {
+        h.b localB = a;
+        h.add(localB);
+        localA.a(paramJ, c(a));
+        d();
+      }
+    }
+  }
+  
+  public static h.a c(h.b paramB)
+  {
+    int i = paramB.ordinal();
+    if ((i != 0) && (i != 1))
+    {
+      if (i != 2)
+      {
+        if (i != 3)
+        {
+          if (i != 4) {
+            throw new IllegalArgumentException(f.a.a.a.a.a("Unexpected state value ", paramB));
+          }
+          throw new IllegalArgumentException();
+        }
+        return h.a.ON_RESUME;
+      }
+      return h.a.ON_START;
+    }
+    return h.a.ON_CREATE;
+  }
+  
+  private h.b c(i paramI)
+  {
+    paramI = b.c(paramI);
+    Object localObject = null;
+    if (paramI != null) {
+      paramI = getValuea;
+    } else {
+      paramI = null;
+    }
+    if (!h.isEmpty())
+    {
+      localObject = h;
+      localObject = (h.b)((ArrayList)localObject).get(((ArrayList)localObject).size() - 1);
+    }
+    return a(a(c, paramI), (h.b)localObject);
+  }
+  
+  private boolean c()
+  {
+    if (b.size() == 0) {
+      return true;
+    }
+    h.b localB1 = b.a().getValue()).a;
+    h.b localB2 = b.c().getValue()).a;
+    return (localB1 == localB2) && (c == localB2);
+  }
+  
+  private void d()
+  {
+    ArrayList localArrayList = h;
+    localArrayList.remove(localArrayList.size() - 1);
+  }
+  
+  private void d(h.b paramB)
+  {
+    if (c == paramB) {
+      return;
+    }
+    c = paramB;
+    if ((!f) && (e == 0))
+    {
+      f = true;
+      e();
+      f = false;
+      return;
+    }
+    g = true;
+  }
+  
+  private void e()
+  {
+    j localJ = (j)d.get();
+    if (localJ == null) {
+      return;
+    }
+    while (!c())
+    {
+      g = false;
+      if (c.compareTo(b.a().getValue()).a) < 0) {
+        a(localJ);
+      }
+      Map.Entry localEntry = b.c();
+      if ((!g) && (localEntry != null) && (c.compareTo(getValuea) > 0)) {
+        b(localJ);
+      }
+    }
+    g = false;
+  }
+  
+  private void e(h.b paramB)
+  {
+    h.add(paramB);
+  }
+  
+  @F
+  public h.b a()
+  {
+    return c;
+  }
+  
+  public void a(@F i paramI)
+  {
+    Object localObject = c;
+    h.b localB = h.b.a;
+    if (localObject != localB) {
+      localB = h.b.b;
+    }
+    localObject = new a(paramI, localB);
+    if ((a)b.b(paramI, localObject) != null) {
+      return;
+    }
+    j localJ = (j)d.get();
+    if (localJ == null) {
+      return;
+    }
+    int i;
+    if ((e == 0) && (!f)) {
+      i = 0;
+    } else {
+      i = 1;
+    }
+    localB = c(paramI);
+    e += 1;
+    while ((a.compareTo(localB) < 0) && (b.contains(paramI)))
+    {
+      localB = a;
+      h.add(localB);
+      ((a)localObject).a(localJ, c(a));
+      d();
+      localB = c(paramI);
+    }
+    if (i == 0) {
+      e();
+    }
+    e -= 1;
+  }
+  
+  public int b()
+  {
+    return b.size();
+  }
+  
+  public void b(@F h.a paramA)
+  {
+    d(a(paramA));
+  }
+  
+  @C
+  public void b(@F h.b paramB)
+  {
+    d(paramB);
+  }
+  
+  public void b(@F i paramI)
+  {
+    b.remove(paramI);
+  }
+  
+  public static class a
+  {
+    public h.b a;
+    public GenericLifecycleObserver b;
+    
+    public a(i paramI, h.b paramB)
+    {
+      b = n.a(paramI);
+      a = paramB;
+    }
+    
+    public void a(j paramJ, h.a paramA)
+    {
+      h.b localB = l.a(paramA);
+      a = l.a(a, localB);
+      b.a(paramJ, paramA);
+      a = localB;
+    }
+  }
+}

@@ -1,0 +1,222 @@
+package com.facebook.applinks;
+
+import android.net.Uri;
+import android.os.Bundle;
+import com.facebook.AccessToken;
+import com.facebook.FacebookRequestError;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequest.Callback;
+import com.facebook.GraphResponse;
+import d.F;
+import d.F.a;
+import d.d;
+import d.d.a;
+import d.g;
+import d.o;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class FacebookAppLinkResolver
+  implements g
+{
+  public static final String APP_LINK_ANDROID_TARGET_KEY = "android";
+  public static final String APP_LINK_KEY = "app_links";
+  public static final String APP_LINK_TARGET_APP_NAME_KEY = "app_name";
+  public static final String APP_LINK_TARGET_CLASS_KEY = "class";
+  public static final String APP_LINK_TARGET_PACKAGE_KEY = "package";
+  public static final String APP_LINK_TARGET_SHOULD_FALLBACK_KEY = "should_fallback";
+  public static final String APP_LINK_TARGET_URL_KEY = "url";
+  public static final String APP_LINK_WEB_TARGET_KEY = "web";
+  public final HashMap<Uri, d> cachedAppLinks = new HashMap();
+  
+  public FacebookAppLinkResolver() {}
+  
+  public static d.a getAndroidTargetFromJson(JSONObject paramJSONObject)
+  {
+    Object localObject = null;
+    String str1 = tryGetStringFromJson(paramJSONObject, "package", null);
+    if (str1 == null) {
+      return null;
+    }
+    String str2 = tryGetStringFromJson(paramJSONObject, "class", null);
+    String str3 = tryGetStringFromJson(paramJSONObject, "app_name", null);
+    String str4 = tryGetStringFromJson(paramJSONObject, "url", null);
+    paramJSONObject = localObject;
+    if (str4 != null) {
+      paramJSONObject = Uri.parse(str4);
+    }
+    return new d.a(str1, str2, paramJSONObject, str3);
+  }
+  
+  public static Uri getWebFallbackUriFromJson(Uri paramUri, JSONObject paramJSONObject)
+  {
+    try
+    {
+      paramJSONObject = paramJSONObject.getJSONObject("web");
+      if (!tryGetBooleanFromJson(paramJSONObject, "should_fallback", true)) {
+        return null;
+      }
+      paramJSONObject = tryGetStringFromJson(paramJSONObject, "url", null);
+      if (paramJSONObject != null) {
+        paramJSONObject = Uri.parse(paramJSONObject);
+      } else {
+        paramJSONObject = null;
+      }
+      if (paramJSONObject != null) {
+        paramUri = paramJSONObject;
+      }
+      return paramUri;
+    }
+    catch (JSONException paramJSONObject) {}
+    return paramUri;
+  }
+  
+  public static boolean tryGetBooleanFromJson(JSONObject paramJSONObject, String paramString, boolean paramBoolean)
+  {
+    try
+    {
+      boolean bool = paramJSONObject.getBoolean(paramString);
+      return bool;
+    }
+    catch (JSONException paramJSONObject) {}
+    return paramBoolean;
+  }
+  
+  public static String tryGetStringFromJson(JSONObject paramJSONObject, String paramString1, String paramString2)
+  {
+    try
+    {
+      paramJSONObject = paramJSONObject.getString(paramString1);
+      return paramJSONObject;
+    }
+    catch (JSONException paramJSONObject) {}
+    return paramString2;
+  }
+  
+  public F<d> getAppLinkFromUrlInBackground(final Uri paramUri)
+  {
+    ArrayList localArrayList = new ArrayList();
+    localArrayList.add(paramUri);
+    getAppLinkFromUrlsInBackground(localArrayList).c(new o()
+    {
+      public d then(F<Map<Uri, d>> paramAnonymousF)
+        throws Exception
+      {
+        return (d)((Map)paramAnonymousF.e()).get(paramUri);
+      }
+    });
+  }
+  
+  public F<Map<Uri, d>> getAppLinkFromUrlsInBackground(List<Uri> arg1)
+  {
+    HashMap localHashMap = new HashMap();
+    final HashSet localHashSet = new HashSet();
+    StringBuilder localStringBuilder = new StringBuilder();
+    Object localObject2 = ???.iterator();
+    while (((Iterator)localObject2).hasNext())
+    {
+      Uri localUri = (Uri)((Iterator)localObject2).next();
+      synchronized (cachedAppLinks)
+      {
+        d localD = (d)cachedAppLinks.get(localUri);
+        if (localD != null)
+        {
+          localHashMap.put(localUri, localD);
+        }
+        else
+        {
+          if (!localHashSet.isEmpty()) {
+            localStringBuilder.append(',');
+          }
+          localStringBuilder.append(localUri.toString());
+          localHashSet.add(localUri);
+        }
+      }
+    }
+    if (localHashSet.isEmpty()) {
+      return F.a(localObject1);
+    }
+    ??? = F.c();
+    localObject2 = new Bundle();
+    ((Bundle)localObject2).putString("ids", localStringBuilder.toString());
+    ((Bundle)localObject2).putString("fields", String.format("%s.fields(%s,%s)", new Object[] { "app_links", "android", "web" }));
+    new GraphRequest(AccessToken.getCurrentAccessToken(), "", (Bundle)localObject2, null, new GraphRequest.Callback()
+    {
+      public void onCompleted(GraphResponse paramAnonymousGraphResponse)
+      {
+        Object localObject1 = paramAnonymousGraphResponse.getError();
+        if (localObject1 != null)
+        {
+          paramList.a(((FacebookRequestError)localObject1).getException());
+          return;
+        }
+        paramAnonymousGraphResponse = paramAnonymousGraphResponse.getJSONObject();
+        if (paramAnonymousGraphResponse == null)
+        {
+          paramList.a(localObject1);
+          return;
+        }
+        localObject1 = localHashSet.iterator();
+        for (;;)
+        {
+          Uri localUri;
+          if (((Iterator)localObject1).hasNext())
+          {
+            localUri = (Uri)((Iterator)localObject1).next();
+            if (!paramAnonymousGraphResponse.has(localUri.toString())) {}
+          }
+          else
+          {
+            try
+            {
+              ??? = paramAnonymousGraphResponse.getJSONObject(localUri.toString()).getJSONObject("app_links");
+              localObject4 = ((JSONObject)???).getJSONArray("android");
+              j = ((JSONArray)localObject4).length();
+              localArrayList = new ArrayList(j);
+              i = 0;
+            }
+            catch (JSONException localJSONException)
+            {
+              for (;;)
+              {
+                Object localObject4;
+                int j;
+                ArrayList localArrayList;
+                int i;
+                d.a localA;
+                break;
+                i += 1;
+              }
+            }
+            if (i < j)
+            {
+              localA = FacebookAppLinkResolver.getAndroidTargetFromJson(((JSONArray)localObject4).getJSONObject(i));
+              if (localA != null) {
+                localArrayList.add(localA);
+              }
+            }
+            else
+            {
+              localObject4 = new d(localUri, localArrayList, FacebookAppLinkResolver.getWebFallbackUriFromJson(localUri, (JSONObject)???));
+              localObject1.put(localUri, localObject4);
+              synchronized (FacebookAppLinkResolver.access$200(FacebookAppLinkResolver.this))
+              {
+                FacebookAppLinkResolver.access$200(FacebookAppLinkResolver.this).put(localUri, localObject4);
+              }
+              paramList.a(localObject1);
+              return;
+            }
+          }
+        }
+      }
+    }).executeAsync();
+    return ???.a();
+  }
+}

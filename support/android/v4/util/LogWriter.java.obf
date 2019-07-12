@@ -1,0 +1,53 @@
+package b.b.x.n;
+
+import b.b.a.N;
+import java.io.Writer;
+
+@N({b.b.a.N.a.b})
+public class k
+  extends Writer
+{
+  public final String a;
+  public StringBuilder b = new StringBuilder(128);
+  
+  public k(String paramString)
+  {
+    a = paramString;
+  }
+  
+  private void u()
+  {
+    if (b.length() > 0)
+    {
+      Object localObject = a;
+      b.toString();
+      localObject = b;
+      ((StringBuilder)localObject).delete(0, ((StringBuilder)localObject).length());
+    }
+  }
+  
+  public void close()
+  {
+    u();
+  }
+  
+  public void flush()
+  {
+    u();
+  }
+  
+  public void write(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+  {
+    int i = 0;
+    while (i < paramInt2)
+    {
+      char c = paramArrayOfChar[(paramInt1 + i)];
+      if (c == '\n') {
+        u();
+      } else {
+        b.append(c);
+      }
+      i += 1;
+    }
+  }
+}

@@ -1,0 +1,447 @@
+package com.google.android.gms.common.api.internal;
+
+import android.app.PendingIntent;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.x.n.b;
+import b.b.x.n.t;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.zza;
+import com.google.android.gms.common.api.Api.zzb;
+import com.google.android.gms.common.api.Api.zzc;
+import com.google.android.gms.common.api.Api.zze;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.internal.zzq;
+import com.google.android.gms.common.zze;
+import com.google.android.gms.internal.zzcps;
+import com.google.android.gms.internal.zzcpt;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.WeakHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+
+public final class zzy
+  implements zzcd
+{
+  public final Context mContext;
+  public final Looper zzakg;
+  public final zzbd zzfju;
+  public final zzbl zzfjv;
+  public final zzbl zzfjw;
+  public final Map<Api.zzc<?>, zzbl> zzfjx;
+  public final Set<zzcv> zzfjy = Collections.newSetFromMap(new WeakHashMap());
+  public final Api.zze zzfjz;
+  public Bundle zzfka;
+  public ConnectionResult zzfkb = null;
+  public ConnectionResult zzfkc = null;
+  public boolean zzfkd = false;
+  public final Lock zzfke;
+  public int zzfkf = 0;
+  
+  public zzy(Context paramContext, zzbd paramZzbd, Lock paramLock, Looper paramLooper, zze paramZze, Map<Api.zzc<?>, Api.zze> paramMap1, Map<Api.zzc<?>, Api.zze> paramMap2, zzq paramZzq, Api.zza<? extends zzcps, zzcpt> paramZza, Api.zze paramZze1, ArrayList<zzw> paramArrayList1, ArrayList<zzw> paramArrayList2, Map<Api<?>, Boolean> paramMap3, Map<Api<?>, Boolean> paramMap4)
+  {
+    mContext = paramContext;
+    zzfju = paramZzbd;
+    zzfke = paramLock;
+    zzakg = paramLooper;
+    zzfjz = paramZze1;
+    zzfjv = new zzbl(paramContext, zzfju, paramLock, paramLooper, paramZze, paramMap2, null, paramMap4, null, paramArrayList2, new zzaa(this, null));
+    zzfjw = new zzbl(paramContext, zzfju, paramLock, paramLooper, paramZze, paramMap1, paramZzq, paramMap3, paramZza, paramArrayList1, new zzab(this, null));
+    paramContext = new b();
+    paramZzbd = paramMap2.keySet().iterator();
+    while (paramZzbd.hasNext()) {
+      paramContext.put((Api.zzc)paramZzbd.next(), zzfjv);
+    }
+    paramZzbd = paramMap1.keySet().iterator();
+    while (paramZzbd.hasNext()) {
+      paramContext.put((Api.zzc)paramZzbd.next(), zzfjw);
+    }
+    zzfjx = Collections.unmodifiableMap(paramContext);
+  }
+  
+  public static zzy zza(Context paramContext, zzbd paramZzbd, Lock paramLock, Looper paramLooper, zze paramZze, Map<Api.zzc<?>, Api.zze> paramMap, zzq paramZzq, Map<Api<?>, Boolean> paramMap1, Api.zza<? extends zzcps, zzcpt> paramZza, ArrayList<zzw> paramArrayList)
+  {
+    b localB1 = new b();
+    b localB2 = new b();
+    Object localObject2 = paramMap.entrySet().iterator();
+    paramMap = null;
+    while (((Iterator)localObject2).hasNext())
+    {
+      localObject3 = (Map.Entry)((Iterator)localObject2).next();
+      localObject1 = (Api.zze)((Map.Entry)localObject3).getValue();
+      if (((Api.zze)localObject1).zzaal()) {
+        paramMap = (Map<Api.zzc<?>, Api.zze>)localObject1;
+      }
+      if (((Api.zze)localObject1).zzaac()) {
+        localB1.put((Api.zzc)((Map.Entry)localObject3).getKey(), localObject1);
+      } else {
+        localB2.put((Api.zzc)((Map.Entry)localObject3).getKey(), localObject1);
+      }
+    }
+    zzbp.zza(localB1.isEmpty() ^ true, "CompositeGoogleApiClient should not be used without any APIs that require sign-in.");
+    Object localObject1 = new b();
+    localObject2 = new b();
+    Object localObject3 = paramMap1.keySet().iterator();
+    Object localObject4;
+    while (((Iterator)localObject3).hasNext())
+    {
+      localObject4 = (Api)((Iterator)localObject3).next();
+      Api.zzc localZzc = ((Api)localObject4).zzafe();
+      if (localB1.containsKey(localZzc)) {
+        ((Map)localObject1).put(localObject4, (Boolean)paramMap1.get(localObject4));
+      } else if (localB2.containsKey(localZzc)) {
+        ((Map)localObject2).put(localObject4, (Boolean)paramMap1.get(localObject4));
+      } else {
+        throw new IllegalStateException("Each API in the isOptionalMap must have a corresponding client in the clients map.");
+      }
+    }
+    paramMap1 = new ArrayList();
+    localObject3 = new ArrayList();
+    int j = paramArrayList.size();
+    int i = 0;
+    while (i < j)
+    {
+      localObject4 = paramArrayList.get(i);
+      i += 1;
+      localObject4 = (zzw)localObject4;
+      if (((Map)localObject1).containsKey(zzfdg)) {
+        paramMap1.add(localObject4);
+      } else if (((Map)localObject2).containsKey(zzfdg)) {
+        ((ArrayList)localObject3).add(localObject4);
+      } else {
+        throw new IllegalStateException("Each ClientCallbacks must have a corresponding API in the isOptionalMap");
+      }
+    }
+    return new zzy(paramContext, paramZzbd, paramLock, paramLooper, paramZze, localB1, localB2, paramZzq, paramZza, paramMap, paramMap1, (ArrayList)localObject3, (Map)localObject1, (Map)localObject2);
+  }
+  
+  private final void zza(ConnectionResult paramConnectionResult)
+  {
+    int i = zzfkf;
+    if (i != 1)
+    {
+      if (i != 2) {
+        Log.wtf("CompositeGAC", "Attempted to call failure callbacks in CONNECTION_MODE_NONE. Callbacks should be disabled via GmsClientSupervisor", new Exception());
+      } else {
+        zzfju.zzc(paramConnectionResult);
+      }
+    }
+    else {
+      zzagk();
+    }
+    zzfkf = 0;
+  }
+  
+  private final void zzagj()
+  {
+    Object localObject;
+    if (zzb(zzfkb))
+    {
+      if ((!zzb(zzfkc)) && (!zzagl()))
+      {
+        localObject = zzfkc;
+        if (localObject != null)
+        {
+          if (zzfkf == 1)
+          {
+            zzagk();
+            return;
+          }
+          zza((ConnectionResult)localObject);
+          zzfjv.disconnect();
+        }
+      }
+      else
+      {
+        int i = zzfkf;
+        if (i != 1)
+        {
+          if (i != 2) {
+            Log.wtf("CompositeGAC", "Attempted to call success callbacks in CONNECTION_MODE_NONE. Callbacks should be disabled via GmsClientSupervisor", new AssertionError());
+          } else {
+            zzfju.zzj(zzfka);
+          }
+        }
+        else {
+          zzagk();
+        }
+        zzfkf = 0;
+      }
+    }
+    else
+    {
+      if ((zzfkb != null) && (zzb(zzfkc)))
+      {
+        zzfjw.disconnect();
+        zza(zzfkb);
+        return;
+      }
+      localObject = zzfkb;
+      if (localObject != null)
+      {
+        ConnectionResult localConnectionResult = zzfkc;
+        if (localConnectionResult != null)
+        {
+          if (zzfjw.zzfnf < zzfjv.zzfnf) {
+            localObject = localConnectionResult;
+          }
+          zza((ConnectionResult)localObject);
+        }
+      }
+    }
+  }
+  
+  private final void zzagk()
+  {
+    Iterator localIterator = zzfjy.iterator();
+    while (localIterator.hasNext()) {
+      ((zzcv)localIterator.next()).zzaak();
+    }
+    zzfjy.clear();
+  }
+  
+  private final boolean zzagl()
+  {
+    ConnectionResult localConnectionResult = zzfkc;
+    return (localConnectionResult != null) && (localConnectionResult.getErrorCode() == 4);
+  }
+  
+  @G
+  private final PendingIntent zzagm()
+  {
+    if (zzfjz == null) {
+      return null;
+    }
+    return PendingIntent.getActivity(mContext, System.identityHashCode(zzfju), zzfjz.zzaam(), 134217728);
+  }
+  
+  public static boolean zzb(ConnectionResult paramConnectionResult)
+  {
+    return (paramConnectionResult != null) && (paramConnectionResult.isSuccess());
+  }
+  
+  private final void zze(int paramInt, boolean paramBoolean)
+  {
+    zzfju.zzf(paramInt, paramBoolean);
+    zzfkc = null;
+    zzfkb = null;
+  }
+  
+  private final boolean zzf(zzm<? extends Result, ? extends Api.zzb> paramZzm)
+  {
+    paramZzm = paramZzm.zzafe();
+    zzbp.zzb(zzfjx.containsKey(paramZzm), "GoogleApiClient is not configured to use the API required for this call.");
+    return ((zzbl)zzfjx.get(paramZzm)).equals(zzfjw);
+  }
+  
+  private final void zzi(Bundle paramBundle)
+  {
+    Bundle localBundle = zzfka;
+    if (localBundle == null)
+    {
+      zzfka = paramBundle;
+      return;
+    }
+    if (paramBundle != null) {
+      localBundle.putAll(paramBundle);
+    }
+  }
+  
+  public final ConnectionResult blockingConnect()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final ConnectionResult blockingConnect(long paramLong, @F TimeUnit paramTimeUnit)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final void connect()
+  {
+    zzfkf = 2;
+    zzfkd = false;
+    zzfkc = null;
+    zzfkb = null;
+    zzfjv.connect();
+    zzfjw.connect();
+  }
+  
+  public final void disconnect()
+  {
+    zzfkc = null;
+    zzfkb = null;
+    zzfkf = 0;
+    zzfjv.disconnect();
+    zzfjw.disconnect();
+    zzagk();
+  }
+  
+  public final void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+  {
+    paramPrintWriter.append(paramString).append("authClient").println(":");
+    zzfjw.dump(String.valueOf(paramString).concat("  "), paramFileDescriptor, paramPrintWriter, paramArrayOfString);
+    paramPrintWriter.append(paramString).append("anonClient").println(":");
+    zzfjv.dump(String.valueOf(paramString).concat("  "), paramFileDescriptor, paramPrintWriter, paramArrayOfString);
+  }
+  
+  @G
+  public final ConnectionResult getConnectionResult(@F Api<?> paramApi)
+  {
+    if (((zzbl)zzfjx.get(paramApi.zzafe())).equals(zzfjw))
+    {
+      if (zzagl()) {
+        return new ConnectionResult(4, zzagm());
+      }
+      return zzfjw.getConnectionResult(paramApi);
+    }
+    return zzfjv.getConnectionResult(paramApi);
+  }
+  
+  public final boolean isConnected()
+  {
+    zzfke.lock();
+    try
+    {
+      boolean bool1 = zzfjv.isConnected();
+      boolean bool2 = true;
+      if (bool1)
+      {
+        bool1 = bool2;
+        if (zzfjw.isConnected()) {
+          break label61;
+        }
+        bool1 = bool2;
+        if (zzagl()) {
+          break label61;
+        }
+        int i = zzfkf;
+        if (i == 1)
+        {
+          bool1 = bool2;
+          break label61;
+        }
+      }
+      bool1 = false;
+      label61:
+      return bool1;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final boolean isConnecting()
+  {
+    zzfke.lock();
+    try
+    {
+      int i = zzfkf;
+      boolean bool;
+      if (i == 2) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      return bool;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final boolean zza(zzcv paramZzcv)
+  {
+    zzfke.lock();
+    try
+    {
+      if (((isConnecting()) || (isConnected())) && (!zzfjw.isConnected()))
+      {
+        zzfjy.add(paramZzcv);
+        if (zzfkf == 0) {
+          zzfkf = 1;
+        }
+        zzfkc = null;
+        zzfjw.connect();
+        return true;
+      }
+      return false;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final void zzafp()
+  {
+    zzfke.lock();
+    try
+    {
+      boolean bool = isConnecting();
+      zzfjw.disconnect();
+      zzfkc = new ConnectionResult(4);
+      if (bool) {
+        new Handler(zzakg).post(new zzz(this));
+      } else {
+        zzagk();
+      }
+      return;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+  
+  public final void zzagi()
+  {
+    zzfjv.zzagi();
+    zzfjw.zzagi();
+  }
+  
+  public final <A extends Api.zzb, R extends Result, T extends zzm<R, A>> T zzd(@F T paramT)
+  {
+    if (zzf(paramT)) {
+      if (zzagl())
+      {
+        paramT.zzt(new Status(1, 4, null, zzagm()));
+        return paramT;
+      }
+    }
+    for (zzbl localZzbl = zzfjw;; localZzbl = zzfjv) {
+      return localZzbl.zzd(paramT);
+    }
+  }
+  
+  public final <A extends Api.zzb, T extends zzm<? extends Result, A>> T zze(@F T paramT)
+  {
+    if (zzf(paramT)) {
+      if (zzagl())
+      {
+        paramT.zzt(new Status(1, 4, null, zzagm()));
+        return paramT;
+      }
+    }
+    for (zzbl localZzbl = zzfjw;; localZzbl = zzfjv) {
+      return localZzbl.zze(paramT);
+    }
+  }
+}

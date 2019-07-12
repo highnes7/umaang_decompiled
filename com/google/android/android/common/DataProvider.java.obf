@@ -1,0 +1,154 @@
+package com.google.android.gms.common;
+
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzbec;
+import com.google.android.gms.internal.zzbed;
+
+public class zzp
+{
+  public static zzp zzfgc;
+  public final Context mContext;
+  
+  public zzp(Context paramContext)
+  {
+    mContext = paramContext.getApplicationContext();
+  }
+  
+  public static zzg zza(PackageInfo paramPackageInfo, zzg... paramVarArgs)
+  {
+    paramPackageInfo = signatures;
+    if (paramPackageInfo == null) {
+      return null;
+    }
+    if (paramPackageInfo.length != 1) {
+      return null;
+    }
+    int i = 0;
+    paramPackageInfo = new zzh(paramPackageInfo[0].toByteArray());
+    while (i < paramVarArgs.length)
+    {
+      if (paramVarArgs[i].equals(paramPackageInfo)) {
+        return paramVarArgs[i];
+      }
+      i += 1;
+    }
+    return null;
+  }
+  
+  public static boolean zza(PackageInfo paramPackageInfo, boolean paramBoolean)
+  {
+    if ((paramPackageInfo != null) && (signatures != null))
+    {
+      if (paramBoolean) {
+        paramPackageInfo = zza(paramPackageInfo, zzj.zzffs);
+      } else {
+        paramPackageInfo = zza(paramPackageInfo, new zzg[] { zzj.zzffs[0] });
+      }
+      if (paramPackageInfo != null) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public static boolean zzb(PackageInfo paramPackageInfo, boolean paramBoolean)
+  {
+    Object localObject = signatures;
+    if (localObject.length != 1) {
+      return false;
+    }
+    localObject = new zzh(localObject[0].toByteArray());
+    paramPackageInfo = packageName;
+    boolean bool;
+    if (paramBoolean) {
+      bool = zzf.zzb(paramPackageInfo, (zzg)localObject);
+    } else {
+      bool = zzf.zza(paramPackageInfo, (zzg)localObject);
+    }
+    if (!bool)
+    {
+      paramPackageInfo = new StringBuilder(27);
+      paramPackageInfo.append("Cert not in list. atk=");
+      paramPackageInfo.append(paramBoolean);
+      paramPackageInfo.toString();
+    }
+    return bool;
+  }
+  
+  public static zzp zzbz(Context paramContext)
+  {
+    zzbp.zzu(paramContext);
+    try
+    {
+      if (zzfgc == null)
+      {
+        zzf.zzbx(paramContext);
+        zzfgc = new zzp(paramContext);
+      }
+      return zzfgc;
+    }
+    finally {}
+  }
+  
+  private final boolean zzfs(String paramString)
+  {
+    try
+    {
+      paramString = zzbed.zzcr(mContext).getPackageInfo(paramString, 64);
+      if (paramString == null) {
+        return false;
+      }
+      if (zzo.zzby(mContext)) {
+        return zzb(paramString, true);
+      }
+      boolean bool = zzb(paramString, false);
+      if (!bool) {
+        zzb(paramString, true);
+      }
+      return bool;
+    }
+    catch (PackageManager.NameNotFoundException paramString) {}
+    return false;
+  }
+  
+  @Deprecated
+  public final boolean zza(PackageManager paramPackageManager, PackageInfo paramPackageInfo)
+  {
+    if (paramPackageInfo != null)
+    {
+      if (zza(paramPackageInfo, false)) {
+        return true;
+      }
+      if ((zza(paramPackageInfo, true)) && (zzo.zzby(mContext))) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public final boolean zzbo(int paramInt)
+  {
+    String[] arrayOfString = zzbed.zzcr(mContext).getPackagesForUid(paramInt);
+    if (arrayOfString != null)
+    {
+      if (arrayOfString.length == 0) {
+        return false;
+      }
+      int i = arrayOfString.length;
+      paramInt = 0;
+      while (paramInt < i)
+      {
+        if (zzfs(arrayOfString[paramInt])) {
+          return true;
+        }
+        paramInt += 1;
+      }
+    }
+    return false;
+  }
+}

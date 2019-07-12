@@ -1,0 +1,39 @@
+package b.b.w.a;
+
+import android.app.Activity;
+import android.os.Build.VERSION;
+import android.view.DragAndDropPermissions;
+import android.view.DragEvent;
+import b.b.a.G;
+import b.b.a.N;
+
+public final class a
+{
+  public Object a;
+  
+  public a(Object paramObject)
+  {
+    a = paramObject;
+  }
+  
+  @G
+  @N({b.b.a.N.a.b})
+  public static a a(Activity paramActivity, DragEvent paramDragEvent)
+  {
+    if (Build.VERSION.SDK_INT >= 24)
+    {
+      paramActivity = paramActivity.requestDragAndDropPermissions(paramDragEvent);
+      if (paramActivity != null) {
+        return new a(paramActivity);
+      }
+    }
+    return null;
+  }
+  
+  public void a()
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      ((DragAndDropPermissions)a).release();
+    }
+  }
+}

@@ -1,0 +1,109 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.a.d;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+@b(emulated=true, serializable=true)
+public final class B<K, V>
+  extends i<K, V>
+{
+  public static final int j = 3;
+  @c("Not needed in emulated source.")
+  public static final long k = 0L;
+  @d
+  public transient int l;
+  
+  public B()
+  {
+    super(new HashMap());
+    l = 3;
+  }
+  
+  public B(int paramInt1, int paramInt2)
+  {
+    super(fe.b(paramInt1));
+    boolean bool;
+    if (paramInt2 >= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool);
+    l = paramInt2;
+  }
+  
+  public B(ve<? extends K, ? extends V> paramVe)
+  {
+    this(m, i);
+    a(paramVe);
+  }
+  
+  public static <K, V> B<K, V> a(int paramInt1, int paramInt2)
+  {
+    return new B(paramInt1, paramInt2);
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    l = paramObjectInputStream.readInt();
+    int i = paramObjectInputStream.readInt();
+    a(fe.b(i));
+    ag.a(this, paramObjectInputStream, i);
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeInt(l);
+    ag.a(this, paramObjectOutputStream);
+  }
+  
+  public static <K, V> B<K, V> b(ve<? extends K, ? extends V> paramVe)
+  {
+    return new B(paramVe);
+  }
+  
+  public static <K, V> B<K, V> h()
+  {
+    return new B();
+  }
+  
+  public boolean containsKey(Object paramObject)
+  {
+    return b.containsKey(paramObject);
+  }
+  
+  public List<V> e()
+  {
+    return new ArrayList(l);
+  }
+  
+  public void i()
+  {
+    Iterator localIterator = c().values().iterator();
+    while (localIterator.hasNext()) {
+      ((ArrayList)localIterator.next()).trimToSize();
+    }
+  }
+  
+  public int size()
+  {
+    return c;
+  }
+}

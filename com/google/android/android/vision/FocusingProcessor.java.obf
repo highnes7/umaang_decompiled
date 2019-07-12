@@ -1,0 +1,84 @@
+package com.google.android.gms.vision;
+
+import android.util.SparseArray;
+import f.a.a.a.a;
+
+public abstract class FocusingProcessor<T>
+  implements Detector.Processor<T>
+{
+  public Detector<T> zzkhe;
+  public Tracker<T> zzkht;
+  public int zzkhu = 3;
+  public boolean zzkhv = false;
+  public int zzkhw;
+  public int zzkhx = 0;
+  
+  public FocusingProcessor(Detector<T> paramDetector, Tracker<T> paramTracker)
+  {
+    zzkhe = paramDetector;
+    zzkht = paramTracker;
+  }
+  
+  public void receiveDetections(Detector.Detections<T> paramDetections)
+  {
+    Object localObject1 = paramDetections.getDetectedItems();
+    if (((SparseArray)localObject1).size() == 0)
+    {
+      if (zzkhx == zzkhu)
+      {
+        zzkht.onDone();
+        zzkhv = false;
+      }
+      else
+      {
+        zzkht.onMissing(paramDetections);
+      }
+      zzkhx += 1;
+      return;
+    }
+    zzkhx = 0;
+    if (zzkhv)
+    {
+      Object localObject2 = ((SparseArray)localObject1).get(zzkhw);
+      if (localObject2 != null)
+      {
+        zzkht.onUpdate(paramDetections, localObject2);
+        return;
+      }
+      zzkht.onDone();
+      zzkhv = false;
+    }
+    int i = selectFocus(paramDetections);
+    localObject1 = ((SparseArray)localObject1).get(i);
+    if (localObject1 == null)
+    {
+      paramDetections = new StringBuilder(35);
+      paramDetections.append("Invalid focus selected: ");
+      paramDetections.append(i);
+      paramDetections.toString();
+      return;
+    }
+    zzkhv = true;
+    zzkhw = i;
+    zzkhe.setFocus(zzkhw);
+    zzkht.onNewItem(zzkhw, localObject1);
+    zzkht.onUpdate(paramDetections, localObject1);
+  }
+  
+  public void release()
+  {
+    zzkht.onDone();
+  }
+  
+  public abstract int selectFocus(Detector.Detections<T> paramDetections);
+  
+  public final void zzer(int paramInt)
+  {
+    if (paramInt >= 0)
+    {
+      zzkhu = paramInt;
+      return;
+    }
+    throw new IllegalArgumentException(a.a(28, "Invalid max gap: ", paramInt));
+  }
+}

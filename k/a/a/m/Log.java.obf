@@ -1,0 +1,2583 @@
+package k.a.a.m;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.provider.ContactsContract.PhoneLookup;
+import android.provider.Settings.Secure;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog.Builder;
+import android.telephony.TelephonyManager;
+import android.telephony.gsm.GsmCellLocation;
+import android.text.Html;
+import android.text.InputFilter;
+import android.text.InputFilter.LengthFilter;
+import android.util.Base64;
+import android.util.Patterns;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
+import android.webkit.WebStorage;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import b.b.a.F;
+import com.google.android.gms.analytics.HitBuilders.EventBuilder;
+import com.google.android.gms.analytics.HitBuilders.HitBuilder;
+import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder;
+import com.google.android.gms.analytics.Tracker;
+import e.a.a.i;
+import f.a.a.a.a;
+import in.spicedigital.umang.activities.AadhaarProfileScreen;
+import in.spicedigital.umang.activities.AccountSettingScreen;
+import in.spicedigital.umang.activities.BrowserScreen;
+import in.spicedigital.umang.activities.DigiLockerMenuScreen;
+import in.spicedigital.umang.activities.DigilockerTabScreen;
+import in.spicedigital.umang.activities.DowntimeScreen;
+import in.spicedigital.umang.activities.FeedbackScreen;
+import in.spicedigital.umang.activities.HelpScreen;
+import in.spicedigital.umang.activities.MainActivity;
+import in.spicedigital.umang.activities.MyProfileGeneral;
+import in.spicedigital.umang.activities.MyProfileScreen;
+import in.spicedigital.umang.activities.ServiceInformationScreenNew;
+import in.spicedigital.umang.activities.SettingScreen;
+import in.spicedigital.umang.activities.SocialMediaAccountScreen;
+import in.spicedigital.umang.activities.WebActivity;
+import in.spicedigital.umang.application.MyApplication;
+import in.spicedigital.umang.services.BigQueryUploadDataService;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import k.a.a.f.k;
+import org.json.JSONObject;
+import org.yaxim.androidclient.MainWindow;
+import org.yaxim.androidclient.chat.ChatWindow;
+import org.yaxim.androidclient.util.PreferenceConstants;
+
+public class Ea
+{
+  public static final String a = "MyUtils";
+  public static i b;
+  
+  public Ea() {}
+  
+  public static boolean A(Context paramContext)
+  {
+    paramContext = ((ConnectivityManager)paramContext.getSystemService("connectivity")).getActiveNetworkInfo();
+    return (paramContext != null) && (paramContext.isConnected());
+  }
+  
+  public static void B(Context paramContext)
+  {
+    V localV = new V(paramContext);
+    if (localV.a(V.Ab, "false").equalsIgnoreCase("true"))
+    {
+      boolean bool = PreferenceConstants.isExistingUser;
+      int i = 0;
+      if ((bool) || (PreferenceManager.getDefaultSharedPreferences(MyApplication.a(paramContext)).getBoolean("is_already_connected", false))) {
+        i = 1;
+      }
+      Intent localIntent;
+      if (i == 0)
+      {
+        localIntent = new Intent(paramContext, MainWindow.class);
+        localIntent.putExtra("username", localV.a(V.Cb, ""));
+        localIntent.putExtra("password", localV.a(V.Db, ""));
+      }
+      else
+      {
+        localIntent = new Intent(paramContext, ChatWindow.class);
+        localIntent.setData(Uri.parse("bot@reporting.umang.gov.in"));
+        localIntent.addFlags(268435456);
+        localIntent.putExtra(ChatWindow.INTENT_EXTRA_USERNAME, "bot@reporting.umang.gov.in");
+        localIntent.putExtra("FROM_CHAT_NOTIFICATION", "1");
+      }
+      paramContext.startActivity(localIntent);
+      return;
+    }
+    D(paramContext);
+  }
+  
+  public static void C(Context paramContext)
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramContext.getExternalFilesDir(null).getPath());
+    paramContext = a.a("logcat -f ", a.a(localStringBuilder, File.separator, "umang_app.log"), " -v time -d *:V");
+    a.f("command: ", paramContext);
+    try
+    {
+      Runtime.getRuntime().exec(paramContext);
+      return;
+    }
+    catch (IOException paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  public static void D(Context paramContext)
+  {
+    V localV = new V(paramContext);
+    JSONObject localJSONObject2;
+    try
+    {
+      JSONObject localJSONObject1 = e(paramContext);
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("");
+      localStringBuilder.append(System.currentTimeMillis());
+      localJSONObject1.put("requestId", localStringBuilder.toString());
+      localJSONObject1.put("mno", "");
+      localJSONObject1.put("st", "");
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localJSONObject2 = null;
+    }
+    if (localJSONObject2 != null) {
+      new k.a.a.l.c(new ea(paramContext, localV), localJSONObject2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+    }
+  }
+  
+  public static void E(Context paramContext)
+  {
+    Dialog localDialog = new Dialog(paramContext);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131493035);
+    localDialog.setCancelable(true);
+    localDialog.setCanceledOnTouchOutside(true);
+    localDialog.show();
+    TextView localTextView1 = (TextView)localDialog.findViewById(2131297058);
+    TextView localTextView2 = (TextView)localDialog.findViewById(2131297394);
+    localTextView1.setOnClickListener(new Aa(localDialog, paramContext));
+    localTextView2.setOnClickListener(new Ba(localDialog, paramContext));
+  }
+  
+  public static void F(Context paramContext)
+  {
+    try
+    {
+      if (A(paramContext))
+      {
+        Toast.makeText(paramContext, paramContext.getResources().getString(2131755981), 0).show();
+        return;
+      }
+      Toast.makeText(paramContext, paramContext.getResources().getString(2131755982), 0).show();
+      return;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  public static void G(Context paramContext)
+  {
+    AlertDialog.Builder localBuilder = new AlertDialog.Builder(paramContext);
+    localBuilder.setTitle("GPS Settings");
+    localBuilder.setMessage("Please enable GPS");
+    localBuilder.setPositiveButton("OK", new fa(paramContext));
+    localBuilder.setNegativeButton("Cancel", new ha());
+    localBuilder.show();
+  }
+  
+  public static void H(Context paramContext)
+  {
+    try
+    {
+      new V(paramContext).d(V.uc, "true");
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+    }
+    try
+    {
+      Intent localIntent = new Intent(paramContext, DowntimeScreen.class);
+      localIntent.setFlags(268468224);
+      paramContext.startActivity(localIntent);
+      return;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  public static long a(int paramInt1, int paramInt2)
+  {
+    return new SecureRandom().nextInt(paramInt2 - paramInt1 + 1) + paramInt1;
+  }
+  
+  public static Account a(Context paramContext, AccountManager paramAccountManager)
+  {
+    Object localObject2 = null;
+    Object localObject1 = localObject2;
+    try
+    {
+      if (b.b.x.b.c.checkSelfPermission(paramContext, "android.permission.GET_ACCOUNTS") == 0)
+      {
+        paramContext = paramAccountManager.getAccountsByType("com.google");
+        localObject1 = localObject2;
+        if (paramContext.length > 0) {
+          localObject1 = paramContext[0];
+        }
+      }
+      return localObject1;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+    return null;
+  }
+  
+  public static String a()
+  {
+    try
+    {
+      Object localObject = Calendar.getInstance();
+      localObject = new SimpleDateFormat("dd-MMM-yyyy", Locale.US).format(((Calendar)localObject).getTime());
+      return localObject;
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+    }
+    return "";
+  }
+  
+  public static String a(double paramDouble)
+  {
+    if (paramDouble < 1024.0D) {
+      return a.c(String.valueOf(paramDouble), " bytes");
+    }
+    if (paramDouble < 1048576.0D) {
+      return a.c(String.valueOf(b(paramDouble / 1024.0D)), " KB");
+    }
+    if (paramDouble < 1.073741824E9D) {
+      return a.c(String.valueOf(b(paramDouble / 1024.0D / 1024.0D)), " MB");
+    }
+    return a.c(String.valueOf(b(paramDouble / 1024.0D / 1024.0D / 1024.0D)), " GB");
+  }
+  
+  public static String a(Context paramContext, Uri paramUri)
+  {
+    try
+    {
+      paramContext = paramContext.getContentResolver().getType(paramUri);
+      return paramContext;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+    return "";
+  }
+  
+  public static String a(Context paramContext, String paramString1, String paramString2)
+  {
+    Activity localActivity = (Activity)paramContext;
+    paramContext = a(localActivity, 2130903065, paramString2);
+    paramString2 = a(localActivity, 2130903064, paramString2);
+    int i = 0;
+    localActivity = paramContext[0];
+    while (i < paramString2.length)
+    {
+      if (paramString1.equalsIgnoreCase(paramString2[i])) {
+        return paramContext[i];
+      }
+      i += 1;
+    }
+    return localActivity;
+  }
+  
+  public static String a(String paramString)
+    throws Exception
+  {
+    int i = paramString.length();
+    Object localObject = "";
+    if (i > 0)
+    {
+      localObject = new GregorianCalendar();
+      GregorianCalendar localGregorianCalendar = new GregorianCalendar();
+      i = 0;
+      paramString = new SimpleDateFormat("dd-MM-yyyy", Locale.US).parse(paramString);
+      Date localDate = new Date();
+      ((Calendar)localObject).setTime(paramString);
+      localGregorianCalendar.setTime(localDate);
+      if (localGregorianCalendar.get(6) < ((Calendar)localObject).get(6)) {
+        i = -1;
+      }
+      localObject = a.a("", localGregorianCalendar.get(1) - ((Calendar)localObject).get(1) + i);
+    }
+    return localObject;
+  }
+  
+  public static String a(String paramString1, String paramString2)
+  {
+    try
+    {
+      SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(paramString1);
+      localStringBuilder.append(" ");
+      localStringBuilder.append(paramString2);
+      paramString1 = localSimpleDateFormat.parse(localStringBuilder.toString());
+      paramString1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(paramString1);
+      return paramString1;
+    }
+    catch (Exception paramString1)
+    {
+      b.a(paramString1);
+    }
+    return "";
+  }
+  
+  public static String a(byte[] paramArrayOfByte)
+  {
+    StringBuffer localStringBuffer = new StringBuffer();
+    int i = 0;
+    if (i < paramArrayOfByte.length)
+    {
+      int k = paramArrayOfByte[i] >>> 4 & 0xF;
+      int j = 0;
+      for (;;)
+      {
+        if ((k >= 0) && (k <= 9)) {
+          localStringBuffer.append((char)(k + 48));
+        } else {
+          localStringBuffer.append((char)(k - 10 + 97));
+        }
+        k = paramArrayOfByte[i] & 0xF;
+        if (j >= 1)
+        {
+          i += 1;
+          break;
+        }
+        j += 1;
+      }
+    }
+    return localStringBuffer.toString();
+  }
+  
+  public static JSONObject a(JSONObject paramJSONObject, String paramString1, String paramString2)
+    throws Exception
+  {
+    paramJSONObject.remove("lat");
+    paramJSONObject.remove("lon");
+    paramJSONObject.put("lat", paramString1);
+    paramJSONObject.put("lon", paramString2);
+    return paramJSONObject;
+  }
+  
+  public static void a(Activity paramActivity)
+  {
+    if (b.b.x.b.c.checkSelfPermission(paramActivity, "android.permission.READ_EXTERNAL_STORAGE") != 0)
+    {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(paramActivity, "android.permission.READ_EXTERNAL_STORAGE"))
+      {
+        k(paramActivity, paramActivity.getResources().getString(2131755271));
+        return;
+      }
+      ActivityCompat.requestPermissions(paramActivity, new String[] { "android.permission.READ_EXTERNAL_STORAGE" }, 1104);
+      return;
+    }
+    c(paramActivity);
+  }
+  
+  public static void a(Activity paramActivity, Uri paramUri)
+  {
+    if ((b.b.x.b.c.checkSelfPermission(paramActivity, "android.permission.CAMERA") == 0) && (b.b.x.b.c.checkSelfPermission(paramActivity, "android.permission.WRITE_EXTERNAL_STORAGE") == 0))
+    {
+      b(paramActivity, paramUri);
+      return;
+    }
+    paramUri = new ArrayList();
+    int j = 0;
+    int i = j;
+    if (b.b.x.b.c.checkSelfPermission(paramActivity, "android.permission.CAMERA") != 0) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(paramActivity, "android.permission.CAMERA"))
+      {
+        i = 1;
+      }
+      else
+      {
+        paramUri.add("android.permission.CAMERA");
+        i = j;
+      }
+    }
+    j = i;
+    if (b.b.x.b.c.checkSelfPermission(paramActivity, "android.permission.WRITE_EXTERNAL_STORAGE") != 0) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(paramActivity, "android.permission.WRITE_EXTERNAL_STORAGE"))
+      {
+        j = i + 1;
+      }
+      else
+      {
+        paramUri.add("android.permission.WRITE_EXTERNAL_STORAGE");
+        j = i;
+      }
+    }
+    if (j > 0)
+    {
+      k(paramActivity, paramActivity.getResources().getString(2131755264));
+      return;
+    }
+    if (paramUri.size() > 0) {
+      ActivityCompat.requestPermissions(paramActivity, (String[])paramUri.toArray(new String[paramUri.size()]), 1101);
+    }
+  }
+  
+  public static void a(Activity paramActivity, Uri paramUri, boolean paramBoolean1, boolean paramBoolean2)
+  {
+    Dialog localDialog = a.a(paramActivity, 1, 2131492959, true);
+    LinearLayout localLinearLayout1 = (LinearLayout)localDialog.findViewById(2131296636);
+    LinearLayout localLinearLayout2 = (LinearLayout)localDialog.findViewById(2131296639);
+    LinearLayout localLinearLayout3 = (LinearLayout)localDialog.findViewById(2131296638);
+    localLinearLayout3.setVisibility(8);
+    LinearLayout localLinearLayout4 = (LinearLayout)localDialog.findViewById(2131296640);
+    localLinearLayout4.setVisibility(8);
+    LinearLayout localLinearLayout5 = (LinearLayout)localDialog.findViewById(2131296644);
+    localLinearLayout5.setVisibility(8);
+    Object localObject1 = (LinearLayout)localDialog.findViewById(2131297421);
+    if (paramBoolean1)
+    {
+      if (paramBoolean2) {
+        ((LinearLayout)localObject1).setVisibility(0);
+      } else {
+        ((LinearLayout)localObject1).setVisibility(8);
+      }
+    }
+    else {
+      ((LinearLayout)localObject1).setVisibility(8);
+    }
+    ((LinearLayout)localObject1).setOnClickListener(new Ca(localDialog, paramActivity));
+    localObject1 = new V(paramActivity);
+    Object localObject2 = new Wa(paramActivity);
+    if (paramBoolean1) {}
+    try
+    {
+      localObject2 = ((Wa)localObject2).l();
+      if (((k.a.a.c.X)localObject2).a().length() > 0) {
+        ((V)localObject1).c(V.Aa, ((k.a.a.c.X)localObject2).a());
+      }
+      if (((k.a.a.c.X)localObject2).d().length() > 0) {
+        ((V)localObject1).c(V.Ba, ((k.a.a.c.X)localObject2).d());
+      }
+      if (((k.a.a.c.X)localObject2).e().length() > 0) {
+        ((V)localObject1).c(V.Fa, ((k.a.a.c.X)localObject2).e());
+      }
+      if (((k.a.a.c.X)localObject2).g().length() <= 0) {
+        break label359;
+      }
+      ((V)localObject1).c(V.Ca, ((k.a.a.c.X)localObject2).g());
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      ((V)localObject1).c(V.Aa, "");
+      ((V)localObject1).c(V.Ba, "");
+      ((V)localObject1).c(V.Ca, "");
+    }
+    ((V)localObject1).c(V.Aa, "");
+    ((V)localObject1).c(V.Ba, "");
+    ((V)localObject1).c(V.Ca, "");
+    label359:
+    if (((V)localObject1).a(V.Aa, "").length() > 0) {
+      localLinearLayout3.setVisibility(0);
+    }
+    if (((V)localObject1).a(V.Ba, "").length() > 0) {
+      localLinearLayout4.setVisibility(0);
+    }
+    if (((V)localObject1).a(V.Ca, "").length() > 0) {
+      localLinearLayout5.setVisibility(0);
+    }
+    localLinearLayout1.setOnClickListener(new Da(localDialog, paramActivity, paramUri));
+    localLinearLayout2.setOnClickListener(new W(localDialog, paramActivity));
+    localLinearLayout3.setOnClickListener(new X((V)localObject1, paramActivity, localDialog));
+    localLinearLayout4.setOnClickListener(new Y((V)localObject1, paramActivity, localDialog));
+    localLinearLayout5.setOnClickListener(new Z((V)localObject1, paramActivity, localDialog));
+  }
+  
+  public static void a(Activity paramActivity, View paramView)
+  {
+    if (!(paramView instanceof EditText)) {
+      paramView.setOnTouchListener(new ga(paramActivity));
+    }
+    if ((paramView instanceof ViewGroup))
+    {
+      int i = 0;
+      for (;;)
+      {
+        ViewGroup localViewGroup = (ViewGroup)paramView;
+        if (i >= localViewGroup.getChildCount()) {
+          break;
+        }
+        a(paramActivity, localViewGroup.getChildAt(i));
+        i += 1;
+      }
+    }
+  }
+  
+  public static void a(Activity paramActivity, String paramString)
+  {
+    try
+    {
+      paramActivity = ((MyApplication)paramActivity.getApplication()).a();
+      paramActivity.setScreenName(paramString);
+      paramActivity.send(new HitBuilders.ScreenViewBuilder().build());
+      return;
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+  }
+  
+  public static void a(Activity paramActivity, String paramString1, String paramString2, String paramString3, String paramString4)
+  {
+    try
+    {
+      paramActivity = ((MyApplication)paramActivity.getApplication()).a();
+      if (paramString1 == null)
+      {
+        paramActivity.send(new HitBuilders.EventBuilder().setCategory(paramString2).setAction(paramString3).setLabel(paramString4).setValue(1L).build());
+        return;
+      }
+      paramActivity.send(((HitBuilders.EventBuilder)new HitBuilders.EventBuilder().setCustomDimension(1, paramString1)).setCategory(paramString2).setAction(paramString3).setLabel(paramString4).setValue(1L).build());
+      return;
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+  }
+  
+  public static void a(Activity paramActivity, boolean paramBoolean, String paramString1, String paramString2)
+  {
+    paramActivity = (FragmentActivity)paramActivity;
+    if (paramActivity.getSupportFragmentManager().findFragmentByTag("mpinDialog") == null)
+    {
+      paramString1 = k.a(paramBoolean, paramString1, paramString2);
+      paramString1.show(paramActivity.getSupportFragmentManager(), "mpinDialog");
+      paramString1.setCancelable(paramBoolean);
+    }
+  }
+  
+  public static void a(ProgressDialog paramProgressDialog)
+  {
+    paramProgressDialog.dismiss();
+  }
+  
+  public static void a(Context paramContext)
+  {
+    WebStorage.getInstance().deleteAllData();
+  }
+  
+  public static void a(Context paramContext, String paramString1, String paramString2, String paramString3, String paramString4, String paramString5)
+  {
+    Object localObject1;
+    try
+    {
+      String str = new Wa(paramContext).g();
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localObject1 = "";
+    }
+    Object localObject2 = localObject1;
+    if (localObject1 == null) {
+      localObject2 = "";
+    }
+    try
+    {
+      localObject1 = e(paramContext);
+      ((JSONObject)localObject1).put("tstamp", "");
+      ((JSONObject)localObject1).put("usrid", localObject2);
+      ((JSONObject)localObject1).put("apptab", paramString2);
+      ((JSONObject)localObject1).put("appsection", paramString3);
+      ((JSONObject)localObject1).put("state", paramString4);
+      ((JSONObject)localObject1).put("bannerid", paramString5);
+      ((JSONObject)localObject1).put("mode", "app");
+      ((JSONObject)localObject1).put("deptid", paramString1);
+      ((JSONObject)localObject1).put("srvid", "0");
+      ((JSONObject)localObject1).put("subsrvid", "0");
+      ((JSONObject)localObject1).put("subsrvid2", "0");
+      ((JSONObject)localObject1).put("formtrkr", "0");
+      paramString1 = (String)localObject1;
+    }
+    catch (Exception paramString1)
+    {
+      b.a(paramString1);
+      paramString1 = null;
+    }
+    if (paramString1 != null) {
+      new k.a.a.l.u(new ua(), "https://app.umang.gov.in/umang/coreapi/ws2/bilogs", paramString1, paramContext).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+    }
+  }
+  
+  public static void a(Context paramContext, Throwable paramThrowable)
+  {
+    b.a(paramThrowable);
+    new AlertDialog.Builder(paramContext).setMessage(paramThrowable.getMessage()).setPositiveButton(17039370, new ia()).show();
+  }
+  
+  public static void a(Context paramContext, k.a.a.c.u paramU, boolean paramBoolean)
+  {
+    Intent localIntent = new Intent(paramContext, ServiceInformationScreenNew.class);
+    localIntent.putExtra("SERVICE_NAME", paramU.p());
+    localIntent.putExtra("SERVICE_IMG", paramU.l());
+    localIntent.putExtra("SERVICE_DESCP", paramU.a());
+    localIntent.putExtra("SERVICE_RATING", paramU.u());
+    localIntent.putExtra("SERVICE_LAT", paramU.c());
+    localIntent.putExtra("SERVICE_LNG", paramU.d());
+    localIntent.putExtra("SERVICE_PHONE", paramU.s());
+    localIntent.putExtra("SERVICE_URL", paramU.z());
+    localIntent.putExtra("SERVICE_CAT", paramU.n());
+    localIntent.putExtra("SERVICE_ID", paramU.k());
+    localIntent.putExtra("SERVICE_WEBSITE", paramU.A());
+    localIntent.putExtra("SERVICE_EMAIL", paramU.j());
+    localIntent.putExtra("SERVICE_ADDRESS", paramU.e());
+    localIntent.putExtra("SERVICE_WORKING_HOURS", paramU.B());
+    localIntent.putExtra("SERVICE_IS_FAVOURITE", paramU.C());
+    localIntent.putExtra("SERVICE_STATE_ID", paramU.w());
+    localIntent.putExtra("SERVICE_TYPE", paramU.y());
+    localIntent.putExtra("showDesc", paramBoolean);
+    paramContext.startActivity(localIntent);
+  }
+  
+  /* Error */
+  public static void a(Context paramContext, JSONObject paramJSONObject, boolean paramBoolean)
+  {
+    // Byte code:
+    //   0: ldc 2
+    //   2: monitorenter
+    //   3: aload_1
+    //   4: ifnull +375 -> 379
+    //   7: iload_2
+    //   8: ifne +6 -> 14
+    //   11: goto +368 -> 379
+    //   14: ldc -90
+    //   16: aload_1
+    //   17: ldc_w 928
+    //   20: invokevirtual 930	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   23: invokevirtual 127	java/lang/String:equalsIgnoreCase	(Ljava/lang/String;)Z
+    //   26: istore_2
+    //   27: iload_2
+    //   28: ifeq +7 -> 35
+    //   31: ldc 2
+    //   33: monitorexit
+    //   34: return
+    //   35: aload_1
+    //   36: ldc_w 932
+    //   39: invokevirtual 930	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   42: astore 9
+    //   44: aload_1
+    //   45: ldc_w 934
+    //   48: invokevirtual 930	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   51: astore_3
+    //   52: aload_1
+    //   53: ldc_w 936
+    //   56: invokevirtual 930	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   59: astore 10
+    //   61: aload_1
+    //   62: ldc_w 938
+    //   65: invokevirtual 930	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   68: astore 11
+    //   70: aload_1
+    //   71: ldc_w 940
+    //   74: invokevirtual 930	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   77: astore 4
+    //   79: aload_1
+    //   80: ldc_w 942
+    //   83: invokevirtual 930	org/json/JSONObject:getString	(Ljava/lang/String;)Ljava/lang/String;
+    //   86: astore_1
+    //   87: new 317	android/app/Dialog
+    //   90: dup
+    //   91: aload_0
+    //   92: invokespecial 318	android/app/Dialog:<init>	(Landroid/content/Context;)V
+    //   95: astore 5
+    //   97: aload 5
+    //   99: invokevirtual 322	android/app/Dialog:getWindow	()Landroid/view/Window;
+    //   102: pop
+    //   103: aload 5
+    //   105: iconst_1
+    //   106: invokevirtual 326	android/app/Dialog:requestWindowFeature	(I)Z
+    //   109: pop
+    //   110: aload 5
+    //   112: invokevirtual 322	android/app/Dialog:getWindow	()Landroid/view/Window;
+    //   115: new 944	android/graphics/drawable/ColorDrawable
+    //   118: dup
+    //   119: iconst_0
+    //   120: invokespecial 946	android/graphics/drawable/ColorDrawable:<init>	(I)V
+    //   123: invokevirtual 952	android/view/Window:setBackgroundDrawable	(Landroid/graphics/drawable/Drawable;)V
+    //   126: aload 5
+    //   128: ldc_w 953
+    //   131: invokevirtual 331	android/app/Dialog:setContentView	(I)V
+    //   134: aload 5
+    //   136: iconst_0
+    //   137: invokevirtual 335	android/app/Dialog:setCancelable	(Z)V
+    //   140: aload 5
+    //   142: iconst_0
+    //   143: invokevirtual 338	android/app/Dialog:setCanceledOnTouchOutside	(Z)V
+    //   146: aload 5
+    //   148: invokevirtual 341	android/app/Dialog:show	()V
+    //   151: aload 5
+    //   153: ldc_w 954
+    //   156: invokevirtual 346	android/app/Dialog:findViewById	(I)Landroid/view/View;
+    //   159: checkcast 348	android/widget/TextView
+    //   162: astore 12
+    //   164: aload 5
+    //   166: ldc_w 955
+    //   169: invokevirtual 346	android/app/Dialog:findViewById	(I)Landroid/view/View;
+    //   172: checkcast 348	android/widget/TextView
+    //   175: astore 13
+    //   177: aload 5
+    //   179: ldc_w 956
+    //   182: invokevirtual 346	android/app/Dialog:findViewById	(I)Landroid/view/View;
+    //   185: checkcast 348	android/widget/TextView
+    //   188: astore 6
+    //   190: aload 5
+    //   192: ldc_w 957
+    //   195: invokevirtual 346	android/app/Dialog:findViewById	(I)Landroid/view/View;
+    //   198: checkcast 959	android/widget/ImageView
+    //   201: astore 7
+    //   203: aload 5
+    //   205: ldc_w 960
+    //   208: invokevirtual 346	android/app/Dialog:findViewById	(I)Landroid/view/View;
+    //   211: checkcast 959	android/widget/ImageView
+    //   214: astore 8
+    //   216: aload 12
+    //   218: aload 9
+    //   220: invokevirtual 964	android/widget/TextView:setText	(Ljava/lang/CharSequence;)V
+    //   223: aload 13
+    //   225: aload 10
+    //   227: invokestatic 970	android/text/Html:fromHtml	(Ljava/lang/String;)Landroid/text/Spanned;
+    //   230: invokevirtual 964	android/widget/TextView:setText	(Ljava/lang/CharSequence;)V
+    //   233: aload 6
+    //   235: aload 11
+    //   237: invokevirtual 964	android/widget/TextView:setText	(Ljava/lang/CharSequence;)V
+    //   240: invokestatic 975	f/l/a/b/f:g	()Lf/l/a/b/f;
+    //   243: astore 9
+    //   245: new 977	f/l/a/b/d$a
+    //   248: dup
+    //   249: invokespecial 978	f/l/a/b/d$a:<init>	()V
+    //   252: ldc_w 979
+    //   255: invokevirtual 982	f/l/a/b/d$a:d	(I)Lf/l/a/b/d$a;
+    //   258: ldc_w 979
+    //   261: invokevirtual 984	f/l/a/b/d$a:b	(I)Lf/l/a/b/d$a;
+    //   264: ldc_w 979
+    //   267: invokevirtual 986	f/l/a/b/d$a:c	(I)Lf/l/a/b/d$a;
+    //   270: iconst_1
+    //   271: invokevirtual 989	f/l/a/b/d$a:a	(Z)Lf/l/a/b/d$a;
+    //   274: iconst_1
+    //   275: invokevirtual 991	f/l/a/b/d$a:b	(Z)Lf/l/a/b/d$a;
+    //   278: getstatic 997	android/graphics/Bitmap$Config:RGB_565	Landroid/graphics/Bitmap$Config;
+    //   281: invokevirtual 1000	f/l/a/b/d$a:a	(Landroid/graphics/Bitmap$Config;)Lf/l/a/b/d$a;
+    //   284: invokevirtual 1003	f/l/a/b/d$a:a	()Lf/l/a/b/d;
+    //   287: astore 10
+    //   289: aload_3
+    //   290: ifnull +29 -> 319
+    //   293: aload_3
+    //   294: invokevirtual 1006	java/lang/String:isEmpty	()Z
+    //   297: ifne +22 -> 319
+    //   300: aload 7
+    //   302: iconst_0
+    //   303: invokevirtual 1007	android/widget/ImageView:setVisibility	(I)V
+    //   306: aload 9
+    //   308: aload_3
+    //   309: aload 7
+    //   311: aload 10
+    //   313: invokevirtual 1010	f/l/a/b/f:a	(Ljava/lang/String;Landroid/widget/ImageView;Lf/l/a/b/d;)V
+    //   316: goto +10 -> 326
+    //   319: aload 7
+    //   321: bipush 8
+    //   323: invokevirtual 1007	android/widget/ImageView:setVisibility	(I)V
+    //   326: aload 6
+    //   328: new 64	k/a/a/m/va
+    //   331: dup
+    //   332: aload 5
+    //   334: aload_0
+    //   335: aload 4
+    //   337: aload_1
+    //   338: invokespecial 1013	k/a/a/m/va:<init>	(Landroid/app/Dialog;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)V
+    //   341: invokevirtual 356	android/widget/TextView:setOnClickListener	(Landroid/view/View$OnClickListener;)V
+    //   344: aload 8
+    //   346: new 66	k/a/a/m/wa
+    //   349: dup
+    //   350: aload 5
+    //   352: invokespecial 1016	k/a/a/m/wa:<init>	(Landroid/app/Dialog;)V
+    //   355: invokevirtual 1017	android/widget/ImageView:setOnClickListener	(Landroid/view/View$OnClickListener;)V
+    //   358: goto +12 -> 370
+    //   361: astore_0
+    //   362: goto +12 -> 374
+    //   365: astore_0
+    //   366: aload_0
+    //   367: invokestatic 266	k/a/a/m/b:a	(Ljava/lang/Exception;)V
+    //   370: ldc 2
+    //   372: monitorexit
+    //   373: return
+    //   374: ldc 2
+    //   376: monitorexit
+    //   377: aload_0
+    //   378: athrow
+    //   379: ldc 2
+    //   381: monitorexit
+    //   382: return
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	383	0	paramContext	Context
+    //   0	383	1	paramJSONObject	JSONObject
+    //   0	383	2	paramBoolean	boolean
+    //   51	258	3	str1	String
+    //   77	259	4	str2	String
+    //   95	256	5	localDialog	Dialog
+    //   188	139	6	localTextView1	TextView
+    //   201	119	7	localImageView1	ImageView
+    //   214	131	8	localImageView2	ImageView
+    //   42	265	9	localObject1	Object
+    //   59	253	10	localObject2	Object
+    //   68	168	11	str3	String
+    //   162	55	12	localTextView2	TextView
+    //   175	49	13	localTextView3	TextView
+    // Exception table:
+    //   from	to	target	type
+    //   14	27	361	finally
+    //   35	289	361	finally
+    //   293	316	361	finally
+    //   319	326	361	finally
+    //   326	358	361	finally
+    //   366	370	361	finally
+    //   14	27	365	org/json/JSONException
+    //   35	289	365	org/json/JSONException
+    //   293	316	365	org/json/JSONException
+    //   319	326	365	org/json/JSONException
+    //   326	358	365	org/json/JSONException
+  }
+  
+  public static void a(Context paramContext, boolean paramBoolean, String paramString)
+  {
+    Dialog localDialog = new Dialog(paramContext);
+    localDialog.requestWindowFeature(1);
+    localDialog.setCancelable(true);
+    localDialog.setCanceledOnTouchOutside(false);
+    localDialog.setContentView(2131493036);
+    ImageView localImageView = (ImageView)localDialog.findViewById(2131296889);
+    TextView localTextView1 = (TextView)localDialog.findViewById(2131297708);
+    TextView localTextView2 = (TextView)localDialog.findViewById(2131297719);
+    if (paramBoolean)
+    {
+      localImageView.setImageResource(2131231216);
+      localTextView1.setText(paramContext.getResources().getString(2131756303));
+      localTextView2.setVisibility(8);
+    }
+    ((TextView)localDialog.findViewById(2131296542)).setOnClickListener(new ma(localDialog, paramContext, paramString));
+    localDialog.setOnCancelListener(new na(paramContext, paramString));
+    paramString = new oa(localDialog, paramContext);
+    localDialog.findViewById(2131297045).setOnClickListener(new pa(paramContext, localDialog));
+    localDialog.findViewById(2131297022).setOnClickListener(new qa(paramContext, localDialog));
+    localDialog.findViewById(2131297027).setOnClickListener(new sa(paramContext, localDialog));
+    localDialog.findViewById(2131297802).setOnClickListener(paramString);
+    localDialog.show();
+  }
+  
+  public static void a(EditText paramEditText, int paramInt)
+  {
+    paramEditText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(paramInt) });
+  }
+  
+  public static boolean a(Context paramContext, String paramString)
+  {
+    paramContext = paramContext.getPackageManager();
+    try
+    {
+      paramContext.getPackageInfo(paramString, 1);
+      return true;
+    }
+    catch (PackageManager.NameNotFoundException paramContext)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public static boolean a(CharSequence paramCharSequence)
+  {
+    if (paramCharSequence == null) {
+      return false;
+    }
+    return Patterns.EMAIL_ADDRESS.matcher(paramCharSequence).matches();
+  }
+  
+  @TargetApi(17)
+  @F
+  public static String[] a(Activity paramActivity, int paramInt, String paramString)
+  {
+    try
+    {
+      Configuration localConfiguration = new Configuration(paramActivity.getResources().getConfiguration());
+      localConfiguration.setLocale(new Locale(paramString));
+      paramActivity = paramActivity.createConfigurationContext(localConfiguration).getResources().getStringArray(paramInt);
+      return paramActivity;
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+    return new String[0];
+  }
+  
+  public static double b(double paramDouble)
+  {
+    return Double.valueOf(new DecimalFormat("#.#").format(paramDouble)).doubleValue();
+  }
+  
+  public static String b()
+  {
+    Calendar localCalendar = Calendar.getInstance();
+    return new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.US).format(localCalendar.getTime());
+  }
+  
+  @TargetApi(17)
+  @F
+  public static String b(Activity paramActivity, int paramInt, String paramString)
+  {
+    try
+    {
+      Configuration localConfiguration = new Configuration(paramActivity.getResources().getConfiguration());
+      localConfiguration.setLocale(new Locale(paramString));
+      paramActivity = paramActivity.createConfigurationContext(localConfiguration).getResources().getString(paramInt);
+      return paramActivity;
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+    return "";
+  }
+  
+  public static String b(Context paramContext)
+  {
+    return new V(paramContext).a(V.ca, "");
+  }
+  
+  public static String b(String paramString)
+  {
+    String str = paramString.substring(paramString.lastIndexOf("/") + 1, paramString.lastIndexOf("."));
+    if (str.equalsIgnoreCase("banner1eng")) {
+      str = "drawable://2131230867";
+    } else if (str.equalsIgnoreCase("banner_cbse_eng2")) {
+      str = "drawable://2131230868";
+    } else if (str.equalsIgnoreCase("pmkvy_eng")) {
+      str = "drawable://2131230869";
+    } else if (str.equalsIgnoreCase("banner_ncert")) {
+      str = "drawable://2131230870";
+    } else if (str.equalsIgnoreCase("banner_pmay")) {
+      str = "drawable://2131230871";
+    } else {
+      str = paramString;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("BANNER IMAGE URL : ");
+    localStringBuilder.append(paramString);
+    localStringBuilder.append("------------");
+    localStringBuilder.append(str);
+    localStringBuilder.toString();
+    return str;
+  }
+  
+  public static void b(Activity paramActivity)
+  {
+    try
+    {
+      ((InputMethodManager)paramActivity.getSystemService("input_method")).hideSoftInputFromWindow(paramActivity.getCurrentFocus().getWindowToken(), 0);
+      return;
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+  }
+  
+  public static void b(Activity paramActivity, Uri paramUri)
+  {
+    try
+    {
+      Intent localIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+      localIntent.putExtra("output", paramUri);
+      paramActivity.startActivityForResult(localIntent, 2016);
+      MyApplication.C = true;
+      return;
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+  }
+  
+  public static void b(Activity paramActivity, String paramString)
+  {
+    Dialog localDialog = new Dialog(paramActivity);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131493031);
+    localDialog.setCancelable(true);
+    localDialog.setCanceledOnTouchOutside(false);
+    localDialog.show();
+    ((TextView)localDialog.findViewById(2131296634)).setText(paramString);
+    ((TextView)localDialog.findViewById(2131297214)).setOnClickListener(new ya(localDialog, paramActivity));
+  }
+  
+  public static void b(Context paramContext, String paramString1, String paramString2)
+  {
+    boolean bool = paramContext instanceof Activity;
+    Object localObject2 = null;
+    if (bool) {
+      a((Activity)paramContext, null, "Attention Dialog Button", "clicked", "On Attention Dialog");
+    }
+    Object localObject1;
+    if (paramString1.equalsIgnoreCase("youtube"))
+    {
+      localObject1 = new Intent("android.intent.action.VIEW", Uri.parse(paramString2));
+    }
+    else if (paramString1.equalsIgnoreCase("playstore"))
+    {
+      localObject1 = new Intent("android.intent.action.VIEW", Uri.parse(paramString2));
+    }
+    else if (paramString1.equalsIgnoreCase("browser"))
+    {
+      localObject1 = new Intent("android.intent.action.VIEW", Uri.parse(paramString2));
+    }
+    else if (paramString1.equalsIgnoreCase("webview"))
+    {
+      paramString2 = paramString2.split("\\|");
+      paramString1 = paramString2[0];
+      localObject1 = a.a(paramContext, BrowserScreen.class, "title", paramString2[1]);
+      ((Intent)localObject1).putExtra("url", paramString1);
+    }
+    else if (paramString1.equalsIgnoreCase("rating"))
+    {
+      localObject1 = a.a(paramContext, MainActivity.class, "showRating", "showRating");
+    }
+    else if (paramString1.equalsIgnoreCase("share"))
+    {
+      localObject1 = a.a(paramContext, MainActivity.class, "share", "share");
+    }
+    else if (paramString1.equalsIgnoreCase("openAppWithTab"))
+    {
+      localObject1 = a.a(paramContext, MainActivity.class, "openAppWithTab", paramString2);
+    }
+    else if (paramString1.equalsIgnoreCase("openAppWithScreen"))
+    {
+      if (paramString2.equalsIgnoreCase("settings")) {
+        localObject1 = new Intent(paramContext, SettingScreen.class);
+      } else if (paramString2.equalsIgnoreCase("help")) {
+        localObject1 = new Intent(paramContext, HelpScreen.class);
+      } else if (paramString2.equalsIgnoreCase("social")) {
+        localObject1 = new Intent(paramContext, SocialMediaAccountScreen.class);
+      } else if (paramString2.equalsIgnoreCase("aadhaar")) {
+        localObject1 = new Intent(paramContext, AadhaarProfileScreen.class);
+      } else if (paramString2.equalsIgnoreCase("feedback")) {
+        localObject1 = new Intent(paramContext, FeedbackScreen.class);
+      } else if (paramString2.equalsIgnoreCase("accountsettings")) {
+        localObject1 = new Intent(paramContext, AccountSettingScreen.class);
+      } else if (paramString2.equalsIgnoreCase("myprofile")) {
+        localObject1 = new Intent(paramContext, MyProfileScreen.class);
+      } else if (paramString2.equalsIgnoreCase("myprofilegeneral")) {
+        localObject1 = new Intent(paramContext, MyProfileGeneral.class);
+      } else {
+        localObject1 = new Intent(paramContext, MainActivity.class);
+      }
+    }
+    else
+    {
+      localObject1 = localObject2;
+      if (paramString1.equalsIgnoreCase("service"))
+      {
+        paramString1 = paramString2.split("\\|");
+        String str1 = paramString1[0];
+        paramString2 = paramString1[1];
+        String str2 = paramString1[2];
+        if (str2 != null)
+        {
+          if (!str2.equalsIgnoreCase(""))
+          {
+            paramString1 = k.a.a.e.b.a(paramContext).u(str2);
+            if (paramString1 != null)
+            {
+              paramString1.l();
+              paramString1 = paramString1.p();
+            }
+            else
+            {
+              paramString1 = paramContext.getResources().getString(2131755289);
+            }
+            if ((paramString2 != null) && (!paramString2.equalsIgnoreCase(""))) {
+              paramString1 = paramString2;
+            }
+            if (c(str1))
+            {
+              b(paramContext, str2, "attention_screen", "", "", "");
+              localObject1 = localObject2;
+              break label744;
+            }
+            localObject1 = a.a(paramContext, WebActivity.class, "fromNotif", "fromNotif");
+            ((Intent)localObject1).putExtra("service_name", paramString1);
+            ((Intent)localObject1).putExtra("service_url", str1);
+            ((Intent)localObject1).putExtra("service_id", str2);
+            ((Intent)localObject1).putExtra("source_tab", "attention_screen");
+            ((Intent)localObject1).putExtra("source_section", "");
+            ((Intent)localObject1).putExtra("source_state", "");
+            ((Intent)localObject1).putExtra("source_banner", "");
+            break label744;
+          }
+          paramString1 = new Intent(paramContext, MainActivity.class);
+        }
+        else
+        {
+          paramString1 = new Intent(paramContext, MainActivity.class);
+        }
+        localObject1 = paramString1;
+      }
+    }
+    label744:
+    if (localObject1 != null) {
+      try
+      {
+        paramContext.startActivity((Intent)localObject1);
+        return;
+      }
+      catch (Exception paramContext)
+      {
+        b.a(paramContext);
+      }
+    }
+  }
+  
+  public static void b(Context paramContext, String paramString1, String paramString2, String paramString3, String paramString4, String paramString5)
+  {
+    j(paramContext, paramString1);
+    a(paramContext, paramString1, paramString2, paramString3, paramString4, paramString5);
+    if (new V(paramContext).a(V.qb, "").equalsIgnoreCase("Y"))
+    {
+      paramContext.startActivity(new Intent(paramContext, DigilockerTabScreen.class));
+      return;
+    }
+    paramContext.startActivity(new Intent(paramContext, DigiLockerMenuScreen.class));
+  }
+  
+  public static boolean b(Context paramContext, String paramString)
+  {
+    paramString = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(paramString));
+    paramContext = paramContext.getContentResolver().query(paramString, new String[] { "_id", "number", "display_name" }, null, null, null);
+    try
+    {
+      boolean bool = paramContext.moveToFirst();
+      if (bool)
+      {
+        paramContext.close();
+        return true;
+      }
+      paramContext.close();
+      return false;
+    }
+    finally
+    {
+      if (paramContext != null) {
+        paramContext.close();
+      }
+    }
+  }
+  
+  public static boolean b(String paramString1, String paramString2)
+  {
+    SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    try
+    {
+      paramString2 = localSimpleDateFormat.parse(paramString2);
+      boolean bool = localSimpleDateFormat.parse(paramString1).before(paramString2);
+      return bool;
+    }
+    catch (Exception paramString1)
+    {
+      b.a(paramString1);
+    }
+    return false;
+  }
+  
+  public static String c()
+  {
+    try
+    {
+      Object localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("");
+      ((StringBuilder)localObject).append(Build.MANUFACTURER);
+      localObject = ((StringBuilder)localObject).toString();
+      return localObject;
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+    }
+    return "";
+  }
+  
+  public static String c(Context paramContext)
+  {
+    try
+    {
+      paramContext = paramContext.getPackageManager().getPackageInfo(paramContext.getPackageName(), 0);
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("");
+      localStringBuilder.append(versionCode);
+      paramContext = localStringBuilder.toString();
+      return paramContext;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+    return "";
+  }
+  
+  public static String c(Context paramContext, String paramString)
+  {
+    if (b.b.x.b.c.checkSelfPermission(paramContext, "android.permission.READ_EXTERNAL_STORAGE") == 0) {
+      try
+      {
+        String str = new Wa(paramContext).g();
+      }
+      catch (Exception localException) {}
+    }
+    for (;;)
+    {
+      Object localObject2;
+      try
+      {
+        b.a(localException);
+        localObject1 = "";
+      }
+      catch (Exception paramContext)
+      {
+        int i;
+        b.a(paramContext);
+      }
+      Object localObject1 = new StringBuilder();
+      ((StringBuilder)localObject1).append(Environment.getExternalStorageDirectory().toString());
+      ((StringBuilder)localObject1).append("/UMANG/Digilocker/");
+      ((StringBuilder)localObject1).append(d(paramContext, (String)localObject2));
+      paramContext = ((StringBuilder)localObject1).toString();
+      localObject1 = new StringBuilder();
+      ((StringBuilder)localObject1).append("Path: ");
+      ((StringBuilder)localObject1).append(paramContext);
+      ((StringBuilder)localObject1).toString();
+      paramContext = new File(paramContext).listFiles();
+      i = 0;
+      if (i < paramContext.length)
+      {
+        if (paramContext[i].getName().equalsIgnoreCase(paramString))
+        {
+          paramContext = paramContext[i].getAbsolutePath();
+          return paramContext;
+        }
+        i += 1;
+      }
+      else
+      {
+        return "";
+        localObject2 = localObject1;
+        if (localObject1 == null) {
+          localObject2 = "";
+        }
+      }
+    }
+  }
+  
+  public static void c(Activity paramActivity)
+  {
+    try
+    {
+      Intent localIntent = new Intent("android.intent.action.GET_CONTENT");
+      localIntent.addCategory("android.intent.category.OPENABLE");
+      localIntent.setType("image/*");
+      paramActivity.startActivityForResult(localIntent, 2019);
+      MyApplication.C = true;
+      return;
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+  }
+  
+  public static void c(Context paramContext, String paramString1, String paramString2)
+  {
+    paramContext = new Dialog(paramContext);
+    paramContext.getWindow();
+    paramContext.requestWindowFeature(1);
+    paramContext.setContentView(2131493032);
+    paramContext.setCancelable(true);
+    paramContext.setCanceledOnTouchOutside(false);
+    paramContext.show();
+    ((TextView)paramContext.findViewById(2131296633)).setText(paramString1);
+    ((TextView)paramContext.findViewById(2131296634)).setText(Html.fromHtml(paramString2));
+    ((TextView)paramContext.findViewById(2131297214)).setOnClickListener(new za(paramContext));
+  }
+  
+  public static void c(Context paramContext, String paramString1, String paramString2, String paramString3, String paramString4, String paramString5)
+  {
+    try
+    {
+      Intent localIntent = new Intent(paramContext, BigQueryUploadDataService.class);
+      localIntent.putExtra("type", paramString1);
+      localIntent.putExtra("resCode", paramString2);
+      localIntent.putExtra("rc", paramString3);
+      localIntent.putExtra("rd", paramString4);
+      localIntent.putExtra("auth", paramString5);
+      paramContext.startService(localIntent);
+      return;
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  public static boolean c(String paramString)
+  {
+    return paramString.equalsIgnoreCase("umang://digilocker");
+  }
+  
+  public static boolean c(String paramString1, String paramString2)
+  {
+    SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    try
+    {
+      paramString2 = localSimpleDateFormat.parse(paramString2);
+      boolean bool = localSimpleDateFormat.parse(paramString1).equals(paramString2);
+      return bool;
+    }
+    catch (Exception paramString1)
+    {
+      b.a(paramString1);
+    }
+    return false;
+  }
+  
+  public static i d(Activity paramActivity)
+  {
+    i localI = new i(paramActivity, 5);
+    localI.f().a(b.b.x.b.c.getColor(paramActivity, 2131099718));
+    localI.d(paramActivity.getResources().getString(2131755614));
+    localI.setCancelable(false);
+    localI.show();
+    return localI;
+  }
+  
+  public static String d()
+  {
+    try
+    {
+      Object localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("");
+      ((StringBuilder)localObject).append(Build.MODEL);
+      localObject = ((StringBuilder)localObject).toString();
+      return localObject;
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+    }
+    return "";
+  }
+  
+  public static String d(Context paramContext)
+  {
+    try
+    {
+      paramContext = (TelephonyManager)paramContext.getSystemService("phone");
+      if (paramContext.getPhoneType() == 1)
+      {
+        paramContext = (GsmCellLocation)paramContext.getCellLocation();
+        if (paramContext != null)
+        {
+          StringBuilder localStringBuilder = new StringBuilder();
+          localStringBuilder.append("");
+          localStringBuilder.append(paramContext.getCid());
+          paramContext = localStringBuilder.toString();
+          return paramContext;
+        }
+      }
+      return "";
+    }
+    catch (Exception paramContext) {}
+    return "";
+  }
+  
+  public static String d(Context paramContext, String paramString)
+  {
+    String str = "";
+    try
+    {
+      new V(paramContext);
+      paramContext = MessageDigest.getInstance("SHA-256");
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(paramString);
+      localStringBuilder.append("|");
+      localStringBuilder.append(MyApplication.q);
+      paramContext.update(localStringBuilder.toString().getBytes());
+      paramContext = paramContext.digest();
+      paramString = new StringBuffer("");
+      int i = 0;
+      while (i < paramContext.length)
+      {
+        paramString.append(Integer.toString((paramContext[i] & 0xFF) + 256, 16).substring(1));
+        i += 1;
+      }
+      paramContext = paramString.toString();
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+      paramContext = str;
+    }
+    a.f("getMD5 : ", paramContext);
+    return paramContext;
+  }
+  
+  public static String d(String paramString)
+  {
+    String str = paramString.substring(paramString.lastIndexOf("/") + 1, paramString.lastIndexOf("."));
+    if (str.equalsIgnoreCase("u1")) {
+      paramString = "drawable://2131231297";
+    } else if (str.equalsIgnoreCase("u2")) {
+      paramString = "drawable://2131231298";
+    } else if (str.equalsIgnoreCase("u3")) {
+      paramString = "drawable://2131231299";
+    } else if (str.equalsIgnoreCase("u4")) {
+      paramString = "drawable://2131231300";
+    } else if (str.equalsIgnoreCase("u5")) {
+      paramString = "drawable://2131231301";
+    }
+    a.f("tour img....................", paramString);
+    return paramString;
+  }
+  
+  public static boolean d(String paramString1, String paramString2)
+  {
+    SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+    try
+    {
+      paramString2 = localSimpleDateFormat.parse(paramString2);
+      boolean bool = localSimpleDateFormat.parse(paramString1).before(paramString2);
+      return bool;
+    }
+    catch (Exception paramString1)
+    {
+      b.a(paramString1);
+    }
+    return false;
+  }
+  
+  public static String e(Context paramContext, String paramString)
+  {
+    String str = "";
+    try
+    {
+      new V(paramContext);
+      paramContext = MessageDigest.getInstance("MD5");
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(paramString);
+      localStringBuilder.append("|");
+      localStringBuilder.append(MyApplication.v);
+      paramContext.update(localStringBuilder.toString().getBytes());
+      paramContext = paramContext.digest();
+      paramString = new StringBuffer("");
+      int i = 0;
+      while (i < paramContext.length)
+      {
+        paramString.append(Integer.toString((paramContext[i] & 0xFF) + 256, 16).substring(1));
+        i += 1;
+      }
+      paramContext = paramString.toString();
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+      paramContext = str;
+    }
+    a.f("getMD5 : ", paramContext);
+    return paramContext;
+  }
+  
+  public static String e(String paramString)
+  {
+    String str = paramString.substring(paramString.lastIndexOf("/") + 1, paramString.lastIndexOf("."));
+    if (str.equalsIgnoreCase("USP_01")) {
+      paramString = "drawable://2131231552";
+    } else if (str.equalsIgnoreCase("tour2")) {
+      paramString = "drawable://2131231553";
+    } else if (str.equalsIgnoreCase("tour3")) {
+      paramString = "drawable://2131231554";
+    } else if (str.equalsIgnoreCase("img_tour4_new")) {
+      paramString = "drawable://2131231555";
+    } else if (str.equalsIgnoreCase("multilingual_support")) {
+      paramString = "drawable://2131231556";
+    }
+    a.f("tour img....................", paramString);
+    return paramString;
+  }
+  
+  public static ArrayList<String> e()
+  {
+    ArrayList localArrayList = new ArrayList();
+    localArrayList.add("en");
+    localArrayList.add("hi");
+    localArrayList.add("as");
+    localArrayList.add("bn");
+    localArrayList.add("gu");
+    localArrayList.add("kn");
+    localArrayList.add("ml");
+    localArrayList.add("mr");
+    localArrayList.add("or");
+    localArrayList.add("pa");
+    localArrayList.add("ta");
+    localArrayList.add("te");
+    localArrayList.add("ur");
+    return localArrayList;
+  }
+  
+  public static JSONObject e(Context paramContext)
+    throws Exception
+  {
+    V localV = new V(paramContext);
+    String str = getResourcesgetConfigurationlocale.toString();
+    if (str.contains("GB")) {
+      str = a.b(str, -3, 0);
+    } else {
+      str = "en";
+    }
+    a.f("==>", str);
+    str = localV.a(V.c, str);
+    JSONObject localJSONObject = new JSONObject();
+    localJSONObject.put("did", f(paramContext));
+    localJSONObject.put("imei", j(paramContext));
+    localJSONObject.put("imsi", k(paramContext));
+    localJSONObject.put("hmk", c());
+    localJSONObject.put("hmd", d());
+    localJSONObject.put("os", f());
+    localJSONObject.put("osver", g());
+    localJSONObject.put("pkg", paramContext.getPackageName());
+    localJSONObject.put("ver", c(paramContext));
+    localJSONObject.put("tkn", localV.a(V.ma, ""));
+    localJSONObject.put("rot", l());
+    localJSONObject.put("mod", "app");
+    localJSONObject.put("mcc", p(paramContext));
+    localJSONObject.put("mnc", q(paramContext));
+    localJSONObject.put("lac", m(paramContext));
+    localJSONObject.put("clid", d(paramContext));
+    localJSONObject.put("acc", "");
+    localJSONObject.put("lat", "");
+    localJSONObject.put("lon", "");
+    localJSONObject.put("peml", h(paramContext));
+    localJSONObject.put("lang", str);
+    localJSONObject.put("aadhr", b(paramContext));
+    localJSONObject.put("node", t(paramContext));
+    return localJSONObject;
+  }
+  
+  public static void e(Activity paramActivity)
+  {
+    try
+    {
+      ((InputMethodManager)paramActivity.getSystemService("input_method")).toggleSoftInput(2, 0);
+      return;
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+  }
+  
+  public static i f(Activity paramActivity)
+  {
+    i localI = new i(paramActivity, 5);
+    localI.f().a(b.b.x.b.c.getColor(paramActivity, 2131099718));
+    localI.d(paramActivity.getResources().getString(2131755874));
+    localI.setCancelable(false);
+    try
+    {
+      if (!paramActivity.isFinishing())
+      {
+        localI.show();
+        return localI;
+      }
+    }
+    catch (Exception paramActivity)
+    {
+      b.a(paramActivity);
+    }
+    return localI;
+  }
+  
+  public static String f()
+  {
+    try
+    {
+      Object localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("Android ");
+      ((StringBuilder)localObject).append(Build.VERSION.RELEASE);
+      localObject = ((StringBuilder)localObject).toString();
+      return localObject;
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+    }
+    return "";
+  }
+  
+  public static String f(Context paramContext)
+  {
+    try
+    {
+      paramContext = Settings.Secure.getString(paramContext.getContentResolver(), "android_id");
+    }
+    catch (Exception paramContext)
+    {
+      for (;;) {}
+    }
+    paramContext = "";
+    a.f("DEVICE ID : ", paramContext);
+    return paramContext;
+  }
+  
+  public static String f(Context paramContext, String paramString)
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("getStateIdFromName()..........stateName");
+    localStringBuilder.append(paramString);
+    localStringBuilder.toString();
+    String[] arrayOfString1 = paramContext.getResources().getStringArray(2130903065);
+    String[] arrayOfString2 = paramContext.getResources().getStringArray(2130903064);
+    int i = 0;
+    localStringBuilder = arrayOfString2[0];
+    for (;;)
+    {
+      paramContext = localStringBuilder;
+      if (i >= arrayOfString1.length) {
+        break;
+      }
+      if (paramString.equalsIgnoreCase(arrayOfString1[i]))
+      {
+        paramContext = arrayOfString2[i];
+        break;
+      }
+      i += 1;
+    }
+    a.f("getStateIdFromName()..........stateName", paramContext);
+    return paramContext;
+  }
+  
+  public static String f(String paramString)
+  {
+    try
+    {
+      paramString = paramString.split(" ");
+      int i = 0;
+      while (i < paramString.length)
+      {
+        String str = paramString[i];
+        if (str.length() == 6)
+        {
+          boolean bool = w(str);
+          if (bool) {
+            return str;
+          }
+        }
+        i += 1;
+      }
+      return "";
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+  }
+  
+  public static String g()
+  {
+    try
+    {
+      String str = Build.VERSION.RELEASE;
+      return str;
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+    }
+    return "";
+  }
+  
+  public static String g(Context paramContext)
+  {
+    return ((WifiManager)paramContext.getSystemService("wifi")).getConnectionInfo().getMacAddress();
+  }
+  
+  public static String g(Context paramContext, String paramString)
+  {
+    String[] arrayOfString = paramContext.getResources().getStringArray(2130903065);
+    paramContext = paramContext.getResources().getStringArray(2130903064);
+    int i = 0;
+    String str = arrayOfString[0];
+    while (i < paramContext.length)
+    {
+      if (paramString.equalsIgnoreCase(paramContext[i])) {
+        return arrayOfString[i];
+      }
+      i += 1;
+    }
+    return str;
+  }
+  
+  public static String g(String paramString)
+  {
+    boolean bool2 = false;
+    try
+    {
+      String[] arrayOfString = new String[8];
+      arrayOfString[0] = "/sbin/";
+      arrayOfString[1] = "/system/bin/";
+      arrayOfString[2] = "/system/xbin/";
+      arrayOfString[3] = "/data/local/xbin/";
+      arrayOfString[4] = "/data/local/bin/";
+      arrayOfString[5] = "/system/sd/xbin/";
+      arrayOfString[6] = "/system/bin/failsafe/";
+      arrayOfString[7] = "/data/local/";
+      int j = arrayOfString.length;
+      int i = 0;
+      boolean bool1;
+      for (;;)
+      {
+        bool1 = bool2;
+        if (i >= j) {
+          break;
+        }
+        String str = arrayOfString[i];
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(str);
+        localStringBuilder.append(paramString);
+        bool1 = new File(localStringBuilder.toString()).exists();
+        if (bool1)
+        {
+          bool1 = true;
+          break;
+        }
+        i += 1;
+      }
+      return "no";
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+      bool1 = bool2;
+      paramString = new StringBuilder();
+      paramString.append("ROOTED : ");
+      paramString.append(bool1);
+      paramString.toString();
+      if (bool1) {
+        return "yes";
+      }
+    }
+  }
+  
+  public static String h()
+  {
+    return new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(new Date());
+  }
+  
+  public static String h(Context paramContext)
+  {
+    paramContext = a(paramContext, AccountManager.get(paramContext));
+    if (paramContext == null) {
+      return "";
+    }
+    return name;
+  }
+  
+  public static String h(Context paramContext, String paramString)
+  {
+    new V(paramContext);
+    return paramString;
+  }
+  
+  public static String h(String paramString)
+  {
+    try
+    {
+      paramString = paramString.substring(0, paramString.indexOf("."));
+      paramString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("MMMM dd 'at' hh:mm a", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static String i()
+  {
+    return new SimpleDateFormat("ddMMyyyy", Locale.US).format(new Date());
+  }
+  
+  public static String i(Context paramContext)
+  {
+    try
+    {
+      paramContext = getPackageManagergetPackageInfogetPackageName64signatures;
+      if (paramContext.length > 0)
+      {
+        paramContext = paramContext[0];
+        Object localObject = MessageDigest.getInstance("SHA");
+        ((MessageDigest)localObject).update(paramContext.toByteArray());
+        paramContext = Base64.encodeToString(((MessageDigest)localObject).digest(), 0);
+        localObject = new StringBuilder();
+        ((StringBuilder)localObject).append("...............................");
+        ((StringBuilder)localObject).append(paramContext);
+        ((StringBuilder)localObject).toString();
+        paramContext = paramContext.trim();
+        return paramContext;
+      }
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+    return "";
+  }
+  
+  public static String i(Context paramContext, String paramString)
+  {
+    new V(paramContext);
+    paramContext = new StringBuilder();
+    paramContext.append("|");
+    paramContext.append(paramString);
+    paramContext.append("|");
+    return a.a(paramContext, MyApplication.r, "|");
+  }
+  
+  public static String i(String paramString)
+  {
+    try
+    {
+      paramString = paramString.split("\\|")[2];
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "3";
+  }
+  
+  public static long j(String paramString)
+  {
+    try
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(a());
+      localStringBuilder.append(" ");
+      localStringBuilder.append(paramString);
+      paramString = localStringBuilder.toString();
+      long l = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.US).parse(paramString).getTime();
+      return l;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return System.currentTimeMillis();
+  }
+  
+  public static String j()
+  {
+    return new SimpleDateFormat("HH:mm:ss SSS", Locale.US).format(new Date());
+  }
+  
+  public static String j(Context paramContext)
+  {
+    try
+    {
+      paramContext = ((TelephonyManager)paramContext.getSystemService("phone")).getDeviceId();
+    }
+    catch (Exception paramContext)
+    {
+      for (;;) {}
+    }
+    paramContext = "";
+    a.f("IMEI : ", paramContext);
+    return paramContext;
+  }
+  
+  public static void j(Context paramContext, String paramString)
+  {
+    Object localObject2 = "";
+    Object localObject1;
+    try
+    {
+      String str = new Wa(paramContext).g();
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localObject1 = "";
+    }
+    if (localObject1 == null) {
+      localObject1 = localObject2;
+    }
+    try
+    {
+      localObject2 = e(paramContext);
+      ((JSONObject)localObject2).put("sid", paramString);
+      ((JSONObject)localObject2).put("uid", localObject1);
+      paramString = (String)localObject2;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+      paramString = null;
+    }
+    if (paramString != null) {
+      new k.a.a.l.u(new ta(), "https://app.umang.gov.in/umang/coreapi/ws2/rser", paramString, paramContext).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+    }
+  }
+  
+  public static String k()
+  {
+    Object localObject = a.b("");
+    ((StringBuilder)localObject).append(System.currentTimeMillis());
+    localObject = ((StringBuilder)localObject).toString();
+    int i = 0;
+    while (i < 5)
+    {
+      localObject = a.b((String)localObject);
+      ((StringBuilder)localObject).append(a(0, 9));
+      localObject = ((StringBuilder)localObject).toString();
+      i += 1;
+    }
+    a.f("getUniqueNumber : ", (String)localObject);
+    return localObject;
+  }
+  
+  public static String k(Context paramContext)
+  {
+    paramContext = (TelephonyManager)paramContext.getSystemService("phone");
+    try
+    {
+      paramContext = paramContext.getSubscriberId();
+    }
+    catch (Exception paramContext)
+    {
+      StringBuilder localStringBuilder = a.b("Ex in getImsiNumber...");
+      localStringBuilder.append(paramContext.getMessage());
+      localStringBuilder.toString();
+      paramContext = "";
+    }
+    if (paramContext == null) {
+      return "";
+    }
+    return paramContext;
+  }
+  
+  public static String k(String paramString)
+  {
+    try
+    {
+      paramString = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("dd MMM yyyy", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static void k(Context paramContext, String paramString)
+  {
+    Dialog localDialog = new Dialog(paramContext);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131493186);
+    localDialog.setCancelable(true);
+    ((TextView)localDialog.findViewById(2131296456)).setOnClickListener(new aa(localDialog));
+    ((TextView)localDialog.findViewById(2131297566)).setOnClickListener(new ba(localDialog, paramContext));
+    ((TextView)localDialog.findViewById(2131297143)).setText(paramString);
+    localDialog.show();
+  }
+  
+  public static String l()
+  {
+    if (Ja.c()) {
+      return "yes";
+    }
+    return "no";
+  }
+  
+  public static String l(String paramString)
+  {
+    try
+    {
+      paramString = new SimpleDateFormat("dd-MM-yyyy", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("dd MMM yyyy", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static void l(Context paramContext)
+  {
+    try
+    {
+      paramContext = getPackageManagergetPackageInfo"in.spicedigital.umang"64signatures;
+      int j = paramContext.length;
+      int i = 0;
+      while (i < j)
+      {
+        Object localObject = paramContext[i];
+        MessageDigest localMessageDigest = MessageDigest.getInstance("SHA");
+        localMessageDigest.update(localObject.toByteArray());
+        Base64.encodeToString(localMessageDigest.digest(), 0);
+        i += 1;
+      }
+      return;
+    }
+    catch (PackageManager.NameNotFoundException|NoSuchAlgorithmException paramContext) {}
+  }
+  
+  public static void l(Context paramContext, String paramString)
+  {
+    Dialog localDialog = new Dialog(paramContext);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131493187);
+    localDialog.setCancelable(true);
+    ((TextView)localDialog.findViewById(2131296456)).setOnClickListener(new ca(localDialog));
+    ((TextView)localDialog.findViewById(2131297566)).setOnClickListener(new da(localDialog, paramContext));
+    ((TextView)localDialog.findViewById(2131297143)).setText(Html.fromHtml(paramString));
+    localDialog.show();
+  }
+  
+  public static String m(Context paramContext)
+  {
+    try
+    {
+      int i = ((GsmCellLocation)((TelephonyManager)paramContext.getSystemService("phone")).getCellLocation()).getLac();
+      return String.valueOf(i);
+    }
+    catch (Exception paramContext)
+    {
+      for (;;) {}
+    }
+    return "";
+  }
+  
+  public static String m(String paramString)
+  {
+    try
+    {
+      paramString = paramString.substring(0, paramString.indexOf("."));
+      paramString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("E, MMM d", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static void m(Context paramContext, String paramString)
+  {
+    try
+    {
+      if (new V(paramContext).b(V.db, "y").equalsIgnoreCase("y"))
+      {
+        Intent localIntent = new Intent(paramContext, BigQueryUploadDataService.class);
+        localIntent.putExtra("type", "exception");
+        localIntent.putExtra("log", paramString);
+        paramContext.startService(localIntent);
+        return;
+      }
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+  }
+  
+  public static String n(String paramString)
+  {
+    try
+    {
+      paramString = paramString.substring(0, paramString.indexOf("."));
+      paramString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static ArrayList<String> n(Context paramContext)
+  {
+    ArrayList localArrayList = new ArrayList();
+    localArrayList.add(paramContext.getResources().getString(2131755655));
+    localArrayList.add(paramContext.getResources().getString(2131755810));
+    localArrayList.add(paramContext.getResources().getString(2131755301));
+    localArrayList.add(paramContext.getResources().getString(2131755324));
+    localArrayList.add(paramContext.getResources().getString(2131755796));
+    localArrayList.add(paramContext.getResources().getString(2131755851));
+    localArrayList.add(paramContext.getResources().getString(2131755904));
+    localArrayList.add(paramContext.getResources().getString(2131755915));
+    localArrayList.add(paramContext.getResources().getString(2131756062));
+    localArrayList.add(paramContext.getResources().getString(2131756188));
+    localArrayList.add(paramContext.getResources().getString(2131756470));
+    localArrayList.add(paramContext.getResources().getString(2131756474));
+    localArrayList.add(paramContext.getResources().getString(2131756606));
+    return localArrayList;
+  }
+  
+  public static void n(Context paramContext, String paramString)
+  {
+    paramString = new Dialog(paramContext);
+    paramString.getWindow();
+    paramString.requestWindowFeature(1);
+    paramString.setContentView(2131493015);
+    paramString.setCancelable(true);
+    paramString.setCanceledOnTouchOutside(false);
+    paramString.show();
+    TextView localTextView1 = (TextView)paramString.findViewById(2131296645);
+    TextView localTextView2 = (TextView)paramString.findViewById(2131296646);
+    V localV = new V(paramContext);
+    localTextView1.setOnClickListener(new ja(localV, paramContext));
+    localTextView2.setOnClickListener(new ka(localV, paramContext));
+    ((Button)paramString.findViewById(2131297214)).setOnClickListener(new la(paramString));
+  }
+  
+  public static String o(String paramString)
+  {
+    try
+    {
+      paramString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static ArrayList<String> o(Context paramContext)
+  {
+    paramContext = new ArrayList();
+    paramContext.add("");
+    paramContext.add("Hindi");
+    paramContext.add("Assamese");
+    paramContext.add("Bengali");
+    paramContext.add("Gujarati");
+    paramContext.add("Kannada");
+    paramContext.add("Malayalam");
+    paramContext.add("Marathi");
+    paramContext.add("Oriya");
+    paramContext.add("Punjabi");
+    paramContext.add("Tamil");
+    paramContext.add("Telugu");
+    paramContext.add("Urdu");
+    return paramContext;
+  }
+  
+  public static void o(Context paramContext, String paramString)
+  {
+    paramContext = new Dialog(paramContext);
+    paramContext.getWindow();
+    paramContext.requestWindowFeature(1);
+    paramContext.setContentView(2131493031);
+    paramContext.setCancelable(true);
+    paramContext.setCanceledOnTouchOutside(false);
+    paramContext.show();
+    ((TextView)paramContext.findViewById(2131296634)).setText(paramString);
+    ((TextView)paramContext.findViewById(2131297214)).setOnClickListener(new ra(paramContext));
+  }
+  
+  public static String p(Context paramContext)
+  {
+    try
+    {
+      paramContext = ((TelephonyManager)paramContext.getSystemService("phone")).getNetworkOperator();
+      if ((paramContext != null) && (!paramContext.equalsIgnoreCase("")))
+      {
+        paramContext = paramContext.substring(0, 3);
+        return paramContext;
+      }
+      return "";
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+    return "";
+  }
+  
+  public static String p(String paramString)
+  {
+    try
+    {
+      paramString = paramString.split("\\|")[1];
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "3";
+  }
+  
+  public static void p(Context paramContext, String paramString)
+  {
+    paramContext = new Dialog(paramContext);
+    paramContext.getWindow();
+    paramContext.requestWindowFeature(1);
+    paramContext.setContentView(2131493031);
+    paramContext.setCancelable(true);
+    paramContext.setCanceledOnTouchOutside(false);
+    paramContext.show();
+    ((TextView)paramContext.findViewById(2131296634)).setText(Html.fromHtml(paramString));
+    ((TextView)paramContext.findViewById(2131297214)).setOnClickListener(new xa(paramContext));
+  }
+  
+  public static ProgressDialog q(Context paramContext, String paramString)
+  {
+    paramContext = new ProgressDialog(paramContext);
+    paramContext.setMessage(paramString);
+    paramContext.setProgressStyle(0);
+    paramContext.setCancelable(false);
+    paramContext.show();
+    return paramContext;
+  }
+  
+  public static String q(Context paramContext)
+  {
+    try
+    {
+      paramContext = ((TelephonyManager)paramContext.getSystemService("phone")).getNetworkOperator();
+      if ((paramContext != null) && (!paramContext.equalsIgnoreCase("")))
+      {
+        paramContext = paramContext.substring(3);
+        return paramContext;
+      }
+      return "";
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+    return "";
+  }
+  
+  public static String q(String paramString)
+  {
+    String str = "";
+    try
+    {
+      if (paramString.lastIndexOf(".") != -1)
+      {
+        paramString = paramString.substring(paramString.lastIndexOf(".") + 1);
+        str = MimeTypeMap.getSingleton().getMimeTypeFromExtension(paramString.toLowerCase());
+      }
+      return str;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static String r(Context paramContext)
+  {
+    switch (((TelephonyManager)paramContext.getSystemService("phone")).getNetworkType())
+    {
+    default: 
+      return "Unknown";
+    case 13: 
+      return "4G";
+    case 3: 
+    case 5: 
+    case 6: 
+    case 8: 
+    case 9: 
+    case 10: 
+    case 12: 
+    case 14: 
+    case 15: 
+      return "3G";
+    }
+    return "2G";
+  }
+  
+  public static String r(String paramString)
+  {
+    try
+    {
+      paramString = new SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("MMM", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static String s(Context paramContext)
+  {
+    boolean bool2;
+    do
+    {
+      try
+      {
+        paramContext = (ConnectivityManager)paramContext.getSystemService("connectivity");
+        boolean bool1 = paramContext.getNetworkInfo(1).isConnected();
+        bool2 = paramContext.getNetworkInfo(0).isConnected();
+        if (!bool1) {
+          continue;
+        }
+        return "wifi";
+      }
+      catch (Exception paramContext)
+      {
+        b.a(paramContext);
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append("");
+        return a.a(paramContext, localStringBuilder);
+      }
+      return "no_newtork";
+    } while (!bool2);
+    return "mobile_data";
+  }
+  
+  public static String s(String paramString)
+  {
+    try
+    {
+      if ("".equalsIgnoreCase(paramString)) {
+        return "3";
+      }
+      paramString = paramString.split("\\|")[0];
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "3";
+  }
+  
+  public static String t(Context paramContext)
+  {
+    return new V(paramContext).a(V.Kb, "");
+  }
+  
+  public static String t(String paramString)
+  {
+    try
+    {
+      paramString = paramString.substring(0, paramString.indexOf("."));
+      paramString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("hh:mm aa", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static String u(Context paramContext)
+  {
+    return ((TelephonyManager)paramContext.getSystemService("phone")).getNetworkOperatorName();
+  }
+  
+  public static String u(String paramString)
+  {
+    try
+    {
+      paramString = Base64.encodeToString(MessageDigest.getInstance("SHA-256").digest(paramString.getBytes(StandardCharsets.UTF_8)), 0).trim();
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      throw new RuntimeException(paramString);
+    }
+  }
+  
+  public static String v(Context paramContext)
+  {
+    return paramContext.getPackageName();
+  }
+  
+  public static String v(String paramString)
+  {
+    try
+    {
+      paramString = new SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(paramString);
+      paramString = new SimpleDateFormat("EEE", Locale.US).format(paramString);
+      return paramString;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+    }
+    return "";
+  }
+  
+  public static ArrayList<String> w(Context paramContext)
+  {
+    ArrayList localArrayList = new ArrayList();
+    localArrayList.add(paramContext.getResources().getString(2131756191));
+    localArrayList.add(paramContext.getResources().getString(2131756192));
+    localArrayList.add(paramContext.getResources().getString(2131756193));
+    localArrayList.add(paramContext.getResources().getString(2131756194));
+    localArrayList.add(paramContext.getResources().getString(2131756195));
+    return localArrayList;
+  }
+  
+  public static boolean w(String paramString)
+  {
+    try
+    {
+      Double.parseDouble(paramString);
+      return true;
+    }
+    catch (NumberFormatException paramString)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public static ArrayList<String> x(Context paramContext)
+  {
+    ArrayList localArrayList = new ArrayList();
+    localArrayList.add(paramContext.getResources().getString(2131756197));
+    localArrayList.add(paramContext.getResources().getString(2131756198));
+    localArrayList.add(paramContext.getResources().getString(2131756199));
+    localArrayList.add(paramContext.getResources().getString(2131756200));
+    localArrayList.add(paramContext.getResources().getString(2131756201));
+    return localArrayList;
+  }
+  
+  public static boolean x(String paramString)
+  {
+    boolean bool2 = Pattern.compile("\\d{12}").matcher(paramString).matches();
+    boolean bool1 = bool2;
+    if (bool2) {
+      bool1 = Xa.b(paramString);
+    }
+    return bool1;
+  }
+  
+  public static String y(Context paramContext)
+  {
+    V localV = new V(paramContext);
+    try
+    {
+      paramContext = new Wa(paramContext).i();
+      localV.c(V.da, paramContext.g());
+    }
+    catch (Exception paramContext)
+    {
+      b.a(paramContext);
+    }
+    return localV.a(V.da, "");
+  }
+  
+  public static boolean y(String paramString)
+  {
+    boolean bool2 = Pattern.compile("\\d{16}").matcher(paramString).matches();
+    boolean bool1 = bool2;
+    if (bool2) {
+      bool1 = Xa.b(paramString);
+    }
+    return bool1;
+  }
+  
+  public static String z(Context paramContext)
+  {
+    return new V(paramContext).a(V.ya, "");
+  }
+}

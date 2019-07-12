@@ -1,0 +1,94 @@
+package f.g.b.a.c.b;
+
+import f.g.b.a.c.I;
+import f.g.b.a.c.J;
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.V;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+
+public final class c
+  extends I
+{
+  public final HttpURLConnection e;
+  
+  public c(HttpURLConnection paramHttpURLConnection)
+  {
+    e = paramHttpURLConnection;
+    paramHttpURLConnection.setInstanceFollowRedirects(false);
+  }
+  
+  public J a()
+    throws IOException
+  {
+    HttpURLConnection localHttpURLConnection1 = e;
+    Object localObject1;
+    if (e() != null)
+    {
+      localObject1 = d();
+      if (localObject1 != null) {
+        a("Content-Type", (String)localObject1);
+      }
+      localObject1 = b();
+      if (localObject1 != null) {
+        a("Content-Encoding", (String)localObject1);
+      }
+      long l = c();
+      if (l >= 0L) {
+        a("Content-Length", Long.toString(l));
+      }
+      localObject1 = localHttpURLConnection1.getRequestMethod();
+      if ((!"POST".equals(localObject1)) && (!"PUT".equals(localObject1)))
+      {
+        boolean bool;
+        if (l == 0L) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        g.a(bool, "%s with non-zero content length is not supported", new Object[] { localObject1 });
+      }
+      else
+      {
+        localHttpURLConnection1.setDoOutput(true);
+        if ((l >= 0L) && (l <= 2147483647L)) {
+          localHttpURLConnection1.setFixedLengthStreamingMode((int)l);
+        } else {
+          localHttpURLConnection1.setChunkedStreamingMode(0);
+        }
+        localObject1 = localHttpURLConnection1.getOutputStream();
+        try
+        {
+          e().writeTo((OutputStream)localObject1);
+          ((OutputStream)localObject1).close();
+        }
+        finally
+        {
+          ((OutputStream)localObject1).close();
+        }
+      }
+    }
+    try
+    {
+      localHttpURLConnection2.connect();
+      localObject1 = new d(localHttpURLConnection2);
+      return localObject1;
+    }
+    finally
+    {
+      localHttpURLConnection2.disconnect();
+    }
+  }
+  
+  public void a(int paramInt1, int paramInt2)
+  {
+    e.setReadTimeout(paramInt2);
+    e.setConnectTimeout(paramInt1);
+  }
+  
+  public void a(String paramString1, String paramString2)
+  {
+    e.addRequestProperty(paramString1, paramString2);
+  }
+}

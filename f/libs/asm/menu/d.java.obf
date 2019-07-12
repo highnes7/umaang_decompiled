@@ -1,0 +1,112 @@
+package f.c.a.c;
+
+import android.app.Activity;
+import android.app.AlertDialog.Builder;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import java.util.concurrent.CountDownLatch;
+
+public class p
+{
+  public final b a;
+  public final AlertDialog.Builder b;
+  
+  public p(AlertDialog.Builder paramBuilder, b paramB)
+  {
+    a = paramB;
+    b = paramBuilder;
+  }
+  
+  public static int a(float paramFloat, int paramInt)
+  {
+    return (int)(paramFloat * paramInt);
+  }
+  
+  public static ScrollView a(Activity paramActivity, String paramString)
+  {
+    float f = getResourcesgetDisplayMetricsdensity;
+    int i = a(f, 5);
+    TextView localTextView = new TextView(paramActivity);
+    localTextView.setAutoLinkMask(15);
+    localTextView.setText(paramString);
+    localTextView.setTextAppearance(paramActivity, 16973892);
+    localTextView.setPadding(i, i, i, i);
+    localTextView.setFocusable(false);
+    paramActivity = new ScrollView(paramActivity);
+    paramActivity.setPadding(a(f, 14), a(f, 2), a(f, 10), a(f, 12));
+    paramActivity.addView(localTextView);
+    return paramActivity;
+  }
+  
+  public static p a(Activity paramActivity, l.a.a.a.a.g.p paramP, a paramA)
+  {
+    b localB = new b();
+    ua localUa = new ua(paramActivity, paramP);
+    AlertDialog.Builder localBuilder = new AlertDialog.Builder(paramActivity);
+    paramActivity = a(paramActivity, localUa.c());
+    m localM = new m(localB);
+    localBuilder.setView(paramActivity).setTitle(localUa.e()).setCancelable(false).setNeutralButton(localUa.d(), localM);
+    if (d)
+    {
+      paramActivity = new n(localB);
+      localBuilder.setNegativeButton(localUa.b(), paramActivity);
+    }
+    if (f)
+    {
+      paramActivity = new o(paramA, localB);
+      localBuilder.setPositiveButton(localUa.a(), paramActivity);
+    }
+    return new p(localBuilder, localB);
+  }
+  
+  public void a()
+  {
+    a.a();
+  }
+  
+  public boolean b()
+  {
+    return a.b();
+  }
+  
+  public void c()
+  {
+    b.show();
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void a(boolean paramBoolean);
+  }
+  
+  private static class b
+  {
+    public boolean a = false;
+    public final CountDownLatch b = new CountDownLatch(1);
+    
+    public b() {}
+    
+    public void a()
+    {
+      try
+      {
+        b.await();
+        return;
+      }
+      catch (InterruptedException localInterruptedException) {}
+    }
+    
+    public void a(boolean paramBoolean)
+    {
+      a = paramBoolean;
+      b.countDown();
+    }
+    
+    public boolean b()
+    {
+      return a;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.RemoteException;
+import b.b.a.F;
+import com.google.android.gms.common.api.Api.zzb;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import java.util.Map;
+
+public final class zzd
+  extends zzb<Void>
+{
+  public zzcr<Api.zzb, ?> zzfid;
+  public zzdn<Api.zzb, ?> zzfie;
+  
+  public zzd(zzcs paramZzcs, TaskCompletionSource<Void> paramTaskCompletionSource)
+  {
+    super(3, paramTaskCompletionSource);
+    zzfid = zzfid;
+    zzfie = zzfie;
+  }
+  
+  public final void zzb(zzbr<?> paramZzbr)
+    throws RemoteException
+  {
+    zzfid.zzb(paramZzbr.zzagn(), zzdzc);
+    if (zzfid.zzaik() != null) {
+      paramZzbr.zzahw().put(zzfid.zzaik(), new zzcs(zzfid, zzfie));
+    }
+  }
+  
+  public final void zzr(@F Status paramStatus)
+  {
+    zzdzc.trySetException(new ApiException(paramStatus));
+  }
+}

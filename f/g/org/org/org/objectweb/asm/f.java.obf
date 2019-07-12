@@ -1,0 +1,499 @@
+package f.g.b.a.b.b.b;
+
+import f.g.b.a.a.b.i;
+import f.g.b.a.a.b.j;
+import f.g.b.a.a.b.j.b;
+import f.g.b.a.a.b.u;
+import f.g.b.a.a.b.v;
+import f.g.b.a.b.k.a.b;
+import f.g.b.a.c.A;
+import f.g.b.a.c.F;
+import f.g.b.a.c.s;
+import f.g.b.a.d.b;
+import f.g.b.a.d.c.b.b;
+import f.g.b.a.d.d;
+import f.g.b.a.g.L;
+import f.g.b.a.g.L.a;
+import f.g.b.a.g.M;
+import f.g.b.a.g.N;
+import f.g.b.a.g.h;
+import f.g.b.a.g.p;
+import f.g.b.a.g.w;
+import f.g.b.a.g.y;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.security.GeneralSecurityException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Collection;
+import java.util.Collections;
+
+public class g
+  extends j
+{
+  public static final String n = "authorized_user";
+  public static final String o = "service_account";
+  @h
+  public static a p = new a();
+  public String q;
+  public Collection<String> r;
+  public PrivateKey s;
+  public String t;
+  public String u;
+  
+  public g()
+  {
+    this(new a());
+  }
+  
+  public g(a paramA)
+  {
+    super(paramA);
+    if (k == null)
+    {
+      boolean bool;
+      if ((i == null) && (j == null) && (m == null)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      f.g.b.a.e.a.a.a.b.g.a(bool);
+      return;
+    }
+    String str = i;
+    M.a(str);
+    q = ((String)str);
+    r = Collections.unmodifiableCollection(j);
+    s = k;
+    t = l;
+    u = m;
+  }
+  
+  @h
+  public static g a(F paramF, d paramD)
+    throws IOException
+  {
+    if (paramF != null)
+    {
+      if (paramD != null) {
+        return p.a(paramF, paramD);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  @h
+  public static g a(b paramB, F paramF, d paramD)
+    throws IOException
+  {
+    Object localObject1 = (String)paramB.get("client_id");
+    String str = (String)paramB.get("client_email");
+    Object localObject2 = (String)paramB.get("private_key");
+    paramB = (String)paramB.get("private_key_id");
+    if ((localObject1 != null) && (str != null) && (localObject2 != null) && (paramB != null))
+    {
+      localObject1 = c((String)localObject2);
+      localObject2 = Collections.emptyList();
+      return new a().a(paramF).a(paramD).b(str).b((Collection)localObject2).a((PrivateKey)localObject1).c(paramB).a();
+    }
+    throw new IOException("Error reading service account credential from stream, expecting  'client_id', 'client_email', 'private_key' and 'private_key_id'.");
+  }
+  
+  @h
+  public static g a(InputStream paramInputStream)
+    throws IOException
+  {
+    return a(paramInputStream, a.b.a, f.g.b.a.b.k.a.a.a);
+  }
+  
+  @h
+  public static g a(InputStream paramInputStream, F paramF, d paramD)
+    throws IOException
+  {
+    if (paramInputStream != null)
+    {
+      if (paramF != null)
+      {
+        if (paramD != null)
+        {
+          paramInputStream = (b)new f.g.b.a.d.f(paramD).a(paramInputStream, n.a, b.class);
+          String str = (String)paramInputStream.get("type");
+          if (str != null)
+          {
+            if ("authorized_user".equals(str)) {
+              return b(paramInputStream, paramF, paramD);
+            }
+            if ("service_account".equals(str)) {
+              return a(paramInputStream, paramF, paramD);
+            }
+            throw new IOException(String.format("Error reading credentials from stream, 'type' value '%s' not recognized. Expecting '%s' or '%s'.", new Object[] { str, "authorized_user", "service_account" }));
+          }
+          throw new IOException("Error reading credentials from stream, 'type' field not specified.");
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  @h
+  public static g b(b paramB, F paramF, d paramD)
+    throws IOException
+  {
+    String str1 = (String)paramB.get("client_id");
+    String str2 = (String)paramB.get("client_secret");
+    paramB = (String)paramB.get("refresh_token");
+    if ((str1 != null) && (str2 != null) && (paramB != null))
+    {
+      paramF = new a().a(str1, str2).a(paramF).a(paramD).a();
+      paramF.b(paramB);
+      paramF.n();
+      return paramF;
+    }
+    throw new IOException("Error reading user credential from stream,  expecting 'client_id', 'client_secret' and 'refresh_token'.");
+  }
+  
+  @h
+  public static PrivateKey c(String paramString)
+    throws IOException
+  {
+    paramString = L.a(new StringReader(paramString), "PRIVATE KEY");
+    if (paramString != null)
+    {
+      paramString = new PKCS8EncodedKeySpec(paramString.a());
+      try
+      {
+        paramString = N.d().generatePrivate(paramString);
+        return paramString;
+      }
+      catch (InvalidKeySpecException paramString) {}catch (NoSuchAlgorithmException paramString) {}
+      IOException localIOException = new IOException("Unexpected exception reading PKCS data");
+      n.a(localIOException, paramString);
+      throw ((IOException)localIOException);
+    }
+    throw new IOException("Invalid PKCS8 data.");
+  }
+  
+  @h
+  public static g p()
+    throws IOException
+  {
+    return a(a.b.a, f.g.b.a.b.k.a.a.a);
+  }
+  
+  @h
+  public v a()
+    throws IOException
+  {
+    if (s == null) {
+      return super.a();
+    }
+    Object localObject1 = new f.g.b.a.d.c.a.a();
+    ((f.g.b.a.d.c.a.a)localObject1).c("RS256");
+    ((f.g.b.a.d.c.a.a)localObject1).b("JWT");
+    ((f.g.b.a.d.c.a.a)localObject1).f(t);
+    Object localObject2 = new b.b();
+    long l = d().currentTimeMillis();
+    ((b.b)localObject2).a(q);
+    ((b.b)localObject2).a(l());
+    l /= 1000L;
+    ((b.b)localObject2).b(Long.valueOf(l));
+    ((b.b)localObject2).a(Long.valueOf(l + 3600L));
+    ((b.b)localObject2).c(u);
+    ((w)localObject2).a("scope", y.a(' ').a(r));
+    try
+    {
+      localObject1 = f.g.b.a.d.c.a.a(s, g(), (f.g.b.a.d.c.a.a)localObject1, (b.b)localObject2);
+      localObject2 = new u(m(), g(), new f.g.b.a.c.k(l()), "urn:ietf:params:oauth:grant-type:jwt-bearer");
+      ((w)localObject2).a("assertion", localObject1);
+      localObject1 = ((u)localObject2).execute();
+      return localObject1;
+    }
+    catch (GeneralSecurityException localGeneralSecurityException)
+    {
+      localObject2 = new IOException();
+      ((IOException)localObject2).initCause(localGeneralSecurityException);
+      throw ((Throwable)localObject2);
+    }
+  }
+  
+  public g a(v paramV)
+  {
+    super.a(paramV);
+    return (g)this;
+  }
+  
+  public g a(Long paramLong)
+  {
+    super.a(paramLong);
+    return (g)this;
+  }
+  
+  public g a(String paramString)
+  {
+    super.a(paramString);
+    return (g)this;
+  }
+  
+  @h
+  public g a(Collection<String> paramCollection)
+  {
+    if (s == null) {
+      return this;
+    }
+    return new a().a(s).c(t).b(q).d(u).b(paramCollection).a(m()).a(g()).a(d()).a();
+  }
+  
+  public g b(Long paramLong)
+  {
+    return (g)super.b(paramLong);
+  }
+  
+  public g b(String paramString)
+  {
+    if (paramString != null)
+    {
+      boolean bool;
+      if ((g() != null) && (m() != null) && (c() != null)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      f.g.b.a.e.a.a.a.b.g.a(bool, "Please use the Builder and call setJsonFactory, setTransport and setClientSecrets");
+    }
+    super.b(paramString);
+    return (g)this;
+  }
+  
+  @h
+  public boolean o()
+  {
+    Object localObject = s;
+    boolean bool = false;
+    if (localObject == null) {
+      return false;
+    }
+    localObject = r;
+    if ((localObject == null) || (((Collection)localObject).isEmpty())) {
+      bool = true;
+    }
+    return bool;
+  }
+  
+  public final String q()
+  {
+    return q;
+  }
+  
+  public final PrivateKey r()
+  {
+    return s;
+  }
+  
+  @h
+  public final String s()
+  {
+    return t;
+  }
+  
+  public final Collection<String> t()
+  {
+    return r;
+  }
+  
+  public final String u()
+  {
+    if (r == null) {
+      return null;
+    }
+    return y.a(' ').a(r);
+  }
+  
+  public final String v()
+  {
+    return u;
+  }
+  
+  public static class a
+    extends j.b
+  {
+    public String i;
+    public Collection<String> j;
+    public PrivateKey k;
+    public String l;
+    public String m;
+    
+    public a()
+    {
+      super();
+      a("https://accounts.google.com/o/oauth2/token");
+    }
+    
+    public a a(f.g.b.a.a.b.k paramK)
+    {
+      Collection localCollection = h;
+      if (paramK != null)
+      {
+        localCollection.add(paramK);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a a(f paramF)
+    {
+      paramF = paramF.i();
+      a(new i(paramF.j(), paramF.k()));
+      return this;
+    }
+    
+    public a a(A paramA)
+    {
+      g = paramA;
+      return this;
+    }
+    
+    public a a(F paramF)
+    {
+      b = paramF;
+      return this;
+    }
+    
+    public a a(f.g.b.a.c.k paramK)
+    {
+      d = paramK;
+      return this;
+    }
+    
+    public a a(s paramS)
+    {
+      f = paramS;
+      return this;
+    }
+    
+    public a a(d paramD)
+    {
+      c = paramD;
+      return this;
+    }
+    
+    public a a(p paramP)
+    {
+      if (paramP != null)
+      {
+        e = paramP;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a a(File paramFile)
+      throws GeneralSecurityException, IOException
+    {
+      k = N.a(N.c(), new FileInputStream(paramFile), "notasecret", "privatekey", "notasecret");
+      return this;
+    }
+    
+    public a a(String paramString)
+    {
+      super.a(paramString);
+      return (a)this;
+    }
+    
+    public a a(String paramString1, String paramString2)
+    {
+      a(new i(paramString1, paramString2));
+      return this;
+    }
+    
+    public a a(PrivateKey paramPrivateKey)
+    {
+      k = paramPrivateKey;
+      return this;
+    }
+    
+    public a a(Collection<f.g.b.a.a.b.k> paramCollection)
+    {
+      if (paramCollection != null)
+      {
+        h = paramCollection;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public g a()
+    {
+      return new g(this);
+    }
+    
+    @h
+    public a b(File paramFile)
+      throws GeneralSecurityException, IOException
+    {
+      paramFile = L.a(new FileReader(paramFile), "PRIVATE KEY").a();
+      k = N.d().generatePrivate(new PKCS8EncodedKeySpec(paramFile));
+      return this;
+    }
+    
+    public a b(String paramString)
+    {
+      i = paramString;
+      return this;
+    }
+    
+    public a b(Collection<String> paramCollection)
+    {
+      j = paramCollection;
+      return this;
+    }
+    
+    @h
+    public a c(String paramString)
+    {
+      l = paramString;
+      return this;
+    }
+    
+    public a d(String paramString)
+    {
+      m = paramString;
+      return this;
+    }
+    
+    public final String j()
+    {
+      return i;
+    }
+    
+    public final PrivateKey k()
+    {
+      return k;
+    }
+    
+    @h
+    public final String l()
+    {
+      return l;
+    }
+    
+    public final Collection<String> m()
+    {
+      return j;
+    }
+    
+    public final String n()
+    {
+      return m;
+    }
+  }
+}

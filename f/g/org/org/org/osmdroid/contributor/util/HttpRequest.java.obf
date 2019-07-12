@@ -1,0 +1,85 @@
+package f.g.b.a.b.j.a.a;
+
+import f.g.b.a.c.J;
+import f.g.b.a.d.c.b.b;
+import f.g.b.a.f.a.f;
+import f.g.b.a.f.a.g;
+import f.g.b.a.g.w;
+import java.io.IOException;
+import java.util.Map;
+
+public class c
+  extends f
+{
+  public c(d paramD, String paramString)
+  {
+    super(paramString);
+  }
+  
+  public J a()
+    throws IOException
+  {
+    Object localObject1 = f.g.b.a.b.j.a.a(f());
+    String str = (String)((Map)localObject1).get("client_id");
+    if (str != null)
+    {
+      if (h.i.containsKey(str))
+      {
+        localObject2 = (String)((Map)localObject1).get("client_secret");
+        str = (String)h.i.get(str);
+        if ((localObject2 != null) && (((String)localObject2).equals(str)))
+        {
+          localObject1 = (String)((Map)localObject1).get("refresh_token");
+          if (h.j.containsKey(localObject1)) {
+            localObject1 = (String)h.j.get(localObject1);
+          } else {
+            throw new IOException("Refresh Token not found.");
+          }
+        }
+        else
+        {
+          throw new IOException("Client secret not found.");
+        }
+      }
+      else
+      {
+        throw new IOException("Client ID not found.");
+      }
+    }
+    else
+    {
+      if (!((Map)localObject1).containsKey("grant_type")) {
+        break label370;
+      }
+      if (!"urn:ietf:params:oauth:grant-type:jwt-bearer".equals((String)((Map)localObject1).get("grant_type"))) {
+        break label360;
+      }
+      localObject1 = (String)((Map)localObject1).get("assertion");
+      localObject2 = f.g.b.a.d.c.a.a(d.g, (String)localObject1);
+      localObject1 = ((f.g.b.a.d.c.b)localObject2).b().m();
+      if (!h.h.containsKey(localObject1)) {
+        break label350;
+      }
+      localObject1 = (String)h.h.get(localObject1);
+      localObject2 = (String)((f.g.b.a.d.c.b)localObject2).b().get("scope");
+      if ((localObject2 == null) || (((String)localObject2).length() == 0)) {
+        break label340;
+      }
+    }
+    Object localObject2 = new f.g.b.a.d.b();
+    ((f.g.b.a.d.b)localObject2).a(d.g);
+    ((w)localObject2).a("access_token", localObject1);
+    ((w)localObject2).a("expires_in", Integer.valueOf(3600000));
+    ((w)localObject2).a("token_type", "Bearer");
+    localObject1 = ((f.g.b.a.d.b)localObject2).h();
+    return new g().c("application/json; charset=UTF-8").a((String)localObject1);
+    label340:
+    throw new IOException("Scopes not found.");
+    label350:
+    throw new IOException("Service Account Email not found as issuer.");
+    label360:
+    throw new IOException("Unexpected Grant Type.");
+    label370:
+    throw new IOException("Uknown token type.");
+  }
+}

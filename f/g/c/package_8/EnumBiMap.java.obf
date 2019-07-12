@@ -1,0 +1,120 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+@b(emulated=true)
+public final class Da<K extends Enum<K>, V extends Enum<V>>
+  extends d<K, V>
+{
+  @c("not needed in emulated source.")
+  public static final long g = 0L;
+  public transient Class<K> h;
+  public transient Class<V> i;
+  
+  public Da(Class<K> paramClass, Class<V> paramClass1)
+  {
+    super(new zh(new EnumMap(paramClass)), new zh(new EnumMap(paramClass1)));
+    h = paramClass;
+    i = paramClass1;
+  }
+  
+  public static <K extends Enum<K>, V extends Enum<V>> Da<K, V> a(Class<K> paramClass, Class<V> paramClass1)
+  {
+    return new Da(paramClass, paramClass1);
+  }
+  
+  @c("java.io.ObjectInputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    h = ((Class)paramObjectInputStream.readObject());
+    i = ((Class)paramObjectInputStream.readObject());
+    a(new zh(new EnumMap(h)), new zh(new EnumMap(i)));
+    ag.a(this, paramObjectInputStream, paramObjectInputStream.readInt());
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeObject(h);
+    paramObjectOutputStream.writeObject(i);
+    ag.a(this, paramObjectOutputStream);
+  }
+  
+  public static <K extends Enum<K>, V extends Enum<V>> Da<K, V> b(Map<K, V> paramMap)
+  {
+    Da localDa = new Da(c(paramMap), d(paramMap));
+    localDa.putAll(paramMap);
+    return localDa;
+  }
+  
+  public static <K extends Enum<K>> Class<K> c(Map<K, ?> paramMap)
+  {
+    if ((paramMap instanceof Da)) {
+      return ((Da)paramMap).x();
+    }
+    if ((paramMap instanceof Ea)) {
+      return ((Ea)paramMap).x();
+    }
+    ba.a(paramMap.isEmpty() ^ true);
+    return ((Enum)paramMap.keySet().iterator().next()).getDeclaringClass();
+  }
+  
+  public static <V extends Enum<V>> Class<V> d(Map<?, V> paramMap)
+  {
+    if ((paramMap instanceof Da)) {
+      return i;
+    }
+    ba.a(paramMap.isEmpty() ^ true);
+    return ((Enum)paramMap.values().iterator().next()).getDeclaringClass();
+  }
+  
+  public K a(K paramK)
+  {
+    if (paramK != null) {
+      return paramK;
+    }
+    throw new NullPointerException();
+  }
+  
+  public V b(V paramV)
+  {
+    if (paramV != null) {
+      return paramV;
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean containsValue(Object paramObject)
+  {
+    return c.containsKey(paramObject);
+  }
+  
+  public L f()
+  {
+    return c;
+  }
+  
+  public Class<K> x()
+  {
+    return h;
+  }
+  
+  public Class<V> y()
+  {
+    return i;
+  }
+}

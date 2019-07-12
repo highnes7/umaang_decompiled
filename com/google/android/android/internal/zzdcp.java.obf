@@ -1,0 +1,35 @@
+package com.google.android.gms.internal;
+
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.dynamic.IObjectWrapper;
+
+public final class zzdcp
+  extends zzeb
+  implements zzdco
+{
+  public zzdcp(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.gms.vision.text.internal.client.INativeTextRecognizer");
+  }
+  
+  public final zzdcs[] zza(IObjectWrapper paramIObjectWrapper, zzdck paramZzdck, zzdcu paramZzdcu)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramIObjectWrapper);
+    zzed.zza(localParcel, paramZzdck);
+    zzed.zza(localParcel, paramZzdcu);
+    paramIObjectWrapper = zza(3, localParcel);
+    paramZzdck = (zzdcs[])paramIObjectWrapper.createTypedArray(zzdcs.CREATOR);
+    paramIObjectWrapper.recycle();
+    return paramZzdck;
+  }
+  
+  public final void zzbiq()
+    throws RemoteException
+  {
+    zzb(2, zzax());
+  }
+}

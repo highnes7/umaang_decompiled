@@ -1,0 +1,2035 @@
+package f.d.a.a.d;
+
+import f.d.a.a.c.c;
+import f.d.a.a.c.i;
+import f.d.a.a.g;
+import f.d.a.a.g.a;
+import f.d.a.a.m;
+import f.d.a.a.o;
+import f.d.a.a.p;
+import f.d.a.a.q;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+public final class l
+  extends d
+{
+  public static final int m = 32;
+  public static final char[] n = ;
+  public final Writer o;
+  public char[] p;
+  public int q = 0;
+  public int r = 0;
+  public int s;
+  public char[] t;
+  public q u;
+  
+  public l(f.d.a.a.c.d paramD, int paramInt, o paramO, Writer paramWriter)
+  {
+    super(paramD, paramInt, paramO);
+    o = paramWriter;
+    p = paramD.b();
+    s = p.length;
+  }
+  
+  private char[] N()
+  {
+    char[] arrayOfChar = new char[14];
+    arrayOfChar[0] = '\\';
+    arrayOfChar[2] = '\\';
+    arrayOfChar[3] = 'u';
+    arrayOfChar[4] = '0';
+    arrayOfChar[5] = '0';
+    arrayOfChar[8] = '\\';
+    arrayOfChar[9] = 'u';
+    t = arrayOfChar;
+    return arrayOfChar;
+  }
+  
+  private void O()
+    throws IOException
+  {
+    if (r + 4 >= s) {
+      M();
+    }
+    int i = r;
+    char[] arrayOfChar = p;
+    arrayOfChar[i] = 'n';
+    i += 1;
+    arrayOfChar[i] = 'u';
+    i += 1;
+    arrayOfChar[i] = 'l';
+    i += 1;
+    arrayOfChar[i] = 'l';
+    r = (i + 1);
+  }
+  
+  private int a(InputStream paramInputStream, byte[] paramArrayOfByte, int paramInt1, int paramInt2, int paramInt3)
+    throws IOException
+  {
+    int j = 0;
+    int i = paramInt1;
+    paramInt1 = j;
+    while (i < paramInt2)
+    {
+      paramArrayOfByte[paramInt1] = paramArrayOfByte[i];
+      paramInt1 += 1;
+      i += 1;
+    }
+    paramInt3 = Math.min(paramInt3, paramArrayOfByte.length);
+    do
+    {
+      paramInt2 = paramInputStream.read(paramArrayOfByte, paramInt1, paramInt3 - paramInt1);
+      if (paramInt2 < 0) {
+        return paramInt1;
+      }
+      paramInt2 = paramInt1 + paramInt2;
+      paramInt1 = paramInt2;
+    } while (paramInt2 < 3);
+    return paramInt2;
+  }
+  
+  private int a(char[] paramArrayOfChar, int paramInt1, int paramInt2, char paramChar, int paramInt3)
+    throws IOException, f.d.a.a.f
+  {
+    if (paramInt3 >= 0)
+    {
+      if ((paramInt1 > 1) && (paramInt1 < paramInt2))
+      {
+        paramInt1 -= 2;
+        paramArrayOfChar[paramInt1] = '\\';
+        paramArrayOfChar[(paramInt1 + 1)] = ((char)paramInt3);
+        return paramInt1;
+      }
+      localObject = t;
+      paramArrayOfChar = (char[])localObject;
+      if (localObject == null) {
+        paramArrayOfChar = N();
+      }
+      paramArrayOfChar[1] = ((char)paramInt3);
+      o.write(paramArrayOfChar, 0, 2);
+      return paramInt1;
+    }
+    if (paramInt3 != -2)
+    {
+      if ((paramInt1 > 5) && (paramInt1 < paramInt2))
+      {
+        paramInt1 -= 6;
+        paramInt2 = paramInt1 + 1;
+        paramArrayOfChar[paramInt1] = '\\';
+        paramInt1 = paramInt2 + 1;
+        paramArrayOfChar[paramInt2] = 'u';
+        if (paramChar > '?')
+        {
+          paramInt2 = paramChar >> '\b' & 0xFF;
+          paramInt3 = paramInt1 + 1;
+          localObject = n;
+          paramArrayOfChar[paramInt1] = localObject[(paramInt2 >> 4)];
+          paramInt1 = paramInt3 + 1;
+          paramArrayOfChar[paramInt3] = localObject[(paramInt2 & 0xF)];
+          paramChar = (char)(paramChar & 0xFF);
+        }
+        else
+        {
+          paramInt2 = paramInt1 + 1;
+          paramArrayOfChar[paramInt1] = '0';
+          paramInt1 = paramInt2 + 1;
+          paramArrayOfChar[paramInt2] = '0';
+        }
+        paramInt2 = paramInt1 + 1;
+        localObject = n;
+        paramArrayOfChar[paramInt1] = localObject[(paramChar >> '\004')];
+        paramArrayOfChar[paramInt2] = localObject[(paramChar & 0xF)];
+        return paramInt2 - 5;
+      }
+      localObject = t;
+      paramArrayOfChar = (char[])localObject;
+      if (localObject == null) {
+        paramArrayOfChar = N();
+      }
+      q = r;
+      if (paramChar > '?')
+      {
+        paramInt2 = paramChar >> '\b' & 0xFF;
+        paramChar &= 0xFF;
+        localObject = n;
+        paramArrayOfChar[10] = localObject[(paramInt2 >> 4)];
+        paramArrayOfChar[11] = localObject[(paramInt2 & 0xF)];
+        paramArrayOfChar[12] = localObject[(paramChar >> '\004')];
+        paramArrayOfChar[13] = localObject[(paramChar & 0xF)];
+        o.write(paramArrayOfChar, 8, 6);
+        return paramInt1;
+      }
+      localObject = n;
+      paramArrayOfChar[6] = localObject[(paramChar >> '\004')];
+      paramArrayOfChar[7] = localObject[(paramChar & 0xF)];
+      o.write(paramArrayOfChar, 2, 6);
+      return paramInt1;
+    }
+    Object localObject = u;
+    if (localObject == null)
+    {
+      localObject = k.a(paramChar).getValue();
+    }
+    else
+    {
+      localObject = ((q)localObject).getValue();
+      u = null;
+    }
+    paramChar = ((String)localObject).length();
+    if ((paramInt1 >= paramChar) && (paramInt1 < paramInt2))
+    {
+      paramInt1 -= paramChar;
+      ((String)localObject).getChars(0, paramChar, paramArrayOfChar, paramInt1);
+      return paramInt1;
+    }
+    o.write((String)localObject);
+    return paramInt1;
+  }
+  
+  private void a(char paramChar, int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    if (paramInt >= 0)
+    {
+      if (r + 2 > s) {
+        M();
+      }
+      localObject = p;
+      paramChar = r;
+      r = (paramChar + '\001');
+      localObject[paramChar] = 92;
+      paramChar = r;
+      r = (paramChar + '\001');
+      localObject[paramChar] = ((char)paramInt);
+      return;
+    }
+    if (paramInt != -2)
+    {
+      if (r + 2 > s) {
+        M();
+      }
+      paramInt = r;
+      localObject = p;
+      int i = paramInt + 1;
+      localObject[paramInt] = 92;
+      paramInt = i + 1;
+      localObject[i] = 117;
+      if (paramChar > '?')
+      {
+        i = 0xFF & paramChar >> '\b';
+        int j = paramInt + 1;
+        arrayOfChar = n;
+        localObject[paramInt] = arrayOfChar[(i >> 4)];
+        paramInt = j + 1;
+        localObject[j] = arrayOfChar[(i & 0xF)];
+        paramChar = (char)(paramChar & 0xFF);
+      }
+      else
+      {
+        i = paramInt + 1;
+        localObject[paramInt] = 48;
+        paramInt = i + 1;
+        localObject[i] = 48;
+      }
+      i = paramInt + 1;
+      char[] arrayOfChar = n;
+      localObject[paramInt] = arrayOfChar[(paramChar >> '\004')];
+      localObject[i] = arrayOfChar[(paramChar & 0xF)];
+      r = i;
+      return;
+    }
+    Object localObject = u;
+    if (localObject == null)
+    {
+      localObject = k.a(paramChar).getValue();
+    }
+    else
+    {
+      localObject = ((q)localObject).getValue();
+      u = null;
+    }
+    paramChar = ((String)localObject).length();
+    if (r + paramChar > s)
+    {
+      M();
+      if (paramChar > s)
+      {
+        o.write((String)localObject);
+        return;
+      }
+    }
+    ((String)localObject).getChars(0, paramChar, p, r);
+    r += paramChar;
+  }
+  
+  private void a(int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    int[] arrayOfInt = this.i;
+    int i4 = Math.min(arrayOfInt.length, paramInt2 + 1);
+    int k = 0;
+    int i1 = 0;
+    int j = 0;
+    while (k < paramInt1)
+    {
+      int i2 = j;
+      j = k;
+      int i;
+      int i3;
+      do
+      {
+        i = p[j];
+        if (i < i4)
+        {
+          i2 = arrayOfInt[i];
+          k = i2;
+          if (i2 != 0)
+          {
+            i3 = j;
+            j = i2;
+            break;
+          }
+        }
+        else
+        {
+          k = i2;
+          if (i > paramInt2)
+          {
+            k = -1;
+            i3 = j;
+            j = k;
+            break;
+          }
+        }
+        i3 = j + 1;
+        j = i3;
+        i2 = k;
+      } while (i3 < paramInt1);
+      j = k;
+      k = i3 - i1;
+      if (k > 0)
+      {
+        o.write(p, i1, k);
+        if (i3 >= paramInt1) {
+          return;
+        }
+      }
+      k = i3 + 1;
+      i1 = a(p, k, paramInt1, i, j);
+    }
+  }
+  
+  private void a(char[] paramArrayOfChar, int paramInt1, int paramInt2, int paramInt3)
+    throws IOException, f.d.a.a.f
+  {
+    int i2 = paramInt2 + paramInt1;
+    int[] arrayOfInt = this.i;
+    int i3 = Math.min(arrayOfInt.length, paramInt3 + 1);
+    int j = 0;
+    paramInt2 = paramInt1;
+    paramInt1 = j;
+    while (paramInt2 < i2)
+    {
+      int k = paramInt1;
+      paramInt1 = paramInt2;
+      int i;
+      int i1;
+      do
+      {
+        i = paramArrayOfChar[paramInt1];
+        if (i < i3)
+        {
+          k = arrayOfInt[i];
+          j = k;
+          if (k != 0)
+          {
+            i1 = paramInt1;
+            paramInt1 = k;
+            break;
+          }
+        }
+        else
+        {
+          j = k;
+          if (i > paramInt3)
+          {
+            j = -1;
+            i1 = paramInt1;
+            paramInt1 = j;
+            break;
+          }
+        }
+        i1 = paramInt1 + 1;
+        paramInt1 = i1;
+        k = j;
+      } while (i1 < i2);
+      paramInt1 = j;
+      j = i1 - paramInt2;
+      if (j < 32)
+      {
+        if (r + j > s) {
+          M();
+        }
+        if (j > 0)
+        {
+          System.arraycopy(paramArrayOfChar, paramInt2, p, r, j);
+          r += j;
+        }
+      }
+      else
+      {
+        M();
+        o.write(paramArrayOfChar, paramInt2, j);
+      }
+      if (i1 >= i2) {
+        return;
+      }
+      paramInt2 = i1 + 1;
+      a(i, paramInt1);
+    }
+  }
+  
+  private void b(char paramChar, int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    char[] arrayOfChar;
+    if (paramInt >= 0)
+    {
+      paramChar = r;
+      if (paramChar >= '\002')
+      {
+        paramChar -= '\002';
+        q = paramChar;
+        localObject = p;
+        localObject[paramChar] = 92;
+        localObject[(paramChar + '\001')] = ((char)paramInt);
+        return;
+      }
+      arrayOfChar = t;
+      localObject = arrayOfChar;
+      if (arrayOfChar == null) {
+        localObject = N();
+      }
+      q = r;
+      localObject[1] = ((char)paramInt);
+      o.write((char[])localObject, 0, 2);
+      return;
+    }
+    if (paramInt != -2)
+    {
+      paramInt = r;
+      if (paramInt >= 6)
+      {
+        localObject = p;
+        paramInt -= 6;
+        q = paramInt;
+        localObject[paramInt] = 92;
+        paramInt += 1;
+        localObject[paramInt] = 117;
+        if (paramChar > '?')
+        {
+          int i = paramChar >> '\b' & 0xFF;
+          paramInt += 1;
+          arrayOfChar = n;
+          localObject[paramInt] = arrayOfChar[(i >> 4)];
+          paramInt += 1;
+          localObject[paramInt] = arrayOfChar[(i & 0xF)];
+          paramChar = (char)(paramChar & 0xFF);
+        }
+        else
+        {
+          paramInt += 1;
+          localObject[paramInt] = 48;
+          paramInt += 1;
+          localObject[paramInt] = 48;
+        }
+        paramInt += 1;
+        arrayOfChar = n;
+        localObject[paramInt] = arrayOfChar[(paramChar >> '\004')];
+        localObject[(paramInt + 1)] = arrayOfChar[(paramChar & 0xF)];
+        return;
+      }
+      arrayOfChar = t;
+      localObject = arrayOfChar;
+      if (arrayOfChar == null) {
+        localObject = N();
+      }
+      q = r;
+      if (paramChar > '?')
+      {
+        paramInt = paramChar >> '\b' & 0xFF;
+        paramChar &= 0xFF;
+        arrayOfChar = n;
+        localObject[10] = arrayOfChar[(paramInt >> 4)];
+        localObject[11] = arrayOfChar[(paramInt & 0xF)];
+        localObject[12] = arrayOfChar[(paramChar >> '\004')];
+        localObject[13] = arrayOfChar[(paramChar & 0xF)];
+        o.write((char[])localObject, 8, 6);
+        return;
+      }
+      arrayOfChar = n;
+      localObject[6] = arrayOfChar[(paramChar >> '\004')];
+      localObject[7] = arrayOfChar[(paramChar & 0xF)];
+      o.write((char[])localObject, 2, 6);
+      return;
+    }
+    Object localObject = u;
+    if (localObject == null)
+    {
+      localObject = k.a(paramChar).getValue();
+    }
+    else
+    {
+      localObject = ((q)localObject).getValue();
+      u = null;
+    }
+    paramChar = ((String)localObject).length();
+    paramInt = r;
+    if (paramInt >= paramChar)
+    {
+      paramInt -= paramChar;
+      q = paramInt;
+      ((String)localObject).getChars(0, paramChar, p, paramInt);
+      return;
+    }
+    q = paramInt;
+    o.write((String)localObject);
+  }
+  
+  private void b(int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    int j = r + paramInt1;
+    int[] arrayOfInt = this.i;
+    int k = Math.min(arrayOfInt.length, paramInt2 + 1);
+    if (r < j) {
+      label127:
+      do
+      {
+        int i = p[r];
+        if (i < k)
+        {
+          paramInt1 = arrayOfInt[i];
+          if (paramInt1 == 0) {
+            break label127;
+          }
+        }
+        else
+        {
+          if (i <= paramInt2) {
+            break label127;
+          }
+          paramInt1 = -1;
+        }
+        int i2 = r;
+        int i1 = q;
+        i2 -= i1;
+        if (i2 > 0) {
+          o.write(p, i1, i2);
+        }
+        r += 1;
+        b(i, paramInt1);
+        break;
+        paramInt1 = r + 1;
+        r = paramInt1;
+      } while (paramInt1 < j);
+    }
+  }
+  
+  private void c(Object paramObject)
+    throws IOException
+  {
+    if (r >= s) {
+      M();
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    g(paramObject.toString());
+    if (r >= s) {
+      M();
+    }
+    paramObject = p;
+    i = r;
+    r = (i + 1);
+    paramObject[i] = 34;
+  }
+  
+  private void d(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    if (this.k != null)
+    {
+      e(paramArrayOfChar, paramInt1, paramInt2);
+      return;
+    }
+    int i = this.j;
+    if (i != 0)
+    {
+      a(paramArrayOfChar, paramInt1, paramInt2, i);
+      return;
+    }
+    int j = paramInt2 + paramInt1;
+    int[] arrayOfInt = this.i;
+    int k = arrayOfInt.length;
+    while (paramInt1 < j)
+    {
+      paramInt2 = paramInt1;
+      do
+      {
+        i = paramArrayOfChar[paramInt2];
+        if ((i < k) && (arrayOfInt[i] != 0)) {
+          break;
+        }
+        i = paramInt2 + 1;
+        paramInt2 = i;
+      } while (i < j);
+      paramInt2 = i;
+      i = paramInt2 - paramInt1;
+      if (i < 32)
+      {
+        if (r + i > s) {
+          M();
+        }
+        if (i > 0)
+        {
+          System.arraycopy(paramArrayOfChar, paramInt1, p, r, i);
+          r += i;
+        }
+      }
+      else
+      {
+        M();
+        o.write(paramArrayOfChar, paramInt1, i);
+      }
+      if (paramInt2 >= j) {
+        return;
+      }
+      paramInt1 = paramInt2 + 1;
+      char c = paramArrayOfChar[paramInt2];
+      a(c, arrayOfInt[c]);
+    }
+  }
+  
+  private void e(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    int i3 = paramInt2 + paramInt1;
+    int[] arrayOfInt = this.i;
+    paramInt2 = this.j;
+    int k = paramInt2;
+    if (paramInt2 < 1) {
+      k = 65535;
+    }
+    int i4 = Math.min(arrayOfInt.length, k + 1);
+    c localC = this.k;
+    int j = 0;
+    paramInt2 = paramInt1;
+    paramInt1 = j;
+    while (paramInt2 < i3)
+    {
+      int i1 = paramInt1;
+      paramInt1 = paramInt2;
+      int i;
+      int i2;
+      do
+      {
+        i = paramArrayOfChar[paramInt1];
+        if (i < i4)
+        {
+          i1 = arrayOfInt[i];
+          j = i1;
+          if (i1 != 0)
+          {
+            j = paramInt1;
+            paramInt1 = i1;
+            break;
+          }
+        }
+        else
+        {
+          if (i > k)
+          {
+            i1 = -1;
+            j = paramInt1;
+            paramInt1 = i1;
+            break;
+          }
+          q localQ = localC.a(i);
+          u = localQ;
+          j = i1;
+          if (localQ != null)
+          {
+            i1 = -2;
+            j = paramInt1;
+            paramInt1 = i1;
+            break;
+          }
+        }
+        i2 = paramInt1 + 1;
+        paramInt1 = i2;
+        i1 = j;
+      } while (i2 < i3);
+      paramInt1 = j;
+      j = i2;
+      i1 = j - paramInt2;
+      if (i1 < 32)
+      {
+        if (r + i1 > s) {
+          M();
+        }
+        if (i1 > 0)
+        {
+          System.arraycopy(paramArrayOfChar, paramInt2, p, r, i1);
+          r += i1;
+        }
+      }
+      else
+      {
+        M();
+        o.write(paramArrayOfChar, paramInt2, i1);
+      }
+      if (j >= i3) {
+        return;
+      }
+      paramInt2 = j + 1;
+      a(i, paramInt1);
+    }
+  }
+  
+  private void f(int paramInt)
+    throws IOException
+  {
+    if (r + 13 >= s) {
+      M();
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    r = i.b(paramInt, arrayOfChar, r);
+    arrayOfChar = p;
+    paramInt = r;
+    r = (paramInt + 1);
+    arrayOfChar[paramInt] = '"';
+  }
+  
+  private void g(int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    int[] arrayOfInt = this.i;
+    int i2 = arrayOfInt.length;
+    int j = 0;
+    int i;
+    for (int k = 0; j < paramInt; k = a(p, j, paramInt, i, arrayOfInt[i]))
+    {
+      do
+      {
+        i = p[j];
+        if ((i < i2) && (arrayOfInt[i] != 0)) {
+          break;
+        }
+        i1 = j + 1;
+        j = i1;
+      } while (i1 < paramInt);
+      j = i1;
+      int i1 = j - k;
+      if (i1 > 0)
+      {
+        o.write(p, k, i1);
+        if (j >= paramInt) {
+          return;
+        }
+      }
+      j += 1;
+    }
+  }
+  
+  private void h(int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    int[] arrayOfInt = this.i;
+    int j = this.j;
+    int i1 = j;
+    if (j < 1) {
+      i1 = 65535;
+    }
+    int i5 = Math.min(arrayOfInt.length, i1 + 1);
+    c localC = this.k;
+    int k = 0;
+    int i2 = 0;
+    j = 0;
+    while (k < paramInt)
+    {
+      int i3 = j;
+      j = k;
+      int i;
+      int i4;
+      do
+      {
+        i = p[j];
+        if (i < i5)
+        {
+          i3 = arrayOfInt[i];
+          k = i3;
+          if (i3 != 0)
+          {
+            k = j;
+            j = i3;
+            break;
+          }
+        }
+        else
+        {
+          if (i > i1)
+          {
+            i3 = -1;
+            k = j;
+            j = i3;
+            break;
+          }
+          q localQ = localC.a(i);
+          u = localQ;
+          k = i3;
+          if (localQ != null)
+          {
+            i3 = -2;
+            k = j;
+            j = i3;
+            break;
+          }
+        }
+        i4 = j + 1;
+        j = i4;
+        i3 = k;
+      } while (i4 < paramInt);
+      j = k;
+      k = i4;
+      i3 = k - i2;
+      if (i3 > 0)
+      {
+        o.write(p, i2, i3);
+        if (k >= paramInt) {
+          return;
+        }
+      }
+      k += 1;
+      i2 = a(p, k, paramInt, i, j);
+    }
+  }
+  
+  private void i(int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    paramInt = r + paramInt;
+    int[] arrayOfInt = this.i;
+    int i = arrayOfInt.length;
+    if (r < paramInt)
+    {
+      int j;
+      do
+      {
+        char[] arrayOfChar = p;
+        j = r;
+        int k = arrayOfChar[j];
+        if ((k < i) && (arrayOfInt[k] != 0))
+        {
+          k = q;
+          j -= k;
+          if (j > 0) {
+            o.write(arrayOfChar, k, j);
+          }
+          arrayOfChar = p;
+          j = r;
+          r = (j + 1);
+          char c = arrayOfChar[j];
+          b(c, arrayOfInt[c]);
+          break;
+        }
+        j = r + 1;
+        r = j;
+      } while (j < paramInt);
+    }
+  }
+  
+  private void i(long paramLong)
+    throws IOException
+  {
+    if (r + 23 >= s) {
+      M();
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    r = i.a(paramLong, arrayOfChar, r);
+    arrayOfChar = p;
+    i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+  }
+  
+  private void j(int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    int k = r + paramInt;
+    int[] arrayOfInt = this.i;
+    paramInt = this.j;
+    int j = paramInt;
+    if (paramInt < 1) {
+      j = 65535;
+    }
+    int i1 = Math.min(arrayOfInt.length, j + 1);
+    c localC = this.k;
+    if (r < k) {
+      label173:
+      do
+      {
+        int i = p[r];
+        if (i < i1)
+        {
+          paramInt = arrayOfInt[i];
+          if (paramInt == 0) {
+            break label173;
+          }
+        }
+        else if (i > j)
+        {
+          paramInt = -1;
+        }
+        else
+        {
+          q localQ = localC.a(i);
+          u = localQ;
+          if (localQ == null) {
+            break label173;
+          }
+          paramInt = -2;
+        }
+        int i3 = r;
+        int i2 = q;
+        i3 -= i2;
+        if (i3 > 0) {
+          o.write(p, i2, i3);
+        }
+        r += 1;
+        b(i, paramInt);
+        break;
+        paramInt = r + 1;
+        r = paramInt;
+      } while (paramInt < k);
+    }
+  }
+  
+  private void l(String paramString)
+    throws IOException, f.d.a.a.f
+  {
+    M();
+    int i1 = paramString.length();
+    int k;
+    for (int i = 0;; i = k)
+    {
+      k = s;
+      int j = k;
+      if (i + k > i1) {
+        j = i1 - i;
+      }
+      k = i + j;
+      paramString.getChars(i, k, p, 0);
+      if (this.k != null)
+      {
+        h(j);
+      }
+      else
+      {
+        i = this.j;
+        if (i != 0) {
+          a(j, i);
+        } else {
+          g(j);
+        }
+      }
+      if (k >= i1) {
+        return;
+      }
+    }
+  }
+  
+  private void m(String paramString)
+    throws IOException, f.d.a.a.f
+  {
+    int i = paramString.length();
+    int j = s;
+    if (i > j)
+    {
+      l(paramString);
+      return;
+    }
+    if (r + i > j) {
+      M();
+    }
+    paramString.getChars(0, i, p, r);
+    if (k != null)
+    {
+      j(i);
+      return;
+    }
+    j = this.j;
+    if (j != 0)
+    {
+      b(i, j);
+      return;
+    }
+    i(i);
+  }
+  
+  private void n(String paramString)
+    throws IOException, f.d.a.a.f
+  {
+    int i = s;
+    int j = r;
+    i -= j;
+    paramString.getChars(0, i, p, j);
+    r += i;
+    M();
+    j = paramString.length() - i;
+    for (;;)
+    {
+      int i1 = s;
+      if (j <= i1) {
+        break;
+      }
+      int k = i + i1;
+      paramString.getChars(i, k, p, 0);
+      q = 0;
+      r = i1;
+      M();
+      j -= i1;
+      i = k;
+    }
+    paramString.getChars(i, i + j, p, 0);
+    q = 0;
+    r = j;
+  }
+  
+  public void D()
+    throws IOException, f.d.a.a.f
+  {
+    if (!e.f())
+    {
+      localObject = f.a.a.a.a.b("Current context not an ARRAY but ");
+      ((StringBuilder)localObject).append(e.e());
+      j(((StringBuilder)localObject).toString());
+    }
+    Object localObject = a;
+    if (localObject != null)
+    {
+      ((p)localObject).a(this, e.c());
+    }
+    else
+    {
+      if (r >= s) {
+        M();
+      }
+      localObject = p;
+      int i = r;
+      r = (i + 1);
+      localObject[i] = 93;
+    }
+    e = e.d();
+  }
+  
+  public void E()
+    throws IOException, f.d.a.a.f
+  {
+    if (!e.g())
+    {
+      localObject = f.a.a.a.a.b("Current context not an object but ");
+      ((StringBuilder)localObject).append(e.e());
+      j(((StringBuilder)localObject).toString());
+    }
+    Object localObject = a;
+    if (localObject != null)
+    {
+      ((p)localObject).b(this, e.c());
+    }
+    else
+    {
+      if (r >= s) {
+        M();
+      }
+      localObject = p;
+      int i = r;
+      r = (i + 1);
+      localObject[i] = 125;
+    }
+    e = e.d();
+  }
+  
+  public void F()
+    throws IOException, f.d.a.a.f
+  {
+    k("write null value");
+    O();
+  }
+  
+  public void G()
+    throws IOException, f.d.a.a.f
+  {
+    k("start an array");
+    e = e.i();
+    Object localObject = a;
+    if (localObject != null)
+    {
+      ((p)localObject).h(this);
+      return;
+    }
+    if (r >= s) {
+      M();
+    }
+    localObject = p;
+    int i = r;
+    r = (i + 1);
+    localObject[i] = 91;
+  }
+  
+  public void H()
+    throws IOException, f.d.a.a.f
+  {
+    k("start an object");
+    e = e.j();
+    Object localObject = a;
+    if (localObject != null)
+    {
+      ((p)localObject).a(this);
+      return;
+    }
+    if (r >= s) {
+      M();
+    }
+    localObject = p;
+    int i = r;
+    r = (i + 1);
+    localObject[i] = 123;
+  }
+  
+  public void J()
+  {
+    char[] arrayOfChar = p;
+    if (arrayOfChar != null)
+    {
+      p = null;
+      h.a(arrayOfChar);
+    }
+  }
+  
+  public void M()
+    throws IOException
+  {
+    int j = r;
+    int i = q;
+    j -= i;
+    if (j > 0)
+    {
+      q = 0;
+      r = 0;
+      o.write(p, i, j);
+    }
+  }
+  
+  public int a(f.d.a.a.a paramA, InputStream paramInputStream, int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    k("write binary value");
+    if (r >= s) {
+      M();
+    }
+    Object localObject = p;
+    int i = r;
+    r = (i + 1);
+    localObject[i] = 34;
+    localObject = h.a();
+    if (paramInt < 0) {}
+    try
+    {
+      i = a(paramA, paramInputStream, (byte[])localObject);
+      break label150;
+      int j = a(paramA, paramInputStream, (byte[])localObject, paramInt);
+      i = paramInt;
+      if (j > 0)
+      {
+        paramA = new StringBuilder();
+        paramA.append("Too few bytes available: missing ");
+        paramA.append(j);
+        paramA.append(" bytes (out of ");
+        paramA.append(paramInt);
+        paramA.append(")");
+        j(paramA.toString());
+        i = paramInt;
+      }
+      label150:
+      h.a((byte[])localObject);
+      if (r >= s) {
+        M();
+      }
+      paramA = p;
+      paramInt = r;
+      r = (paramInt + 1);
+      paramA[paramInt] = 34;
+      return i;
+    }
+    finally
+    {
+      h.a((byte[])localObject);
+    }
+  }
+  
+  public int a(f.d.a.a.a paramA, InputStream paramInputStream, byte[] paramArrayOfByte)
+    throws IOException, f.d.a.a.f
+  {
+    int i8 = s - 6;
+    int i = paramA.a();
+    int i4 = -3;
+    int j = i >> 2;
+    i = 0;
+    int k = 0;
+    int i3 = 0;
+    for (;;)
+    {
+      int i2 = i4;
+      int i5 = k;
+      int i1 = i3;
+      if (k > i4)
+      {
+        i2 = a(paramInputStream, paramArrayOfByte, k, i3, paramArrayOfByte.length);
+        if (i2 < 3)
+        {
+          j = i;
+          if (i2 > 0)
+          {
+            if (r > i8) {
+              M();
+            }
+            i1 = paramArrayOfByte[0] << 16;
+            k = 1;
+            j = i1;
+            if (1 < i2)
+            {
+              j = i1 | (paramArrayOfByte[1] & 0xFF) << 8;
+              k = 2;
+            }
+            i += k;
+            r = paramA.a(j, k, p, r);
+            j = i;
+          }
+          return j;
+        }
+        i1 = i2;
+        i2 -= 3;
+        i5 = 0;
+      }
+      if (r > i8) {
+        M();
+      }
+      i3 = i5 + 1;
+      k = paramArrayOfByte[i5];
+      i4 = i3 + 1;
+      i3 = paramArrayOfByte[i3];
+      i5 = i4 + 1;
+      i4 = paramArrayOfByte[i4];
+      int i6 = i + 3;
+      r = paramA.a((i3 & 0xFF | k << 8) << 8 | i4 & 0xFF, p, r);
+      int i7 = j - 1;
+      i = i6;
+      i4 = i2;
+      k = i5;
+      i3 = i1;
+      j = i7;
+      if (i7 <= 0)
+      {
+        char[] arrayOfChar = p;
+        i = r;
+        r = (i + 1);
+        arrayOfChar[i] = '\\';
+        i = r;
+        r = (i + 1);
+        arrayOfChar[i] = 'n';
+        j = paramA.a() >> 2;
+        i = i6;
+        i4 = i2;
+        k = i5;
+        i3 = i1;
+      }
+    }
+  }
+  
+  public int a(f.d.a.a.a paramA, InputStream paramInputStream, byte[] paramArrayOfByte, int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    int i7 = s - 6;
+    int j = paramA.a() >> 2;
+    int i3 = -3;
+    int i1 = 0;
+    int k = 0;
+    int i = paramInt;
+    paramInt = i1;
+    int i2;
+    for (;;)
+    {
+      i1 = paramInt;
+      i2 = k;
+      if (i <= 2) {
+        break;
+      }
+      i2 = i3;
+      int i4 = paramInt;
+      i1 = k;
+      if (paramInt > i3)
+      {
+        paramInt = a(paramInputStream, paramArrayOfByte, paramInt, k, i);
+        if (paramInt < 3)
+        {
+          i1 = 0;
+          i2 = paramInt;
+          break;
+        }
+        i1 = paramInt;
+        i2 = paramInt - 3;
+        i4 = 0;
+      }
+      if (r > i7) {
+        M();
+      }
+      k = i4 + 1;
+      paramInt = paramArrayOfByte[i4];
+      i3 = k + 1;
+      k = paramArrayOfByte[k];
+      i4 = i3 + 1;
+      i3 = paramArrayOfByte[i3];
+      int i5 = i - 3;
+      r = paramA.a((k & 0xFF | paramInt << 8) << 8 | i3 & 0xFF, p, r);
+      int i6 = j - 1;
+      j = i6;
+      i3 = i2;
+      paramInt = i4;
+      k = i1;
+      i = i5;
+      if (i6 <= 0)
+      {
+        char[] arrayOfChar = p;
+        paramInt = r;
+        r = (paramInt + 1);
+        arrayOfChar[paramInt] = '\\';
+        paramInt = r;
+        r = (paramInt + 1);
+        arrayOfChar[paramInt] = 'n';
+        j = paramA.a() >> 2;
+        i3 = i2;
+        paramInt = i4;
+        k = i1;
+        i = i5;
+      }
+    }
+    paramInt = i;
+    if (i > 0)
+    {
+      i1 = a(paramInputStream, paramArrayOfByte, i1, i2, i);
+      paramInt = i;
+      if (i1 > 0)
+      {
+        if (r > i7) {
+          M();
+        }
+        k = paramArrayOfByte[0] << 16;
+        j = 1;
+        paramInt = k;
+        if (1 < i1)
+        {
+          paramInt = k | (paramArrayOfByte[1] & 0xFF) << 8;
+          j = 2;
+        }
+        r = paramA.a(paramInt, j, p, r);
+        paramInt = i - j;
+      }
+    }
+    return paramInt;
+  }
+  
+  public void a(char paramChar)
+    throws IOException, f.d.a.a.f
+  {
+    if (r >= s) {
+      M();
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = paramChar;
+  }
+  
+  public void a(double paramDouble)
+    throws IOException, f.d.a.a.f
+  {
+    if ((!d) && (((!Double.isNaN(paramDouble)) && (!Double.isInfinite(paramDouble))) || (!c(g.a.d))))
+    {
+      k("write number");
+      g(String.valueOf(paramDouble));
+      return;
+    }
+    i(String.valueOf(paramDouble));
+  }
+  
+  public void a(float paramFloat)
+    throws IOException, f.d.a.a.f
+  {
+    if ((!d) && (((!Float.isNaN(paramFloat)) && (!Float.isInfinite(paramFloat))) || (!c(g.a.d))))
+    {
+      k("write number");
+      g(String.valueOf(paramFloat));
+      return;
+    }
+    i(String.valueOf(paramFloat));
+  }
+  
+  public void a(f.d.a.a.a paramA, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    k("write binary value");
+    if (r >= s) {
+      M();
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    b(paramA, paramArrayOfByte, paramInt1, paramInt2 + paramInt1);
+    if (r >= s) {
+      M();
+    }
+    paramA = p;
+    paramInt1 = r;
+    r = (paramInt1 + 1);
+    paramA[paramInt1] = 34;
+  }
+  
+  public void a(q paramQ, boolean paramBoolean)
+    throws IOException, f.d.a.a.f
+  {
+    if (a != null)
+    {
+      b(paramQ, paramBoolean);
+      return;
+    }
+    if (r + 1 >= s) {
+      M();
+    }
+    if (paramBoolean)
+    {
+      arrayOfChar = p;
+      i = r;
+      r = (i + 1);
+      arrayOfChar[i] = ',';
+    }
+    paramQ = paramQ.b();
+    if (!c(g.a.c))
+    {
+      a(paramQ, 0, paramQ.length);
+      return;
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    i = paramQ.length;
+    int j = r;
+    if (j + i + 1 >= s)
+    {
+      a(paramQ, 0, i);
+      if (r >= s) {
+        M();
+      }
+      paramQ = p;
+      i = r;
+      r = (i + 1);
+      paramQ[i] = 34;
+      return;
+    }
+    System.arraycopy(paramQ, 0, arrayOfChar, j, i);
+    r += i;
+    paramQ = p;
+    i = r;
+    r = (i + 1);
+    paramQ[i] = 34;
+  }
+  
+  public void a(BigDecimal paramBigDecimal)
+    throws IOException, f.d.a.a.f
+  {
+    k("write number");
+    if (paramBigDecimal == null)
+    {
+      O();
+      return;
+    }
+    if (d)
+    {
+      c(paramBigDecimal);
+      return;
+    }
+    g(paramBigDecimal.toString());
+  }
+  
+  public void a(BigInteger paramBigInteger)
+    throws IOException, f.d.a.a.f
+  {
+    k("write number");
+    if (paramBigInteger == null)
+    {
+      O();
+      return;
+    }
+    if (d)
+    {
+      c(paramBigInteger);
+      return;
+    }
+    g(paramBigInteger.toString());
+  }
+  
+  public void a(boolean paramBoolean)
+    throws IOException, f.d.a.a.f
+  {
+    k("write boolean value");
+    if (r + 5 >= s) {
+      M();
+    }
+    int i = r;
+    char[] arrayOfChar = p;
+    if (paramBoolean)
+    {
+      arrayOfChar[i] = 't';
+      i += 1;
+      arrayOfChar[i] = 'r';
+      i += 1;
+      arrayOfChar[i] = 'u';
+      i += 1;
+      arrayOfChar[i] = 'e';
+    }
+    else
+    {
+      arrayOfChar[i] = 'f';
+      i += 1;
+      arrayOfChar[i] = 'a';
+      i += 1;
+      arrayOfChar[i] = 'l';
+      i += 1;
+      arrayOfChar[i] = 's';
+      i += 1;
+      arrayOfChar[i] = 'e';
+    }
+    r = (i + 1);
+  }
+  
+  public void a(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    if (paramInt2 < 32)
+    {
+      if (paramInt2 > s - r) {
+        M();
+      }
+      System.arraycopy(paramArrayOfChar, paramInt1, p, r, paramInt2);
+      r += paramInt2;
+      return;
+    }
+    M();
+    o.write(paramArrayOfChar, paramInt1, paramInt2);
+  }
+  
+  public void b(f.d.a.a.a paramA, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    int k = s - 6;
+    int i = paramA.a() >> 2;
+    while (paramInt1 <= paramInt2 - 3)
+    {
+      if (r > k) {
+        M();
+      }
+      int i1 = paramInt1 + 1;
+      paramInt1 = paramArrayOfByte[paramInt1];
+      j = i1 + 1;
+      r = paramA.a((paramInt1 << 8 | paramArrayOfByte[i1] & 0xFF) << 8 | paramArrayOfByte[j] & 0xFF, p, r);
+      i -= 1;
+      paramInt1 = i;
+      if (i <= 0)
+      {
+        char[] arrayOfChar = p;
+        paramInt1 = r;
+        r = (paramInt1 + 1);
+        arrayOfChar[paramInt1] = '\\';
+        paramInt1 = r;
+        r = (paramInt1 + 1);
+        arrayOfChar[paramInt1] = 'n';
+        paramInt1 = paramA.a() >> 2;
+      }
+      j += 1;
+      i = paramInt1;
+      paramInt1 = j;
+    }
+    int j = paramInt2 - paramInt1;
+    if (j > 0)
+    {
+      if (r > k) {
+        M();
+      }
+      i = paramArrayOfByte[paramInt1] << 16;
+      paramInt2 = i;
+      if (j == 2) {
+        paramInt2 = i | (paramArrayOfByte[(paramInt1 + 1)] & 0xFF) << 8;
+      }
+      r = paramA.a(paramInt2, j, p, r);
+    }
+  }
+  
+  public void b(q paramQ)
+    throws IOException, f.d.a.a.f
+  {
+    int i = e.a(paramQ.getValue());
+    if (i == 4) {
+      j("Can not write a field name, expecting a value");
+    }
+    boolean bool = true;
+    if (i != 1) {
+      bool = false;
+    }
+    a(paramQ, bool);
+  }
+  
+  public void b(q paramQ, boolean paramBoolean)
+    throws IOException, f.d.a.a.f
+  {
+    if (paramBoolean) {
+      a.f(this);
+    } else {
+      a.d(this);
+    }
+    paramQ = paramQ.b();
+    if (c(g.a.c))
+    {
+      if (r >= s) {
+        M();
+      }
+      char[] arrayOfChar = p;
+      int i = r;
+      r = (i + 1);
+      arrayOfChar[i] = '"';
+      a(paramQ, 0, paramQ.length);
+      if (r >= s) {
+        M();
+      }
+      paramQ = p;
+      i = r;
+      r = (i + 1);
+      paramQ[i] = 34;
+      return;
+    }
+    a(paramQ, 0, paramQ.length);
+  }
+  
+  public void b(String paramString, int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    if (paramInt != 0)
+    {
+      if (paramInt != 1)
+      {
+        if (paramInt != 2)
+        {
+          if (paramInt != 3)
+          {
+            I();
+            return;
+          }
+          a.b(this);
+          return;
+        }
+        a.g(this);
+        return;
+      }
+      a.c(this);
+      return;
+    }
+    if (e.f())
+    {
+      a.e(this);
+      return;
+    }
+    if (e.g()) {
+      a.d(this);
+    }
+  }
+  
+  public void b(String paramString, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    int j = s - r;
+    int i = j;
+    if (j < paramInt2)
+    {
+      M();
+      i = s - r;
+    }
+    if (i >= paramInt2)
+    {
+      paramString.getChars(paramInt1, paramInt1 + paramInt2, p, r);
+      r += paramInt2;
+      return;
+    }
+    n(paramString.substring(paramInt1, paramInt2 + paramInt1));
+  }
+  
+  public void b(String paramString, boolean paramBoolean)
+    throws IOException, f.d.a.a.f
+  {
+    if (a != null)
+    {
+      c(paramString, paramBoolean);
+      return;
+    }
+    if (r + 1 >= s) {
+      M();
+    }
+    if (paramBoolean)
+    {
+      arrayOfChar = p;
+      i = r;
+      r = (i + 1);
+      arrayOfChar[i] = ',';
+    }
+    if (!c(g.a.c))
+    {
+      m(paramString);
+      return;
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    m(paramString);
+    if (r >= s) {
+      M();
+    }
+    paramString = p;
+    i = r;
+    r = (i + 1);
+    paramString[i] = 34;
+  }
+  
+  public void b(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    K();
+  }
+  
+  public void c(q paramQ)
+    throws IOException, f.d.a.a.f
+  {
+    g(paramQ.getValue());
+  }
+  
+  public void c(String paramString)
+    throws IOException, f.d.a.a.f
+  {
+    int i = e.a(paramString);
+    if (i == 4) {
+      j("Can not write a field name, expecting a value");
+    }
+    boolean bool = true;
+    if (i != 1) {
+      bool = false;
+    }
+    b(paramString, bool);
+  }
+  
+  public void c(String paramString, boolean paramBoolean)
+    throws IOException, f.d.a.a.f
+  {
+    if (paramBoolean) {
+      a.f(this);
+    } else {
+      a.d(this);
+    }
+    if (c(g.a.c))
+    {
+      if (r >= s) {
+        M();
+      }
+      char[] arrayOfChar = p;
+      int i = r;
+      r = (i + 1);
+      arrayOfChar[i] = '"';
+      m(paramString);
+      if (r >= s) {
+        M();
+      }
+      paramString = p;
+      i = r;
+      r = (i + 1);
+      paramString[i] = 34;
+      return;
+    }
+    m(paramString);
+  }
+  
+  public void c(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    K();
+  }
+  
+  public void c(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException, f.d.a.a.f
+  {
+    k("write text value");
+    if (r >= s) {
+      M();
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    d(paramArrayOfChar, paramInt1, paramInt2);
+    if (r >= s) {
+      M();
+    }
+    paramArrayOfChar = p;
+    paramInt1 = r;
+    r = (paramInt1 + 1);
+    paramArrayOfChar[paramInt1] = '"';
+  }
+  
+  public void close()
+    throws IOException
+  {
+    f = true;
+    if ((p != null) && (c(g.a.b))) {
+      for (;;)
+      {
+        f localF = y();
+        if (localF.f())
+        {
+          D();
+        }
+        else
+        {
+          if (!localF.g()) {
+            break;
+          }
+          E();
+        }
+      }
+    }
+    M();
+    if (o != null) {
+      if ((!h.i()) && (!c(g.a.a)))
+      {
+        if (c(g.a.f)) {
+          o.flush();
+        }
+      }
+      else {
+        o.close();
+      }
+    }
+    J();
+  }
+  
+  public void d(q paramQ)
+    throws IOException, f.d.a.a.f
+  {
+    k("write text value");
+    if (r >= s) {
+      M();
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    paramQ = paramQ.b();
+    i = paramQ.length;
+    if (i < 32)
+    {
+      if (i > s - r) {
+        M();
+      }
+      System.arraycopy(paramQ, 0, p, r, i);
+      r += i;
+    }
+    else
+    {
+      M();
+      o.write(paramQ, 0, i);
+    }
+    if (r >= s) {
+      M();
+    }
+    paramQ = p;
+    i = r;
+    r = (i + 1);
+    paramQ[i] = 34;
+  }
+  
+  public void e(int paramInt)
+    throws IOException, f.d.a.a.f
+  {
+    k("write number");
+    if (d)
+    {
+      f(paramInt);
+      return;
+    }
+    if (r + 11 >= s) {
+      M();
+    }
+    r = i.b(paramInt, p, r);
+  }
+  
+  public void e(String paramString)
+    throws IOException, f.d.a.a.f
+  {
+    k("write number");
+    if (d)
+    {
+      c(paramString);
+      return;
+    }
+    g(paramString);
+  }
+  
+  public void flush()
+    throws IOException
+  {
+    M();
+    if ((o != null) && (c(g.a.f))) {
+      o.flush();
+    }
+  }
+  
+  public void g(String paramString)
+    throws IOException, f.d.a.a.f
+  {
+    int k = paramString.length();
+    int j = s - r;
+    int i = j;
+    if (j == 0)
+    {
+      M();
+      i = s - r;
+    }
+    if (i >= k)
+    {
+      paramString.getChars(0, k, p, r);
+      r += k;
+      return;
+    }
+    n(paramString);
+  }
+  
+  public void h(long paramLong)
+    throws IOException, f.d.a.a.f
+  {
+    k("write number");
+    if (d)
+    {
+      i(paramLong);
+      return;
+    }
+    if (r + 21 >= s) {
+      M();
+    }
+    r = i.a(paramLong, p, r);
+  }
+  
+  public void i(String paramString)
+    throws IOException, f.d.a.a.f
+  {
+    k("write text value");
+    if (paramString == null)
+    {
+      O();
+      return;
+    }
+    if (r >= s) {
+      M();
+    }
+    char[] arrayOfChar = p;
+    int i = r;
+    r = (i + 1);
+    arrayOfChar[i] = '"';
+    m(paramString);
+    if (r >= s) {
+      M();
+    }
+    paramString = p;
+    i = r;
+    r = (i + 1);
+    paramString[i] = 34;
+  }
+  
+  public void k(String paramString)
+    throws IOException, f.d.a.a.f
+  {
+    int j = e.l();
+    if (j == 5)
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Can not ");
+      localStringBuilder.append(paramString);
+      localStringBuilder.append(", expecting field name");
+      j(localStringBuilder.toString());
+    }
+    if (a == null)
+    {
+      int i;
+      if (j != 1)
+      {
+        if (j != 2)
+        {
+          if (j != 3) {
+            return;
+          }
+          paramString = l;
+          if (paramString != null) {
+            g(paramString.getValue());
+          }
+          return;
+        }
+        i = 58;
+      }
+      else
+      {
+        i = 44;
+      }
+      if (r >= s) {
+        M();
+      }
+      paramString = p;
+      j = r;
+      paramString[j] = i;
+      r = (j + 1);
+      return;
+    }
+    b(paramString, j);
+  }
+  
+  public Object z()
+  {
+    return o;
+  }
+}

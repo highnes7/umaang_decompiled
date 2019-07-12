@@ -1,0 +1,265 @@
+package b.b.x.n;
+
+import b.b.a.N;
+import java.io.PrintWriter;
+
+@N({b.b.a.N.a.b})
+public final class v
+{
+  @N({b.b.a.N.a.b})
+  public static final int a = 19;
+  public static final int b = 60;
+  public static final int c = 3600;
+  public static final int d = 86400;
+  public static final Object e = new Object();
+  public static char[] f = new char[24];
+  
+  public v() {}
+  
+  public static int a(int paramInt1, int paramInt2, boolean paramBoolean, int paramInt3)
+  {
+    if ((paramInt1 <= 99) && ((!paramBoolean) || (paramInt3 < 3)))
+    {
+      if ((paramInt1 <= 9) && ((!paramBoolean) || (paramInt3 < 2)))
+      {
+        if ((!paramBoolean) && (paramInt1 <= 0)) {
+          return 0;
+        }
+        return paramInt2 + 1;
+      }
+      return paramInt2 + 2;
+    }
+    return paramInt2 + 3;
+  }
+  
+  public static int a(long paramLong, int paramInt)
+  {
+    if (f.length < paramInt) {
+      f = new char[paramInt];
+    }
+    char[] arrayOfChar = f;
+    if (paramLong == 0L)
+    {
+      while (paramInt - 1 > 0) {
+        arrayOfChar[0] = ' ';
+      }
+      arrayOfChar[0] = '0';
+      return 1;
+    }
+    int i;
+    if (paramLong > 0L)
+    {
+      i = 43;
+    }
+    else
+    {
+      i = 45;
+      paramLong = -paramLong;
+    }
+    int i4 = (int)(paramLong % 1000L);
+    int j = (int)Math.floor(paramLong / 1000L);
+    if (j > 86400)
+    {
+      m = j / 86400;
+      j -= 86400 * m;
+    }
+    else
+    {
+      m = 0;
+    }
+    int n;
+    if (j > 3600)
+    {
+      n = j / 3600;
+      j -= n * 3600;
+    }
+    else
+    {
+      n = 0;
+    }
+    int i1;
+    int k;
+    if (j > 60)
+    {
+      i1 = j / 60;
+      k = j - i1 * 60;
+    }
+    else
+    {
+      i1 = 0;
+      k = j;
+    }
+    boolean bool;
+    if (paramInt != 0)
+    {
+      j = a(m, 1, false, 0);
+      if (j > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      j = a(n, 1, bool, 2) + j;
+      if (j > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      j = a(i1, 1, bool, 2) + j;
+      if (j > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      i2 = a(k, 1, bool, 2) + j;
+      if (i2 > 0) {
+        j = 3;
+      } else {
+        j = 0;
+      }
+      i2 = a(i4, 2, true, j) + 1 + i2;
+      j = 0;
+      for (;;)
+      {
+        i3 = j;
+        if (i2 >= paramInt) {
+          break;
+        }
+        arrayOfChar[j] = ' ';
+        j += 1;
+        i2 += 1;
+      }
+    }
+    int i3 = 0;
+    arrayOfChar[i3] = i;
+    int i2 = i3 + 1;
+    if (paramInt != 0) {
+      paramInt = 1;
+    } else {
+      paramInt = 0;
+    }
+    int m = a(arrayOfChar, m, 'd', i2, false, 0);
+    if (m != i2) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    if (paramInt != 0) {
+      j = 2;
+    } else {
+      j = 0;
+    }
+    m = a(arrayOfChar, n, 'h', m, bool, j);
+    if (m != i2) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    if (paramInt != 0) {
+      j = 2;
+    } else {
+      j = 0;
+    }
+    m = a(arrayOfChar, i1, 'm', m, bool, j);
+    if (m != i2) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    if (paramInt != 0) {
+      j = 2;
+    } else {
+      j = 0;
+    }
+    j = a(arrayOfChar, k, 's', m, bool, j);
+    if ((paramInt != 0) && (j != i2)) {
+      paramInt = 3;
+    } else {
+      paramInt = 0;
+    }
+    paramInt = a(arrayOfChar, i4, 'm', j, true, paramInt);
+    arrayOfChar[paramInt] = 's';
+    return paramInt + 1;
+  }
+  
+  public static int a(char[] paramArrayOfChar, int paramInt1, char paramChar, int paramInt2, boolean paramBoolean, int paramInt3)
+  {
+    int i;
+    if (!paramBoolean)
+    {
+      i = paramInt2;
+      if (paramInt1 <= 0) {}
+    }
+    else
+    {
+      int j;
+      if (((paramBoolean) && (paramInt3 >= 3)) || (paramInt1 > 99))
+      {
+        j = paramInt1 / 100;
+        paramArrayOfChar[paramInt2] = ((char)(j + 48));
+        i = paramInt2 + 1;
+        paramInt1 -= j * 100;
+      }
+      else
+      {
+        i = paramInt2;
+      }
+      if (((!paramBoolean) || (paramInt3 < 2)) && (paramInt1 <= 9))
+      {
+        j = i;
+        paramInt3 = paramInt1;
+        if (paramInt2 == i) {}
+      }
+      else
+      {
+        paramInt2 = paramInt1 / 10;
+        paramArrayOfChar[i] = ((char)(paramInt2 + 48));
+        j = i + 1;
+        paramInt3 = paramInt1 - paramInt2 * 10;
+      }
+      paramArrayOfChar[j] = ((char)(paramInt3 + 48));
+      paramInt1 = j + 1;
+      paramArrayOfChar[paramInt1] = paramChar;
+      i = paramInt1 + 1;
+    }
+    return i;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a(long paramLong1, long paramLong2, PrintWriter paramPrintWriter)
+  {
+    if (paramLong1 == 0L)
+    {
+      paramPrintWriter.print("--");
+      return;
+    }
+    a(paramLong1 - paramLong2, paramPrintWriter, 0);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a(long paramLong, PrintWriter paramPrintWriter)
+  {
+    a(paramLong, paramPrintWriter, 0);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a(long paramLong, PrintWriter paramPrintWriter, int paramInt)
+  {
+    synchronized (e)
+    {
+      paramInt = a(paramLong, paramInt);
+      paramPrintWriter.print(new String(f, 0, paramInt));
+      return;
+    }
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a(long paramLong, StringBuilder paramStringBuilder)
+  {
+    synchronized (e)
+    {
+      int i = a(paramLong, 0);
+      paramStringBuilder.append(f, 0, i);
+      return;
+    }
+  }
+}

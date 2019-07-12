@@ -1,0 +1,64 @@
+package f.c.a.a;
+
+import f.a.a.a.a;
+import java.util.Locale;
+import java.util.Map;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class e
+{
+  public final int a;
+  public final int b;
+  public boolean c;
+  
+  public e(int paramInt1, int paramInt2, boolean paramBoolean)
+  {
+    a = paramInt1;
+    b = paramInt2;
+    c = paramBoolean;
+  }
+  
+  private void a(RuntimeException paramRuntimeException)
+  {
+    if (!c)
+    {
+      g.h().c("Answers", "Invalid user input detected", paramRuntimeException);
+      return;
+    }
+    throw paramRuntimeException;
+  }
+  
+  public String a(String paramString)
+  {
+    int i = paramString.length();
+    int j = b;
+    String str = paramString;
+    if (i > j)
+    {
+      a(new IllegalArgumentException(String.format(Locale.US, "String is too long, truncating to %d characters", new Object[] { Integer.valueOf(j) })));
+      str = paramString.substring(0, b);
+    }
+    return str;
+  }
+  
+  public boolean a(Object paramObject, String paramString)
+  {
+    if (paramObject == null)
+    {
+      a(new NullPointerException(a.c(paramString, " must not be null")));
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean a(Map<String, Object> paramMap, String paramString)
+  {
+    if ((paramMap.size() >= a) && (!paramMap.containsKey(paramString)))
+    {
+      a(new IllegalArgumentException(String.format(Locale.US, "Limit of %d attributes reached, skipping attribute", new Object[] { Integer.valueOf(a) })));
+      return true;
+    }
+    return false;
+  }
+}

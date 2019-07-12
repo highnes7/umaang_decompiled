@@ -1,0 +1,238 @@
+package com.google.android.gms.vision.face;
+
+import android.content.Context;
+import android.util.SparseArray;
+import com.google.android.gms.internal.zzdcj;
+import com.google.android.gms.internal.zzdck;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.face.internal.client.zza;
+import f.a.a.a.a;
+import java.nio.ByteBuffer;
+import java.util.HashSet;
+import java.util.Set;
+
+public final class FaceDetector
+  extends Detector<Face>
+{
+  public static final int ACCURATE_MODE = 1;
+  public static final int ALL_CLASSIFICATIONS = 1;
+  public static final int ALL_LANDMARKS = 1;
+  public static final int FAST_MODE = 0;
+  public static final int NO_CLASSIFICATIONS = 0;
+  public static final int NO_LANDMARKS = 0;
+  public final Object mLock = new Object();
+  public final com.google.android.gms.vision.zzc zzkit = new com.google.android.gms.vision.zzc();
+  public final zza zzkiu;
+  public boolean zzkiv = true;
+  
+  public FaceDetector()
+  {
+    throw new IllegalStateException("Default constructor called");
+  }
+  
+  public FaceDetector(zza paramZza)
+  {
+    zzkiu = paramZza;
+  }
+  
+  public final SparseArray<Face> detect(Frame paramFrame)
+  {
+    if (paramFrame != null)
+    {
+      Object localObject2 = paramFrame.getGrayscaleImageData();
+      synchronized (mLock)
+      {
+        if (zzkiv)
+        {
+          paramFrame = zzkiu.zzb((ByteBuffer)localObject2, zzdck.zzc(paramFrame));
+          ??? = new HashSet();
+          localObject2 = new SparseArray(paramFrame.length);
+          int i1 = paramFrame.length;
+          int j = 0;
+          int i = 0;
+          while (j < i1)
+          {
+            Object localObject3 = paramFrame[j];
+            int m = localObject3.getId();
+            int n = Math.max(i, m);
+            i = n;
+            int k = m;
+            if (((Set)???).contains(Integer.valueOf(m)))
+            {
+              k = n + 1;
+              i = k;
+            }
+            ((Set)???).add(Integer.valueOf(k));
+            ((SparseArray)localObject2).append(zzkit.zzes(k), localObject3);
+            j += 1;
+          }
+          return localObject2;
+        }
+        throw new RuntimeException("Cannot use detector after release()");
+      }
+    }
+    paramFrame = new IllegalArgumentException("No frame supplied.");
+    for (;;)
+    {
+      throw paramFrame;
+    }
+  }
+  
+  /* Error */
+  public final void finalize()
+    throws java.lang.Throwable
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: getfield 39	com/google/android/gms/vision/face/FaceDetector:mLock	Ljava/lang/Object;
+    //   4: astore_1
+    //   5: aload_1
+    //   6: monitorenter
+    //   7: aload_0
+    //   8: getfield 41	com/google/android/gms/vision/face/FaceDetector:zzkiv	Z
+    //   11: ifeq +7 -> 18
+    //   14: aload_0
+    //   15: invokevirtual 136	com/google/android/gms/vision/face/FaceDetector:release	()V
+    //   18: aload_1
+    //   19: monitorexit
+    //   20: aload_0
+    //   21: invokespecial 138	java/lang/Object:finalize	()V
+    //   24: return
+    //   25: astore_2
+    //   26: aload_1
+    //   27: monitorexit
+    //   28: aload_2
+    //   29: athrow
+    //   30: astore_1
+    //   31: aload_0
+    //   32: invokespecial 138	java/lang/Object:finalize	()V
+    //   35: aload_1
+    //   36: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	37	0	this	FaceDetector
+    //   30	6	1	localObject2	Object
+    //   25	4	2	localObject3	Object
+    // Exception table:
+    //   from	to	target	type
+    //   7	18	25	finally
+    //   18	20	25	finally
+    //   26	28	25	finally
+    //   0	7	30	finally
+    //   28	30	30	finally
+  }
+  
+  public final boolean isOperational()
+  {
+    return zzkiu.isOperational();
+  }
+  
+  public final void release()
+  {
+    super.release();
+    synchronized (mLock)
+    {
+      if (!zzkiv) {
+        return;
+      }
+      zzkiu.zzbio();
+      zzkiv = false;
+      return;
+    }
+  }
+  
+  public final boolean setFocus(int paramInt)
+  {
+    paramInt = zzkit.zzet(paramInt);
+    synchronized (mLock)
+    {
+      if (zzkiv)
+      {
+        boolean bool = zzkiu.zzeu(paramInt);
+        return bool;
+      }
+      throw new RuntimeException("Cannot use detector after release()");
+    }
+  }
+  
+  public static class Builder
+  {
+    public final Context mContext;
+    public int zzgdd = 0;
+    public int zzkiw = 0;
+    public boolean zzkix = false;
+    public int zzkiy = 0;
+    public boolean zzkiz = true;
+    public float zzkja = -1.0F;
+    
+    public Builder(Context paramContext)
+    {
+      mContext = paramContext;
+    }
+    
+    public FaceDetector build()
+    {
+      com.google.android.gms.vision.face.internal.client.zzc localZzc = new com.google.android.gms.vision.face.internal.client.zzc();
+      mode = zzgdd;
+      zzkjj = zzkiw;
+      zzkjk = zzkiy;
+      zzkjl = zzkix;
+      zzkjm = zzkiz;
+      zzkjn = zzkja;
+      return new FaceDetector(new zza(mContext, localZzc));
+    }
+    
+    public Builder setClassificationType(int paramInt)
+    {
+      if ((paramInt != 0) && (paramInt != 1)) {
+        throw new IllegalArgumentException(a.a(40, "Invalid classification type: ", paramInt));
+      }
+      zzkiy = paramInt;
+      return this;
+    }
+    
+    public Builder setLandmarkType(int paramInt)
+    {
+      if ((paramInt != 0) && (paramInt != 1)) {
+        throw new IllegalArgumentException(a.a(34, "Invalid landmark type: ", paramInt));
+      }
+      zzkiw = paramInt;
+      return this;
+    }
+    
+    public Builder setMinFaceSize(float paramFloat)
+    {
+      if ((paramFloat >= 0.0F) && (paramFloat <= 1.0F))
+      {
+        zzkja = paramFloat;
+        return this;
+      }
+      StringBuilder localStringBuilder = new StringBuilder(47);
+      localStringBuilder.append("Invalid proportional face size: ");
+      localStringBuilder.append(paramFloat);
+      throw new IllegalArgumentException(localStringBuilder.toString());
+    }
+    
+    public Builder setMode(int paramInt)
+    {
+      if ((paramInt != 0) && (paramInt != 1)) {
+        throw new IllegalArgumentException(a.a(25, "Invalid mode: ", paramInt));
+      }
+      zzgdd = paramInt;
+      return this;
+    }
+    
+    public Builder setProminentFaceOnly(boolean paramBoolean)
+    {
+      zzkix = paramBoolean;
+      return this;
+    }
+    
+    public Builder setTrackingEnabled(boolean paramBoolean)
+    {
+      zzkiz = paramBoolean;
+      return this;
+    }
+  }
+}

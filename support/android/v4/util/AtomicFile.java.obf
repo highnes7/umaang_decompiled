@@ -1,0 +1,177 @@
+package b.b.x.n;
+
+import b.b.a.F;
+import b.b.a.G;
+import f.a.a.a.a;
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class e
+{
+  public final File a;
+  public final File b;
+  
+  public e(@F File paramFile)
+  {
+    a = paramFile;
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramFile.getPath());
+    localStringBuilder.append(".bak");
+    b = new File(localStringBuilder.toString());
+  }
+  
+  public static boolean c(@F FileOutputStream paramFileOutputStream)
+  {
+    try
+    {
+      paramFileOutputStream.getFD().sync();
+      return true;
+    }
+    catch (IOException paramFileOutputStream)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public void a()
+  {
+    a.delete();
+    b.delete();
+  }
+  
+  public void a(@G FileOutputStream paramFileOutputStream)
+  {
+    if (paramFileOutputStream != null) {
+      c(paramFileOutputStream);
+    }
+    try
+    {
+      paramFileOutputStream.close();
+      a.delete();
+      b.renameTo(a);
+      return;
+    }
+    catch (IOException paramFileOutputStream) {}
+  }
+  
+  @F
+  public File b()
+  {
+    return a;
+  }
+  
+  public void b(@G FileOutputStream paramFileOutputStream)
+  {
+    if (paramFileOutputStream != null) {
+      c(paramFileOutputStream);
+    }
+    try
+    {
+      paramFileOutputStream.close();
+      b.delete();
+      return;
+    }
+    catch (IOException paramFileOutputStream) {}
+  }
+  
+  @F
+  public FileInputStream c()
+    throws FileNotFoundException
+  {
+    if (b.exists())
+    {
+      a.delete();
+      b.renameTo(a);
+    }
+    return new FileInputStream(a);
+  }
+  
+  @F
+  public byte[] d()
+    throws IOException
+  {
+    FileInputStream localFileInputStream = c();
+    try
+    {
+      Object localObject1 = new byte[localFileInputStream.available()];
+      int i = 0;
+      for (;;)
+      {
+        int j = localFileInputStream.read((byte[])localObject1, i, localObject1.length - i);
+        if (j <= 0)
+        {
+          localFileInputStream.close();
+          return localObject1;
+        }
+        j = i + j;
+        int k = localFileInputStream.available();
+        i = j;
+        if (k > localObject1.length - j)
+        {
+          byte[] arrayOfByte = new byte[k + j];
+          System.arraycopy(localObject1, 0, arrayOfByte, 0, j);
+          localObject1 = arrayOfByte;
+          i = j;
+        }
+      }
+      throw localObject2;
+    }
+    finally
+    {
+      localFileInputStream.close();
+    }
+    for (;;) {}
+  }
+  
+  @F
+  public FileOutputStream e()
+    throws IOException
+  {
+    if (a.exists()) {
+      if (!b.exists())
+      {
+        if (!a.renameTo(b))
+        {
+          localObject = a.b("Couldn't rename file ");
+          ((StringBuilder)localObject).append(a);
+          ((StringBuilder)localObject).append(" to backup file ");
+          ((StringBuilder)localObject).append(b);
+          ((StringBuilder)localObject).toString();
+        }
+      }
+      else {
+        a.delete();
+      }
+    }
+    try
+    {
+      localObject = new FileOutputStream(a);
+      return localObject;
+    }
+    catch (FileNotFoundException localFileNotFoundException1)
+    {
+      for (;;) {}
+    }
+    if (a.getParentFile().mkdirs()) {}
+    try
+    {
+      localObject = new FileOutputStream(a);
+      return localObject;
+    }
+    catch (FileNotFoundException localFileNotFoundException2)
+    {
+      for (;;) {}
+    }
+    Object localObject = a.b("Couldn't create ");
+    ((StringBuilder)localObject).append(a);
+    throw new IOException(((StringBuilder)localObject).toString());
+    localObject = a.b("Couldn't create directory ");
+    ((StringBuilder)localObject).append(a);
+    throw new IOException(((StringBuilder)localObject).toString());
+  }
+}

@@ -1,0 +1,77 @@
+package com.google.android.gms.flags.impl;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
+import com.google.android.gms.common.util.DynamiteApi;
+import com.google.android.gms.dynamic.IObjectWrapper;
+import com.google.android.gms.dynamic.zzn;
+import com.google.android.gms.internal.zzbvm;
+
+@DynamiteApi
+public class FlagProviderImpl
+  extends zzbvm
+{
+  public boolean zzaqf = false;
+  public SharedPreferences zzbfl;
+  
+  public FlagProviderImpl() {}
+  
+  public boolean getBooleanFlagValue(String paramString, boolean paramBoolean, int paramInt)
+  {
+    if (!zzaqf) {
+      return paramBoolean;
+    }
+    return zzb.zza(zzbfl, paramString, Boolean.valueOf(paramBoolean)).booleanValue();
+  }
+  
+  public int getIntFlagValue(String paramString, int paramInt1, int paramInt2)
+  {
+    if (!zzaqf) {
+      return paramInt1;
+    }
+    return zzd.zza(zzbfl, paramString, Integer.valueOf(paramInt1)).intValue();
+  }
+  
+  public long getLongFlagValue(String paramString, long paramLong, int paramInt)
+  {
+    if (!zzaqf) {
+      return paramLong;
+    }
+    return zzf.zza(zzbfl, paramString, Long.valueOf(paramLong)).longValue();
+  }
+  
+  public String getStringFlagValue(String paramString1, String paramString2, int paramInt)
+  {
+    if (!zzaqf) {
+      return paramString2;
+    }
+    return zzh.zza(zzbfl, paramString1, paramString2);
+  }
+  
+  public void init(IObjectWrapper paramIObjectWrapper)
+  {
+    paramIObjectWrapper = (Context)zzn.zzx(paramIObjectWrapper);
+    if (zzaqf) {
+      return;
+    }
+    try
+    {
+      zzbfl = zzj.zzcy(paramIObjectWrapper.createPackageContext("com.google.android.gms", 0));
+      zzaqf = true;
+      return;
+    }
+    catch (Exception paramIObjectWrapper)
+    {
+      paramIObjectWrapper = String.valueOf(paramIObjectWrapper.getMessage());
+      if (paramIObjectWrapper.length() != 0)
+      {
+        "Could not retrieve sdk flags, continuing with defaults: ".concat(paramIObjectWrapper);
+        return;
+      }
+      new String("Could not retrieve sdk flags, continuing with defaults: ");
+      return;
+    }
+    catch (PackageManager.NameNotFoundException paramIObjectWrapper) {}
+  }
+}

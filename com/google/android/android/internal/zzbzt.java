@@ -1,0 +1,13 @@
+package com.google.android.android.internal;
+
+import android.location.Location;
+import com.google.android.gms.common.api.internal.zzcm;
+import com.google.android.gms.location.LocationListener;
+
+public final class zzbzt
+  implements zzcm<LocationListener>
+{
+  public zzbzt(zzbzs paramZzbzs, Location paramLocation) {}
+  
+  public final void zzagx() {}
+}

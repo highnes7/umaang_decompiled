@@ -1,0 +1,72 @@
+package com.google.android.gms.analytics;
+
+import android.net.Uri;
+import android.text.TextUtils;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzame;
+import com.google.android.gms.internal.zzami;
+import com.google.android.gms.internal.zzamu;
+import com.google.android.gms.internal.zzanf;
+import com.google.android.gms.internal.zzanm;
+import com.google.android.gms.internal.zzanz;
+import java.util.List;
+import java.util.ListIterator;
+
+public class zza
+  extends zzi<zza>
+{
+  public final zzamu zzdjj;
+  public boolean zzdjk;
+  
+  public zza(zzamu paramZzamu)
+  {
+    super(paramZzamu.zzwa(), paramZzamu.zzvx());
+    zzdjj = paramZzamu;
+  }
+  
+  public final void enableAdvertisingIdCollection(boolean paramBoolean)
+  {
+    zzdjk = paramBoolean;
+  }
+  
+  public final void zza(zzg paramZzg)
+  {
+    paramZzg = (zzame)paramZzg.zzb(zzame.class);
+    if (TextUtils.isEmpty(paramZzg.zzve())) {
+      paramZzg.setClientId(zzdjj.zzwq().zzxp());
+    }
+    if ((zzdjk) && (TextUtils.isEmpty(paramZzg.zzvf())))
+    {
+      zzami localZzami = zzdjj.zzwp();
+      paramZzg.zzdi(localZzami.zzvn());
+      paramZzg.zzah(localZzami.zzvg());
+    }
+  }
+  
+  public final void zzcw(String paramString)
+  {
+    zzbp.zzgg(paramString);
+    Uri localUri = zzb.zzcx(paramString);
+    ListIterator localListIterator = zzdkv.getTransports().listIterator();
+    while (localListIterator.hasNext()) {
+      if (localUri.equals(((zzm)localListIterator.next()).zztu())) {
+        localListIterator.remove();
+      }
+    }
+    zzdkv.getTransports().add(new zzb(zzdjj, paramString));
+  }
+  
+  public final zzamu zztr()
+  {
+    return zzdjj;
+  }
+  
+  public final zzg zzts()
+  {
+    zzg localZzg = zzdkv.zztx();
+    localZzg.zza(zzdjj.zzwi().zzxd());
+    localZzg.zza(zzdjj.zzwj().zzyh());
+    zzd(localZzg);
+    return localZzg;
+  }
+}

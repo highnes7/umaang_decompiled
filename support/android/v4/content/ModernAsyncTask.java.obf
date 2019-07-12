@@ -1,0 +1,211 @@
+package b.b.x.b;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import b.b.a.N;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public abstract class n<Params, Progress, Result>
+{
+  public static final String a = "AsyncTask";
+  public static final int b = 5;
+  public static final int c = 128;
+  public static final int d = 1;
+  public static final ThreadFactory e = new j();
+  public static final BlockingQueue<Runnable> f = new LinkedBlockingQueue(10);
+  public static final Executor g = new ThreadPoolExecutor(5, 128, 1L, TimeUnit.SECONDS, f, e);
+  public static final int h = 1;
+  public static final int i = 2;
+  public static b j;
+  public static volatile Executor k = g;
+  public final d<Params, Result> l = new k(this);
+  public final FutureTask<Result> m = new l(this, l);
+  public volatile c n = c.a;
+  public final AtomicBoolean o = new AtomicBoolean();
+  public final AtomicBoolean p = new AtomicBoolean();
+  
+  public n() {}
+  
+  public static void a(Runnable paramRunnable)
+  {
+    k.execute(paramRunnable);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a(Executor paramExecutor)
+  {
+    k = paramExecutor;
+  }
+  
+  public static Handler b()
+  {
+    try
+    {
+      if (j == null) {
+        j = new b();
+      }
+      b localB = j;
+      return localB;
+    }
+    finally {}
+  }
+  
+  public final n<Params, Progress, Result> a(Executor paramExecutor, Params... paramVarArgs)
+  {
+    if (n != c.a)
+    {
+      int i1 = n.ordinal();
+      if (i1 != 1)
+      {
+        if (i1 != 2) {
+          throw new IllegalStateException("We should never reach this state");
+        }
+        throw new IllegalStateException("Cannot execute task: the task has already been executed (a task can be executed only once)");
+      }
+      throw new IllegalStateException("Cannot execute task: the task is already running.");
+    }
+    n = c.b;
+    f();
+    l.a = paramVarArgs;
+    paramExecutor.execute(m);
+    return this;
+  }
+  
+  public final Result a()
+    throws InterruptedException, ExecutionException
+  {
+    return m.get();
+  }
+  
+  public final Result a(long paramLong, TimeUnit paramTimeUnit)
+    throws InterruptedException, ExecutionException, TimeoutException
+  {
+    return m.get(paramLong, paramTimeUnit);
+  }
+  
+  public abstract Result a(Params... paramVarArgs);
+  
+  public void a(Result paramResult)
+  {
+    if (d()) {
+      b(paramResult);
+    } else {
+      c(paramResult);
+    }
+    n = c.c;
+  }
+  
+  public final boolean a(boolean paramBoolean)
+  {
+    o.set(true);
+    return m.cancel(paramBoolean);
+  }
+  
+  public final n<Params, Progress, Result> b(Params... paramVarArgs)
+  {
+    return a(k, paramVarArgs);
+  }
+  
+  public void b(Result paramResult)
+  {
+    e();
+  }
+  
+  public final c c()
+  {
+    return n;
+  }
+  
+  public void c(Result paramResult) {}
+  
+  public void c(Progress... paramVarArgs) {}
+  
+  public Result d(Result paramResult)
+  {
+    b().obtainMessage(1, new a(this, new Object[] { paramResult })).sendToTarget();
+    return paramResult;
+  }
+  
+  public final void d(Progress... paramVarArgs)
+  {
+    if (!d()) {
+      b().obtainMessage(2, new a(this, paramVarArgs)).sendToTarget();
+    }
+  }
+  
+  public final boolean d()
+  {
+    return o.get();
+  }
+  
+  public void e() {}
+  
+  public void e(Result paramResult)
+  {
+    if (!p.get()) {
+      d(paramResult);
+    }
+  }
+  
+  public void f() {}
+  
+  private static class a<Data>
+  {
+    public final n a;
+    public final Data[] b;
+    
+    public a(n paramN, Data... paramVarArgs)
+    {
+      a = paramN;
+      b = paramVarArgs;
+    }
+  }
+  
+  private static class b
+    extends Handler
+  {
+    public b()
+    {
+      super();
+    }
+    
+    public void handleMessage(Message paramMessage)
+    {
+      n.a localA = (n.a)obj;
+      int i = what;
+      if (i != 1)
+      {
+        if (i != 2) {
+          return;
+        }
+        a.c(b);
+        return;
+      }
+      a.a(b[0]);
+    }
+  }
+  
+  public static enum c
+  {
+    public c() {}
+  }
+  
+  private static abstract class d<Params, Result>
+    implements Callable<Result>
+  {
+    public Params[] a;
+    
+    public d() {}
+  }
+}

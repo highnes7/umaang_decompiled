@@ -1,0 +1,123 @@
+package com.coremedia.iso.boxes.dece;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class TrickPlayBox
+  extends c
+{
+  public static final String TYPE = "trik";
+  public List<Entry> entries = new ArrayList();
+  
+  static {}
+  
+  public TrickPlayBox()
+  {
+    super("trik");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    for (;;)
+    {
+      if (paramByteBuffer.remaining() <= 0) {
+        return;
+      }
+      entries.add(new Entry(h.m(paramByteBuffer)));
+    }
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    Iterator localIterator = entries.iterator();
+    for (;;)
+    {
+      if (!localIterator.hasNext()) {
+        return;
+      }
+      paramByteBuffer.put((byte)(nextvalue & 0xFF));
+    }
+  }
+  
+  public long getContentSize()
+  {
+    return entries.size() + 4;
+  }
+  
+  public List<Entry> getEntries()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    j.b().a(localJoinPoint);
+    return entries;
+  }
+  
+  public void setEntries(List<Entry> paramList)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this, paramList);
+    j.b().a(localJoinPoint);
+    entries = paramList;
+  }
+  
+  public String toString()
+  {
+    Object localObject = Factory.makeJP(ajc$tjp_2, this, this);
+    j.b().a((JoinPoint)localObject);
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("TrickPlayBox");
+    ((StringBuilder)localObject).append("{entries=");
+    return a.a((StringBuilder)localObject, entries, '}');
+  }
+  
+  public static class Entry
+  {
+    public int value;
+    
+    public Entry() {}
+    
+    public Entry(int paramInt)
+    {
+      value = paramInt;
+    }
+    
+    public int getDependencyLevel()
+    {
+      return value & 0x3F;
+    }
+    
+    public int getPicType()
+    {
+      return value >> 6 & 0x3;
+    }
+    
+    public void setDependencyLevel(int paramInt)
+    {
+      value = (paramInt & 0x3F | value);
+    }
+    
+    public void setPicType(int paramInt)
+    {
+      value &= 0x1F;
+      value = ((paramInt & 0x3) << 6 | value);
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = a.d("Entry", "{picType=");
+      localStringBuilder.append(getPicType());
+      localStringBuilder.append(",dependencyLevel=");
+      localStringBuilder.append(getDependencyLevel());
+      localStringBuilder.append('}');
+      return localStringBuilder.toString();
+    }
+  }
+}

@@ -1,0 +1,141 @@
+package com.google.android.gms.internal;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import com.google.android.gms.analytics.zzj;
+import com.google.android.gms.common.internal.zzbp;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public final class zzamj
+  extends zzams
+{
+  public final zzang zzdnv;
+  
+  public zzamj(zzamu paramZzamu, zzamw paramZzamw)
+  {
+    super(paramZzamu);
+    zzbp.zzu(paramZzamw);
+    zzdnv = new zzang(paramZzamu, paramZzamw);
+  }
+  
+  public final void onServiceConnected()
+  {
+    zzj.zzuj();
+    zzdnv.onServiceConnected();
+  }
+  
+  public final void setLocalDispatchPeriod(int paramInt)
+  {
+    zzwk();
+    zzb("setLocalDispatchPeriod (sec)", Integer.valueOf(paramInt));
+    zzwa().zzc(new zzamk(this, paramInt));
+  }
+  
+  public final void start()
+  {
+    zzdnv.start();
+  }
+  
+  public final long zza(zzamx paramZzamx)
+  {
+    zzwk();
+    zzbp.zzu(paramZzamx);
+    zzj.zzuj();
+    long l = zzdnv.zza(paramZzamx, true);
+    if (l == 0L) {
+      zzdnv.zzb(paramZzamx);
+    }
+    return l;
+  }
+  
+  public final void zza(zzaob paramZzaob)
+  {
+    zzwk();
+    zzwa().zzc(new zzamp(this, paramZzaob));
+  }
+  
+  public final void zza(zzaoi paramZzaoi)
+  {
+    zzbp.zzu(paramZzaoi);
+    zzwk();
+    zzb("Hit delivery requested", paramZzaoi);
+    zzwa().zzc(new zzamn(this, paramZzaoi));
+  }
+  
+  public final void zza(String paramString, Runnable paramRunnable)
+  {
+    zzbp.zzh(paramString, "campaign param can't be empty");
+    zzwa().zzc(new zzamm(this, paramString, paramRunnable));
+  }
+  
+  public final void zzuk()
+  {
+    zzdnv.initialize();
+  }
+  
+  public final void zzvr()
+  {
+    zzwk();
+    zzwa().zzc(new zzamo(this));
+  }
+  
+  public final void zzvs()
+  {
+    zzwk();
+    Context localContext = getContext();
+    if ((zzaou.zzbe(localContext)) && (zzaov.zzbi(localContext)))
+    {
+      Intent localIntent = new Intent("com.google.android.gms.analytics.ANALYTICS_DISPATCH");
+      localIntent.setComponent(new ComponentName(localContext, "com.google.android.gms.analytics.AnalyticsService"));
+      localContext.startService(localIntent);
+      return;
+    }
+    zza(null);
+  }
+  
+  public final boolean zzvt()
+  {
+    zzwk();
+    Future localFuture = zzwa().zzc(new zzamq(this));
+    try
+    {
+      localFuture.get(4L, TimeUnit.SECONDS);
+      return true;
+    }
+    catch (TimeoutException localTimeoutException)
+    {
+      zzd("syncDispatchLocalHits timed out", localTimeoutException);
+      return false;
+    }
+    catch (ExecutionException localExecutionException)
+    {
+      zze("syncDispatchLocalHits failed", localExecutionException);
+      return false;
+    }
+    catch (InterruptedException localInterruptedException)
+    {
+      zzd("syncDispatchLocalHits interrupted", localInterruptedException);
+    }
+    return false;
+  }
+  
+  public final void zzvu()
+  {
+    zzwk();
+    zzj.zzuj();
+    zzang localZzang = zzdnv;
+    zzj.zzuj();
+    localZzang.zzwk();
+    localZzang.zzdm("Service disconnected");
+  }
+  
+  public final void zzvv()
+  {
+    zzj.zzuj();
+    zzdnv.zzvv();
+  }
+}

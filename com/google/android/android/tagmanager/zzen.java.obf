@@ -1,0 +1,40 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
+import com.google.android.gms.internal.zzbd;
+import com.google.android.gms.internal.zzbp;
+import java.util.Map;
+
+public final class zzen
+  extends zzbr
+{
+  public static final String ID = zzbd.zzij.toString();
+  public final Context mContext;
+  
+  public zzen(Context paramContext)
+  {
+    super(ID, new String[0]);
+    mContext = paramContext;
+  }
+  
+  public final boolean zzbcj()
+  {
+    return true;
+  }
+  
+  public final zzbp zzp(Map<String, zzbp> paramMap)
+  {
+    paramMap = new DisplayMetrics();
+    ((WindowManager)mContext.getSystemService("window")).getDefaultDisplay().getMetrics(paramMap);
+    int i = widthPixels;
+    int j = heightPixels;
+    paramMap = new StringBuilder(23);
+    paramMap.append(i);
+    paramMap.append("x");
+    paramMap.append(j);
+    return zzgk.zzah(paramMap.toString());
+  }
+}

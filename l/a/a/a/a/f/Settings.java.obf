@@ -1,0 +1,52 @@
+package l.a.a.a.a.f;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Build.VERSION;
+import l.a.a.a.n;
+
+public class e
+  implements d
+{
+  public final SharedPreferences a;
+  public final String b;
+  public final Context c;
+  
+  public e(Context paramContext, String paramString)
+  {
+    if (paramContext != null)
+    {
+      c = paramContext;
+      b = paramString;
+      a = c.getSharedPreferences(b, 0);
+      return;
+    }
+    throw new IllegalStateException("Cannot get directory before context has been set. Call Fabric.with() first");
+  }
+  
+  @Deprecated
+  public e(n paramN)
+  {
+    this(paramN.d(), paramN.getClass().getName());
+  }
+  
+  @TargetApi(9)
+  public boolean a(SharedPreferences.Editor paramEditor)
+  {
+    int i = Build.VERSION.SDK_INT;
+    paramEditor.apply();
+    return true;
+  }
+  
+  public SharedPreferences.Editor edit()
+  {
+    return a.edit();
+  }
+  
+  public SharedPreferences get()
+  {
+    return a;
+  }
+}

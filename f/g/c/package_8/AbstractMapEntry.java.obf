@@ -1,0 +1,68 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.U;
+import java.util.Map.Entry;
+import m.a.h;
+
+@b
+public abstract class m<K, V>
+  implements Map.Entry<K, V>
+{
+  public m() {}
+  
+  public boolean equals(@h Object paramObject)
+  {
+    boolean bool3 = paramObject instanceof Map.Entry;
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (bool3)
+    {
+      paramObject = (Map.Entry)paramObject;
+      bool1 = bool2;
+      if (U.a(getKey(), paramObject.getKey()))
+      {
+        bool1 = bool2;
+        if (U.a(getValue(), paramObject.getValue())) {
+          bool1 = true;
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public abstract K getKey();
+  
+  public abstract V getValue();
+  
+  public int hashCode()
+  {
+    Object localObject1 = getKey();
+    Object localObject2 = getValue();
+    int j = 0;
+    int i;
+    if (localObject1 == null) {
+      i = 0;
+    } else {
+      i = localObject1.hashCode();
+    }
+    if (localObject2 != null) {
+      j = localObject2.hashCode();
+    }
+    return i ^ j;
+  }
+  
+  public V setValue(V paramV)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(getKey());
+    localStringBuilder.append("=");
+    localStringBuilder.append(getValue());
+    return localStringBuilder.toString();
+  }
+}

@@ -1,0 +1,60 @@
+package f.g.b.a.c.a;
+
+import f.g.b.a.c.I;
+import f.g.b.a.c.J;
+import f.g.b.a.e.a.a.a.b.g;
+import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.RequestLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.params.ConnManagerParams;
+import org.apache.http.entity.AbstractHttpEntity;
+import org.apache.http.message.AbstractHttpMessage;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
+public final class a
+  extends I
+{
+  public final HttpClient e;
+  public final HttpRequestBase f;
+  
+  public a(HttpClient paramHttpClient, HttpRequestBase paramHttpRequestBase)
+  {
+    e = paramHttpClient;
+    f = paramHttpRequestBase;
+  }
+  
+  public J a()
+    throws IOException
+  {
+    if (e() != null)
+    {
+      localObject = f;
+      g.a(localObject instanceof HttpEntityEnclosingRequest, "Apache HTTP client does not support %s requests with content.", new Object[] { ((HttpRequestBase)localObject).getRequestLine().getMethod() });
+      localObject = new d(c(), e());
+      ((AbstractHttpEntity)localObject).setContentEncoding(b());
+      ((AbstractHttpEntity)localObject).setContentType(d());
+      ((HttpEntityEnclosingRequest)f).setEntity((HttpEntity)localObject);
+    }
+    Object localObject = f;
+    return new b((HttpRequestBase)localObject, e.execute((HttpUriRequest)localObject));
+  }
+  
+  public void a(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    HttpParams localHttpParams = f.getParams();
+    ConnManagerParams.setTimeout(localHttpParams, paramInt1);
+    HttpConnectionParams.setConnectionTimeout(localHttpParams, paramInt1);
+    HttpConnectionParams.setSoTimeout(localHttpParams, paramInt2);
+  }
+  
+  public void a(String paramString1, String paramString2)
+  {
+    f.addHeader(paramString1, paramString2);
+  }
+}

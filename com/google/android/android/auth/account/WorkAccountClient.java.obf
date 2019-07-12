@@ -1,0 +1,43 @@
+package com.google.android.gms.auth.account;
+
+import android.accounts.Account;
+import android.app.Activity;
+import android.content.Context;
+import b.b.a.F;
+import com.google.android.gms.common.api.Api.ApiOptions.NoOptions;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApi.zza;
+import com.google.android.gms.common.internal.zzbi;
+import com.google.android.gms.internal.zzaqy;
+import com.google.android.gms.tasks.Task;
+
+public class WorkAccountClient
+  extends GoogleApi<Api.ApiOptions.NoOptions>
+{
+  public final WorkAccountApi zzdxy = new zzaqy();
+  
+  public WorkAccountClient(@F Activity paramActivity)
+  {
+    super(paramActivity, WorkAccount.API, null, GoogleApi.zza.zzfgw);
+  }
+  
+  public WorkAccountClient(@F Context paramContext)
+  {
+    super(paramContext, WorkAccount.API, null, GoogleApi.zza.zzfgw);
+  }
+  
+  public Task<Account> addWorkAccount(String paramString)
+  {
+    return zzbi.zza(zzdxy.addWorkAccount(zzafl(), paramString), new zzg(this));
+  }
+  
+  public Task<Void> removeWorkAccount(Account paramAccount)
+  {
+    return zzbi.zzb(zzdxy.removeWorkAccount(zzafl(), paramAccount));
+  }
+  
+  public Task<Void> setWorkAuthenticatorEnabled(boolean paramBoolean)
+  {
+    return zzbi.zzb(zzdxy.setWorkAuthenticatorEnabledWithResult(zzafl(), paramBoolean));
+  }
+}

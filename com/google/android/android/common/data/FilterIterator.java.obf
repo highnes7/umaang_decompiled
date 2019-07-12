@@ -1,0 +1,40 @@
+package com.google.android.gms.common.data;
+
+import f.a.a.a.a;
+import java.util.NoSuchElementException;
+
+public final class zzh<T>
+  extends zzb<T>
+{
+  public T zzfra;
+  
+  public zzh(DataBuffer<T> paramDataBuffer)
+  {
+    super(paramDataBuffer);
+  }
+  
+  public final T next()
+  {
+    if (hasNext())
+    {
+      zzfqf += 1;
+      int i = zzfqf;
+      if (i == 0)
+      {
+        zzfra = zzfqe.get(0);
+        Object localObject = zzfra;
+        if (!(localObject instanceof zzc))
+        {
+          localObject = String.valueOf(localObject.getClass());
+          throw new IllegalStateException(a.a(((String)localObject).length() + 44, "DataBuffer reference of type ", (String)localObject, " is not movable"));
+        }
+      }
+      else
+      {
+        ((zzc)zzfra).zzbv(i);
+      }
+      return zzfra;
+    }
+    throw new NoSuchElementException(a.a(46, "Cannot advance the iterator beyond ", zzfqf));
+  }
+}

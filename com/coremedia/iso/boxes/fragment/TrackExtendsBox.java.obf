@@ -1,0 +1,128 @@
+package com.coremedia.iso.boxes.fragment;
+
+import f.b.a.h;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class TrackExtendsBox
+  extends c
+{
+  public static final String TYPE = "trex";
+  public long defaultSampleDescriptionIndex;
+  public long defaultSampleDuration;
+  public SampleFlags defaultSampleFlags;
+  public long defaultSampleSize;
+  public long trackId;
+  
+  static {}
+  
+  public TrackExtendsBox()
+  {
+    super("trex");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    trackId = h.j(paramByteBuffer);
+    defaultSampleDescriptionIndex = h.j(paramByteBuffer);
+    defaultSampleDuration = h.j(paramByteBuffer);
+    defaultSampleSize = h.j(paramByteBuffer);
+    defaultSampleFlags = new SampleFlags(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.putInt((int)trackId);
+    paramByteBuffer.putInt((int)defaultSampleDescriptionIndex);
+    paramByteBuffer.putInt((int)defaultSampleDuration);
+    paramByteBuffer.putInt((int)defaultSampleSize);
+    defaultSampleFlags.getContent(paramByteBuffer);
+  }
+  
+  public long getContentSize()
+  {
+    return 24L;
+  }
+  
+  public long getDefaultSampleDescriptionIndex()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    j.b().a(localJoinPoint);
+    return defaultSampleDescriptionIndex;
+  }
+  
+  public long getDefaultSampleDuration()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    j.b().a(localJoinPoint);
+    return defaultSampleDuration;
+  }
+  
+  public SampleFlags getDefaultSampleFlags()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this);
+    j.b().a(localJoinPoint);
+    return defaultSampleFlags;
+  }
+  
+  public String getDefaultSampleFlagsStr()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this);
+    j.b().a(localJoinPoint);
+    return defaultSampleFlags.toString();
+  }
+  
+  public long getDefaultSampleSize()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this);
+    j.b().a(localJoinPoint);
+    return defaultSampleSize;
+  }
+  
+  public long getTrackId()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return trackId;
+  }
+  
+  public void setDefaultSampleDescriptionIndex(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_7, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    defaultSampleDescriptionIndex = paramLong;
+  }
+  
+  public void setDefaultSampleDuration(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_8, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    defaultSampleDuration = paramLong;
+  }
+  
+  public void setDefaultSampleFlags(SampleFlags paramSampleFlags)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_10, this, this, paramSampleFlags);
+    j.b().a(localJoinPoint);
+    defaultSampleFlags = paramSampleFlags;
+  }
+  
+  public void setDefaultSampleSize(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_9, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    defaultSampleSize = paramLong;
+  }
+  
+  public void setTrackId(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_6, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    trackId = paramLong;
+  }
+}

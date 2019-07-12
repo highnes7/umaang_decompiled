@@ -1,0 +1,311 @@
+package f.d.a.a;
+
+import java.io.Serializable;
+import java.util.Arrays;
+
+public final class a
+  implements Serializable
+{
+  public static final long a = 1L;
+  public static final char b = '\000';
+  public static final int c = -1;
+  public static final int d = -2;
+  public final transient int[] e = new int['?'];
+  public final transient char[] f = new char[64];
+  public final transient byte[] g = new byte[64];
+  public final String h;
+  public final transient boolean i;
+  public final transient char j;
+  public final transient int k;
+  
+  public a(a paramA, String paramString, int paramInt)
+  {
+    this(paramA, paramString, i, j, paramInt);
+  }
+  
+  public a(a paramA, String paramString, boolean paramBoolean, char paramChar, int paramInt)
+  {
+    h = paramString;
+    paramString = g;
+    System.arraycopy(paramString, 0, g, 0, paramString.length);
+    paramString = f;
+    System.arraycopy(paramString, 0, f, 0, paramString.length);
+    paramA = e;
+    System.arraycopy(paramA, 0, e, 0, paramA.length);
+    i = paramBoolean;
+    j = paramChar;
+    k = paramInt;
+  }
+  
+  public a(String paramString1, String paramString2, boolean paramBoolean, char paramChar, int paramInt)
+  {
+    h = paramString1;
+    i = paramBoolean;
+    j = paramChar;
+    k = paramInt;
+    int m = paramString2.length();
+    if (m == 64)
+    {
+      paramString1 = f;
+      paramInt = 0;
+      paramString2.getChars(0, m, paramString1, 0);
+      Arrays.fill(e, -1);
+      while (paramInt < m)
+      {
+        int n = f[paramInt];
+        g[paramInt] = ((byte)n);
+        e[n] = paramInt;
+        paramInt += 1;
+      }
+      if (paramBoolean) {
+        e[paramChar] = -2;
+      }
+      return;
+    }
+    paramString1 = new IllegalArgumentException(f.a.a.a.a.a("Base64Alphabet length must be exactly 64 (was ", m, ")"));
+    for (;;)
+    {
+      throw paramString1;
+    }
+  }
+  
+  public int a()
+  {
+    return k;
+  }
+  
+  public int a(byte paramByte)
+  {
+    if (paramByte <= Byte.MAX_VALUE) {
+      return e[paramByte];
+    }
+    return -1;
+  }
+  
+  public int a(char paramChar)
+  {
+    if (paramChar <= '') {
+      return e[paramChar];
+    }
+    return -1;
+  }
+  
+  public int a(int paramInt)
+  {
+    if (paramInt <= 127) {
+      return e[paramInt];
+    }
+    return -1;
+  }
+  
+  public int a(int paramInt1, int paramInt2, byte[] paramArrayOfByte, int paramInt3)
+  {
+    int i2 = paramInt3 + 1;
+    byte[] arrayOfByte = g;
+    paramArrayOfByte[paramInt3] = arrayOfByte[(paramInt1 >> 18 & 0x3F)];
+    int i1 = i2 + 1;
+    paramArrayOfByte[i2] = arrayOfByte[(paramInt1 >> 12 & 0x3F)];
+    if (i)
+    {
+      int n = (byte)j;
+      paramInt3 = i1 + 1;
+      int m;
+      if (paramInt2 == 2) {
+        m = arrayOfByte[(paramInt1 >> 6 & 0x3F)];
+      } else {
+        m = n;
+      }
+      paramArrayOfByte[i1] = m;
+      paramArrayOfByte[paramInt3] = n;
+      return paramInt3 + 1;
+    }
+    paramInt3 = i1;
+    if (paramInt2 == 2)
+    {
+      paramArrayOfByte[i1] = arrayOfByte[(paramInt1 >> 6 & 0x3F)];
+      paramInt3 = i1 + 1;
+    }
+    return paramInt3;
+  }
+  
+  public int a(int paramInt1, int paramInt2, char[] paramArrayOfChar, int paramInt3)
+  {
+    int i1 = paramInt3 + 1;
+    char[] arrayOfChar = f;
+    paramArrayOfChar[paramInt3] = arrayOfChar[(paramInt1 >> 18 & 0x3F)];
+    int n = i1 + 1;
+    paramArrayOfChar[i1] = arrayOfChar[(paramInt1 >> 12 & 0x3F)];
+    if (i)
+    {
+      paramInt3 = n + 1;
+      int m;
+      if (paramInt2 == 2) {
+        m = arrayOfChar[(paramInt1 >> 6 & 0x3F)];
+      } else {
+        m = j;
+      }
+      paramArrayOfChar[n] = m;
+      paramArrayOfChar[paramInt3] = j;
+      return paramInt3 + 1;
+    }
+    paramInt3 = n;
+    if (paramInt2 == 2)
+    {
+      paramArrayOfChar[n] = arrayOfChar[(paramInt1 >> 6 & 0x3F)];
+      paramInt3 = n + 1;
+    }
+    return paramInt3;
+  }
+  
+  public int a(int paramInt1, byte[] paramArrayOfByte, int paramInt2)
+  {
+    int m = paramInt2 + 1;
+    byte[] arrayOfByte = g;
+    paramArrayOfByte[paramInt2] = arrayOfByte[(paramInt1 >> 18 & 0x3F)];
+    paramInt2 = m + 1;
+    paramArrayOfByte[m] = arrayOfByte[(paramInt1 >> 12 & 0x3F)];
+    m = paramInt2 + 1;
+    paramArrayOfByte[paramInt2] = arrayOfByte[(paramInt1 >> 6 & 0x3F)];
+    paramArrayOfByte[m] = arrayOfByte[(paramInt1 & 0x3F)];
+    return m + 1;
+  }
+  
+  public int a(int paramInt1, char[] paramArrayOfChar, int paramInt2)
+  {
+    int m = paramInt2 + 1;
+    char[] arrayOfChar = f;
+    paramArrayOfChar[paramInt2] = arrayOfChar[(paramInt1 >> 18 & 0x3F)];
+    paramInt2 = m + 1;
+    paramArrayOfChar[m] = arrayOfChar[(paramInt1 >> 12 & 0x3F)];
+    m = paramInt2 + 1;
+    paramArrayOfChar[paramInt2] = arrayOfChar[(paramInt1 >> 6 & 0x3F)];
+    paramArrayOfChar[m] = arrayOfChar[(paramInt1 & 0x3F)];
+    return m + 1;
+  }
+  
+  public String a(byte[] paramArrayOfByte)
+  {
+    return a(paramArrayOfByte, false);
+  }
+  
+  public String a(byte[] paramArrayOfByte, boolean paramBoolean)
+  {
+    int i2 = paramArrayOfByte.length;
+    StringBuilder localStringBuilder = new StringBuilder((i2 >> 2) + i2 + (i2 >> 3));
+    if (paramBoolean) {
+      localStringBuilder.append('"');
+    }
+    int n = a() >> 2;
+    int i1;
+    for (int m = 0; m <= i2 - 3; m = i1)
+    {
+      int i3 = m + 1;
+      m = paramArrayOfByte[m];
+      i1 = i3 + 1;
+      a(localStringBuilder, (m << 8 | paramArrayOfByte[i3] & 0xFF) << 8 | paramArrayOfByte[i1] & 0xFF);
+      n -= 1;
+      m = n;
+      if (n <= 0)
+      {
+        localStringBuilder.append('\\');
+        localStringBuilder.append('n');
+        m = a() >> 2;
+      }
+      i1 += 1;
+      n = m;
+    }
+    i2 -= m;
+    if (i2 > 0)
+    {
+      i1 = paramArrayOfByte[m] << 16;
+      n = i1;
+      if (i2 == 2) {
+        n = i1 | (paramArrayOfByte[(m + 1)] & 0xFF) << 8;
+      }
+      a(localStringBuilder, n, i2);
+    }
+    if (paramBoolean) {
+      localStringBuilder.append('"');
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public void a(StringBuilder paramStringBuilder, int paramInt)
+  {
+    paramStringBuilder.append(f[(paramInt >> 18 & 0x3F)]);
+    paramStringBuilder.append(f[(paramInt >> 12 & 0x3F)]);
+    paramStringBuilder.append(f[(paramInt >> 6 & 0x3F)]);
+    paramStringBuilder.append(f[(paramInt & 0x3F)]);
+  }
+  
+  public void a(StringBuilder paramStringBuilder, int paramInt1, int paramInt2)
+  {
+    paramStringBuilder.append(f[(paramInt1 >> 18 & 0x3F)]);
+    paramStringBuilder.append(f[(paramInt1 >> 12 & 0x3F)]);
+    if (i)
+    {
+      char c1;
+      if (paramInt2 == 2) {
+        c1 = f[(paramInt1 >> 6 & 0x3F)];
+      } else {
+        c1 = j;
+      }
+      paramStringBuilder.append(c1);
+      paramStringBuilder.append(j);
+      return;
+    }
+    if (paramInt2 == 2) {
+      paramStringBuilder.append(f[(paramInt1 >> 6 & 0x3F)]);
+    }
+  }
+  
+  public byte b(int paramInt)
+  {
+    return g[paramInt];
+  }
+  
+  public String b()
+  {
+    return h;
+  }
+  
+  public boolean b(char paramChar)
+  {
+    return paramChar == j;
+  }
+  
+  public byte c()
+  {
+    return (byte)j;
+  }
+  
+  public char c(int paramInt)
+  {
+    return f[paramInt];
+  }
+  
+  public char d()
+  {
+    return j;
+  }
+  
+  public boolean d(int paramInt)
+  {
+    return paramInt == j;
+  }
+  
+  public Object e()
+  {
+    return b.a(h);
+  }
+  
+  public boolean f()
+  {
+    return i;
+  }
+  
+  public String toString()
+  {
+    return h;
+  }
+}

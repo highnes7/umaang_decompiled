@@ -1,0 +1,77 @@
+package f.g.c.d;
+
+import f.a.a.a.a;
+import f.g.c.a.b;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
+import m.a.h;
+
+@b(serializable=true)
+public final class Ga<T>
+  extends mf<T>
+  implements Serializable
+{
+  public static final long c = 0L;
+  public final Ab<T, Integer> d;
+  
+  public Ga(Ab<T, Integer> paramAb)
+  {
+    d = paramAb;
+  }
+  
+  public Ga(List<T> paramList)
+  {
+    d = paramList;
+  }
+  
+  private int a(T paramT)
+  {
+    Integer localInteger = (Integer)d.get(paramT);
+    if (localInteger != null) {
+      return localInteger.intValue();
+    }
+    throw new mf.c(paramT);
+  }
+  
+  public static <T> Ab<T, Integer> b(List<T> paramList)
+  {
+    Ab.a localA = Ab.a();
+    paramList = paramList.iterator();
+    int i = 0;
+    while (paramList.hasNext())
+    {
+      localA.a(paramList.next(), Integer.valueOf(i));
+      i += 1;
+    }
+    return localA.a();
+  }
+  
+  public int compare(T paramT1, T paramT2)
+  {
+    return a(paramT1) - a(paramT2);
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if ((paramObject instanceof Ga))
+    {
+      paramObject = (Ga)paramObject;
+      return d.equals(d);
+    }
+    return false;
+  }
+  
+  public int hashCode()
+  {
+    return d.hashCode();
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.b("Ordering.explicit(");
+    localStringBuilder.append(d.keySet());
+    localStringBuilder.append(")");
+    return localStringBuilder.toString();
+  }
+}

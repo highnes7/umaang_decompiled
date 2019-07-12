@@ -1,0 +1,121 @@
+package b.b.v;
+
+import android.graphics.Matrix;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.a.K;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@K(21)
+public class C
+  implements D
+{
+  public static final String a = "GhostViewApi21";
+  public static Class<?> b;
+  public static boolean c;
+  public static Method d;
+  public static boolean e;
+  public static Method f;
+  public static boolean g;
+  public final View h;
+  
+  public C(@F View paramView)
+  {
+    h = paramView;
+  }
+  
+  public static D a(View paramView, ViewGroup paramViewGroup, Matrix paramMatrix)
+  {
+    a();
+    Method localMethod = d;
+    if (localMethod != null) {}
+    try
+    {
+      paramView = new C((View)localMethod.invoke(null, new Object[] { paramView, paramViewGroup, paramMatrix }));
+      return paramView;
+    }
+    catch (InvocationTargetException paramView)
+    {
+      throw new RuntimeException(paramView.getCause());
+      return null;
+    }
+    catch (IllegalAccessException paramView) {}
+    return null;
+  }
+  
+  public static void a()
+  {
+    if (!e) {}
+    try
+    {
+      b();
+      d = b.getDeclaredMethod("addGhost", new Class[] { View.class, ViewGroup.class, Matrix.class });
+      d.setAccessible(true);
+      e = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public static void a(View paramView)
+  {
+    c();
+    Method localMethod = f;
+    if (localMethod != null) {}
+    try
+    {
+      localMethod.invoke(null, new Object[] { paramView });
+      return;
+    }
+    catch (InvocationTargetException paramView)
+    {
+      throw new RuntimeException(paramView.getCause());
+      return;
+    }
+    catch (IllegalAccessException paramView) {}
+  }
+  
+  public static void b()
+  {
+    if (!c) {}
+    try
+    {
+      b = Class.forName("android.view.GhostView");
+      c = true;
+      return;
+    }
+    catch (ClassNotFoundException localClassNotFoundException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public static void c()
+  {
+    if (!g) {}
+    try
+    {
+      b();
+      f = b.getDeclaredMethod("removeGhost", new Class[] { View.class });
+      f.setAccessible(true);
+      g = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void a(ViewGroup paramViewGroup, View paramView) {}
+  
+  public void setVisibility(int paramInt)
+  {
+    h.setVisibility(paramInt);
+  }
+}

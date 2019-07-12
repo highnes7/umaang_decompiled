@@ -1,0 +1,142 @@
+package android.support.v7.view;
+
+import android.view.View;
+import android.view.animation.Interpolator;
+import b.b.a.N;
+import b.b.x.o.T;
+import b.b.x.o.U;
+import b.b.x.o.V;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+@N({b.b.a.N.a.b})
+public class ViewPropertyAnimatorCompatSet
+{
+  public final ArrayList<T> mAnimators = new ArrayList();
+  public long mDuration = -1L;
+  public Interpolator mInterpolator;
+  public boolean mIsStarted;
+  public U mListener;
+  public final V mProxyListener = new V()
+  {
+    public int mProxyEndCount = 0;
+    public boolean mProxyStarted = false;
+    
+    public void onAnimationEnd(View paramAnonymousView)
+    {
+      int i = mProxyEndCount + 1;
+      mProxyEndCount = i;
+      if (i == mAnimators.size())
+      {
+        paramAnonymousView = mListener;
+        if (paramAnonymousView != null) {
+          paramAnonymousView.onAnimationEnd(null);
+        }
+        onEnd();
+      }
+    }
+    
+    public void onAnimationStart(View paramAnonymousView)
+    {
+      if (mProxyStarted) {
+        return;
+      }
+      mProxyStarted = true;
+      paramAnonymousView = mListener;
+      if (paramAnonymousView != null) {
+        paramAnonymousView.onAnimationStart(null);
+      }
+    }
+    
+    public void onEnd()
+    {
+      mProxyEndCount = 0;
+      mProxyStarted = false;
+      onAnimationsEnded();
+    }
+  };
+  
+  public ViewPropertyAnimatorCompatSet() {}
+  
+  public void cancel()
+  {
+    if (!mIsStarted) {
+      return;
+    }
+    Iterator localIterator = mAnimators.iterator();
+    while (localIterator.hasNext()) {
+      ((T)localIterator.next()).a();
+    }
+    mIsStarted = false;
+  }
+  
+  public void onAnimationsEnded()
+  {
+    mIsStarted = false;
+  }
+  
+  public ViewPropertyAnimatorCompatSet play(T paramT)
+  {
+    if (!mIsStarted) {
+      mAnimators.add(paramT);
+    }
+    return this;
+  }
+  
+  public ViewPropertyAnimatorCompatSet playSequentially(T paramT1, T paramT2)
+  {
+    mAnimators.add(paramT1);
+    paramT2.b(paramT1.b());
+    mAnimators.add(paramT2);
+    return this;
+  }
+  
+  public ViewPropertyAnimatorCompatSet setDuration(long paramLong)
+  {
+    if (!mIsStarted) {
+      mDuration = paramLong;
+    }
+    return this;
+  }
+  
+  public ViewPropertyAnimatorCompatSet setInterpolator(Interpolator paramInterpolator)
+  {
+    if (!mIsStarted) {
+      mInterpolator = paramInterpolator;
+    }
+    return this;
+  }
+  
+  public ViewPropertyAnimatorCompatSet setListener(U paramU)
+  {
+    if (!mIsStarted) {
+      mListener = paramU;
+    }
+    return this;
+  }
+  
+  public void start()
+  {
+    if (mIsStarted) {
+      return;
+    }
+    Iterator localIterator = mAnimators.iterator();
+    while (localIterator.hasNext())
+    {
+      T localT = (T)localIterator.next();
+      long l = mDuration;
+      if (l >= 0L) {
+        localT.a(l);
+      }
+      Interpolator localInterpolator = mInterpolator;
+      if (localInterpolator != null) {
+        localT.a(localInterpolator);
+      }
+      if (mListener != null) {
+        localT.a(mProxyListener);
+      }
+      localT.e();
+    }
+    mIsStarted = true;
+  }
+}

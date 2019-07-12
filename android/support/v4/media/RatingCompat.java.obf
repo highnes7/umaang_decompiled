@@ -1,0 +1,273 @@
+package android.support.v4.media;
+
+import android.media.Rating;
+import android.os.Build.VERSION;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import b.b.a.N;
+import b.b.x.h.ja;
+import f.a.a.a.a;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+public final class RatingCompat
+  implements Parcelable
+{
+  public static final Parcelable.Creator<RatingCompat> CREATOR = new ja();
+  public static final String a = "Rating";
+  public static final int b = 0;
+  public static final int c = 1;
+  public static final int d = 2;
+  public static final int e = 3;
+  public static final int f = 4;
+  public static final int g = 5;
+  public static final int h = 6;
+  public static final float i = -1.0F;
+  public final int j;
+  public final float k;
+  public Object l;
+  
+  public RatingCompat(int paramInt, float paramFloat)
+  {
+    j = paramInt;
+    k = paramFloat;
+  }
+  
+  public static RatingCompat a(float paramFloat)
+  {
+    if ((paramFloat >= 0.0F) && (paramFloat <= 100.0F)) {
+      return new RatingCompat(6, paramFloat);
+    }
+    return null;
+  }
+  
+  public static RatingCompat a(int paramInt)
+  {
+    switch (paramInt)
+    {
+    default: 
+      return null;
+    }
+    return new RatingCompat(paramInt, -1.0F);
+  }
+  
+  public static RatingCompat a(int paramInt, float paramFloat)
+  {
+    float f1;
+    if (paramInt != 3)
+    {
+      if (paramInt != 4)
+      {
+        if (paramInt != 5)
+        {
+          StringBuilder localStringBuilder = new StringBuilder();
+          localStringBuilder.append("Invalid rating style (");
+          localStringBuilder.append(paramInt);
+          localStringBuilder.append(") for a star rating");
+          localStringBuilder.toString();
+          return null;
+        }
+        f1 = 5.0F;
+      }
+      else
+      {
+        f1 = 4.0F;
+      }
+    }
+    else {
+      f1 = 3.0F;
+    }
+    if (paramFloat >= 0.0F)
+    {
+      if (paramFloat > f1) {
+        return null;
+      }
+      return new RatingCompat(paramInt, paramFloat);
+    }
+    return null;
+  }
+  
+  public static RatingCompat a(Object paramObject)
+  {
+    Object localObject = null;
+    if (paramObject != null)
+    {
+      int m = Build.VERSION.SDK_INT;
+      localObject = (Rating)paramObject;
+      m = ((Rating)localObject).getRatingStyle();
+      if (((Rating)localObject).isRated()) {
+        switch (m)
+        {
+        default: 
+          return null;
+        case 6: 
+          localObject = a(((Rating)localObject).getPercentRating());
+          break;
+        case 3: 
+        case 4: 
+        case 5: 
+          localObject = a(m, ((Rating)localObject).getStarRating());
+          break;
+        case 2: 
+          localObject = b(((Rating)localObject).isThumbUp());
+          break;
+        case 1: 
+          localObject = a(((Rating)localObject).hasHeart());
+          break;
+        }
+      } else {
+        localObject = a(m);
+      }
+      l = paramObject;
+    }
+    return localObject;
+  }
+  
+  public static RatingCompat a(boolean paramBoolean)
+  {
+    float f1;
+    if (paramBoolean) {
+      f1 = 1.0F;
+    } else {
+      f1 = 0.0F;
+    }
+    return new RatingCompat(1, f1);
+  }
+  
+  public static RatingCompat b(boolean paramBoolean)
+  {
+    float f1;
+    if (paramBoolean) {
+      f1 = 1.0F;
+    } else {
+      f1 = 0.0F;
+    }
+    return new RatingCompat(2, f1);
+  }
+  
+  public float a()
+  {
+    if ((j == 6) && (f())) {
+      return k;
+    }
+    return -1.0F;
+  }
+  
+  public Object b()
+  {
+    if (l == null)
+    {
+      int m = Build.VERSION.SDK_INT;
+      if (f())
+      {
+        m = j;
+        switch (m)
+        {
+        default: 
+          return null;
+        case 6: 
+          l = Rating.newPercentageRating(a());
+          break;
+        case 3: 
+        case 4: 
+        case 5: 
+          l = Rating.newStarRating(m, d());
+          break;
+        case 2: 
+          l = Rating.newThumbRating(g());
+          break;
+        case 1: 
+          l = Rating.newHeartRating(e());
+          break;
+        }
+      }
+      else
+      {
+        l = Rating.newUnratedRating(j);
+      }
+    }
+    return l;
+  }
+  
+  public int c()
+  {
+    return j;
+  }
+  
+  public float d()
+  {
+    int m = j;
+    if (((m == 3) || (m == 4) || (m == 5)) && (f())) {
+      return k;
+    }
+    return -1.0F;
+  }
+  
+  public int describeContents()
+  {
+    return j;
+  }
+  
+  public boolean e()
+  {
+    int m = j;
+    boolean bool = false;
+    if (m != 1) {
+      return false;
+    }
+    if (k == 1.0F) {
+      bool = true;
+    }
+    return bool;
+  }
+  
+  public boolean f()
+  {
+    return k >= 0.0F;
+  }
+  
+  public boolean g()
+  {
+    int m = j;
+    boolean bool = false;
+    if (m != 2) {
+      return false;
+    }
+    if (k == 1.0F) {
+      bool = true;
+    }
+    return bool;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.b("Rating:style=");
+    localStringBuilder.append(j);
+    localStringBuilder.append(" rating=");
+    float f1 = k;
+    String str;
+    if (f1 < 0.0F) {
+      str = "unrated";
+    } else {
+      str = String.valueOf(f1);
+    }
+    localStringBuilder.append(str);
+    return localStringBuilder.toString();
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramParcel.writeInt(j);
+    paramParcel.writeFloat(k);
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface a {}
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface b {}
+}

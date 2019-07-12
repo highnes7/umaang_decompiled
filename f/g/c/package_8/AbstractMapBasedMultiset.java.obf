@@ -1,0 +1,254 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import f.g.c.j.g;
+import java.io.InvalidObjectException;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@b(emulated=true)
+public abstract class l<E>
+  extends t<E>
+  implements Serializable
+{
+  @c("not needed in emulated source.")
+  public static final long c = -2250766705698539974L;
+  public transient Map<E, ja> d;
+  public transient long e;
+  
+  public l(Map<E, ja> paramMap)
+  {
+    if (paramMap != null)
+    {
+      d = paramMap;
+      e = bf.c(this);
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static int a(ja paramJa, int paramInt)
+  {
+    if (paramJa == null) {
+      return 0;
+    }
+    return paramJa.c(paramInt);
+  }
+  
+  @c("java.io.ObjectStreamException")
+  private void f()
+    throws ObjectStreamException
+  {
+    throw new InvalidObjectException("Stream data required");
+  }
+  
+  public int a(@h Object paramObject)
+  {
+    try
+    {
+      paramObject = (ja)d.get(paramObject);
+      if (paramObject == null) {
+        return 0;
+      }
+      int i = paramObject.a();
+      return i;
+    }
+    catch (NullPointerException|ClassCastException paramObject) {}
+    return 0;
+  }
+  
+  public int a(@h E paramE, int paramInt)
+  {
+    bf.a(paramInt, "count");
+    int i;
+    if (paramInt == 0)
+    {
+      i = a((ja)d.remove(paramE), paramInt);
+    }
+    else
+    {
+      ja localJa = (ja)d.get(paramE);
+      i = a(localJa, paramInt);
+      if (localJa == null) {
+        d.put(paramE, new ja(paramInt));
+      }
+    }
+    e += paramInt - i;
+    return i;
+  }
+  
+  public Set<E> a()
+  {
+    return new a();
+  }
+  
+  public void a(Map<E, ja> paramMap)
+  {
+    d = paramMap;
+  }
+  
+  public int b(@h Object paramObject, int paramInt)
+  {
+    if (paramInt == 0) {
+      return a(paramObject);
+    }
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "occurrences cannot be negative: %s", new Object[] { Integer.valueOf(paramInt) });
+    ja localJa = (ja)d.get(paramObject);
+    if (localJa == null) {
+      return 0;
+    }
+    int i = localJa.a();
+    if (i <= paramInt)
+    {
+      d.remove(paramObject);
+      paramInt = i;
+    }
+    localJa.a(-paramInt);
+    e -= paramInt;
+    return i;
+  }
+  
+  public int c()
+  {
+    return d.size();
+  }
+  
+  public int c(@h E paramE, int paramInt)
+  {
+    if (paramInt == 0) {
+      return a(paramE);
+    }
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "occurrences cannot be negative: %s", new Object[] { Integer.valueOf(paramInt) });
+    ja localJa = (ja)d.get(paramE);
+    int i;
+    if (localJa == null)
+    {
+      d.put(paramE, new ja(paramInt));
+      i = 0;
+    }
+    else
+    {
+      i = localJa.a();
+      long l = i + paramInt;
+      if (l <= 2147483647L) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "too many occurrences: %s", new Object[] { Long.valueOf(l) });
+      localJa.b(paramInt);
+    }
+    e += paramInt;
+    return i;
+  }
+  
+  public void clear()
+  {
+    Iterator localIterator = d.values().iterator();
+    while (localIterator.hasNext()) {
+      ((ja)localIterator.next()).d(0);
+    }
+    d.clear();
+    e = 0L;
+  }
+  
+  public Iterator<Ye.a<E>> d()
+  {
+    return new k(this, d.entrySet().iterator());
+  }
+  
+  public Map<E, ja> e()
+  {
+    return d;
+  }
+  
+  public Set<Ye.a<E>> entrySet()
+  {
+    return super.entrySet();
+  }
+  
+  public Iterator<E> iterator()
+  {
+    return new b();
+  }
+  
+  public int size()
+  {
+    return g.b(e);
+  }
+  
+  public class a
+    extends bf.b<E>
+  {
+    public a() {}
+    
+    public Ye<E> c()
+    {
+      return l.this;
+    }
+  }
+  
+  private class b
+    implements Iterator<E>
+  {
+    public final Iterator<Map.Entry<E, ja>> a = l.a(l.this).entrySet().iterator();
+    public Map.Entry<E, ja> b;
+    public int c;
+    public boolean d;
+    
+    public b() {}
+    
+    public boolean hasNext()
+    {
+      return (c > 0) || (a.hasNext());
+    }
+    
+    public E next()
+    {
+      if (c == 0)
+      {
+        b = ((Map.Entry)a.next());
+        c = ((ja)b.getValue()).a();
+      }
+      c -= 1;
+      d = true;
+      return b.getKey();
+    }
+    
+    public void remove()
+    {
+      ba.b(d, "no calls to next() since the last call to remove()");
+      if (((ja)b.getValue()).a() > 0)
+      {
+        if (((ja)b.getValue()).a(-1) == 0) {
+          a.remove();
+        }
+        l.b(l.this);
+        d = false;
+        return;
+      }
+      throw new ConcurrentModificationException();
+    }
+  }
+}

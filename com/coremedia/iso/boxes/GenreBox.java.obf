@@ -1,0 +1,82 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class GenreBox
+  extends c
+{
+  public static final String TYPE = "gnre";
+  public String genre;
+  public String language;
+  
+  static {}
+  
+  public GenreBox()
+  {
+    super("gnre");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    language = h.e(paramByteBuffer);
+    genre = h.f(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    f.b.a.j.a(paramByteBuffer, language);
+    paramByteBuffer.put(m.a(genre));
+    paramByteBuffer.put((byte)0);
+  }
+  
+  public long getContentSize()
+  {
+    return m.b(genre) + 7;
+  }
+  
+  public String getGenre()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return genre;
+  }
+  
+  public String getLanguage()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return language;
+  }
+  
+  public void setGenre(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    genre = paramString;
+  }
+  
+  public void setLanguage(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    language = paramString;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_4, this, this), "GenreBox[language=");
+    localStringBuilder.append(getLanguage());
+    localStringBuilder.append(";genre=");
+    localStringBuilder.append(getGenre());
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+}

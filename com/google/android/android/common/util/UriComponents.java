@@ -1,0 +1,47 @@
+package com.google.android.android.common.util;
+
+public final class UriComponents
+{
+  public static String encode(byte[] paramArrayOfByte, int paramInt1, int paramInt2, boolean paramBoolean)
+  {
+    if ((paramArrayOfByte != null) && (paramArrayOfByte.length != 0) && (paramInt2 > 0) && (paramInt2 <= paramArrayOfByte.length))
+    {
+      StringBuilder localStringBuilder = new StringBuilder((paramInt2 + 16 - 1) / 16 * 57);
+      int j = paramInt2;
+      paramInt1 = 0;
+      int i = 0;
+      while (j > 0)
+      {
+        String str;
+        if (paramInt1 == 0)
+        {
+          if (paramInt2 < 65536) {
+            str = String.format("%04X:", new Object[] { Integer.valueOf(i) });
+          } else {
+            str = String.format("%08X:", new Object[] { Integer.valueOf(i) });
+          }
+        }
+        else
+        {
+          if (paramInt1 != 8) {
+            break label128;
+          }
+          str = " -";
+        }
+        localStringBuilder.append(str);
+        label128:
+        localStringBuilder.append(String.format(" %02X", new Object[] { Integer.valueOf(paramArrayOfByte[i] & 0xFF) }));
+        j -= 1;
+        paramInt1 += 1;
+        if ((paramInt1 == 16) || (j == 0))
+        {
+          localStringBuilder.append('\n');
+          paramInt1 = 0;
+        }
+        i += 1;
+      }
+      return localStringBuilder.toString();
+    }
+    return null;
+  }
+}

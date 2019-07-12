@@ -1,0 +1,167 @@
+package l.a.a.a.a.e;
+
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Map;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
+
+public class c
+  implements o
+{
+  public static final String a = "https";
+  public final l.a.a.a.q b;
+  public q c;
+  public SSLSocketFactory d;
+  public boolean e;
+  
+  public c()
+  {
+    b = localD;
+  }
+  
+  public c(l.a.a.a.q paramQ)
+  {
+    b = paramQ;
+  }
+  
+  private boolean a(String paramString)
+  {
+    return (paramString != null) && (paramString.toLowerCase(Locale.US).startsWith("https"));
+  }
+  
+  private SSLSocketFactory b()
+  {
+    try
+    {
+      if ((d == null) && (!e)) {
+        d = c();
+      }
+      SSLSocketFactory localSSLSocketFactory = d;
+      return localSSLSocketFactory;
+    }
+    finally {}
+  }
+  
+  /* Error */
+  private SSLSocketFactory c()
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: monitorenter
+    //   2: aload_0
+    //   3: iconst_1
+    //   4: putfield 50	l/a/a/a/a/e/c:e	Z
+    //   7: aload_0
+    //   8: getfield 56	l/a/a/a/a/e/c:c	Ll/a/a/a/a/e/q;
+    //   11: invokestatic 61	l/a/a/a/a/e/p:a	(Ll/a/a/a/a/e/q;)Ljavax/net/ssl/SSLSocketFactory;
+    //   14: astore_1
+    //   15: aload_0
+    //   16: getfield 27	l/a/a/a/a/e/c:b	Ll/a/a/a/q;
+    //   19: ldc 63
+    //   21: ldc 65
+    //   23: invokeinterface 70 3 0
+    //   28: aload_0
+    //   29: monitorexit
+    //   30: aload_1
+    //   31: areturn
+    //   32: astore_1
+    //   33: aload_0
+    //   34: getfield 27	l/a/a/a/a/e/c:b	Ll/a/a/a/q;
+    //   37: ldc 63
+    //   39: ldc 72
+    //   41: aload_1
+    //   42: invokeinterface 75 4 0
+    //   47: aload_0
+    //   48: monitorexit
+    //   49: aconst_null
+    //   50: areturn
+    //   51: astore_1
+    //   52: aload_0
+    //   53: monitorexit
+    //   54: aload_1
+    //   55: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	56	0	this	c
+    //   14	17	1	localSSLSocketFactory	SSLSocketFactory
+    //   32	10	1	localException	Exception
+    //   51	4	1	localObject	Object
+    // Exception table:
+    //   from	to	target	type
+    //   7	28	32	java/lang/Exception
+    //   2	7	51	finally
+    //   7	28	51	finally
+    //   33	47	51	finally
+  }
+  
+  private void d()
+  {
+    try
+    {
+      e = false;
+      d = null;
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public m a(d paramD, String paramString)
+  {
+    return a(paramD, paramString, Collections.emptyMap());
+  }
+  
+  public m a(d paramD, String paramString, Map<String, String> paramMap)
+  {
+    int i = paramD.ordinal();
+    if (i != 0)
+    {
+      if (i != 1)
+      {
+        if (i != 2)
+        {
+          if (i == 3) {
+            paramD = m.a(paramString);
+          } else {
+            throw new IllegalArgumentException("Unsupported HTTP method!");
+          }
+        }
+        else {
+          paramD = m.g(paramString);
+        }
+      }
+      else {
+        paramD = m.d(paramString, paramMap, true);
+      }
+    }
+    else {
+      paramD = m.b(paramString, paramMap, true);
+    }
+    if ((a(paramString)) && (c != null))
+    {
+      paramString = b();
+      if (paramString != null) {
+        ((HttpsURLConnection)paramD.w()).setSSLSocketFactory(paramString);
+      }
+    }
+    return paramD;
+  }
+  
+  public q a()
+  {
+    return c;
+  }
+  
+  public void a(q paramQ)
+  {
+    if (c != paramQ)
+    {
+      c = paramQ;
+      d();
+    }
+  }
+}

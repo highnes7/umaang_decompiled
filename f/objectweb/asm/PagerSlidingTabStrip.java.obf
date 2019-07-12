@@ -1,0 +1,782 @@
+package f.e.a;
+
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Path;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.Region.Op;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.text.DynamicLayout;
+import android.text.Layout.Alignment;
+import android.text.SpannableStringBuilder;
+import android.text.StaticLayout;
+import android.text.TextPaint;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewManager;
+import android.view.ViewOutlineProvider;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import b.b.a.G;
+
+@SuppressLint({"ViewConstructor"})
+public class w
+  extends View
+{
+  @G
+  public CharSequence A;
+  @G
+  public StaticLayout B;
+  public boolean C;
+  public boolean D;
+  public boolean E;
+  public boolean F;
+  public boolean G;
+  public boolean H;
+  @G
+  public SpannableStringBuilder I;
+  @G
+  public DynamicLayout J;
+  @G
+  public TextPaint K;
+  @G
+  public Paint L;
+  public Rect M;
+  public Rect N;
+  public Path O;
+  public float P;
+  public int Q;
+  public int[] R;
+  public int S;
+  public float T;
+  public int U;
+  public float V;
+  public int W;
+  public boolean a = false;
+  public int aa;
+  public boolean b = false;
+  public int ba;
+  public boolean c = true;
+  public float ca;
+  public final int d;
+  public float da;
+  public final int e;
+  public int ea;
+  public final int f;
+  public int fa;
+  public final int g;
+  public Bitmap ga;
+  public final int h;
+  public a ha;
+  public final int i;
+  @G
+  public ViewOutlineProvider ia;
+  public final int j;
+  public final d.b ja = new m(this);
+  public final int k;
+  public final ValueAnimator ka = new d(false).b(250L).a(250L).a(new AccelerateDecelerateInterpolator()).a(new o(this)).a(new n(this)).a();
+  public final int l;
+  public final ValueAnimator la = new d(false).b(1000L).a(-1).a(new AccelerateDecelerateInterpolator()).a(new p(this)).a();
+  public final int m;
+  public final ValueAnimator ma = new d(true).b(250L).a(new AccelerateDecelerateInterpolator()).a(new r(this)).a(new q(this)).a();
+  public final int n;
+  public final ValueAnimator na = new d(false).b(250L).a(new AccelerateDecelerateInterpolator()).a(new t(this)).a(new s(this)).a();
+  @G
+  public final ViewGroup o;
+  public ValueAnimator[] oa = { ka, la, na, ma };
+  public final ViewManager p;
+  public final ViewTreeObserver.OnGlobalLayoutListener pa;
+  public final g q;
+  public final Rect r;
+  public final TextPaint s;
+  public final TextPaint t;
+  public final Paint u;
+  public final Paint v;
+  public final Paint w;
+  public final Paint x;
+  public CharSequence y;
+  @G
+  public StaticLayout z;
+  
+  public w(Context paramContext, ViewManager paramViewManager, @G ViewGroup paramViewGroup, g paramG, @G a paramA)
+  {
+    super(paramContext);
+    if (paramG != null)
+    {
+      q = paramG;
+      p = paramViewManager;
+      o = paramViewGroup;
+      if (paramA == null) {
+        paramA = new a();
+      }
+      ha = paramA;
+      y = a;
+      A = b;
+      d = y.a(paramContext, 20);
+      k = y.a(paramContext, 40);
+      e = y.a(paramContext, d);
+      g = y.a(paramContext, 40);
+      h = y.a(paramContext, 8);
+      i = y.a(paramContext, 360);
+      j = y.a(paramContext, 20);
+      l = y.a(paramContext, 88);
+      m = y.a(paramContext, 8);
+      n = y.a(paramContext, 1);
+      f = ((int)(e * 0.1F));
+      O = new Path();
+      r = new Rect();
+      M = new Rect();
+      s = new TextPaint();
+      s.setTextSize(paramG.g(paramContext));
+      s.setTypeface(Typeface.create("sans-serif-medium", 0));
+      s.setAntiAlias(true);
+      t = new TextPaint();
+      t.setTextSize(paramG.b(paramContext));
+      t.setTypeface(Typeface.create(Typeface.SANS_SERIF, 0));
+      t.setAntiAlias(true);
+      t.setAlpha(137);
+      u = new Paint();
+      u.setAntiAlias(true);
+      u.setAlpha((int)(c * 255.0F));
+      v = new Paint();
+      v.setAntiAlias(true);
+      v.setAlpha(50);
+      v.setStyle(Paint.Style.STROKE);
+      v.setStrokeWidth(n);
+      v.setColor(-16777216);
+      w = new Paint();
+      w.setAntiAlias(true);
+      x = new Paint();
+      x.setAntiAlias(true);
+      a(paramContext);
+      pa = new v(this, paramG, paramViewGroup, paramContext);
+      getViewTreeObserver().addOnGlobalLayoutListener(pa);
+      setFocusableInTouchMode(true);
+      setClickable(true);
+      setOnClickListener(new j(this));
+      setOnLongClickListener(new k(this));
+      return;
+    }
+    throw new IllegalArgumentException("Target cannot be null");
+  }
+  
+  public static w a(Activity paramActivity, g paramG)
+  {
+    return a(paramActivity, paramG, null);
+  }
+  
+  public static w a(Activity paramActivity, g paramG, a paramA)
+  {
+    if (paramActivity != null)
+    {
+      ViewGroup localViewGroup = (ViewGroup)paramActivity.getWindow().getDecorView();
+      ViewGroup.LayoutParams localLayoutParams = new ViewGroup.LayoutParams(-1, -1);
+      paramActivity = new w(paramActivity, localViewGroup, (ViewGroup)localViewGroup.findViewById(16908290), paramG, paramA);
+      localViewGroup.addView(paramActivity, localLayoutParams);
+      return paramActivity;
+    }
+    throw new IllegalArgumentException("Activity is null");
+  }
+  
+  public static w a(Dialog paramDialog, g paramG)
+  {
+    return a(paramDialog, paramG, null);
+  }
+  
+  public static w a(Dialog paramDialog, g paramG, a paramA)
+  {
+    if (paramDialog != null)
+    {
+      Context localContext = paramDialog.getContext();
+      paramDialog = (WindowManager)localContext.getSystemService("window");
+      WindowManager.LayoutParams localLayoutParams = new WindowManager.LayoutParams();
+      type = 2;
+      format = 1;
+      flags = 0;
+      gravity = 8388659;
+      x = 0;
+      y = 0;
+      width = -1;
+      height = -1;
+      paramG = new w(localContext, paramDialog, null, paramG, paramA);
+      paramDialog.addView(paramG, localLayoutParams);
+      return paramG;
+    }
+    throw new IllegalArgumentException("Dialog is null");
+  }
+  
+  public double a(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    double d1 = Math.pow(paramInt3 - paramInt1, 2.0D);
+    return Math.sqrt(Math.pow(paramInt4 - paramInt2, 2.0D) + d1);
+  }
+  
+  public float a(float paramFloat)
+  {
+    if (paramFloat < 0.5F) {
+      return paramFloat / 0.5F;
+    }
+    return (1.0F - paramFloat) / 0.5F;
+  }
+  
+  public float a(float paramFloat1, float paramFloat2)
+  {
+    if (paramFloat1 < paramFloat2) {
+      return 0.0F;
+    }
+    return (paramFloat1 - paramFloat2) / (1.0F - paramFloat2);
+  }
+  
+  public int a(int paramInt1, int paramInt2, Rect paramRect)
+  {
+    return (int)Math.max(a(paramInt1, paramInt2, left, top), Math.max(a(paramInt1, paramInt2, right, top), Math.max(a(paramInt1, paramInt2, left, bottom), a(paramInt1, paramInt2, right, bottom))));
+  }
+  
+  public int a(int paramInt1, int paramInt2, Rect paramRect1, Rect paramRect2)
+  {
+    int i1 = paramRect2.centerX();
+    int i2 = paramRect2.centerY();
+    int i3 = (int)(e * 1.1F);
+    paramRect2 = new Rect(i1, i2, i1, i2);
+    i1 = -i3;
+    paramRect2.inset(i1, i1);
+    return Math.max(a(paramInt1, paramInt2, paramRect1), a(paramInt1, paramInt2, paramRect2)) + k;
+  }
+  
+  public void a()
+  {
+    N = getTextBounds();
+    R = getOuterCircleCenterPoint();
+    int[] arrayOfInt = R;
+    Q = a(arrayOfInt[0], arrayOfInt[1], N, r);
+  }
+  
+  public void a(Context paramContext)
+  {
+    Object localObject = q;
+    E = z;
+    F = x;
+    G = y;
+    if ((F) && (Build.VERSION.SDK_INT >= 21) && (!A))
+    {
+      ia = new l(this);
+      setOutlineProvider(ia);
+      setElevation(m);
+    }
+    int i1;
+    if ((F) && (ia == null)) {
+      i1 = Build.VERSION.SDK_INT;
+    }
+    setLayerType(2, null);
+    localObject = paramContext.getTheme();
+    boolean bool;
+    if (y.a(paramContext, "isLightTheme") == 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    C = bool;
+    Integer localInteger = q.d(paramContext);
+    if (localInteger != null) {
+      u.setColor(localInteger.intValue());
+    } else if (localObject != null) {
+      u.setColor(y.a(paramContext, "colorPrimary"));
+    } else {
+      u.setColor(-1);
+    }
+    localObject = q.e(paramContext);
+    int i2 = -16777216;
+    if (localObject != null)
+    {
+      w.setColor(((Integer)localObject).intValue());
+    }
+    else
+    {
+      localObject = w;
+      if (C) {
+        i1 = -16777216;
+      } else {
+        i1 = -1;
+      }
+      ((Paint)localObject).setColor(i1);
+    }
+    if (q.A) {
+      w.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+    }
+    x.setColor(w.getColor());
+    localObject = q.c(paramContext);
+    if (localObject != null) {
+      ba = y.a(((Integer)localObject).intValue(), 0.3F);
+    } else {
+      ba = -1;
+    }
+    localObject = q.f(paramContext);
+    if (localObject != null)
+    {
+      s.setColor(((Integer)localObject).intValue());
+    }
+    else
+    {
+      localObject = s;
+      if (C) {
+        i1 = i2;
+      } else {
+        i1 = -1;
+      }
+      ((TextPaint)localObject).setColor(i1);
+    }
+    paramContext = q.a(paramContext);
+    if (paramContext != null) {
+      t.setColor(paramContext.intValue());
+    } else {
+      t.setColor(s.getColor());
+    }
+    paramContext = q.g;
+    if (paramContext != null) {
+      s.setTypeface(paramContext);
+    }
+    paramContext = q.h;
+    if (paramContext != null) {
+      t.setTypeface(paramContext);
+    }
+  }
+  
+  public void a(Canvas paramCanvas)
+  {
+    if (L == null)
+    {
+      L = new Paint();
+      L.setARGB(255, 255, 0, 0);
+      L.setStyle(Paint.Style.STROKE);
+      L.setStrokeWidth(y.a(getContext(), 1));
+    }
+    if (K == null)
+    {
+      K = new TextPaint();
+      K.setColor(-65536);
+      K.setTextSize(y.b(getContext(), 16));
+    }
+    L.setStyle(Paint.Style.STROKE);
+    paramCanvas.drawRect(N, L);
+    paramCanvas.drawRect(r, L);
+    Object localObject = R;
+    paramCanvas.drawCircle(localObject[0], localObject[1], 10.0F, L);
+    localObject = R;
+    paramCanvas.drawCircle(localObject[0], localObject[1], Q - k, L);
+    paramCanvas.drawCircle(r.centerX(), r.centerY(), e + d, L);
+    L.setStyle(Paint.Style.FILL);
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("Text bounds: ");
+    ((StringBuilder)localObject).append(N.toShortString());
+    ((StringBuilder)localObject).append("\nTarget bounds: ");
+    ((StringBuilder)localObject).append(r.toShortString());
+    ((StringBuilder)localObject).append("\nCenter: ");
+    ((StringBuilder)localObject).append(R[0]);
+    ((StringBuilder)localObject).append(" ");
+    ((StringBuilder)localObject).append(R[1]);
+    ((StringBuilder)localObject).append("\nView size: ");
+    ((StringBuilder)localObject).append(getWidth());
+    ((StringBuilder)localObject).append(" ");
+    ((StringBuilder)localObject).append(getHeight());
+    ((StringBuilder)localObject).append("\nTarget bounds: ");
+    ((StringBuilder)localObject).append(r.toShortString());
+    localObject = ((StringBuilder)localObject).toString();
+    SpannableStringBuilder localSpannableStringBuilder = I;
+    if (localSpannableStringBuilder == null)
+    {
+      I = new SpannableStringBuilder((CharSequence)localObject);
+    }
+    else
+    {
+      localSpannableStringBuilder.clear();
+      I.append((CharSequence)localObject);
+    }
+    if (J == null) {
+      J = new DynamicLayout((CharSequence)localObject, K, getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, false);
+    }
+    int i1 = paramCanvas.save();
+    L.setARGB(220, 0, 0, 0);
+    paramCanvas.translate(0.0F, ea);
+    paramCanvas.drawRect(0.0F, 0.0F, J.getWidth(), J.getHeight(), L);
+    L.setARGB(255, 255, 0, 0);
+    J.draw(paramCanvas);
+    paramCanvas.restoreToCount(i1);
+  }
+  
+  public void a(Rect paramRect)
+  {
+    invalidate(paramRect);
+    if ((ia != null) && (Build.VERSION.SDK_INT >= 21)) {
+      invalidateOutline();
+    }
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    b = true;
+    la.cancel();
+    ka.cancel();
+    if (paramBoolean)
+    {
+      na.start();
+      return;
+    }
+    ma.start();
+  }
+  
+  public boolean a(int paramInt)
+  {
+    int i1 = fa;
+    boolean bool2 = false;
+    boolean bool1 = false;
+    if (i1 > 0)
+    {
+      int i2 = l;
+      if ((paramInt < i2) || (paramInt > i1 - i2)) {
+        bool1 = true;
+      }
+      return bool1;
+    }
+    if (paramInt >= l)
+    {
+      bool1 = bool2;
+      if (paramInt <= getHeight() - l) {}
+    }
+    else
+    {
+      bool1 = true;
+    }
+    return bool1;
+  }
+  
+  public void b()
+  {
+    int[] arrayOfInt = R;
+    if (arrayOfInt == null) {
+      return;
+    }
+    M.left = ((int)Math.max(0.0F, arrayOfInt[0] - P));
+    M.top = ((int)Math.min(0.0F, R[1] - P));
+    M.right = ((int)Math.min(getWidth(), R[0] + P + k));
+    M.bottom = ((int)Math.min(getHeight(), R[1] + P + k));
+  }
+  
+  public void b(Canvas paramCanvas)
+  {
+    float f1 = S * 0.2F;
+    v.setStyle(Paint.Style.FILL_AND_STROKE);
+    v.setAlpha((int)f1);
+    int[] arrayOfInt = R;
+    paramCanvas.drawCircle(arrayOfInt[0], arrayOfInt[1] + m, P, v);
+    v.setStyle(Paint.Style.STROKE);
+    int i1 = 6;
+    while (i1 > 0)
+    {
+      v.setAlpha((int)(i1 / 7.0F * f1));
+      arrayOfInt = R;
+      paramCanvas.drawCircle(arrayOfInt[0], arrayOfInt[1] + m, P + (7 - i1) * n, v);
+      i1 -= 1;
+    }
+  }
+  
+  public void b(boolean paramBoolean)
+  {
+    if (a) {
+      return;
+    }
+    b = false;
+    a = true;
+    Object localObject = oa;
+    int i2 = localObject.length;
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      localOnGlobalLayoutListener = localObject[i1];
+      localOnGlobalLayoutListener.cancel();
+      localOnGlobalLayoutListener.removeAllUpdateListeners();
+      i1 += 1;
+    }
+    localObject = getViewTreeObserver();
+    ViewTreeObserver.OnGlobalLayoutListener localOnGlobalLayoutListener = pa;
+    i1 = Build.VERSION.SDK_INT;
+    ((ViewTreeObserver)localObject).removeOnGlobalLayoutListener(localOnGlobalLayoutListener);
+    H = false;
+    localObject = ha;
+    if (localObject != null) {
+      ((a)localObject).a(this, paramBoolean);
+    }
+  }
+  
+  public void c()
+  {
+    Drawable localDrawable = q.f;
+    if ((E) && (localDrawable != null))
+    {
+      if (ga != null) {
+        return;
+      }
+      ga = Bitmap.createBitmap(localDrawable.getIntrinsicWidth(), localDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+      Canvas localCanvas = new Canvas(ga);
+      localDrawable.setColorFilter(new PorterDuffColorFilter(u.getColor(), PorterDuff.Mode.SRC_ATOP));
+      localDrawable.draw(localCanvas);
+      localDrawable.setColorFilter(null);
+      return;
+    }
+    ga = null;
+  }
+  
+  public boolean d()
+  {
+    return (!a) && (H);
+  }
+  
+  public void e()
+  {
+    int i1 = Math.min(getWidth(), i) - g * 2;
+    if (i1 <= 0) {
+      return;
+    }
+    z = new StaticLayout(y, s, i1, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, false);
+    CharSequence localCharSequence = A;
+    if (localCharSequence != null)
+    {
+      B = new StaticLayout(localCharSequence, t, i1, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, false);
+      return;
+    }
+    B = null;
+  }
+  
+  public int[] getOuterCircleCenterPoint()
+  {
+    if (a(r.centerY())) {
+      return new int[] { r.centerX(), r.centerY() };
+    }
+    int i2 = Math.max(r.width(), r.height()) / 2 + d;
+    int i4 = getTotalTextHeight();
+    int i1;
+    if (r.centerY() - e - d - i4 > 0) {
+      i1 = 1;
+    } else {
+      i1 = 0;
+    }
+    int i3 = Math.min(N.left, r.left - i2);
+    int i5 = Math.max(N.right, r.right + i2);
+    StaticLayout localStaticLayout = z;
+    if (localStaticLayout == null) {
+      i2 = 0;
+    } else {
+      i2 = localStaticLayout.getHeight();
+    }
+    if (i1 != 0) {
+      i1 = r.centerY() - e - d - i4 + i2;
+    } else {
+      i1 = r.centerY() + e + d + i2;
+    }
+    return new int[] { (i3 + i5) / 2, i1 };
+  }
+  
+  public Rect getTextBounds()
+  {
+    int i3 = getTotalTextHeight();
+    int i4 = getTotalTextWidth();
+    int i1 = r.centerY() - e - d - i3;
+    if (i1 <= ea) {
+      i1 = r.centerY() + e + d;
+    }
+    if (getWidth() / 2 - r.centerX() < 0) {
+      i2 = -j;
+    } else {
+      i2 = j;
+    }
+    int i2 = Math.max(g, r.centerX() - i2 - i4);
+    return new Rect(i2, i1, Math.min(getWidth() - g, i4 + i2), i3 + i1);
+  }
+  
+  public int getTotalTextHeight()
+  {
+    StaticLayout localStaticLayout = z;
+    if (localStaticLayout == null) {
+      return 0;
+    }
+    if (B == null) {
+      return localStaticLayout.getHeight() + h;
+    }
+    int i1 = localStaticLayout.getHeight();
+    return B.getHeight() + i1 + h;
+  }
+  
+  public int getTotalTextWidth()
+  {
+    StaticLayout localStaticLayout = z;
+    if (localStaticLayout == null) {
+      return 0;
+    }
+    if (B == null) {
+      return localStaticLayout.getWidth();
+    }
+    return Math.max(localStaticLayout.getWidth(), B.getWidth());
+  }
+  
+  public void onDetachedFromWindow()
+  {
+    super.onDetachedFromWindow();
+    b(false);
+  }
+  
+  public void onDraw(Canvas paramCanvas)
+  {
+    if (!a)
+    {
+      if (R == null) {
+        return;
+      }
+      int i1 = ea;
+      if ((i1 > 0) && (fa > 0)) {
+        paramCanvas.clipRect(0, i1, getWidth(), fa);
+      }
+      i1 = ba;
+      if (i1 != -1) {
+        paramCanvas.drawColor(i1);
+      }
+      u.setAlpha(S);
+      if ((F) && (ia == null))
+      {
+        i1 = paramCanvas.save();
+        paramCanvas.clipPath(O, Region.Op.DIFFERENCE);
+        b(paramCanvas);
+        paramCanvas.restoreToCount(i1);
+      }
+      Object localObject = R;
+      paramCanvas.drawCircle(localObject[0], localObject[1], P, u);
+      w.setAlpha(W);
+      i1 = U;
+      if (i1 > 0)
+      {
+        x.setAlpha(i1);
+        paramCanvas.drawCircle(r.centerX(), r.centerY(), T, x);
+      }
+      paramCanvas.drawCircle(r.centerX(), r.centerY(), V, w);
+      i1 = paramCanvas.save();
+      localObject = N;
+      paramCanvas.translate(left, top);
+      s.setAlpha(aa);
+      localObject = z;
+      if (localObject != null) {
+        ((StaticLayout)localObject).draw(paramCanvas);
+      }
+      if (B != null)
+      {
+        localObject = z;
+        if (localObject != null)
+        {
+          paramCanvas.translate(0.0F, ((StaticLayout)localObject).getHeight() + h);
+          t.setAlpha((int)(q.B * aa));
+          B.draw(paramCanvas);
+        }
+      }
+      paramCanvas.restoreToCount(i1);
+      i1 = paramCanvas.save();
+      if (ga != null)
+      {
+        paramCanvas.translate(r.centerX() - ga.getWidth() / 2, r.centerY() - ga.getHeight() / 2);
+        paramCanvas.drawBitmap(ga, 0.0F, 0.0F, w);
+      }
+      else if (q.f != null)
+      {
+        paramCanvas.translate(r.centerX() - q.f.getBounds().width() / 2, r.centerY() - q.f.getBounds().height() / 2);
+        q.f.setAlpha(w.getAlpha());
+        q.f.draw(paramCanvas);
+      }
+      paramCanvas.restoreToCount(i1);
+      if (D) {
+        a(paramCanvas);
+      }
+    }
+  }
+  
+  public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent)
+  {
+    if ((d()) && (G) && (paramInt == 4))
+    {
+      paramKeyEvent.startTracking();
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean onKeyUp(int paramInt, KeyEvent paramKeyEvent)
+  {
+    if ((d()) && (c) && (G) && (paramInt == 4) && (paramKeyEvent.isTracking()) && (!paramKeyEvent.isCanceled()))
+    {
+      c = false;
+      paramKeyEvent = ha;
+      if (paramKeyEvent != null) {
+        paramKeyEvent.b(this);
+      } else {
+        a(false);
+      }
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean onTouchEvent(MotionEvent paramMotionEvent)
+  {
+    ca = paramMotionEvent.getX();
+    da = paramMotionEvent.getY();
+    return super.onTouchEvent(paramMotionEvent);
+  }
+  
+  public void setDrawDebug(boolean paramBoolean)
+  {
+    if (D != paramBoolean)
+    {
+      D = paramBoolean;
+      postInvalidate();
+    }
+  }
+  
+  public static class a
+  {
+    public a() {}
+    
+    public void a(w paramW) {}
+    
+    public void a(w paramW, boolean paramBoolean) {}
+    
+    public void b(w paramW)
+    {
+      paramW.a(false);
+    }
+    
+    public void c(w paramW)
+    {
+      paramW.a(true);
+    }
+    
+    public void d(w paramW)
+    {
+      c(paramW);
+    }
+  }
+}

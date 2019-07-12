@@ -1,0 +1,76 @@
+package b.b.x.h;
+
+import android.content.Context;
+import android.media.session.MediaSessionManager;
+import android.media.session.MediaSessionManager.RemoteUserInfo;
+import b.b.a.K;
+import b.b.x.n.o;
+
+@K(28)
+public class ga
+  extends fa
+{
+  public MediaSessionManager h;
+  
+  public ga(Context paramContext)
+  {
+    super(paramContext);
+    h = ((MediaSessionManager)paramContext.getSystemService("media_session"));
+  }
+  
+  public boolean a(ea.c paramC)
+  {
+    if ((paramC instanceof a)) {
+      return h.isTrustedForMediaControl(a);
+    }
+    return false;
+  }
+  
+  public static final class a
+    implements ea.c
+  {
+    public final MediaSessionManager.RemoteUserInfo a;
+    
+    public a(MediaSessionManager.RemoteUserInfo paramRemoteUserInfo)
+    {
+      a = paramRemoteUserInfo;
+    }
+    
+    public a(String paramString, int paramInt1, int paramInt2)
+    {
+      a = new MediaSessionManager.RemoteUserInfo(paramString, paramInt1, paramInt2);
+    }
+    
+    public String a()
+    {
+      return a.getPackageName();
+    }
+    
+    public int b()
+    {
+      return a.getPid();
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (this == paramObject) {
+        return true;
+      }
+      if (!(paramObject instanceof a)) {
+        return false;
+      }
+      paramObject = (a)paramObject;
+      return a.equals(a);
+    }
+    
+    public int getUid()
+    {
+      return a.getUid();
+    }
+    
+    public int hashCode()
+    {
+      return o.a(new Object[] { a });
+    }
+  }
+}

@@ -1,0 +1,327 @@
+package f.b.a;
+
+import com.coremedia.iso.boxes.Box;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class l
+  extends b
+{
+  public static String[] c = new String[0];
+  public Properties d;
+  public Pattern e = Pattern.compile("(.*)\\((.*?)\\)");
+  public StringBuilder f = new StringBuilder();
+  public String g;
+  public String[] h;
+  
+  public l(Properties paramProperties)
+  {
+    d = paramProperties;
+  }
+  
+  /* Error */
+  public l(String... paramVarArgs)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: invokespecial 26	f/b/a/b:<init>	()V
+    //   4: aload_0
+    //   5: ldc 28
+    //   7: invokestatic 34	java/util/regex/Pattern:compile	(Ljava/lang/String;)Ljava/util/regex/Pattern;
+    //   10: putfield 36	f/b/a/l:e	Ljava/util/regex/Pattern;
+    //   13: aload_0
+    //   14: new 38	java/lang/StringBuilder
+    //   17: dup
+    //   18: invokespecial 39	java/lang/StringBuilder:<init>	()V
+    //   21: putfield 41	f/b/a/l:f	Ljava/lang/StringBuilder;
+    //   24: ldc 2
+    //   26: ldc 48
+    //   28: invokevirtual 54	java/lang/Class:getResourceAsStream	(Ljava/lang/String;)Ljava/io/InputStream;
+    //   31: astore 6
+    //   33: aload_0
+    //   34: new 56	java/util/Properties
+    //   37: dup
+    //   38: invokespecial 57	java/util/Properties:<init>	()V
+    //   41: putfield 43	f/b/a/l:d	Ljava/util/Properties;
+    //   44: aload_0
+    //   45: getfield 43	f/b/a/l:d	Ljava/util/Properties;
+    //   48: aload 6
+    //   50: invokevirtual 61	java/util/Properties:load	(Ljava/io/InputStream;)V
+    //   53: invokestatic 67	java/lang/Thread:currentThread	()Ljava/lang/Thread;
+    //   56: invokevirtual 71	java/lang/Thread:getContextClassLoader	()Ljava/lang/ClassLoader;
+    //   59: astore 5
+    //   61: aload 5
+    //   63: astore 4
+    //   65: aload 5
+    //   67: ifnonnull +8 -> 75
+    //   70: invokestatic 76	java/lang/ClassLoader:getSystemClassLoader	()Ljava/lang/ClassLoader;
+    //   73: astore 4
+    //   75: aload 4
+    //   77: ldc 78
+    //   79: invokevirtual 82	java/lang/ClassLoader:getResources	(Ljava/lang/String;)Ljava/util/Enumeration;
+    //   82: astore 5
+    //   84: aload 5
+    //   86: invokeinterface 88 1 0
+    //   91: ifne +53 -> 144
+    //   94: aload_1
+    //   95: arraylength
+    //   96: istore_3
+    //   97: iconst_0
+    //   98: istore_2
+    //   99: iload_2
+    //   100: iload_3
+    //   101: if_icmplt +15 -> 116
+    //   104: aload 6
+    //   106: invokevirtual 93	java/io/InputStream:close	()V
+    //   109: return
+    //   110: astore_1
+    //   111: aload_1
+    //   112: invokevirtual 96	java/io/IOException:printStackTrace	()V
+    //   115: return
+    //   116: aload_1
+    //   117: iload_2
+    //   118: aaload
+    //   119: astore 4
+    //   121: aload_0
+    //   122: getfield 43	f/b/a/l:d	Ljava/util/Properties;
+    //   125: aload_0
+    //   126: invokevirtual 102	java/lang/Object:getClass	()Ljava/lang/Class;
+    //   129: aload 4
+    //   131: invokevirtual 54	java/lang/Class:getResourceAsStream	(Ljava/lang/String;)Ljava/io/InputStream;
+    //   134: invokevirtual 61	java/util/Properties:load	(Ljava/io/InputStream;)V
+    //   137: iload_2
+    //   138: iconst_1
+    //   139: iadd
+    //   140: istore_2
+    //   141: goto -42 -> 99
+    //   144: aload 5
+    //   146: invokeinterface 106 1 0
+    //   151: checkcast 108	java/net/URL
+    //   154: invokevirtual 112	java/net/URL:openStream	()Ljava/io/InputStream;
+    //   157: astore 4
+    //   159: aload_0
+    //   160: getfield 43	f/b/a/l:d	Ljava/util/Properties;
+    //   163: aload 4
+    //   165: invokevirtual 61	java/util/Properties:load	(Ljava/io/InputStream;)V
+    //   168: aload 4
+    //   170: invokevirtual 93	java/io/InputStream:close	()V
+    //   173: goto -89 -> 84
+    //   176: astore_1
+    //   177: aload 4
+    //   179: invokevirtual 93	java/io/InputStream:close	()V
+    //   182: aload_1
+    //   183: athrow
+    //   184: astore_1
+    //   185: new 114	java/lang/RuntimeException
+    //   188: dup
+    //   189: aload_1
+    //   190: invokespecial 117	java/lang/RuntimeException:<init>	(Ljava/lang/Throwable;)V
+    //   193: athrow
+    //   194: astore_1
+    //   195: aload 6
+    //   197: invokevirtual 93	java/io/InputStream:close	()V
+    //   200: goto +10 -> 210
+    //   203: astore 4
+    //   205: aload 4
+    //   207: invokevirtual 96	java/io/IOException:printStackTrace	()V
+    //   210: goto +5 -> 215
+    //   213: aload_1
+    //   214: athrow
+    //   215: goto -2 -> 213
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	218	0	this	l
+    //   0	218	1	paramVarArgs	String[]
+    //   98	43	2	i	int
+    //   96	6	3	j	int
+    //   63	115	4	localObject1	Object
+    //   203	3	4	localIOException	java.io.IOException
+    //   59	86	5	localObject2	Object
+    //   31	165	6	localInputStream	java.io.InputStream
+    // Exception table:
+    //   from	to	target	type
+    //   104	109	110	java/io/IOException
+    //   159	168	176	finally
+    //   44	61	184	java/io/IOException
+    //   70	75	184	java/io/IOException
+    //   75	84	184	java/io/IOException
+    //   84	97	184	java/io/IOException
+    //   121	137	184	java/io/IOException
+    //   144	159	184	java/io/IOException
+    //   168	173	184	java/io/IOException
+    //   177	184	184	java/io/IOException
+    //   33	44	194	finally
+    //   44	61	194	finally
+    //   70	75	194	finally
+    //   75	84	194	finally
+    //   84	97	194	finally
+    //   121	137	194	finally
+    //   144	159	194	finally
+    //   168	173	194	finally
+    //   177	184	194	finally
+    //   185	194	194	finally
+    //   195	200	203	java/io/IOException
+  }
+  
+  public Box a(String paramString1, byte[] paramArrayOfByte, String paramString2)
+  {
+    b(paramString1, paramArrayOfByte, paramString2);
+    try
+    {
+      localClass = Class.forName(g);
+      if (h.length <= 0) {
+        break label200;
+      }
+      arrayOfClass = new Class[h.length];
+      arrayOfObject = new Object[h.length];
+      i = 0;
+    }
+    catch (NoSuchMethodException paramString1)
+    {
+      Class localClass;
+      Class[] arrayOfClass;
+      Object[] arrayOfObject;
+      throw new RuntimeException(paramString1);
+    }
+    catch (InvocationTargetException paramString1)
+    {
+      throw new RuntimeException(paramString1);
+    }
+    catch (IllegalAccessException paramString1)
+    {
+      throw new RuntimeException(paramString1);
+    }
+    catch (InstantiationException paramString1)
+    {
+      throw new RuntimeException(paramString1);
+    }
+    catch (ClassNotFoundException paramString1)
+    {
+      for (;;)
+      {
+        int i;
+        label200:
+        paramString1 = new RuntimeException(paramString1);
+        for (;;)
+        {
+          throw paramString1;
+        }
+        i += 1;
+      }
+    }
+    if (i >= h.length) {
+      return (Box)localClass.getConstructor(arrayOfClass).newInstance(arrayOfObject);
+    }
+    if ("userType".equals(h[i]))
+    {
+      arrayOfObject[i] = paramArrayOfByte;
+      arrayOfClass[i] = [B.class;
+    }
+    else if ("type".equals(h[i]))
+    {
+      arrayOfObject[i] = paramString1;
+      arrayOfClass[i] = String.class;
+    }
+    else if ("parent".equals(h[i]))
+    {
+      arrayOfObject[i] = paramString2;
+      arrayOfClass[i] = String.class;
+    }
+    else
+    {
+      paramString1 = new StringBuilder("No such param: ");
+      paramString1.append(h[i]);
+      throw new InternalError(paramString1.toString());
+      paramString1 = (Box)localClass.newInstance();
+      return paramString1;
+    }
+  }
+  
+  public void b(String paramString1, byte[] paramArrayOfByte, String paramString2)
+  {
+    Object localObject1;
+    if (paramArrayOfByte != null)
+    {
+      if ("uuid".equals(paramString1))
+      {
+        localObject1 = d;
+        Object localObject2 = new StringBuilder("uuid[");
+        ((StringBuilder)localObject2).append(f.a(paramArrayOfByte).toUpperCase());
+        ((StringBuilder)localObject2).append("]");
+        localObject2 = ((Properties)localObject1).getProperty(((StringBuilder)localObject2).toString());
+        localObject1 = localObject2;
+        if (localObject2 == null)
+        {
+          localObject1 = d;
+          paramString2 = new StringBuilder(String.valueOf(paramString2));
+          paramString2.append("-uuid[");
+          paramString2.append(f.a(paramArrayOfByte).toUpperCase());
+          paramString2.append("]");
+          localObject1 = ((Properties)localObject1).getProperty(paramString2.toString());
+        }
+        paramArrayOfByte = (byte[])localObject1;
+        if (localObject1 == null) {
+          paramArrayOfByte = d.getProperty("uuid");
+        }
+      }
+      else
+      {
+        throw new RuntimeException("we have a userType but no uuid box type. Something's wrong");
+      }
+    }
+    else
+    {
+      localObject1 = d.getProperty(paramString1);
+      paramArrayOfByte = (byte[])localObject1;
+      if (localObject1 == null)
+      {
+        paramArrayOfByte = f;
+        paramArrayOfByte.append(paramString2);
+        paramArrayOfByte.append('-');
+        paramArrayOfByte.append(paramString1);
+        paramArrayOfByte = paramArrayOfByte.toString();
+        f.setLength(0);
+        paramArrayOfByte = d.getProperty(paramArrayOfByte);
+      }
+    }
+    paramString2 = paramArrayOfByte;
+    if (paramArrayOfByte == null) {
+      paramString2 = d.getProperty("default");
+    }
+    if (paramString2 != null)
+    {
+      if (!paramString2.endsWith(")"))
+      {
+        h = c;
+        g = paramString2;
+        return;
+      }
+      paramString1 = e.matcher(paramString2);
+      if (paramString1.matches())
+      {
+        g = paramString1.group(1);
+        if (paramString1.group(2).length() == 0)
+        {
+          h = c;
+          return;
+        }
+        if (paramString1.group(2).length() > 0) {
+          paramString1 = paramString1.group(2).split(",");
+        } else {
+          paramString1 = new String[0];
+        }
+        h = paramString1;
+        return;
+      }
+      paramString1 = new StringBuilder("Cannot work with that constructor: ");
+      paramString1.append(paramString2);
+      throw new RuntimeException(paramString1.toString());
+    }
+    paramArrayOfByte = new StringBuilder("No box object found for ");
+    paramArrayOfByte.append(paramString1);
+    throw new RuntimeException(paramArrayOfByte.toString());
+  }
+}

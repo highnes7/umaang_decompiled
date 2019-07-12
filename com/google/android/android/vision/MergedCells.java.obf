@@ -1,0 +1,40 @@
+package com.google.android.gms.vision;
+
+import android.util.SparseArray;
+
+public final class zzc
+{
+  public static final Object zzaqd = new Object();
+  public static int zzkib = 0;
+  public SparseArray<Integer> zzkic = new SparseArray();
+  public SparseArray<Integer> zzkid = new SparseArray();
+  
+  public zzc() {}
+  
+  public final int zzes(int paramInt)
+  {
+    synchronized (zzaqd)
+    {
+      Integer localInteger = (Integer)zzkic.get(paramInt);
+      if (localInteger != null)
+      {
+        paramInt = localInteger.intValue();
+        return paramInt;
+      }
+      int i = zzkib;
+      zzkib += 1;
+      zzkic.append(paramInt, Integer.valueOf(i));
+      zzkid.append(i, Integer.valueOf(paramInt));
+      return i;
+    }
+  }
+  
+  public final int zzet(int paramInt)
+  {
+    synchronized (zzaqd)
+    {
+      paramInt = ((Integer)zzkid.get(paramInt)).intValue();
+      return paramInt;
+    }
+  }
+}

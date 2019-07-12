@@ -1,0 +1,34 @@
+package b.a.b;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
+public class C
+{
+  public final HashMap<String, A> a = new HashMap();
+  
+  public C() {}
+  
+  public final A a(String paramString)
+  {
+    return (A)a.get(paramString);
+  }
+  
+  public final void a()
+  {
+    Iterator localIterator = a.values().iterator();
+    while (localIterator.hasNext()) {
+      ((A)localIterator.next()).onCleared();
+    }
+    a.clear();
+  }
+  
+  public final void a(String paramString, A paramA)
+  {
+    paramString = (A)a.put(paramString, paramA);
+    if (paramString != null) {
+      paramString.onCleared();
+    }
+  }
+}

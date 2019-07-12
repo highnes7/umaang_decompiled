@@ -1,0 +1,143 @@
+package android.support.design.internal;
+
+import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuItemImpl;
+import android.support.v7.view.menu.MenuPresenter;
+import android.support.v7.view.menu.MenuPresenter.Callback;
+import android.support.v7.view.menu.MenuView;
+import android.support.v7.view.menu.SubMenuBuilder;
+import android.view.ViewGroup;
+import b.b.a.N;
+
+@N({b.b.a.N.a.b})
+public class BottomNavigationPresenter
+  implements MenuPresenter
+{
+  public int Id;
+  public MenuBuilder menu;
+  public BottomNavigationMenuView menuView;
+  public boolean updateSuspended = false;
+  
+  public BottomNavigationPresenter() {}
+  
+  public boolean collapseItemActionView(MenuBuilder paramMenuBuilder, MenuItemImpl paramMenuItemImpl)
+  {
+    return false;
+  }
+  
+  public boolean expandItemActionView(MenuBuilder paramMenuBuilder, MenuItemImpl paramMenuItemImpl)
+  {
+    return false;
+  }
+  
+  public boolean flagActionItems()
+  {
+    return false;
+  }
+  
+  public int getId()
+  {
+    return Id;
+  }
+  
+  public MenuView getMenuView(ViewGroup paramViewGroup)
+  {
+    return menuView;
+  }
+  
+  public void initForMenu(Context paramContext, MenuBuilder paramMenuBuilder)
+  {
+    menu = paramMenuBuilder;
+    menuView.initialize(menu);
+  }
+  
+  public void onCloseMenu(MenuBuilder paramMenuBuilder, boolean paramBoolean) {}
+  
+  public void onRestoreInstanceState(Parcelable paramParcelable)
+  {
+    if ((paramParcelable instanceof SavedState)) {
+      menuView.tryRestoreSelectedItemId(selectedItemId);
+    }
+  }
+  
+  public Parcelable onSaveInstanceState()
+  {
+    SavedState localSavedState = new SavedState();
+    selectedItemId = menuView.getSelectedItemId();
+    return localSavedState;
+  }
+  
+  public boolean onSubMenuSelected(SubMenuBuilder paramSubMenuBuilder)
+  {
+    return false;
+  }
+  
+  public void setBottomNavigationMenuView(BottomNavigationMenuView paramBottomNavigationMenuView)
+  {
+    menuView = paramBottomNavigationMenuView;
+  }
+  
+  public void setCallback(MenuPresenter.Callback paramCallback) {}
+  
+  public void setId(int paramInt)
+  {
+    Id = paramInt;
+  }
+  
+  public void setUpdateSuspended(boolean paramBoolean)
+  {
+    updateSuspended = paramBoolean;
+  }
+  
+  public void updateMenuView(boolean paramBoolean)
+  {
+    if (updateSuspended) {
+      return;
+    }
+    if (paramBoolean)
+    {
+      menuView.buildMenuView();
+      return;
+    }
+    menuView.updateMenuView();
+  }
+  
+  public static class SavedState
+    implements Parcelable
+  {
+    public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator()
+    {
+      public BottomNavigationPresenter.SavedState createFromParcel(Parcel paramAnonymousParcel)
+      {
+        return new BottomNavigationPresenter.SavedState(paramAnonymousParcel);
+      }
+      
+      public BottomNavigationPresenter.SavedState[] newArray(int paramAnonymousInt)
+      {
+        return new BottomNavigationPresenter.SavedState[paramAnonymousInt];
+      }
+    };
+    public int selectedItemId;
+    
+    public SavedState() {}
+    
+    public SavedState(Parcel paramParcel)
+    {
+      selectedItemId = paramParcel.readInt();
+    }
+    
+    public int describeContents()
+    {
+      return 0;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramParcel.writeInt(selectedItemId);
+    }
+  }
+}

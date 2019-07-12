@@ -1,0 +1,141 @@
+package com.google.android.gms.common.api.internal;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.X;
+import b.b.a.g;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api.zza;
+import com.google.android.gms.common.api.Api.zze;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.internal.zzbs;
+import com.google.android.gms.common.internal.zzq;
+import com.google.android.gms.internal.zzcpp;
+import com.google.android.gms.internal.zzcps;
+import com.google.android.gms.internal.zzcpt;
+import com.google.android.gms.internal.zzcpx;
+import com.google.android.gms.internal.zzcqf;
+import java.util.Set;
+
+public final class zzcw
+  extends zzcpx
+  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+{
+  public static Api.zza<? extends zzcps, zzcpt> zzfpd = zzcpp.zzdwq;
+  public final Context mContext;
+  public final Handler mHandler;
+  public Set<Scope> zzecm;
+  public final Api.zza<? extends zzcps, zzcpt> zzfgf;
+  public zzq zzfkj;
+  public zzcps zzflp;
+  public zzcy zzfpe;
+  
+  @X
+  public zzcw(Context paramContext, Handler paramHandler, @F zzq paramZzq)
+  {
+    this(paramContext, paramHandler, paramZzq, zzfpd);
+  }
+  
+  @X
+  public zzcw(Context paramContext, Handler paramHandler, @F zzq paramZzq, Api.zza<? extends zzcps, zzcpt> paramZza)
+  {
+    mContext = paramContext;
+    mHandler = paramHandler;
+    zzbp.zzb(paramZzq, "ClientSettings must not be null");
+    zzfkj = ((zzq)paramZzq);
+    zzecm = paramZzq.zzajr();
+    zzfgf = paramZza;
+  }
+  
+  @X
+  private final void zzc(zzcqf paramZzcqf)
+  {
+    Object localObject2 = paramZzcqf.zzagd();
+    Object localObject1 = localObject2;
+    if (((ConnectionResult)localObject2).isSuccess())
+    {
+      paramZzcqf = paramZzcqf.zzbcc();
+      localObject1 = paramZzcqf.zzagd();
+      if (!((ConnectionResult)localObject1).isSuccess())
+      {
+        paramZzcqf = String.valueOf(localObject1);
+        localObject2 = new StringBuilder(paramZzcqf.length() + 48);
+        ((StringBuilder)localObject2).append("Sign-in succeeded with resolve account failure: ");
+        ((StringBuilder)localObject2).append(paramZzcqf);
+        Log.wtf("SignInCoordinator", ((StringBuilder)localObject2).toString(), new Exception());
+      }
+    }
+    else
+    {
+      zzfpe.zzh((ConnectionResult)localObject1);
+    }
+    for (;;)
+    {
+      zzflp.disconnect();
+      return;
+      zzfpe.zzb(paramZzcqf.zzakl(), zzecm);
+    }
+  }
+  
+  @X
+  public final void onConnected(@G Bundle paramBundle)
+  {
+    zzflp.zza(this);
+  }
+  
+  @X
+  public final void onConnectionFailed(@F ConnectionResult paramConnectionResult)
+  {
+    zzfpe.zzh(paramConnectionResult);
+  }
+  
+  @X
+  public final void onConnectionSuspended(int paramInt)
+  {
+    zzflp.disconnect();
+  }
+  
+  @X
+  public final void zza(zzcy paramZzcy)
+  {
+    Object localObject = zzflp;
+    if (localObject != null) {
+      ((Api.zze)localObject).disconnect();
+    }
+    zzfkj.zzc(Integer.valueOf(System.identityHashCode(this)));
+    localObject = zzfgf;
+    Context localContext = mContext;
+    Looper localLooper = mHandler.getLooper();
+    zzq localZzq = zzfkj;
+    zzflp = ((zzcps)((Api.zza)localObject).zza(localContext, localLooper, localZzq, localZzq.zzajx(), this, this));
+    zzfpe = paramZzcy;
+    zzflp.connect();
+  }
+  
+  public final zzcps zzaic()
+  {
+    return zzflp;
+  }
+  
+  public final void zzaim()
+  {
+    zzcps localZzcps = zzflp;
+    if (localZzcps != null) {
+      localZzcps.disconnect();
+    }
+  }
+  
+  @g
+  public final void zzb(zzcqf paramZzcqf)
+  {
+    mHandler.post(new zzcx(this, paramZzcqf));
+  }
+}

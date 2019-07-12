@@ -1,0 +1,55 @@
+package f.g.c.c;
+
+import f.g.c.d.Ab;
+import f.g.c.d.fe;
+import f.g.c.l.a.Oa;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+@f.g.c.a.a
+public abstract class b<K, V>
+  extends a<K, V>
+  implements n<K, V>
+{
+  public b() {}
+  
+  public Ab<K, V> a(Iterable<? extends K> paramIterable)
+    throws ExecutionException
+  {
+    LinkedHashMap localLinkedHashMap = fe.d();
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext())
+    {
+      Object localObject = paramIterable.next();
+      if (!localLinkedHashMap.containsKey(localObject)) {
+        localLinkedHashMap.put(localObject, get(localObject));
+      }
+    }
+    return Ab.a(localLinkedHashMap);
+  }
+  
+  public final V apply(K paramK)
+  {
+    return b(paramK);
+  }
+  
+  public V b(K paramK)
+  {
+    try
+    {
+      paramK = get(paramK);
+      return paramK;
+    }
+    catch (ExecutionException paramK)
+    {
+      throw new Oa(paramK.getCause());
+    }
+  }
+  
+  public void c(K paramK)
+  {
+    throw new UnsupportedOperationException();
+  }
+}

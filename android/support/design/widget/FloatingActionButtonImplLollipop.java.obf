@@ -1,0 +1,203 @@
+package android.support.design.widget;
+
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.AnimatorSet.Builder;
+import android.animation.ObjectAnimator;
+import android.animation.StateListAnimator;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build.VERSION;
+import android.support.design.ripple.RippleUtils;
+import android.view.View;
+import android.widget.ImageButton;
+import b.b.a.F;
+import b.b.a.K;
+import b.b.x.d.a.a;
+import java.util.ArrayList;
+import java.util.List;
+
+@K(21)
+public class FloatingActionButtonImplLollipop
+  extends FloatingActionButtonImpl
+{
+  public InsetDrawable insetDrawable;
+  
+  public FloatingActionButtonImplLollipop(VisibilityAwareImageButton paramVisibilityAwareImageButton, ShadowViewDelegate paramShadowViewDelegate)
+  {
+    super(paramVisibilityAwareImageButton, paramShadowViewDelegate);
+  }
+  
+  @F
+  private Animator createElevationAnimator(float paramFloat1, float paramFloat2)
+  {
+    AnimatorSet localAnimatorSet = new AnimatorSet();
+    localAnimatorSet.play(ObjectAnimator.ofFloat(view, "elevation", new float[] { paramFloat1 }).setDuration(0L)).with(ObjectAnimator.ofFloat(view, View.TRANSLATION_Z, new float[] { paramFloat2 }).setDuration(100L));
+    localAnimatorSet.setInterpolator(FloatingActionButtonImpl.ELEVATION_ANIM_INTERPOLATOR);
+    return localAnimatorSet;
+  }
+  
+  public float getElevation()
+  {
+    return view.getElevation();
+  }
+  
+  public void getPadding(Rect paramRect)
+  {
+    if (shadowViewDelegate.isCompatPaddingEnabled())
+    {
+      float f1 = shadowViewDelegate.getRadius();
+      float f2 = getElevation() + pressedTranslationZ;
+      int i = (int)Math.ceil(ShadowDrawableWrapper.calculateHorizontalPadding(f2, f1, false));
+      int j = (int)Math.ceil(ShadowDrawableWrapper.calculateVerticalPadding(f2, f1, false));
+      paramRect.set(i, j, i, j);
+      return;
+    }
+    paramRect.set(0, 0, 0, 0);
+  }
+  
+  public void jumpDrawableToCurrentState() {}
+  
+  public CircularBorderDrawable newCircularDrawable()
+  {
+    return new CircularBorderDrawableLollipop();
+  }
+  
+  public GradientDrawable newGradientDrawableForShape()
+  {
+    return new AlwaysStatefulGradientDrawable();
+  }
+  
+  public void onCompatShadowChanged()
+  {
+    updatePadding();
+  }
+  
+  public void onDrawableStateChanged(int[] paramArrayOfInt)
+  {
+    if (Build.VERSION.SDK_INT == 21)
+    {
+      if (view.isEnabled())
+      {
+        view.setElevation(elevation);
+        if (view.isPressed())
+        {
+          view.setTranslationZ(pressedTranslationZ);
+          return;
+        }
+        if ((!view.isFocused()) && (!view.isHovered()))
+        {
+          view.setTranslationZ(0.0F);
+          return;
+        }
+        view.setTranslationZ(hoveredFocusedTranslationZ);
+        return;
+      }
+      view.setElevation(0.0F);
+      view.setTranslationZ(0.0F);
+    }
+  }
+  
+  public void onElevationsChanged(float paramFloat1, float paramFloat2, float paramFloat3)
+  {
+    if (Build.VERSION.SDK_INT == 21)
+    {
+      view.refreshDrawableState();
+    }
+    else
+    {
+      StateListAnimator localStateListAnimator = new StateListAnimator();
+      localStateListAnimator.addState(FloatingActionButtonImpl.PRESSED_ENABLED_STATE_SET, createElevationAnimator(paramFloat1, paramFloat3));
+      localStateListAnimator.addState(FloatingActionButtonImpl.HOVERED_FOCUSED_ENABLED_STATE_SET, createElevationAnimator(paramFloat1, paramFloat2));
+      localStateListAnimator.addState(FloatingActionButtonImpl.FOCUSED_ENABLED_STATE_SET, createElevationAnimator(paramFloat1, paramFloat2));
+      localStateListAnimator.addState(FloatingActionButtonImpl.HOVERED_ENABLED_STATE_SET, createElevationAnimator(paramFloat1, paramFloat2));
+      AnimatorSet localAnimatorSet = new AnimatorSet();
+      ArrayList localArrayList = new ArrayList();
+      localArrayList.add(ObjectAnimator.ofFloat(view, "elevation", new float[] { paramFloat1 }).setDuration(0L));
+      int i = Build.VERSION.SDK_INT;
+      if ((i >= 22) && (i <= 24))
+      {
+        VisibilityAwareImageButton localVisibilityAwareImageButton = view;
+        localArrayList.add(ObjectAnimator.ofFloat(localVisibilityAwareImageButton, View.TRANSLATION_Z, new float[] { localVisibilityAwareImageButton.getTranslationZ() }).setDuration(100L));
+      }
+      localArrayList.add(ObjectAnimator.ofFloat(view, View.TRANSLATION_Z, new float[] { 0.0F }).setDuration(100L));
+      localAnimatorSet.playSequentially((Animator[])localArrayList.toArray(new Animator[0]));
+      localAnimatorSet.setInterpolator(FloatingActionButtonImpl.ELEVATION_ANIM_INTERPOLATOR);
+      localStateListAnimator.addState(FloatingActionButtonImpl.ENABLED_STATE_SET, localAnimatorSet);
+      localStateListAnimator.addState(FloatingActionButtonImpl.EMPTY_STATE_SET, createElevationAnimator(0.0F, 0.0F));
+      view.setStateListAnimator(localStateListAnimator);
+    }
+    if (shadowViewDelegate.isCompatPaddingEnabled()) {
+      updatePadding();
+    }
+  }
+  
+  public void onPaddingUpdated(Rect paramRect)
+  {
+    if (shadowViewDelegate.isCompatPaddingEnabled())
+    {
+      insetDrawable = new InsetDrawable(rippleDrawable, left, top, right, bottom);
+      shadowViewDelegate.setBackgroundDrawable(insetDrawable);
+      return;
+    }
+    shadowViewDelegate.setBackgroundDrawable(rippleDrawable);
+  }
+  
+  public boolean requirePreDrawListener()
+  {
+    return false;
+  }
+  
+  public void setBackgroundDrawable(ColorStateList paramColorStateList1, PorterDuff.Mode paramMode, ColorStateList paramColorStateList2, int paramInt)
+  {
+    shapeDrawable = a.i(createShapeDrawable());
+    a.a(shapeDrawable, paramColorStateList1);
+    if (paramMode != null) {
+      a.a(shapeDrawable, paramMode);
+    }
+    if (paramInt > 0)
+    {
+      borderDrawable = createBorderDrawable(paramInt, paramColorStateList1);
+      paramColorStateList1 = new LayerDrawable(new Drawable[] { borderDrawable, shapeDrawable });
+    }
+    else
+    {
+      borderDrawable = null;
+      paramColorStateList1 = shapeDrawable;
+    }
+    rippleDrawable = new RippleDrawable(RippleUtils.convertToRippleDrawableColor(paramColorStateList2), paramColorStateList1, null);
+    paramColorStateList1 = rippleDrawable;
+    contentBackground = paramColorStateList1;
+    shadowViewDelegate.setBackgroundDrawable(paramColorStateList1);
+  }
+  
+  public void setRippleColor(ColorStateList paramColorStateList)
+  {
+    Drawable localDrawable = rippleDrawable;
+    if ((localDrawable instanceof RippleDrawable))
+    {
+      ((RippleDrawable)localDrawable).setColor(RippleUtils.convertToRippleDrawableColor(paramColorStateList));
+      return;
+    }
+    if (localDrawable != null) {
+      a.a(localDrawable, RippleUtils.convertToRippleDrawableColor(paramColorStateList));
+    }
+  }
+  
+  public static class AlwaysStatefulGradientDrawable
+    extends GradientDrawable
+  {
+    public AlwaysStatefulGradientDrawable() {}
+    
+    public boolean isStateful()
+    {
+      return true;
+    }
+  }
+}

@@ -1,0 +1,151 @@
+package b.b.x.h;
+
+import android.content.Context;
+import android.content.Intent;
+import android.media.browse.MediaBrowser.MediaItem;
+import android.media.session.MediaSession.Token;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.service.media.MediaBrowserService;
+import android.service.media.MediaBrowserService.BrowserRoot;
+import android.service.media.MediaBrowserService.Result;
+import android.support.v4.media.session.MediaSessionCompat;
+import b.b.a.K;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+@K(21)
+public class W
+{
+  public W() {}
+  
+  public static IBinder a(Object paramObject, Intent paramIntent)
+  {
+    return ((MediaBrowserService)paramObject).onBind(paramIntent);
+  }
+  
+  public static Object a(Context paramContext, d paramD)
+  {
+    return new b(paramContext, paramD);
+  }
+  
+  public static void a(Object paramObject)
+  {
+    ((MediaBrowserService)paramObject).onCreate();
+  }
+  
+  public static void a(Object paramObject1, Object paramObject2)
+  {
+    ((MediaBrowserService)paramObject1).setSessionToken((MediaSession.Token)paramObject2);
+  }
+  
+  public static void a(Object paramObject, String paramString)
+  {
+    ((MediaBrowserService)paramObject).notifyChildrenChanged(paramString);
+  }
+  
+  public static class a
+  {
+    public final String a;
+    public final Bundle b;
+    
+    public a(String paramString, Bundle paramBundle)
+    {
+      a = paramString;
+      b = paramBundle;
+    }
+  }
+  
+  public static class b
+    extends MediaBrowserService
+  {
+    public final W.d a;
+    
+    public b(Context paramContext, W.d paramD)
+    {
+      attachBaseContext(paramContext);
+      a = paramD;
+    }
+    
+    public MediaBrowserService.BrowserRoot onGetRoot(String paramString, int paramInt, Bundle paramBundle)
+    {
+      MediaSessionCompat.a(paramBundle);
+      W.d localD = a;
+      if (paramBundle == null) {
+        paramBundle = null;
+      } else {
+        paramBundle = new Bundle(paramBundle);
+      }
+      paramString = localD.a(paramString, paramInt, paramBundle);
+      if (paramString == null) {
+        return null;
+      }
+      return new MediaBrowserService.BrowserRoot(a, b);
+    }
+    
+    public void onLoadChildren(String paramString, MediaBrowserService.Result<List<MediaBrowser.MediaItem>> paramResult)
+    {
+      a.b(paramString, new W.c(paramResult));
+    }
+  }
+  
+  public static class c<T>
+  {
+    public MediaBrowserService.Result a;
+    
+    public c(MediaBrowserService.Result paramResult)
+    {
+      a = paramResult;
+    }
+    
+    public List<MediaBrowser.MediaItem> a(List<Parcel> paramList)
+    {
+      if (paramList == null) {
+        return null;
+      }
+      ArrayList localArrayList = new ArrayList();
+      paramList = paramList.iterator();
+      while (paramList.hasNext())
+      {
+        Parcel localParcel = (Parcel)paramList.next();
+        localParcel.setDataPosition(0);
+        localArrayList.add(MediaBrowser.MediaItem.CREATOR.createFromParcel(localParcel));
+        localParcel.recycle();
+      }
+      return localArrayList;
+    }
+    
+    public void a()
+    {
+      a.detach();
+    }
+    
+    public void a(T paramT)
+    {
+      if ((paramT instanceof List))
+      {
+        a.sendResult(a((List)paramT));
+        return;
+      }
+      if ((paramT instanceof Parcel))
+      {
+        paramT = (Parcel)paramT;
+        paramT.setDataPosition(0);
+        a.sendResult(MediaBrowser.MediaItem.CREATOR.createFromParcel(paramT));
+        paramT.recycle();
+        return;
+      }
+      a.sendResult(null);
+    }
+  }
+  
+  public static abstract interface d
+  {
+    public abstract W.a a(String paramString, int paramInt, Bundle paramBundle);
+    
+    public abstract void b(String paramString, W.c<List<Parcel>> paramC);
+  }
+}

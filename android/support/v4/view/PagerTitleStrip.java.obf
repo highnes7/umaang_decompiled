@@ -1,0 +1,461 @@
+package android.support.v4.view;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.database.DataSetObserver;
+import android.graphics.drawable.Drawable;
+import android.text.TextUtils.TruncateAt;
+import android.text.method.SingleLineTransformationMethod;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.k;
+import b.b.a.q;
+import b.b.x.o.y;
+import b.b.x.p.N;
+import java.lang.ref.WeakReference;
+import java.util.Locale;
+
+@ViewPager.a
+public class PagerTitleStrip
+  extends ViewGroup
+{
+  public static final int[] a = { 16842804, 16842901, 16842904, 16842927 };
+  public static final int[] b = { 16843660 };
+  public static final float c = 0.6F;
+  public static final int d = 16;
+  public ViewPager e;
+  public TextView f;
+  public TextView g;
+  public TextView h;
+  public int i = -1;
+  public float j = -1.0F;
+  public int k;
+  public int l;
+  public boolean m;
+  public boolean n;
+  public final a o = new a();
+  public WeakReference<y> p;
+  public int q;
+  public int r;
+  
+  public PagerTitleStrip(@F Context paramContext)
+  {
+    this(paramContext, null);
+  }
+  
+  public PagerTitleStrip(@F Context paramContext, @G AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    TextView localTextView = new TextView(paramContext);
+    f = localTextView;
+    addView(localTextView);
+    localTextView = new TextView(paramContext);
+    g = localTextView;
+    addView(localTextView);
+    localTextView = new TextView(paramContext);
+    h = localTextView;
+    addView(localTextView);
+    paramAttributeSet = paramContext.obtainStyledAttributes(paramAttributeSet, a);
+    boolean bool = false;
+    int i1 = paramAttributeSet.getResourceId(0, 0);
+    if (i1 != 0)
+    {
+      N.e(f, i1);
+      N.e(g, i1);
+      N.e(h, i1);
+    }
+    int i2 = paramAttributeSet.getDimensionPixelSize(1, 0);
+    if (i2 != 0) {
+      a(0, i2);
+    }
+    if (paramAttributeSet.hasValue(2))
+    {
+      i2 = paramAttributeSet.getColor(2, 0);
+      f.setTextColor(i2);
+      g.setTextColor(i2);
+      h.setTextColor(i2);
+    }
+    l = paramAttributeSet.getInteger(3, 80);
+    paramAttributeSet.recycle();
+    r = g.getTextColors().getDefaultColor();
+    setNonPrimaryAlpha(0.6F);
+    f.setEllipsize(TextUtils.TruncateAt.END);
+    g.setEllipsize(TextUtils.TruncateAt.END);
+    h.setEllipsize(TextUtils.TruncateAt.END);
+    if (i1 != 0)
+    {
+      paramAttributeSet = paramContext.obtainStyledAttributes(i1, b);
+      bool = paramAttributeSet.getBoolean(0, false);
+      paramAttributeSet.recycle();
+    }
+    if (bool)
+    {
+      setSingleLineAllCaps(f);
+      setSingleLineAllCaps(g);
+      setSingleLineAllCaps(h);
+    }
+    else
+    {
+      f.setSingleLine();
+      g.setSingleLine();
+      h.setSingleLine();
+    }
+    k = ((int)(getResourcesgetDisplayMetricsdensity * 16.0F));
+  }
+  
+  public static void setSingleLineAllCaps(TextView paramTextView)
+  {
+    paramTextView.setTransformationMethod(new b(paramTextView.getContext()));
+  }
+  
+  public void a(int paramInt, float paramFloat)
+  {
+    f.setTextSize(paramInt, paramFloat);
+    g.setTextSize(paramInt, paramFloat);
+    h.setTextSize(paramInt, paramFloat);
+  }
+  
+  public void a(int paramInt, float paramFloat, boolean paramBoolean)
+  {
+    if (paramInt != i) {
+      a(paramInt, e.getAdapter());
+    } else if ((!paramBoolean) && (paramFloat == j)) {
+      return;
+    }
+    n = true;
+    int i4 = f.getMeasuredWidth();
+    int i9 = g.getMeasuredWidth();
+    int i3 = h.getMeasuredWidth();
+    int i8 = i9 / 2;
+    int i5 = getWidth();
+    int i1 = getHeight();
+    int i7 = getPaddingLeft();
+    int i6 = getPaddingRight();
+    paramInt = getPaddingTop();
+    int i2 = getPaddingBottom();
+    int i10 = i6 + i8;
+    float f2 = 0.5F + paramFloat;
+    float f1 = f2;
+    if (f2 > 1.0F) {
+      f1 = f2 - 1.0F;
+    }
+    i8 = i5 - i10 - (int)((i5 - (i7 + i8) - i10) * f1) - i8;
+    i9 += i8;
+    int i12 = f.getBaseline();
+    i10 = g.getBaseline();
+    int i11 = h.getBaseline();
+    int i13 = Math.max(Math.max(i12, i10), i11);
+    i12 = i13 - i12;
+    i10 = i13 - i10;
+    i11 = i13 - i11;
+    i13 = f.getMeasuredHeight();
+    int i14 = g.getMeasuredHeight();
+    int i15 = h.getMeasuredHeight();
+    i13 = Math.max(Math.max(i13 + i12, i14 + i10), i15 + i11);
+    i14 = l & 0x70;
+    if (i14 != 16)
+    {
+      if (i14 != 80)
+      {
+        i1 = i12 + paramInt;
+        i2 = i10 + paramInt;
+        paramInt += i11;
+        break label371;
+      }
+      paramInt = i1 - i2 - i13;
+    }
+    else
+    {
+      paramInt = (i1 - paramInt - i2 - i13) / 2;
+    }
+    i1 = i12 + paramInt;
+    i2 = i10 + paramInt;
+    paramInt += i11;
+    label371:
+    TextView localTextView = g;
+    localTextView.layout(i8, i2, i9, localTextView.getMeasuredHeight() + i2);
+    i2 = Math.min(i7, i8 - k - i4);
+    localTextView = f;
+    localTextView.layout(i2, i1, i4 + i2, localTextView.getMeasuredHeight() + i1);
+    i1 = Math.max(i5 - i6 - i3, i9 + k);
+    localTextView = h;
+    localTextView.layout(i1, paramInt, i1 + i3, localTextView.getMeasuredHeight() + paramInt);
+    j = paramFloat;
+    n = false;
+  }
+  
+  public void a(int paramInt, y paramY)
+  {
+    if (paramY != null) {
+      i1 = paramY.getCount();
+    } else {
+      i1 = 0;
+    }
+    m = true;
+    Object localObject2 = null;
+    if ((paramInt >= 1) && (paramY != null)) {
+      localObject1 = paramY.getPageTitle(paramInt - 1);
+    } else {
+      localObject1 = null;
+    }
+    f.setText((CharSequence)localObject1);
+    TextView localTextView = g;
+    if ((paramY != null) && (paramInt < i1)) {
+      localObject1 = paramY.getPageTitle(paramInt);
+    } else {
+      localObject1 = null;
+    }
+    localTextView.setText((CharSequence)localObject1);
+    int i2 = paramInt + 1;
+    Object localObject1 = localObject2;
+    if (i2 < i1)
+    {
+      localObject1 = localObject2;
+      if (paramY != null) {
+        localObject1 = paramY.getPageTitle(i2);
+      }
+    }
+    h.setText((CharSequence)localObject1);
+    int i1 = View.MeasureSpec.makeMeasureSpec(Math.max(0, (int)((getWidth() - getPaddingLeft() - getPaddingRight()) * 0.8F)), Integer.MIN_VALUE);
+    i2 = View.MeasureSpec.makeMeasureSpec(Math.max(0, getHeight() - getPaddingTop() - getPaddingBottom()), Integer.MIN_VALUE);
+    f.measure(i1, i2);
+    g.measure(i1, i2);
+    h.measure(i1, i2);
+    i = paramInt;
+    if (!n) {
+      a(paramInt, j, false);
+    }
+    m = false;
+  }
+  
+  public void a(y paramY1, y paramY2)
+  {
+    if (paramY1 != null)
+    {
+      paramY1.unregisterDataSetObserver(o);
+      p = null;
+    }
+    if (paramY2 != null)
+    {
+      paramY2.registerDataSetObserver(o);
+      p = new WeakReference(paramY2);
+    }
+    paramY1 = e;
+    if (paramY1 != null)
+    {
+      i = -1;
+      j = -1.0F;
+      a(paramY1.getCurrentItem(), paramY2);
+      requestLayout();
+    }
+  }
+  
+  public int getMinHeight()
+  {
+    Drawable localDrawable = getBackground();
+    if (localDrawable != null) {
+      return localDrawable.getIntrinsicHeight();
+    }
+    return 0;
+  }
+  
+  public int getTextSpacing()
+  {
+    return k;
+  }
+  
+  public void onAttachedToWindow()
+  {
+    super.onAttachedToWindow();
+    Object localObject = getParent();
+    if ((localObject instanceof ViewPager))
+    {
+      localObject = (ViewPager)localObject;
+      y localY = ((ViewPager)localObject).getAdapter();
+      ((ViewPager)localObject).c(o);
+      ((ViewPager)localObject).a(o);
+      e = ((ViewPager)localObject);
+      localObject = p;
+      if (localObject != null) {
+        localObject = (y)((WeakReference)localObject).get();
+      } else {
+        localObject = null;
+      }
+      a((y)localObject, localY);
+      return;
+    }
+    throw new IllegalStateException("PagerTitleStrip must be a direct child of a ViewPager.");
+  }
+  
+  public void onDetachedFromWindow()
+  {
+    super.onDetachedFromWindow();
+    ViewPager localViewPager = e;
+    if (localViewPager != null)
+    {
+      a(localViewPager.getAdapter(), null);
+      e.c(null);
+      e.b(o);
+      e = null;
+    }
+  }
+  
+  public void onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    if (e != null)
+    {
+      float f1 = j;
+      if (f1 < 0.0F) {
+        f1 = 0.0F;
+      }
+      a(i, f1, true);
+    }
+  }
+  
+  public void onMeasure(int paramInt1, int paramInt2)
+  {
+    if (View.MeasureSpec.getMode(paramInt1) == 1073741824)
+    {
+      int i1 = getPaddingTop();
+      int i2 = getPaddingBottom() + i1;
+      int i3 = ViewGroup.getChildMeasureSpec(paramInt2, i2, -2);
+      i1 = View.MeasureSpec.getSize(paramInt1);
+      paramInt1 = ViewGroup.getChildMeasureSpec(paramInt1, (int)(i1 * 0.2F), -2);
+      f.measure(paramInt1, i3);
+      g.measure(paramInt1, i3);
+      h.measure(paramInt1, i3);
+      if (View.MeasureSpec.getMode(paramInt2) == 1073741824)
+      {
+        paramInt1 = View.MeasureSpec.getSize(paramInt2);
+      }
+      else
+      {
+        paramInt1 = g.getMeasuredHeight();
+        paramInt1 = Math.max(getMinHeight(), paramInt1 + i2);
+      }
+      setMeasuredDimension(i1, View.resolveSizeAndState(paramInt1, paramInt2, g.getMeasuredState() << 16));
+      return;
+    }
+    throw new IllegalStateException("Must measure with an exact width");
+  }
+  
+  public void requestLayout()
+  {
+    if (!m) {
+      super.requestLayout();
+    }
+  }
+  
+  public void setGravity(int paramInt)
+  {
+    l = paramInt;
+    requestLayout();
+  }
+  
+  public void setNonPrimaryAlpha(@q(from=0.0D, to=1.0D) float paramFloat)
+  {
+    q = ((int)(paramFloat * 255.0F) & 0xFF);
+    int i1 = q << 24 | r & 0xFFFFFF;
+    f.setTextColor(i1);
+    h.setTextColor(i1);
+  }
+  
+  public void setTextColor(@k int paramInt)
+  {
+    r = paramInt;
+    g.setTextColor(paramInt);
+    paramInt = q << 24 | r & 0xFFFFFF;
+    f.setTextColor(paramInt);
+    h.setTextColor(paramInt);
+  }
+  
+  public void setTextSpacing(int paramInt)
+  {
+    k = paramInt;
+    requestLayout();
+  }
+  
+  private class a
+    extends DataSetObserver
+    implements ViewPager.e, ViewPager.d
+  {
+    public int a;
+    
+    public a() {}
+    
+    public void onAdapterChanged(ViewPager paramViewPager, y paramY1, y paramY2)
+    {
+      a(paramY1, paramY2);
+    }
+    
+    public void onChanged()
+    {
+      PagerTitleStrip localPagerTitleStrip = PagerTitleStrip.this;
+      localPagerTitleStrip.a(e.getCurrentItem(), e.getAdapter());
+      float f = j;
+      if (f < 0.0F) {
+        f = 0.0F;
+      }
+      localPagerTitleStrip = PagerTitleStrip.this;
+      localPagerTitleStrip.a(e.getCurrentItem(), f, true);
+    }
+    
+    public void onPageScrollStateChanged(int paramInt)
+    {
+      a = paramInt;
+    }
+    
+    public void onPageScrolled(int paramInt1, float paramFloat, int paramInt2)
+    {
+      paramInt2 = paramInt1;
+      if (paramFloat > 0.5F) {
+        paramInt2 = paramInt1 + 1;
+      }
+      a(paramInt2, paramFloat, false);
+    }
+    
+    public void onPageSelected(int paramInt)
+    {
+      if (a == 0)
+      {
+        PagerTitleStrip localPagerTitleStrip = PagerTitleStrip.this;
+        localPagerTitleStrip.a(e.getCurrentItem(), e.getAdapter());
+        float f = j;
+        if (f < 0.0F) {
+          f = 0.0F;
+        }
+        localPagerTitleStrip = PagerTitleStrip.this;
+        localPagerTitleStrip.a(e.getCurrentItem(), f, true);
+      }
+    }
+  }
+  
+  private static class b
+    extends SingleLineTransformationMethod
+  {
+    public Locale a;
+    
+    public b(Context paramContext)
+    {
+      a = getResourcesgetConfigurationlocale;
+    }
+    
+    public CharSequence getTransformation(CharSequence paramCharSequence, View paramView)
+    {
+      paramCharSequence = super.getTransformation(paramCharSequence, paramView);
+      if (paramCharSequence != null) {
+        return paramCharSequence.toString().toUpperCase(a);
+      }
+      return null;
+    }
+  }
+}

@@ -1,0 +1,401 @@
+package com.github.mikephil.charting.charts;
+
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.content.Context;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.animation.Easing.EasingOption;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.ComponentBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.Legend.LegendPosition;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.PieRadarChartTouchListener;
+import com.github.mikephil.charting.renderer.LegendRenderer;
+import com.github.mikephil.charting.utils.SelectionDetail;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<? extends Entry>>>
+  extends Chart<T>
+{
+  public float mMinOffset = 0.0F;
+  public float mRawRotationAngle = 270.0F;
+  public boolean mRotateEnabled = true;
+  public float mRotationAngle = 270.0F;
+  
+  public PieRadarChartBase(Context paramContext)
+  {
+    super(paramContext);
+  }
+  
+  public PieRadarChartBase(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+  }
+  
+  public PieRadarChartBase(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(paramContext, paramAttributeSet, paramInt);
+  }
+  
+  public void calcMinMax()
+  {
+    mXAxis.mAxisRange = (mData.getXVals().size() - 1);
+  }
+  
+  public void calculateOffsets()
+  {
+    Object localObject = mLegend;
+    float f2 = 0.0F;
+    float f1 = 0.0F;
+    float f5 = 0.0F;
+    float f6 = 0.0F;
+    float f4 = 0.0F;
+    if ((localObject != null) && (((ComponentBase)localObject).isEnabled()))
+    {
+      f3 = mLegend.mNeededWidth;
+      f6 = mViewPortHandler.getChartWidth();
+      f3 = Math.min(f3, mLegend.getMaxSizePercent() * f6);
+      f6 = mLegend.getFormSize();
+      f3 = mLegend.getFormToTextSpace() + (f6 + f3);
+      if (mLegend.getPosition() == Legend.LegendPosition.RIGHT_OF_CHART_CENTER)
+      {
+        f1 = f3 + Utils.convertDpToPixel(13.0F);
+        f3 = 0.0F;
+      }
+      for (f2 = f1;; f2 = f1)
+      {
+        f1 = 0.0F;
+        break label694;
+        PointF localPointF1;
+        PointF localPointF2;
+        if (mLegend.getPosition() == Legend.LegendPosition.RIGHT_OF_CHART)
+        {
+          f2 = Utils.convertDpToPixel(8.0F) + f3;
+          localObject = mLegend;
+          f1 = mNeededHeight;
+          f3 = mTextHeightMax;
+          localObject = getCenter();
+          localPointF1 = new PointF(getWidth() - f2 + 15.0F, f1 + f3 + 15.0F);
+          f1 = distanceToCenter(x, y);
+          localPointF2 = getPosition((PointF)localObject, getRadius(), getAngleForPoint(x, y));
+          f3 = distanceToCenter(x, y);
+          f5 = Utils.convertDpToPixel(5.0F);
+          if (f1 < f3) {
+            f1 = f3 - f1 + f5;
+          } else {
+            f1 = 0.0F;
+          }
+          if ((y >= y) && (getHeight() - f2 > getWidth())) {
+            f1 = f2;
+          }
+          break;
+        }
+        if (mLegend.getPosition() == Legend.LegendPosition.LEFT_OF_CHART_CENTER) {
+          f1 = f3 + Utils.convertDpToPixel(13.0F);
+        }
+        label519:
+        do
+        {
+          for (;;)
+          {
+            f2 = 0.0F;
+            f4 = f1;
+            f1 = f2;
+            break;
+            if (mLegend.getPosition() != Legend.LegendPosition.LEFT_OF_CHART) {
+              break label519;
+            }
+            f2 = Utils.convertDpToPixel(8.0F) + f3;
+            localObject = mLegend;
+            f1 = mNeededHeight;
+            f3 = mTextHeightMax;
+            localObject = getCenter();
+            localPointF1 = new PointF(f2 - 15.0F, f1 + f3 + 15.0F);
+            f1 = distanceToCenter(x, y);
+            localPointF2 = getPosition((PointF)localObject, getRadius(), getAngleForPoint(x, y));
+            f3 = distanceToCenter(x, y);
+            f4 = Utils.convertDpToPixel(5.0F);
+            if (f1 < f3) {
+              f1 = f3 - f1 + f4;
+            } else {
+              f1 = 0.0F;
+            }
+            if ((y >= y) && (getHeight() - f2 > getWidth())) {
+              f1 = f2;
+            }
+          }
+          if ((mLegend.getPosition() == Legend.LegendPosition.BELOW_CHART_LEFT) || (mLegend.getPosition() == Legend.LegendPosition.BELOW_CHART_RIGHT) || (mLegend.getPosition() == Legend.LegendPosition.BELOW_CHART_CENTER)) {
+            break label649;
+          }
+        } while ((mLegend.getPosition() != Legend.LegendPosition.ABOVE_CHART_LEFT) && (mLegend.getPosition() != Legend.LegendPosition.ABOVE_CHART_RIGHT) && (mLegend.getPosition() != Legend.LegendPosition.ABOVE_CHART_CENTER));
+        f1 = getRequiredLegendOffset();
+        f3 = mLegend.mNeededHeight;
+        f4 = mViewPortHandler.getChartHeight();
+        f3 = Math.min(f3 + f1, mLegend.getMaxSizePercent() * f4);
+        f1 = 0.0F;
+        f4 = f2;
+      }
+      label649:
+      f1 = getRequiredLegendOffset();
+      f2 = mLegend.mNeededHeight;
+      f3 = mViewPortHandler.getChartHeight();
+      f1 = Math.min(f2 + f1, mLegend.getMaxSizePercent() * f3);
+      f2 = 0.0F;
+      f3 = 0.0F;
+      f4 = f5;
+      label694:
+      f4 += getRequiredBaseOffset();
+      f2 += getRequiredBaseOffset();
+      f3 += getRequiredBaseOffset();
+    }
+    else
+    {
+      f2 = 0.0F;
+      f3 = 0.0F;
+      f1 = 0.0F;
+      f4 = f6;
+    }
+    float f7 = Utils.convertDpToPixel(mMinOffset);
+    f6 = f7;
+    f5 = f6;
+    if ((this instanceof RadarChart))
+    {
+      localObject = ((RadarChart)this).getXAxis();
+      f5 = f6;
+      if (((ComponentBase)localObject).isEnabled())
+      {
+        f5 = f6;
+        if (((AxisBase)localObject).isDrawLabelsEnabled()) {
+          f5 = Math.max(f7, mLabelRotatedWidth);
+        }
+      }
+    }
+    float f8 = getExtraTopOffset();
+    f7 = getExtraRightOffset();
+    f6 = getExtraBottomOffset();
+    f4 = Math.max(f5, getExtraLeftOffset() + f4);
+    float f3 = Math.max(f5, f8 + f3);
+    f2 = Math.max(f5, f7 + f2);
+    f1 = Math.max(f5, Math.max(getRequiredBaseOffset(), f6 + f1));
+    mViewPortHandler.restrainViewPort(f4, f3, f2, f1);
+    if (mLogEnabled)
+    {
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("offsetLeft: ");
+      ((StringBuilder)localObject).append(f4);
+      ((StringBuilder)localObject).append(", offsetTop: ");
+      ((StringBuilder)localObject).append(f3);
+      ((StringBuilder)localObject).append(", offsetRight: ");
+      ((StringBuilder)localObject).append(f2);
+      ((StringBuilder)localObject).append(", offsetBottom: ");
+      ((StringBuilder)localObject).append(f1);
+      ((StringBuilder)localObject).toString();
+    }
+  }
+  
+  public void computeScroll()
+  {
+    ChartTouchListener localChartTouchListener = mChartTouchListener;
+    if ((localChartTouchListener instanceof PieRadarChartTouchListener)) {
+      ((PieRadarChartTouchListener)localChartTouchListener).computeScroll();
+    }
+  }
+  
+  public float distanceToCenter(float paramFloat1, float paramFloat2)
+  {
+    PointF localPointF = getCenterOffsets();
+    float f = x;
+    if (paramFloat1 > f) {
+      paramFloat1 -= f;
+    } else {
+      paramFloat1 = f - paramFloat1;
+    }
+    f = y;
+    if (paramFloat2 > f) {
+      paramFloat2 -= f;
+    } else {
+      paramFloat2 = f - paramFloat2;
+    }
+    double d = Math.pow(paramFloat1, 2.0D);
+    return (float)Math.sqrt(Math.pow(paramFloat2, 2.0D) + d);
+  }
+  
+  public float getAngleForPoint(float paramFloat1, float paramFloat2)
+  {
+    PointF localPointF = getCenterOffsets();
+    double d2 = paramFloat1 - x;
+    double d1 = paramFloat2 - y;
+    Double.isNaN(d2);
+    Double.isNaN(d2);
+    Double.isNaN(d1);
+    Double.isNaN(d1);
+    d2 = Math.sqrt(d1 * d1 + d2 * d2);
+    Double.isNaN(d1);
+    float f = (float)Math.toDegrees(Math.acos(d1 / d2));
+    paramFloat2 = f;
+    if (paramFloat1 > x) {
+      paramFloat2 = 360.0F - f;
+    }
+    paramFloat2 += 90.0F;
+    paramFloat1 = paramFloat2;
+    if (paramFloat2 > 360.0F) {
+      paramFloat1 = paramFloat2 - 360.0F;
+    }
+    return paramFloat1;
+  }
+  
+  public float getDiameter()
+  {
+    RectF localRectF = mViewPortHandler.getContentRect();
+    return Math.min(localRectF.width(), localRectF.height());
+  }
+  
+  public abstract int getIndexForAngle(float paramFloat);
+  
+  public float getMinOffset()
+  {
+    return mMinOffset;
+  }
+  
+  public PointF getPosition(PointF paramPointF, float paramFloat1, float paramFloat2)
+  {
+    double d3 = x;
+    double d1 = paramFloat1;
+    double d2 = paramFloat2;
+    double d4 = Math.cos(Math.toRadians(d2));
+    Double.isNaN(d1);
+    Double.isNaN(d3);
+    paramFloat1 = (float)(d4 * d1 + d3);
+    d3 = y;
+    d2 = Math.sin(Math.toRadians(d2));
+    Double.isNaN(d1);
+    Double.isNaN(d3);
+    return new PointF(paramFloat1, (float)(d2 * d1 + d3));
+  }
+  
+  public abstract float getRadius();
+  
+  public float getRawRotationAngle()
+  {
+    return mRawRotationAngle;
+  }
+  
+  public abstract float getRequiredBaseOffset();
+  
+  public abstract float getRequiredLegendOffset();
+  
+  public float getRotationAngle()
+  {
+    return mRotationAngle;
+  }
+  
+  public List getSelectionDetailsAtIndex(int paramInt)
+  {
+    ArrayList localArrayList = new ArrayList();
+    int i = 0;
+    while (i < mData.getDataSetCount())
+    {
+      IDataSet localIDataSet = mData.getDataSetByIndex(i);
+      float f = localIDataSet.getYValForXIndex(paramInt);
+      if (f != NaN.0F) {
+        localArrayList.add(new SelectionDetail(f, i, localIDataSet));
+      }
+      i += 1;
+    }
+    return localArrayList;
+  }
+  
+  public float getYChartMax()
+  {
+    return 0.0F;
+  }
+  
+  public float getYChartMin()
+  {
+    return 0.0F;
+  }
+  
+  public void init()
+  {
+    super.init();
+    mChartTouchListener = new PieRadarChartTouchListener(this);
+  }
+  
+  public boolean isRotationEnabled()
+  {
+    return mRotateEnabled;
+  }
+  
+  public void notifyDataSetChanged()
+  {
+    if (mData == null) {
+      return;
+    }
+    calcMinMax();
+    if (mLegend != null) {
+      mLegendRenderer.computeLegend(mData);
+    }
+    calculateOffsets();
+  }
+  
+  public boolean onTouchEvent(MotionEvent paramMotionEvent)
+  {
+    if (mTouchEnabled)
+    {
+      ChartTouchListener localChartTouchListener = mChartTouchListener;
+      if (localChartTouchListener != null) {
+        return localChartTouchListener.onTouch(this, paramMotionEvent);
+      }
+    }
+    return super.onTouchEvent(paramMotionEvent);
+  }
+  
+  public void setMinOffset(float paramFloat)
+  {
+    mMinOffset = paramFloat;
+  }
+  
+  public void setRotationAngle(float paramFloat)
+  {
+    mRawRotationAngle = paramFloat;
+    mRotationAngle = Utils.getNormalizedAngle(mRawRotationAngle);
+  }
+  
+  public void setRotationEnabled(boolean paramBoolean)
+  {
+    mRotateEnabled = paramBoolean;
+  }
+  
+  public void spin(int paramInt, float paramFloat1, float paramFloat2, Easing.EasingOption paramEasingOption)
+  {
+    int i = Build.VERSION.SDK_INT;
+    setRotationAngle(paramFloat1);
+    ObjectAnimator localObjectAnimator = ObjectAnimator.ofFloat(this, "rotationAngle", new float[] { paramFloat1, paramFloat2 });
+    localObjectAnimator.setDuration(paramInt);
+    localObjectAnimator.setInterpolator(Easing.getEasingFunctionFromOption(paramEasingOption));
+    localObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+    {
+      public void onAnimationUpdate(ValueAnimator paramAnonymousValueAnimator)
+      {
+        postInvalidate();
+      }
+    });
+    localObjectAnimator.start();
+  }
+}

@@ -1,0 +1,319 @@
+package com.google.android.gms.internal;
+
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import b.b.a.X;
+import b.b.x.n.b;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.measurement.AppMeasurement.Event;
+import com.google.android.gms.measurement.AppMeasurement.Param;
+import com.google.android.gms.measurement.AppMeasurement.UserProperty;
+import java.io.IOException;
+import java.util.Map;
+
+public final class zzccq
+  extends zzcdu
+{
+  public final Map<String, Map<String, String>> zzirv = new b();
+  public final Map<String, Map<String, Boolean>> zzirw = new b();
+  public final Map<String, Map<String, Boolean>> zzirx = new b();
+  public final Map<String, zzcge> zziry = new b();
+  public final Map<String, String> zzirz = new b();
+  
+  public zzccq(zzccw paramZzccw)
+  {
+    super(paramZzccw);
+  }
+  
+  public static Map<String, String> zza(zzcge paramZzcge)
+  {
+    b localB = new b();
+    if (paramZzcge != null)
+    {
+      paramZzcge = zziyo;
+      if (paramZzcge != null)
+      {
+        int j = paramZzcge.length;
+        int i = 0;
+        while (i < j)
+        {
+          Object localObject = paramZzcge[i];
+          if (localObject != null) {
+            localB.put(key, value);
+          }
+          i += 1;
+        }
+      }
+    }
+    return localB;
+  }
+  
+  private final void zza(String paramString, zzcge paramZzcge)
+  {
+    b localB1 = new b();
+    b localB2 = new b();
+    if (paramZzcge != null)
+    {
+      paramZzcge = zziyp;
+      if (paramZzcge != null)
+      {
+        int j = paramZzcge.length;
+        int i = 0;
+        while (i < j)
+        {
+          Object localObject = paramZzcge[i];
+          if (localObject != null)
+          {
+            String str = AppMeasurement.Event.zzil(name);
+            if (str != null) {
+              name = str;
+            }
+            localB1.put(name, zziyk);
+            localB2.put(name, zziyl);
+          }
+          i += 1;
+        }
+      }
+    }
+    zzirw.put(paramString, localB1);
+    zzirx.put(paramString, localB2);
+  }
+  
+  @X
+  private final zzcge zzc(String paramString, byte[] paramArrayOfByte)
+  {
+    if (paramArrayOfByte == null) {
+      return new zzcge();
+    }
+    paramArrayOfByte = zzeye.zzm(paramArrayOfByte, 0, paramArrayOfByte.length);
+    zzcge localZzcge = new zzcge();
+    try
+    {
+      localZzcge.zza(paramArrayOfByte);
+      zzaul().zzayj().zze("Parsed config. version, gmp_app_id", zziym, zzilu);
+      return localZzcge;
+    }
+    catch (IOException paramArrayOfByte)
+    {
+      zzaul().zzayf().zze("Unable to merge remote config. appId", zzcbw.zzjf(paramString), paramArrayOfByte);
+    }
+    return new zzcge();
+  }
+  
+  @X
+  private final void zzjm(String paramString)
+  {
+    zzwk();
+    zzuj();
+    zzbp.zzgg(paramString);
+    if (zziry.get(paramString) == null)
+    {
+      Object localObject = zzauf().zziy(paramString);
+      if (localObject == null)
+      {
+        zzirv.put(paramString, null);
+        zzirw.put(paramString, null);
+        zzirx.put(paramString, null);
+        zziry.put(paramString, null);
+        zzirz.put(paramString, null);
+        return;
+      }
+      localObject = zzc(paramString, (byte[])localObject);
+      zzirv.put(paramString, zza((zzcge)localObject));
+      zza(paramString, (zzcge)localObject);
+      zziry.put(paramString, localObject);
+      zzirz.put(paramString, null);
+    }
+  }
+  
+  @X
+  public final String zzan(String paramString1, String paramString2)
+  {
+    zzuj();
+    zzjm(paramString1);
+    paramString1 = (Map)zzirv.get(paramString1);
+    if (paramString1 != null) {
+      return (String)paramString1.get(paramString2);
+    }
+    return null;
+  }
+  
+  @X
+  public final boolean zzao(String paramString1, String paramString2)
+  {
+    zzuj();
+    zzjm(paramString1);
+    if ((zzauh().zzkg(paramString1)) && (zzcfw.zzkd(paramString2))) {
+      return true;
+    }
+    if ((zzauh().zzkh(paramString1)) && (zzcfw.zzju(paramString2))) {
+      return true;
+    }
+    paramString1 = (Map)zzirw.get(paramString1);
+    if (paramString1 != null)
+    {
+      paramString1 = (Boolean)paramString1.get(paramString2);
+      if (paramString1 == null) {
+        return false;
+      }
+      return paramString1.booleanValue();
+    }
+    return false;
+  }
+  
+  @X
+  public final boolean zzap(String paramString1, String paramString2)
+  {
+    zzuj();
+    zzjm(paramString1);
+    if ("ecommerce_purchase".equals(paramString2)) {
+      return true;
+    }
+    paramString1 = (Map)zzirx.get(paramString1);
+    if (paramString1 != null)
+    {
+      paramString1 = (Boolean)paramString1.get(paramString2);
+      if (paramString1 == null) {
+        return false;
+      }
+      return paramString1.booleanValue();
+    }
+    return false;
+  }
+  
+  public final void zzatu()
+  {
+    zzccw.zzatu();
+    throw null;
+  }
+  
+  public final void zzatv()
+  {
+    zzcax.zzawk();
+  }
+  
+  @X
+  public final boolean zzb(String paramString1, byte[] paramArrayOfByte, String paramString2)
+  {
+    zzwk();
+    zzuj();
+    zzbp.zzgg(paramString1);
+    Object localObject1 = zzc(paramString1, paramArrayOfByte);
+    zza(paramString1, (zzcge)localObject1);
+    zziry.put(paramString1, localObject1);
+    zzirz.put(paramString1, paramString2);
+    zzirv.put(paramString1, zza((zzcge)localObject1));
+    paramString2 = zzaty();
+    zzcfx[] arrayOfZzcfx = zziyq;
+    zzbp.zzu(arrayOfZzcfx);
+    int m = arrayOfZzcfx.length;
+    int i = 0;
+    while (i < m)
+    {
+      Object localObject2 = arrayOfZzcfx[i];
+      zzcfy[] arrayOfZzcfy = zzixl;
+      int n = arrayOfZzcfy.length;
+      int j = 0;
+      Object localObject3;
+      while (j < n)
+      {
+        localObject3 = arrayOfZzcfy[j];
+        String str1 = AppMeasurement.Event.zzil(zzixo);
+        if (str1 != null) {
+          zzixo = str1;
+        }
+        localObject3 = zzixp;
+        int i1 = localObject3.length;
+        k = 0;
+        while (k < i1)
+        {
+          str1 = localObject3[k];
+          String str2 = AppMeasurement.Param.zzil(zzixw);
+          if (str2 != null) {
+            zzixw = str2;
+          }
+          k += 1;
+        }
+        j += 1;
+      }
+      localObject2 = zzixk;
+      int k = localObject2.length;
+      j = 0;
+      while (j < k)
+      {
+        arrayOfZzcfy = localObject2[j];
+        localObject3 = AppMeasurement.UserProperty.zzil(zziyd);
+        if (localObject3 != null) {
+          zziyd = ((String)localObject3);
+        }
+        j += 1;
+      }
+      i += 1;
+    }
+    paramString2.zzauf().zza(paramString1, arrayOfZzcfx);
+    try
+    {
+      zziyq = null;
+      paramString2 = new byte[((zzeyn)localObject1).zzhi()];
+      ((zzcge)localObject1).zza(zzeyf.zzn(paramString2, 0, paramString2.length));
+      paramArrayOfByte = paramString2;
+    }
+    catch (IOException paramString2)
+    {
+      zzaul().zzayf().zze("Unable to serialize reduced-size config. Storing full config instead. appId", zzcbw.zzjf(paramString1), paramString2);
+    }
+    paramString2 = zzauf();
+    zzbp.zzgg(paramString1);
+    paramString2.zzuj();
+    paramString2.zzwk();
+    localObject1 = new ContentValues();
+    ((ContentValues)localObject1).put("remote_config", paramArrayOfByte);
+    try
+    {
+      if (paramString2.getWritableDatabase().update("apps", (ContentValues)localObject1, "app_id = ?", new String[] { paramString1 }) == 0L)
+      {
+        paramString2.zzaul().zzayd().zzj("Failed to update remote config (got 0). appId", zzcbw.zzjf(paramString1));
+        return true;
+      }
+    }
+    catch (SQLiteException paramArrayOfByte)
+    {
+      paramString2.zzaul().zzayd().zze("Error storing remote config. appId", zzcbw.zzjf(paramString1), paramArrayOfByte);
+    }
+    return true;
+  }
+  
+  @X
+  public final zzcge zzjn(String paramString)
+  {
+    zzwk();
+    zzuj();
+    zzbp.zzgg(paramString);
+    zzjm(paramString);
+    return (zzcge)zziry.get(paramString);
+  }
+  
+  @X
+  public final String zzjo(String paramString)
+  {
+    zzuj();
+    return (String)zzirz.get(paramString);
+  }
+  
+  @X
+  public final void zzjp(String paramString)
+  {
+    zzuj();
+    zzirz.put(paramString, null);
+  }
+  
+  @X
+  public final void zzjq(String paramString)
+  {
+    zzuj();
+    zziry.remove(paramString);
+  }
+  
+  public final void zzuk() {}
+}

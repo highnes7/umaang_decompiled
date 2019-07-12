@@ -1,0 +1,89 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import com.google.android.gms.internal.zzdjq;
+import com.google.android.gms.internal.zzdjr;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public final class zzca
+  extends Thread
+  implements zzbz
+{
+  public static zzca zzjrv;
+  public volatile boolean mClosed = false;
+  public final Context mContext;
+  public volatile boolean zzcgv = false;
+  public final LinkedBlockingQueue<Runnable> zzjru = new LinkedBlockingQueue();
+  public volatile zzcc zzjrw;
+  
+  public zzca(Context paramContext)
+  {
+    super("GAThread");
+    Context localContext = paramContext;
+    if (paramContext != null) {
+      localContext = paramContext.getApplicationContext();
+    }
+    mContext = localContext;
+    start();
+  }
+  
+  public static zzca zzdw(Context paramContext)
+  {
+    if (zzjrv == null) {
+      zzjrv = new zzca(paramContext);
+    }
+    return zzjrv;
+  }
+  
+  public final void run()
+  {
+    for (;;)
+    {
+      boolean bool = mClosed;
+      try
+      {
+        Runnable localRunnable = (Runnable)zzjru.take();
+        if (zzcgv) {
+          continue;
+        }
+        localRunnable.run();
+      }
+      catch (Throwable localThrowable)
+      {
+        break label54;
+      }
+      catch (InterruptedException localInterruptedException)
+      {
+        str = localInterruptedException.toString();
+        zzdj.zzjss.zzcq(str);
+      }
+      continue;
+      label54:
+      ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+      PrintStream localPrintStream = new PrintStream(localByteArrayOutputStream);
+      zzdjq.zzlhx.zza(str, localPrintStream);
+      localPrintStream.flush();
+      String str = new String(localByteArrayOutputStream.toByteArray());
+      if (str.length() != 0) {
+        str = "Error on Google TagManager Thread: ".concat(str);
+      } else {
+        str = new String("Error on Google TagManager Thread: ");
+      }
+      zzdj.zzjss.e(str);
+      zzdj.zzjss.e("Google TagManager is shutting down.");
+      zzcgv = true;
+    }
+  }
+  
+  public final void zzk(Runnable paramRunnable)
+  {
+    zzjru.add(paramRunnable);
+  }
+  
+  public final void zzlt(String paramString)
+  {
+    zzk(new zzcb(this, this, System.currentTimeMillis(), paramString));
+  }
+}

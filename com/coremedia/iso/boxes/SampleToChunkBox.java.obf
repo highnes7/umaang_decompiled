@@ -1,0 +1,202 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class SampleToChunkBox
+  extends f.h.a.c
+{
+  public static final String TYPE = "stsc";
+  public List<Entry> entries = Collections.emptyList();
+  
+  static {}
+  
+  public SampleToChunkBox()
+  {
+    super("stsc");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    int j = f.h.a.g.c.a(h.j(paramByteBuffer));
+    entries = new ArrayList(j);
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return;
+      }
+      entries.add(new Entry(h.j(paramByteBuffer), h.j(paramByteBuffer), h.j(paramByteBuffer)));
+      i += 1;
+    }
+  }
+  
+  public long[] blowup(int paramInt)
+  {
+    Object localObject1 = Factory.makeJP(ajc$tjp_3, this, this, new Integer(paramInt));
+    j.b().a((JoinPoint)localObject1);
+    long[] arrayOfLong = new long[paramInt];
+    localObject1 = new LinkedList(entries);
+    Collections.reverse((List)localObject1);
+    Iterator localIterator = ((List)localObject1).iterator();
+    localObject1 = (Entry)localIterator.next();
+    paramInt = arrayOfLong.length;
+    for (;;)
+    {
+      if (paramInt <= 1)
+      {
+        arrayOfLong[0] = ((Entry)localObject1).getSamplesPerChunk();
+        return arrayOfLong;
+      }
+      arrayOfLong[(paramInt - 1)] = ((Entry)localObject1).getSamplesPerChunk();
+      Object localObject2 = localObject1;
+      if (paramInt == ((Entry)localObject1).getFirstChunk()) {
+        localObject2 = (Entry)localIterator.next();
+      }
+      paramInt -= 1;
+      localObject1 = localObject2;
+    }
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.putInt((int)entries.size());
+    Iterator localIterator = entries.iterator();
+    for (;;)
+    {
+      if (!localIterator.hasNext()) {
+        return;
+      }
+      Entry localEntry = (Entry)localIterator.next();
+      paramByteBuffer.putInt((int)localEntry.getFirstChunk());
+      paramByteBuffer.putInt((int)localEntry.getSamplesPerChunk());
+      paramByteBuffer.putInt((int)localEntry.getSampleDescriptionIndex());
+    }
+  }
+  
+  public long getContentSize()
+  {
+    return entries.size() * 12 + 8;
+  }
+  
+  public List<Entry> getEntries()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return entries;
+  }
+  
+  public void setEntries(List<Entry> paramList)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramList);
+    j.b().a(localJoinPoint);
+    entries = paramList;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_2, this, this), "SampleToChunkBox[entryCount=");
+    localStringBuilder.append(entries.size());
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+  
+  public static class Entry
+  {
+    public long firstChunk;
+    public long sampleDescriptionIndex;
+    public long samplesPerChunk;
+    
+    public Entry(long paramLong1, long paramLong2, long paramLong3)
+    {
+      firstChunk = paramLong1;
+      samplesPerChunk = paramLong2;
+      sampleDescriptionIndex = paramLong3;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (this == paramObject) {
+        return true;
+      }
+      if (paramObject != null)
+      {
+        if (Entry.class != paramObject.getClass()) {
+          return false;
+        }
+        paramObject = (Entry)paramObject;
+        if (firstChunk != firstChunk) {
+          return false;
+        }
+        if (sampleDescriptionIndex != sampleDescriptionIndex) {
+          return false;
+        }
+        return samplesPerChunk == samplesPerChunk;
+      }
+      return false;
+    }
+    
+    public long getFirstChunk()
+    {
+      return firstChunk;
+    }
+    
+    public long getSampleDescriptionIndex()
+    {
+      return sampleDescriptionIndex;
+    }
+    
+    public long getSamplesPerChunk()
+    {
+      return samplesPerChunk;
+    }
+    
+    public int hashCode()
+    {
+      long l = firstChunk;
+      int i = (int)(l ^ l >>> 32);
+      l = samplesPerChunk;
+      int j = (int)(l ^ l >>> 32);
+      l = sampleDescriptionIndex;
+      return (i * 31 + j) * 31 + (int)(l ^ l >>> 32);
+    }
+    
+    public void setFirstChunk(long paramLong)
+    {
+      firstChunk = paramLong;
+    }
+    
+    public void setSampleDescriptionIndex(long paramLong)
+    {
+      sampleDescriptionIndex = paramLong;
+    }
+    
+    public void setSamplesPerChunk(long paramLong)
+    {
+      samplesPerChunk = paramLong;
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder("Entry{firstChunk=");
+      localStringBuilder.append(firstChunk);
+      localStringBuilder.append(", samplesPerChunk=");
+      localStringBuilder.append(samplesPerChunk);
+      localStringBuilder.append(", sampleDescriptionIndex=");
+      localStringBuilder.append(sampleDescriptionIndex);
+      localStringBuilder.append('}');
+      return localStringBuilder.toString();
+    }
+  }
+}

@@ -1,0 +1,221 @@
+package f.g.c.b;
+
+import f.g.c.a.b;
+import java.io.Serializable;
+import java.util.Arrays;
+import m.a.h;
+
+@b
+public abstract class C<T>
+{
+  public C() {}
+  
+  public static C<Object> a()
+  {
+    return a.a;
+  }
+  
+  public static C<Object> b()
+  {
+    return c.a;
+  }
+  
+  public abstract int a(T paramT);
+  
+  public final <F> C<F> a(J<F, ? extends T> paramJ)
+  {
+    return new K(paramJ, this);
+  }
+  
+  public abstract boolean a(T paramT1, T paramT2);
+  
+  @f.g.c.a.a
+  public final ca<T> b(@h T paramT)
+  {
+    return new b(this, paramT);
+  }
+  
+  public final boolean b(@h T paramT1, @h T paramT2)
+  {
+    if (paramT1 == paramT2) {
+      return true;
+    }
+    if ((paramT1 != null) && (paramT2 != null)) {
+      return a(paramT1, paramT2);
+    }
+    return false;
+  }
+  
+  public final int c(@h T paramT)
+  {
+    if (paramT == null) {
+      return 0;
+    }
+    return a(paramT);
+  }
+  
+  @b(serializable=true)
+  public final <S extends T> C<Iterable<S>> c()
+  {
+    return new Y(this);
+  }
+  
+  public final <S extends T> d<S> d(@h S paramS)
+  {
+    return new d(this, paramS);
+  }
+  
+  public static final class a
+    extends C<Object>
+    implements Serializable
+  {
+    public static final a a = new a();
+    public static final long b = 1L;
+    
+    public a() {}
+    
+    private Object d()
+    {
+      return a;
+    }
+    
+    public int a(Object paramObject)
+    {
+      return paramObject.hashCode();
+    }
+    
+    public boolean a(Object paramObject1, Object paramObject2)
+    {
+      return paramObject1.equals(paramObject2);
+    }
+  }
+  
+  private static final class b<T>
+    implements ca<T>, Serializable
+  {
+    public static final long a = 0L;
+    public final C<T> b;
+    @h
+    public final T c;
+    
+    public b(C<T> paramC, @h T paramT)
+    {
+      if (paramC != null)
+      {
+        b = paramC;
+        c = paramT;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean apply(@h T paramT)
+    {
+      return b.b(paramT, c);
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if (this == paramObject) {
+        return true;
+      }
+      if ((paramObject instanceof b))
+      {
+        paramObject = (b)paramObject;
+        return (b.equals(b)) && (U.a(c, c));
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return Arrays.hashCode(new Object[] { b, c });
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(b);
+      localStringBuilder.append(".equivalentTo(");
+      return f.a.a.a.a.a(localStringBuilder, c, ")");
+    }
+  }
+  
+  public static final class c
+    extends C<Object>
+    implements Serializable
+  {
+    public static final c a = new c();
+    public static final long b = 1L;
+    
+    public c() {}
+    
+    private Object d()
+    {
+      return a;
+    }
+    
+    public int a(Object paramObject)
+    {
+      return System.identityHashCode(paramObject);
+    }
+    
+    public boolean a(Object paramObject1, Object paramObject2)
+    {
+      return false;
+    }
+  }
+  
+  public static final class d<T>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final C<? super T> b;
+    @h
+    public final T c;
+    
+    public d(C<? super T> paramC, @h T paramT)
+    {
+      if (paramC != null)
+      {
+        b = paramC;
+        c = paramT;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    @h
+    public T a()
+    {
+      return c;
+    }
+    
+    public boolean equals(@h Object paramObject)
+    {
+      if (paramObject == this) {
+        return true;
+      }
+      if ((paramObject instanceof d))
+      {
+        paramObject = (d)paramObject;
+        C localC = b;
+        return (localC.equals(b)) && (localC.b(c, c));
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+      return b.c(c);
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(b);
+      localStringBuilder.append(".wrap(");
+      return f.a.a.a.a.a(localStringBuilder, c, ")");
+    }
+  }
+}

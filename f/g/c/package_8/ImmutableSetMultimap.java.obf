@@ -1,0 +1,423 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.io.IOException;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public class Pb<K, V>
+  extends Ib<K, V>
+  implements bg<K, V>
+{
+  @c("not needed in emulated source.")
+  public static final long g = 0L;
+  public final transient Wb<V> h;
+  public transient Pb<V, K> i;
+  public transient Nb<Map.Entry<K, V>> j;
+  
+  public Pb(Ab<K, Nb<V>> paramAb, int paramInt, @h Comparator<? super V> paramComparator)
+  {
+    super(paramAb, paramInt);
+    if (paramComparator == null) {
+      paramAb = null;
+    } else {
+      paramAb = Wb.a(paramComparator);
+    }
+    h = paramAb;
+  }
+  
+  public static <K, V> Pb<K, V> a(K paramK, V paramV)
+  {
+    a localA = new a();
+    localA.a(paramK, paramV);
+    return localA.a();
+  }
+  
+  public static <K, V> Pb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2)
+  {
+    a localA = new a();
+    localA.a(paramK1, paramV1);
+    localA.a(paramK2, paramV2);
+    return localA.a();
+  }
+  
+  public static <K, V> Pb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3)
+  {
+    a localA = new a();
+    localA.a(paramK1, paramV1);
+    localA.a(paramK2, paramV2);
+    localA.a(paramK3, paramV3);
+    return localA.a();
+  }
+  
+  public static <K, V> Pb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3, K paramK4, V paramV4)
+  {
+    a localA = new a();
+    localA.a(paramK1, paramV1);
+    localA.a(paramK2, paramV2);
+    localA.a(paramK3, paramV3);
+    localA.a(paramK4, paramV4);
+    return localA.a();
+  }
+  
+  public static <K, V> Pb<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3, K paramK4, V paramV4, K paramK5, V paramV5)
+  {
+    a localA = new a();
+    localA.a(paramK1, paramV1);
+    localA.a(paramK2, paramV2);
+    localA.a(paramK3, paramV3);
+    localA.a(paramK4, paramV4);
+    localA.a(paramK5, paramV5);
+    return localA.a();
+  }
+  
+  @c("java.io.ObjectInputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    int i1 = paramObjectInputStream.readInt();
+    if (i1 >= 0)
+    {
+      Ab.a localA = Ab.a();
+      int k = 0;
+      int m = 0;
+      while (k < i1)
+      {
+        Object localObject = paramObjectInputStream.readObject();
+        int i2 = paramObjectInputStream.readInt();
+        if (i2 > 0)
+        {
+          Object[] arrayOfObject = new Object[i2];
+          int n = 0;
+          while (n < i2)
+          {
+            arrayOfObject[n] = paramObjectInputStream.readObject();
+            n += 1;
+          }
+          Nb localNb = Nb.a(arrayOfObject);
+          if (localNb.size() == arrayOfObject.length)
+          {
+            localA.a(localObject, localNb);
+            m += i2;
+            k += 1;
+          }
+          else
+          {
+            throw new InvalidObjectException(f.a.a.a.a.a("Duplicate key-value pairs exist for key ", localObject));
+          }
+        }
+        else
+        {
+          throw new InvalidObjectException(f.a.a.a.a.a("Invalid value count ", i2));
+        }
+      }
+      try
+      {
+        paramObjectInputStream = localA.a();
+        Ib.d.a.a(this, paramObjectInputStream);
+        Ib.d.b.a(this, m);
+        return;
+      }
+      catch (IllegalArgumentException paramObjectInputStream)
+      {
+        throw ((InvalidObjectException)new InvalidObjectException(paramObjectInputStream.getMessage()).initCause(paramObjectInputStream));
+      }
+    }
+    paramObjectInputStream = new InvalidObjectException(f.a.a.a.a.a("Invalid key count ", i1));
+    for (;;)
+    {
+      throw paramObjectInputStream;
+    }
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    ag.a(this, paramObjectOutputStream);
+  }
+  
+  public static <K, V> Pb<K, V> b(ve<? extends K, ? extends V> paramVe)
+  {
+    return b(paramVe, null);
+  }
+  
+  public static <K, V> Pb<K, V> b(ve<? extends K, ? extends V> paramVe, Comparator<? super V> paramComparator)
+  {
+    if (paramVe != null)
+    {
+      if ((paramVe.isEmpty()) && (paramComparator == null)) {
+        return ya.k;
+      }
+      if ((paramVe instanceof Pb))
+      {
+        localObject1 = (Pb)paramVe;
+        if (!((Ib)localObject1).f()) {
+          return localObject1;
+        }
+      }
+      Object localObject1 = Ab.a();
+      int k = 0;
+      Iterator localIterator = paramVe.a().entrySet().iterator();
+      while (localIterator.hasNext())
+      {
+        paramVe = (Map.Entry)localIterator.next();
+        Object localObject2 = paramVe.getKey();
+        paramVe = (Collection)paramVe.getValue();
+        if (paramComparator == null) {
+          paramVe = Nb.b(paramVe);
+        } else {
+          paramVe = Wb.a(paramComparator, paramVe);
+        }
+        if (!paramVe.isEmpty())
+        {
+          ((Ab.a)localObject1).a(localObject2, paramVe);
+          k = paramVe.size() + k;
+        }
+      }
+      return new Pb(((Ab.a)localObject1).a(), k, paramComparator);
+    }
+    paramVe = new NullPointerException();
+    for (;;)
+    {
+      throw paramVe;
+    }
+  }
+  
+  public static <K, V> a<K, V> c()
+  {
+    return new a();
+  }
+  
+  public static <K, V> Pb<K, V> g()
+  {
+    return ya.k;
+  }
+  
+  private Pb<V, K> i()
+  {
+    Object localObject = new a();
+    Iterator localIterator = entries().iterator();
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      ((a)localObject).a(localEntry.getValue(), localEntry.getKey());
+    }
+    localObject = ((a)localObject).a();
+    i = this;
+    return localObject;
+  }
+  
+  public Nb<V> b(K paramK, Iterable<? extends V> paramIterable)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public Nb<V> d(Object paramObject)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  @f.g.c.a.a
+  public Pb<V, K> e()
+  {
+    Pb localPb2 = i;
+    Pb localPb1 = localPb2;
+    if (localPb2 == null)
+    {
+      localPb1 = i();
+      i = localPb1;
+    }
+    return localPb1;
+  }
+  
+  public Nb<Map.Entry<K, V>> entries()
+  {
+    Nb localNb2 = j;
+    Nb localNb1 = localNb2;
+    if (localNb2 == null)
+    {
+      localNb1 = Nb.b(super.entries());
+      j = localNb1;
+    }
+    return localNb1;
+  }
+  
+  public Nb<V> get(@h K paramK)
+  {
+    paramK = (Nb)b.get(paramK);
+    if (paramK != null) {
+      return paramK;
+    }
+    paramK = h;
+    if (paramK != null) {
+      return paramK;
+    }
+    return Nb.g();
+  }
+  
+  public static final class a<K, V>
+    extends Ib.a<K, V>
+  {
+    public a()
+    {
+      a = new Pb.b();
+    }
+    
+    public a<K, V> a(ve<? extends K, ? extends V> paramVe)
+    {
+      paramVe = paramVe.a().entrySet().iterator();
+      while (paramVe.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)paramVe.next();
+        a(localEntry.getKey(), (Iterable)localEntry.getValue());
+      }
+      return this;
+    }
+    
+    public a<K, V> a(K paramK, Iterable<? extends V> paramIterable)
+    {
+      Object localObject = a;
+      if (paramK != null)
+      {
+        paramK = ((ve)localObject).get(paramK);
+        paramIterable = paramIterable.iterator();
+        while (paramIterable.hasNext())
+        {
+          localObject = paramIterable.next();
+          ba.a(localObject);
+          paramK.add(localObject);
+        }
+        return this;
+      }
+      paramK = new NullPointerException();
+      for (;;)
+      {
+        throw paramK;
+      }
+    }
+    
+    public a<K, V> a(K paramK, V paramV)
+    {
+      ve localVe = a;
+      if (paramK != null)
+      {
+        if (paramV != null)
+        {
+          localVe.put(paramK, paramV);
+          return this;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<K, V> a(K paramK, V... paramVarArgs)
+    {
+      return a(paramK, Arrays.asList(paramVarArgs));
+    }
+    
+    @f.g.c.a.a
+    public a<K, V> a(Comparator<? super K> paramComparator)
+    {
+      if (paramComparator != null)
+      {
+        b = paramComparator;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<K, V> a(Map.Entry<? extends K, ? extends V> paramEntry)
+    {
+      ve localVe = a;
+      Object localObject = paramEntry.getKey();
+      ba.a(localObject);
+      paramEntry = paramEntry.getValue();
+      ba.a(paramEntry);
+      localVe.put(localObject, paramEntry);
+      return this;
+    }
+    
+    public Pb<K, V> a()
+    {
+      if (b != null)
+      {
+        Pb.b localB = new Pb.b();
+        Object localObject = fd.b(a.a().entrySet());
+        Collections.sort((List)localObject, mf.b(b).a(new Ob(this)));
+        localObject = ((List)localObject).iterator();
+        while (((Iterator)localObject).hasNext())
+        {
+          Map.Entry localEntry = (Map.Entry)((Iterator)localObject).next();
+          localB.a(localEntry.getKey(), (Iterable)localEntry.getValue());
+        }
+        a = localB;
+      }
+      return Pb.b(a, c);
+    }
+    
+    @f.g.c.a.a
+    public a<K, V> b(Comparator<? super V> paramComparator)
+    {
+      if (paramComparator != null)
+      {
+        c = paramComparator;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+  }
+  
+  private static class b<K, V>
+    extends r<K, V>
+  {
+    public static final long i = 0L;
+    
+    public b()
+    {
+      super();
+    }
+    
+    public Collection<V> e()
+    {
+      return new LinkedHashSet();
+    }
+  }
+  
+  private static class c<K, V>
+    extends r<K, V>
+  {
+    public static final long i = 0L;
+    
+    public c(Comparator<? super K> paramComparator, ve<K, V> paramVe)
+    {
+      super();
+      a(paramVe);
+    }
+    
+    public Collection<V> e()
+    {
+      return new LinkedHashSet();
+    }
+  }
+}

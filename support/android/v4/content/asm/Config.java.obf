@@ -1,0 +1,229 @@
+package b.b.x.b.b;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
+import android.content.res.Resources.Theme;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.TypedValue;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.k;
+import b.b.a.m;
+import b.b.a.p;
+import b.b.a.r;
+import f.a.a.a.a;
+import java.io.IOException;
+import org.xmlpull.v1.XmlPullParserException;
+
+public final class i
+{
+  public static final String a = "ResourcesCompat";
+  
+  public i() {}
+  
+  @k
+  public static int a(@F Resources paramResources, @m int paramInt, @G Resources.Theme paramTheme)
+    throws Resources.NotFoundException
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramResources.getColor(paramInt, paramTheme);
+    }
+    return paramResources.getColor(paramInt);
+  }
+  
+  @G
+  public static Typeface a(@F Context paramContext, @r int paramInt)
+    throws Resources.NotFoundException
+  {
+    if (paramContext.isRestricted()) {
+      return null;
+    }
+    return a(paramContext, paramInt, new TypedValue(), 0, null, null, false);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static Typeface a(@F Context paramContext, @r int paramInt1, TypedValue paramTypedValue, int paramInt2, @G a paramA)
+    throws Resources.NotFoundException
+  {
+    if (paramContext.isRestricted()) {
+      return null;
+    }
+    return a(paramContext, paramInt1, paramTypedValue, paramInt2, paramA, null, true);
+  }
+  
+  public static Typeface a(@F Context paramContext, int paramInt1, TypedValue paramTypedValue, int paramInt2, @G a paramA, @G Handler paramHandler, boolean paramBoolean)
+  {
+    Resources localResources = paramContext.getResources();
+    localResources.getValue(paramInt1, paramTypedValue, true);
+    paramContext = a(paramContext, localResources, paramTypedValue, paramInt1, paramInt2, paramA, paramHandler, paramBoolean);
+    if (paramContext == null)
+    {
+      if (paramA != null) {
+        return paramContext;
+      }
+      paramContext = a.b("Font resource ID #0x");
+      paramContext.append(Integer.toHexString(paramInt1));
+      paramContext.append(" could not be retrieved.");
+      throw new Resources.NotFoundException(paramContext.toString());
+    }
+    return paramContext;
+  }
+  
+  public static Typeface a(@F Context paramContext, Resources paramResources, TypedValue paramTypedValue, int paramInt1, int paramInt2, @G a paramA, @G Handler paramHandler, boolean paramBoolean)
+  {
+    Object localObject = string;
+    if (localObject != null)
+    {
+      paramTypedValue = ((CharSequence)localObject).toString();
+      if (!paramTypedValue.startsWith("res/"))
+      {
+        if (paramA != null) {
+          paramA.callbackFailAsync(-3, paramHandler);
+        }
+        return null;
+      }
+      localObject = b.b.x.d.g.b(paramResources, paramInt1, paramInt2);
+      if (localObject != null)
+      {
+        if (paramA != null) {
+          paramA.callbackSuccessAsync((Typeface)localObject, paramHandler);
+        }
+        return localObject;
+      }
+    }
+    try
+    {
+      if (paramTypedValue.toLowerCase().endsWith(".xml"))
+      {
+        localObject = d.a(paramResources.getXml(paramInt1), paramResources);
+        if (localObject == null)
+        {
+          if (paramA == null) {
+            break label272;
+          }
+          paramA.callbackFailAsync(-3, paramHandler);
+          return null;
+        }
+        return b.b.x.d.g.a(paramContext, (d.a)localObject, paramResources, paramInt1, paramInt2, paramA, paramHandler, paramBoolean);
+      }
+      paramContext = b.b.x.d.g.a(paramContext, paramResources, paramInt1, paramTypedValue, paramInt2);
+      if (paramA != null)
+      {
+        if (paramContext != null)
+        {
+          paramA.callbackSuccessAsync(paramContext, paramHandler);
+          return paramContext;
+        }
+        paramA.callbackFailAsync(-3, paramHandler);
+      }
+      return paramContext;
+    }
+    catch (XmlPullParserException paramContext)
+    {
+      for (;;) {}
+    }
+    catch (IOException paramContext)
+    {
+      for (;;) {}
+    }
+    a.f("Failed to read xml resource ", paramTypedValue);
+    break label191;
+    a.f("Failed to parse xml resource ", paramTypedValue);
+    label191:
+    if (paramA != null) {
+      paramA.callbackFailAsync(-3, paramHandler);
+    }
+    return null;
+    paramContext = a.b("Resource \"");
+    paramContext.append(paramResources.getResourceName(paramInt1));
+    paramContext.append("\" (");
+    paramContext.append(Integer.toHexString(paramInt1));
+    paramContext.append(") is not a Font: ");
+    paramContext.append(paramTypedValue);
+    throw new Resources.NotFoundException(paramContext.toString());
+    label272:
+    return null;
+  }
+  
+  @G
+  public static Drawable a(@F Resources paramResources, @p int paramInt1, int paramInt2, @G Resources.Theme paramTheme)
+    throws Resources.NotFoundException
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramResources.getDrawableForDensity(paramInt1, paramInt2, paramTheme);
+    }
+    return paramResources.getDrawableForDensity(paramInt1, paramInt2);
+  }
+  
+  public static void a(@F Context paramContext, @r int paramInt, @F a paramA, @G Handler paramHandler)
+    throws Resources.NotFoundException
+  {
+    if (paramA != null)
+    {
+      if (paramContext.isRestricted())
+      {
+        paramA.callbackFailAsync(-4, paramHandler);
+        return;
+      }
+      a(paramContext, paramInt, new TypedValue(), 0, paramA, paramHandler, false);
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  @G
+  public static ColorStateList b(@F Resources paramResources, @m int paramInt, @G Resources.Theme paramTheme)
+    throws Resources.NotFoundException
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramResources.getColorStateList(paramInt, paramTheme);
+    }
+    return paramResources.getColorStateList(paramInt);
+  }
+  
+  @G
+  public static Drawable c(@F Resources paramResources, @p int paramInt, @G Resources.Theme paramTheme)
+    throws Resources.NotFoundException
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramResources.getDrawable(paramInt, paramTheme);
+    }
+    return paramResources.getDrawable(paramInt);
+  }
+  
+  public static abstract class a
+  {
+    public a() {}
+    
+    @N({b.b.a.N.a.b})
+    public final void callbackFailAsync(int paramInt, @G Handler paramHandler)
+    {
+      Handler localHandler = paramHandler;
+      if (paramHandler == null) {
+        localHandler = new Handler(Looper.getMainLooper());
+      }
+      localHandler.post(new h(this, paramInt));
+    }
+    
+    @N({b.b.a.N.a.b})
+    public final void callbackSuccessAsync(Typeface paramTypeface, @G Handler paramHandler)
+    {
+      Handler localHandler = paramHandler;
+      if (paramHandler == null) {
+        localHandler = new Handler(Looper.getMainLooper());
+      }
+      localHandler.post(new g(this, paramTypeface));
+    }
+    
+    public abstract void onFontRetrievalFailed(int paramInt);
+    
+    public abstract void onFontRetrieved(@F Typeface paramTypeface);
+  }
+}

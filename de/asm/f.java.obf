@@ -1,0 +1,229 @@
+package c.b;
+
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.SparseIntArray;
+import b.b.a.N;
+import f.a.a.a.a;
+
+@N({b.b.a.N.a.a})
+public class h
+  extends g
+{
+  public static final boolean o = false;
+  public static final String p = "VersionedParcelParcel";
+  public final SparseIntArray q = new SparseIntArray();
+  public final Parcel r;
+  public final int s;
+  public final int t;
+  public final String u;
+  public int v = -1;
+  public int w = 0;
+  
+  public h(Parcel paramParcel)
+  {
+    this(paramParcel, paramParcel.dataPosition(), paramParcel.dataSize(), "");
+  }
+  
+  public h(Parcel paramParcel, int paramInt1, int paramInt2, String paramString)
+  {
+    r = paramParcel;
+    s = paramInt1;
+    t = paramInt2;
+    w = s;
+    u = paramString;
+  }
+  
+  private int d(int paramInt)
+  {
+    int j;
+    do
+    {
+      int i = w;
+      if (i >= t) {
+        break;
+      }
+      r.setDataPosition(i);
+      i = r.readInt();
+      j = r.readInt();
+      w += i;
+    } while (j != paramInt);
+    return r.dataPosition();
+    return -1;
+  }
+  
+  public void a()
+  {
+    int i = v;
+    if (i >= 0)
+    {
+      i = q.get(i);
+      int j = r.dataPosition();
+      r.setDataPosition(i);
+      r.writeInt(j - i);
+      r.setDataPosition(j);
+    }
+  }
+  
+  public void a(double paramDouble)
+  {
+    r.writeDouble(paramDouble);
+  }
+  
+  public void a(float paramFloat)
+  {
+    r.writeFloat(paramFloat);
+  }
+  
+  public void a(long paramLong)
+  {
+    r.writeLong(paramLong);
+  }
+  
+  public void a(Bundle paramBundle)
+  {
+    r.writeBundle(paramBundle);
+  }
+  
+  public void a(IBinder paramIBinder)
+  {
+    r.writeStrongBinder(paramIBinder);
+  }
+  
+  public void a(IInterface paramIInterface)
+  {
+    r.writeStrongInterface(paramIInterface);
+  }
+  
+  public void a(Parcelable paramParcelable)
+  {
+    r.writeParcelable(paramParcelable, 0);
+  }
+  
+  public void a(String paramString)
+  {
+    r.writeString(paramString);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.copyTypes(TypeTransformer.java:311)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.fixTypes(TypeTransformer.java:226)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:207)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  public void a(byte[] paramArrayOfByte)
+  {
+    if (paramArrayOfByte != null)
+    {
+      r.writeInt(paramArrayOfByte.length);
+      r.writeByteArray(paramArrayOfByte);
+      return;
+    }
+    r.writeInt(-1);
+  }
+  
+  public void a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    if (paramArrayOfByte != null)
+    {
+      r.writeInt(paramArrayOfByte.length);
+      r.writeByteArray(paramArrayOfByte, paramInt1, paramInt2);
+      return;
+    }
+    r.writeInt(-1);
+  }
+  
+  public boolean a(int paramInt)
+  {
+    paramInt = d(paramInt);
+    if (paramInt == -1) {
+      return false;
+    }
+    r.setDataPosition(paramInt);
+    return true;
+  }
+  
+  public g b()
+  {
+    Parcel localParcel = r;
+    int k = localParcel.dataPosition();
+    int j = w;
+    int i = j;
+    if (j == s) {
+      i = t;
+    }
+    return new h(localParcel, k, i, a.a(new StringBuilder(), u, "  "));
+  }
+  
+  public void b(int paramInt)
+  {
+    a();
+    v = paramInt;
+    q.put(paramInt, r.dataPosition());
+    c(0);
+    c(paramInt);
+  }
+  
+  public void c(int paramInt)
+  {
+    r.writeInt(paramInt);
+  }
+  
+  public boolean d()
+  {
+    return r.readInt() != 0;
+  }
+  
+  public Bundle f()
+  {
+    return r.readBundle(h.class.getClassLoader());
+  }
+  
+  public byte[] g()
+  {
+    int i = r.readInt();
+    if (i < 0) {
+      return null;
+    }
+    byte[] arrayOfByte = new byte[i];
+    r.readByteArray(arrayOfByte);
+    return arrayOfByte;
+  }
+  
+  public double h()
+  {
+    return r.readDouble();
+  }
+  
+  public float j()
+  {
+    return r.readFloat();
+  }
+  
+  public int l()
+  {
+    return r.readInt();
+  }
+  
+  public long n()
+  {
+    return r.readLong();
+  }
+  
+  public <T extends Parcelable> T p()
+  {
+    return r.readParcelable(h.class.getClassLoader());
+  }
+  
+  public String r()
+  {
+    return r.readString();
+  }
+  
+  public IBinder s()
+  {
+    return r.readStrongBinder();
+  }
+}

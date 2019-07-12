@@ -1,0 +1,157 @@
+package f.g.b.a.b.b.a;
+
+import f.g.b.a.c.B;
+import f.g.b.a.g.J;
+import f.g.b.a.g.ba;
+import f.g.b.a.g.h;
+import f.g.b.a.g.n;
+import f.g.b.a.g.v;
+import f.g.b.a.g.w;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.util.Map;
+
+@h
+public final class a
+  implements J
+{
+  public static final a a = new a();
+  
+  public a() {}
+  
+  public <T> T a(B paramB, Class<T> paramClass)
+    throws IOException
+  {
+    paramB.a(0);
+    paramB = paramB.b();
+    try
+    {
+      paramClass = a(paramB, paramClass);
+      return paramClass;
+    }
+    finally
+    {
+      paramB.close();
+    }
+  }
+  
+  public <T> T a(InputStream paramInputStream, Class<T> paramClass)
+    throws IOException
+  {
+    n localN = n.a(paramClass);
+    Object localObject = ba.a(paramClass);
+    BufferedReader localBufferedReader = new BufferedReader(new InputStreamReader(paramInputStream));
+    for (;;)
+    {
+      String str = localBufferedReader.readLine();
+      if (str == null) {
+        return localObject;
+      }
+      int i = str.indexOf('=');
+      paramInputStream = str.substring(0, i);
+      str = str.substring(i + 1);
+      Field localField = localN.a(paramInputStream);
+      if (localField != null)
+      {
+        Class localClass = localField.getType();
+        if (localClass != Boolean.TYPE)
+        {
+          paramInputStream = str;
+          if (localClass != Boolean.class) {}
+        }
+        else
+        {
+          paramInputStream = Boolean.valueOf(str);
+        }
+        v.a(localField, localObject, paramInputStream);
+      }
+      else if (w.class.isAssignableFrom(paramClass))
+      {
+        ((w)localObject).b(paramInputStream, str);
+      }
+      else if (Map.class.isAssignableFrom(paramClass))
+      {
+        ((Map)localObject).put(paramInputStream, str);
+      }
+    }
+  }
+  
+  public <T> T a(InputStream paramInputStream, Charset paramCharset, Class<T> paramClass)
+    throws IOException
+  {
+    return a(new InputStreamReader(paramInputStream, paramCharset), paramClass);
+  }
+  
+  public Object a(InputStream paramInputStream, Charset paramCharset, Type paramType)
+  {
+    throw new UnsupportedOperationException("Type-based parsing is not yet supported -- use Class<T> instead");
+  }
+  
+  public <T> T a(Reader paramReader, Class<T> paramClass)
+    throws IOException
+  {
+    try
+    {
+      n localN = n.a(paramClass);
+      Object localObject2 = ba.a(paramClass);
+      BufferedReader localBufferedReader = new BufferedReader(paramReader);
+      for (;;)
+      {
+        String str = localBufferedReader.readLine();
+        if (str == null)
+        {
+          paramReader.close();
+          return localObject2;
+        }
+        int i = str.indexOf('=');
+        Object localObject1 = str.substring(0, i);
+        str = str.substring(i + 1);
+        Field localField = localN.a((String)localObject1);
+        if (localField != null)
+        {
+          Class localClass = localField.getType();
+          if (localClass != Boolean.TYPE)
+          {
+            localObject1 = str;
+            if (localClass != Boolean.class) {}
+          }
+          else
+          {
+            localObject1 = Boolean.valueOf(str);
+          }
+          v.a(localField, localObject2, localObject1);
+        }
+        else if (w.class.isAssignableFrom(paramClass))
+        {
+          ((w)localObject2).b((String)localObject1, str);
+        }
+        else if (Map.class.isAssignableFrom(paramClass))
+        {
+          ((Map)localObject2).put(localObject1, str);
+        }
+      }
+      throw paramClass;
+    }
+    finally
+    {
+      paramReader.close();
+    }
+    for (;;) {}
+  }
+  
+  public Object a(Reader paramReader, Type paramType)
+  {
+    throw new UnsupportedOperationException("Type-based parsing is not yet supported -- use Class<T> instead");
+  }
+  
+  public String a()
+  {
+    return "text/plain";
+  }
+}

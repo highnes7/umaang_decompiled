@@ -1,0 +1,254 @@
+package com.google.android.gms.internal;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public final class zzdoq<K, V>
+  extends zzdos<K, V>
+{
+  public final K[] zzlsc;
+  public final V[] zzlsd;
+  public final Comparator<K> zzlse;
+  
+  public zzdoq(Comparator<K> paramComparator)
+  {
+    zzlsc = new Object[0];
+    zzlsd = new Object[0];
+    zzlse = paramComparator;
+  }
+  
+  public zzdoq(Comparator<K> paramComparator, K[] paramArrayOfK, V[] paramArrayOfV)
+  {
+    zzlsc = paramArrayOfK;
+    zzlsd = paramArrayOfV;
+    zzlse = paramComparator;
+  }
+  
+  public static <A, B, C> zzdoq<A, C> zza(List<A> paramList, Map<B, C> paramMap, zzdov<A, B> paramZzdov, Comparator<A> paramComparator)
+  {
+    Collections.sort(paramList, paramComparator);
+    int i = paramList.size();
+    Object[] arrayOfObject1 = new Object[i];
+    Object[] arrayOfObject2 = new Object[i];
+    paramList = paramList.iterator();
+    i = 0;
+    while (paramList.hasNext())
+    {
+      Object localObject = paramList.next();
+      arrayOfObject1[i] = localObject;
+      arrayOfObject2[i] = paramMap.get(paramZzdov.zzbd(localObject));
+      i += 1;
+    }
+    return new zzdoq(paramComparator, arrayOfObject1, arrayOfObject2);
+  }
+  
+  public static <T> T[] zza(T[] paramArrayOfT, int paramInt)
+  {
+    int i = paramArrayOfT.length - 1;
+    Object[] arrayOfObject = new Object[i];
+    System.arraycopy(paramArrayOfT, 0, arrayOfObject, 0, paramInt);
+    System.arraycopy(paramArrayOfT, paramInt + 1, arrayOfObject, paramInt, i - paramInt);
+    return arrayOfObject;
+  }
+  
+  public static <T> T[] zza(T[] paramArrayOfT, int paramInt, T paramT)
+  {
+    int i = paramArrayOfT.length + 1;
+    Object[] arrayOfObject = new Object[i];
+    System.arraycopy(paramArrayOfT, 0, arrayOfObject, 0, paramInt);
+    arrayOfObject[paramInt] = paramT;
+    System.arraycopy(paramArrayOfT, paramInt, arrayOfObject, paramInt + 1, i - paramInt - 1);
+    return arrayOfObject;
+  }
+  
+  public static <T> T[] zzb(T[] paramArrayOfT, int paramInt, T paramT)
+  {
+    int i = paramArrayOfT.length;
+    Object[] arrayOfObject = new Object[i];
+    System.arraycopy(paramArrayOfT, 0, arrayOfObject, 0, i);
+    arrayOfObject[paramInt] = paramT;
+    return arrayOfObject;
+  }
+  
+  private final int zzbb(K paramK)
+  {
+    int i = 0;
+    for (;;)
+    {
+      Object[] arrayOfObject = zzlsc;
+      if ((i >= arrayOfObject.length) || (zzlse.compare(arrayOfObject[i], paramK) >= 0)) {
+        break;
+      }
+      i += 1;
+    }
+    return i;
+  }
+  
+  private final int zzbc(K paramK)
+  {
+    Object[] arrayOfObject = zzlsc;
+    int k = arrayOfObject.length;
+    int i = 0;
+    int j = 0;
+    while (i < k)
+    {
+      Object localObject = arrayOfObject[i];
+      if (zzlse.compare(paramK, localObject) == 0) {
+        return j;
+      }
+      j += 1;
+      i += 1;
+    }
+    return -1;
+  }
+  
+  private final Iterator<Map.Entry<K, V>> zzj(int paramInt, boolean paramBoolean)
+  {
+    return new zzdor(this, paramInt, paramBoolean);
+  }
+  
+  public final boolean containsKey(K paramK)
+  {
+    return zzbc(paramK) != -1;
+  }
+  
+  public final V get(K paramK)
+  {
+    int i = zzbc(paramK);
+    if (i != -1) {
+      return zzlsd[i];
+    }
+    return null;
+  }
+  
+  public final Comparator<K> getComparator()
+  {
+    return zzlse;
+  }
+  
+  public final int indexOf(K paramK)
+  {
+    return zzbc(paramK);
+  }
+  
+  public final boolean isEmpty()
+  {
+    return zzlsc.length == 0;
+  }
+  
+  public final Iterator<Map.Entry<K, V>> iterator()
+  {
+    return new zzdor(this, 0, false);
+  }
+  
+  public final int size()
+  {
+    return zzlsc.length;
+  }
+  
+  public final void zza(zzdpd<K, V> paramZzdpd)
+  {
+    int i = 0;
+    for (;;)
+    {
+      Object[] arrayOfObject = zzlsc;
+      if (i >= arrayOfObject.length) {
+        break;
+      }
+      paramZzdpd.zzh(arrayOfObject[i], zzlsd[i]);
+      i += 1;
+    }
+  }
+  
+  public final zzdos<K, V> zzay(K paramK)
+  {
+    int i = zzbc(paramK);
+    if (i == -1) {
+      return this;
+    }
+    paramK = zza(zzlsc, i);
+    Object[] arrayOfObject = zza(zzlsd, i);
+    return new zzdoq(zzlse, paramK, arrayOfObject);
+  }
+  
+  public final Iterator<Map.Entry<K, V>> zzaz(K paramK)
+  {
+    return new zzdor(this, zzbb(paramK), false);
+  }
+  
+  public final K zzba(K paramK)
+  {
+    int i = zzbc(paramK);
+    if (i != -1)
+    {
+      if (i > 0) {
+        return zzlsc[(i - 1)];
+      }
+      return null;
+    }
+    throw new IllegalArgumentException("Can't find predecessor of nonexistent key");
+  }
+  
+  public final K zzbqd()
+  {
+    Object[] arrayOfObject = zzlsc;
+    if (arrayOfObject.length > 0) {
+      return arrayOfObject[0];
+    }
+    return null;
+  }
+  
+  public final K zzbqe()
+  {
+    Object[] arrayOfObject = zzlsc;
+    if (arrayOfObject.length > 0) {
+      return arrayOfObject[(arrayOfObject.length - 1)];
+    }
+    return null;
+  }
+  
+  public final Iterator<Map.Entry<K, V>> zzbqf()
+  {
+    return new zzdor(this, zzlsc.length - 1, true);
+  }
+  
+  public final zzdos<K, V> zzg(K paramK, V paramV)
+  {
+    int i = zzbc(paramK);
+    if (i != -1)
+    {
+      if ((zzlsc[i] == paramK) && (zzlsd[i] == paramV)) {
+        return this;
+      }
+      paramK = zzb(zzlsc, i, paramK);
+      paramV = zzb(zzlsd, i, paramV);
+      return new zzdoq(zzlse, paramK, paramV);
+    }
+    Object localObject = zzlsc;
+    if (localObject.length > 25)
+    {
+      localObject = new HashMap(localObject.length + 1);
+      i = 0;
+      for (;;)
+      {
+        Object[] arrayOfObject = zzlsc;
+        if (i >= arrayOfObject.length) {
+          break;
+        }
+        ((Map)localObject).put(arrayOfObject[i], zzlsd[i]);
+        i += 1;
+      }
+      ((Map)localObject).put(paramK, paramV);
+      return zzdpg.zzb((Map)localObject, zzlse);
+    }
+    i = zzbb(paramK);
+    paramK = zza(zzlsc, i, paramK);
+    paramV = zza(zzlsd, i, paramV);
+    return new zzdoq(zzlse, paramK, paramV);
+  }
+}

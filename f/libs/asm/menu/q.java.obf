@@ -1,0 +1,36 @@
+package f.c.a.c;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+
+public class za
+  implements Xa
+{
+  public static final String a = "io.fabric.unity.crashlytics.version";
+  public final Context b;
+  public final String c;
+  
+  public za(Context paramContext, String paramString)
+  {
+    b = paramContext;
+    c = paramString;
+  }
+  
+  public String a()
+  {
+    Object localObject = b.getPackageManager();
+    String str = null;
+    try
+    {
+      localObject = getApplicationInfoc, 128).metaData;
+      if (localObject != null) {
+        str = ((Bundle)localObject).getString("io.fabric.unity.crashlytics.version");
+      }
+      return str;
+    }
+    catch (Exception localException) {}
+    return null;
+  }
+}

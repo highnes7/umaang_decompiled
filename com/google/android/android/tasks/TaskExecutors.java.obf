@@ -1,0 +1,27 @@
+package com.google.android.gms.tasks;
+
+import android.os.Handler;
+import android.os.Looper;
+import b.b.a.F;
+import java.util.concurrent.Executor;
+
+public final class TaskExecutors
+{
+  public static final Executor MAIN_THREAD = new zza();
+  public static final Executor zzkgi = new zzm();
+  
+  public TaskExecutors() {}
+  
+  public static final class zza
+    implements Executor
+  {
+    public final Handler mHandler = new Handler(Looper.getMainLooper());
+    
+    public zza() {}
+    
+    public final void execute(@F Runnable paramRunnable)
+    {
+      mHandler.post(paramRunnable);
+    }
+  }
+}

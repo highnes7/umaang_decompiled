@@ -1,0 +1,524 @@
+package b.b.x.l;
+
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ProviderInfo;
+import android.content.pm.Signature;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.net.Uri.Builder;
+import android.os.Build.VERSION;
+import android.os.CancellationSignal;
+import android.os.Handler;
+import android.provider.BaseColumns;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.a.W;
+import b.b.x.b.b.i.a;
+import b.b.x.d.g;
+import b.b.x.d.o;
+import b.b.x.n.m;
+import f.a.a.a.a;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class r
+{
+  public static final String a = "FontsContractCompat";
+  @N({b.b.a.N.a.b})
+  public static final String b = "font_results";
+  @N({b.b.a.N.a.b})
+  public static final int c = -1;
+  @N({b.b.a.N.a.b})
+  public static final int d = -2;
+  public static final m<String, Typeface> e = new m(16);
+  public static final int f = 10000;
+  public static final x g = new x("fonts", 10, 10000);
+  public static final Object h = new Object();
+  @b.b.a.t("sLock")
+  public static final b.b.x.n.t<String, ArrayList<x.a<e>>> i = new b.b.x.n.t();
+  public static final Comparator<byte[]> j = new q();
+  
+  public r() {}
+  
+  @G
+  @N({b.b.a.N.a.b})
+  @W
+  public static ProviderInfo a(@F PackageManager paramPackageManager, @F c paramC, @G Resources paramResources)
+    throws PackageManager.NameNotFoundException
+  {
+    String str = paramC.d();
+    int k = 0;
+    ProviderInfo localProviderInfo = paramPackageManager.resolveContentProvider(str, 0);
+    if (localProviderInfo != null)
+    {
+      if (packageName.equals(paramC.e()))
+      {
+        paramPackageManager = a(getPackageInfopackageName, 64).signatures);
+        Collections.sort(paramPackageManager, j);
+        paramC = a(paramC, paramResources);
+        while (k < paramC.size())
+        {
+          paramResources = new ArrayList((Collection)paramC.get(k));
+          Collections.sort(paramResources, j);
+          if (a(paramPackageManager, paramResources)) {
+            return localProviderInfo;
+          }
+          k += 1;
+        }
+        return null;
+      }
+      paramPackageManager = new StringBuilder();
+      paramPackageManager.append("Found content provider ");
+      paramPackageManager.append(str);
+      paramPackageManager.append(", but package was not ");
+      paramPackageManager.append(paramC.e());
+      throw new PackageManager.NameNotFoundException(paramPackageManager.toString());
+    }
+    paramPackageManager = new PackageManager.NameNotFoundException(a.c("No package found for authority: ", str));
+    for (;;)
+    {
+      throw paramPackageManager;
+    }
+  }
+  
+  @G
+  public static Typeface a(@F Context paramContext, @G CancellationSignal paramCancellationSignal, @F c[] paramArrayOfC)
+  {
+    return g.a(paramContext, paramCancellationSignal, paramArrayOfC, 0);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static Typeface a(Context paramContext, c paramC, @G i.a arg2, @G Handler paramHandler, boolean paramBoolean, int paramInt1, int paramInt2)
+  {
+    Object localObject = new StringBuilder();
+    ((StringBuilder)localObject).append(paramC.c());
+    ((StringBuilder)localObject).append("-");
+    ((StringBuilder)localObject).append(paramInt2);
+    localObject = ((StringBuilder)localObject).toString();
+    Typeface localTypeface = (Typeface)e.get(localObject);
+    if (localTypeface != null)
+    {
+      if (??? != null) {
+        ???.onFontRetrieved(localTypeface);
+      }
+      return localTypeface;
+    }
+    if ((paramBoolean) && (paramInt1 == -1))
+    {
+      paramContext = a(paramContext, paramC, paramInt2);
+      if (??? != null)
+      {
+        paramInt1 = b;
+        if (paramInt1 == 0) {
+          ???.callbackSuccessAsync(a, paramHandler);
+        } else {
+          ???.callbackFailAsync(paramInt1, paramHandler);
+        }
+      }
+      return a;
+    }
+    paramC = new d(paramContext, paramC, paramInt2, (String)localObject);
+    if (paramBoolean) {}
+    try
+    {
+      paramContext = gaa;
+      return paramContext;
+    }
+    catch (InterruptedException paramContext) {}
+    if (??? == null) {
+      paramContext = null;
+    } else {
+      paramContext = new e(???, paramHandler);
+    }
+    synchronized (h)
+    {
+      if (i.containsKey(localObject))
+      {
+        if (paramContext != null) {
+          ((ArrayList)i.get(localObject)).add(paramContext);
+        }
+        return null;
+      }
+      if (paramContext != null)
+      {
+        paramHandler = new ArrayList();
+        paramHandler.add(paramContext);
+        i.put(localObject, paramHandler);
+      }
+      g.a(paramC, new f((String)localObject));
+      return null;
+    }
+    return null;
+  }
+  
+  @F
+  public static b a(@F Context paramContext, @G CancellationSignal paramCancellationSignal, @F c paramC)
+    throws PackageManager.NameNotFoundException
+  {
+    ProviderInfo localProviderInfo = a(paramContext.getPackageManager(), paramC, paramContext.getResources());
+    if (localProviderInfo == null) {
+      return new b(1, null);
+    }
+    return new b(0, a(paramContext, paramC, authority, paramCancellationSignal));
+  }
+  
+  @F
+  public static e a(Context paramContext, c paramC, int paramInt)
+  {
+    try
+    {
+      paramC = a(paramContext, null, paramC);
+      int m = paramC.b();
+      int k = -3;
+      if (m == 0)
+      {
+        paramContext = g.a(paramContext, null, paramC.a(), paramInt);
+        if (paramContext != null) {
+          k = 0;
+        }
+        return new e(paramContext, k);
+      }
+      if (paramC.b() == 1) {
+        k = -2;
+      }
+      return new e(null, k);
+    }
+    catch (PackageManager.NameNotFoundException paramContext)
+    {
+      for (;;) {}
+    }
+    return new e(null, -1);
+  }
+  
+  public static List<List<byte[]>> a(c paramC, Resources paramResources)
+  {
+    if (paramC.a() != null) {
+      return paramC.a();
+    }
+    return b.b.x.b.b.d.a(paramResources, paramC.b());
+  }
+  
+  public static List<byte[]> a(Signature[] paramArrayOfSignature)
+  {
+    ArrayList localArrayList = new ArrayList();
+    int k = 0;
+    while (k < paramArrayOfSignature.length)
+    {
+      localArrayList.add(paramArrayOfSignature[k].toByteArray());
+      k += 1;
+    }
+    return localArrayList;
+  }
+  
+  @K(19)
+  @N({b.b.a.N.a.b})
+  public static Map<Uri, ByteBuffer> a(Context paramContext, c[] paramArrayOfC, CancellationSignal paramCancellationSignal)
+  {
+    HashMap localHashMap = new HashMap();
+    int m = paramArrayOfC.length;
+    int k = 0;
+    while (k < m)
+    {
+      Object localObject = paramArrayOfC[k];
+      if (((c)localObject).a() == 0)
+      {
+        localObject = ((c)localObject).c();
+        if (!localHashMap.containsKey(localObject)) {
+          localHashMap.put(localObject, o.a(paramContext, paramCancellationSignal, (Uri)localObject));
+        }
+      }
+      k += 1;
+    }
+    return Collections.unmodifiableMap(localHashMap);
+  }
+  
+  @N({b.b.a.N.a.b})
+  public static void a()
+  {
+    e.evictAll();
+  }
+  
+  public static void a(@F Context paramContext, @F c paramC, @F d paramD, @F Handler paramHandler)
+  {
+    paramHandler.post(new p(paramContext, paramC, new Handler(), paramD));
+  }
+  
+  public static boolean a(List<byte[]> paramList1, List<byte[]> paramList2)
+  {
+    if (paramList1.size() != paramList2.size()) {
+      return false;
+    }
+    int k = 0;
+    while (k < paramList1.size())
+    {
+      if (!Arrays.equals((byte[])paramList1.get(k), (byte[])paramList2.get(k))) {
+        return false;
+      }
+      k += 1;
+    }
+    return true;
+  }
+  
+  @F
+  @W
+  public static c[] a(Context paramContext, c paramC, String paramString, CancellationSignal paramCancellationSignal)
+  {
+    ArrayList localArrayList = new ArrayList();
+    Uri localUri1 = new Uri.Builder().scheme("content").authority(paramString).build();
+    Uri localUri2 = new Uri.Builder().scheme("content").authority(paramString).appendPath("file").build();
+    Object localObject = null;
+    paramString = localObject;
+    for (;;)
+    {
+      try
+      {
+        k = Build.VERSION.SDK_INT;
+        paramString = localObject;
+        paramContext = paramContext.getContentResolver();
+        paramString = localObject;
+        paramC = paramC.f();
+        paramString = localObject;
+        paramC = paramContext.query(localUri1, new String[] { "_id", "file_id", "font_ttc_index", "font_variation_settings", "font_weight", "font_italic", "result_code" }, "query = ?", new String[] { paramC }, null, paramCancellationSignal);
+        paramContext = localArrayList;
+        if (paramC == null) {
+          continue;
+        }
+        paramContext = localArrayList;
+        paramString = paramC;
+        if (paramC.getCount() <= 0) {
+          continue;
+        }
+        paramString = paramC;
+        int i1 = paramC.getColumnIndex("result_code");
+        paramString = paramC;
+        paramCancellationSignal = new ArrayList();
+        paramString = paramC;
+        i2 = paramC.getColumnIndex("_id");
+        paramString = paramC;
+        i3 = paramC.getColumnIndex("file_id");
+        paramString = paramC;
+        i4 = paramC.getColumnIndex("font_ttc_index");
+        paramString = paramC;
+        i5 = paramC.getColumnIndex("font_weight");
+        paramString = paramC;
+        i6 = paramC.getColumnIndex("font_italic");
+        paramString = paramC;
+        if (!paramC.moveToNext()) {
+          continue;
+        }
+        if (i1 == -1) {
+          continue;
+        }
+        paramString = paramC;
+        k = paramC.getInt(i1);
+      }
+      finally
+      {
+        int i2;
+        int i3;
+        int i4;
+        int i5;
+        int i6;
+        if (paramString == null) {
+          continue;
+        }
+        paramString.close();
+        continue;
+        throw paramContext;
+        continue;
+        int k = 0;
+        continue;
+        int m = 0;
+        continue;
+        int n = 400;
+        continue;
+        boolean bool = false;
+        continue;
+      }
+      if (i4 == -1) {
+        continue;
+      }
+      paramString = paramC;
+      m = paramC.getInt(i4);
+      if (i3 == -1)
+      {
+        paramString = paramC;
+        paramContext = ContentUris.withAppendedId(localUri1, paramC.getLong(i2));
+      }
+      else
+      {
+        paramString = paramC;
+        paramContext = ContentUris.withAppendedId(localUri2, paramC.getLong(i3));
+      }
+      if (i5 == -1) {
+        continue;
+      }
+      paramString = paramC;
+      n = paramC.getInt(i5);
+      if (i6 == -1) {
+        continue;
+      }
+      paramString = paramC;
+      if (paramC.getInt(i6) != 1) {
+        continue;
+      }
+      bool = true;
+      paramString = paramC;
+      paramCancellationSignal.add(new c(paramContext, m, n, bool, k));
+    }
+    paramContext = paramCancellationSignal;
+    if (paramC != null) {
+      paramC.close();
+    }
+    return (c[])paramContext.toArray(new c[0]);
+  }
+  
+  public static final class a
+    implements BaseColumns
+  {
+    public static final String a = "file_id";
+    public static final String b = "font_ttc_index";
+    public static final String c = "font_variation_settings";
+    public static final String d = "font_weight";
+    public static final String e = "font_italic";
+    public static final String f = "result_code";
+    public static final int g = 0;
+    public static final int h = 1;
+    public static final int i = 2;
+    public static final int j = 3;
+    
+    public a() {}
+  }
+  
+  public static class b
+  {
+    public static final int a = 0;
+    public static final int b = 1;
+    public static final int c = 2;
+    public final int d;
+    public final r.c[] e;
+    
+    @N({b.b.a.N.a.b})
+    public b(int paramInt, @G r.c[] paramArrayOfC)
+    {
+      d = paramInt;
+      e = paramArrayOfC;
+    }
+    
+    public r.c[] a()
+    {
+      return e;
+    }
+    
+    public int b()
+    {
+      return d;
+    }
+  }
+  
+  public static class c
+  {
+    public final Uri a;
+    public final int b;
+    public final int c;
+    public final boolean d;
+    public final int e;
+    
+    @N({b.b.a.N.a.b})
+    public c(@F Uri paramUri, @b.b.a.x(from=0L) int paramInt1, @b.b.a.x(from=1L, to=1000L) int paramInt2, boolean paramBoolean, int paramInt3)
+    {
+      if (paramUri != null)
+      {
+        a = paramUri;
+        b = paramInt1;
+        c = paramInt2;
+        d = paramBoolean;
+        e = paramInt3;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public int a()
+    {
+      return e;
+    }
+    
+    @b.b.a.x(from=0L)
+    public int b()
+    {
+      return b;
+    }
+    
+    @F
+    public Uri c()
+    {
+      return a;
+    }
+    
+    @b.b.a.x(from=1L, to=1000L)
+    public int d()
+    {
+      return c;
+    }
+    
+    public boolean e()
+    {
+      return d;
+    }
+  }
+  
+  public static class d
+  {
+    @N({b.b.a.N.a.b})
+    public static final int a = 0;
+    public static final int b = -1;
+    public static final int c = -2;
+    public static final int d = -3;
+    public static final int e = -4;
+    public static final int f = 1;
+    public static final int g = 2;
+    public static final int h = 3;
+    
+    public d() {}
+    
+    public void a(int paramInt) {}
+    
+    public void a(Typeface paramTypeface) {}
+    
+    @Retention(RetentionPolicy.SOURCE)
+    @N({b.b.a.N.a.b})
+    public static @interface a {}
+  }
+  
+  private static final class e
+  {
+    public final Typeface a;
+    public final int b;
+    
+    public e(@G Typeface paramTypeface, int paramInt)
+    {
+      a = paramTypeface;
+      b = paramInt;
+    }
+  }
+}

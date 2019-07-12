@@ -1,0 +1,526 @@
+package f.g.c.h;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.a.d;
+import f.g.c.b.ba;
+import java.math.RoundingMode;
+
+@f.g.c.a.a
+@b(emulated=true)
+public final class g
+{
+  @d
+  public static final int a = -1257966797;
+  @d
+  public static final byte[] b = { 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0 };
+  @d
+  public static final int[] c = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
+  @d
+  public static final int[] d = { 3, 31, 316, 3162, 31622, 316227, 3162277, 31622776, 316227766, Integer.MAX_VALUE };
+  @d
+  public static final int e = 46340;
+  public static final int[] f = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600 };
+  @d
+  public static int[] g = { Integer.MAX_VALUE, Integer.MAX_VALUE, 65536, 2345, 477, 193, 110, 75, 58, 49, 43, 39, 37, 35, 34, 34, 33 };
+  
+  public g() {}
+  
+  public static int a(int paramInt)
+  {
+    j.a("n", paramInt);
+    int[] arrayOfInt = f;
+    if (paramInt < arrayOfInt.length) {
+      return arrayOfInt[paramInt];
+    }
+    return Integer.MAX_VALUE;
+  }
+  
+  @c("need BigIntegerMath to adequately test")
+  public static int a(int paramInt1, int paramInt2)
+  {
+    j.a("n", paramInt1);
+    j.a("k", paramInt2);
+    int j = 0;
+    boolean bool;
+    if (paramInt2 <= paramInt1) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "k (%s) > n (%s)", new Object[] { Integer.valueOf(paramInt2), Integer.valueOf(paramInt1) });
+    int i = paramInt2;
+    if (paramInt2 > paramInt1 >> 1) {
+      i = paramInt1 - paramInt2;
+    }
+    int[] arrayOfInt = g;
+    if ((i < arrayOfInt.length) && (paramInt1 <= arrayOfInt[i]))
+    {
+      if (i != 0)
+      {
+        paramInt2 = paramInt1;
+        if (i != 1)
+        {
+          long l1 = 1L;
+          paramInt2 = j;
+          while (paramInt2 < i)
+          {
+            long l2 = paramInt1 - paramInt2;
+            paramInt2 += 1;
+            l1 = l1 * l2 / paramInt2;
+          }
+          paramInt2 = (int)l1;
+        }
+        return paramInt2;
+      }
+      return 1;
+    }
+    return Integer.MAX_VALUE;
+  }
+  
+  public static int a(int paramInt1, int paramInt2, RoundingMode paramRoundingMode)
+  {
+    if (paramRoundingMode != null)
+    {
+      if (paramInt2 != 0)
+      {
+        int i = paramInt1 / paramInt2;
+        int m = paramInt1 - paramInt2 * i;
+        if (m == 0) {
+          return i;
+        }
+        int j = 1;
+        boolean bool = true;
+        int k = (paramInt1 ^ paramInt2) >> 31 | 0x1;
+        paramInt1 = j;
+        switch (f.a[paramRoundingMode.ordinal()])
+        {
+        default: 
+          throw new AssertionError();
+        case 6: 
+        case 7: 
+        case 8: 
+          paramInt1 = Math.abs(m);
+          paramInt1 -= Math.abs(paramInt2) - paramInt1;
+          if (paramInt1 == 0)
+          {
+            paramInt1 = j;
+            if (paramRoundingMode == RoundingMode.HALF_UP) {
+              break label226;
+            }
+            if (paramRoundingMode == RoundingMode.HALF_EVEN) {
+              paramInt1 = 1;
+            } else {
+              paramInt1 = 0;
+            }
+            if ((i & 0x1) != 0) {
+              paramInt2 = 1;
+            } else {
+              paramInt2 = 0;
+            }
+            if ((paramInt1 & paramInt2) != 0)
+            {
+              paramInt1 = j;
+              break label226;
+            }
+          }
+          else if (paramInt1 > 0)
+          {
+            paramInt1 = j;
+          }
+          break;
+        case 5: 
+          if (k > 0) {
+            paramInt1 = j;
+          }
+          break;
+        case 3: 
+          if (k < 0) {
+            paramInt1 = j;
+          }
+          break;
+        case 1: 
+          if (m != 0) {
+            bool = false;
+          }
+          j.c(bool);
+        case 2: 
+          paramInt1 = 0;
+        }
+        label226:
+        paramInt2 = i;
+        if (paramInt1 != 0) {
+          paramInt2 = i + k;
+        }
+        return paramInt2;
+      }
+      throw new ArithmeticException("/ by zero");
+    }
+    throw new NullPointerException();
+  }
+  
+  @c("need BigIntegerMath to adequately test")
+  public static int a(int paramInt, RoundingMode paramRoundingMode)
+  {
+    j.b("x", paramInt);
+    int i = c(paramInt);
+    int j = c[i];
+    switch (f.a[paramRoundingMode.ordinal()])
+    {
+    default: 
+      throw new AssertionError();
+    case 6: 
+    case 7: 
+    case 8: 
+      if (paramInt <= d[i]) {
+        return i;
+      }
+      return i + 1;
+    case 4: 
+    case 5: 
+      if (paramInt == j) {
+        return i;
+      }
+      return i + 1;
+    case 1: 
+      boolean bool;
+      if (paramInt == j) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      j.c(bool);
+    }
+    return i;
+  }
+  
+  public static int b(int paramInt1, int paramInt2)
+  {
+    long l = paramInt1 + paramInt2;
+    paramInt1 = (int)l;
+    boolean bool;
+    if (l == paramInt1) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    j.b(bool);
+    return paramInt1;
+  }
+  
+  public static int b(int paramInt, RoundingMode paramRoundingMode)
+  {
+    j.b("x", paramInt);
+    switch (f.a[paramRoundingMode.ordinal()])
+    {
+    default: 
+      throw new AssertionError();
+    case 6: 
+    case 7: 
+    case 8: 
+      int i = Integer.numberOfLeadingZeros(paramInt);
+      int j = 31 - i;
+      if (paramInt <= -1257966797 >>> i) {
+        return j;
+      }
+      return j + 1;
+    case 4: 
+    case 5: 
+      return 32 - Integer.numberOfLeadingZeros(paramInt - 1);
+    case 1: 
+      j.c(b(paramInt));
+    }
+    return 31 - Integer.numberOfLeadingZeros(paramInt);
+  }
+  
+  public static boolean b(int paramInt)
+  {
+    int j = 0;
+    int i;
+    if (paramInt > 0) {
+      i = 1;
+    } else {
+      i = 0;
+    }
+    if ((paramInt & paramInt - 1) == 0) {
+      j = 1;
+    }
+    return i & j;
+  }
+  
+  public static int c(int paramInt)
+  {
+    int i = b[Integer.numberOfLeadingZeros(paramInt)];
+    return i - (paramInt - c[i] >>> 31);
+  }
+  
+  public static int c(int paramInt1, int paramInt2)
+  {
+    long l = paramInt1 * paramInt2;
+    paramInt1 = (int)l;
+    boolean bool;
+    if (l == paramInt1) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    j.b(bool);
+    return paramInt1;
+  }
+  
+  @c("need BigIntegerMath to adequately test")
+  public static int c(int paramInt, RoundingMode paramRoundingMode)
+  {
+    j.a("x", paramInt);
+    int j = d(paramInt);
+    int k = f.a[paramRoundingMode.ordinal()];
+    boolean bool = false;
+    int i = 0;
+    switch (k)
+    {
+    default: 
+      throw new AssertionError();
+    case 6: 
+    case 7: 
+    case 8: 
+      k = j * j + j;
+      if (paramInt <= k) {
+        paramInt = 1;
+      } else {
+        paramInt = 0;
+      }
+      if (k < 0) {
+        i = 1;
+      }
+      if ((paramInt | i) != 0) {
+        return j;
+      }
+      return j + 1;
+    case 4: 
+    case 5: 
+      if (j * j == paramInt) {
+        return j;
+      }
+      return j + 1;
+    case 1: 
+      if (j * j == paramInt) {
+        bool = true;
+      }
+      j.c(bool);
+    }
+    return j;
+  }
+  
+  public static int d(int paramInt)
+  {
+    return (int)Math.sqrt(paramInt);
+  }
+  
+  public static int d(int paramInt1, int paramInt2)
+  {
+    j.a("exponent", paramInt2);
+    int i = -1;
+    int j = 0;
+    boolean bool2 = false;
+    boolean bool1 = false;
+    if (paramInt1 != -2)
+    {
+      if (paramInt1 != -1)
+      {
+        if (paramInt1 != 0)
+        {
+          if (paramInt1 != 1)
+          {
+            if (paramInt1 != 2)
+            {
+              i = paramInt1;
+              paramInt1 = 1;
+              j = paramInt2;
+              paramInt2 = i;
+              for (;;)
+              {
+                i = paramInt1;
+                if (j == 0) {
+                  break label140;
+                }
+                if (j == 1) {
+                  break;
+                }
+                i = paramInt1;
+                if ((j & 0x1) != 0) {
+                  i = c(paramInt1, paramInt2);
+                }
+                int k = j >> 1;
+                paramInt1 = i;
+                j = k;
+                if (k > 0)
+                {
+                  if (-46340 <= paramInt2) {
+                    paramInt1 = 1;
+                  } else {
+                    paramInt1 = 0;
+                  }
+                  if (paramInt2 <= 46340) {
+                    j = 1;
+                  } else {
+                    j = 0;
+                  }
+                  j.b(paramInt1 & j);
+                  paramInt2 *= paramInt2;
+                  paramInt1 = i;
+                  j = k;
+                }
+              }
+              i = c(paramInt1, paramInt2);
+              label140:
+              return i;
+            }
+            if (paramInt2 < 31) {
+              bool1 = true;
+            }
+            j.b(bool1);
+            return 1 << paramInt2;
+          }
+          return 1;
+        }
+        paramInt1 = j;
+        if (paramInt2 == 0) {
+          paramInt1 = 1;
+        }
+        return paramInt1;
+      }
+      paramInt1 = i;
+      if ((paramInt2 & 0x1) == 0) {
+        paramInt1 = 1;
+      }
+      return paramInt1;
+    }
+    bool1 = bool2;
+    if (paramInt2 < 32) {
+      bool1 = true;
+    }
+    j.b(bool1);
+    if ((paramInt2 & 0x1) == 0) {
+      return 1 << paramInt2;
+    }
+    return -1 << paramInt2;
+  }
+  
+  public static int e(int paramInt1, int paramInt2)
+  {
+    long l = paramInt1 - paramInt2;
+    paramInt1 = (int)l;
+    boolean bool;
+    if (l == paramInt1) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    j.b(bool);
+    return paramInt1;
+  }
+  
+  public static int f(int paramInt1, int paramInt2)
+  {
+    j.a("a", paramInt1);
+    j.a("b", paramInt2);
+    if (paramInt1 == 0) {
+      return paramInt2;
+    }
+    if (paramInt2 == 0) {
+      return paramInt1;
+    }
+    int j = Integer.numberOfTrailingZeros(paramInt1);
+    int i = paramInt1 >> j;
+    int k = Integer.numberOfTrailingZeros(paramInt2);
+    paramInt1 = paramInt2 >> k;
+    for (paramInt2 = i; paramInt2 != paramInt1; paramInt2 = i >> Integer.numberOfTrailingZeros(i))
+    {
+      i = paramInt2 - paramInt1;
+      paramInt2 = i >> 31 & i;
+      i = i - paramInt2 - paramInt2;
+      paramInt1 += paramInt2;
+    }
+    return paramInt2 << Math.min(j, k);
+  }
+  
+  public static int g(int paramInt1, int paramInt2)
+  {
+    if (paramInt2 > 0)
+    {
+      paramInt1 %= paramInt2;
+      if (paramInt1 >= 0) {
+        return paramInt1;
+      }
+      return paramInt1 + paramInt2;
+    }
+    throw new ArithmeticException(f.a.a.a.a.a("Modulus ", paramInt2, " must be > 0"));
+  }
+  
+  @c("failing tests")
+  public static int h(int paramInt1, int paramInt2)
+  {
+    j.a("exponent", paramInt2);
+    int k = 0;
+    int i = 0;
+    if (paramInt1 != -2)
+    {
+      int j = -1;
+      if (paramInt1 != -1)
+      {
+        if (paramInt1 != 0)
+        {
+          if (paramInt1 != 1)
+          {
+            if (paramInt1 != 2)
+            {
+              i = 1;
+              while (paramInt2 != 0) {
+                if (paramInt2 != 1)
+                {
+                  if ((paramInt2 & 0x1) == 0) {
+                    j = 1;
+                  } else {
+                    j = paramInt1;
+                  }
+                  i *= j;
+                  paramInt1 *= paramInt1;
+                  paramInt2 >>= 1;
+                }
+                else
+                {
+                  return paramInt1 * i;
+                }
+              }
+              return i;
+            }
+            paramInt1 = i;
+            if (paramInt2 < 32) {
+              paramInt1 = 1 << paramInt2;
+            }
+            return paramInt1;
+          }
+          return 1;
+        }
+        paramInt1 = k;
+        if (paramInt2 == 0) {
+          paramInt1 = 1;
+        }
+        return paramInt1;
+      }
+      paramInt1 = j;
+      if ((paramInt2 & 0x1) == 0) {
+        paramInt1 = 1;
+      }
+      return paramInt1;
+    }
+    if (paramInt2 < 32)
+    {
+      if ((paramInt2 & 0x1) == 0) {
+        return 1 << paramInt2;
+      }
+      return -(1 << paramInt2);
+    }
+    return 0;
+  }
+}

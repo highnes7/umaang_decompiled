@@ -1,0 +1,77 @@
+package f.g.c.e;
+
+import f.g.c.d.jb;
+import f.g.c.d.ve;
+import f.g.c.k.l.c;
+import f.g.c.k.l.f;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Iterator;
+import java.util.Set;
+
+public class b
+  implements l
+{
+  public b() {}
+  
+  public static k a(Object paramObject, Method paramMethod)
+  {
+    if (a(paramMethod)) {
+      return new k(paramObject, paramMethod);
+    }
+    return new n(paramObject, paramMethod);
+  }
+  
+  public static boolean a(Method paramMethod)
+  {
+    return paramMethod.getAnnotation(a.class) != null;
+  }
+  
+  public ve<Class<?>, k> a(Object paramObject)
+  {
+    jb localJb = new jb();
+    Object localObject1 = paramObject.getClass();
+    Set localSet = new l.c((Type)localObject1).g().A();
+    localObject1 = ((Class)localObject1).getMethods();
+    int j = localObject1.length;
+    int i = 0;
+    Method localMethod;
+    Iterator localIterator;
+    if (i < j)
+    {
+      localMethod = localObject1[i];
+      localIterator = localSet.iterator();
+    }
+    for (;;)
+    {
+      Object localObject2;
+      if (localIterator.hasNext()) {
+        localObject2 = (Class)localIterator.next();
+      }
+      try
+      {
+        if (!((Class)localObject2).getMethod(localMethod.getName(), localMethod.getParameterTypes()).isAnnotationPresent(m.class)) {
+          continue;
+        }
+        localObject2 = localMethod.getParameterTypes();
+        if (localObject2.length == 1)
+        {
+          localJb.put(localObject2[0], a(paramObject, localMethod));
+        }
+        else
+        {
+          StringBuilder localStringBuilder = new StringBuilder();
+          localStringBuilder.append("Method ");
+          localStringBuilder.append(localMethod);
+          localStringBuilder.append(" has @Subscribe annotation, but requires ");
+          localStringBuilder.append(localObject2.length);
+          localStringBuilder.append(" arguments.  Event handler methods must require a single argument.");
+          throw new IllegalArgumentException(localStringBuilder.toString());
+        }
+        i += 1;
+      }
+      catch (NoSuchMethodException localNoSuchMethodException) {}
+      return localJb;
+    }
+  }
+}

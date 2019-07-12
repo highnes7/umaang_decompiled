@@ -1,0 +1,146 @@
+package android.support.v4.app;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.a.Q;
+import b.b.a.v;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.List;
+
+public abstract class FragmentManager
+{
+  public static final int POP_BACK_STACK_INCLUSIVE = 1;
+  
+  public FragmentManager() {}
+  
+  public static void enableDebugLogging(boolean paramBoolean)
+  {
+    FragmentManagerImpl.DEBUG = paramBoolean;
+  }
+  
+  public abstract void addOnBackStackChangedListener(@F OnBackStackChangedListener paramOnBackStackChangedListener);
+  
+  @F
+  public abstract FragmentTransaction beginTransaction();
+  
+  public abstract void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString);
+  
+  public abstract boolean executePendingTransactions();
+  
+  @G
+  public abstract Fragment findFragmentById(@v int paramInt);
+  
+  @G
+  public abstract Fragment findFragmentByTag(@G String paramString);
+  
+  @F
+  public abstract BackStackEntry getBackStackEntryAt(int paramInt);
+  
+  public abstract int getBackStackEntryCount();
+  
+  @G
+  public abstract Fragment getFragment(@F Bundle paramBundle, @F String paramString);
+  
+  @F
+  public abstract List<Fragment> getFragments();
+  
+  @G
+  public abstract Fragment getPrimaryNavigationFragment();
+  
+  public abstract boolean isDestroyed();
+  
+  public abstract boolean isStateSaved();
+  
+  @Deprecated
+  @N({b.b.a.N.a.b})
+  public FragmentTransaction openTransaction()
+  {
+    return beginTransaction();
+  }
+  
+  public abstract void popBackStack();
+  
+  public abstract void popBackStack(int paramInt1, int paramInt2);
+  
+  public abstract void popBackStack(@G String paramString, int paramInt);
+  
+  public abstract boolean popBackStackImmediate();
+  
+  public abstract boolean popBackStackImmediate(int paramInt1, int paramInt2);
+  
+  public abstract boolean popBackStackImmediate(@G String paramString, int paramInt);
+  
+  public abstract void putFragment(@F Bundle paramBundle, @F String paramString, @F Fragment paramFragment);
+  
+  public abstract void registerFragmentLifecycleCallbacks(@F FragmentLifecycleCallbacks paramFragmentLifecycleCallbacks, boolean paramBoolean);
+  
+  public abstract void removeOnBackStackChangedListener(@F OnBackStackChangedListener paramOnBackStackChangedListener);
+  
+  @G
+  public abstract Fragment.SavedState saveFragmentInstanceState(Fragment paramFragment);
+  
+  public abstract void unregisterFragmentLifecycleCallbacks(@F FragmentLifecycleCallbacks paramFragmentLifecycleCallbacks);
+  
+  public static abstract interface BackStackEntry
+  {
+    @G
+    public abstract CharSequence getBreadCrumbShortTitle();
+    
+    @Q
+    public abstract int getBreadCrumbShortTitleRes();
+    
+    @G
+    public abstract CharSequence getBreadCrumbTitle();
+    
+    @Q
+    public abstract int getBreadCrumbTitleRes();
+    
+    public abstract int getId();
+    
+    @G
+    public abstract String getName();
+  }
+  
+  public static abstract class FragmentLifecycleCallbacks
+  {
+    public FragmentLifecycleCallbacks() {}
+    
+    public void onFragmentActivityCreated(@F FragmentManager paramFragmentManager, @F Fragment paramFragment, @G Bundle paramBundle) {}
+    
+    public void onFragmentAttached(@F FragmentManager paramFragmentManager, @F Fragment paramFragment, @F Context paramContext) {}
+    
+    public void onFragmentCreated(@F FragmentManager paramFragmentManager, @F Fragment paramFragment, @G Bundle paramBundle) {}
+    
+    public void onFragmentDestroyed(@F FragmentManager paramFragmentManager, @F Fragment paramFragment) {}
+    
+    public void onFragmentDetached(@F FragmentManager paramFragmentManager, @F Fragment paramFragment) {}
+    
+    public void onFragmentPaused(@F FragmentManager paramFragmentManager, @F Fragment paramFragment) {}
+    
+    public void onFragmentPreAttached(@F FragmentManager paramFragmentManager, @F Fragment paramFragment, @F Context paramContext) {}
+    
+    public void onFragmentPreCreated(@F FragmentManager paramFragmentManager, @F Fragment paramFragment, @G Bundle paramBundle) {}
+    
+    public void onFragmentResumed(@F FragmentManager paramFragmentManager, @F Fragment paramFragment) {}
+    
+    public void onFragmentSaveInstanceState(@F FragmentManager paramFragmentManager, @F Fragment paramFragment, @F Bundle paramBundle) {}
+    
+    public void onFragmentStarted(@F FragmentManager paramFragmentManager, @F Fragment paramFragment) {}
+    
+    public void onFragmentStopped(@F FragmentManager paramFragmentManager, @F Fragment paramFragment) {}
+    
+    public void onFragmentViewCreated(@F FragmentManager paramFragmentManager, @F Fragment paramFragment, @F View paramView, @G Bundle paramBundle) {}
+    
+    public void onFragmentViewDestroyed(@F FragmentManager paramFragmentManager, @F Fragment paramFragment) {}
+  }
+  
+  public static abstract interface OnBackStackChangedListener
+  {
+    public abstract void onBackStackChanged();
+  }
+}

@@ -1,0 +1,107 @@
+package f.g.c.d;
+
+import f.a.a.a.a;
+import f.g.c.a.b;
+import f.g.c.a.c;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Iterator;
+import m.a.h;
+
+@b(emulated=true)
+public final class kf
+{
+  public static final Object[] a = new Object[0];
+  
+  public kf() {}
+  
+  public static Object a(Object paramObject, int paramInt)
+  {
+    if (paramObject != null) {
+      return paramObject;
+    }
+    throw new NullPointerException(a.a("at index ", paramInt));
+  }
+  
+  public static void a(Object[] paramArrayOfObject, int paramInt1, int paramInt2)
+  {
+    Object localObject = paramArrayOfObject[paramInt1];
+    paramArrayOfObject[paramInt1] = paramArrayOfObject[paramInt2];
+    paramArrayOfObject[paramInt2] = localObject;
+  }
+  
+  @c("Array.newInstance(Class, int)")
+  public static <T> T[] a(Class<T> paramClass, int paramInt)
+  {
+    return (Object[])Array.newInstance(paramClass, paramInt);
+  }
+  
+  public static Object[] a(Iterable<?> paramIterable, Object[] paramArrayOfObject)
+  {
+    paramIterable = paramIterable.iterator();
+    int i = 0;
+    while (paramIterable.hasNext())
+    {
+      paramArrayOfObject[i] = paramIterable.next();
+      i += 1;
+    }
+    return paramArrayOfObject;
+  }
+  
+  public static <T> T[] a(@h T paramT, T[] paramArrayOfT)
+  {
+    Object[] arrayOfObject = of.a(paramArrayOfT, paramArrayOfT.length + 1);
+    arrayOfObject[0] = paramT;
+    System.arraycopy(paramArrayOfT, 0, arrayOfObject, 1, paramArrayOfT.length);
+    return arrayOfObject;
+  }
+  
+  public static Object[] a(Collection<?> paramCollection)
+  {
+    Object[] arrayOfObject = new Object[paramCollection.size()];
+    a(paramCollection, arrayOfObject);
+    return arrayOfObject;
+  }
+  
+  public static <T> T[] a(Collection<?> paramCollection, T[] paramArrayOfT)
+  {
+    int i = paramCollection.size();
+    Object localObject = paramArrayOfT;
+    if (paramArrayOfT.length < i) {
+      localObject = of.a(paramArrayOfT, i);
+    }
+    a(paramCollection, (Object[])localObject);
+    if (localObject.length > i) {
+      localObject[i] = null;
+    }
+    return localObject;
+  }
+  
+  public static <T> T[] a(T[] paramArrayOfT, int paramInt)
+  {
+    Object[] arrayOfObject = of.a(paramArrayOfT, paramInt);
+    System.arraycopy(paramArrayOfT, 0, arrayOfObject, 0, Math.min(paramArrayOfT.length, paramInt));
+    return arrayOfObject;
+  }
+  
+  public static <T> T[] a(T[] paramArrayOfT, @h T paramT)
+  {
+    Object[] arrayOfObject = a(paramArrayOfT, paramArrayOfT.length + 1);
+    arrayOfObject[paramArrayOfT.length] = paramT;
+    return arrayOfObject;
+  }
+  
+  @c("Array.newInstance(Class, int)")
+  public static <T> T[] a(T[] paramArrayOfT1, T[] paramArrayOfT2, Class<T> paramClass)
+  {
+    paramClass = a(paramClass, paramArrayOfT1.length + paramArrayOfT2.length);
+    System.arraycopy(paramArrayOfT1, 0, paramClass, 0, paramArrayOfT1.length);
+    System.arraycopy(paramArrayOfT2, 0, paramClass, paramArrayOfT1.length, paramArrayOfT2.length);
+    return paramClass;
+  }
+  
+  public static <T> T[] b(T[] paramArrayOfT, int paramInt)
+  {
+    return of.a(paramArrayOfT, paramInt);
+  }
+}

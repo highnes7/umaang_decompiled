@@ -1,0 +1,95 @@
+package com.google.android.gms.internal;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import org.apache.http.HttpMessage;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
+import org.apache.http.client.methods.HttpOptions;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpTrace;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.message.AbstractHttpMessage;
+import org.apache.http.params.HttpConnectionParams;
+
+public final class zzak
+  implements zzan
+{
+  public HttpClient zzcb;
+  
+  public zzak(HttpClient paramHttpClient)
+  {
+    zzcb = paramHttpClient;
+  }
+  
+  public static void zza(HttpEntityEnclosingRequestBase paramHttpEntityEnclosingRequestBase, zzp<?> paramZzp)
+    throws zza
+  {
+    paramZzp = paramZzp.zzg();
+    if (paramZzp != null) {
+      paramHttpEntityEnclosingRequestBase.setEntity(new ByteArrayEntity(paramZzp, null));
+    }
+  }
+  
+  public static void zza(HttpUriRequest paramHttpUriRequest, Map<String, String> paramMap)
+  {
+    Iterator localIterator = paramMap.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      String str = (String)localIterator.next();
+      paramHttpUriRequest.setHeader(str, (String)paramMap.get(str));
+    }
+  }
+  
+  public final HttpResponse zza(zzp<?> paramZzp, Map<String, String> paramMap)
+    throws IOException, zza
+  {
+    switch (paramZzp.getMethod())
+    {
+    default: 
+      throw new IllegalStateException("Unknown request method.");
+    case 7: 
+      localObject = new zzal(paramZzp.getUrl());
+      break;
+    case 6: 
+      localObject = new HttpTrace(paramZzp.getUrl());
+      break;
+    case 5: 
+      localObject = new HttpOptions(paramZzp.getUrl());
+      break;
+    case 4: 
+      localObject = new HttpHead(paramZzp.getUrl());
+      break;
+    case 3: 
+      localObject = new HttpDelete(paramZzp.getUrl());
+      break;
+    case 2: 
+      localObject = new HttpPut(paramZzp.getUrl());
+      break;
+    case 1: 
+      localObject = new HttpPost(paramZzp.getUrl());
+      ((AbstractHttpMessage)localObject).addHeader("Content-Type", zzp.zzf());
+      zza((HttpEntityEnclosingRequestBase)localObject, paramZzp);
+      break;
+    case 0: 
+      localObject = new HttpGet(paramZzp.getUrl());
+      break;
+    }
+    Object localObject = new HttpGet(paramZzp.getUrl());
+    zza((HttpUriRequest)localObject, paramMap);
+    zza((HttpUriRequest)localObject, paramZzp.getHeaders());
+    paramMap = ((HttpMessage)localObject).getParams();
+    int i = paramZzp.zzi();
+    HttpConnectionParams.setConnectionTimeout(paramMap, 5000);
+    HttpConnectionParams.setSoTimeout(paramMap, i);
+    return zzcb.execute((HttpUriRequest)localObject);
+  }
+}

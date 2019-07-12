@@ -1,0 +1,301 @@
+package f.g.b.a.c;
+
+import f.g.b.a.g.a.a;
+import f.g.b.a.g.ba;
+import f.g.b.a.g.r;
+import f.g.b.a.g.v;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class L
+{
+  public static final Map<Character, a> a = new HashMap();
+  public static final String b = ",";
+  
+  static
+  {
+    a.values();
+  }
+  
+  public L() {}
+  
+  public static a a(String paramString)
+  {
+    a localA = (a)a.get(Character.valueOf(paramString.charAt(0)));
+    paramString = localA;
+    if (localA == null) {
+      paramString = a.h;
+    }
+    return paramString;
+  }
+  
+  public static String a(String paramString, Object paramObject, boolean paramBoolean)
+  {
+    Map localMap = a(paramObject);
+    StringBuilder localStringBuilder = new StringBuilder();
+    int m = paramString.length();
+    int i = 0;
+    while (i < m)
+    {
+      int j = paramString.indexOf('{', i);
+      if (j == -1)
+      {
+        if ((i == 0) && (!paramBoolean)) {
+          return paramString;
+        }
+        localStringBuilder.append(paramString.substring(i));
+        break;
+      }
+      localStringBuilder.append(paramString.substring(i, j));
+      i = paramString.indexOf('}', j + 2);
+      paramObject = paramString.substring(j + 1, i);
+      j = i + 1;
+      boolean bool = paramObject.endsWith("*");
+      Object localObject = a(paramObject);
+      int n = ((a)localObject).d();
+      int k = paramObject.length();
+      i = k;
+      if (bool) {
+        i = k - 1;
+      }
+      String str = paramObject.substring(n, i);
+      paramObject = localMap.remove(str);
+      if (paramObject == null)
+      {
+        i = j;
+      }
+      else
+      {
+        if ((paramObject instanceof Iterator)) {
+          paramObject = a(str, (Iterator)paramObject, bool, (a)localObject);
+        } else if ((!(paramObject instanceof Iterable)) && (!paramObject.getClass().isArray()))
+        {
+          if (paramObject.getClass().isEnum())
+          {
+            localObject = v.a((Enum)paramObject).e();
+            if (localObject != null) {
+              paramObject = a.c((String)localObject);
+            }
+          }
+          else if (!r.c(paramObject))
+          {
+            paramObject = a(str, a(paramObject), bool, (a)localObject);
+          }
+          else if (((a)localObject).c())
+          {
+            paramObject = a.d(paramObject.toString());
+          }
+          else
+          {
+            paramObject = a.c(paramObject.toString());
+          }
+        }
+        else {
+          paramObject = a(str, ba.a(paramObject).iterator(), bool, (a)localObject);
+        }
+        localStringBuilder.append(paramObject);
+        i = j;
+      }
+    }
+    if (paramBoolean) {
+      k.a(localMap.entrySet(), localStringBuilder);
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public static String a(String paramString1, String paramString2, Object paramObject, boolean paramBoolean)
+  {
+    if (paramString2.startsWith("/"))
+    {
+      paramString1 = new k(paramString1);
+      paramString1.g(null);
+      paramString1 = String.valueOf(paramString1.g());
+      if (paramString2.length() == 0) {}
+    }
+    for (paramString1 = paramString1.concat(paramString2);; paramString1 = paramString1.concat(paramString2))
+    {
+      str = paramString1;
+      break label121;
+      str = new String(paramString1);
+      break label121;
+      str = paramString2;
+      if (paramString2.startsWith("http://")) {
+        break label121;
+      }
+      if (paramString2.startsWith("https://"))
+      {
+        str = paramString2;
+        break label121;
+      }
+      paramString1 = String.valueOf(paramString1);
+      if (paramString2.length() == 0) {
+        break;
+      }
+    }
+    String str = new String(paramString1);
+    label121:
+    return a(str, paramObject, paramBoolean);
+  }
+  
+  public static String a(String paramString, Iterator<?> paramIterator, boolean paramBoolean, a paramA)
+  {
+    if (!paramIterator.hasNext()) {
+      return "";
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramA.b());
+    String str;
+    if (paramBoolean)
+    {
+      str = paramA.a();
+    }
+    else
+    {
+      if (paramA.e())
+      {
+        localStringBuilder.append(a.c(paramString));
+        localStringBuilder.append("=");
+      }
+      str = ",";
+    }
+    while (paramIterator.hasNext())
+    {
+      if ((paramBoolean) && (paramA.e()))
+      {
+        localStringBuilder.append(a.c(paramString));
+        localStringBuilder.append("=");
+      }
+      localStringBuilder.append(paramA.a(paramIterator.next().toString()));
+      if (paramIterator.hasNext()) {
+        localStringBuilder.append(str);
+      }
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public static String a(String paramString, Map<String, Object> paramMap, boolean paramBoolean, a paramA)
+  {
+    if (paramMap.isEmpty()) {
+      return "";
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramA.b());
+    Object localObject1 = "=";
+    String str = ",";
+    if (paramBoolean)
+    {
+      str = paramA.a();
+      paramString = (String)localObject1;
+      localObject1 = str;
+    }
+    else
+    {
+      if (paramA.e())
+      {
+        localStringBuilder.append(a.c(paramString));
+        localStringBuilder.append("=");
+      }
+      paramString = ",";
+      localObject1 = str;
+    }
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext())
+    {
+      Object localObject2 = (Map.Entry)paramMap.next();
+      str = paramA.a((String)((Map.Entry)localObject2).getKey());
+      localObject2 = paramA.a(((Map.Entry)localObject2).getValue().toString());
+      localStringBuilder.append(str);
+      localStringBuilder.append(paramString);
+      localStringBuilder.append((String)localObject2);
+      if (paramMap.hasNext()) {
+        localStringBuilder.append((String)localObject1);
+      }
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public static Map<String, Object> a(Object paramObject)
+  {
+    LinkedHashMap localLinkedHashMap = new LinkedHashMap();
+    paramObject = r.d(paramObject).entrySet().iterator();
+    while (paramObject.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramObject.next();
+      Object localObject = localEntry.getValue();
+      if ((localObject != null) && (!r.b(localObject))) {
+        localLinkedHashMap.put(localEntry.getKey(), localObject);
+      }
+    }
+    return localLinkedHashMap;
+  }
+  
+  private static enum a
+  {
+    public final Character j;
+    public final String k;
+    public final String l;
+    public final boolean m;
+    public final boolean n;
+    
+    public a(Character paramCharacter, String paramString1, String paramString2, boolean paramBoolean1, boolean paramBoolean2)
+    {
+      j = paramCharacter;
+      if (paramString1 != null)
+      {
+        k = paramString1;
+        if (paramString2 != null)
+        {
+          l = paramString2;
+          m = paramBoolean1;
+          n = paramBoolean2;
+          if (paramCharacter != null) {
+            L.a.put(paramCharacter, this);
+          }
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public String a()
+    {
+      return l;
+    }
+    
+    public String a(String paramString)
+    {
+      if (n) {
+        return a.c(paramString);
+      }
+      return a.b(paramString);
+    }
+    
+    public String b()
+    {
+      return k;
+    }
+    
+    public boolean c()
+    {
+      return n;
+    }
+    
+    public int d()
+    {
+      if (j == null) {
+        return 0;
+      }
+      return 1;
+    }
+    
+    public boolean e()
+    {
+      return m;
+    }
+  }
+}

@@ -1,0 +1,589 @@
+package b.b.r;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.os.Build.VERSION;
+import dalvik.system.DexFile;
+import f.a.a.a.a;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipFile;
+
+public final class b
+{
+  public static final String a = "MultiDex";
+  public static final String b = "secondary-dexes";
+  public static final String c = "code_cache";
+  public static final String d = "secondary-dexes";
+  public static final int e = 20;
+  public static final int f = 4;
+  public static final int g = 2;
+  public static final int h = 1;
+  public static final String i = "";
+  public static final Set<File> j = new HashSet();
+  public static final boolean k = a(System.getProperty("java.vm.version"));
+  
+  public b() {}
+  
+  public static File a(Context paramContext, File paramFile, String paramString)
+    throws IOException
+  {
+    paramFile = new File(paramFile, "code_cache");
+    try
+    {
+      a(paramFile);
+      paramContext = paramFile;
+    }
+    catch (IOException paramFile)
+    {
+      for (;;) {}
+    }
+    paramContext = new File(paramContext.getFilesDir(), "code_cache");
+    a(paramContext);
+    paramContext = new File(paramContext, paramString);
+    a(paramContext);
+    return paramContext;
+  }
+  
+  public static void a(Context paramContext)
+    throws Exception
+  {
+    paramContext = new File(paramContext.getFilesDir(), "secondary-dexes");
+    if (paramContext.isDirectory())
+    {
+      Object localObject1 = a.b("Clearing old secondary dex dir (");
+      ((StringBuilder)localObject1).append(paramContext.getPath());
+      ((StringBuilder)localObject1).append(").");
+      ((StringBuilder)localObject1).toString();
+      localObject1 = paramContext.listFiles();
+      if (localObject1 == null)
+      {
+        localObject1 = a.b("Failed to list secondary dex dir content (");
+        ((StringBuilder)localObject1).append(paramContext.getPath());
+        ((StringBuilder)localObject1).append(").");
+        ((StringBuilder)localObject1).toString();
+        return;
+      }
+      int n = localObject1.length;
+      int m = 0;
+      while (m < n)
+      {
+        Object localObject2 = localObject1[m];
+        StringBuilder localStringBuilder = a.b("Trying to delete old file ");
+        localStringBuilder.append(localObject2.getPath());
+        localStringBuilder.append(" of size ");
+        localStringBuilder.append(localObject2.length());
+        localStringBuilder.toString();
+        if (!localObject2.delete())
+        {
+          localStringBuilder = a.b("Failed to delete old file ");
+          localStringBuilder.append(localObject2.getPath());
+          localStringBuilder.toString();
+        }
+        else
+        {
+          localStringBuilder = a.b("Deleted old file ");
+          localStringBuilder.append(localObject2.getPath());
+          localStringBuilder.toString();
+        }
+        m += 1;
+      }
+      if (!paramContext.delete())
+      {
+        localObject1 = a.b("Failed to delete secondary dex dir ");
+        ((StringBuilder)localObject1).append(paramContext.getPath());
+        ((StringBuilder)localObject1).toString();
+        return;
+      }
+      localObject1 = a.b("Deleted old secondary dex dir ");
+      ((StringBuilder)localObject1).append(paramContext.getPath());
+      ((StringBuilder)localObject1).toString();
+    }
+  }
+  
+  public static void a(Context paramContext1, Context paramContext2)
+  {
+    if (k) {
+      return;
+    }
+    int m = Build.VERSION.SDK_INT;
+    try
+    {
+      Object localObject1 = b(paramContext1);
+      if (localObject1 == null) {
+        return;
+      }
+      ApplicationInfo localApplicationInfo = b(paramContext2);
+      if (localApplicationInfo == null) {
+        return;
+      }
+      Object localObject2 = new StringBuilder();
+      ((StringBuilder)localObject2).append(paramContext1.getPackageName());
+      ((StringBuilder)localObject2).append(".");
+      paramContext1 = ((StringBuilder)localObject2).toString();
+      localObject2 = new File(dataDir);
+      localObject1 = new File(sourceDir);
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(paramContext1);
+      localStringBuilder.append("secondary-dexes");
+      a(paramContext2, (File)localObject1, (File)localObject2, localStringBuilder.toString(), paramContext1);
+      a(paramContext2, new File(sourceDir), (File)localObject2, "secondary-dexes", "");
+      return;
+    }
+    catch (Exception paramContext1)
+    {
+      paramContext2 = a.b("MultiDex installation failed (");
+      paramContext2.append(paramContext1.getMessage());
+      paramContext2.append(").");
+      throw new RuntimeException(paramContext2.toString());
+    }
+  }
+  
+  /* Error */
+  public static void a(Context paramContext, File paramFile1, File paramFile2, String paramString1, String paramString2)
+    throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException
+  {
+    // Byte code:
+    //   0: getstatic 47	b/b/r/b:j	Ljava/util/Set;
+    //   3: astore 6
+    //   5: aload 6
+    //   7: monitorenter
+    //   8: getstatic 47	b/b/r/b:j	Ljava/util/Set;
+    //   11: aload_1
+    //   12: invokeinterface 197 2 0
+    //   17: ifeq +7 -> 24
+    //   20: aload 6
+    //   22: monitorexit
+    //   23: return
+    //   24: getstatic 47	b/b/r/b:j	Ljava/util/Set;
+    //   27: aload_1
+    //   28: invokeinterface 200 2 0
+    //   33: pop
+    //   34: getstatic 152	android/os/Build$VERSION:SDK_INT	I
+    //   37: bipush 20
+    //   39: if_icmple +94 -> 133
+    //   42: new 110	java/lang/StringBuilder
+    //   45: dup
+    //   46: invokespecial 156	java/lang/StringBuilder:<init>	()V
+    //   49: astore 7
+    //   51: aload 7
+    //   53: ldc -54
+    //   55: invokevirtual 113	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   58: pop
+    //   59: aload 7
+    //   61: getstatic 152	android/os/Build$VERSION:SDK_INT	I
+    //   64: invokevirtual 205	java/lang/StringBuilder:append	(I)Ljava/lang/StringBuilder;
+    //   67: pop
+    //   68: aload 7
+    //   70: ldc -49
+    //   72: invokevirtual 113	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   75: pop
+    //   76: aload 7
+    //   78: bipush 20
+    //   80: invokevirtual 205	java/lang/StringBuilder:append	(I)Ljava/lang/StringBuilder;
+    //   83: pop
+    //   84: aload 7
+    //   86: ldc -47
+    //   88: invokevirtual 113	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   91: pop
+    //   92: aload 7
+    //   94: ldc -45
+    //   96: invokevirtual 113	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   99: pop
+    //   100: aload 7
+    //   102: ldc -43
+    //   104: invokevirtual 113	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   107: pop
+    //   108: aload 7
+    //   110: ldc 49
+    //   112: invokestatic 55	java/lang/System:getProperty	(Ljava/lang/String;)Ljava/lang/String;
+    //   115: invokevirtual 113	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   118: pop
+    //   119: aload 7
+    //   121: ldc -41
+    //   123: invokevirtual 113	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   126: pop
+    //   127: aload 7
+    //   129: invokevirtual 118	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   132: pop
+    //   133: aload_0
+    //   134: invokevirtual 219	android/content/Context:getClassLoader	()Ljava/lang/ClassLoader;
+    //   137: astore 7
+    //   139: aload 7
+    //   141: ifnonnull +7 -> 148
+    //   144: aload 6
+    //   146: monitorexit
+    //   147: return
+    //   148: aload_0
+    //   149: invokestatic 221	b/b/r/b:a	(Landroid/content/Context;)V
+    //   152: aload_0
+    //   153: aload_2
+    //   154: aload_3
+    //   155: invokestatic 223	b/b/r/b:a	(Landroid/content/Context;Ljava/io/File;Ljava/lang/String;)Ljava/io/File;
+    //   158: astore_2
+    //   159: aload_0
+    //   160: aload_1
+    //   161: aload_2
+    //   162: aload 4
+    //   164: iconst_0
+    //   165: invokestatic 228	b/b/r/d:a	(Landroid/content/Context;Ljava/io/File;Ljava/io/File;Ljava/lang/String;Z)Ljava/util/List;
+    //   168: astore_0
+    //   169: aload_0
+    //   170: invokeinterface 233 1 0
+    //   175: ifne +15 -> 190
+    //   178: getstatic 152	android/os/Build$VERSION:SDK_INT	I
+    //   181: istore 5
+    //   183: aload 7
+    //   185: aload_0
+    //   186: aload_2
+    //   187: invokestatic 236	b/b/r/b$b:b	(Ljava/lang/ClassLoader;Ljava/util/List;Ljava/io/File;)V
+    //   190: aload 6
+    //   192: monitorexit
+    //   193: return
+    //   194: aload 6
+    //   196: monitorexit
+    //   197: return
+    //   198: astore_0
+    //   199: aload 6
+    //   201: monitorexit
+    //   202: aload_0
+    //   203: athrow
+    //   204: astore_0
+    //   205: goto -11 -> 194
+    //   208: astore 8
+    //   210: goto -58 -> 152
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	213	0	paramContext	Context
+    //   0	213	1	paramFile1	File
+    //   0	213	2	paramFile2	File
+    //   0	213	3	paramString1	String
+    //   0	213	4	paramString2	String
+    //   181	1	5	m	int
+    //   3	197	6	localSet	Set
+    //   49	135	7	localObject	Object
+    //   208	1	8	localThrowable	Throwable
+    // Exception table:
+    //   from	to	target	type
+    //   8	23	198	finally
+    //   24	133	198	finally
+    //   133	139	198	finally
+    //   144	147	198	finally
+    //   148	152	198	finally
+    //   152	190	198	finally
+    //   190	193	198	finally
+    //   194	197	198	finally
+    //   199	202	198	finally
+    //   133	139	204	java/lang/RuntimeException
+    //   148	152	208	java/lang/Throwable
+  }
+  
+  public static void a(File paramFile)
+    throws IOException
+  {
+    paramFile.mkdir();
+    if (!paramFile.isDirectory())
+    {
+      Object localObject = paramFile.getParentFile();
+      if (localObject == null)
+      {
+        localObject = a.b("Failed to create dir ");
+        ((StringBuilder)localObject).append(paramFile.getPath());
+        ((StringBuilder)localObject).append(". Parent file is null.");
+        ((StringBuilder)localObject).toString();
+      }
+      else
+      {
+        StringBuilder localStringBuilder = a.b("Failed to create dir ");
+        localStringBuilder.append(paramFile.getPath());
+        localStringBuilder.append(". parent file is a dir ");
+        localStringBuilder.append(((File)localObject).isDirectory());
+        localStringBuilder.append(", a file ");
+        localStringBuilder.append(((File)localObject).isFile());
+        localStringBuilder.append(", exists ");
+        localStringBuilder.append(((File)localObject).exists());
+        localStringBuilder.append(", readable ");
+        localStringBuilder.append(((File)localObject).canRead());
+        localStringBuilder.append(", writable ");
+        localStringBuilder.append(((File)localObject).canWrite());
+        localStringBuilder.toString();
+      }
+      localObject = a.b("Failed to create directory ");
+      ((StringBuilder)localObject).append(paramFile.getPath());
+      throw new IOException(((StringBuilder)localObject).toString());
+    }
+  }
+  
+  public static void a(ClassLoader paramClassLoader, File paramFile, List<? extends File> paramList)
+    throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException, IOException
+  {
+    if (!paramList.isEmpty())
+    {
+      int m = Build.VERSION.SDK_INT;
+      b.b(paramClassLoader, paramList, paramFile);
+    }
+  }
+  
+  public static boolean a(String paramString)
+  {
+    bool2 = false;
+    bool1 = bool2;
+    if (paramString != null)
+    {
+      localObject = Pattern.compile("(\\d+)\\.(\\d+)(\\.\\d+)?").matcher(paramString);
+      bool1 = bool2;
+      if (!((Matcher)localObject).matches()) {}
+    }
+    try
+    {
+      int m = Integer.parseInt(((Matcher)localObject).group(1));
+      int n = Integer.parseInt(((Matcher)localObject).group(2));
+      if (m <= 2)
+      {
+        bool1 = bool2;
+        if (m == 2)
+        {
+          bool1 = bool2;
+          if (n < 1) {}
+        }
+      }
+      else
+      {
+        bool1 = true;
+      }
+    }
+    catch (NumberFormatException localNumberFormatException)
+    {
+      for (;;)
+      {
+        bool1 = bool2;
+      }
+    }
+    Object localObject = a.d("VM with version ", paramString);
+    if (bool1) {
+      paramString = " has multidex support";
+    } else {
+      paramString = " does not have multidex support";
+    }
+    ((StringBuilder)localObject).append(paramString);
+    ((StringBuilder)localObject).toString();
+    return bool1;
+  }
+  
+  public static ApplicationInfo b(Context paramContext)
+  {
+    try
+    {
+      paramContext = paramContext.getApplicationInfo();
+      return paramContext;
+    }
+    catch (RuntimeException paramContext)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static Field b(Object paramObject, String paramString)
+    throws NoSuchFieldException
+  {
+    for (Object localObject = paramObject.getClass(); localObject != null; localObject = ((Class)localObject).getSuperclass()) {
+      try
+      {
+        Field localField = ((Class)localObject).getDeclaredField(paramString);
+        if (!localField.isAccessible()) {
+          localField.setAccessible(true);
+        }
+        return localField;
+      }
+      catch (NoSuchFieldException localNoSuchFieldException)
+      {
+        for (;;) {}
+      }
+    }
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("Field ");
+    ((StringBuilder)localObject).append(paramString);
+    ((StringBuilder)localObject).append(" not found in ");
+    ((StringBuilder)localObject).append(paramObject.getClass());
+    paramObject = new NoSuchFieldException(((StringBuilder)localObject).toString());
+    for (;;)
+    {
+      throw paramObject;
+    }
+  }
+  
+  public static Method b(Object paramObject, String paramString, Class<?>... paramVarArgs)
+    throws NoSuchMethodException
+  {
+    for (Object localObject = paramObject.getClass(); localObject != null; localObject = ((Class)localObject).getSuperclass()) {
+      try
+      {
+        Method localMethod = ((Class)localObject).getDeclaredMethod(paramString, paramVarArgs);
+        if (!localMethod.isAccessible()) {
+          localMethod.setAccessible(true);
+        }
+        return localMethod;
+      }
+      catch (NoSuchMethodException localNoSuchMethodException)
+      {
+        for (;;) {}
+      }
+    }
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("Method ");
+    ((StringBuilder)localObject).append(paramString);
+    ((StringBuilder)localObject).append(" with parameters ");
+    ((StringBuilder)localObject).append(Arrays.asList(paramVarArgs));
+    ((StringBuilder)localObject).append(" not found in ");
+    ((StringBuilder)localObject).append(paramObject.getClass());
+    paramObject = new NoSuchMethodException(((StringBuilder)localObject).toString());
+    for (;;)
+    {
+      throw paramObject;
+    }
+  }
+  
+  public static void b(Object paramObject, String paramString, Object[] paramArrayOfObject)
+    throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException
+  {
+    paramString = b(paramObject, paramString);
+    Object[] arrayOfObject1 = (Object[])paramString.get(paramObject);
+    Object[] arrayOfObject2 = (Object[])Array.newInstance(arrayOfObject1.getClass().getComponentType(), arrayOfObject1.length + paramArrayOfObject.length);
+    System.arraycopy(arrayOfObject1, 0, arrayOfObject2, 0, arrayOfObject1.length);
+    System.arraycopy(paramArrayOfObject, 0, arrayOfObject2, arrayOfObject1.length, paramArrayOfObject.length);
+    paramString.set(paramObject, arrayOfObject2);
+  }
+  
+  public static void c(Context paramContext)
+  {
+    if (k) {
+      return;
+    }
+    int m = Build.VERSION.SDK_INT;
+    try
+    {
+      localObject = b(paramContext);
+      if (localObject == null) {
+        return;
+      }
+      a(paramContext, new File(sourceDir), new File(dataDir), "secondary-dexes", "");
+      return;
+    }
+    catch (Exception paramContext)
+    {
+      Object localObject = a.b("MultiDex installation failed (");
+      ((StringBuilder)localObject).append(paramContext.getMessage());
+      ((StringBuilder)localObject).append(").");
+      throw new RuntimeException(((StringBuilder)localObject).toString());
+    }
+  }
+  
+  private static final class a
+  {
+    public a() {}
+    
+    public static Object[] a(Object paramObject, ArrayList<File> paramArrayList, File paramFile)
+      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
+    {
+      return (Object[])b.b(paramObject, "makeDexElements", new Class[] { ArrayList.class, File.class }).invoke(paramObject, new Object[] { paramArrayList, paramFile });
+    }
+    
+    public static void b(ClassLoader paramClassLoader, List<? extends File> paramList, File paramFile)
+      throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException
+    {
+      paramClassLoader = b.b(paramClassLoader, "pathList").get(paramClassLoader);
+      b.b(paramClassLoader, "dexElements", a(paramClassLoader, new ArrayList(paramList), paramFile));
+    }
+  }
+  
+  private static final class b
+  {
+    public b() {}
+    
+    public static Object[] a(Object paramObject, ArrayList<File> paramArrayList, File paramFile, ArrayList<IOException> paramArrayList1)
+      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
+    {
+      return (Object[])b.b(paramObject, "makeDexElements", new Class[] { ArrayList.class, File.class, ArrayList.class }).invoke(paramObject, new Object[] { paramArrayList, paramFile, paramArrayList1 });
+    }
+    
+    public static void b(ClassLoader paramClassLoader, List<? extends File> paramList, File paramFile)
+      throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException
+    {
+      Object localObject = b.b(paramClassLoader, "pathList").get(paramClassLoader);
+      ArrayList localArrayList = new ArrayList();
+      b.b(localObject, "dexElements", a(localObject, new ArrayList(paramList), paramFile, localArrayList));
+      if (localArrayList.size() > 0)
+      {
+        paramClassLoader = localArrayList.iterator();
+        while (paramClassLoader.hasNext()) {
+          paramList = (IOException)paramClassLoader.next();
+        }
+        paramList = b.b(localObject, "dexElementsSuppressedExceptions");
+        paramFile = (IOException[])paramList.get(localObject);
+        if (paramFile == null)
+        {
+          paramClassLoader = (IOException[])localArrayList.toArray(new IOException[localArrayList.size()]);
+        }
+        else
+        {
+          paramClassLoader = new IOException[localArrayList.size() + paramFile.length];
+          localArrayList.toArray(paramClassLoader);
+          System.arraycopy(paramFile, 0, paramClassLoader, localArrayList.size(), paramFile.length);
+        }
+        paramList.set(localObject, paramClassLoader);
+      }
+    }
+  }
+  
+  private static final class c
+  {
+    public c() {}
+    
+    public static void b(ClassLoader paramClassLoader, List<? extends File> paramList)
+      throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, IOException
+    {
+      int i = paramList.size();
+      Field localField = b.b(paramClassLoader, "path");
+      StringBuilder localStringBuilder = new StringBuilder((String)localField.get(paramClassLoader));
+      String[] arrayOfString = new String[i];
+      File[] arrayOfFile = new File[i];
+      ZipFile[] arrayOfZipFile = new ZipFile[i];
+      DexFile[] arrayOfDexFile = new DexFile[i];
+      paramList = paramList.listIterator();
+      while (paramList.hasNext())
+      {
+        Object localObject = (File)paramList.next();
+        String str = ((File)localObject).getAbsolutePath();
+        localStringBuilder.append(':');
+        localStringBuilder.append(str);
+        i = paramList.previousIndex();
+        arrayOfString[i] = str;
+        arrayOfFile[i] = localObject;
+        arrayOfZipFile[i] = new ZipFile((File)localObject);
+        localObject = new StringBuilder();
+        ((StringBuilder)localObject).append(str);
+        ((StringBuilder)localObject).append(".dex");
+        arrayOfDexFile[i] = DexFile.loadDex(str, ((StringBuilder)localObject).toString(), 0);
+      }
+      localField.set(paramClassLoader, localStringBuilder.toString());
+      b.b(paramClassLoader, "mPaths", arrayOfString);
+      b.b(paramClassLoader, "mFiles", arrayOfFile);
+      b.b(paramClassLoader, "mZips", arrayOfZipFile);
+      b.b(paramClassLoader, "mDexs", arrayOfDexFile);
+    }
+  }
+}

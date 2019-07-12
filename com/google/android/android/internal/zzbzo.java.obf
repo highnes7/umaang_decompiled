@@ -1,0 +1,263 @@
+package com.google.android.gms.internal;
+
+import android.app.PendingIntent;
+import android.content.ContentProviderClient;
+import android.content.Context;
+import android.location.Location;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.RemoteException;
+import com.google.android.gms.common.api.internal.zzcj;
+import com.google.android.gms.common.api.internal.zzcl;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.zzj;
+import com.google.android.gms.location.zzm;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public final class zzbzo
+{
+  public final Context mContext;
+  public final Map<zzcl<LocationListener>, zzbzs> zzgzm = new HashMap();
+  public final zzcae<zzbzk> zzhzb;
+  public ContentProviderClient zzhzm = null;
+  public boolean zzhzn = false;
+  public final Map<zzcl<LocationCallback>, zzbzp> zzhzo = new HashMap();
+  
+  public zzbzo(Context paramContext, zzcae<zzbzk> paramZzcae)
+  {
+    mContext = paramContext;
+    zzhzb = paramZzcae;
+  }
+  
+  private final zzbzs zzf(zzcj<LocationListener> paramZzcj)
+  {
+    synchronized (zzgzm)
+    {
+      zzbzs localZzbzs2 = (zzbzs)zzgzm.get(paramZzcj.zzaik());
+      zzbzs localZzbzs1 = localZzbzs2;
+      if (localZzbzs2 == null) {
+        localZzbzs1 = new zzbzs(paramZzcj);
+      }
+      zzgzm.put(paramZzcj.zzaik(), localZzbzs1);
+      return localZzbzs1;
+    }
+  }
+  
+  private final zzbzp zzg(zzcj<LocationCallback> paramZzcj)
+  {
+    synchronized (zzhzo)
+    {
+      zzbzp localZzbzp2 = (zzbzp)zzhzo.get(paramZzcj.zzaik());
+      zzbzp localZzbzp1 = localZzbzp2;
+      if (localZzbzp2 == null) {
+        localZzbzp1 = new zzbzp(paramZzcj);
+      }
+      zzhzo.put(paramZzcj.zzaik(), localZzbzp1);
+      return localZzbzp1;
+    }
+  }
+  
+  public final Location getLastLocation()
+  {
+    zzhzb.zzaji();
+    try
+    {
+      Location localLocation = ((zzbzk)zzhzb.zzajj()).zzia(mContext.getPackageName());
+      return localLocation;
+    }
+    catch (RemoteException localRemoteException)
+    {
+      throw new IllegalStateException(localRemoteException);
+    }
+  }
+  
+  public final void removeAllListeners()
+  {
+    try
+    {
+      synchronized (zzgzm)
+      {
+        Iterator localIterator = zzgzm.values().iterator();
+        Object localObject3;
+        while (localIterator.hasNext())
+        {
+          localObject3 = (zzbzs)localIterator.next();
+          if (localObject3 != null) {
+            ((zzbzk)zzhzb.zzajj()).zza(zzcaa.zza((zzm)localObject3, null));
+          }
+        }
+        zzgzm.clear();
+        synchronized (zzhzo)
+        {
+          localIterator = zzhzo.values().iterator();
+          while (localIterator.hasNext())
+          {
+            localObject3 = (zzbzp)localIterator.next();
+            if (localObject3 != null) {
+              ((zzbzk)zzhzb.zzajj()).zza(zzcaa.zza((zzj)localObject3, null));
+            }
+          }
+          zzhzo.clear();
+          return;
+        }
+      }
+      IllegalStateException localIllegalStateException;
+      throw localIllegalStateException;
+    }
+    catch (RemoteException localRemoteException)
+    {
+      localIllegalStateException = new IllegalStateException(localRemoteException);
+    }
+    for (;;) {}
+  }
+  
+  public final void zza(PendingIntent paramPendingIntent, zzbzf paramZzbzf)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    zzbzk localZzbzk = (zzbzk)zzhzb.zzajj();
+    if (paramZzbzf != null) {
+      paramZzbzf = paramZzbzf.asBinder();
+    } else {
+      paramZzbzf = null;
+    }
+    localZzbzk.zza(new zzcaa(2, null, null, paramPendingIntent, null, paramZzbzf));
+  }
+  
+  public final void zza(zzcl<LocationListener> paramZzcl, zzbzf paramZzbzf)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    zzbp.zzb(paramZzcl, "Invalid null listener key");
+    synchronized (zzgzm)
+    {
+      paramZzcl = (zzbzs)zzgzm.remove(paramZzcl);
+      if (paramZzcl != null)
+      {
+        paramZzcl.release();
+        ((zzbzk)zzhzb.zzajj()).zza(zzcaa.zza(paramZzcl, paramZzbzf));
+      }
+      return;
+    }
+  }
+  
+  public final void zza(zzbzf paramZzbzf)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    ((zzbzk)zzhzb.zzajj()).zza(paramZzbzf);
+  }
+  
+  public final void zza(zzbzy paramZzbzy, zzcj<LocationCallback> paramZzcj, zzbzf paramZzbzf)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    paramZzcj = zzg(paramZzcj);
+    zzbzk localZzbzk = (zzbzk)zzhzb.zzajj();
+    IBinder localIBinder = paramZzcj.asBinder();
+    if (paramZzbzf != null) {
+      paramZzcj = paramZzbzf.asBinder();
+    } else {
+      paramZzcj = null;
+    }
+    localZzbzk.zza(new zzcaa(1, paramZzbzy, null, null, localIBinder, paramZzcj));
+  }
+  
+  public final void zza(LocationRequest paramLocationRequest, PendingIntent paramPendingIntent, zzbzf paramZzbzf)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    zzbzk localZzbzk = (zzbzk)zzhzb.zzajj();
+    zzbzy localZzbzy = zzbzy.zza(paramLocationRequest);
+    if (paramZzbzf != null) {
+      paramLocationRequest = paramZzbzf.asBinder();
+    } else {
+      paramLocationRequest = null;
+    }
+    localZzbzk.zza(new zzcaa(1, localZzbzy, null, paramPendingIntent, null, paramLocationRequest));
+  }
+  
+  public final void zza(LocationRequest paramLocationRequest, zzcj<LocationListener> paramZzcj, zzbzf paramZzbzf)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    Object localObject = zzf(paramZzcj);
+    paramZzcj = (zzbzk)zzhzb.zzajj();
+    zzbzy localZzbzy = zzbzy.zza(paramLocationRequest);
+    localObject = ((IInterface)localObject).asBinder();
+    if (paramZzbzf != null) {
+      paramLocationRequest = paramZzbzf.asBinder();
+    } else {
+      paramLocationRequest = null;
+    }
+    paramZzcj.zza(new zzcaa(1, localZzbzy, (IBinder)localObject, null, null, paramLocationRequest));
+  }
+  
+  public final LocationAvailability zzasw()
+  {
+    zzhzb.zzaji();
+    try
+    {
+      LocationAvailability localLocationAvailability = ((zzbzk)zzhzb.zzajj()).zzib(mContext.getPackageName());
+      return localLocationAvailability;
+    }
+    catch (RemoteException localRemoteException)
+    {
+      throw new IllegalStateException(localRemoteException);
+    }
+  }
+  
+  public final void zzasx()
+  {
+    if (zzhzn) {
+      try
+      {
+        zzbk(false);
+        return;
+      }
+      catch (RemoteException localRemoteException)
+      {
+        throw new IllegalStateException(localRemoteException);
+      }
+    }
+  }
+  
+  public final void zzb(zzcl<LocationCallback> paramZzcl, zzbzf paramZzbzf)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    zzbp.zzb(paramZzcl, "Invalid null listener key");
+    synchronized (zzhzo)
+    {
+      paramZzcl = (zzbzp)zzhzo.remove(paramZzcl);
+      if (paramZzcl != null)
+      {
+        paramZzcl.release();
+        ((zzbzk)zzhzb.zzajj()).zza(zzcaa.zza(paramZzcl, paramZzbzf));
+      }
+      return;
+    }
+  }
+  
+  public final void zzbk(boolean paramBoolean)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    ((zzbzk)zzhzb.zzajj()).zzbk(paramBoolean);
+    zzhzn = paramBoolean;
+  }
+  
+  public final void zzc(Location paramLocation)
+    throws RemoteException
+  {
+    zzhzb.zzaji();
+    ((zzbzk)zzhzb.zzajj()).zzc(paramLocation);
+  }
+}

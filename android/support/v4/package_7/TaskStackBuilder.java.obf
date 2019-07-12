@@ -1,0 +1,198 @@
+package android.support.v4.app;
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.x.b.c;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public final class TaskStackBuilder
+  implements Iterable<Intent>
+{
+  public static final String TAG = "TaskStackBuilder";
+  public final ArrayList<Intent> mIntents = new ArrayList();
+  public final Context mSourceContext;
+  
+  public TaskStackBuilder(Context paramContext)
+  {
+    mSourceContext = paramContext;
+  }
+  
+  @F
+  public static TaskStackBuilder create(@F Context paramContext)
+  {
+    return new TaskStackBuilder(paramContext);
+  }
+  
+  @Deprecated
+  public static TaskStackBuilder from(Context paramContext)
+  {
+    return new TaskStackBuilder(paramContext);
+  }
+  
+  @F
+  public TaskStackBuilder addNextIntent(@F Intent paramIntent)
+  {
+    mIntents.add(paramIntent);
+    return this;
+  }
+  
+  @F
+  public TaskStackBuilder addNextIntentWithParentStack(@F Intent paramIntent)
+  {
+    ComponentName localComponentName2 = paramIntent.getComponent();
+    ComponentName localComponentName1 = localComponentName2;
+    if (localComponentName2 == null) {
+      localComponentName1 = paramIntent.resolveActivity(mSourceContext.getPackageManager());
+    }
+    if (localComponentName1 != null) {
+      addParentStack(localComponentName1);
+    }
+    addNextIntent(paramIntent);
+    return this;
+  }
+  
+  @F
+  public TaskStackBuilder addParentStack(@F Activity paramActivity)
+  {
+    Object localObject1;
+    if ((paramActivity instanceof SupportParentable)) {
+      localObject1 = ((SupportParentable)paramActivity).getSupportParentActivityIntent();
+    } else {
+      localObject1 = null;
+    }
+    Object localObject2 = localObject1;
+    if (localObject1 == null) {
+      localObject2 = NavUtils.getParentActivityIntent(paramActivity);
+    }
+    if (localObject2 != null)
+    {
+      localObject1 = ((Intent)localObject2).getComponent();
+      paramActivity = (Activity)localObject1;
+      if (localObject1 == null) {
+        paramActivity = ((Intent)localObject2).resolveActivity(mSourceContext.getPackageManager());
+      }
+      addParentStack(paramActivity);
+      addNextIntent((Intent)localObject2);
+    }
+    return this;
+  }
+  
+  public TaskStackBuilder addParentStack(ComponentName paramComponentName)
+  {
+    int i = mIntents.size();
+    try
+    {
+      for (paramComponentName = NavUtils.getParentActivityIntent(mSourceContext, paramComponentName); paramComponentName != null; paramComponentName = NavUtils.getParentActivityIntent(mSourceContext, paramComponentName.getComponent())) {
+        mIntents.add(i, paramComponentName);
+      }
+      return this;
+    }
+    catch (PackageManager.NameNotFoundException paramComponentName)
+    {
+      paramComponentName = new IllegalArgumentException(paramComponentName);
+    }
+    for (;;)
+    {
+      throw paramComponentName;
+    }
+  }
+  
+  @F
+  public TaskStackBuilder addParentStack(@F Class<?> paramClass)
+  {
+    return addParentStack(new ComponentName(mSourceContext, paramClass));
+  }
+  
+  @G
+  public Intent editIntentAt(int paramInt)
+  {
+    return (Intent)mIntents.get(paramInt);
+  }
+  
+  @Deprecated
+  public Intent getIntent(int paramInt)
+  {
+    return editIntentAt(paramInt);
+  }
+  
+  public int getIntentCount()
+  {
+    return mIntents.size();
+  }
+  
+  @F
+  public Intent[] getIntents()
+  {
+    Intent[] arrayOfIntent = new Intent[mIntents.size()];
+    if (arrayOfIntent.length == 0) {
+      return arrayOfIntent;
+    }
+    arrayOfIntent[0] = new Intent((Intent)mIntents.get(0)).addFlags(268484608);
+    int i = 1;
+    while (i < arrayOfIntent.length)
+    {
+      arrayOfIntent[i] = new Intent((Intent)mIntents.get(i));
+      i += 1;
+    }
+    return arrayOfIntent;
+  }
+  
+  @G
+  public PendingIntent getPendingIntent(int paramInt1, int paramInt2)
+  {
+    return getPendingIntent(paramInt1, paramInt2, null);
+  }
+  
+  @G
+  public PendingIntent getPendingIntent(int paramInt1, int paramInt2, @G Bundle paramBundle)
+  {
+    if (!mIntents.isEmpty())
+    {
+      Object localObject = mIntents;
+      localObject = (Intent[])((ArrayList)localObject).toArray(new Intent[((ArrayList)localObject).size()]);
+      localObject[0] = new Intent(localObject[0]).addFlags(268484608);
+      int i = Build.VERSION.SDK_INT;
+      return PendingIntent.getActivities(mSourceContext, paramInt1, (Intent[])localObject, paramInt2, paramBundle);
+    }
+    throw new IllegalStateException("No intents added to TaskStackBuilder; cannot getPendingIntent");
+  }
+  
+  @Deprecated
+  public Iterator<Intent> iterator()
+  {
+    return mIntents.iterator();
+  }
+  
+  public void startActivities()
+  {
+    startActivities(null);
+  }
+  
+  public void startActivities(@G Bundle paramBundle)
+  {
+    if (!mIntents.isEmpty())
+    {
+      Object localObject = mIntents;
+      localObject = (Intent[])((ArrayList)localObject).toArray(new Intent[((ArrayList)localObject).size()]);
+      localObject[0] = new Intent(localObject[0]).addFlags(268484608);
+      c.startActivities(mSourceContext, (Intent[])localObject, paramBundle);
+      return;
+    }
+    throw new IllegalStateException("No intents added to TaskStackBuilder; cannot startActivities");
+  }
+  
+  public static abstract interface SupportParentable
+  {
+    @G
+    public abstract Intent getSupportParentActivityIntent();
+  }
+}

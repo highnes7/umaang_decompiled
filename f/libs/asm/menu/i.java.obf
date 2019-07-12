@@ -1,0 +1,101 @@
+package f.c.a.c;
+
+import f.a.a.a.a;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+
+public class i
+  extends FileOutputStream
+{
+  public static final String a = ".cls";
+  public static final String b = ".cls_temp";
+  public static final FilenameFilter c = new h();
+  public final String d;
+  public File e;
+  public File f;
+  public boolean g = false;
+  
+  public i(File paramFile, String paramString)
+    throws FileNotFoundException
+  {
+    super(new File(paramFile, a.c(paramString, ".cls_temp")));
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramFile);
+    d = a.a(localStringBuilder, File.separator, paramString);
+    e = new File(a.a(new StringBuilder(), d, ".cls_temp"));
+  }
+  
+  public i(String paramString1, String paramString2)
+    throws FileNotFoundException
+  {
+    this(new File(paramString1), paramString2);
+  }
+  
+  public void close()
+    throws IOException
+  {
+    for (;;)
+    {
+      try
+      {
+        boolean bool = g;
+        if (bool) {
+          return;
+        }
+        g = true;
+        super.flush();
+        super.close();
+        Object localObject1 = new StringBuilder();
+        ((StringBuilder)localObject1).append(d);
+        ((StringBuilder)localObject1).append(".cls");
+        File localFile = new File(((StringBuilder)localObject1).toString());
+        if (e.renameTo(localFile))
+        {
+          e = null;
+          f = localFile;
+          return;
+        }
+        localObject1 = "";
+        if (!localFile.exists())
+        {
+          if (!e.exists()) {
+            localObject1 = " (source does not exist)";
+          }
+          StringBuilder localStringBuilder = new StringBuilder();
+          localStringBuilder.append("Could not rename temp file: ");
+          localStringBuilder.append(e);
+          localStringBuilder.append(" -> ");
+          localStringBuilder.append(localFile);
+          localStringBuilder.append((String)localObject1);
+          throw new IOException(localStringBuilder.toString());
+        }
+      }
+      finally {}
+      String str = " (target already exists)";
+    }
+  }
+  
+  public void u()
+    throws IOException
+  {
+    if (g) {
+      return;
+    }
+    g = true;
+    super.flush();
+    super.close();
+  }
+  
+  public File v()
+  {
+    return f;
+  }
+  
+  public File w()
+  {
+    return e;
+  }
+}

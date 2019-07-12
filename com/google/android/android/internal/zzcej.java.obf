@@ -1,0 +1,135 @@
+package com.google.android.gms.internal;
+
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Application.ActivityLifecycleCallbacks;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
+import b.b.a.C;
+import com.google.android.gms.common.util.zzd;
+
+@TargetApi(14)
+@C
+public final class zzcej
+  implements Application.ActivityLifecycleCallbacks
+{
+  public zzcej(zzcdw paramZzcdw) {}
+  
+  public final void onActivityCreated(Activity paramActivity, Bundle paramBundle)
+  {
+    for (;;)
+    {
+      try
+      {
+        zziuy.zzaul().zzayj().log("onActivityCreated");
+        localObject1 = paramActivity.getIntent();
+        if (localObject1 == null) {
+          break label270;
+        }
+        Uri localUri = ((Intent)localObject1).getData();
+        if (localUri == null) {
+          break label270;
+        }
+        boolean bool = localUri.isHierarchical();
+        if (!bool) {
+          break label270;
+        }
+        if (paramBundle == null)
+        {
+          Bundle localBundle = zziuy.zzauh().zzp(localUri);
+          zziuy.zzauh();
+          if (!zzcfw.zzl((Intent)localObject1)) {
+            break label332;
+          }
+          localObject1 = "gs";
+          if (localBundle != null) {
+            zziuy.zzc((String)localObject1, "_cmp", localBundle);
+          }
+        }
+        localObject1 = localUri.getQueryParameter("referrer");
+        if (TextUtils.isEmpty((CharSequence)localObject1)) {
+          return;
+        }
+        if (!((String)localObject1).contains("gclid")) {
+          break label344;
+        }
+        if ((((String)localObject1).contains("utm_campaign")) || (((String)localObject1).contains("utm_source")) || (((String)localObject1).contains("utm_medium")) || (((String)localObject1).contains("utm_term"))) {
+          break label339;
+        }
+        if (!((String)localObject1).contains("utm_content")) {
+          break label344;
+        }
+      }
+      catch (Throwable localThrowable)
+      {
+        Object localObject1;
+        zziuy.zzaul().zzayd().zzj("Throwable caught in onActivityCreated", localThrowable);
+      }
+      if (i == 0)
+      {
+        zziuy.zzaul().zzayi().log("Activity created with data 'referrer' param without gclid and at least one utm field");
+        return;
+      }
+      zziuy.zzaul().zzayi().zzj("Activity created with referrer", localObject1);
+      if (!TextUtils.isEmpty((CharSequence)localObject1)) {
+        zziuy.zzb("auto", "_ldl", localObject1);
+      }
+      label270:
+      Object localObject2 = zziuy.zzaud();
+      if (paramBundle != null)
+      {
+        paramBundle = paramBundle.getBundle("com.google.firebase.analytics.screen_service");
+        if (paramBundle != null)
+        {
+          paramActivity = ((zzcek)localObject2).zzq(paramActivity);
+          zzikp = paramBundle.getLong("id");
+          zzikn = paramBundle.getString("name");
+          zziko = paramBundle.getString("referrer_name");
+        }
+      }
+      return;
+      label332:
+      localObject2 = "auto";
+      continue;
+      label339:
+      int i = 1;
+      continue;
+      label344:
+      i = 0;
+    }
+  }
+  
+  public final void onActivityDestroyed(Activity paramActivity)
+  {
+    zziuy.zzaud().onActivityDestroyed(paramActivity);
+  }
+  
+  @C
+  public final void onActivityPaused(Activity paramActivity)
+  {
+    zziuy.zzaud().onActivityPaused(paramActivity);
+    paramActivity = zziuy.zzauj();
+    long l = paramActivity.zzvx().elapsedRealtime();
+    paramActivity.zzauk().zzg(new zzcfp(paramActivity, l));
+  }
+  
+  @C
+  public final void onActivityResumed(Activity paramActivity)
+  {
+    zziuy.zzaud().onActivityResumed(paramActivity);
+    paramActivity = zziuy.zzauj();
+    long l = paramActivity.zzvx().elapsedRealtime();
+    paramActivity.zzauk().zzg(new zzcfo(paramActivity, l));
+  }
+  
+  public final void onActivitySaveInstanceState(Activity paramActivity, Bundle paramBundle)
+  {
+    zziuy.zzaud().onActivitySaveInstanceState(paramActivity, paramBundle);
+  }
+  
+  public final void onActivityStarted(Activity paramActivity) {}
+  
+  public final void onActivityStopped(Activity paramActivity) {}
+}

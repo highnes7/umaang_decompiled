@@ -1,0 +1,31 @@
+package com.google.android.gms.common.internal;
+
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.dynamic.IObjectWrapper;
+import com.google.android.gms.dynamic.IObjectWrapper.zza;
+import com.google.android.gms.internal.zzeb;
+import com.google.android.gms.internal.zzed;
+
+public final class zzbd
+  extends zzeb
+  implements zzbc
+{
+  public zzbd(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.gms.common.internal.ISignInButtonCreator");
+  }
+  
+  public final IObjectWrapper zza(IObjectWrapper paramIObjectWrapper, zzbu paramZzbu)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramIObjectWrapper);
+    zzed.zza(localParcel, paramZzbu);
+    paramIObjectWrapper = zza(2, localParcel);
+    paramZzbu = IObjectWrapper.zza.zzao(paramIObjectWrapper.readStrongBinder());
+    paramIObjectWrapper.recycle();
+    return paramZzbu;
+  }
+}

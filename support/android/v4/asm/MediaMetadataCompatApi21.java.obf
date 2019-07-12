@@ -1,0 +1,91 @@
+package b.b.x.h;
+
+import android.graphics.Bitmap;
+import android.media.MediaMetadata;
+import android.media.MediaMetadata.Builder;
+import android.media.Rating;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import b.b.a.K;
+import java.util.Set;
+
+@K(21)
+public class da
+{
+  public da() {}
+  
+  public static Bitmap a(Object paramObject, String paramString)
+  {
+    return ((MediaMetadata)paramObject).getBitmap(paramString);
+  }
+  
+  public static Object a(Parcel paramParcel)
+  {
+    return MediaMetadata.CREATOR.createFromParcel(paramParcel);
+  }
+  
+  public static Set<String> a(Object paramObject)
+  {
+    return ((MediaMetadata)paramObject).keySet();
+  }
+  
+  public static void a(Object paramObject, Parcel paramParcel, int paramInt)
+  {
+    ((MediaMetadata)paramObject).writeToParcel(paramParcel, paramInt);
+  }
+  
+  public static long b(Object paramObject, String paramString)
+  {
+    return ((MediaMetadata)paramObject).getLong(paramString);
+  }
+  
+  public static Object c(Object paramObject, String paramString)
+  {
+    return ((MediaMetadata)paramObject).getRating(paramString);
+  }
+  
+  public static CharSequence d(Object paramObject, String paramString)
+  {
+    return ((MediaMetadata)paramObject).getText(paramString);
+  }
+  
+  public static class a
+  {
+    public a() {}
+    
+    public static Object a()
+    {
+      return new MediaMetadata.Builder();
+    }
+    
+    public static Object a(Object paramObject)
+    {
+      return ((MediaMetadata.Builder)paramObject).build();
+    }
+    
+    public static void a(Object paramObject, String paramString, long paramLong)
+    {
+      ((MediaMetadata.Builder)paramObject).putLong(paramString, paramLong);
+    }
+    
+    public static void a(Object paramObject, String paramString, Bitmap paramBitmap)
+    {
+      ((MediaMetadata.Builder)paramObject).putBitmap(paramString, paramBitmap);
+    }
+    
+    public static void a(Object paramObject, String paramString, CharSequence paramCharSequence)
+    {
+      ((MediaMetadata.Builder)paramObject).putText(paramString, paramCharSequence);
+    }
+    
+    public static void a(Object paramObject1, String paramString, Object paramObject2)
+    {
+      ((MediaMetadata.Builder)paramObject1).putRating(paramString, (Rating)paramObject2);
+    }
+    
+    public static void a(Object paramObject, String paramString1, String paramString2)
+    {
+      ((MediaMetadata.Builder)paramObject).putString(paramString1, paramString2);
+    }
+  }
+}

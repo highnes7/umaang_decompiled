@@ -1,0 +1,118 @@
+package l.a.a.a;
+
+import android.content.Context;
+import f.a.a.a.a;
+import java.io.File;
+import java.util.Collection;
+import l.a.a.a.a.b.y;
+import l.a.a.a.a.c.j;
+import l.a.a.a.a.c.t;
+
+public abstract class n<Result>
+  implements Comparable<n>
+{
+  public g a;
+  public m<Result> b = new m(this);
+  public Context c;
+  public k<Result> d;
+  public y e;
+  public final j f = (j)getClass().getAnnotation(j.class);
+  
+  public n() {}
+  
+  public int a(n paramN)
+  {
+    if (b(paramN)) {
+      return 1;
+    }
+    if (paramN.b(this)) {
+      return -1;
+    }
+    if ((k()) && (!paramN.k())) {
+      return 1;
+    }
+    if ((!k()) && (paramN.k())) {
+      return -1;
+    }
+    return 0;
+  }
+  
+  public void a(Context paramContext, g paramG, k<Result> paramK, y paramY)
+  {
+    a = paramG;
+    c = new h(paramContext, h(), i());
+    d = paramK;
+    e = paramY;
+  }
+  
+  public void a(Result paramResult) {}
+  
+  public void b(Result paramResult) {}
+  
+  public boolean b(n paramN)
+  {
+    if (k())
+    {
+      Class[] arrayOfClass = f.value();
+      int j = arrayOfClass.length;
+      int i = 0;
+      while (i < j)
+      {
+        if (arrayOfClass[i].isAssignableFrom(paramN.getClass())) {
+          return true;
+        }
+        i += 1;
+      }
+    }
+    return false;
+  }
+  
+  public abstract Result c();
+  
+  public Context d()
+  {
+    return c;
+  }
+  
+  public Collection<t> e()
+  {
+    return b.c();
+  }
+  
+  public g f()
+  {
+    return a;
+  }
+  
+  public y g()
+  {
+    return e;
+  }
+  
+  public abstract String h();
+  
+  public String i()
+  {
+    StringBuilder localStringBuilder = a.b(".Fabric");
+    localStringBuilder.append(File.separator);
+    localStringBuilder.append(h());
+    return localStringBuilder.toString();
+  }
+  
+  public abstract String j();
+  
+  public boolean k()
+  {
+    return f != null;
+  }
+  
+  public final void l()
+  {
+    b.a(a.e(), new Void[] { null });
+  }
+  
+  public boolean m()
+  {
+    return true;
+  }
+}

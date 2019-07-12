@@ -1,0 +1,714 @@
+package com.google.android.gms.vision;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.ImageFormat;
+import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
+import android.hardware.Camera.Parameters;
+import android.hardware.Camera.PictureCallback;
+import android.hardware.Camera.PreviewCallback;
+import android.hardware.Camera.ShutterCallback;
+import android.hardware.Camera.Size;
+import android.os.SystemClock;
+import android.view.Display;
+import android.view.SurfaceHolder;
+import android.view.WindowManager;
+import b.b.a.M;
+import com.google.android.gms.common.images.Size;
+import f.a.a.a.a;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+public class CameraSource
+{
+  @SuppressLint({"InlinedApi"})
+  public static final int CAMERA_FACING_BACK = 0;
+  @SuppressLint({"InlinedApi"})
+  public static final int CAMERA_FACING_FRONT = 1;
+  public Context mContext;
+  public int zzcew;
+  public final Object zzkgr = new Object();
+  public Camera zzkgs;
+  public int zzkgt = 0;
+  public Size zzkgu;
+  public float zzkgv = 30.0F;
+  public int zzkgw = 1024;
+  public int zzkgx = 768;
+  public boolean zzkgy = false;
+  public SurfaceTexture zzkgz;
+  public boolean zzkha;
+  public Thread zzkhb;
+  public zzb zzkhc;
+  public Map<byte[], ByteBuffer> zzkhd = new HashMap();
+  
+  public CameraSource() {}
+  
+  public static zze zza(Camera paramCamera, int paramInt1, int paramInt2)
+  {
+    paramCamera = paramCamera.getParameters();
+    Object localObject1 = paramCamera.getSupportedPreviewSizes();
+    paramCamera = paramCamera.getSupportedPictureSizes();
+    ArrayList localArrayList = new ArrayList();
+    Object localObject2 = ((List)localObject1).iterator();
+    for (;;)
+    {
+      if (!((Iterator)localObject2).hasNext()) {
+        break label146;
+      }
+      Camera.Size localSize1 = (Camera.Size)((Iterator)localObject2).next();
+      float f = width / height;
+      Iterator localIterator = paramCamera.iterator();
+      if (localIterator.hasNext())
+      {
+        Camera.Size localSize2 = (Camera.Size)localIterator.next();
+        if (Math.abs(f - width / height) >= 0.01F) {
+          break;
+        }
+        localArrayList.add(new zze(localSize1, localSize2));
+      }
+    }
+    label146:
+    int i = localArrayList.size();
+    paramCamera = null;
+    if (i == 0)
+    {
+      localObject1 = ((List)localObject1).iterator();
+      while (((Iterator)localObject1).hasNext()) {
+        localArrayList.add(new zze((Camera.Size)((Iterator)localObject1).next(), null));
+      }
+    }
+    i = Integer.MAX_VALUE;
+    int n = localArrayList.size();
+    int j = 0;
+    while (j < n)
+    {
+      localObject1 = localArrayList.get(j);
+      int k = j + 1;
+      localObject1 = (zze)localObject1;
+      localObject2 = ((zze)localObject1).zzbij();
+      j = Math.abs(((Size)localObject2).getWidth() - paramInt1);
+      int m = Math.abs(((Size)localObject2).getHeight() - paramInt2) + j;
+      j = k;
+      if (m < i)
+      {
+        paramCamera = (Camera)localObject1;
+        i = m;
+        j = k;
+      }
+    }
+    return paramCamera;
+  }
+  
+  @SuppressLint({"InlinedApi"})
+  private final byte[] zza(Size paramSize)
+  {
+    int i = ImageFormat.getBitsPerPixel(17);
+    int j = paramSize.getHeight();
+    double d = paramSize.getWidth() * j * i;
+    Double.isNaN(d);
+    paramSize = new byte[(int)Math.ceil(d / 8.0D) + 1];
+    ByteBuffer localByteBuffer = ByteBuffer.wrap(paramSize);
+    if ((localByteBuffer.hasArray()) && (localByteBuffer.array() == paramSize))
+    {
+      zzkhd.put(paramSize, localByteBuffer);
+      return paramSize;
+    }
+    throw new IllegalStateException("Failed to create valid buffer for camera source.");
+  }
+  
+  @SuppressLint({"InlinedApi"})
+  public static int[] zza(Camera paramCamera, float paramFloat)
+  {
+    int k = (int)(paramFloat * 1000.0F);
+    Iterator localIterator = paramCamera.getParameters().getSupportedPreviewFpsRange().iterator();
+    paramCamera = null;
+    int i = Integer.MAX_VALUE;
+    while (localIterator.hasNext())
+    {
+      int[] arrayOfInt = (int[])localIterator.next();
+      int m = arrayOfInt[0];
+      int j = arrayOfInt[1];
+      m = Math.abs(k - m);
+      j = Math.abs(k - j) + m;
+      if (j < i)
+      {
+        paramCamera = arrayOfInt;
+        i = j;
+      }
+    }
+    return paramCamera;
+  }
+  
+  @SuppressLint({"InlinedApi"})
+  private final Camera zzbii()
+    throws IOException
+  {
+    int j = zzkgt;
+    Object localObject1 = new Camera.CameraInfo();
+    int k = 0;
+    int i = 0;
+    while (i < Camera.getNumberOfCameras())
+    {
+      Camera.getCameraInfo(i, (Camera.CameraInfo)localObject1);
+      if (facing == j)
+      {
+        j = i;
+        break label54;
+      }
+      i += 1;
+    }
+    j = -1;
+    label54:
+    if (j != -1)
+    {
+      localObject1 = Camera.open(j);
+      Object localObject2 = zza((Camera)localObject1, zzkgw, zzkgx);
+      if (localObject2 != null)
+      {
+        Object localObject3 = ((zze)localObject2).zzbik();
+        zzkgu = ((zze)localObject2).zzbij();
+        int[] arrayOfInt = zza((Camera)localObject1, zzkgv);
+        if (arrayOfInt != null)
+        {
+          localObject2 = ((Camera)localObject1).getParameters();
+          if (localObject3 != null) {
+            ((Camera.Parameters)localObject2).setPictureSize(((Size)localObject3).getWidth(), ((Size)localObject3).getHeight());
+          }
+          ((Camera.Parameters)localObject2).setPreviewSize(zzkgu.getWidth(), zzkgu.getHeight());
+          ((Camera.Parameters)localObject2).setPreviewFpsRange(arrayOfInt[0], arrayOfInt[1]);
+          ((Camera.Parameters)localObject2).setPreviewFormat(17);
+          int m = ((WindowManager)mContext.getSystemService("window")).getDefaultDisplay().getRotation();
+          i = k;
+          if (m != 0) {
+            if (m != 1)
+            {
+              if (m != 2)
+              {
+                if (m != 3)
+                {
+                  localObject3 = new StringBuilder(31);
+                  ((StringBuilder)localObject3).append("Bad rotation value: ");
+                  ((StringBuilder)localObject3).append(m);
+                  ((StringBuilder)localObject3).toString();
+                  i = k;
+                }
+                else
+                {
+                  i = 270;
+                }
+              }
+              else {
+                i = 180;
+              }
+            }
+            else {
+              i = 90;
+            }
+          }
+          localObject3 = new Camera.CameraInfo();
+          Camera.getCameraInfo(j, (Camera.CameraInfo)localObject3);
+          if (facing == 1)
+          {
+            i = (orientation + i) % 360;
+            j = (360 - i) % 360;
+          }
+          else
+          {
+            i = (orientation - i + 360) % 360;
+            j = i;
+          }
+          zzcew = (i / 90);
+          ((Camera)localObject1).setDisplayOrientation(j);
+          ((Camera.Parameters)localObject2).setRotation(i);
+          if ((zzkgy) && (((Camera.Parameters)localObject2).getSupportedFocusModes().contains("continuous-video"))) {
+            ((Camera.Parameters)localObject2).setFocusMode("continuous-video");
+          }
+          ((Camera)localObject1).setParameters((Camera.Parameters)localObject2);
+          ((Camera)localObject1).setPreviewCallbackWithBuffer(new zza(null));
+          ((Camera)localObject1).addCallbackBuffer(zza(zzkgu));
+          ((Camera)localObject1).addCallbackBuffer(zza(zzkgu));
+          ((Camera)localObject1).addCallbackBuffer(zza(zzkgu));
+          ((Camera)localObject1).addCallbackBuffer(zza(zzkgu));
+          return localObject1;
+        }
+        throw new IOException("Could not find suitable preview frames per second range.");
+      }
+      throw new IOException("Could not find suitable preview size.");
+    }
+    localObject1 = new IOException("Could not find requested camera.");
+    for (;;)
+    {
+      throw ((Throwable)localObject1);
+    }
+  }
+  
+  public int getCameraFacing()
+  {
+    return zzkgt;
+  }
+  
+  public Size getPreviewSize()
+  {
+    return zzkgu;
+  }
+  
+  public void release()
+  {
+    synchronized (zzkgr)
+    {
+      stop();
+      zzkhc.release();
+      return;
+    }
+  }
+  
+  @M("android.permission.CAMERA")
+  public CameraSource start()
+    throws IOException
+  {
+    synchronized (zzkgr)
+    {
+      if (zzkgs != null) {
+        return this;
+      }
+      zzkgs = zzbii();
+      zzkgz = new SurfaceTexture(100);
+      zzkgs.setPreviewTexture(zzkgz);
+      zzkha = true;
+      zzkgs.startPreview();
+      zzkhb = new Thread(zzkhc);
+      zzkhc.setActive(true);
+      zzkhb.start();
+      return this;
+    }
+  }
+  
+  @M("android.permission.CAMERA")
+  public CameraSource start(SurfaceHolder paramSurfaceHolder)
+    throws IOException
+  {
+    synchronized (zzkgr)
+    {
+      if (zzkgs != null) {
+        return this;
+      }
+      zzkgs = zzbii();
+      zzkgs.setPreviewDisplay(paramSurfaceHolder);
+      zzkgs.startPreview();
+      zzkhb = new Thread(zzkhc);
+      zzkhc.setActive(true);
+      zzkhb.start();
+      zzkha = false;
+      return this;
+    }
+  }
+  
+  public void stop()
+  {
+    synchronized (zzkgr)
+    {
+      zzkhc.setActive(false);
+      Thread localThread = zzkhb;
+      if (localThread == null) {}
+    }
+    try
+    {
+      zzkhb.join();
+      zzkhb = null;
+      if (zzkgs != null)
+      {
+        zzkgs.stopPreview();
+        zzkgs.setPreviewCallbackWithBuffer(null);
+        try
+        {
+          if (zzkha) {
+            zzkgs.setPreviewTexture(null);
+          } else {
+            zzkgs.setPreviewDisplay(null);
+          }
+        }
+        catch (Exception localException)
+        {
+          String str = String.valueOf(localException);
+          StringBuilder localStringBuilder = new StringBuilder(str.length() + 32);
+          localStringBuilder.append("Failed to clear camera preview: ");
+          localStringBuilder.append(str);
+          localStringBuilder.toString();
+        }
+        zzkgs.release();
+        zzkgs = null;
+      }
+      zzkhd.clear();
+      return;
+      localObject2 = finally;
+      throw localObject2;
+    }
+    catch (InterruptedException localInterruptedException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void takePicture(ShutterCallback paramShutterCallback, PictureCallback paramPictureCallback)
+  {
+    synchronized (zzkgr)
+    {
+      if (zzkgs != null)
+      {
+        zzd localZzd = new zzd(null);
+        zzd.zza(localZzd, paramShutterCallback);
+        paramShutterCallback = new zzc(null);
+        zzc.zza(paramShutterCallback, paramPictureCallback);
+        zzkgs.takePicture(localZzd, null, null, paramShutterCallback);
+      }
+      return;
+    }
+  }
+  
+  public static class Builder
+  {
+    public final Detector<?> zzkhe;
+    public CameraSource zzkhf = new CameraSource();
+    
+    public Builder(Context paramContext, Detector<?> paramDetector)
+    {
+      if (paramContext != null)
+      {
+        if (paramDetector != null)
+        {
+          zzkhe = paramDetector;
+          zzkhf.mContext = paramContext;
+          return;
+        }
+        throw new IllegalArgumentException("No detector supplied.");
+      }
+      throw new IllegalArgumentException("No context supplied.");
+    }
+    
+    public CameraSource build()
+    {
+      CameraSource localCameraSource = zzkhf;
+      localCameraSource.getClass();
+      zzkhc = new CameraSource.zzb(localCameraSource, zzkhe);
+      return zzkhf;
+    }
+    
+    public Builder setAutoFocusEnabled(boolean paramBoolean)
+    {
+      zzkhf.zzkgy = paramBoolean;
+      return this;
+    }
+    
+    public Builder setFacing(int paramInt)
+    {
+      if ((paramInt != 0) && (paramInt != 1)) {
+        throw new IllegalArgumentException(a.a(27, "Invalid camera: ", paramInt));
+      }
+      zzkhf.zzkgt = paramInt;
+      return this;
+    }
+    
+    public Builder setRequestedFps(float paramFloat)
+    {
+      if (paramFloat > 0.0F)
+      {
+        zzkhf.zzkgv = paramFloat;
+        return this;
+      }
+      StringBuilder localStringBuilder = new StringBuilder(28);
+      localStringBuilder.append("Invalid fps: ");
+      localStringBuilder.append(paramFloat);
+      throw new IllegalArgumentException(localStringBuilder.toString());
+    }
+    
+    public Builder setRequestedPreviewSize(int paramInt1, int paramInt2)
+    {
+      if ((paramInt1 > 0) && (paramInt1 <= 1000000) && (paramInt2 > 0) && (paramInt2 <= 1000000))
+      {
+        localObject = zzkhf;
+        zzkgw = paramInt1;
+        zzkgx = paramInt2;
+        return this;
+      }
+      Object localObject = new StringBuilder(45);
+      ((StringBuilder)localObject).append("Invalid preview size: ");
+      ((StringBuilder)localObject).append(paramInt1);
+      ((StringBuilder)localObject).append("x");
+      ((StringBuilder)localObject).append(paramInt2);
+      throw new IllegalArgumentException(((StringBuilder)localObject).toString());
+    }
+  }
+  
+  public static abstract interface PictureCallback
+  {
+    public abstract void onPictureTaken(byte[] paramArrayOfByte);
+  }
+  
+  public static abstract interface ShutterCallback
+  {
+    public abstract void onShutter();
+  }
+  
+  public final class zza
+    implements Camera.PreviewCallback
+  {
+    public zza() {}
+    
+    public final void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera)
+    {
+      zzkhc.zza(paramArrayOfByte, paramCamera);
+    }
+  }
+  
+  public final class zzb
+    implements Runnable
+  {
+    public boolean mActive = true;
+    public final Object mLock = new Object();
+    public long zzdqt = SystemClock.elapsedRealtime();
+    public Detector<?> zzkhe;
+    public long zzkhh;
+    public int zzkhi = 0;
+    public ByteBuffer zzkhj;
+    
+    public zzb()
+    {
+      Object localObject;
+      zzkhe = localObject;
+    }
+    
+    @SuppressLint({"Assert"})
+    public final void release()
+    {
+      zzkhe.release();
+      zzkhe = null;
+    }
+    
+    /* Error */
+    @SuppressLint({"InlinedApi"})
+    public final void run()
+    {
+      // Byte code:
+      //   0: aload_0
+      //   1: getfield 42	com/google/android/gms/vision/CameraSource$zzb:mLock	Ljava/lang/Object;
+      //   4: astore_1
+      //   5: aload_1
+      //   6: monitorenter
+      //   7: aload_0
+      //   8: getfield 44	com/google/android/gms/vision/CameraSource$zzb:mActive	Z
+      //   11: ifeq +25 -> 36
+      //   14: aload_0
+      //   15: getfield 68	com/google/android/gms/vision/CameraSource$zzb:zzkhj	Ljava/nio/ByteBuffer;
+      //   18: astore_2
+      //   19: aload_2
+      //   20: ifnonnull +16 -> 36
+      //   23: aload_0
+      //   24: getfield 42	com/google/android/gms/vision/CameraSource$zzb:mLock	Ljava/lang/Object;
+      //   27: invokevirtual 71	java/lang/Object:wait	()V
+      //   30: goto -23 -> 7
+      //   33: aload_1
+      //   34: monitorexit
+      //   35: return
+      //   36: aload_0
+      //   37: getfield 44	com/google/android/gms/vision/CameraSource$zzb:mActive	Z
+      //   40: ifne +6 -> 46
+      //   43: aload_1
+      //   44: monitorexit
+      //   45: return
+      //   46: new 73	com/google/android/gms/vision/Frame$Builder
+      //   49: dup
+      //   50: invokespecial 74	com/google/android/gms/vision/Frame$Builder:<init>	()V
+      //   53: aload_0
+      //   54: getfield 68	com/google/android/gms/vision/CameraSource$zzb:zzkhj	Ljava/nio/ByteBuffer;
+      //   57: aload_0
+      //   58: getfield 29	com/google/android/gms/vision/CameraSource$zzb:zzkhg	Lcom/google/android/gms/vision/CameraSource;
+      //   61: getfield 78	com/google/android/gms/vision/CameraSource:zzkgu	Lcom/google/android/gms/common/images/Size;
+      //   64: invokevirtual 84	com/google/android/gms/common/images/Size:getWidth	()I
+      //   67: aload_0
+      //   68: getfield 29	com/google/android/gms/vision/CameraSource$zzb:zzkhg	Lcom/google/android/gms/vision/CameraSource;
+      //   71: getfield 78	com/google/android/gms/vision/CameraSource:zzkgu	Lcom/google/android/gms/common/images/Size;
+      //   74: invokevirtual 87	com/google/android/gms/common/images/Size:getHeight	()I
+      //   77: bipush 17
+      //   79: invokevirtual 91	com/google/android/gms/vision/Frame$Builder:setImageData	(Ljava/nio/ByteBuffer;III)Lcom/google/android/gms/vision/Frame$Builder;
+      //   82: aload_0
+      //   83: getfield 46	com/google/android/gms/vision/CameraSource$zzb:zzkhi	I
+      //   86: invokevirtual 95	com/google/android/gms/vision/Frame$Builder:setId	(I)Lcom/google/android/gms/vision/Frame$Builder;
+      //   89: aload_0
+      //   90: getfield 97	com/google/android/gms/vision/CameraSource$zzb:zzkhh	J
+      //   93: invokevirtual 101	com/google/android/gms/vision/Frame$Builder:setTimestampMillis	(J)Lcom/google/android/gms/vision/Frame$Builder;
+      //   96: aload_0
+      //   97: getfield 29	com/google/android/gms/vision/CameraSource$zzb:zzkhg	Lcom/google/android/gms/vision/CameraSource;
+      //   100: getfield 104	com/google/android/gms/vision/CameraSource:zzcew	I
+      //   103: invokevirtual 107	com/google/android/gms/vision/Frame$Builder:setRotation	(I)Lcom/google/android/gms/vision/Frame$Builder;
+      //   106: invokevirtual 111	com/google/android/gms/vision/Frame$Builder:build	()Lcom/google/android/gms/vision/Frame;
+      //   109: astore_3
+      //   110: aload_0
+      //   111: getfield 68	com/google/android/gms/vision/CameraSource$zzb:zzkhj	Ljava/nio/ByteBuffer;
+      //   114: astore_2
+      //   115: aload_0
+      //   116: aconst_null
+      //   117: putfield 68	com/google/android/gms/vision/CameraSource$zzb:zzkhj	Ljava/nio/ByteBuffer;
+      //   120: aload_1
+      //   121: monitorexit
+      //   122: aload_0
+      //   123: getfield 48	com/google/android/gms/vision/CameraSource$zzb:zzkhe	Lcom/google/android/gms/vision/Detector;
+      //   126: aload_3
+      //   127: invokevirtual 115	com/google/android/gms/vision/Detector:receiveFrame	(Lcom/google/android/gms/vision/Frame;)V
+      //   130: aload_0
+      //   131: getfield 29	com/google/android/gms/vision/CameraSource$zzb:zzkhg	Lcom/google/android/gms/vision/CameraSource;
+      //   134: getfield 119	com/google/android/gms/vision/CameraSource:zzkgs	Landroid/hardware/Camera;
+      //   137: aload_2
+      //   138: invokevirtual 125	java/nio/ByteBuffer:array	()[B
+      //   141: invokevirtual 131	android/hardware/Camera:addCallbackBuffer	([B)V
+      //   144: goto -144 -> 0
+      //   147: astore_1
+      //   148: aload_0
+      //   149: getfield 29	com/google/android/gms/vision/CameraSource$zzb:zzkhg	Lcom/google/android/gms/vision/CameraSource;
+      //   152: getfield 119	com/google/android/gms/vision/CameraSource:zzkgs	Landroid/hardware/Camera;
+      //   155: aload_2
+      //   156: invokevirtual 125	java/nio/ByteBuffer:array	()[B
+      //   159: invokevirtual 131	android/hardware/Camera:addCallbackBuffer	([B)V
+      //   162: aload_1
+      //   163: athrow
+      //   164: aload_0
+      //   165: getfield 29	com/google/android/gms/vision/CameraSource$zzb:zzkhg	Lcom/google/android/gms/vision/CameraSource;
+      //   168: getfield 119	com/google/android/gms/vision/CameraSource:zzkgs	Landroid/hardware/Camera;
+      //   171: aload_2
+      //   172: invokevirtual 125	java/nio/ByteBuffer:array	()[B
+      //   175: invokevirtual 131	android/hardware/Camera:addCallbackBuffer	([B)V
+      //   178: goto -178 -> 0
+      //   181: astore_2
+      //   182: aload_1
+      //   183: monitorexit
+      //   184: goto +5 -> 189
+      //   187: aload_2
+      //   188: athrow
+      //   189: goto -2 -> 187
+      //   192: astore_2
+      //   193: goto -160 -> 33
+      //   196: astore_1
+      //   197: goto -33 -> 164
+      // Local variable table:
+      //   start	length	slot	name	signature
+      //   0	200	0	this	zzb
+      //   4	117	1	localObject1	Object
+      //   147	36	1	localObject2	Object
+      //   196	1	1	localThrowable	Throwable
+      //   18	154	2	localByteBuffer	ByteBuffer
+      //   181	7	2	localObject3	Object
+      //   192	1	2	localInterruptedException	InterruptedException
+      //   109	18	3	localFrame	Frame
+      // Exception table:
+      //   from	to	target	type
+      //   122	130	147	finally
+      //   7	19	181	finally
+      //   23	30	181	finally
+      //   33	35	181	finally
+      //   36	45	181	finally
+      //   46	122	181	finally
+      //   182	184	181	finally
+      //   23	30	192	java/lang/InterruptedException
+      //   122	130	196	java/lang/Throwable
+    }
+    
+    public final void setActive(boolean paramBoolean)
+    {
+      synchronized (mLock)
+      {
+        mActive = paramBoolean;
+        mLock.notifyAll();
+        return;
+      }
+    }
+    
+    public final void zza(byte[] paramArrayOfByte, Camera paramCamera)
+    {
+      synchronized (mLock)
+      {
+        if (zzkhj != null)
+        {
+          paramCamera.addCallbackBuffer(zzkhj.array());
+          zzkhj = null;
+        }
+        if (!zzkhd.containsKey(paramArrayOfByte)) {
+          return;
+        }
+        zzkhh = (SystemClock.elapsedRealtime() - zzdqt);
+        zzkhi += 1;
+        zzkhj = ((ByteBuffer)zzkhd.get(paramArrayOfByte));
+        mLock.notifyAll();
+        return;
+      }
+    }
+  }
+  
+  public final class zzc
+    implements Camera.PictureCallback
+  {
+    public CameraSource.PictureCallback zzkhk;
+    
+    public zzc() {}
+    
+    public final void onPictureTaken(byte[] arg1, Camera paramCamera)
+    {
+      paramCamera = zzkhk;
+      if (paramCamera != null) {
+        paramCamera.onPictureTaken(???);
+      }
+      synchronized (zzkgr)
+      {
+        if (zzkgs != null) {
+          zzkgs.startPreview();
+        }
+        return;
+      }
+    }
+  }
+  
+  public static final class zzd
+    implements Camera.ShutterCallback
+  {
+    public CameraSource.ShutterCallback zzkhl;
+    
+    public zzd() {}
+    
+    public final void onShutter()
+    {
+      CameraSource.ShutterCallback localShutterCallback = zzkhl;
+      if (localShutterCallback != null) {
+        localShutterCallback.onShutter();
+      }
+    }
+  }
+  
+  public static final class zze
+  {
+    public Size zzkhm;
+    public Size zzkhn;
+    
+    public zze(Camera.Size paramSize1, Camera.Size paramSize2)
+    {
+      zzkhm = new Size(width, height);
+      if (paramSize2 != null) {
+        zzkhn = new Size(width, height);
+      }
+    }
+    
+    public final Size zzbij()
+    {
+      return zzkhm;
+    }
+    
+    public final Size zzbik()
+    {
+      return zzkhn;
+    }
+  }
+}

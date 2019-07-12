@@ -1,0 +1,71 @@
+package com.google.android.gms.common.internal;
+
+import android.accounts.Account;
+import android.content.Context;
+import android.os.IInterface;
+import android.os.Looper;
+import b.b.a.F;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.Api.zze;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.zzc;
+import java.util.Iterator;
+import java.util.Set;
+
+public abstract class zzaa<T extends IInterface>
+  extends zzd<T>
+  implements Api.zze, zzae
+{
+  public final Account zzduz;
+  public final Set<Scope> zzecm;
+  public final zzq zzfkj;
+  
+  public zzaa(Context paramContext, Looper paramLooper, int paramInt, zzq paramZzq, GoogleApiClient.ConnectionCallbacks paramConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener paramOnConnectionFailedListener)
+  {
+    this(paramContext, paramLooper, localZzaf, localGoogleApiAvailability, paramInt, paramZzq, paramConnectionCallbacks, (GoogleApiClient.OnConnectionFailedListener)paramOnConnectionFailedListener);
+  }
+  
+  public zzaa(Context paramContext, Looper paramLooper, zzaf paramZzaf, GoogleApiAvailability paramGoogleApiAvailability, int paramInt, zzq paramZzq, GoogleApiClient.ConnectionCallbacks paramConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener paramOnConnectionFailedListener)
+  {
+    super(paramContext, paramLooper, paramZzaf, paramGoogleApiAvailability, paramInt, paramConnectionCallbacks, paramOnConnectionFailedListener, paramZzq.zzajv());
+    zzfkj = paramZzq;
+    zzduz = paramZzq.getAccount();
+    paramContext = paramZzq.zzajs();
+    paramLooper = zzb(paramContext);
+    paramZzaf = paramLooper.iterator();
+    while (paramZzaf.hasNext()) {
+      if (!paramContext.contains((Scope)paramZzaf.next())) {
+        throw new IllegalStateException("Expanding scopes is not permitted, use implied scopes instead");
+      }
+    }
+    zzecm = paramLooper;
+  }
+  
+  public final Account getAccount()
+  {
+    return zzduz;
+  }
+  
+  public zzc[] zzajh()
+  {
+    return new zzc[0];
+  }
+  
+  public final Set<Scope> zzajl()
+  {
+    return zzecm;
+  }
+  
+  public final zzq zzakd()
+  {
+    return zzfkj;
+  }
+  
+  @F
+  public Set<Scope> zzb(@F Set<Scope> paramSet)
+  {
+    return paramSet;
+  }
+}

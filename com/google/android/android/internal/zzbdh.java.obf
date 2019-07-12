@@ -1,0 +1,72 @@
+package com.google.android.gms.internal;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.util.SparseArray;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
+public final class zzbdh
+  extends zzbck
+  implements zzbdn<String, Integer>
+{
+  public static final Parcelable.Creator<zzbdh> CREATOR = new zzbdj();
+  public int zzdxs;
+  public final HashMap<String, Integer> zzfwl;
+  public final SparseArray<String> zzfwm;
+  public final ArrayList<zzbdi> zzfwn;
+  
+  public zzbdh()
+  {
+    zzdxs = 1;
+    zzfwl = new HashMap();
+    zzfwm = new SparseArray();
+    zzfwn = null;
+  }
+  
+  public zzbdh(int paramInt, ArrayList<zzbdi> paramArrayList)
+  {
+    zzdxs = paramInt;
+    zzfwl = new HashMap();
+    zzfwm = new SparseArray();
+    zzfwn = null;
+    zzd(paramArrayList);
+  }
+  
+  private final void zzd(ArrayList<zzbdi> paramArrayList)
+  {
+    int j = paramArrayList.size();
+    int i = 0;
+    while (i < j)
+    {
+      Object localObject = paramArrayList.get(i);
+      i += 1;
+      localObject = (zzbdi)localObject;
+      zzi(zzfwo, zzfwp);
+    }
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    ArrayList localArrayList = new ArrayList();
+    Iterator localIterator = zzfwl.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      String str = (String)localIterator.next();
+      localArrayList.add(new zzbdi(str, ((Integer)zzfwl.get(str)).intValue()));
+    }
+    zzbcn.zzc(paramParcel, 2, localArrayList, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+  
+  public final zzbdh zzi(String paramString, int paramInt)
+  {
+    zzfwl.put(paramString, Integer.valueOf(paramInt));
+    zzfwm.put(paramInt, paramString);
+    return this;
+  }
+}

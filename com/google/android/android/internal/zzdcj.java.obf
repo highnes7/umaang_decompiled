@@ -1,0 +1,85 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.os.RemoteException;
+import com.google.android.gms.dynamite.DynamiteModule;
+import com.google.android.gms.dynamite.DynamiteModule.zzc;
+
+public abstract class zzdcj<T>
+{
+  public final Context mContext;
+  public final Object mLock = new Object();
+  public final String mTag;
+  public boolean zzkjo = false;
+  public T zzkjp;
+  
+  public zzdcj(Context paramContext, String paramString)
+  {
+    mContext = paramContext;
+    mTag = paramString;
+  }
+  
+  public final boolean isOperational()
+  {
+    return zzbip() != null;
+  }
+  
+  public abstract T zza(DynamiteModule paramDynamiteModule, Context paramContext)
+    throws RemoteException, DynamiteModule.zzc;
+  
+  public abstract void zzbim()
+    throws RemoteException;
+  
+  public final void zzbio()
+  {
+    synchronized (mLock)
+    {
+      if (zzkjp == null) {
+        return;
+      }
+      try
+      {
+        zzbim();
+      }
+      catch (RemoteException localRemoteException)
+      {
+        String str;
+        for (;;) {}
+      }
+      str = mTag;
+      return;
+    }
+  }
+  
+  public final T zzbip()
+  {
+    synchronized (mLock)
+    {
+      if (zzkjp != null)
+      {
+        localObject2 = zzkjp;
+        return localObject2;
+      }
+      try
+      {
+        zzkjp = zza(DynamiteModule.zza(mContext, DynamiteModule.zzgps, "com.google.android.gms.vision.dynamite"), mContext);
+      }
+      catch (DynamiteModule.zzc|RemoteException localZzc)
+      {
+        for (;;) {}
+      }
+      Object localObject2 = mTag;
+      if ((!zzkjo) && (zzkjp == null))
+      {
+        localObject2 = mTag;
+        zzkjo = true;
+      }
+      else if ((zzkjo) && (zzkjp != null))
+      {
+        localObject2 = mTag;
+      }
+      localObject2 = zzkjp;
+      return localObject2;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+package f.e.a;
+
+import java.lang.reflect.Field;
+
+public class f
+{
+  public f() {}
+  
+  public static Object a(Object paramObject, String paramString)
+    throws NoSuchFieldException, IllegalAccessException
+  {
+    paramString = paramObject.getClass().getDeclaredField(paramString);
+    paramString.setAccessible(true);
+    return paramString.get(paramObject);
+  }
+}

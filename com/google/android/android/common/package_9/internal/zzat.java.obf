@@ -1,0 +1,59 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Looper;
+import b.b.a.F;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.internal.zzj;
+import java.lang.ref.WeakReference;
+import java.util.concurrent.locks.Lock;
+
+public final class zzat
+  implements zzj
+{
+  public final Api<?> zzfdg;
+  public final boolean zzfjs;
+  public final WeakReference<zzar> zzfly;
+  
+  public zzat(zzar paramZzar, Api<?> paramApi, boolean paramBoolean)
+  {
+    zzfly = new WeakReference(paramZzar);
+    zzfdg = paramApi;
+    zzfjs = paramBoolean;
+  }
+  
+  public final void zzf(@F ConnectionResult paramConnectionResult)
+  {
+    zzar localZzar = (zzar)zzfly.get();
+    if (localZzar == null) {
+      return;
+    }
+    boolean bool;
+    if (Looper.myLooper() == zzflh.zzfju.getLooper()) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    zzbp.zza(bool, "onReportServiceBinding must be called on the GoogleApiClient handler thread");
+    zzfke.lock();
+    try
+    {
+      bool = zzar.zza(localZzar, 0);
+      if (!bool) {
+        return;
+      }
+      if (!paramConnectionResult.isSuccess()) {
+        zzar.zza(localZzar, paramConnectionResult, zzfdg, zzfjs);
+      }
+      if (zzar.zzk(localZzar)) {
+        zzar.zzj(localZzar);
+      }
+      return;
+    }
+    finally
+    {
+      zzfke.unlock();
+    }
+  }
+}

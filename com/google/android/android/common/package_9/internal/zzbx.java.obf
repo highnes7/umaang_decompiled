@@ -1,0 +1,45 @@
+package com.google.android.gms.common.api.internal;
+
+import android.content.Context;
+import android.os.Looper;
+import b.b.a.F;
+import com.google.android.gms.common.api.Api.ApiOptions;
+import com.google.android.gms.common.api.Api.zzb;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.Result;
+
+public final class zzbx<O extends Api.ApiOptions>
+  extends zzan
+{
+  public final GoogleApi<O> zzfoh;
+  
+  public zzbx(GoogleApi<O> paramGoogleApi)
+  {
+    super("Method is not supported by connectionless client. APIs supporting connectionless client must not call this method.");
+    zzfoh = paramGoogleApi;
+  }
+  
+  public final Context getContext()
+  {
+    return zzfoh.getApplicationContext();
+  }
+  
+  public final Looper getLooper()
+  {
+    return zzfoh.getLooper();
+  }
+  
+  public final void zza(zzdg paramZzdg) {}
+  
+  public final void zzb(zzdg paramZzdg) {}
+  
+  public final <A extends Api.zzb, R extends Result, T extends zzm<R, A>> T zzd(@F T paramT)
+  {
+    return zzfoh.zza(paramT);
+  }
+  
+  public final <A extends Api.zzb, T extends zzm<? extends Result, A>> T zze(@F T paramT)
+  {
+    return zzfoh.zzb(paramT);
+  }
+}

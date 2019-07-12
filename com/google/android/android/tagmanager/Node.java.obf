@@ -1,0 +1,50 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import com.google.android.gms.internal.zzbd;
+import com.google.android.gms.internal.zzbp;
+import f.a.a.a.a;
+import java.util.Map;
+
+public final class zzk
+  extends zzbr
+{
+  public static final String ID = zzbd.zzhm.toString();
+  public final Context mContext;
+  
+  public zzk(Context paramContext)
+  {
+    super(ID, new String[0]);
+    mContext = paramContext;
+  }
+  
+  public final boolean zzbcj()
+  {
+    return true;
+  }
+  
+  public final zzbp zzp(Map<String, zzbp> paramMap)
+  {
+    try
+    {
+      paramMap = zzgk.zzah(Integer.valueOf(mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode));
+      return paramMap;
+    }
+    catch (PackageManager.NameNotFoundException localNameNotFoundException)
+    {
+      paramMap = mContext.getPackageName();
+      String str = localNameNotFoundException.getMessage();
+      StringBuilder localStringBuilder = new StringBuilder(a.a(str, a.a(paramMap, 25)));
+      localStringBuilder.append("Package name ");
+      localStringBuilder.append(paramMap);
+      localStringBuilder.append(" not found. ");
+      localStringBuilder.append(str);
+      paramMap = localStringBuilder.toString();
+      zzdj.zzjss.e(paramMap);
+    }
+    return zzgk.zzjwp;
+  }
+}

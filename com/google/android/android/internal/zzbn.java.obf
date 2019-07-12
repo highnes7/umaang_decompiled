@@ -1,0 +1,162 @@
+package com.google.android.gms.internal;
+
+import f.a.a.a.a;
+import java.io.IOException;
+
+public final class zzbn
+  extends zzeyh<zzbn>
+{
+  public static volatile zzbn[] zzxt;
+  public String name = "";
+  public zzbp zzxu = null;
+  public zzbj zzxv = null;
+  
+  public zzbn()
+  {
+    zzotl = null;
+    zzomu = -1;
+  }
+  
+  public static zzbn[] zzt()
+  {
+    if (zzxt == null) {
+      synchronized (zzeyl.zzott)
+      {
+        if (zzxt == null) {
+          zzxt = new zzbn[0];
+        }
+      }
+    }
+    return zzxt;
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if (!(paramObject instanceof zzbn)) {
+      return false;
+    }
+    paramObject = (zzbn)paramObject;
+    Object localObject = name;
+    if (localObject == null)
+    {
+      if (name != null) {
+        return false;
+      }
+    }
+    else if (!((String)localObject).equals(name)) {
+      return false;
+    }
+    localObject = zzxu;
+    if (localObject == null)
+    {
+      if (zzxu != null) {
+        return false;
+      }
+    }
+    else if (!((zzbp)localObject).equals(zzxu)) {
+      return false;
+    }
+    localObject = zzxv;
+    if (localObject == null)
+    {
+      if (zzxv != null) {
+        return false;
+      }
+    }
+    else if (!((zzbj)localObject).equals(zzxv)) {
+      return false;
+    }
+    localObject = zzotl;
+    if ((localObject != null) && (!((zzeyj)localObject).isEmpty())) {
+      return zzotl.equals(zzotl);
+    }
+    paramObject = zzotl;
+    if (paramObject != null) {
+      return paramObject.isEmpty();
+    }
+    return true;
+  }
+  
+  public final int hashCode()
+  {
+    int i1 = a.a(zzbn.class, 527, 31);
+    Object localObject = name;
+    int n = 0;
+    int i;
+    if (localObject == null) {
+      i = 0;
+    } else {
+      i = ((String)localObject).hashCode();
+    }
+    localObject = zzxu;
+    int j;
+    if (localObject == null) {
+      j = 0;
+    } else {
+      j = ((zzbp)localObject).hashCode();
+    }
+    localObject = zzxv;
+    int k;
+    if (localObject == null) {
+      k = 0;
+    } else {
+      k = ((zzbj)localObject).hashCode();
+    }
+    localObject = zzotl;
+    int m = n;
+    if (localObject != null) {
+      if (((zzeyj)localObject).isEmpty()) {
+        m = n;
+      } else {
+        m = zzotl.hashCode();
+      }
+    }
+    return (((i1 + i) * 31 + j) * 31 + k) * 31 + m;
+  }
+  
+  public final void zza(zzeyf paramZzeyf)
+    throws IOException
+  {
+    Object localObject = name;
+    if ((localObject != null) && (!((String)localObject).equals(""))) {
+      paramZzeyf.zzm(1, name);
+    }
+    localObject = zzxu;
+    if (localObject != null) {
+      paramZzeyf.zza(2, (zzeyn)localObject);
+    }
+    localObject = zzxv;
+    if (localObject != null) {
+      paramZzeyf.zza(3, (zzeyn)localObject);
+    }
+    super.zza(paramZzeyf);
+  }
+  
+  public final int zzn()
+  {
+    int j = super.zzn();
+    Object localObject = name;
+    int i = j;
+    if (localObject != null)
+    {
+      i = j;
+      if (!((String)localObject).equals("")) {
+        i = j + zzeyf.zzn(1, name);
+      }
+    }
+    localObject = zzxu;
+    j = i;
+    if (localObject != null) {
+      j = i + zzeyf.zzb(2, (zzeyn)localObject);
+    }
+    localObject = zzxv;
+    i = j;
+    if (localObject != null) {
+      i = j + zzeyf.zzb(3, (zzeyn)localObject);
+    }
+    return i;
+  }
+}

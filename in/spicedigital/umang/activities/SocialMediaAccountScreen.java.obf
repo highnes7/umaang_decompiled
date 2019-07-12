@@ -1,0 +1,610 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap.Config;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import b.b.a.G;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.internal.CallbackManagerImpl;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.Builder;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.PendingResult;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import de.hdodenhof.circleimageview.CircleImageView;
+import e.a.a.i;
+import f.l.a.b.d;
+import f.l.a.b.d.a;
+import f.l.a.b.f;
+import f.u.a.a.a.a.l;
+import f.u.a.a.a.n;
+import f.u.a.a.a.y;
+import f.u.a.a.c;
+import java.util.Arrays;
+import java.util.List;
+import k.a.a.a.Ar;
+import k.a.a.a.Br;
+import k.a.a.a.Cr;
+import k.a.a.a.Fr;
+import k.a.a.a.mr;
+import k.a.a.a.nr;
+import k.a.a.a.or;
+import k.a.a.a.qr;
+import k.a.a.a.rr;
+import k.a.a.a.sr;
+import k.a.a.a.tr;
+import k.a.a.a.ur;
+import k.a.a.a.wr;
+import k.a.a.a.xr;
+import k.a.a.a.yr;
+import k.a.a.a.zr;
+import k.a.a.c.X;
+import k.a.a.m.Ea;
+import k.a.a.m.Ma;
+import k.a.a.m.V;
+import k.a.a.m.Wa;
+import org.json.JSONObject;
+
+public class SocialMediaAccountScreen
+  extends BaseActivity
+  implements GoogleApiClient.OnConnectionFailedListener
+{
+  public static final int b = 9001;
+  public static final int c = 140;
+  public final List<String> A = Arrays.asList(new String[] { "email", "public_profile" });
+  public i B;
+  public CircleImageView C;
+  public CircleImageView D;
+  public CircleImageView E;
+  public f F;
+  public d G;
+  public d H;
+  public d I;
+  public TextView J;
+  public TextView K;
+  public TextView L;
+  public GoogleSignInOptions M;
+  public GoogleApiClient N;
+  public X O;
+  public ImageView P;
+  public TwitterAuthConfig Q;
+  public l R;
+  public f.l.a.b.f.a S = new sr(this);
+  public String TAG = "SocialMediaAccount";
+  public String d = "facebook";
+  public String e = "google";
+  public String f = "twitter";
+  public String g = "";
+  public Toolbar h;
+  public View i;
+  public TextView j;
+  public int k = 2001;
+  public TextView l;
+  public TextView m;
+  public CardView n;
+  public CardView o;
+  public LinearLayout p;
+  public LinearLayout q;
+  public LinearLayout r;
+  public LinearLayout s;
+  public LinearLayout t;
+  public LinearLayout u;
+  public ImageView v;
+  public ImageView w;
+  public ImageView x;
+  public CallbackManager y;
+  public V z;
+  
+  public SocialMediaAccountScreen() {}
+  
+  public static void a(Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 22)
+    {
+      CookieManager.getInstance().removeAllCookies(null);
+      CookieManager.getInstance().flush();
+      return;
+    }
+    paramContext = CookieSyncManager.createInstance(paramContext);
+    paramContext.startSync();
+    CookieManager localCookieManager = CookieManager.getInstance();
+    localCookieManager.removeAllCookie();
+    localCookieManager.removeSessionCookie();
+    paramContext.stopSync();
+    paramContext.sync();
+  }
+  
+  private void a(GoogleSignInResult paramGoogleSignInResult)
+  {
+    if (paramGoogleSignInResult != null) {
+      if (paramGoogleSignInResult.isSuccess())
+      {
+        GoogleSignInAccount localGoogleSignInAccount = paramGoogleSignInResult.getSignInAccount();
+        if (localGoogleSignInAccount.getPhotoUrl() != null) {
+          paramGoogleSignInResult = localGoogleSignInAccount.getPhotoUrl().toString();
+        } else {
+          paramGoogleSignInResult = "";
+        }
+        String str = localGoogleSignInAccount.getEmail();
+        a(e, localGoogleSignInAccount.getId(), localGoogleSignInAccount.getDisplayName(), paramGoogleSignInResult, new String[] { str });
+        return;
+      }
+    }
+    try
+    {
+      Auth.GoogleSignInApi.signOut(N).setResultCallback(new nr(this));
+      return;
+    }
+    catch (Exception paramGoogleSignInResult) {}
+    Auth.GoogleSignInApi.signOut(N).setResultCallback(new or(this));
+    return;
+  }
+  
+  private void a(String paramString, ImageView paramImageView, d paramD)
+  {
+    try
+    {
+      F.a(paramString, paramImageView, paramD, S);
+      return;
+    }
+    catch (Exception paramString)
+    {
+      k.a.a.m.b.a(paramString);
+    }
+  }
+  
+  private void a(String paramString1, String paramString2, String paramString3, String paramString4, String[] paramArrayOfString)
+  {
+    JSONObject localJSONObject1;
+    try
+    {
+      JSONObject localJSONObject2 = Ea.e(this);
+      localJSONObject2.put("mno", z.a(V.da, ""));
+      localJSONObject2.put("aid", paramString2);
+      localJSONObject2.put("atyp", paramString1);
+      localJSONObject2.put("aname", paramString3);
+      localJSONObject2.put("aimg", paramString4);
+      localJSONObject1 = localJSONObject2;
+      if (paramArrayOfString != null) {
+        if (paramString1.equalsIgnoreCase(d))
+        {
+          localJSONObject2.put("fblang", paramArrayOfString[2]);
+          localJSONObject2.put("fbgndr", paramArrayOfString[1]);
+          localJSONObject2.put("fbloc", paramArrayOfString[4]);
+          localJSONObject2.put("fbtz", paramArrayOfString[3]);
+          localJSONObject2.put("fbemail", paramArrayOfString[0]);
+          localJSONObject1 = localJSONObject2;
+        }
+        else if (paramString1.equalsIgnoreCase(e))
+        {
+          localJSONObject2.put("goemail", paramArrayOfString[0]);
+          localJSONObject1 = localJSONObject2;
+        }
+        else
+        {
+          localJSONObject1 = localJSONObject2;
+          if (paramString1.equalsIgnoreCase(f))
+          {
+            localJSONObject2.put("twitlang", paramArrayOfString[0]);
+            localJSONObject2.put("twitloc", paramArrayOfString[1]);
+            localJSONObject2.put("twittz", paramArrayOfString[2]);
+            localJSONObject2.put("twitemail", paramArrayOfString[3]);
+            localJSONObject1 = localJSONObject2;
+          }
+        }
+      }
+    }
+    catch (Exception paramArrayOfString)
+    {
+      k.a.a.m.b.a(paramArrayOfString);
+      localJSONObject1 = null;
+    }
+    if (localJSONObject1 != null)
+    {
+      paramString1 = new k.a.a.l.u(new Fr(this, paramString1, paramString3, paramString2, paramString4), "https://app.umang.gov.in/umang/coreapi/ws2/linksa", localJSONObject1, this);
+      if (!isFinishing())
+      {
+        paramString2 = TAG;
+        paramString1.execute(new Object[0]);
+      }
+    }
+    else
+    {
+      paramString1 = TAG;
+    }
+  }
+  
+  private void b(String paramString1, String paramString2, String paramString3)
+  {
+    Ma localMa = new Ma();
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("type", "social");
+      if (paramString1 == d) {
+        localJSONObject.put("fbid", paramString2);
+      }
+      if (paramString1 == e) {
+        localJSONObject.put("goid", paramString2);
+      }
+      if (paramString1 == f) {
+        localJSONObject.put("twitid", paramString2);
+      }
+      localJSONObject.put("mpin", localMa.a(Ea.i(this, paramString3)));
+      paramString2 = localJSONObject;
+    }
+    catch (Exception paramString2)
+    {
+      k.a.a.m.b.a(paramString2);
+      paramString2 = null;
+    }
+    if (paramString2 != null)
+    {
+      new k.a.a.l.u(new qr(this, paramString1), "https://app.umang.gov.in/umang/coreapi/ws2/uadhrv1", paramString2, this).execute(new Object[0]);
+      return;
+    }
+    paramString1 = TAG;
+  }
+  
+  private void e()
+  {
+    R = new l();
+    R.a(this, new mr(this));
+  }
+  
+  private void f()
+  {
+    startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(N), 9001);
+  }
+  
+  private void g()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("mno", z.a(V.da, ""));
+      localJSONObject.put("type", "general");
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new k.a.a.l.u(new tr(this), "https://app.umang.gov.in/umang/coreapi/ws2/fp", (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private void g(String paramString)
+  {
+    Dialog localDialog = f.a.a.a.a.a(this, 1, 2131493277, true);
+    TextView localTextView = (TextView)localDialog.findViewById(2131297966);
+    if (paramString == d) {
+      localTextView.setText(String.format(getResources().getString(2131756581), new Object[] { getResources().getString(2131755713) }));
+    }
+    if (paramString == e) {
+      localTextView.setText(String.format(getResources().getString(2131756581), new Object[] { getResources().getString(2131755789) }));
+    }
+    if (paramString == f) {
+      localTextView.setText(String.format(getResources().getString(2131756581), new Object[] { getResources().getString(2131756566) }));
+    }
+    ((TextView)localDialog.findViewById(2131297214)).setOnClickListener(new rr(this, localDialog, paramString));
+  }
+  
+  private void h()
+  {
+    try
+    {
+      O = new Wa(this).l();
+      if (O != null)
+      {
+        int i1 = O.a().length();
+        if (i1 > 0) {
+          z.c(V.Aa, O.a());
+        } else {
+          z.c(V.Aa, "");
+        }
+        if (O.d().length() > 0) {
+          z.c(V.Ba, O.d());
+        } else {
+          z.c(V.Ba, "");
+        }
+        if (O.g().trim().length() > 0) {
+          z.c(V.Ca, O.g());
+        } else {
+          z.c(V.Ca, "");
+        }
+        z.c(V.Da, O.c());
+        z.c(V.Ea, O.f());
+        z.c(V.Fa, O.e());
+        z.c(V.Ga, O.i());
+        z.c(V.Ha, O.h());
+      }
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      O = null;
+    }
+    i();
+  }
+  
+  private void i()
+  {
+    l = ((TextView)findViewById(2131297005));
+    m = ((TextView)findViewById(2131297240));
+    l.setVisibility(8);
+    m.setVisibility(8);
+    n = ((CardView)findViewById(2131297004));
+    o = ((CardView)findViewById(2131297241));
+    n.setVisibility(8);
+    o.setVisibility(8);
+    p = ((LinearLayout)findViewById(2131296779));
+    q = ((LinearLayout)findViewById(2131296838));
+    r = ((LinearLayout)findViewById(2131297915));
+    p.setVisibility(8);
+    q.setVisibility(8);
+    r.setVisibility(8);
+    s = ((LinearLayout)findViewById(2131296781));
+    t = ((LinearLayout)findViewById(2131296839));
+    u = ((LinearLayout)findViewById(2131297917));
+    s.setVisibility(8);
+    t.setVisibility(8);
+    u.setVisibility(8);
+    C = ((CircleImageView)findViewById(2131296763));
+    D = ((CircleImageView)findViewById(2131296840));
+    E = ((CircleImageView)findViewById(2131297918));
+    J = ((TextView)findViewById(2131296764));
+    K = ((TextView)findViewById(2131296841));
+    L = ((TextView)findViewById(2131297919));
+    v = ((ImageView)findViewById(2131297001));
+    w = ((ImageView)findViewById(2131297002));
+    x = ((ImageView)findViewById(2131297003));
+    s.setOnClickListener(new xr(this));
+    t.setOnClickListener(new yr(this));
+    u.setOnClickListener(new zr(this));
+    j();
+    l();
+    k();
+    p.setOnClickListener(new Ar(this));
+    q.setOnClickListener(new Br(this));
+    r.setOnClickListener(new Cr(this));
+  }
+  
+  private void j()
+  {
+    if ((z.a(V.Aa, "").length() > 0) && (z.a(V.Ba, "").length() > 0) && (z.a(V.Ca, "").length() > 0))
+    {
+      n.setVisibility(0);
+      o.setVisibility(8);
+      l.setVisibility(0);
+      m.setVisibility(8);
+      return;
+    }
+    if ((z.a(V.Aa, "").length() <= 0) && (z.a(V.Ba, "").length() <= 0) && (z.a(V.Ca, "").length() <= 0))
+    {
+      n.setVisibility(8);
+      o.setVisibility(0);
+      l.setVisibility(8);
+      m.setVisibility(0);
+      return;
+    }
+    n.setVisibility(0);
+    o.setVisibility(0);
+    l.setVisibility(0);
+    m.setVisibility(0);
+  }
+  
+  private void k()
+  {
+    p.setVisibility(8);
+    q.setVisibility(8);
+    r.setVisibility(8);
+    Object localObject;
+    if (z.a(V.Aa, "").length() > 0)
+    {
+      G = new d.a().d(2131231034).b(2131231034).c(2131231034).a(false).b(true).a(Bitmap.Config.RGB_565).a();
+      p.setVisibility(0);
+      J.setText(z.a(V.Da, ""));
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("https://graph.facebook.com/");
+      ((StringBuilder)localObject).append(z.a(V.Aa, ""));
+      ((StringBuilder)localObject).append("/picture?type=large");
+      a(((StringBuilder)localObject).toString(), C, G);
+    }
+    if (z.a(V.Ba, "").length() > 0)
+    {
+      H = new d.a().d(2131231061).b(2131231061).c(2131231061).a(false).b(true).a(Bitmap.Config.RGB_565).a();
+      K.setText(z.a(V.Ea, ""));
+      a(z.a(V.Fa, ""), D, H);
+      q.setVisibility(0);
+    }
+    if (z.a(V.Ca, "").length() > 0)
+    {
+      localObject = TAG;
+      I = new d.a().d(2131231676).b(2131231676).c(2131231676).a(false).b(true).a(Bitmap.Config.RGB_565).a();
+      L.setText(z.a(V.Ga, ""));
+      a(z.a(V.Ha, ""), E, I);
+      r.setVisibility(0);
+    }
+  }
+  
+  private void l()
+  {
+    s.setVisibility(8);
+    t.setVisibility(8);
+    u.setVisibility(8);
+    if (z.a(V.Aa, "").length() == 0) {
+      s.setVisibility(0);
+    }
+    if (z.a(V.Ba, "").length() == 0) {
+      t.setVisibility(0);
+    }
+    if (z.a(V.Ca, "").length() == 0) {
+      u.setVisibility(0);
+    }
+  }
+  
+  public void d()
+  {
+    if ((y)f.u.a.a.a.u.s().u().c() != null)
+    {
+      a(this);
+      y localY = (y)f.u.a.a.a.u.s().u().c();
+      a(getApplicationContext());
+      c.q().a();
+      c.r();
+    }
+  }
+  
+  public void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
+  {
+    super.onActivityResult(paramInt1, paramInt2, paramIntent);
+    Object localObject = TAG;
+    f.a.a.a.a.b("calling onActivityResult ", paramInt1);
+    if (paramInt1 == 9001)
+    {
+      a(Auth.GoogleSignInApi.getSignInResultFromIntent(paramIntent));
+      return;
+    }
+    if (paramInt1 == 140)
+    {
+      localObject = R;
+      if (localObject != null) {
+        ((l)localObject).a(paramInt1, paramInt2, paramIntent);
+      }
+    }
+    else if (paramInt1 == k)
+    {
+      if (paramIntent.getStringExtra("MPIN_TXT").length() > 2)
+      {
+        paramIntent = paramIntent.getStringExtra("MPIN_TXT");
+        localObject = g;
+        if (localObject == f) {
+          b((String)localObject, z.a(V.Ca, ""), paramIntent);
+        }
+        localObject = g;
+        if (localObject == e) {
+          b((String)localObject, z.a(V.Ba, ""), paramIntent);
+        }
+        localObject = g;
+        if (localObject == d) {
+          b((String)localObject, z.a(V.Aa, ""), paramIntent);
+        }
+      }
+      else if (paramIntent.getStringExtra("MPIN_TXT").length() == 0)
+      {
+        f.a.a.a.a.a(this, 2131755673, this, 1);
+      }
+    }
+    else
+    {
+      y.onActivityResult(paramInt1, paramInt2, paramIntent);
+    }
+  }
+  
+  public void onConnectionFailed(ConnectionResult paramConnectionResult)
+  {
+    paramConnectionResult = TAG;
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131493240);
+    Ea.a(this, "Social Accounts Screen");
+    z = new V(this);
+    F = f.g();
+    h = ((Toolbar)findViewById(2131297768));
+    f.a.a.a.a.a(this, h, true);
+    i = h.getRootView();
+    j = ((TextView)i.findViewById(2131297758));
+    f.a.a.a.a.a(this, 2131756389, j);
+    try
+    {
+      paramBundle = getIntent().getStringExtra("notifId");
+      if (paramBundle != null)
+      {
+        k.a.a.e.b.a(this).E(paramBundle);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      k.a.a.m.b.a(paramBundle);
+    }
+    P = ((ImageView)i.findViewById(2131296872));
+    P.setOnClickListener(new ur(this));
+    FacebookSdk.sdkInitialize(getApplicationContext());
+    AppEventsLogger.activateApp(this);
+    y = new CallbackManagerImpl();
+    M = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile().build();
+    N = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, M).build();
+    z = new V(this);
+    h();
+    LoginManager.getInstance().registerCallback(y, new wr(this));
+  }
+  
+  public void onNewIntent(Intent paramIntent)
+  {
+    super.onNewIntent(paramIntent);
+    setIntent(paramIntent);
+    try
+    {
+      paramIntent = getIntent().getStringExtra("notifId");
+      if (paramIntent != null)
+      {
+        k.a.a.e.b.a(this).E(paramIntent);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+        return;
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      onBackPressed();
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+}

@@ -1,0 +1,454 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Bitmap.Config;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
+import b.b.a.G;
+import f.l.a.b.d.a;
+import java.util.ArrayList;
+import java.util.List;
+import k.a.a.a.e;
+import k.a.a.a.j;
+import k.a.a.a.k;
+import k.a.a.a.l;
+import k.a.a.a.m;
+import k.a.a.a.n;
+import k.a.a.a.o;
+import k.a.a.a.p;
+import k.a.a.a.q;
+import k.a.a.a.r;
+import k.a.a.a.s;
+import k.a.a.l.u;
+import k.a.a.m.Ea;
+import k.a.a.m.Ma;
+import k.a.a.m.V;
+import k.a.a.m.Wa;
+import org.json.JSONObject;
+
+public class AadhaarProfileScreen
+  extends BaseActivity
+{
+  public TextView A;
+  public TextView B;
+  public TextView C;
+  public Wa D;
+  public f.l.a.b.f E;
+  public f.l.a.b.d F;
+  public ImageView G;
+  public ImageView H;
+  public PopupWindow I;
+  public int J = 2001;
+  public String K = "";
+  public boolean L = false;
+  public LinearLayout M;
+  public SwipeRefreshLayout N;
+  public boolean O = false;
+  public LinearLayout P;
+  public LinearLayout Q;
+  public ImageView R;
+  public TextView S;
+  public TextView T;
+  public String TAG = "AadhaarProfileScreen";
+  public LinearLayout U;
+  public LinearLayout V;
+  public LinearLayout W;
+  public LinearLayout X;
+  public e.a.a.i Y;
+  public f.l.a.b.f.a Z = new k.a.a.a.d(this);
+  public ImageView b;
+  public Toolbar c;
+  public View d;
+  public TextView e;
+  public V f;
+  public NestedScrollView g;
+  public LinearLayout h;
+  public TextView i;
+  public ImageView j;
+  public TextView k;
+  public TextView l;
+  public TextView m;
+  public TextView n;
+  public TextView o;
+  public TextView p;
+  public TextView q;
+  public TextView r;
+  public TextView s;
+  public TextView t;
+  public TextView u;
+  public TextView v;
+  public TextView w;
+  public TextView x;
+  public TextView y;
+  public TextView z;
+  
+  public AadhaarProfileScreen() {}
+  
+  private void e()
+  {
+    View localView = ((LayoutInflater)getSystemService("layout_inflater")).inflate(2131492864, null);
+    I = new PopupWindow(localView, -2, -2);
+    I.setBackgroundDrawable(new BitmapDrawable());
+    I.setOutsideTouchable(true);
+    I.setOnDismissListener(new o(this));
+    U = ((LinearLayout)localView.findViewById(2131297429));
+    V = ((LinearLayout)localView.findViewById(2131297965));
+    W = ((LinearLayout)localView.findViewById(2131296871));
+    X = ((LinearLayout)localView.findViewById(2131297385));
+    U.setOnClickListener(new p(this));
+    V.setOnClickListener(new q(this));
+    W.setOnClickListener(new r(this));
+    X.setOnClickListener(new s(this));
+  }
+  
+  private void f()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("mno", f.a(V.da, ""));
+      localJSONObject.put("type", "both");
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new u(new k.a.a.a.i(this), "https://app.umang.gov.in/umang/coreapi/ws2/fp", (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private String g(String paramString)
+  {
+    ArrayList localArrayList = Ea.e();
+    int i1 = 0;
+    while (i1 < localArrayList.size())
+    {
+      if (paramString.equalsIgnoreCase((String)localArrayList.get(i1))) {
+        return (String)Ea.n(this).get(i1);
+      }
+      i1 += 1;
+    }
+    return "";
+  }
+  
+  private void g()
+  {
+    try
+    {
+      if (D.c() != null)
+      {
+        N.post(new e(this));
+        N.setOnRefreshListener(new k.a.a.a.f(this));
+        N.setColorSchemeResources(new int[] { 2131099718, 2131099953 });
+        H.setVisibility(0);
+        G.setVisibility(8);
+        h.setVisibility(8);
+        g.setVisibility(0);
+        N.setVisibility(0);
+        k.a.a.c.a localA = D.c();
+        Object localObject1 = localA.h();
+        K = localA.h();
+        if (((String)localObject1).length() == 12)
+        {
+          Object localObject2 = new StringBuilder();
+          ((StringBuilder)localObject2).append("XXXXXXXX");
+          ((StringBuilder)localObject2).append(((String)localObject1).substring(8));
+          localObject1 = ((StringBuilder)localObject2).toString();
+          localObject2 = new char[((String)localObject1).length() + ((String)localObject1).length() / 4];
+          int i4 = ((String)localObject1).length();
+          int i2 = 0;
+          i1 = 0;
+          while (i2 < ((String)localObject1).length())
+          {
+            int i3 = i1;
+            if (i2 % 4 == i4 % 4)
+            {
+              i3 = i1;
+              if (i2 != 0)
+              {
+                localObject2[i1] = 45;
+                i3 = i1 + 1;
+              }
+            }
+            localObject2[i3] = ((String)localObject1).charAt(i2);
+            i1 = i3 + 1;
+            i2 += 1;
+          }
+          localObject1 = new String((char[])localObject2);
+          i.setText((CharSequence)localObject1);
+        }
+        k.setText(localA.r());
+        l.setText(localA.l());
+        n.setText(localA.i());
+        o.setText(localA.f());
+        p.setText(localA.j());
+        q.setText(localA.k());
+        m.setText(localA.a());
+        int i1 = D.d().length();
+        if (i1 > 0) {
+          try
+          {
+            localObject1 = new JSONObject(D.d());
+            u.setText(((JSONObject)localObject1).getString("name"));
+            w.setText(((JSONObject)localObject1).getString("dob"));
+            y.setText(((JSONObject)localObject1).getString("gender"));
+            A.setText(((JSONObject)localObject1).getString("co"));
+            C.setText(((JSONObject)localObject1).getString("address"));
+            t.setText(localA.e());
+            x.setText(((JSONObject)localObject1).getString("gen"));
+            v.setText(localA.l());
+            z.setText(localA.c());
+            B.setText(localA.b());
+          }
+          catch (Exception localException2)
+          {
+            k.a.a.m.b.a(localException2);
+          }
+        }
+        E.a(localA.p(), j, F, Z);
+        T.setText(g(localA.d()));
+        if (h(localA.d()))
+        {
+          R.setImageResource(2131231206);
+          Q.setVisibility(0);
+          P.setVisibility(8);
+          S.setTextColor(b.b.x.b.c.getColor(this, 2131099793));
+          T.setTextColor(b.b.x.b.c.getColor(this, 2131099895));
+          return;
+        }
+        R.setImageResource(2131231205);
+        Q.setVisibility(8);
+        P.setVisibility(0);
+        S.setTextColor(b.b.x.b.c.getColor(this, 2131099895));
+        T.setTextColor(b.b.x.b.c.getColor(this, 2131099793));
+        return;
+      }
+      h.setVisibility(0);
+      g.setVisibility(8);
+      N.setVisibility(8);
+      H.setVisibility(8);
+      G.setVisibility(0);
+      return;
+    }
+    catch (Exception localException1)
+    {
+      k.a.a.m.b.a(localException1);
+      Toast.makeText(this, getResources().getString(2131756127), 1).show();
+    }
+  }
+  
+  private void h()
+  {
+    Dialog localDialog = f.a.a.a.a.a(this, 1, 2131493276, true);
+    ((TextView)localDialog.findViewById(2131297214)).setOnClickListener(new k.a.a.a.a(this, localDialog));
+    ((TextView)localDialog.findViewById(2131297184)).setOnClickListener(new k.a.a.a.b(this, localDialog));
+  }
+  
+  private boolean h(String paramString)
+  {
+    return new V(this).a(V.c, "en").equalsIgnoreCase(paramString);
+  }
+  
+  private void i(String paramString)
+  {
+    i.getText();
+    Ma localMa = new Ma();
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("type", "aadhaar");
+      localJSONObject.put("mpin", localMa.a(Ea.i(this, paramString)));
+      localJSONObject.put("aadhr", K);
+      paramString = localJSONObject;
+    }
+    catch (Exception paramString)
+    {
+      k.a.a.m.b.a(paramString);
+      paramString = null;
+    }
+    if (paramString != null)
+    {
+      new u(new k.a.a.a.c(this), "https://app.umang.gov.in/umang/coreapi/ws2/uadhrv1", paramString, this).execute(new Object[0]);
+      return;
+    }
+    paramString = TAG;
+  }
+  
+  public void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
+  {
+    super.onActivityResult(paramInt1, paramInt2, paramIntent);
+    if (paramInt1 == J)
+    {
+      if (paramIntent.getStringExtra("MPIN_TXT").length() > 2)
+      {
+        i(paramIntent.getStringExtra("MPIN_TXT"));
+        return;
+      }
+      if (paramIntent.getStringExtra("MPIN_TXT").length() == 0) {
+        f.a.a.a.a.a(this, 2131755673, this, 1);
+      }
+    }
+  }
+  
+  public void onConfigurationChanged(Configuration paramConfiguration)
+  {
+    super.onConfigurationChanged(paramConfiguration);
+    if (orientation == 2)
+    {
+      paramConfiguration = TAG;
+      try
+      {
+        if (!I.isShowing()) {
+          return;
+        }
+        I.dismiss();
+        new Handler().postDelayed(new j(this), 100L);
+        return;
+      }
+      catch (Exception paramConfiguration)
+      {
+        k.a.a.m.b.a(paramConfiguration);
+        return;
+      }
+    }
+    else
+    {
+      paramConfiguration = TAG;
+    }
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131492865);
+    Ea.a(this, "Aadhaar Profile Screen");
+    E = f.l.a.b.f.g();
+    F = f.a.a.a.a.a(true, true).a(Bitmap.Config.RGB_565).a();
+    f = new V(this);
+    R = ((ImageView)findViewById(2131297767));
+    R.setImageResource(2131231205);
+    P = ((LinearLayout)findViewById(2131296971));
+    Q = ((LinearLayout)findViewById(2131296981));
+    P.setVisibility(8);
+    Q.setVisibility(8);
+    R.setOnClickListener(new k(this));
+    N = ((SwipeRefreshLayout)findViewById(2131297481));
+    N.setVisibility(8);
+    g = ((NestedScrollView)findViewById(2131296834));
+    g.setVisibility(8);
+    j = ((ImageView)findViewById(2131297309));
+    h = ((LinearLayout)findViewById(2131296282));
+    h.setVisibility(8);
+    b = ((ImageView)findViewById(2131297000));
+    c = ((Toolbar)findViewById(2131297768));
+    f.a.a.a.a.a(this, c, true);
+    d = c.getRootView();
+    e = ((TextView)d.findViewById(2131297758));
+    e.setText(getResources().getString(2131755128));
+    M = ((LinearLayout)findViewById(2131296979));
+    M.setVisibility(8);
+    try
+    {
+      paramBundle = getIntent().getStringExtra("notifId");
+      if (paramBundle != null)
+      {
+        k.a.a.e.b.a(this).E(paramBundle);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      k.a.a.m.b.a(paramBundle);
+      paramBundle.getMessage();
+    }
+    G = ((ImageView)d.findViewById(2131296872));
+    G.setOnClickListener(new l(this));
+    H = ((ImageView)d.findViewById(2131297123));
+    H.setOnClickListener(new m(this));
+    b.setOnClickListener(new n(this));
+    i = ((TextView)findViewById(2131296286));
+    k = ((TextView)findViewById(2131297157));
+    l = ((TextView)findViewById(2131296664));
+    m = ((TextView)findViewById(2131296832));
+    n = ((TextView)findViewById(2131296773));
+    o = ((TextView)findViewById(2131296331));
+    p = ((TextView)findViewById(2131296521));
+    q = ((TextView)findViewById(2131296658));
+    T = ((TextView)findViewById(2131297392));
+    S = ((TextView)findViewById(2131296727));
+    t = ((TextView)findViewById(2131297156));
+    u = ((TextView)findViewById(2131297155));
+    v = ((TextView)findViewById(2131296663));
+    w = ((TextView)findViewById(2131296662));
+    x = ((TextView)findViewById(2131296831));
+    y = ((TextView)findViewById(2131296830));
+    z = ((TextView)findViewById(2131296772));
+    A = ((TextView)findViewById(2131296771));
+    B = ((TextView)findViewById(2131296330));
+    C = ((TextView)findViewById(2131296329));
+    D = new Wa(this);
+    e();
+  }
+  
+  public void onNewIntent(Intent paramIntent)
+  {
+    super.onNewIntent(paramIntent);
+    setIntent(paramIntent);
+    try
+    {
+      paramIntent = getIntent().getStringExtra("notifId");
+      if (paramIntent != null)
+      {
+        k.a.a.e.b.a(this).E(paramIntent);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+        return;
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      onBackPressed();
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    g();
+  }
+}

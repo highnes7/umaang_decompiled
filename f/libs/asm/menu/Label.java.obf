@@ -1,0 +1,264 @@
+package f.c.a.c;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FilterOutputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.Iterator;
+import java.util.List;
+
+public final class f
+{
+  public static final f a = new f(new byte[0]);
+  public final byte[] b;
+  public volatile int c = 0;
+  
+  public f(byte[] paramArrayOfByte)
+  {
+    b = paramArrayOfByte;
+  }
+  
+  public static f a(String paramString)
+  {
+    try
+    {
+      paramString = new f(paramString.getBytes("UTF-8"));
+      return paramString;
+    }
+    catch (UnsupportedEncodingException paramString)
+    {
+      throw new RuntimeException("UTF-8 not supported.", paramString);
+    }
+  }
+  
+  public static f a(String paramString1, String paramString2)
+    throws UnsupportedEncodingException
+  {
+    return new f(paramString1.getBytes(paramString2));
+  }
+  
+  public static f a(ByteBuffer paramByteBuffer)
+  {
+    return a(paramByteBuffer, paramByteBuffer.remaining());
+  }
+  
+  public static f a(ByteBuffer paramByteBuffer, int paramInt)
+  {
+    byte[] arrayOfByte = new byte[paramInt];
+    paramByteBuffer.get(arrayOfByte);
+    return new f(arrayOfByte);
+  }
+  
+  public static f a(List<f> paramList)
+  {
+    if (paramList.size() == 0) {
+      return a;
+    }
+    if (paramList.size() == 1) {
+      return (f)paramList.get(0);
+    }
+    Object localObject = paramList.iterator();
+    int i = 0;
+    while (((Iterator)localObject).hasNext()) {
+      i += ((f)((Iterator)localObject).next()).e();
+    }
+    localObject = new byte[i];
+    paramList = paramList.iterator();
+    i = 0;
+    while (paramList.hasNext())
+    {
+      f localF = (f)paramList.next();
+      System.arraycopy(b, 0, localObject, i, localF.e());
+      i += localF.e();
+    }
+    return new f((byte[])localObject);
+  }
+  
+  public static f a(byte[] paramArrayOfByte)
+  {
+    return a(paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public static f a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    byte[] arrayOfByte = new byte[paramInt2];
+    System.arraycopy(paramArrayOfByte, paramInt1, arrayOfByte, 0, paramInt2);
+    return new f(arrayOfByte);
+  }
+  
+  public static a b(int paramInt)
+  {
+    return new a(paramInt);
+  }
+  
+  public static b c(int paramInt)
+  {
+    return new b(new ByteArrayOutputStream(paramInt), null);
+  }
+  
+  public static b d()
+  {
+    return c(32);
+  }
+  
+  public byte a(int paramInt)
+  {
+    return b[paramInt];
+  }
+  
+  public ByteBuffer a()
+  {
+    return ByteBuffer.wrap(b).asReadOnlyBuffer();
+  }
+  
+  public void a(byte[] paramArrayOfByte, int paramInt)
+  {
+    byte[] arrayOfByte = b;
+    System.arraycopy(arrayOfByte, 0, paramArrayOfByte, paramInt, arrayOfByte.length);
+  }
+  
+  public void a(byte[] paramArrayOfByte, int paramInt1, int paramInt2, int paramInt3)
+  {
+    System.arraycopy(b, paramInt1, paramArrayOfByte, paramInt2, paramInt3);
+  }
+  
+  public String b(String paramString)
+    throws UnsupportedEncodingException
+  {
+    return new String(b, paramString);
+  }
+  
+  public void b(ByteBuffer paramByteBuffer)
+  {
+    byte[] arrayOfByte = b;
+    paramByteBuffer.put(arrayOfByte, 0, arrayOfByte.length);
+  }
+  
+  public boolean b()
+  {
+    return b.length == 0;
+  }
+  
+  public InputStream c()
+  {
+    return new ByteArrayInputStream(b);
+  }
+  
+  public int e()
+  {
+    return b.length;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if (!(paramObject instanceof f)) {
+      return false;
+    }
+    Object localObject = (f)paramObject;
+    paramObject = b;
+    int j = paramObject.length;
+    localObject = b;
+    if (j != localObject.length) {
+      return false;
+    }
+    int i = 0;
+    while (i < j)
+    {
+      if (paramObject[i] != localObject[i]) {
+        return false;
+      }
+      i += 1;
+    }
+    return true;
+  }
+  
+  public byte[] f()
+  {
+    byte[] arrayOfByte1 = b;
+    int i = arrayOfByte1.length;
+    byte[] arrayOfByte2 = new byte[i];
+    System.arraycopy(arrayOfByte1, 0, arrayOfByte2, 0, i);
+    return arrayOfByte2;
+  }
+  
+  public String g()
+  {
+    try
+    {
+      String str = new String(b, "UTF-8");
+      return str;
+    }
+    catch (UnsupportedEncodingException localUnsupportedEncodingException)
+    {
+      throw new RuntimeException("UTF-8 not supported?", localUnsupportedEncodingException);
+    }
+  }
+  
+  public int hashCode()
+  {
+    int j = c;
+    int i = j;
+    if (j == 0)
+    {
+      byte[] arrayOfByte = b;
+      int k = arrayOfByte.length;
+      j = 0;
+      i = k;
+      while (j < k)
+      {
+        i = i * 31 + arrayOfByte[j];
+        j += 1;
+      }
+      if (i == 0) {
+        i = 1;
+      }
+      c = i;
+    }
+    return i;
+  }
+  
+  public static final class a
+  {
+    public final j a;
+    public final byte[] b;
+    
+    public a(int paramInt)
+    {
+      b = new byte[paramInt];
+      a = j.a(b);
+    }
+    
+    public f a()
+    {
+      a.a();
+      return new f(b, null);
+    }
+    
+    public j b()
+    {
+      return a;
+    }
+  }
+  
+  public static final class b
+    extends FilterOutputStream
+  {
+    public final ByteArrayOutputStream a;
+    
+    public b(ByteArrayOutputStream paramByteArrayOutputStream)
+    {
+      super();
+      a = paramByteArrayOutputStream;
+    }
+    
+    public f u()
+    {
+      return new f(a.toByteArray(), null);
+    }
+  }
+}

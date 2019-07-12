@@ -1,0 +1,64 @@
+package android.support.v4.app;
+
+import android.os.Bundle;
+import b.a.b.D;
+import b.a.b.j;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.x.b.f;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+
+public abstract class LoaderManager
+{
+  public LoaderManager() {}
+  
+  public static void enableDebugLogging(boolean paramBoolean)
+  {
+    LoaderManagerImpl.DEBUG = paramBoolean;
+  }
+  
+  @F
+  public static <T extends j,  extends D> LoaderManager getInstance(@F T paramT)
+  {
+    return new LoaderManagerImpl(paramT, ((D)paramT).getViewModelStore());
+  }
+  
+  @C
+  public abstract void destroyLoader(int paramInt);
+  
+  @Deprecated
+  public abstract void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString);
+  
+  @G
+  public abstract <D> f<D> getLoader(int paramInt);
+  
+  public boolean hasRunningLoaders()
+  {
+    return false;
+  }
+  
+  @C
+  @F
+  public abstract <D> f<D> initLoader(int paramInt, @G Bundle paramBundle, @F LoaderCallbacks<D> paramLoaderCallbacks);
+  
+  public abstract void markForRedelivery();
+  
+  @C
+  @F
+  public abstract <D> f<D> restartLoader(int paramInt, @G Bundle paramBundle, @F LoaderCallbacks<D> paramLoaderCallbacks);
+  
+  public static abstract interface LoaderCallbacks<D>
+  {
+    @C
+    @F
+    public abstract f<D> onCreateLoader(int paramInt, @G Bundle paramBundle);
+    
+    @C
+    public abstract void onLoadFinished(@F f<D> paramF, D paramD);
+    
+    @C
+    public abstract void onLoaderReset(@F f<D> paramF);
+  }
+}

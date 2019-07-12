@@ -1,0 +1,470 @@
+package f.d.a.a.e;
+
+import f.a.a.a.a;
+import f.d.a.a.g.e;
+import java.util.Arrays;
+
+public final class b
+{
+  public static final int a = 33;
+  public static final int b = 64;
+  public static final int c = 65536;
+  public static final int d = 12000;
+  public static final int e = 255;
+  public static final int f = 63;
+  public static final b g = new b();
+  public b h;
+  public final int i;
+  public final boolean j;
+  public final boolean k;
+  public String[] l;
+  public a[] m;
+  public int n;
+  public int o;
+  public int p;
+  public int q;
+  public boolean r;
+  
+  public b()
+  {
+    k = true;
+    j = true;
+    r = true;
+    i = 0;
+    q = 0;
+    e(64);
+  }
+  
+  public b(b paramB, boolean paramBoolean1, boolean paramBoolean2, String[] paramArrayOfString, a[] paramArrayOfA, int paramInt1, int paramInt2, int paramInt3)
+  {
+    h = paramB;
+    k = paramBoolean1;
+    j = paramBoolean2;
+    l = paramArrayOfString;
+    m = paramArrayOfA;
+    n = paramInt1;
+    i = paramInt2;
+    paramInt1 = paramArrayOfString.length;
+    o = (paramInt1 - (paramInt1 >> 2));
+    p = (paramInt1 - 1);
+    q = paramInt3;
+    r = false;
+  }
+  
+  private void a(b paramB)
+  {
+    if ((paramB.h() <= 12000) && (q <= 63))
+    {
+      if (paramB.h() <= h()) {
+        return;
+      }
+      try
+      {
+        l = l;
+        m = m;
+        n = n;
+        o = o;
+        p = p;
+        q = q;
+        r = false;
+        return;
+      }
+      finally {}
+    }
+    try
+    {
+      e(64);
+      r = false;
+      return;
+    }
+    finally {}
+  }
+  
+  public static int b(int paramInt)
+  {
+    return paramInt - (paramInt >> 2);
+  }
+  
+  public static b c()
+  {
+    long l1 = System.currentTimeMillis();
+    return c((int)l1 + (int)(l1 >>> 32) | 0x1);
+  }
+  
+  public static b c(int paramInt)
+  {
+    return g.f(paramInt);
+  }
+  
+  private void e(int paramInt)
+  {
+    l = new String[paramInt];
+    m = new a[paramInt >> 1];
+    p = (paramInt - 1);
+    n = 0;
+    q = 0;
+    o = (paramInt - (paramInt >> 2));
+  }
+  
+  private b f(int paramInt)
+  {
+    return new b(null, true, true, l, m, n, paramInt, q);
+  }
+  
+  private void i()
+  {
+    Object localObject = l;
+    int i1 = localObject.length;
+    l = new String[i1];
+    System.arraycopy(localObject, 0, l, 0, i1);
+    localObject = m;
+    i1 = localObject.length;
+    m = new a[i1];
+    System.arraycopy(localObject, 0, m, 0, i1);
+  }
+  
+  private void j()
+  {
+    Object localObject1 = l;
+    int i7 = localObject1.length;
+    int i1 = i7 + i7;
+    int i6 = 0;
+    if (i1 > 65536)
+    {
+      n = 0;
+      Arrays.fill((Object[])localObject1, null);
+      Arrays.fill(m, null);
+      r = true;
+      return;
+    }
+    a[] arrayOfA = m;
+    l = new String[i1];
+    m = new a[i1 >> 1];
+    p = (i1 - 1);
+    o = (i1 - (i1 >> 2));
+    int i3 = 0;
+    int i2 = 0;
+    Object localObject2;
+    String[] arrayOfString;
+    for (i1 = 0; i3 < i7; i1 = i4)
+    {
+      localObject2 = localObject1[i3];
+      int i5 = i2;
+      i4 = i1;
+      if (localObject2 != null)
+      {
+        i5 = i2 + 1;
+        i2 = a(a((String)localObject2));
+        arrayOfString = l;
+        if (arrayOfString[i2] == null)
+        {
+          arrayOfString[i2] = localObject2;
+          i4 = i1;
+        }
+        else
+        {
+          i2 >>= 1;
+          localObject2 = new a((String)localObject2, m[i2]);
+          m[i2] = localObject2;
+          i4 = Math.max(i1, ((a)localObject2).c());
+        }
+      }
+      i3 += 1;
+      i2 = i5;
+    }
+    int i4 = i1;
+    i3 = i2;
+    i1 = i6;
+    while (i1 < i7 >> 1)
+    {
+      localObject1 = arrayOfA[i1];
+      i2 = i4;
+      while (localObject1 != null)
+      {
+        i3 += 1;
+        localObject2 = ((a)localObject1).b();
+        i4 = a(a((String)localObject2));
+        arrayOfString = l;
+        if (arrayOfString[i4] == null)
+        {
+          arrayOfString[i4] = localObject2;
+        }
+        else
+        {
+          i4 >>= 1;
+          localObject2 = new a((String)localObject2, m[i4]);
+          m[i4] = localObject2;
+          i2 = Math.max(i2, ((a)localObject2).c());
+        }
+        localObject1 = ((a)localObject1).a();
+      }
+      i1 += 1;
+      i4 = i2;
+    }
+    q = i4;
+    if (i3 == n) {
+      return;
+    }
+    localObject1 = a.b("Internal error on SymbolTable.rehash(): had ");
+    ((StringBuilder)localObject1).append(n);
+    ((StringBuilder)localObject1).append(" entries; now have ");
+    ((StringBuilder)localObject1).append(i3);
+    ((StringBuilder)localObject1).append(".");
+    localObject1 = new Error(((StringBuilder)localObject1).toString());
+    for (;;)
+    {
+      throw ((Throwable)localObject1);
+    }
+  }
+  
+  public int a()
+  {
+    return l.length;
+  }
+  
+  public int a(int paramInt)
+  {
+    return paramInt + (paramInt >>> 15) & p;
+  }
+  
+  public int a(String paramString)
+  {
+    int i3 = paramString.length();
+    int i1 = i;
+    int i2 = 0;
+    while (i2 < i3)
+    {
+      i1 = i1 * 33 + paramString.charAt(i2);
+      i2 += 1;
+    }
+    i2 = i1;
+    if (i1 == 0) {
+      i2 = 1;
+    }
+    return i2;
+  }
+  
+  public int a(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+  {
+    paramInt1 = i;
+    int i1 = 0;
+    while (i1 < paramInt2)
+    {
+      paramInt1 = paramInt1 * 33 + paramArrayOfChar[i1];
+      i1 += 1;
+    }
+    paramInt2 = paramInt1;
+    if (paramInt1 == 0) {
+      paramInt2 = 1;
+    }
+    return paramInt2;
+  }
+  
+  public b a(boolean paramBoolean1, boolean paramBoolean2)
+  {
+    try
+    {
+      String[] arrayOfString = l;
+      a[] arrayOfA = m;
+      int i1 = n;
+      int i2 = i;
+      int i3 = q;
+      return new b(this, paramBoolean1, paramBoolean2, arrayOfString, arrayOfA, i1, i2, i3);
+    }
+    finally {}
+  }
+  
+  public String a(char[] paramArrayOfChar, int paramInt1, int paramInt2, int paramInt3)
+  {
+    if (paramInt2 < 1) {
+      return "";
+    }
+    if (!k) {
+      return new String(paramArrayOfChar, paramInt1, paramInt2);
+    }
+    int i2 = a(paramInt3);
+    Object localObject = l[i2];
+    if (localObject != null)
+    {
+      if (((String)localObject).length() == paramInt2)
+      {
+        paramInt3 = 0;
+        while (((String)localObject).charAt(paramInt3) == paramArrayOfChar[(paramInt1 + paramInt3)])
+        {
+          int i1 = paramInt3 + 1;
+          paramInt3 = i1;
+          if (i1 >= paramInt2) {
+            paramInt3 = i1;
+          }
+        }
+        if (paramInt3 == paramInt2) {
+          return localObject;
+        }
+      }
+      localObject = m[(i2 >> 1)];
+      if (localObject != null)
+      {
+        localObject = ((a)localObject).a(paramArrayOfChar, paramInt1, paramInt2);
+        if (localObject != null) {
+          return localObject;
+        }
+      }
+    }
+    if (!r)
+    {
+      i();
+      r = true;
+      paramInt3 = i2;
+    }
+    else
+    {
+      paramInt3 = i2;
+      if (n >= o)
+      {
+        j();
+        paramInt3 = a(a(paramArrayOfChar, paramInt1, paramInt2));
+      }
+    }
+    localObject = new String(paramArrayOfChar, paramInt1, paramInt2);
+    paramArrayOfChar = (char[])localObject;
+    if (j) {
+      paramArrayOfChar = e.b.a((String)localObject);
+    }
+    n += 1;
+    localObject = l;
+    if (localObject[paramInt3] == null)
+    {
+      localObject[paramInt3] = paramArrayOfChar;
+      return paramArrayOfChar;
+    }
+    paramInt1 = paramInt3 >> 1;
+    localObject = new a(paramArrayOfChar, m[paramInt1]);
+    m[paramInt1] = localObject;
+    q = Math.max(((a)localObject).c(), q);
+    if (q > 255) {
+      d(255);
+    }
+    return paramArrayOfChar;
+  }
+  
+  public int b()
+  {
+    a[] arrayOfA = m;
+    int i4 = arrayOfA.length;
+    int i1 = 0;
+    int i3;
+    for (int i2 = 0; i1 < i4; i2 = i3)
+    {
+      a localA = arrayOfA[i1];
+      i3 = i2;
+      if (localA != null) {
+        i3 = localA.c() + i2;
+      }
+      i1 += 1;
+    }
+    return i2;
+  }
+  
+  public int d()
+  {
+    return i;
+  }
+  
+  public void d(int paramInt)
+  {
+    StringBuilder localStringBuilder = a.b("Longest collision chain in symbol table (of size ");
+    localStringBuilder.append(n);
+    localStringBuilder.append(") now exceeds maximum, ");
+    localStringBuilder.append(paramInt);
+    localStringBuilder.append(" -- suspect a DoS attack based on hash collisions");
+    throw new IllegalStateException(localStringBuilder.toString());
+  }
+  
+  public int e()
+  {
+    return q;
+  }
+  
+  public boolean f()
+  {
+    return r;
+  }
+  
+  public void g()
+  {
+    if (!f()) {
+      return;
+    }
+    b localB = h;
+    if (localB != null)
+    {
+      localB.a(this);
+      r = false;
+    }
+  }
+  
+  public int h()
+  {
+    return n;
+  }
+  
+  public static final class a
+  {
+    public final String a;
+    public final a b;
+    public final int c;
+    
+    public a(String paramString, a paramA)
+    {
+      a = paramString;
+      b = paramA;
+      int i = 1;
+      if (paramA != null) {
+        i = 1 + c;
+      }
+      c = i;
+    }
+    
+    public a a()
+    {
+      return b;
+    }
+    
+    public String a(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    {
+      String str = a;
+      for (a localA = b;; localA = localA.a())
+      {
+        if (str.length() == paramInt2)
+        {
+          int i = 0;
+          while (str.charAt(i) == paramArrayOfChar[(paramInt1 + i)])
+          {
+            int j = i + 1;
+            i = j;
+            if (j >= paramInt2) {
+              i = j;
+            }
+          }
+          if (i == paramInt2) {
+            return str;
+          }
+        }
+        if (localA == null) {
+          return null;
+        }
+        str = localA.b();
+      }
+    }
+    
+    public String b()
+    {
+      return a;
+    }
+    
+    public int c()
+    {
+      return c;
+    }
+  }
+}

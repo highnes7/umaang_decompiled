@@ -1,0 +1,29 @@
+package com.github.mikephil.charting.jobs;
+
+import android.animation.ValueAnimator;
+import android.view.View;
+import com.github.mikephil.charting.utils.Transformer;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import f.sufficientlysecure.rootcommands.util.StringBuilder;
+
+public class AnimatedMoveViewJob
+  extends AnimatedViewPortJob
+{
+  public AnimatedMoveViewJob(ViewPortHandler paramViewPortHandler, float paramFloat1, float paramFloat2, Transformer paramTransformer, View paramView, float paramFloat3, float paramFloat4, long paramLong)
+  {
+    super(paramViewPortHandler, paramFloat1, paramFloat2, paramTransformer, paramView, paramFloat3, paramFloat4, paramLong);
+  }
+  
+  public void onAnimationUpdate(ValueAnimator paramValueAnimator)
+  {
+    paramValueAnimator = pts;
+    float f2 = xOrigin;
+    float f3 = xValue;
+    float f1 = phase;
+    paramValueAnimator[0] = ((f3 - f2) * f1 + f2);
+    f2 = yOrigin;
+    paramValueAnimator[1] = StringBuilder.append(yValue, f2, f1, f2);
+    mTrans.pointValuesToPixel(paramValueAnimator);
+    mViewPortHandler.centerViewPort(pts, view);
+  }
+}

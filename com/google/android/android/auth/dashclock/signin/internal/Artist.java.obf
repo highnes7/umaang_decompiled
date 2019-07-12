@@ -1,0 +1,43 @@
+package com.google.android.gms.auth.api.signin.internal;
+
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+public final class zzn
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzn> CREATOR = new zzm();
+  public Bundle mBundle;
+  public int versionCode;
+  public int zzecz;
+  
+  public zzn(int paramInt1, int paramInt2, Bundle paramBundle)
+  {
+    versionCode = paramInt1;
+    zzecz = paramInt2;
+    mBundle = paramBundle;
+  }
+  
+  public zzn(GoogleSignInOptionsExtension paramGoogleSignInOptionsExtension)
+  {
+    this(1, 1, paramGoogleSignInOptionsExtension.toBundle());
+  }
+  
+  public final int getType()
+  {
+    return zzecz;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, versionCode);
+    zzbcn.zzc(paramParcel, 2, zzecz);
+    zzbcn.zza(paramParcel, 3, mBundle, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+}

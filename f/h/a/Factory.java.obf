@@ -1,0 +1,52 @@
+package f.h.a;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.NoAspectBoundException;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+
+@Aspect
+public class j
+{
+  static
+  {
+    try
+    {
+      a();
+      return;
+    }
+    catch (Throwable localThrowable)
+    {
+      a = localThrowable;
+    }
+  }
+  
+  public j() {}
+  
+  public static j b()
+  {
+    j localJ = b;
+    if (localJ != null) {
+      return localJ;
+    }
+    throw new NoAspectBoundException("com.googlecode.mp4parser.RequiresParseDetailAspect", a);
+  }
+  
+  public static boolean c()
+  {
+    return b != null;
+  }
+  
+  @Before("this(com.googlecode.mp4parser.AbstractBox) && ((execution(public * * (..)) && !( execution(* parseDetails()) || execution(* getNumOfBytesToFirstChild()) || execution(* getType()) || execution(* isParsed()) || execution(* getHeader(*)) || execution(* parse()) || execution(* getBox(*)) || execution(* getSize()) || execution(* getOffset()) || execution(* parseDetails()) || execution(* _parseDetails(*)) || execution(* parse(*,*,*,*)) || execution(* getIsoFile()) || execution(* getParent()) || execution(* setParent(*)) || execution(* getUserType()) || execution(* setUserType(*))) && !@annotation(com.googlecode.mp4parser.annotations.DoNotParseDetail)) || @annotation(com.googlecode.mp4parser.annotations.ParseDetail))")
+  public void a(JoinPoint paramJoinPoint)
+  {
+    if ((paramJoinPoint.getTarget() instanceof a))
+    {
+      if (!((a)paramJoinPoint.getTarget()).isParsed()) {
+        ((a)paramJoinPoint.getTarget()).parseDetails();
+      }
+      return;
+    }
+    throw new RuntimeException(f.a.a.a.a.a(a.class, new StringBuilder("Only methods in subclasses of "), " can  be annotated with ParseDetail"));
+  }
+}

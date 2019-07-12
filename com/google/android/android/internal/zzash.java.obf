@@ -1,0 +1,61 @@
+package com.google.android.gms.internal;
+
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.Auth.AuthCredentialsOptions;
+import com.google.android.gms.auth.api.credentials.Credential;
+import com.google.android.gms.auth.api.credentials.CredentialRequest;
+import com.google.android.gms.auth.api.credentials.CredentialRequestResult;
+import com.google.android.gms.auth.api.credentials.CredentialsApi;
+import com.google.android.gms.auth.api.credentials.HintRequest;
+import com.google.android.gms.auth.api.credentials.PasswordSpecification;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzash
+  implements CredentialsApi
+{
+  public zzash() {}
+  
+  public final PendingResult<Status> delete(GoogleApiClient paramGoogleApiClient, Credential paramCredential)
+  {
+    return paramGoogleApiClient.zze(new zzasl(this, paramGoogleApiClient, paramCredential));
+  }
+  
+  public final PendingResult<Status> disableAutoSignIn(GoogleApiClient paramGoogleApiClient)
+  {
+    return paramGoogleApiClient.zze(new zzasm(this, paramGoogleApiClient));
+  }
+  
+  public final PendingIntent getHintPickerIntent(GoogleApiClient paramGoogleApiClient, HintRequest paramHintRequest)
+  {
+    zzbp.zzb(paramGoogleApiClient.zza(Auth.CREDENTIALS_API), "Auth.CREDENTIALS_API must be added to GoogleApiClient to use this API");
+    Object localObject = ((zzasp)paramGoogleApiClient.zza(Auth.zzdyc)).zzaab();
+    Context localContext = paramGoogleApiClient.getContext();
+    zzbp.zzb(localContext, "context must not be null");
+    zzbp.zzb(paramHintRequest, "request must not be null");
+    if ((localObject != null) && (((Auth.AuthCredentialsOptions)localObject).zzzx() != null)) {
+      paramGoogleApiClient = ((Auth.AuthCredentialsOptions)localObject).zzzx();
+    } else {
+      paramGoogleApiClient = PasswordSpecification.zzeax;
+    }
+    localObject = new Intent("com.google.android.gms.auth.api.credentials.PICKER").putExtra("com.google.android.gms.credentials.hintRequestVersion", 2).putExtra("com.google.android.gms.credentials.RequestType", "Hints").putExtra("com.google.android.gms.credentials.ClaimedCallingPackage", null);
+    zzbcp.zza(paramGoogleApiClient, (Intent)localObject, "com.google.android.gms.credentials.PasswordSpecification");
+    zzbcp.zza(paramHintRequest, (Intent)localObject, "com.google.android.gms.credentials.HintRequest");
+    return PendingIntent.getActivity(localContext, 2000, (Intent)localObject, 268435456);
+  }
+  
+  public final PendingResult<CredentialRequestResult> request(GoogleApiClient paramGoogleApiClient, CredentialRequest paramCredentialRequest)
+  {
+    return paramGoogleApiClient.zzd(new zzasi(this, paramGoogleApiClient, paramCredentialRequest));
+  }
+  
+  public final PendingResult<Status> save(GoogleApiClient paramGoogleApiClient, Credential paramCredential)
+  {
+    return paramGoogleApiClient.zze(new zzask(this, paramGoogleApiClient, paramCredential));
+  }
+}

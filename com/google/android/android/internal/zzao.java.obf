@@ -1,0 +1,182 @@
+package com.google.android.gms.internal;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import javax.net.ssl.SSLSocketFactory;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.StatusLine;
+import org.apache.http.entity.AbstractHttpEntity;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.message.AbstractHttpMessage;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.message.BasicStatusLine;
+
+public final class zzao
+  implements zzan
+{
+  public final zzap zzcc = null;
+  public final SSLSocketFactory zzcd = null;
+  
+  public zzao()
+  {
+    this(null, null);
+  }
+  
+  public zzao(zzap paramZzap)
+  {
+    this(null, null);
+  }
+  
+  public zzao(zzap paramZzap, SSLSocketFactory paramSSLSocketFactory) {}
+  
+  public static HttpEntity zza(HttpURLConnection paramHttpURLConnection)
+  {
+    BasicHttpEntity localBasicHttpEntity = new BasicHttpEntity();
+    try
+    {
+      localInputStream = paramHttpURLConnection.getInputStream();
+    }
+    catch (IOException localIOException)
+    {
+      InputStream localInputStream;
+      for (;;) {}
+    }
+    localInputStream = paramHttpURLConnection.getErrorStream();
+    localBasicHttpEntity.setContent(localInputStream);
+    localBasicHttpEntity.setContentLength(paramHttpURLConnection.getContentLength());
+    localBasicHttpEntity.setContentEncoding(paramHttpURLConnection.getContentEncoding());
+    localBasicHttpEntity.setContentType(paramHttpURLConnection.getContentType());
+    return localBasicHttpEntity;
+  }
+  
+  public static void zza(HttpURLConnection paramHttpURLConnection, zzp<?> paramZzp)
+    throws IOException, zza
+  {
+    paramZzp = paramZzp.zzg();
+    if (paramZzp != null)
+    {
+      paramHttpURLConnection.setDoOutput(true);
+      paramHttpURLConnection.addRequestProperty("Content-Type", zzp.zzf());
+      paramHttpURLConnection = new DataOutputStream(paramHttpURLConnection.getOutputStream());
+      paramHttpURLConnection.write(paramZzp);
+      paramHttpURLConnection.close();
+    }
+  }
+  
+  public final HttpResponse zza(zzp<?> paramZzp, Map<String, String> paramMap)
+    throws IOException, zza
+  {
+    Object localObject1 = paramZzp.getUrl();
+    HashMap localHashMap = new HashMap();
+    localHashMap.putAll(paramZzp.getHeaders());
+    localHashMap.putAll(paramMap);
+    paramMap = zzcc;
+    Object localObject2;
+    if (paramMap != null)
+    {
+      localObject2 = paramMap.zzg((String)localObject1);
+      paramMap = (Map<String, String>)localObject2;
+      if (localObject2 == null)
+      {
+        paramZzp = String.valueOf(localObject1);
+        if (paramZzp.length() != 0) {
+          paramZzp = "URL blocked by rewriter: ".concat(paramZzp);
+        } else {
+          paramZzp = new String("URL blocked by rewriter: ");
+        }
+        throw new IOException(paramZzp);
+      }
+    }
+    else
+    {
+      paramMap = (Map<String, String>)localObject1;
+    }
+    paramMap = new URL(paramMap);
+    localObject1 = (HttpURLConnection)paramMap.openConnection();
+    ((HttpURLConnection)localObject1).setInstanceFollowRedirects(HttpURLConnection.getFollowRedirects());
+    int i = paramZzp.zzi();
+    ((HttpURLConnection)localObject1).setConnectTimeout(i);
+    ((HttpURLConnection)localObject1).setReadTimeout(i);
+    ((HttpURLConnection)localObject1).setUseCaches(false);
+    i = 1;
+    ((HttpURLConnection)localObject1).setDoInput(true);
+    "https".equals(paramMap.getProtocol());
+    paramMap = localHashMap.keySet().iterator();
+    while (paramMap.hasNext())
+    {
+      localObject2 = (String)paramMap.next();
+      ((HttpURLConnection)localObject1).addRequestProperty((String)localObject2, (String)localHashMap.get(localObject2));
+    }
+    switch (paramZzp.getMethod())
+    {
+    default: 
+      throw new IllegalStateException("Unknown method type.");
+    case 7: 
+      paramMap = "PATCH";
+      break;
+    case 6: 
+      paramMap = "TRACE";
+      break;
+    case 5: 
+      paramMap = "OPTIONS";
+      break;
+    case 4: 
+      paramMap = "HEAD";
+      break;
+    case 3: 
+      paramMap = "DELETE";
+      break;
+    case 2: 
+      paramMap = "PUT";
+      break;
+    case 1: 
+      paramMap = "POST";
+      ((HttpURLConnection)localObject1).setRequestMethod(paramMap);
+      zza((HttpURLConnection)localObject1, paramZzp);
+      break;
+    case 0: 
+      paramMap = "GET";
+      ((HttpURLConnection)localObject1).setRequestMethod(paramMap);
+    }
+    paramMap = new ProtocolVersion("HTTP", 1, 1);
+    if (((HttpURLConnection)localObject1).getResponseCode() != -1)
+    {
+      localObject2 = new BasicStatusLine(paramMap, ((HttpURLConnection)localObject1).getResponseCode(), ((HttpURLConnection)localObject1).getResponseMessage());
+      paramMap = new BasicHttpResponse((StatusLine)localObject2);
+      int j = paramZzp.getMethod();
+      int k = ((StatusLine)localObject2).getStatusCode();
+      if ((j == 4) || ((100 <= k) && (k < 200)) || (k == 204) || (k == 304)) {
+        i = 0;
+      }
+      if (i != 0) {
+        paramMap.setEntity(zza((HttpURLConnection)localObject1));
+      }
+      paramZzp = ((HttpURLConnection)localObject1).getHeaderFields().entrySet().iterator();
+      while (paramZzp.hasNext())
+      {
+        localObject1 = (Map.Entry)paramZzp.next();
+        if (((Map.Entry)localObject1).getKey() != null) {
+          paramMap.addHeader(new BasicHeader((String)((Map.Entry)localObject1).getKey(), (String)((List)((Map.Entry)localObject1).getValue()).get(0)));
+        }
+      }
+      return paramMap;
+    }
+    paramZzp = new IOException("Could not retrieve response code from HttpUrlConnection.");
+    for (;;)
+    {
+      throw paramZzp;
+    }
+  }
+}

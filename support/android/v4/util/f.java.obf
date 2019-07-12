@@ -1,0 +1,175 @@
+package b.b.x.n;
+
+public final class g
+{
+  public int[] a;
+  public int b;
+  public int c;
+  public int d;
+  
+  public g()
+  {
+    this(8);
+  }
+  
+  public g(int paramInt)
+  {
+    if (paramInt >= 1)
+    {
+      if (paramInt <= 1073741824)
+      {
+        int i = paramInt;
+        if (Integer.bitCount(paramInt) != 1) {
+          i = Integer.highestOneBit(paramInt - 1) << 1;
+        }
+        d = (i - 1);
+        a = new int[i];
+        return;
+      }
+      throw new IllegalArgumentException("capacity must be <= 2^30");
+    }
+    throw new IllegalArgumentException("capacity must be >= 1");
+  }
+  
+  private void h()
+  {
+    int[] arrayOfInt1 = a;
+    int i = arrayOfInt1.length;
+    int j = b;
+    int k = i - j;
+    int m = i << 1;
+    if (m >= 0)
+    {
+      int[] arrayOfInt2 = new int[m];
+      System.arraycopy(arrayOfInt1, j, arrayOfInt2, 0, k);
+      System.arraycopy(a, 0, arrayOfInt2, k, b);
+      a = arrayOfInt2;
+      b = 0;
+      c = i;
+      d = (m - 1);
+      return;
+    }
+    throw new RuntimeException("Max array capacity exceeded");
+  }
+  
+  public void a()
+  {
+    c = b;
+  }
+  
+  public void a(int paramInt)
+  {
+    b = (b - 1 & d);
+    int[] arrayOfInt = a;
+    int i = b;
+    arrayOfInt[i] = paramInt;
+    if (i == c) {
+      h();
+    }
+  }
+  
+  public int b()
+  {
+    int i = b;
+    if (i != c) {
+      return a[i];
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public void b(int paramInt)
+  {
+    int[] arrayOfInt = a;
+    int i = c;
+    arrayOfInt[i] = paramInt;
+    c = (d & i + 1);
+    if (c == b) {
+      h();
+    }
+  }
+  
+  public int c()
+  {
+    int i = b;
+    int j = c;
+    if (i != j) {
+      return a[(j - 1 & d)];
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public int c(int paramInt)
+  {
+    if ((paramInt >= 0) && (paramInt < g()))
+    {
+      int[] arrayOfInt = a;
+      int i = b;
+      return arrayOfInt[(d & i + paramInt)];
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public void d(int paramInt)
+  {
+    if (paramInt <= 0) {
+      return;
+    }
+    if (paramInt <= g())
+    {
+      int i = c;
+      c = (d & i - paramInt);
+      return;
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public boolean d()
+  {
+    return b == c;
+  }
+  
+  public int e()
+  {
+    int i = b;
+    if (i != c)
+    {
+      int j = a[i];
+      b = (i + 1 & d);
+      return j;
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public void e(int paramInt)
+  {
+    if (paramInt <= 0) {
+      return;
+    }
+    if (paramInt <= g())
+    {
+      int i = b;
+      b = (d & i + paramInt);
+      return;
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public int f()
+  {
+    int i = b;
+    int j = c;
+    if (i != j)
+    {
+      i = d & j - 1;
+      j = a[i];
+      c = i;
+      return j;
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public int g()
+  {
+    return c - b & d;
+  }
+}

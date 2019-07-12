@@ -1,0 +1,240 @@
+package f.d.a.a.g;
+
+import java.io.OutputStream;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public final class b
+  extends OutputStream
+{
+  public static final byte[] a = new byte[0];
+  public static final int b = 500;
+  public static final int c = 262144;
+  public static final int d = 40;
+  public final a e;
+  public final LinkedList<byte[]> f = new LinkedList();
+  public int g;
+  public byte[] h;
+  public int i;
+  
+  public b()
+  {
+    this(null, 500);
+  }
+  
+  public b(int paramInt)
+  {
+    this(null, paramInt);
+  }
+  
+  public b(a paramA)
+  {
+    this(paramA, 500);
+  }
+  
+  public b(a paramA, int paramInt)
+  {
+    e = paramA;
+    if (paramA == null)
+    {
+      h = new byte[paramInt];
+      return;
+    }
+    h = paramA.a(a.a.c);
+  }
+  
+  private void B()
+  {
+    g += h.length;
+    int k = Math.max(g >> 1, 1000);
+    int j = k;
+    if (k > 262144) {
+      j = 262144;
+    }
+    f.add(h);
+    h = new byte[j];
+    i = 0;
+  }
+  
+  public byte[] A()
+  {
+    int k = g + i;
+    if (k == 0) {
+      return a;
+    }
+    Object localObject = new byte[k];
+    Iterator localIterator = f.iterator();
+    int j = 0;
+    while (localIterator.hasNext())
+    {
+      byte[] arrayOfByte = (byte[])localIterator.next();
+      int m = arrayOfByte.length;
+      System.arraycopy(arrayOfByte, 0, localObject, j, m);
+      j += m;
+    }
+    System.arraycopy(h, 0, localObject, j, i);
+    j += i;
+    if (j == k)
+    {
+      if (!f.isEmpty()) {
+        y();
+      }
+      return localObject;
+    }
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("Internal error: total len assumed to be ");
+    ((StringBuilder)localObject).append(k);
+    ((StringBuilder)localObject).append(", copied ");
+    ((StringBuilder)localObject).append(j);
+    ((StringBuilder)localObject).append(" bytes");
+    localObject = new RuntimeException(((StringBuilder)localObject).toString());
+    for (;;)
+    {
+      throw ((Throwable)localObject);
+    }
+  }
+  
+  public void close() {}
+  
+  public void d(int paramInt)
+  {
+    if (i >= h.length) {
+      B();
+    }
+    byte[] arrayOfByte = h;
+    int j = i;
+    i = (j + 1);
+    arrayOfByte[j] = ((byte)paramInt);
+  }
+  
+  public void e(int paramInt)
+  {
+    int j = i;
+    byte[] arrayOfByte = h;
+    if (j + 2 < arrayOfByte.length)
+    {
+      i = (j + 1);
+      arrayOfByte[j] = ((byte)(paramInt >> 16));
+      j = i;
+      i = (j + 1);
+      arrayOfByte[j] = ((byte)(paramInt >> 8));
+      j = i;
+      i = (j + 1);
+      arrayOfByte[j] = ((byte)paramInt);
+      return;
+    }
+    d(paramInt >> 16);
+    d(paramInt >> 8);
+    d(paramInt);
+  }
+  
+  public void f(int paramInt)
+  {
+    int j = i;
+    byte[] arrayOfByte = h;
+    if (j + 1 < arrayOfByte.length)
+    {
+      i = (j + 1);
+      arrayOfByte[j] = ((byte)(paramInt >> 8));
+      j = i;
+      i = (j + 1);
+      arrayOfByte[j] = ((byte)paramInt);
+      return;
+    }
+    d(paramInt >> 8);
+    d(paramInt);
+  }
+  
+  public void flush() {}
+  
+  public byte[] g(int paramInt)
+  {
+    i = paramInt;
+    return A();
+  }
+  
+  public void h(int paramInt)
+  {
+    i = paramInt;
+  }
+  
+  public byte[] u()
+  {
+    B();
+    return h;
+  }
+  
+  public byte[] v()
+  {
+    return h;
+  }
+  
+  public int w()
+  {
+    return i;
+  }
+  
+  public void write(int paramInt)
+  {
+    d(paramInt);
+  }
+  
+  public void write(byte[] paramArrayOfByte)
+  {
+    write(paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    int j = paramInt1;
+    for (;;)
+    {
+      int m = Math.min(h.length - i, paramInt2);
+      int k = j;
+      paramInt1 = paramInt2;
+      if (m > 0)
+      {
+        System.arraycopy(paramArrayOfByte, j, h, i, m);
+        k = j + m;
+        i += m;
+        paramInt1 = paramInt2 - m;
+      }
+      if (paramInt1 <= 0) {
+        return;
+      }
+      B();
+      j = k;
+      paramInt2 = paramInt1;
+    }
+  }
+  
+  public void x()
+  {
+    y();
+    a localA = e;
+    if (localA != null)
+    {
+      byte[] arrayOfByte = h;
+      if (arrayOfByte != null)
+      {
+        localA.a(a.a.c, arrayOfByte);
+        h = null;
+      }
+    }
+  }
+  
+  public void y()
+  {
+    g = 0;
+    i = 0;
+    if (!f.isEmpty()) {
+      f.clear();
+    }
+  }
+  
+  public byte[] z()
+  {
+    y();
+    return h;
+  }
+}

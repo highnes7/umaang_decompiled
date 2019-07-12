@@ -1,0 +1,88 @@
+package com.google.android.gms.auth.api.accounttransfer;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.internal.zzatt;
+import com.google.android.gms.internal.zzbcn;
+import com.google.android.gms.internal.zzbdm;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+public final class zzm
+  extends zzatt
+{
+  public static final Parcelable.Creator<zzm> CREATOR = new zzn();
+  public static final HashMap<String, zzbdm<?, ?>> zzdzf;
+  public int zzdxs;
+  public Set<Integer> zzdzg;
+  public ArrayList<zzs> zzdzh;
+  public int zzdzi;
+  public zzp zzdzj;
+  
+  static
+  {
+    HashMap localHashMap = new HashMap();
+    zzdzf = localHashMap;
+    localHashMap.put("authenticatorData", zzbdm.zzb("authenticatorData", 2, zzs.class));
+    zzdzf.put("progress", zzbdm.zza("progress", 4, zzp.class));
+  }
+  
+  public zzm()
+  {
+    zzdzg = new HashSet(1);
+    zzdxs = 1;
+  }
+  
+  public zzm(Set<Integer> paramSet, int paramInt1, ArrayList<zzs> paramArrayList, int paramInt2, zzp paramZzp)
+  {
+    zzdzg = paramSet;
+    zzdxs = paramInt1;
+    zzdzh = paramArrayList;
+    zzdzi = paramInt2;
+    zzdzj = paramZzp;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    Set localSet = zzdzg;
+    if (localSet.contains(Integer.valueOf(1))) {
+      zzbcn.zzc(paramParcel, 1, zzdxs);
+    }
+    if (localSet.contains(Integer.valueOf(2))) {
+      zzbcn.zzc(paramParcel, 2, zzdzh, true);
+    }
+    if (localSet.contains(Integer.valueOf(3))) {
+      zzbcn.zzc(paramParcel, 3, zzdzi);
+    }
+    if (localSet.contains(Integer.valueOf(4))) {
+      zzbcn.zza(paramParcel, 4, zzdzj, paramInt, true);
+    }
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public final boolean zza(zzbdm paramZzbdm)
+  {
+    return zzdzg.contains(Integer.valueOf(paramZzbdm.zzakq()));
+  }
+  
+  public final Object zzb(zzbdm paramZzbdm)
+  {
+    int i = paramZzbdm.zzakq();
+    if (i != 1)
+    {
+      if (i != 2)
+      {
+        if (i == 4) {
+          return zzdzj;
+        }
+        throw new IllegalStateException(a.a(37, "Unknown SafeParcelable id=", paramZzbdm.zzakq()));
+      }
+      return zzdzh;
+    }
+    return Integer.valueOf(zzdxs);
+  }
+}

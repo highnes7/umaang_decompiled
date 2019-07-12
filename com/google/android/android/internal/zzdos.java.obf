@@ -1,0 +1,101 @@
+package com.google.android.gms.internal;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+public abstract class zzdos<K, V>
+  implements Iterable<Map.Entry<K, V>>
+{
+  public zzdos() {}
+  
+  public abstract boolean containsKey(K paramK);
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (!(paramObject instanceof zzdos)) {
+      return false;
+    }
+    Object localObject = (zzdos)paramObject;
+    if (!getComparator().equals(((zzdos)localObject).getComparator())) {
+      return false;
+    }
+    if (size() != ((zzdos)localObject).size()) {
+      return false;
+    }
+    paramObject = iterator();
+    localObject = ((zzdos)localObject).iterator();
+    while (paramObject.hasNext()) {
+      if (!((Map.Entry)paramObject.next()).equals(((Iterator)localObject).next())) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public abstract V get(K paramK);
+  
+  public abstract Comparator<K> getComparator();
+  
+  public int hashCode()
+  {
+    int i = getComparator().hashCode();
+    Iterator localIterator = iterator();
+    while (localIterator.hasNext()) {
+      i = i * 31 + ((Map.Entry)localIterator.next()).hashCode();
+    }
+    return i;
+  }
+  
+  public abstract int indexOf(K paramK);
+  
+  public abstract boolean isEmpty();
+  
+  public abstract Iterator<Map.Entry<K, V>> iterator();
+  
+  public abstract int size();
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(getClass().getSimpleName());
+    localStringBuilder.append("{");
+    Iterator localIterator = iterator();
+    int i = 1;
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      if (i != 0) {
+        i = 0;
+      } else {
+        localStringBuilder.append(", ");
+      }
+      localStringBuilder.append("(");
+      localStringBuilder.append(localEntry.getKey());
+      localStringBuilder.append("=>");
+      localStringBuilder.append(localEntry.getValue());
+      localStringBuilder.append(")");
+    }
+    localStringBuilder.append("};");
+    return localStringBuilder.toString();
+  }
+  
+  public abstract void zza(zzdpd<K, V> paramZzdpd);
+  
+  public abstract zzdos<K, V> zzay(K paramK);
+  
+  public abstract Iterator<Map.Entry<K, V>> zzaz(K paramK);
+  
+  public abstract K zzba(K paramK);
+  
+  public abstract K zzbqd();
+  
+  public abstract K zzbqe();
+  
+  public abstract Iterator<Map.Entry<K, V>> zzbqf();
+  
+  public abstract zzdos<K, V> zzg(K paramK, V paramV);
+}

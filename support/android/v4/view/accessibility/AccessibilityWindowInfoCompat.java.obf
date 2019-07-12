@@ -1,0 +1,254 @@
+package b.b.x.o.a;
+
+import android.graphics.Rect;
+import android.os.Build.VERSION;
+import android.view.accessibility.AccessibilityWindowInfo;
+
+public class f
+{
+  public static final int a = -1;
+  public static final int b = 1;
+  public static final int c = 2;
+  public static final int d = 3;
+  public static final int e = 4;
+  public static final int f = 5;
+  public Object g;
+  
+  public f(Object paramObject)
+  {
+    g = paramObject;
+  }
+  
+  public static f a(f paramF)
+  {
+    int i = Build.VERSION.SDK_INT;
+    f localF = null;
+    if (i >= 21)
+    {
+      if (paramF == null) {
+        return null;
+      }
+      localF = a(AccessibilityWindowInfo.obtain((AccessibilityWindowInfo)g));
+    }
+    return localF;
+  }
+  
+  public static f a(Object paramObject)
+  {
+    if (paramObject != null) {
+      return new f(paramObject);
+    }
+    return null;
+  }
+  
+  public static String b(int paramInt)
+  {
+    if (paramInt != 1)
+    {
+      if (paramInt != 2)
+      {
+        if (paramInt != 3)
+        {
+          if (paramInt != 4) {
+            return "<UNKNOWN>";
+          }
+          return "TYPE_ACCESSIBILITY_OVERLAY";
+        }
+        return "TYPE_SYSTEM";
+      }
+      return "TYPE_INPUT_METHOD";
+    }
+    return "TYPE_APPLICATION";
+  }
+  
+  public static f l()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return a(AccessibilityWindowInfo.obtain());
+    }
+    return null;
+  }
+  
+  public c a()
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      return c.c(((AccessibilityWindowInfo)g).getAnchor());
+    }
+    return null;
+  }
+  
+  public f a(int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return a(((AccessibilityWindowInfo)g).getChild(paramInt));
+    }
+    return null;
+  }
+  
+  public void a(Rect paramRect)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      ((AccessibilityWindowInfo)g).getBoundsInScreen(paramRect);
+    }
+  }
+  
+  public int b()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return ((AccessibilityWindowInfo)g).getChildCount();
+    }
+    return 0;
+  }
+  
+  public int c()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return ((AccessibilityWindowInfo)g).getId();
+    }
+    return -1;
+  }
+  
+  public int d()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return ((AccessibilityWindowInfo)g).getLayer();
+    }
+    return -1;
+  }
+  
+  public f e()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return a(((AccessibilityWindowInfo)g).getParent());
+    }
+    return null;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (paramObject == null) {
+      return false;
+    }
+    if (f.class != paramObject.getClass()) {
+      return false;
+    }
+    paramObject = (f)paramObject;
+    Object localObject = g;
+    if (localObject == null)
+    {
+      if (g != null) {
+        return false;
+      }
+    }
+    else if (!localObject.equals(g)) {
+      return false;
+    }
+    return true;
+  }
+  
+  public c f()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return c.c(((AccessibilityWindowInfo)g).getRoot());
+    }
+    return null;
+  }
+  
+  public CharSequence g()
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      return ((AccessibilityWindowInfo)g).getTitle();
+    }
+    return null;
+  }
+  
+  public int h()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return ((AccessibilityWindowInfo)g).getType();
+    }
+    return -1;
+  }
+  
+  public int hashCode()
+  {
+    Object localObject = g;
+    if (localObject == null) {
+      return 0;
+    }
+    return localObject.hashCode();
+  }
+  
+  public boolean i()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return ((AccessibilityWindowInfo)g).isAccessibilityFocused();
+    }
+    return true;
+  }
+  
+  public boolean j()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return ((AccessibilityWindowInfo)g).isActive();
+    }
+    return true;
+  }
+  
+  public boolean k()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return ((AccessibilityWindowInfo)g).isFocused();
+    }
+    return true;
+  }
+  
+  public void m()
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      ((AccessibilityWindowInfo)g).recycle();
+    }
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    Object localObject = new Rect();
+    a((Rect)localObject);
+    localStringBuilder.append("AccessibilityWindowInfo[");
+    localStringBuilder.append("id=");
+    localStringBuilder.append(c());
+    localStringBuilder.append(", type=");
+    localStringBuilder.append(b(h()));
+    localStringBuilder.append(", layer=");
+    localStringBuilder.append(d());
+    localStringBuilder.append(", bounds=");
+    localStringBuilder.append(localObject);
+    localStringBuilder.append(", focused=");
+    localStringBuilder.append(k());
+    localStringBuilder.append(", active=");
+    localStringBuilder.append(j());
+    localStringBuilder.append(", hasParent=");
+    localObject = e();
+    boolean bool2 = true;
+    boolean bool1;
+    if (localObject != null) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    localStringBuilder.append(bool1);
+    localStringBuilder.append(", hasChildren=");
+    if (b() > 0) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    localStringBuilder.append(bool1);
+    localStringBuilder.append(']');
+    return localStringBuilder.toString();
+  }
+}

@@ -1,0 +1,53 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.DeadObjectException;
+import android.os.RemoteException;
+import b.b.a.F;
+import com.google.android.gms.common.api.Api.zzb;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.TaskCompletionSource;
+
+public final class zze<TResult>
+  extends zza
+{
+  public final TaskCompletionSource<TResult> zzdzc;
+  public final zzdd<Api.zzb, TResult> zzfif;
+  public final zzcz zzfig;
+  
+  public zze(int paramInt, zzdd<Api.zzb, TResult> paramZzdd, TaskCompletionSource<TResult> paramTaskCompletionSource, zzcz paramZzcz)
+  {
+    super(paramInt);
+    zzdzc = paramTaskCompletionSource;
+    zzfif = paramZzdd;
+    zzfig = paramZzcz;
+  }
+  
+  public final void zza(@F zzah paramZzah, boolean paramBoolean)
+  {
+    paramZzah.zza(zzdzc, paramBoolean);
+  }
+  
+  public final void zza(zzbr<?> paramZzbr)
+    throws DeadObjectException
+  {
+    try
+    {
+      zzfif.zza(paramZzbr.zzagn(), zzdzc);
+      return;
+    }
+    catch (RemoteException paramZzbr)
+    {
+      zzr(zza.zza(paramZzbr));
+      return;
+    }
+    catch (DeadObjectException paramZzbr)
+    {
+      throw paramZzbr;
+    }
+  }
+  
+  public final void zzr(@F Status paramStatus)
+  {
+    zzdzc.trySetException(zzfig.zzs(paramStatus));
+  }
+}

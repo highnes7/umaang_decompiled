@@ -1,0 +1,80 @@
+package com.google.android.gms.common;
+
+import android.content.Context;
+import android.os.RemoteException;
+import com.google.android.gms.common.internal.zzaz;
+import com.google.android.gms.common.internal.zzba;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.dynamic.zzn;
+import com.google.android.gms.dynamite.DynamiteModule;
+import com.google.android.gms.dynamite.DynamiteModule.zzc;
+
+public final class zzf
+{
+  public static zzaz zzffl;
+  public static final Object zzffm = new Object();
+  public static Context zzffn;
+  
+  public static boolean zza(String paramString, zzg paramZzg)
+  {
+    return zza(paramString, paramZzg, false);
+  }
+  
+  public static boolean zza(String paramString, zzg paramZzg, boolean paramBoolean)
+  {
+    if (!zzaey()) {
+      return false;
+    }
+    zzbp.zzu(zzffn);
+    try
+    {
+      paramString = new zzm(paramString, paramZzg, paramBoolean);
+      paramBoolean = zzffl.zza(paramString, new zzn(zzffn.getPackageManager()));
+      return paramBoolean;
+    }
+    catch (RemoteException paramString) {}
+    return false;
+  }
+  
+  public static boolean zzaey()
+  {
+    if (zzffl != null) {
+      return true;
+    }
+    zzbp.zzu(zzffn);
+    synchronized (zzffm)
+    {
+      zzaz localZzaz = zzffl;
+      if (localZzaz == null) {}
+      try
+      {
+        zzffl = zzba.zzal(DynamiteModule.zza(zzffn, DynamiteModule.zzgpr, "com.google.android.gms.googlecertificates").zzgv("com.google.android.gms.common.GoogleCertificatesImpl"));
+      }
+      catch (DynamiteModule.zzc localZzc)
+      {
+        for (;;) {}
+      }
+      return false;
+      return true;
+    }
+  }
+  
+  public static boolean zzb(String paramString, zzg paramZzg)
+  {
+    return zza(paramString, paramZzg, true);
+  }
+  
+  public static void zzbx(Context paramContext)
+  {
+    try
+    {
+      if ((zzffn == null) && (paramContext != null))
+      {
+        zzffn = paramContext.getApplicationContext();
+        return;
+      }
+      return;
+    }
+    finally {}
+  }
+}

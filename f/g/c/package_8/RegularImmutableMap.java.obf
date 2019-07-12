@@ -1,0 +1,214 @@
+package f.g.c.d;
+
+import f.g.c.b.Q;
+import f.g.c.b.ba;
+import java.util.Map.Entry;
+import m.a.h;
+
+@f.g.c.a.b(emulated=true, serializable=true)
+public final class Df<K, V>
+  extends Ab<K, V>
+{
+  public static final double d = 1.2D;
+  public static final long e = 0L;
+  public final transient b<K, V>[] f;
+  public final transient b<K, V>[] g;
+  public final transient int h;
+  public final transient int i;
+  
+  public Df(Map.Entry<?, ?>... paramVarArgs)
+  {
+    int m = paramVarArgs.length;
+    f = new b[m];
+    int j = a(m);
+    g = new b[j];
+    h = (j - 1);
+    j = 0;
+    int k = 0;
+    while (j < m)
+    {
+      Object localObject2 = paramVarArgs[j];
+      Object localObject1 = ((Map.Entry)localObject2).getKey();
+      int n = localObject1.hashCode();
+      k += n;
+      n = lb.a(n) & h;
+      b localB = g[n];
+      localObject2 = a(localObject1, ((Map.Entry)localObject2).getValue(), localB);
+      g[n] = localObject2;
+      f[j] = localObject2;
+      while (localB != null)
+      {
+        ba.a(localObject1.equals(localB.getKey()) ^ true, "duplicate key: %s", new Object[] { localObject1 });
+        localB = localB.next();
+      }
+      j += 1;
+    }
+    i = k;
+  }
+  
+  public static int a(int paramInt)
+  {
+    int k = Integer.highestOneBit(paramInt);
+    double d1 = paramInt;
+    double d2 = k;
+    Double.isNaN(d1);
+    Double.isNaN(d2);
+    int j = k;
+    if (d1 / d2 > 1.2D)
+    {
+      j = k << 1;
+      boolean bool;
+      if (j > 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "table too large: %s", new Object[] { Integer.valueOf(paramInt) });
+    }
+    return j;
+  }
+  
+  public static <K, V> b<K, V> a(K paramK, V paramV, @h b<K, V> paramB)
+  {
+    if (paramB == null) {
+      return new d(paramK, paramV);
+    }
+    return new c(paramK, paramV, paramB);
+  }
+  
+  private b<K, V>[] b(int paramInt)
+  {
+    return new b[paramInt];
+  }
+  
+  public Nb<Map.Entry<K, V>> b()
+  {
+    return new a(null);
+  }
+  
+  public Nb<K> c()
+  {
+    return new Cf(this, entrySet(), i);
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    b[] arrayOfB = f;
+    int k = arrayOfB.length;
+    int j = 0;
+    while (j < k)
+    {
+      if (arrayOfB[j].getValue().equals(paramObject)) {
+        return true;
+      }
+      j += 1;
+    }
+    return false;
+  }
+  
+  public boolean e()
+  {
+    return false;
+  }
+  
+  public V get(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    int j = lb.a(paramObject.hashCode());
+    int k = h;
+    for (b localB = g[(j & k)]; localB != null; localB = localB.next()) {
+      if (paramObject.equals(localB.getKey())) {
+        return localB.getValue();
+      }
+    }
+    return null;
+  }
+  
+  public boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public int size()
+  {
+    return f.length;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = V.a(size());
+    localStringBuilder.append('{');
+    V.a.a(localStringBuilder, f);
+    localStringBuilder.append('}');
+    return localStringBuilder.toString();
+  }
+  
+  private class a
+    extends Bb<K, V>
+  {
+    public a() {}
+    
+    public vb<Map.Entry<K, V>> b()
+    {
+      return new zf(this, Df.a(Df.this));
+    }
+    
+    public Ab<K, V> h()
+    {
+      return Df.this;
+    }
+    
+    public th<Map.Entry<K, V>> iterator()
+    {
+      return a().iterator();
+    }
+  }
+  
+  private static abstract interface b<K, V>
+    extends Map.Entry<K, V>
+  {
+    @h
+    public abstract b<K, V> next();
+  }
+  
+  @m.a.a.b
+  private static final class c<K, V>
+    extends sb<K, V>
+    implements Df.b<K, V>
+  {
+    public final Df.b<K, V> d;
+    
+    public c(K paramK, V paramV, Df.b<K, V> paramB)
+    {
+      super(paramV);
+      d = paramB;
+    }
+    
+    public Df.b<K, V> next()
+    {
+      return d;
+    }
+  }
+  
+  @m.a.a.b
+  private static final class d<K, V>
+    extends sb<K, V>
+    implements Df.b<K, V>
+  {
+    public d(K paramK, V paramV)
+    {
+      super(paramV);
+    }
+    
+    @h
+    public Df.b<K, V> next()
+    {
+      return null;
+    }
+  }
+}

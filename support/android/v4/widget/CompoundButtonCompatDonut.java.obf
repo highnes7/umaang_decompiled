@@ -1,0 +1,99 @@
+package b.b.x.p;
+
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.widget.CompoundButton;
+import b.b.a.F;
+import b.b.a.G;
+import java.lang.reflect.Field;
+
+public final class g
+{
+  public static final String a = "CompoundButtonCompat";
+  public static Field b;
+  public static boolean c;
+  
+  public g() {}
+  
+  @G
+  public static Drawable a(@F CompoundButton paramCompoundButton)
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramCompoundButton.getButtonDrawable();
+    }
+    if (!c) {}
+    try
+    {
+      b = CompoundButton.class.getDeclaredField("mButtonDrawable");
+      b.setAccessible(true);
+      c = true;
+      Field localField = b;
+      if (localField != null) {}
+      try
+      {
+        paramCompoundButton = (Drawable)localField.get(paramCompoundButton);
+        return paramCompoundButton;
+      }
+      catch (IllegalAccessException paramCompoundButton)
+      {
+        for (;;) {}
+      }
+      b = null;
+      return null;
+    }
+    catch (NoSuchFieldException localNoSuchFieldException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public static void a(@F CompoundButton paramCompoundButton, @G ColorStateList paramColorStateList)
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramCompoundButton.setButtonTintList(paramColorStateList);
+      return;
+    }
+    if ((paramCompoundButton instanceof O)) {
+      ((O)paramCompoundButton).setSupportButtonTintList(paramColorStateList);
+    }
+  }
+  
+  public static void a(@F CompoundButton paramCompoundButton, @G PorterDuff.Mode paramMode)
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramCompoundButton.setButtonTintMode(paramMode);
+      return;
+    }
+    if ((paramCompoundButton instanceof O)) {
+      ((O)paramCompoundButton).setSupportButtonTintMode(paramMode);
+    }
+  }
+  
+  @G
+  public static ColorStateList b(@F CompoundButton paramCompoundButton)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramCompoundButton.getButtonTintList();
+    }
+    if ((paramCompoundButton instanceof O)) {
+      return ((O)paramCompoundButton).getSupportButtonTintList();
+    }
+    return null;
+  }
+  
+  @G
+  public static PorterDuff.Mode c(@F CompoundButton paramCompoundButton)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramCompoundButton.getButtonTintMode();
+    }
+    if ((paramCompoundButton instanceof O)) {
+      return ((O)paramCompoundButton).getSupportButtonTintMode();
+    }
+    return null;
+  }
+}

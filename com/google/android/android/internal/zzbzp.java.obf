@@ -1,0 +1,42 @@
+package com.google.android.gms.internal;
+
+import com.google.android.gms.common.api.internal.zzcj;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.zzk;
+
+public final class zzbzp
+  extends zzk
+{
+  public final zzcj<LocationCallback> zzfpc;
+  
+  public zzbzp(zzcj<LocationCallback> paramZzcj)
+  {
+    zzfpc = paramZzcj;
+  }
+  
+  public final void onLocationAvailability(LocationAvailability paramLocationAvailability)
+  {
+    zzfpc.zza(new zzbzr(this, paramLocationAvailability));
+  }
+  
+  public final void onLocationResult(LocationResult paramLocationResult)
+  {
+    zzfpc.zza(new zzbzq(this, paramLocationResult));
+  }
+  
+  public final void release()
+  {
+    try
+    {
+      zzfpc.clear();
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+package com.google.android.gms.tagmanager;
+
+import com.google.android.gms.internal.zzbp;
+import f.a.a.a.a;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+public final class zzgo
+{
+  public static zzea<zzbp> zza(zzea<zzbp> paramZzea)
+  {
+    try
+    {
+      zzea localZzea = new zzea(zzgk.zzah(zzmj(zzgk.zzb((zzbp)paramZzea.getObject()))), paramZzea.zzbed());
+      return localZzea;
+    }
+    catch (UnsupportedEncodingException localUnsupportedEncodingException)
+    {
+      zzdj.zzjss.zzb("Escape URI: unsupported encoding", localUnsupportedEncodingException);
+    }
+    return paramZzea;
+  }
+  
+  public static zzea<zzbp> zza(zzea<zzbp> paramZzea, int... paramVarArgs)
+  {
+    int j = paramVarArgs.length;
+    int i = 0;
+    while (i < j)
+    {
+      int k = paramVarArgs[i];
+      if (!(zzgk.zzg((zzbp)paramZzea.getObject()) instanceof String))
+      {
+        zzdj.zzjss.e("Escaping can only be applied to strings.");
+      }
+      else if (k != 12)
+      {
+        String str = a.a(39, "Unsupported Value Escaping: ", k);
+        zzdj.zzjss.e(str);
+      }
+      else
+      {
+        paramZzea = zza(paramZzea);
+      }
+      i += 1;
+    }
+    return paramZzea;
+  }
+  
+  public static String zzmj(String paramString)
+    throws UnsupportedEncodingException
+  {
+    return URLEncoder.encode(paramString, "UTF-8").replaceAll("\\+", "%20");
+  }
+}

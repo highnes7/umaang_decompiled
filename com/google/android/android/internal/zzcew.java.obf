@@ -1,0 +1,47 @@
+package com.google.android.gms.internal;
+
+import android.os.RemoteException;
+import android.text.TextUtils;
+
+public final class zzcew
+  implements Runnable
+{
+  public zzcew(zzceo paramZzceo, boolean paramBoolean1, boolean paramBoolean2, zzcav paramZzcav1, zzcas paramZzcas, zzcav paramZzcav2) {}
+  
+  public final void run()
+  {
+    zzceo localZzceo = zziwf;
+    zzcbo localZzcbo = zzivz;
+    if (localZzcbo == null)
+    {
+      localZzceo.zzaul().zzayd().log("Discarding data. Failed to send conditional user property to service");
+      return;
+    }
+    if (zziwi)
+    {
+      zzcav localZzcav;
+      if (zziwj) {
+        localZzcav = null;
+      } else {
+        localZzcav = zziwk;
+      }
+      localZzceo.zza(localZzcbo, localZzcav, zziuj);
+    }
+    else
+    {
+      try
+      {
+        if (TextUtils.isEmpty(zziwl.packageName)) {
+          localZzcbo.zza(zziwk, zziuj);
+        } else {
+          localZzcbo.zzb(zziwk);
+        }
+      }
+      catch (RemoteException localRemoteException)
+      {
+        zziwf.zzaul().zzayd().zzj("Failed to send conditional user property to the service", localRemoteException);
+      }
+    }
+    zzceo.zze(zziwf);
+  }
+}

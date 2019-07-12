@@ -1,0 +1,38 @@
+package b.b.x.h;
+
+import android.media.browse.MediaBrowser.MediaItem;
+import b.b.a.K;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+@K(21)
+public class ia
+{
+  public static Constructor a;
+  
+  static
+  {
+    try
+    {
+      a = Class.forName("android.content.pm.ParceledListSlice").getConstructor(new Class[] { List.class });
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException) {}catch (ClassNotFoundException localClassNotFoundException) {}
+    localClassNotFoundException.printStackTrace();
+  }
+  
+  public ia() {}
+  
+  public static Object a(List<MediaBrowser.MediaItem> paramList)
+  {
+    try
+    {
+      paramList = a.newInstance(new Object[] { paramList });
+      return paramList;
+    }
+    catch (InvocationTargetException paramList) {}catch (IllegalAccessException paramList) {}catch (InstantiationException paramList) {}
+    paramList.printStackTrace();
+    return null;
+  }
+}

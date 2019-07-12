@@ -1,0 +1,140 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.net.Uri.Builder;
+import com.google.android.gms.internal.zzbd;
+import com.google.android.gms.internal.zzbe;
+import com.google.android.gms.internal.zzbp;
+import f.a.a.a.a;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class zzm
+  extends zzgi
+{
+  public static final String ID = zzbd.zzkc.toString();
+  public static final String URL = zzbe.zzvc.toString();
+  public static final String zzjot = zzbe.zzma.toString();
+  public static final String zzjou = zzbe.zzvb.toString();
+  public static String zzjov;
+  public static final Set<String> zzjow = new HashSet();
+  public final Context mContext;
+  public final zza zzjox;
+  
+  static
+  {
+    String str = ID;
+    zzjov = a.a(a.a(str, 17), "gtm_", str, "_unrepeatable");
+  }
+  
+  public zzm(Context paramContext)
+  {
+    this(paramContext, new zzn(paramContext));
+  }
+  
+  public zzm(Context paramContext, zza paramZza)
+  {
+    super(ID, new String[] { URL });
+    zzjox = paramZza;
+    mContext = paramContext;
+  }
+  
+  private final boolean zzlc(String paramString)
+  {
+    try
+    {
+      boolean bool = zzjow.contains(paramString);
+      if (bool) {
+        return true;
+      }
+      if (mContext.getSharedPreferences(zzjov, 0).contains(paramString))
+      {
+        zzjow.add(paramString);
+        return true;
+      }
+      return false;
+    }
+    finally {}
+  }
+  
+  public final void zzr(Map<String, zzbp> paramMap)
+  {
+    String str;
+    if (paramMap.get(zzjou) != null) {
+      str = zzgk.zzb((zzbp)paramMap.get(zzjou));
+    } else {
+      str = null;
+    }
+    if ((str != null) && (zzlc(str))) {
+      return;
+    }
+    Uri.Builder localBuilder = Uri.parse(zzgk.zzb((zzbp)paramMap.get(URL))).buildUpon();
+    paramMap = (zzbp)paramMap.get(zzjot);
+    if (paramMap != null)
+    {
+      paramMap = zzgk.zzg(paramMap);
+      if (!(paramMap instanceof List))
+      {
+        paramMap = String.valueOf(localBuilder.build().toString());
+        if (paramMap.length() != 0) {
+          paramMap = "ArbitraryPixel: additional params not a list: not sending partial hit: ".concat(paramMap);
+        } else {
+          paramMap = new String("ArbitraryPixel: additional params not a list: not sending partial hit: ");
+        }
+        zzdj.zzjss.e(paramMap);
+        return;
+      }
+      paramMap = ((List)paramMap).iterator();
+      while (paramMap.hasNext())
+      {
+        Object localObject = paramMap.next();
+        if (!(localObject instanceof Map))
+        {
+          paramMap = String.valueOf(localBuilder.build().toString());
+          if (paramMap.length() != 0) {
+            paramMap = "ArbitraryPixel: additional params contains non-map: not sending partial hit: ".concat(paramMap);
+          } else {
+            paramMap = new String("ArbitraryPixel: additional params contains non-map: not sending partial hit: ");
+          }
+          zzdj.zzjss.e(paramMap);
+          return;
+        }
+        localObject = ((Map)localObject).entrySet().iterator();
+        while (((Iterator)localObject).hasNext())
+        {
+          Map.Entry localEntry = (Map.Entry)((Iterator)localObject).next();
+          localBuilder.appendQueryParameter(localEntry.getKey().toString(), localEntry.getValue().toString());
+        }
+      }
+    }
+    paramMap = localBuilder.build().toString();
+    zzjox.zzbck().zzlo(paramMap);
+    paramMap = String.valueOf(paramMap);
+    if (paramMap.length() != 0) {
+      paramMap = "ArbitraryPixel: url = ".concat(paramMap);
+    } else {
+      paramMap = new String("ArbitraryPixel: url = ");
+    }
+    zzdj.zzjss.v(paramMap);
+    if (str != null) {
+      try
+      {
+        zzjow.add(str);
+        zzfu.zzd(mContext, zzjov, str, "true");
+        return;
+      }
+      finally {}
+    }
+  }
+  
+  public static abstract interface zza
+  {
+    public abstract zzby zzbck();
+  }
+}

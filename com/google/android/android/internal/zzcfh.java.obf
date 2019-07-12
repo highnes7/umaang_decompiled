@@ -1,0 +1,132 @@
+package com.google.android.gms.internal;
+
+import android.annotation.TargetApi;
+import android.app.job.JobParameters;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.IBinder;
+import android.os.PersistableBundle;
+import b.b.a.C;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzcfh<T extends Context,  extends zzcfk>
+{
+  public final T zzdtx;
+  
+  public zzcfh(T paramT)
+  {
+    zzbp.zzu(paramT);
+    zzdtx = paramT;
+  }
+  
+  private final void zza(Integer paramInteger, JobParameters paramJobParameters)
+  {
+    zzccw localZzccw = zzccw.zzdn(zzdtx);
+    zzcbw localZzcbw = localZzccw.zzaul();
+    localZzccw.zzauk().zzg(new zzcfi(this, localZzccw, paramInteger, localZzcbw, paramJobParameters));
+  }
+  
+  private final zzcbw zzaul()
+  {
+    return zzccw.zzdn(zzdtx).zzaul();
+  }
+  
+  public static boolean zzk(Context paramContext, boolean paramBoolean)
+  {
+    zzbp.zzu(paramContext);
+    if (Build.VERSION.SDK_INT >= 24) {}
+    for (String str = "com.google.android.gms.measurement.AppMeasurementJobService";; str = "com.google.android.gms.measurement.AppMeasurementService") {
+      return zzcfw.zzv(paramContext, str);
+    }
+  }
+  
+  @C
+  public final IBinder onBind(Intent paramIntent)
+  {
+    if (paramIntent == null)
+    {
+      zzaul().zzayd().log("onBind called with null intent");
+      return null;
+    }
+    paramIntent = paramIntent.getAction();
+    if ("com.google.android.gms.measurement.START".equals(paramIntent)) {
+      return new zzcdb(zzccw.zzdn(zzdtx));
+    }
+    zzaul().zzayf().zzj("onBind received unknown action", paramIntent);
+    return null;
+  }
+  
+  @C
+  public final void onCreate()
+  {
+    zzcbw localZzcbw = zzccw.zzdn(zzdtx).zzaul();
+    zzcax.zzawk();
+    localZzcbw.zzayj().log("Local AppMeasurementService is starting up");
+  }
+  
+  @C
+  public final void onDestroy()
+  {
+    zzcbw localZzcbw = zzccw.zzdn(zzdtx).zzaul();
+    zzcax.zzawk();
+    localZzcbw.zzayj().log("Local AppMeasurementService is shutting down");
+  }
+  
+  @C
+  public final void onRebind(Intent paramIntent)
+  {
+    if (paramIntent == null)
+    {
+      zzaul().zzayd().log("onRebind called with null intent");
+      return;
+    }
+    paramIntent = paramIntent.getAction();
+    zzaul().zzayj().zzj("onRebind called. action", paramIntent);
+  }
+  
+  @C
+  public final int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2)
+  {
+    zzcbw localZzcbw = zzccw.zzdn(zzdtx).zzaul();
+    if (paramIntent == null)
+    {
+      localZzcbw.zzayf().log("AppMeasurementService started with null intent");
+      return 2;
+    }
+    paramIntent = paramIntent.getAction();
+    zzcax.zzawk();
+    localZzcbw.zzayj().zze("Local AppMeasurementService called. startId, action", Integer.valueOf(paramInt2), paramIntent);
+    if ("com.google.android.gms.measurement.UPLOAD".equals(paramIntent)) {
+      zza(Integer.valueOf(paramInt2), null);
+    }
+    return 2;
+  }
+  
+  @TargetApi(24)
+  @C
+  public final boolean onStartJob(JobParameters paramJobParameters)
+  {
+    zzcbw localZzcbw = zzccw.zzdn(zzdtx).zzaul();
+    String str = paramJobParameters.getExtras().getString("action");
+    zzcax.zzawk();
+    localZzcbw.zzayj().zzj("Local AppMeasurementJobService called. action", str);
+    if ("com.google.android.gms.measurement.UPLOAD".equals(str)) {
+      zza(null, paramJobParameters);
+    }
+    return true;
+  }
+  
+  @C
+  public final boolean onUnbind(Intent paramIntent)
+  {
+    if (paramIntent == null)
+    {
+      zzaul().zzayd().log("onUnbind called with null intent");
+      return true;
+    }
+    paramIntent = paramIntent.getAction();
+    zzaul().zzayj().zzj("onUnbind called for intent. action", paramIntent);
+    return true;
+  }
+}

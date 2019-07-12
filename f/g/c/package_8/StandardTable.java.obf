@@ -1,0 +1,1387 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ca;
+import f.g.c.b.ea;
+import f.g.c.b.ya;
+import java.io.Serializable;
+import java.util.AbstractCollection;
+import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@b
+public class Ig<R, C, V>
+  implements Yg<R, C, V>, Serializable
+{
+  public static final long a = 0L;
+  @gb
+  public final Map<R, Map<C, V>> b;
+  @gb
+  public final ya<? extends Map<C, V>> c;
+  public transient Ig<R, C, V>.b d;
+  public transient Ig<R, C, V>.h e;
+  public transient Set<C> f;
+  public transient Ig<R, C, V>.l g;
+  public transient Ig<R, C, V>.i h;
+  public transient Ig<R, C, V>.f i;
+  
+  public Ig(Map<R, Map<C, V>> paramMap, ya<? extends Map<C, V>> paramYa)
+  {
+    b = paramMap;
+    c = paramYa;
+  }
+  
+  private Map<C, V> a(R paramR)
+  {
+    Map localMap2 = (Map)b.get(paramR);
+    Map localMap1 = localMap2;
+    if (localMap2 == null)
+    {
+      localMap1 = (Map)c.get();
+      b.put(paramR, localMap1);
+    }
+    return localMap1;
+  }
+  
+  private Map<R, V> b(Object paramObject)
+  {
+    LinkedHashMap localLinkedHashMap = new LinkedHashMap();
+    Iterator localIterator = b.entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      Object localObject = ((Map)localEntry.getValue()).remove(paramObject);
+      if (localObject != null)
+      {
+        localLinkedHashMap.put(localEntry.getKey(), localObject);
+        if (((Map)localEntry.getValue()).isEmpty()) {
+          localIterator.remove();
+        }
+      }
+    }
+    return localLinkedHashMap;
+  }
+  
+  private boolean b(Object paramObject1, Object paramObject2, Object paramObject3)
+  {
+    return (paramObject3 != null) && (paramObject3.equals(c(paramObject1, paramObject2)));
+  }
+  
+  private boolean c(Object paramObject1, Object paramObject2, Object paramObject3)
+  {
+    if (b(paramObject1, paramObject2, paramObject3))
+    {
+      remove(paramObject1, paramObject2);
+      return true;
+    }
+    return false;
+  }
+  
+  public V a(R paramR, C paramC, V paramV)
+  {
+    if (paramR != null)
+    {
+      if (paramC != null)
+      {
+        if (paramV != null) {
+          return a(paramR).put(paramC, paramV);
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public Iterator<C> a()
+  {
+    return new d();
+  }
+  
+  public void a(Yg<? extends R, ? extends C, ? extends V> paramYg)
+  {
+    paramYg = paramYg.h().iterator();
+    while (paramYg.hasNext())
+    {
+      Yg.a localA = (Yg.a)paramYg.next();
+      a(localA.a(), localA.b(), localA.getValue());
+    }
+  }
+  
+  public V c(@h Object paramObject1, @h Object paramObject2)
+  {
+    Object localObject = null;
+    if (paramObject1 != null)
+    {
+      if (paramObject2 == null) {
+        return null;
+      }
+      paramObject1 = (Map)fe.e(b, paramObject1);
+      if (paramObject1 == null) {
+        return null;
+      }
+      localObject = fe.e(paramObject1, paramObject2);
+    }
+    return localObject;
+  }
+  
+  public void clear()
+  {
+    b.clear();
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    Iterator localIterator = b.values().iterator();
+    while (localIterator.hasNext()) {
+      if (((Map)localIterator.next()).containsValue(paramObject)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public boolean d(@h Object paramObject1, @h Object paramObject2)
+  {
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (paramObject1 != null)
+    {
+      if (paramObject2 == null) {
+        return false;
+      }
+      paramObject1 = (Map)fe.e(b, paramObject1);
+      bool1 = bool2;
+      if (paramObject1 != null)
+      {
+        bool1 = bool2;
+        if (fe.d(paramObject1, paramObject2)) {
+          bool1 = true;
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public Map<C, Map<R, V>> e()
+  {
+    f localF2 = i;
+    f localF1 = localF2;
+    if (localF2 == null)
+    {
+      localF1 = new f(null);
+      i = localF1;
+    }
+    return localF1;
+  }
+  
+  public boolean e(@h Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    Iterator localIterator = b.values().iterator();
+    while (localIterator.hasNext()) {
+      if (fe.d((Map)localIterator.next(), paramObject)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof Yg))
+    {
+      paramObject = (Yg)paramObject;
+      return h().equals(paramObject.h());
+    }
+    return false;
+  }
+  
+  public Map<R, V> f(C paramC)
+  {
+    return new c(paramC);
+  }
+  
+  public Set<R> g()
+  {
+    h localH2 = e;
+    h localH1 = localH2;
+    if (localH2 == null)
+    {
+      localH1 = new h();
+      e = localH1;
+    }
+    return localH1;
+  }
+  
+  public boolean g(@h Object paramObject)
+  {
+    return (paramObject != null) && (fe.d(b, paramObject));
+  }
+  
+  public Map<C, V> h(R paramR)
+  {
+    return new g(paramR);
+  }
+  
+  public Set<Yg.a<R, C, V>> h()
+  {
+    b localB2 = d;
+    b localB1 = localB2;
+    if (localB2 == null)
+    {
+      localB1 = new b(null);
+      d = localB1;
+    }
+    return localB1;
+  }
+  
+  public int hashCode()
+  {
+    return h().hashCode();
+  }
+  
+  public Set<C> i()
+  {
+    Set localSet = f;
+    Object localObject = localSet;
+    if (localSet == null)
+    {
+      localObject = new e(null);
+      f = ((Set)localObject);
+    }
+    return localObject;
+  }
+  
+  public boolean isEmpty()
+  {
+    return b.isEmpty();
+  }
+  
+  public Map<R, Map<C, V>> j()
+  {
+    i localI2 = h;
+    i localI1 = localI2;
+    if (localI2 == null)
+    {
+      localI1 = new i();
+      h = localI1;
+    }
+    return localI1;
+  }
+  
+  public V remove(@h Object paramObject1, @h Object paramObject2)
+  {
+    if (paramObject1 != null)
+    {
+      if (paramObject2 == null) {
+        return null;
+      }
+      Map localMap = (Map)fe.e(b, paramObject1);
+      if (localMap == null) {
+        return null;
+      }
+      paramObject2 = localMap.remove(paramObject2);
+      if (localMap.isEmpty()) {
+        b.remove(paramObject1);
+      }
+      return paramObject2;
+    }
+    return null;
+  }
+  
+  public int size()
+  {
+    Iterator localIterator = b.values().iterator();
+    int j = 0;
+    while (localIterator.hasNext()) {
+      j += ((Map)localIterator.next()).size();
+    }
+    return j;
+  }
+  
+  public String toString()
+  {
+    return j().toString();
+  }
+  
+  public Collection<V> values()
+  {
+    l localL2 = g;
+    l localL1 = localL2;
+    if (localL2 == null)
+    {
+      localL1 = new l(null);
+      g = localL1;
+    }
+    return localL1;
+  }
+  
+  private class a
+    implements Iterator<Yg.a<R, C, V>>
+  {
+    public final Iterator<Map.Entry<R, Map<C, V>>> a = b.entrySet().iterator();
+    public Map.Entry<R, Map<C, V>> b;
+    public Iterator<Map.Entry<C, V>> c = Jc.b;
+    
+    public a() {}
+    
+    public boolean hasNext()
+    {
+      return (a.hasNext()) || (c.hasNext());
+    }
+    
+    public Yg.a<R, C, V> next()
+    {
+      if (!c.hasNext())
+      {
+        b = ((Map.Entry)a.next());
+        c = ((Map)b.getValue()).entrySet().iterator();
+      }
+      Map.Entry localEntry = (Map.Entry)c.next();
+      return _g.a(b.getKey(), localEntry.getKey(), localEntry.getValue());
+    }
+    
+    public void remove()
+    {
+      c.remove();
+      if (((Map)b.getValue()).isEmpty()) {
+        a.remove();
+      }
+    }
+  }
+  
+  private class b
+    extends Ig<R, C, V>.k<Yg.a<R, C, V>>
+  {
+    public b()
+    {
+      super(null);
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      if ((paramObject instanceof Yg.a))
+      {
+        paramObject = (Yg.a)paramObject;
+        return Ig.a(Ig.this, paramObject.a(), paramObject.b(), paramObject.getValue());
+      }
+      return false;
+    }
+    
+    public Iterator<Yg.a<R, C, V>> iterator()
+    {
+      return new Ig.a(Ig.this);
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      if ((paramObject instanceof Yg.a))
+      {
+        paramObject = (Yg.a)paramObject;
+        return Ig.b(Ig.this, paramObject.a(), paramObject.b(), paramObject.getValue());
+      }
+      return false;
+    }
+    
+    public int size()
+    {
+      return Ig.this.size();
+    }
+  }
+  
+  private class c
+    extends fe.h<R, V>
+  {
+    public final C d;
+    public Ig<R, C, V>.c.d e;
+    public Ig<R, C, V>.c.c f;
+    
+    public c()
+    {
+      Object localObject;
+      if (localObject != null)
+      {
+        d = localObject;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public Set<Map.Entry<R, V>> a()
+    {
+      return new a();
+    }
+    
+    public boolean a(ca<? super Map.Entry<R, V>> paramCa)
+    {
+      Iterator localIterator = b.entrySet().iterator();
+      boolean bool1 = false;
+      while (localIterator.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)localIterator.next();
+        Map localMap = (Map)localEntry.getValue();
+        Object localObject = localMap.get(d);
+        if ((localObject != null) && (paramCa.apply(new sb(localEntry.getKey(), localObject))))
+        {
+          localMap.remove(d);
+          boolean bool2 = true;
+          bool1 = bool2;
+          if (localMap.isEmpty())
+          {
+            localIterator.remove();
+            bool1 = bool2;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      return d(paramObject, d);
+    }
+    
+    public V get(Object paramObject)
+    {
+      return c(paramObject, d);
+    }
+    
+    public Set<R> keySet()
+    {
+      c localC2 = f;
+      c localC1 = localC2;
+      if (localC2 == null)
+      {
+        localC1 = new c();
+        f = localC1;
+      }
+      return localC1;
+    }
+    
+    public V put(R paramR, V paramV)
+    {
+      return a(paramR, d, paramV);
+    }
+    
+    public V remove(Object paramObject)
+    {
+      return remove(paramObject, d);
+    }
+    
+    public Collection<V> values()
+    {
+      d localD2 = e;
+      d localD1 = localD2;
+      if (localD2 == null)
+      {
+        localD1 = new d();
+        e = localD1;
+      }
+      return localD1;
+    }
+    
+    public class a
+      extends gg.d<Map.Entry<R, V>>
+    {
+      public a() {}
+      
+      public void clear()
+      {
+        ca localCa = ea.c();
+        a(localCa);
+      }
+      
+      public boolean contains(Object paramObject)
+      {
+        if ((paramObject instanceof Map.Entry))
+        {
+          paramObject = (Map.Entry)paramObject;
+          return Ig.a(Ig.this, paramObject.getKey(), d, paramObject.getValue());
+        }
+        return false;
+      }
+      
+      public boolean isEmpty()
+      {
+        Ig.c localC = Ig.c.this;
+        return g.e(d) ^ true;
+      }
+      
+      public Iterator<Map.Entry<R, V>> iterator()
+      {
+        return new Ig.c.b(Ig.c.this);
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        if ((paramObject instanceof Map.Entry))
+        {
+          paramObject = (Map.Entry)paramObject;
+          return Ig.b(Ig.this, paramObject.getKey(), d, paramObject.getValue());
+        }
+        return false;
+      }
+      
+      public boolean retainAll(Collection<?> paramCollection)
+      {
+        return a(ea.a(ea.a(paramCollection)));
+      }
+      
+      public int size()
+      {
+        Iterator localIterator = b.values().iterator();
+        int i = 0;
+        while (localIterator.hasNext()) {
+          if (((Map)localIterator.next()).containsKey(d)) {
+            i += 1;
+          }
+        }
+        return i;
+      }
+    }
+    
+    public class b
+      extends g<Map.Entry<R, V>>
+    {
+      public final Iterator<Map.Entry<R, Map<C, V>>> c = b.entrySet().iterator();
+      
+      public b() {}
+      
+      public Map.Entry<R, V> a()
+      {
+        while (c.hasNext())
+        {
+          Map.Entry localEntry = (Map.Entry)c.next();
+          if (((Map)localEntry.getValue()).containsKey(d)) {
+            return new Jg(this, localEntry);
+          }
+        }
+        return (Map.Entry)b();
+      }
+    }
+    
+    public class c
+      extends gg.d<R>
+    {
+      public c() {}
+      
+      public void clear()
+      {
+        entrySet().clear();
+      }
+      
+      public boolean contains(Object paramObject)
+      {
+        Ig.c localC = Ig.c.this;
+        return g.d(paramObject, d);
+      }
+      
+      public boolean isEmpty()
+      {
+        Ig.c localC = Ig.c.this;
+        return g.e(d) ^ true;
+      }
+      
+      public Iterator<R> iterator()
+      {
+        return fe.a(entrySet().iterator());
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        Ig.c localC = Ig.c.this;
+        return g.remove(paramObject, d) != null;
+      }
+      
+      public boolean retainAll(Collection<?> paramCollection)
+      {
+        if (paramCollection != null)
+        {
+          paramCollection = new Kg(this, paramCollection);
+          return a(paramCollection);
+        }
+        throw new NullPointerException();
+      }
+      
+      public int size()
+      {
+        return entrySet().size();
+      }
+    }
+    
+    public class d
+      extends AbstractCollection<V>
+    {
+      public d() {}
+      
+      public void clear()
+      {
+        entrySet().clear();
+      }
+      
+      public boolean isEmpty()
+      {
+        Ig.c localC = Ig.c.this;
+        return g.e(d) ^ true;
+      }
+      
+      public Iterator<V> iterator()
+      {
+        return fe.b(entrySet().iterator());
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        if (paramObject == null) {
+          return false;
+        }
+        Iterator localIterator = b.values().iterator();
+        while (localIterator.hasNext())
+        {
+          Map localMap = (Map)localIterator.next();
+          if (localMap.entrySet().remove(new sb(d, paramObject)))
+          {
+            if (localMap.isEmpty()) {
+              localIterator.remove();
+            }
+            return true;
+          }
+        }
+        return false;
+      }
+      
+      public boolean removeAll(Collection<?> paramCollection)
+      {
+        if (paramCollection != null)
+        {
+          paramCollection = new Lg(this, paramCollection);
+          return a(paramCollection);
+        }
+        throw new NullPointerException();
+      }
+      
+      public boolean retainAll(Collection<?> paramCollection)
+      {
+        if (paramCollection != null)
+        {
+          paramCollection = new Mg(this, paramCollection);
+          return a(paramCollection);
+        }
+        throw new NullPointerException();
+      }
+      
+      public int size()
+      {
+        return entrySet().size();
+      }
+    }
+  }
+  
+  private class d
+    extends g<C>
+  {
+    public final Map<C, V> c = (Map)c.get();
+    public final Iterator<Map<C, V>> d = b.values().iterator();
+    public Iterator<Map.Entry<C, V>> e = Jc.a;
+    
+    public d() {}
+    
+    public C a()
+    {
+      for (;;)
+      {
+        if (e.hasNext())
+        {
+          Map.Entry localEntry = (Map.Entry)e.next();
+          if (!c.containsKey(localEntry.getKey()))
+          {
+            c.put(localEntry.getKey(), localEntry.getValue());
+            return localEntry.getKey();
+          }
+        }
+        else
+        {
+          if (!d.hasNext()) {
+            break;
+          }
+          e = ((Map)d.next()).entrySet().iterator();
+        }
+      }
+      return b();
+    }
+  }
+  
+  private class e
+    extends Ig<R, C, V>.k<C>
+  {
+    public e()
+    {
+      super(null);
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      if (paramObject == null) {
+        return false;
+      }
+      Iterator localIterator = b.values().iterator();
+      while (localIterator.hasNext()) {
+        if (((Map)localIterator.next()).containsKey(paramObject)) {
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    public Iterator<C> iterator()
+    {
+      return a();
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      boolean bool1 = false;
+      if (paramObject == null) {
+        return false;
+      }
+      Iterator localIterator = b.values().iterator();
+      while (localIterator.hasNext())
+      {
+        Map localMap = (Map)localIterator.next();
+        if (localMap.keySet().remove(paramObject))
+        {
+          boolean bool2 = true;
+          bool1 = bool2;
+          if (localMap.isEmpty())
+          {
+            localIterator.remove();
+            bool1 = bool2;
+          }
+        }
+      }
+      return bool1;
+    }
+    
+    public boolean removeAll(Collection<?> paramCollection)
+    {
+      if (paramCollection != null)
+      {
+        boolean bool1 = false;
+        Iterator localIterator = b.values().iterator();
+        while (localIterator.hasNext())
+        {
+          Map localMap = (Map)localIterator.next();
+          if (Jc.a(localMap.keySet().iterator(), paramCollection))
+          {
+            boolean bool2 = true;
+            bool1 = bool2;
+            if (localMap.isEmpty())
+            {
+              localIterator.remove();
+              bool1 = bool2;
+            }
+          }
+        }
+        return bool1;
+      }
+      paramCollection = new NullPointerException();
+      for (;;)
+      {
+        throw paramCollection;
+      }
+    }
+    
+    public boolean retainAll(Collection<?> paramCollection)
+    {
+      if (paramCollection != null)
+      {
+        boolean bool1 = false;
+        Iterator localIterator = b.values().iterator();
+        while (localIterator.hasNext())
+        {
+          Map localMap = (Map)localIterator.next();
+          if (localMap.keySet().retainAll(paramCollection))
+          {
+            boolean bool2 = true;
+            bool1 = bool2;
+            if (localMap.isEmpty())
+            {
+              localIterator.remove();
+              bool1 = bool2;
+            }
+          }
+        }
+        return bool1;
+      }
+      paramCollection = new NullPointerException();
+      for (;;)
+      {
+        throw paramCollection;
+      }
+    }
+    
+    public int size()
+    {
+      return Jc.i(iterator());
+    }
+  }
+  
+  private class f
+    extends fe.h<C, Map<R, V>>
+  {
+    public Ig<R, C, V>.f.b d;
+    
+    public f() {}
+    
+    public Set<Map.Entry<C, Map<R, V>>> a()
+    {
+      return new a();
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      return e(paramObject);
+    }
+    
+    public Map<R, V> get(Object paramObject)
+    {
+      if (e(paramObject)) {
+        return f(paramObject);
+      }
+      return null;
+    }
+    
+    public Set<C> keySet()
+    {
+      return i();
+    }
+    
+    public Map<R, V> remove(Object paramObject)
+    {
+      if (e(paramObject)) {
+        return Ig.a(Ig.this, paramObject);
+      }
+      return null;
+    }
+    
+    public Collection<Map<R, V>> values()
+    {
+      b localB2 = d;
+      b localB1 = localB2;
+      if (localB2 == null)
+      {
+        localB1 = new b(null);
+        d = localB1;
+      }
+      return localB1;
+    }
+    
+    public class a
+      extends Ig<R, C, V>.k<Map.Entry<C, Map<R, V>>>
+    {
+      public a()
+      {
+        super(null);
+      }
+      
+      public boolean contains(Object paramObject)
+      {
+        if ((paramObject instanceof Map.Entry))
+        {
+          paramObject = (Map.Entry)paramObject;
+          if (e(paramObject.getKey()))
+          {
+            Object localObject = paramObject.getKey();
+            return get(localObject).equals(paramObject.getValue());
+          }
+        }
+        return false;
+      }
+      
+      public Iterator<Map.Entry<C, Map<R, V>>> iterator()
+      {
+        return new Ng(this, i().iterator());
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        if (contains(paramObject))
+        {
+          paramObject = (Map.Entry)paramObject;
+          Ig.a(Ig.this, paramObject.getKey());
+          return true;
+        }
+        return false;
+      }
+      
+      public boolean removeAll(Collection<?> paramCollection)
+      {
+        paramCollection = paramCollection.iterator();
+        boolean bool = false;
+        while (paramCollection.hasNext()) {
+          bool |= remove(paramCollection.next());
+        }
+        return bool;
+      }
+      
+      public boolean retainAll(Collection<?> paramCollection)
+      {
+        Iterator localIterator = fd.a(i().iterator()).iterator();
+        boolean bool = false;
+        while (localIterator.hasNext())
+        {
+          Object localObject = localIterator.next();
+          if (!paramCollection.contains(new sb(localObject, f(localObject))))
+          {
+            Ig.a(Ig.this, localObject);
+            bool = true;
+          }
+        }
+        return bool;
+      }
+      
+      public int size()
+      {
+        return i().size();
+      }
+    }
+    
+    private class b
+      extends Ig<R, C, V>.j<Map<R, V>>
+    {
+      public b()
+      {
+        super(null);
+      }
+      
+      public Iterator<Map<R, V>> iterator()
+      {
+        return fe.b(entrySet().iterator());
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        Iterator localIterator = entrySet().iterator();
+        while (localIterator.hasNext())
+        {
+          Map.Entry localEntry = (Map.Entry)localIterator.next();
+          if (((Map)localEntry.getValue()).equals(paramObject))
+          {
+            Ig.a(Ig.this, localEntry.getKey());
+            return true;
+          }
+        }
+        return false;
+      }
+      
+      public boolean removeAll(Collection<?> paramCollection)
+      {
+        if (paramCollection != null)
+        {
+          boolean bool = false;
+          Iterator localIterator = fd.a(i().iterator()).iterator();
+          while (localIterator.hasNext())
+          {
+            Object localObject = localIterator.next();
+            if (paramCollection.contains(f(localObject)))
+            {
+              Ig.a(Ig.this, localObject);
+              bool = true;
+            }
+          }
+          return bool;
+        }
+        paramCollection = new NullPointerException();
+        for (;;)
+        {
+          throw paramCollection;
+        }
+      }
+      
+      public boolean retainAll(Collection<?> paramCollection)
+      {
+        if (paramCollection != null)
+        {
+          boolean bool = false;
+          Iterator localIterator = fd.a(i().iterator()).iterator();
+          while (localIterator.hasNext())
+          {
+            Object localObject = localIterator.next();
+            if (!paramCollection.contains(f(localObject)))
+            {
+              Ig.a(Ig.this, localObject);
+              bool = true;
+            }
+          }
+          return bool;
+        }
+        paramCollection = new NullPointerException();
+        for (;;)
+        {
+          throw paramCollection;
+        }
+      }
+      
+      public int size()
+      {
+        return i().size();
+      }
+    }
+  }
+  
+  public class g
+    extends AbstractMap<C, V>
+  {
+    public final R a;
+    public Map<C, V> b;
+    public Set<C> c;
+    public Set<Map.Entry<C, V>> d;
+    
+    public g()
+    {
+      Object localObject;
+      if (localObject != null)
+      {
+        a = localObject;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public Map<C, V> a()
+    {
+      Map localMap = b;
+      if ((localMap != null) && ((!localMap.isEmpty()) || (!b.containsKey(a)))) {
+        return b;
+      }
+      localMap = b();
+      b = localMap;
+      return localMap;
+    }
+    
+    public Map<C, V> b()
+    {
+      return (Map)b.get(a);
+    }
+    
+    public void c()
+    {
+      if ((a() != null) && (b.isEmpty()))
+      {
+        b.remove(a);
+        b = null;
+      }
+    }
+    
+    public void clear()
+    {
+      Map localMap = a();
+      if (localMap != null) {
+        localMap.clear();
+      }
+      c();
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      Map localMap = a();
+      return (paramObject != null) && (localMap != null) && (fe.d(localMap, paramObject));
+    }
+    
+    public Set<Map.Entry<C, V>> entrySet()
+    {
+      Set localSet = d;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new a(null);
+        d = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    public V get(Object paramObject)
+    {
+      Map localMap = a();
+      if ((paramObject != null) && (localMap != null)) {
+        return fe.e(localMap, paramObject);
+      }
+      return null;
+    }
+    
+    public Set<C> keySet()
+    {
+      Set localSet = c;
+      Object localObject = localSet;
+      if (localSet == null)
+      {
+        localObject = new Og(this);
+        c = ((Set)localObject);
+      }
+      return localObject;
+    }
+    
+    public V put(C paramC, V paramV)
+    {
+      if (paramC != null)
+      {
+        if (paramV != null)
+        {
+          Map localMap = b;
+          if ((localMap != null) && (!localMap.isEmpty())) {
+            return b.put(paramC, paramV);
+          }
+          return a(a, paramC, paramV);
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public V remove(Object paramObject)
+    {
+      try
+      {
+        Map localMap = a();
+        if (localMap == null) {
+          return null;
+        }
+        paramObject = localMap.remove(paramObject);
+        c();
+        return paramObject;
+      }
+      catch (ClassCastException paramObject) {}
+      return null;
+    }
+    
+    private class a
+      extends fe.c<C, V>
+    {
+      public a() {}
+      
+      public Map<C, V> c()
+      {
+        return Ig.g.this;
+      }
+      
+      public Iterator<Map.Entry<C, V>> iterator()
+      {
+        Map localMap = a();
+        if (localMap == null) {
+          return Jc.b;
+        }
+        return new Qg(this, localMap.entrySet().iterator());
+      }
+      
+      public int size()
+      {
+        Map localMap = a();
+        if (localMap == null) {
+          return 0;
+        }
+        return localMap.size();
+      }
+    }
+  }
+  
+  public class h
+    extends Ig<R, C, V>.k<R>
+  {
+    public h()
+    {
+      super(null);
+    }
+    
+    public boolean contains(Object paramObject)
+    {
+      return g(paramObject);
+    }
+    
+    public Iterator<R> iterator()
+    {
+      return fe.a(j().entrySet().iterator());
+    }
+    
+    public boolean remove(Object paramObject)
+    {
+      return (paramObject != null) && (b.remove(paramObject) != null);
+    }
+    
+    public int size()
+    {
+      return b.size();
+    }
+  }
+  
+  public class i
+    extends fe.h<R, Map<C, V>>
+  {
+    public i() {}
+    
+    public Set<Map.Entry<R, Map<C, V>>> a()
+    {
+      return new a();
+    }
+    
+    public boolean containsKey(Object paramObject)
+    {
+      return g(paramObject);
+    }
+    
+    public Map<C, V> get(Object paramObject)
+    {
+      if (g(paramObject)) {
+        return h(paramObject);
+      }
+      return null;
+    }
+    
+    public Set<R> keySet()
+    {
+      return g();
+    }
+    
+    public Map<C, V> remove(Object paramObject)
+    {
+      if (paramObject == null) {
+        return null;
+      }
+      return (Map)b.remove(paramObject);
+    }
+    
+    public class a
+      extends Ig<R, C, V>.k<Map.Entry<R, Map<C, V>>>
+    {
+      public a()
+      {
+        super(null);
+      }
+      
+      public boolean contains(Object paramObject)
+      {
+        boolean bool3 = paramObject instanceof Map.Entry;
+        boolean bool2 = false;
+        boolean bool1 = bool2;
+        if (bool3)
+        {
+          paramObject = (Map.Entry)paramObject;
+          bool1 = bool2;
+          if (paramObject.getKey() != null)
+          {
+            bool1 = bool2;
+            if ((paramObject.getValue() instanceof Map))
+            {
+              bool1 = bool2;
+              if (V.a(b.entrySet(), paramObject)) {
+                bool1 = true;
+              }
+            }
+          }
+        }
+        return bool1;
+      }
+      
+      public Iterator<Map.Entry<R, Map<C, V>>> iterator()
+      {
+        return new Rg(this, b.keySet().iterator());
+      }
+      
+      public boolean remove(Object paramObject)
+      {
+        boolean bool3 = paramObject instanceof Map.Entry;
+        boolean bool2 = false;
+        boolean bool1 = bool2;
+        if (bool3)
+        {
+          paramObject = (Map.Entry)paramObject;
+          bool1 = bool2;
+          if (paramObject.getKey() != null)
+          {
+            bool1 = bool2;
+            if ((paramObject.getValue() instanceof Map))
+            {
+              bool1 = bool2;
+              if (b.entrySet().remove(paramObject)) {
+                bool1 = true;
+              }
+            }
+          }
+        }
+        return bool1;
+      }
+      
+      public int size()
+      {
+        return b.size();
+      }
+    }
+  }
+  
+  private abstract class j<T>
+    extends AbstractCollection<T>
+  {
+    public j() {}
+    
+    public void clear()
+    {
+      b.clear();
+    }
+    
+    public boolean isEmpty()
+    {
+      return b.isEmpty();
+    }
+  }
+  
+  private abstract class k<T>
+    extends AbstractSet<T>
+  {
+    public k() {}
+    
+    public void clear()
+    {
+      b.clear();
+    }
+    
+    public boolean isEmpty()
+    {
+      return b.isEmpty();
+    }
+  }
+  
+  private class l
+    extends Ig<R, C, V>.j<V>
+  {
+    public l()
+    {
+      super(null);
+    }
+    
+    public Iterator<V> iterator()
+    {
+      return new Sg(this, h().iterator());
+    }
+    
+    public int size()
+    {
+      return Ig.this.size();
+    }
+  }
+}

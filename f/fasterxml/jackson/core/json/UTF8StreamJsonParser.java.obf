@@ -1,0 +1,3505 @@
+package f.d.a.a.d;
+
+import f.d.a.a.c.d;
+import f.d.a.a.e.f;
+import f.d.a.a.g.j;
+import f.d.a.a.i;
+import f.d.a.a.k.a;
+import f.d.a.a.m;
+import f.d.a.a.n;
+import f.d.a.a.o;
+import f.d.a.a.q;
+import f.d.a.a.s;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public final class k
+  extends f.d.a.a.a.c
+{
+  public static final byte Na = 10;
+  public static final int[] Oa = f.d.a.a.c.b.d;
+  public static final int[] Pa = f.d.a.a.c.b.c;
+  public o Qa;
+  public final f.d.a.a.e.a Ra;
+  public int[] Sa = new int[16];
+  public boolean Ta = false;
+  public int Ua;
+  public InputStream Va;
+  public byte[] Wa;
+  public boolean Xa;
+  
+  public k(d paramD, int paramInt1, InputStream paramInputStream, o paramO, f.d.a.a.e.a paramA, byte[] paramArrayOfByte, int paramInt2, int paramInt3, boolean paramBoolean)
+  {
+    super(paramD, paramInt1);
+    Va = paramInputStream;
+    Qa = paramO;
+    Ra = paramA;
+    Wa = paramArrayOfByte;
+    oa = paramInt2;
+    pa = paramInt3;
+    Xa = paramBoolean;
+  }
+  
+  private void Oa()
+    throws IOException, i
+  {
+    int i = oa;
+    if (i < pa)
+    {
+      byte[] arrayOfByte = Wa;
+      if (arrayOfByte[i] == 58)
+      {
+        oa = (i + 1);
+        i = oa;
+        oa = (i + 1);
+        i = arrayOfByte[i];
+        if (i == 34)
+        {
+          Ta = true;
+          xa = n.h;
+          return;
+        }
+        if (i == 123)
+        {
+          xa = n.b;
+          return;
+        }
+        if (i == 91)
+        {
+          xa = n.d;
+          return;
+        }
+        int j = i & 0xFF;
+        if (j > 32)
+        {
+          i = j;
+          if (j != 47) {
+            break label139;
+          }
+        }
+        oa -= 1;
+        i = Ua();
+        break label139;
+      }
+    }
+    i = Ra();
+    label139:
+    if (i != 34)
+    {
+      if (i != 45)
+      {
+        if (i != 91) {
+          if (i != 93) {
+            if (i != 102) {
+              if (i != 110)
+              {
+                if (i == 116) {
+                  break label303;
+                }
+                if (i != 123) {
+                  if (i == 125) {
+                    break label296;
+                  }
+                }
+              }
+            }
+          }
+        }
+        switch (i)
+        {
+        default: 
+          xa = j(i);
+          return;
+          xa = n.b;
+          return;
+          a("null", 1);
+          xa = n.m;
+          return;
+          a("false", 1);
+          xa = n.l;
+          return;
+          label296:
+          a(i, "expected a value");
+          label303:
+          a("true", 1);
+          xa = n.k;
+          return;
+          xa = n.d;
+          return;
+        }
+      }
+      xa = r(i);
+      return;
+    }
+    Ta = true;
+    xa = n.h;
+  }
+  
+  private n Pa()
+  {
+    Aa = false;
+    n localN = xa;
+    xa = null;
+    if (localN == n.d) {
+      wa = wa.a(ua, va);
+    } else if (localN == n.b) {
+      wa = wa.b(ua, va);
+    }
+    A = localN;
+    return localN;
+  }
+  
+  private void Qa()
+    throws IOException, i
+  {
+    int[] arrayOfInt = f.d.a.a.c.b.g;
+    for (;;)
+    {
+      if ((oa < pa) || (Ea()))
+      {
+        arrayOfByte = Wa;
+        i = oa;
+        oa = (i + 1);
+        i = arrayOfByte[i] & 0xFF;
+        int j = arrayOfInt[i];
+        if (j == 0) {
+          continue;
+        }
+        if (j == 2) {
+          break label181;
+        }
+        if (j == 3) {
+          break label173;
+        }
+        if (j == 4) {
+          break label165;
+        }
+        if (j == 10) {
+          break label158;
+        }
+        if (j == 13) {
+          break label151;
+        }
+        if (j != 42)
+        {
+          n(i);
+          continue;
+        }
+        if ((oa < pa) || (Ea())) {}
+      }
+      else
+      {
+        f(" in a comment");
+        return;
+      }
+      byte[] arrayOfByte = Wa;
+      int i = oa;
+      if (arrayOfByte[i] == 47)
+      {
+        oa = (i + 1);
+        return;
+        label151:
+        Ka();
+        continue;
+        label158:
+        La();
+        continue;
+        label165:
+        z(i);
+        continue;
+        label173:
+        y(i);
+        continue;
+        label181:
+        x(i);
+      }
+    }
+  }
+  
+  private int Ra()
+    throws IOException, i
+  {
+    if (oa >= pa) {
+      Fa();
+    }
+    Object localObject = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = localObject[i];
+    if (i == 58)
+    {
+      i = oa;
+      if (i < pa)
+      {
+        int j = localObject[i] & 0xFF;
+        if ((j > 32) && (j != 47))
+        {
+          oa = (i + 1);
+          return j;
+        }
+      }
+    }
+    else
+    {
+      i &= 0xFF;
+    }
+    for (;;)
+    {
+      if (i != 9) {
+        if (i != 10)
+        {
+          if (i != 13)
+          {
+            if (i != 32)
+            {
+              if (i != 47)
+              {
+                if (i < 32) {
+                  g(i);
+                }
+                if (i != 58) {
+                  a(i, "was expecting a colon to separate field name and value");
+                }
+                for (;;)
+                {
+                  if ((oa >= pa) && (!Ea()))
+                  {
+                    localObject = f.a.a.a.a.b("Unexpected end-of-input within/between ");
+                    ((StringBuilder)localObject).append(wa.e());
+                    ((StringBuilder)localObject).append(" entries");
+                    throw b(((StringBuilder)localObject).toString());
+                  }
+                  localObject = Wa;
+                  i = oa;
+                  oa = (i + 1);
+                  i = localObject[i] & 0xFF;
+                  if (i > 32)
+                  {
+                    if (i != 47) {
+                      return i;
+                    }
+                    Sa();
+                  }
+                  else if (i != 32)
+                  {
+                    if (i == 10) {
+                      La();
+                    } else if (i == 13) {
+                      Ka();
+                    } else if (i != 9) {
+                      g(i);
+                    }
+                  }
+                }
+              }
+              Sa();
+            }
+          }
+          else {
+            Ka();
+          }
+        }
+        else {
+          La();
+        }
+      }
+      if (oa >= pa) {
+        Fa();
+      }
+      localObject = Wa;
+      i = oa;
+      oa = (i + 1);
+      i = localObject[i] & 0xFF;
+    }
+  }
+  
+  private void Sa()
+    throws IOException, i
+  {
+    if (!c(k.a.b)) {
+      a(47, "maybe a (non-standard) comment? (not recognized as one since Feature 'ALLOW_COMMENTS' not enabled for parser)");
+    }
+    if ((oa >= pa) && (!Ea())) {
+      f(" in a comment");
+    }
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i] & 0xFF;
+    if (i == 47)
+    {
+      Ta();
+      return;
+    }
+    if (i == 42)
+    {
+      Qa();
+      return;
+    }
+    a(i, "was expecting either '*' or '/' for a comment");
+  }
+  
+  private void Ta()
+    throws IOException, i
+  {
+    int[] arrayOfInt = f.d.a.a.c.b.g;
+    for (;;)
+    {
+      if ((oa >= pa) && (!Ea())) {
+        return;
+      }
+      byte[] arrayOfByte = Wa;
+      int i = oa;
+      oa = (i + 1);
+      i = arrayOfByte[i] & 0xFF;
+      int j = arrayOfInt[i];
+      if (j != 0) {
+        if (j != 2)
+        {
+          if (j != 3)
+          {
+            if (j != 4)
+            {
+              if (j != 10)
+              {
+                if (j != 13)
+                {
+                  if (j != 42) {
+                    n(i);
+                  }
+                }
+                else {
+                  Ka();
+                }
+              }
+              else {
+                La();
+              }
+            }
+            else {
+              z(i);
+            }
+          }
+          else {
+            y(i);
+          }
+        }
+        else {
+          x(i);
+        }
+      }
+    }
+  }
+  
+  private int Ua()
+    throws IOException, i
+  {
+    for (;;)
+    {
+      if ((oa >= pa) && (!Ea()))
+      {
+        localObject = f.a.a.a.a.b("Unexpected end-of-input within/between ");
+        ((StringBuilder)localObject).append(wa.e());
+        ((StringBuilder)localObject).append(" entries");
+        throw b(((StringBuilder)localObject).toString());
+      }
+      Object localObject = Wa;
+      int i = oa;
+      oa = (i + 1);
+      i = localObject[i] & 0xFF;
+      if (i > 32)
+      {
+        if (i != 47) {
+          return i;
+        }
+        Sa();
+      }
+      else if (i != 32)
+      {
+        if (i == 10) {
+          La();
+        } else if (i == 13) {
+          Ka();
+        } else if (i != 9) {
+          g(i);
+        }
+      }
+    }
+  }
+  
+  private int Va()
+    throws IOException, i
+  {
+    for (;;)
+    {
+      if ((oa >= pa) && (!Ea()))
+      {
+        ma();
+        return -1;
+      }
+      byte[] arrayOfByte = Wa;
+      int i = oa;
+      oa = (i + 1);
+      i = arrayOfByte[i] & 0xFF;
+      if (i > 32)
+      {
+        if (i != 47) {
+          return i;
+        }
+        Sa();
+      }
+      else if (i != 32)
+      {
+        if (i == 10) {
+          La();
+        } else if (i == 13) {
+          Ka();
+        } else if (i != 9) {
+          g(i);
+        }
+      }
+    }
+  }
+  
+  private int Wa()
+    throws IOException, i
+  {
+    if ((oa >= pa) && (!Ea())) {
+      return 48;
+    }
+    int i = Wa[oa] & 0xFF;
+    if (i >= 48)
+    {
+      if (i > 57) {
+        return 48;
+      }
+      if (!c(k.a.g)) {
+        g("Leading zeroes not allowed");
+      }
+      oa += 1;
+      int j = i;
+      if (i == 48)
+      {
+        do
+        {
+          if (oa >= pa)
+          {
+            j = i;
+            if (!Ea()) {
+              break label157;
+            }
+          }
+          byte[] arrayOfByte = Wa;
+          i = oa;
+          j = arrayOfByte[i] & 0xFF;
+          if (j < 48) {
+            break;
+          }
+          if (j > 57) {
+            return 48;
+          }
+          oa = (i + 1);
+          i = j;
+        } while (j == 48);
+        return j;
+        return 48;
+      }
+      label157:
+      return j;
+    }
+    return 48;
+  }
+  
+  private int Xa()
+    throws IOException, i
+  {
+    if (oa >= pa) {
+      Fa();
+    }
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    return arrayOfByte[i] & 0xFF;
+  }
+  
+  private f a(int paramInt1, int paramInt2, int paramInt3)
+    throws i
+  {
+    Object localObject = Ra.b(paramInt1, paramInt2);
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = Sa;
+    localObject[0] = paramInt1;
+    localObject[1] = paramInt2;
+    return a((int[])localObject, 2, paramInt3);
+  }
+  
+  private f a(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+    throws IOException, i
+  {
+    int[] arrayOfInt = Sa;
+    arrayOfInt[0] = paramInt1;
+    return a(arrayOfInt, 1, paramInt2, paramInt3, paramInt4);
+  }
+  
+  private f a(int[] paramArrayOfInt, int paramInt1, int paramInt2)
+    throws i
+  {
+    int i3 = (paramInt1 << 2) - 4 + paramInt2;
+    int i;
+    int n;
+    if (paramInt2 < 4)
+    {
+      i = paramInt1 - 1;
+      n = paramArrayOfInt[i];
+      paramArrayOfInt[i] = (n << (4 - paramInt2 << 3));
+    }
+    else
+    {
+      n = 0;
+    }
+    Object localObject1 = ya.e();
+    int j = 0;
+    int m;
+    for (int k = 0; j < i3; k = m + 1)
+    {
+      int i2 = paramArrayOfInt[(j >> 2)] >> (3 - (j & 0x3) << 3) & 0xFF;
+      int i1 = j + 1;
+      j = i1;
+      Object localObject2 = localObject1;
+      m = k;
+      i = i2;
+      if (i2 > 127)
+      {
+        if ((i2 & 0xE0) == 192)
+        {
+          j = i2 & 0x1F;
+          i = 1;
+        }
+        else if ((i2 & 0xF0) == 224)
+        {
+          j = i2 & 0xF;
+          i = 2;
+        }
+        else if ((i2 & 0xF8) == 240)
+        {
+          j = i2 & 0x7;
+          i = 3;
+        }
+        else
+        {
+          o(i2);
+          i = 1;
+          j = 1;
+        }
+        if (i1 + i > i3) {
+          f(" in field name");
+        }
+        m = paramArrayOfInt[(i1 >> 2)] >> (3 - (i1 & 0x3) << 3);
+        i1 += 1;
+        if ((m & 0xC0) != 128) {
+          p(m);
+        }
+        m = j << 6 | m & 0x3F;
+        if (i > 1)
+        {
+          j = paramArrayOfInt[(i1 >> 2)] >> (3 - (i1 & 0x3) << 3);
+          i1 += 1;
+          if ((j & 0xC0) != 128) {
+            p(j);
+          }
+          i2 = j & 0x3F | m << 6;
+          m = i2;
+          j = i1;
+          if (i > 2)
+          {
+            m = paramArrayOfInt[(i1 >> 2)] >> (3 - (i1 & 0x3) << 3);
+            j = i1 + 1;
+            if ((m & 0xC0) != 128) {
+              p(m & 0xFF);
+            }
+            m = i2 << 6 | m & 0x3F;
+          }
+        }
+        else
+        {
+          j = i1;
+        }
+        if (i > 2)
+        {
+          i = m - 65536;
+          localObject2 = localObject1;
+          if (k >= localObject1.length) {
+            localObject2 = ya.g();
+          }
+          localObject2[k] = ((char)((i >> 10) + 55296));
+          i = i & 0x3FF | 0xDC00;
+          m = k + 1;
+        }
+        else
+        {
+          i = m;
+          m = k;
+          localObject2 = localObject1;
+        }
+      }
+      localObject1 = localObject2;
+      if (m >= localObject2.length) {
+        localObject1 = ya.g();
+      }
+      localObject1[m] = ((char)i);
+    }
+    localObject1 = new String((char[])localObject1, 0, k);
+    if (paramInt2 < 4) {
+      paramArrayOfInt[(paramInt1 - 1)] = n;
+    }
+    return Ra.a((String)localObject1, paramArrayOfInt, paramInt1);
+  }
+  
+  private f a(int[] paramArrayOfInt, int paramInt1, int paramInt2, int paramInt3)
+    throws i
+  {
+    int[] arrayOfInt = paramArrayOfInt;
+    if (paramInt1 >= paramArrayOfInt.length)
+    {
+      arrayOfInt = a(paramArrayOfInt, paramArrayOfInt.length);
+      Sa = arrayOfInt;
+    }
+    int i = paramInt1 + 1;
+    arrayOfInt[paramInt1] = paramInt2;
+    paramArrayOfInt = Ra.b(arrayOfInt, i);
+    if (paramArrayOfInt == null) {
+      return a(arrayOfInt, i, paramInt3);
+    }
+    return paramArrayOfInt;
+  }
+  
+  private n a(char[] paramArrayOfChar, int paramInt1, int paramInt2, boolean paramBoolean, int paramInt3)
+    throws IOException, i
+  {
+    int n = 0;
+    int i;
+    int j;
+    int k;
+    Object localObject;
+    if (paramInt2 == 46)
+    {
+      paramArrayOfChar[paramInt1] = ((char)paramInt2);
+      paramInt1 += 1;
+      i = paramInt2;
+      j = 0;
+      paramInt2 = paramInt1;
+      paramInt1 = j;
+      for (;;)
+      {
+        if ((oa >= pa) && (!Ea()))
+        {
+          k = 1;
+          j = i;
+          i = k;
+          break label163;
+        }
+        localObject = Wa;
+        i = oa;
+        oa = (i + 1);
+        j = localObject[i] & 0xFF;
+        if ((j < 48) || (j > 57)) {
+          break;
+        }
+        k = paramInt1 + 1;
+        paramInt1 = paramInt2;
+        localObject = paramArrayOfChar;
+        if (paramInt2 >= paramArrayOfChar.length)
+        {
+          localObject = ya.h();
+          paramInt1 = 0;
+        }
+        localObject[paramInt1] = ((char)j);
+        paramInt2 = paramInt1 + 1;
+        i = j;
+        paramInt1 = k;
+        paramArrayOfChar = (char[])localObject;
+      }
+      i = 0;
+      label163:
+      if (paramInt1 == 0) {
+        c(j, "Decimal point not followed by a digit");
+      }
+      k = paramInt1;
+      paramInt1 = i;
+      localObject = paramArrayOfChar;
+      i = j;
+    }
+    else
+    {
+      k = 0;
+      j = 0;
+      i = paramInt2;
+      paramInt2 = paramInt1;
+      localObject = paramArrayOfChar;
+      paramInt1 = j;
+    }
+    int m;
+    if (i != 101)
+    {
+      m = paramInt1;
+      j = paramInt2;
+      if (i != 69) {}
+    }
+    else
+    {
+      paramArrayOfChar = (char[])localObject;
+      j = paramInt2;
+      if (paramInt2 >= localObject.length)
+      {
+        paramArrayOfChar = ya.h();
+        j = 0;
+      }
+      paramInt2 = j + 1;
+      paramArrayOfChar[j] = ((char)i);
+      if (oa >= pa) {
+        Fa();
+      }
+      localObject = Wa;
+      i = oa;
+      oa = (i + 1);
+      j = localObject[i] & 0xFF;
+      if ((j != 45) && (j != 43)) {}
+      for (;;)
+      {
+        i = 0;
+        localObject = paramArrayOfChar;
+        break;
+        i = paramInt2;
+        localObject = paramArrayOfChar;
+        if (paramInt2 >= paramArrayOfChar.length)
+        {
+          localObject = ya.h();
+          i = 0;
+        }
+        paramInt2 = i + 1;
+        localObject[i] = ((char)j);
+        if (oa >= pa) {
+          Fa();
+        }
+        paramArrayOfChar = Wa;
+        i = oa;
+        oa = (i + 1);
+        j = paramArrayOfChar[i] & 0xFF;
+        paramArrayOfChar = (char[])localObject;
+      }
+      while ((j <= 57) && (j >= 48))
+      {
+        i += 1;
+        paramArrayOfChar = (char[])localObject;
+        m = paramInt2;
+        if (paramInt2 >= localObject.length)
+        {
+          paramArrayOfChar = ya.h();
+          m = 0;
+        }
+        paramInt2 = m + 1;
+        paramArrayOfChar[m] = ((char)j);
+        if ((oa >= pa) && (!Ea()))
+        {
+          paramInt1 = i;
+          i = paramInt2;
+          paramInt2 = 1;
+          break label558;
+        }
+        localObject = Wa;
+        j = oa;
+        oa = (j + 1);
+        j = localObject[j] & 0xFF;
+        localObject = paramArrayOfChar;
+      }
+      m = i;
+      i = paramInt2;
+      paramInt2 = paramInt1;
+      paramInt1 = m;
+      label558:
+      if (paramInt1 == 0) {
+        c(j, "Exponent indicator not followed by a digit");
+      }
+      j = i;
+      m = paramInt2;
+      n = paramInt1;
+    }
+    if (m == 0) {
+      oa -= 1;
+    }
+    ya.a(j);
+    return b(paramBoolean, paramInt3, k, n);
+  }
+  
+  private n a(char[] paramArrayOfChar, int paramInt1, boolean paramBoolean, int paramInt2)
+    throws IOException, i
+  {
+    int j;
+    for (;;)
+    {
+      if ((oa >= pa) && (!Ea()))
+      {
+        ya.a(paramInt1);
+        return a(paramBoolean, paramInt2);
+      }
+      Object localObject = Wa;
+      int i = oa;
+      oa = (i + 1);
+      j = localObject[i] & 0xFF;
+      if ((j > 57) || (j < 48)) {
+        break;
+      }
+      localObject = paramArrayOfChar;
+      i = paramInt1;
+      if (paramInt1 >= paramArrayOfChar.length)
+      {
+        localObject = ya.h();
+        i = 0;
+      }
+      localObject[i] = ((char)j);
+      paramInt2 += 1;
+      paramInt1 = i + 1;
+      paramArrayOfChar = (char[])localObject;
+    }
+    if ((j != 46) && (j != 101) && (j != 69))
+    {
+      oa -= 1;
+      ya.a(paramInt1);
+      return a(paramBoolean, paramInt2);
+    }
+    return a(paramArrayOfChar, paramInt1, j, paramBoolean, paramInt2);
+  }
+  
+  private void a(char[] paramArrayOfChar, int paramInt)
+    throws IOException, i
+  {
+    int[] arrayOfInt = Oa;
+    byte[] arrayOfByte = Wa;
+    char[] arrayOfChar = paramArrayOfChar;
+    for (;;)
+    {
+      int i = oa;
+      int j = i;
+      if (i >= pa)
+      {
+        Fa();
+        j = oa;
+      }
+      paramArrayOfChar = arrayOfChar;
+      i = paramInt;
+      if (paramInt >= arrayOfChar.length)
+      {
+        paramArrayOfChar = ya.h();
+        i = 0;
+      }
+      int k = Math.min(pa, paramArrayOfChar.length - i + j);
+      for (;;)
+      {
+        if (j >= k) {
+          break label366;
+        }
+        paramInt = j + 1;
+        j = arrayOfByte[j] & 0xFF;
+        if (arrayOfInt[j] != 0)
+        {
+          oa = paramInt;
+          if (j == 34)
+          {
+            ya.a(i);
+            return;
+          }
+          paramInt = arrayOfInt[j];
+          if (paramInt != 1)
+          {
+            if (paramInt != 2)
+            {
+              if (paramInt != 3)
+              {
+                if (paramInt != 4)
+                {
+                  if (j < 32)
+                  {
+                    b(j, "string value");
+                    paramInt = j;
+                  }
+                  else
+                  {
+                    n(j);
+                    paramInt = j;
+                  }
+                }
+                else
+                {
+                  k = v(j);
+                  j = i + 1;
+                  paramArrayOfChar[i] = ((char)(0xD800 | k >> 10));
+                  paramInt = j;
+                  arrayOfChar = paramArrayOfChar;
+                  if (j >= paramArrayOfChar.length)
+                  {
+                    arrayOfChar = ya.h();
+                    paramInt = 0;
+                  }
+                  j = k & 0x3FF | 0xDC00;
+                  i = paramInt;
+                  paramInt = j;
+                  paramArrayOfChar = arrayOfChar;
+                }
+              }
+              else if (pa - oa >= 2) {
+                paramInt = u(j);
+              } else {
+                paramInt = t(j);
+              }
+            }
+            else {
+              paramInt = s(j);
+            }
+          }
+          else {
+            paramInt = sa();
+          }
+          arrayOfChar = paramArrayOfChar;
+          j = i;
+          if (i >= paramArrayOfChar.length)
+          {
+            arrayOfChar = ya.h();
+            j = 0;
+          }
+          arrayOfChar[j] = ((char)paramInt);
+          paramInt = j + 1;
+          break;
+        }
+        paramArrayOfChar[i] = ((char)j);
+        j = paramInt;
+        i += 1;
+      }
+      label366:
+      oa = j;
+      arrayOfChar = paramArrayOfChar;
+      paramInt = i;
+    }
+  }
+  
+  private boolean a(int paramInt, q paramQ)
+    throws IOException, i
+  {
+    String str = m(paramInt).a();
+    wa.a(str);
+    boolean bool = str.equals(paramQ.getValue());
+    A = n.f;
+    paramInt = Ua();
+    if (paramInt != 58) {
+      a(paramInt, "was expecting a colon to separate field name and value");
+    }
+    paramInt = Ua();
+    if (paramInt == 34)
+    {
+      Ta = true;
+      xa = n.h;
+      return bool;
+    }
+    if (paramInt != 45)
+    {
+      if (paramInt != 91) {
+        if (paramInt != 93) {
+          if (paramInt != 102) {
+            if (paramInt != 110)
+            {
+              if (paramInt == 116) {
+                break label235;
+              }
+              if (paramInt != 123) {
+                if (paramInt == 125) {
+                  break label228;
+                }
+              }
+            }
+          }
+        }
+      }
+      switch (paramInt)
+      {
+      default: 
+        paramQ = j(paramInt);
+        break;
+        paramQ = n.b;
+        break;
+        a("null", 1);
+        paramQ = n.m;
+        break;
+        a("false", 1);
+        paramQ = n.l;
+        break;
+        label228:
+        a(paramInt, "expected a value");
+        label235:
+        a("true", 1);
+        paramQ = n.k;
+        break;
+        paramQ = n.d;
+        break;
+      }
+    }
+    else
+    {
+      paramQ = r(paramInt);
+    }
+    xa = paramQ;
+    return bool;
+  }
+  
+  public static int[] a(int[] paramArrayOfInt, int paramInt)
+  {
+    if (paramArrayOfInt == null) {
+      return new int[paramInt];
+    }
+    int i = paramArrayOfInt.length;
+    int[] arrayOfInt = new int[paramInt + i];
+    System.arraycopy(paramArrayOfInt, 0, arrayOfInt, 0, i);
+    return arrayOfInt;
+  }
+  
+  private f b(int paramInt1, int paramInt2)
+    throws i
+  {
+    Object localObject = Ra.c(paramInt1);
+    if (localObject != null) {
+      return localObject;
+    }
+    localObject = Sa;
+    localObject[0] = paramInt1;
+    return a((int[])localObject, 1, paramInt2);
+  }
+  
+  private f b(int paramInt1, int paramInt2, int paramInt3)
+    throws IOException, i
+  {
+    return a(Sa, 0, paramInt1, paramInt2, paramInt3);
+  }
+  
+  private int s(int paramInt)
+    throws IOException, i
+  {
+    if (oa >= pa) {
+      Fa();
+    }
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i];
+    if ((i & 0xC0) != 128) {
+      a(i & 0xFF, oa);
+    }
+    return (paramInt & 0x1F) << 6 | i & 0x3F;
+  }
+  
+  private int t(int paramInt)
+    throws IOException, i
+  {
+    if (oa >= pa) {
+      Fa();
+    }
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i];
+    if ((i & 0xC0) != 128) {
+      a(i & 0xFF, oa);
+    }
+    if (oa >= pa) {
+      Fa();
+    }
+    arrayOfByte = Wa;
+    int j = oa;
+    oa = (j + 1);
+    j = arrayOfByte[j];
+    if ((j & 0xC0) != 128) {
+      a(j & 0xFF, oa);
+    }
+    return ((paramInt & 0xF) << 6 | i & 0x3F) << 6 | j & 0x3F;
+  }
+  
+  private int u(int paramInt)
+    throws IOException, i
+  {
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i];
+    if ((i & 0xC0) != 128) {
+      a(i & 0xFF, oa);
+    }
+    arrayOfByte = Wa;
+    int j = oa;
+    oa = (j + 1);
+    j = arrayOfByte[j];
+    if ((j & 0xC0) != 128) {
+      a(j & 0xFF, oa);
+    }
+    return ((paramInt & 0xF) << 6 | i & 0x3F) << 6 | j & 0x3F;
+  }
+  
+  private int v(int paramInt)
+    throws IOException, i
+  {
+    if (oa >= pa) {
+      Fa();
+    }
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i];
+    if ((i & 0xC0) != 128) {
+      a(i & 0xFF, oa);
+    }
+    if (oa >= pa) {
+      Fa();
+    }
+    arrayOfByte = Wa;
+    int j = oa;
+    oa = (j + 1);
+    j = arrayOfByte[j];
+    if ((j & 0xC0) != 128) {
+      a(j & 0xFF, oa);
+    }
+    if (oa >= pa) {
+      Fa();
+    }
+    arrayOfByte = Wa;
+    int k = oa;
+    oa = (k + 1);
+    k = arrayOfByte[k];
+    if ((k & 0xC0) != 128) {
+      a(k & 0xFF, oa);
+    }
+    return ((((paramInt & 0x7) << 6 | i & 0x3F) << 6 | j & 0x3F) << 6 | k & 0x3F) - 65536;
+  }
+  
+  private n w(int paramInt)
+    throws IOException, i
+  {
+    if (paramInt == 34)
+    {
+      Ta = true;
+      localN = n.h;
+      A = localN;
+      return localN;
+    }
+    if (paramInt != 45)
+    {
+      if (paramInt != 91) {
+        if (paramInt != 93) {
+          if (paramInt != 102) {
+            if (paramInt != 110)
+            {
+              if (paramInt == 116) {
+                break label210;
+              }
+              if (paramInt != 123) {
+                if (paramInt == 125) {
+                  break label203;
+                }
+              }
+            }
+          }
+        }
+      }
+      switch (paramInt)
+      {
+      default: 
+        localN = j(paramInt);
+        A = localN;
+        return localN;
+        wa = wa.b(ua, va);
+        localN = n.b;
+        A = localN;
+        return localN;
+        a("null", 1);
+        localN = n.m;
+        A = localN;
+        return localN;
+        a("false", 1);
+        localN = n.l;
+        A = localN;
+        return localN;
+        label203:
+        a(paramInt, "expected a value");
+        label210:
+        a("true", 1);
+        localN = n.k;
+        A = localN;
+        return localN;
+        wa = wa.a(ua, va);
+        localN = n.d;
+        A = localN;
+        return localN;
+      }
+    }
+    n localN = r(paramInt);
+    A = localN;
+    return localN;
+  }
+  
+  private void x(int paramInt)
+    throws IOException, i
+  {
+    if (oa >= pa) {
+      Fa();
+    }
+    byte[] arrayOfByte = Wa;
+    paramInt = oa;
+    oa = (paramInt + 1);
+    paramInt = arrayOfByte[paramInt];
+    if ((paramInt & 0xC0) != 128) {
+      a(paramInt & 0xFF, oa);
+    }
+  }
+  
+  private void y(int paramInt)
+    throws IOException, i
+  {
+    if (oa >= pa) {
+      Fa();
+    }
+    byte[] arrayOfByte = Wa;
+    paramInt = oa;
+    oa = (paramInt + 1);
+    paramInt = arrayOfByte[paramInt];
+    if ((paramInt & 0xC0) != 128) {
+      a(paramInt & 0xFF, oa);
+    }
+    if (oa >= pa) {
+      Fa();
+    }
+    arrayOfByte = Wa;
+    paramInt = oa;
+    oa = (paramInt + 1);
+    paramInt = arrayOfByte[paramInt];
+    if ((paramInt & 0xC0) != 128) {
+      a(paramInt & 0xFF, oa);
+    }
+  }
+  
+  private void z(int paramInt)
+    throws IOException, i
+  {
+    if (oa >= pa) {
+      Fa();
+    }
+    byte[] arrayOfByte = Wa;
+    paramInt = oa;
+    oa = (paramInt + 1);
+    paramInt = arrayOfByte[paramInt];
+    if ((paramInt & 0xC0) != 128) {
+      a(paramInt & 0xFF, oa);
+    }
+    if (oa >= pa) {
+      Fa();
+    }
+    arrayOfByte = Wa;
+    paramInt = oa;
+    oa = (paramInt + 1);
+    paramInt = arrayOfByte[paramInt];
+    if ((paramInt & 0xC0) != 128) {
+      a(paramInt & 0xFF, oa);
+    }
+    if (oa >= pa) {
+      Fa();
+    }
+    arrayOfByte = Wa;
+    paramInt = oa;
+    oa = (paramInt + 1);
+    paramInt = arrayOfByte[paramInt];
+    if ((paramInt & 0xC0) != 128) {
+      a(paramInt & 0xFF, oa);
+    }
+  }
+  
+  public o B()
+  {
+    return Qa;
+  }
+  
+  public boolean Ea()
+    throws IOException
+  {
+    long l = qa;
+    int i = pa;
+    qa = (l + i);
+    sa -= i;
+    InputStream localInputStream = Va;
+    if (localInputStream != null)
+    {
+      byte[] arrayOfByte = Wa;
+      i = localInputStream.read(arrayOfByte, 0, arrayOfByte.length);
+      if (i > 0)
+      {
+        oa = 0;
+        pa = i;
+        return true;
+      }
+      ra();
+      if (i != 0) {
+        return false;
+      }
+      throw new IOException(f.a.a.a.a.a(f.a.a.a.a.b("InputStream.read() returned 0 characters when trying to read "), Wa.length, " bytes"));
+    }
+    return false;
+  }
+  
+  public Object H()
+    throws IOException, i
+  {
+    return null;
+  }
+  
+  public n Ia()
+    throws IOException, i
+  {
+    Object localObject2 = ya.e();
+    int[] arrayOfInt = Oa;
+    byte[] arrayOfByte = Wa;
+    int i = 0;
+    for (;;)
+    {
+      if (oa >= pa) {
+        Fa();
+      }
+      Object localObject1 = localObject2;
+      int k = i;
+      if (i >= localObject2.length)
+      {
+        localObject1 = ya.h();
+        k = 0;
+      }
+      i = pa;
+      int n = oa + (localObject1.length - k);
+      int j = k;
+      int m = i;
+      if (n < i)
+      {
+        m = n;
+        j = k;
+      }
+      for (;;)
+      {
+        k = oa;
+        localObject2 = localObject1;
+        i = j;
+        if (k >= m) {
+          break;
+        }
+        oa = (k + 1);
+        n = arrayOfByte[k] & 0xFF;
+        if ((n == 39) || (arrayOfInt[n] != 0)) {
+          break label161;
+        }
+        localObject1[j] = ((char)n);
+        j += 1;
+      }
+      label161:
+      if (n == 39)
+      {
+        ya.a(j);
+        return n.h;
+      }
+      i = arrayOfInt[n];
+      if (i != 1)
+      {
+        if (i != 2)
+        {
+          if (i != 3)
+          {
+            if (i != 4)
+            {
+              if (n < 32) {
+                b(n, "string value");
+              }
+              n(n);
+              localObject2 = localObject1;
+              k = j;
+              i = n;
+            }
+            else
+            {
+              m = v(n);
+              k = j + 1;
+              localObject1[j] = ((char)(0xD800 | m >> 10));
+              localObject2 = localObject1;
+              i = k;
+              if (k >= localObject1.length)
+              {
+                localObject2 = ya.h();
+                i = 0;
+              }
+              j = 0xDC00 | m & 0x3FF;
+              k = i;
+              i = j;
+            }
+          }
+          else if (pa - oa >= 2)
+          {
+            i = u(n);
+            localObject2 = localObject1;
+            k = j;
+          }
+          else
+          {
+            i = t(n);
+            localObject2 = localObject1;
+            k = j;
+          }
+        }
+        else
+        {
+          i = s(n);
+          localObject2 = localObject1;
+          k = j;
+        }
+      }
+      else
+      {
+        localObject2 = localObject1;
+        k = j;
+        i = n;
+        if (n != 34)
+        {
+          i = sa();
+          k = j;
+          localObject2 = localObject1;
+        }
+      }
+      localObject1 = localObject2;
+      j = k;
+      if (k >= localObject2.length)
+      {
+        localObject1 = ya.h();
+        j = 0;
+      }
+      localObject1[j] = ((char)i);
+      i = j + 1;
+      localObject2 = localObject1;
+    }
+  }
+  
+  public Object J()
+  {
+    return Va;
+  }
+  
+  public f Ja()
+    throws IOException, i
+  {
+    if ((oa >= pa) && (!Ea())) {
+      f(": was expecting closing ''' for name");
+    }
+    Object localObject1 = Wa;
+    int i = oa;
+    oa = (i + 1);
+    int m = localObject1[i] & 0xFF;
+    if (m == 39) {
+      return f.d.a.a.e.c.b();
+    }
+    localObject1 = Sa;
+    Object localObject3 = Pa;
+    int j = 0;
+    i = 0;
+    int k = 0;
+    for (;;)
+    {
+      if (m == 39)
+      {
+        if (j > 0)
+        {
+          localObject2 = localObject1;
+          if (i >= localObject1.length)
+          {
+            localObject2 = a((int[])localObject1, localObject1.length);
+            Sa = ((int[])localObject2);
+          }
+          m = i + 1;
+          localObject2[i] = k;
+          i = m;
+          localObject1 = localObject2;
+        }
+        localObject3 = Ra.b((int[])localObject1, i);
+        localObject2 = localObject3;
+        if (localObject3 == null) {
+          localObject2 = a((int[])localObject1, i, j);
+        }
+        return localObject2;
+      }
+      int n = m;
+      int i4 = j;
+      int i2 = i;
+      Object localObject2 = localObject1;
+      int i3 = k;
+      if (m != 34)
+      {
+        n = m;
+        i4 = j;
+        i2 = i;
+        localObject2 = localObject1;
+        i3 = k;
+        if (localObject3[m] != 0)
+        {
+          int i1;
+          if (m != 92)
+          {
+            b(m, "name");
+            i1 = m;
+          }
+          else
+          {
+            i1 = sa();
+          }
+          n = i1;
+          i4 = j;
+          i2 = i;
+          localObject2 = localObject1;
+          i3 = k;
+          if (i1 > 127)
+          {
+            n = j;
+            m = i;
+            localObject2 = localObject1;
+            i2 = k;
+            if (j >= 4)
+            {
+              localObject2 = localObject1;
+              if (i >= localObject1.length)
+              {
+                localObject2 = a((int[])localObject1, localObject1.length);
+                Sa = ((int[])localObject2);
+              }
+              localObject2[i] = k;
+              m = i + 1;
+              n = 0;
+              i2 = 0;
+            }
+            if (i1 < 2048)
+            {
+              j = i2 << 8 | i1 >> 6 | 0xC0;
+              i = n + 1;
+              localObject1 = localObject2;
+            }
+            else
+            {
+              i2 = i2 << 8 | i1 >> 12 | 0xE0;
+              n += 1;
+              k = n;
+              i = m;
+              localObject1 = localObject2;
+              j = i2;
+              if (n >= 4)
+              {
+                localObject1 = localObject2;
+                if (m >= localObject2.length)
+                {
+                  localObject1 = a((int[])localObject2, localObject2.length);
+                  Sa = ((int[])localObject1);
+                }
+                localObject1[m] = i2;
+                i = m + 1;
+                k = 0;
+                j = 0;
+              }
+              j = j << 8 | i1 >> 6 & 0x3F | 0x80;
+              k += 1;
+              m = i;
+              i = k;
+            }
+            n = i1 & 0x3F | 0x80;
+            i3 = j;
+            localObject2 = localObject1;
+            i2 = m;
+            i4 = i;
+          }
+        }
+      }
+      if (i4 < 4)
+      {
+        j = i4 + 1;
+        k = n | i3 << 8;
+        i = i2;
+        localObject1 = localObject2;
+      }
+      else
+      {
+        localObject1 = localObject2;
+        if (i2 >= localObject2.length)
+        {
+          localObject1 = a((int[])localObject2, localObject2.length);
+          Sa = ((int[])localObject1);
+        }
+        localObject1[i2] = i3;
+        k = n;
+        i = i2 + 1;
+        j = 1;
+      }
+      if ((oa >= pa) && (!Ea())) {
+        f(" in field name");
+      }
+      localObject2 = Wa;
+      m = oa;
+      oa = (m + 1);
+      m = localObject2[m] & 0xFF;
+    }
+  }
+  
+  public void Ka()
+    throws IOException
+  {
+    if ((oa < pa) || (Ea()))
+    {
+      byte[] arrayOfByte = Wa;
+      int i = oa;
+      if (arrayOfByte[i] == 10) {
+        oa = (i + 1);
+      }
+    }
+    ra += 1;
+    sa = oa;
+  }
+  
+  public void La()
+    throws IOException
+  {
+    ra += 1;
+    sa = oa;
+  }
+  
+  public void Ma()
+    throws IOException, i
+  {
+    Ta = false;
+    int[] arrayOfInt = Oa;
+    byte[] arrayOfByte = Wa;
+    for (;;)
+    {
+      int k = oa;
+      int m = pa;
+      int i = k;
+      int j = m;
+      if (k >= m)
+      {
+        Fa();
+        i = oa;
+        j = pa;
+      }
+      for (;;)
+      {
+        if (i >= j) {
+          break label176;
+        }
+        k = i + 1;
+        i = arrayOfByte[i] & 0xFF;
+        if (arrayOfInt[i] != 0)
+        {
+          oa = k;
+          if (i == 34) {
+            return;
+          }
+          j = arrayOfInt[i];
+          if (j != 1)
+          {
+            if (j != 2)
+            {
+              if (j != 3)
+              {
+                if (j != 4)
+                {
+                  if (i < 32)
+                  {
+                    b(i, "string value");
+                    break;
+                  }
+                  n(i);
+                  break;
+                }
+                z(i);
+                break;
+              }
+              y(i);
+              break;
+            }
+            x(i);
+            break;
+          }
+          sa();
+          break;
+        }
+        i = k;
+      }
+      label176:
+      oa = i;
+    }
+  }
+  
+  public f Na()
+    throws IOException, i
+  {
+    if ((oa >= pa) && (!Ea())) {
+      f(": was expecting closing '\"' for name");
+    }
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i] & 0xFF;
+    if (i == 34) {
+      return f.d.a.a.e.c.b();
+    }
+    return a(Sa, 0, 0, i, 0);
+  }
+  
+  public String S()
+    throws IOException, i
+  {
+    n localN = A;
+    if (localN == n.h)
+    {
+      if (Ta)
+      {
+        Ta = false;
+        ta();
+      }
+      return ya.d();
+    }
+    return a(localN);
+  }
+  
+  public char[] T()
+    throws IOException, i
+  {
+    Object localObject = A;
+    if (localObject != null)
+    {
+      int i = ((Enum)localObject).ordinal();
+      if (i != 5)
+      {
+        if (i != 7)
+        {
+          if ((i != 8) && (i != 9)) {
+            return A.b();
+          }
+        }
+        else if (Ta)
+        {
+          Ta = false;
+          ta();
+        }
+        return ya.k();
+      }
+      if (!Aa)
+      {
+        localObject = wa.b();
+        i = ((String)localObject).length();
+        char[] arrayOfChar = za;
+        if (arrayOfChar == null) {
+          za = ma.a(i);
+        } else if (arrayOfChar.length < i) {
+          za = new char[i];
+        }
+        ((String)localObject).getChars(0, i, za, 0);
+        Aa = true;
+      }
+      return za;
+    }
+    return null;
+  }
+  
+  public int U()
+    throws IOException, i
+  {
+    n localN = A;
+    if (localN != null)
+    {
+      int i = localN.ordinal();
+      if (i != 5)
+      {
+        if (i != 7)
+        {
+          if ((i != 8) && (i != 9)) {
+            return A.b().length;
+          }
+        }
+        else if (Ta)
+        {
+          Ta = false;
+          ta();
+        }
+        return ya.p();
+      }
+      return wa.b().length();
+    }
+    return 0;
+  }
+  
+  public int V()
+    throws IOException, i
+  {
+    n localN = A;
+    if (localN != null)
+    {
+      int i = localN.ordinal();
+      if (i != 5)
+      {
+        if (i != 7)
+        {
+          if ((i != 8) && (i != 9)) {
+            return 0;
+          }
+        }
+        else if (Ta)
+        {
+          Ta = false;
+          ta();
+        }
+        return ya.l();
+      }
+    }
+    return 0;
+  }
+  
+  public int a(f.d.a.a.a paramA, OutputStream paramOutputStream)
+    throws IOException, i
+  {
+    if ((Ta) && (A == n.h))
+    {
+      byte[] arrayOfByte = ma.a();
+      try
+      {
+        int i = a(paramA, paramOutputStream, arrayOfByte);
+        return i;
+      }
+      finally
+      {
+        ma.a(arrayOfByte);
+      }
+    }
+    paramA = a(paramA);
+    paramOutputStream.write(paramA);
+    return paramA.length;
+  }
+  
+  public int a(f.d.a.a.a paramA, OutputStream paramOutputStream, byte[] paramArrayOfByte)
+    throws IOException, i
+  {
+    int i1 = paramArrayOfByte.length;
+    int k = 0;
+    int i = 0;
+    for (;;)
+    {
+      if (oa >= pa) {
+        Fa();
+      }
+      byte[] arrayOfByte = Wa;
+      int j = oa;
+      oa = (j + 1);
+      int m = arrayOfByte[j] & 0xFF;
+      if (m > 32)
+      {
+        j = paramA.a(m);
+        int n = j;
+        int i2;
+        int i3;
+        if (j < 0)
+        {
+          if (m == 34)
+          {
+            j = k;
+          }
+          else
+          {
+            j = a(paramA, m, 0);
+            n = j;
+            if (j < 0) {
+              continue;
+            }
+          }
+        }
+        else
+        {
+          j = k;
+          m = i;
+          if (i > i1 - 3)
+          {
+            j = k + i;
+            paramOutputStream.write(paramArrayOfByte, 0, i);
+            m = 0;
+          }
+          if (oa >= pa) {
+            Fa();
+          }
+          arrayOfByte = Wa;
+          i = oa;
+          oa = (i + 1);
+          i2 = arrayOfByte[i] & 0xFF;
+          k = paramA.a(i2);
+          i = k;
+          if (k < 0) {
+            i = a(paramA, i2, 1);
+          }
+          i2 = n << 6 | i;
+          if (oa >= pa) {
+            Fa();
+          }
+          arrayOfByte = Wa;
+          i = oa;
+          oa = (i + 1);
+          i3 = arrayOfByte[i] & 0xFF;
+          k = paramA.a(i3);
+          n = k;
+          if (k < 0)
+          {
+            i = k;
+            if (k != -2)
+            {
+              if ((i3 == 34) && (!paramA.f()))
+              {
+                paramArrayOfByte[m] = ((byte)(i2 >> 4));
+                i = m + 1;
+                break label604;
+              }
+              i = a(paramA, i3, 2);
+            }
+            n = i;
+            if (i == -2)
+            {
+              if (oa >= pa) {
+                Fa();
+              }
+              arrayOfByte = Wa;
+              i = oa;
+              oa = (i + 1);
+              i = arrayOfByte[i] & 0xFF;
+              if (paramA.d(i))
+              {
+                i = m + 1;
+                paramArrayOfByte[m] = ((byte)(i2 >> 4));
+                break label754;
+              }
+              paramOutputStream = f.a.a.a.a.b("expected padding character '");
+              paramOutputStream.append(paramA.d());
+              paramOutputStream.append("'");
+              throw a(paramA, i, 3, paramOutputStream.toString());
+            }
+          }
+          i2 = i2 << 6 | n;
+          if (oa >= pa) {
+            Fa();
+          }
+          arrayOfByte = Wa;
+          i = oa;
+          oa = (i + 1);
+          i3 = arrayOfByte[i] & 0xFF;
+          k = paramA.a(i3);
+          n = k;
+          if (k >= 0) {
+            break label699;
+          }
+          i = k;
+          if (k == -2) {
+            break label646;
+          }
+          if ((i3 != 34) || (paramA.f())) {
+            break label636;
+          }
+          k = i2 >> 2;
+          n = m + 1;
+          paramArrayOfByte[m] = ((byte)(k >> 8));
+          i = n + 1;
+          paramArrayOfByte[n] = ((byte)k);
+        }
+        label604:
+        Ta = false;
+        k = j;
+        if (i > 0)
+        {
+          k = j + i;
+          paramOutputStream.write(paramArrayOfByte, 0, i);
+        }
+        return k;
+        label636:
+        i = a(paramA, i3, 3);
+        label646:
+        n = i;
+        if (i == -2)
+        {
+          k = i2 >> 2;
+          n = m + 1;
+          paramArrayOfByte[m] = ((byte)(k >> 8));
+          i = n + 1;
+          paramArrayOfByte[n] = ((byte)k);
+          k = j;
+        }
+        else
+        {
+          label699:
+          k = i2 << 6 | n;
+          i = m + 1;
+          paramArrayOfByte[m] = ((byte)(k >> 16));
+          m = i + 1;
+          paramArrayOfByte[i] = ((byte)(k >> 8));
+          i = m + 1;
+          paramArrayOfByte[m] = ((byte)k);
+          label754:
+          k = j;
+        }
+      }
+    }
+  }
+  
+  public f a(int paramInt, int[] paramArrayOfInt)
+    throws IOException, i
+  {
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i] & 0xFF;
+    if (paramArrayOfInt[i] != 0)
+    {
+      if (i == 34) {
+        return a(Ua, paramInt, 1);
+      }
+      return a(Ua, paramInt, i, 1);
+    }
+    paramInt = paramInt << 8 | i;
+    i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i] & 0xFF;
+    if (paramArrayOfInt[i] != 0)
+    {
+      if (i == 34) {
+        return a(Ua, paramInt, 2);
+      }
+      return a(Ua, paramInt, i, 2);
+    }
+    paramInt = paramInt << 8 | i;
+    i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i] & 0xFF;
+    if (paramArrayOfInt[i] != 0)
+    {
+      if (i == 34) {
+        return a(Ua, paramInt, 3);
+      }
+      return a(Ua, paramInt, i, 3);
+    }
+    paramInt = paramInt << 8 | i;
+    i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i] & 0xFF;
+    if (paramArrayOfInt[i] != 0)
+    {
+      if (i == 34) {
+        return a(Ua, paramInt, 4);
+      }
+      return a(Ua, paramInt, i, 4);
+    }
+    paramArrayOfInt = Sa;
+    paramArrayOfInt[0] = Ua;
+    paramArrayOfInt[1] = paramInt;
+    return q(i);
+  }
+  
+  public f a(int[] paramArrayOfInt, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+    throws IOException, i
+  {
+    Object localObject2 = Pa;
+    Object localObject1;
+    for (int i = paramInt3;; i = localObject1[paramInt3] & 0xFF)
+    {
+      localObject1 = paramArrayOfInt;
+      int j = paramInt1;
+      int m = paramInt2;
+      paramInt3 = i;
+      int k = paramInt4;
+      if (localObject2[i] != 0)
+      {
+        if (i == 34)
+        {
+          localObject1 = paramArrayOfInt;
+          paramInt3 = paramInt1;
+          if (paramInt4 > 0)
+          {
+            localObject1 = paramArrayOfInt;
+            if (paramInt1 >= paramArrayOfInt.length)
+            {
+              localObject1 = a(paramArrayOfInt, paramArrayOfInt.length);
+              Sa = ((int[])localObject1);
+            }
+            localObject1[paramInt1] = paramInt2;
+            paramInt3 = paramInt1 + 1;
+          }
+          localObject2 = Ra.b((int[])localObject1, paramInt3);
+          paramArrayOfInt = (int[])localObject2;
+          if (localObject2 == null) {
+            paramArrayOfInt = a((int[])localObject1, paramInt3, paramInt4);
+          }
+          return paramArrayOfInt;
+        }
+        if (i != 92) {
+          b(i, "name");
+        } else {
+          i = sa();
+        }
+        localObject1 = paramArrayOfInt;
+        j = paramInt1;
+        m = paramInt2;
+        paramInt3 = i;
+        k = paramInt4;
+        if (i > 127)
+        {
+          localObject1 = paramArrayOfInt;
+          paramInt3 = paramInt1;
+          k = paramInt2;
+          j = paramInt4;
+          if (paramInt4 >= 4)
+          {
+            localObject1 = paramArrayOfInt;
+            if (paramInt1 >= paramArrayOfInt.length)
+            {
+              localObject1 = a(paramArrayOfInt, paramArrayOfInt.length);
+              Sa = ((int[])localObject1);
+            }
+            localObject1[paramInt1] = paramInt2;
+            paramInt3 = paramInt1 + 1;
+            k = 0;
+            j = 0;
+          }
+          if (i < 2048)
+          {
+            paramInt2 = k << 8 | i >> 6 | 0xC0;
+            paramInt4 = j + 1;
+            paramArrayOfInt = (int[])localObject1;
+            paramInt1 = paramInt3;
+            paramInt3 = paramInt4;
+          }
+          else
+          {
+            k = k << 8 | i >> 12 | 0xE0;
+            j += 1;
+            paramArrayOfInt = (int[])localObject1;
+            paramInt1 = paramInt3;
+            paramInt4 = k;
+            paramInt2 = j;
+            if (j >= 4)
+            {
+              paramArrayOfInt = (int[])localObject1;
+              if (paramInt3 >= localObject1.length)
+              {
+                paramArrayOfInt = a((int[])localObject1, localObject1.length);
+                Sa = paramArrayOfInt;
+              }
+              paramArrayOfInt[paramInt3] = k;
+              paramInt1 = paramInt3 + 1;
+              paramInt4 = 0;
+              paramInt2 = 0;
+            }
+            paramInt4 = paramInt4 << 8 | i >> 6 & 0x3F | 0x80;
+            paramInt3 = paramInt2 + 1;
+            paramInt2 = paramInt4;
+          }
+          paramInt4 = i & 0x3F | 0x80;
+          k = paramInt3;
+          paramInt3 = paramInt4;
+          m = paramInt2;
+          j = paramInt1;
+          localObject1 = paramArrayOfInt;
+        }
+      }
+      if (k < 4)
+      {
+        paramInt4 = k + 1;
+        paramInt2 = m << 8 | paramInt3;
+        paramArrayOfInt = (int[])localObject1;
+        paramInt1 = j;
+      }
+      else
+      {
+        paramArrayOfInt = (int[])localObject1;
+        if (j >= localObject1.length)
+        {
+          paramArrayOfInt = a((int[])localObject1, localObject1.length);
+          Sa = paramArrayOfInt;
+        }
+        paramArrayOfInt[j] = m;
+        paramInt2 = paramInt3;
+        paramInt1 = j + 1;
+        paramInt4 = 1;
+      }
+      if ((oa >= pa) && (!Ea())) {
+        f(" in field name");
+      }
+      localObject1 = Wa;
+      paramInt3 = oa;
+      oa = (paramInt3 + 1);
+    }
+  }
+  
+  public n a(int paramInt, boolean paramBoolean)
+    throws IOException, i
+  {
+    int i = paramInt;
+    if (paramInt == 73)
+    {
+      if ((oa >= pa) && (!Ea())) {
+        pa();
+      }
+      Object localObject = Wa;
+      paramInt = oa;
+      oa = (paramInt + 1);
+      paramInt = localObject[paramInt];
+      double d = Double.NEGATIVE_INFINITY;
+      StringBuilder localStringBuilder;
+      if (paramInt == 78)
+      {
+        if (paramBoolean) {
+          localObject = "-INF";
+        } else {
+          localObject = "+INF";
+        }
+        a((String)localObject, 3);
+        if (c(k.a.h))
+        {
+          if (!paramBoolean) {
+            d = Double.POSITIVE_INFINITY;
+          }
+          return a((String)localObject, d);
+        }
+        localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Non-standard token '");
+        localStringBuilder.append((String)localObject);
+        localStringBuilder.append("': enable JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS to allow");
+        e(localStringBuilder.toString());
+        i = paramInt;
+      }
+      else
+      {
+        i = paramInt;
+        if (paramInt == 110)
+        {
+          if (paramBoolean) {
+            localObject = "-Infinity";
+          } else {
+            localObject = "+Infinity";
+          }
+          a((String)localObject, 3);
+          if (c(k.a.h))
+          {
+            if (!paramBoolean) {
+              d = Double.POSITIVE_INFINITY;
+            }
+            return a((String)localObject, d);
+          }
+          localStringBuilder = new StringBuilder();
+          localStringBuilder.append("Non-standard token '");
+          localStringBuilder.append((String)localObject);
+          localStringBuilder.append("': enable JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS to allow");
+          e(localStringBuilder.toString());
+          i = paramInt;
+        }
+      }
+    }
+    c(i, "expected digit (0-9) to follow minus sign, for valid numeric value");
+    return null;
+  }
+  
+  public String a(n paramN)
+  {
+    if (paramN == null) {
+      return null;
+    }
+    int i = paramN.ordinal();
+    if (i != 5)
+    {
+      if ((i != 7) && (i != 8) && (i != 9)) {
+        return paramN.c();
+      }
+      return ya.d();
+    }
+    return wa.b();
+  }
+  
+  public void a(int paramInt1, int paramInt2)
+    throws i
+  {
+    oa = paramInt2;
+    p(paramInt1);
+  }
+  
+  public void a(o paramO)
+  {
+    Qa = paramO;
+  }
+  
+  public void a(String paramString, int paramInt)
+    throws IOException, i
+  {
+    int j = paramString.length();
+    int i;
+    do
+    {
+      if ((oa >= pa) && (!Ea())) {
+        f(" in a value");
+      }
+      if (Wa[oa] != paramString.charAt(paramInt)) {
+        a(paramString.substring(0, paramInt), "'null', 'true', 'false' or NaN");
+      }
+      oa += 1;
+      i = paramInt + 1;
+      paramInt = i;
+    } while (i < j);
+    if ((oa >= pa) && (!Ea())) {
+      return;
+    }
+    paramInt = Wa[oa] & 0xFF;
+    if ((paramInt >= 48) && (paramInt != 93))
+    {
+      if (paramInt == 125) {
+        return;
+      }
+      if (Character.isJavaIdentifierPart((char)i(paramInt)))
+      {
+        oa += 1;
+        a(paramString.substring(0, i), "'null', 'true', 'false' or NaN");
+      }
+    }
+  }
+  
+  public void a(String paramString1, String paramString2)
+    throws IOException, i
+  {
+    paramString1 = new StringBuilder(paramString1);
+    for (;;)
+    {
+      Object localObject;
+      char c;
+      if ((oa < pa) || (Ea()))
+      {
+        localObject = Wa;
+        int i = oa;
+        oa = (i + 1);
+        c = (char)i(localObject[i]);
+        if (Character.isJavaIdentifierPart(c)) {}
+      }
+      else
+      {
+        localObject = f.a.a.a.a.b("Unrecognized token '");
+        ((StringBuilder)localObject).append(paramString1.toString());
+        ((StringBuilder)localObject).append("': was expecting ");
+        ((StringBuilder)localObject).append(paramString2);
+        e(((StringBuilder)localObject).toString());
+        return;
+      }
+      paramString1.append(c);
+    }
+  }
+  
+  public boolean a(q paramQ)
+    throws IOException, i
+  {
+    int j = 0;
+    Da = 0;
+    if (A == n.f)
+    {
+      Pa();
+      return false;
+    }
+    if (Ta) {
+      Ma();
+    }
+    int k = Va();
+    if (k < 0)
+    {
+      close();
+      A = null;
+      return false;
+    }
+    long l = qa;
+    int i = oa;
+    ta = (l + i - 1L);
+    ua = ra;
+    va = (i - sa - 1);
+    Ca = null;
+    if (k == 93)
+    {
+      if (!wa.f()) {
+        a(k, '}');
+      }
+      wa = wa.d();
+      A = n.e;
+      return false;
+    }
+    if (k == 125)
+    {
+      if (!wa.g()) {
+        a(k, ']');
+      }
+      wa = wa.d();
+      A = n.c;
+      return false;
+    }
+    i = k;
+    Object localObject;
+    if (wa.j())
+    {
+      if (k != 44)
+      {
+        localObject = f.a.a.a.a.b("was expecting comma to separate ");
+        ((StringBuilder)localObject).append(wa.e());
+        ((StringBuilder)localObject).append(" entries");
+        a(k, ((StringBuilder)localObject).toString());
+      }
+      i = Ua();
+    }
+    if (!wa.g())
+    {
+      w(i);
+      return false;
+    }
+    if (i == 34)
+    {
+      localObject = paramQ.c();
+      k = localObject.length;
+      int m = oa;
+      if (m + k < pa)
+      {
+        int n = m + k;
+        if (Wa[n] == 34) {
+          for (;;)
+          {
+            if (j == k)
+            {
+              oa = (n + 1);
+              wa.a(paramQ.getValue());
+              A = n.f;
+              Oa();
+              return true;
+            }
+            if (localObject[j] != Wa[(m + j)]) {
+              break;
+            }
+            j += 1;
+          }
+        }
+      }
+    }
+    return a(i, paramQ);
+  }
+  
+  public byte[] a(f.d.a.a.a paramA)
+    throws IOException, i
+  {
+    Object localObject = A;
+    if ((localObject != n.h) && ((localObject != n.g) || (Ca == null)))
+    {
+      localObject = f.a.a.a.a.b("Current token (");
+      ((StringBuilder)localObject).append(A);
+      ((StringBuilder)localObject).append(") not VALUE_STRING or VALUE_EMBEDDED_OBJECT, can not access as binary");
+      e(((StringBuilder)localObject).toString());
+    }
+    if (Ta)
+    {
+      try
+      {
+        Ca = b(paramA);
+        Ta = false;
+      }
+      catch (IllegalArgumentException localIllegalArgumentException)
+      {
+        paramA = f.a.a.a.a.b("Failed to decode VALUE_STRING as base64 (", paramA, "): ");
+        paramA.append(localIllegalArgumentException.getMessage());
+        throw b(paramA.toString());
+      }
+    }
+    else if (Ca == null)
+    {
+      f.d.a.a.g.b localB = ua();
+      a(S(), localB, paramA);
+      Ca = localB.A();
+    }
+    return Ca;
+  }
+  
+  public int b(OutputStream paramOutputStream)
+    throws IOException
+  {
+    int j = pa;
+    int i = oa;
+    j -= i;
+    if (j < 1) {
+      return 0;
+    }
+    paramOutputStream.write(Wa, i, j);
+    return j;
+  }
+  
+  public byte[] b(f.d.a.a.a paramA)
+    throws IOException, i
+  {
+    Object localObject = ua();
+    for (;;)
+    {
+      if (oa >= pa) {
+        Fa();
+      }
+      byte[] arrayOfByte = Wa;
+      int i = oa;
+      oa = (i + 1);
+      int k = arrayOfByte[i] & 0xFF;
+      if (k > 32)
+      {
+        int j = paramA.a(k);
+        i = j;
+        if (j < 0)
+        {
+          if (k == 34) {
+            return ((f.d.a.a.g.b)localObject).A();
+          }
+          j = a(paramA, k, 0);
+          i = j;
+          if (j < 0) {}
+        }
+        else
+        {
+          if (oa >= pa) {
+            Fa();
+          }
+          arrayOfByte = Wa;
+          j = oa;
+          oa = (j + 1);
+          int m = arrayOfByte[j] & 0xFF;
+          k = paramA.a(m);
+          j = k;
+          if (k < 0) {
+            j = a(paramA, m, 1);
+          }
+          m = i << 6 | j;
+          if (oa >= pa) {
+            Fa();
+          }
+          arrayOfByte = Wa;
+          i = oa;
+          oa = (i + 1);
+          int n = arrayOfByte[i] & 0xFF;
+          j = paramA.a(n);
+          k = j;
+          if (j < 0)
+          {
+            i = j;
+            if (j != -2)
+            {
+              if ((n == 34) && (!paramA.f()))
+              {
+                ((f.d.a.a.g.b)localObject).d(m >> 4);
+                return ((f.d.a.a.g.b)localObject).A();
+              }
+              i = a(paramA, n, 2);
+            }
+            k = i;
+            if (i == -2)
+            {
+              if (oa >= pa) {
+                Fa();
+              }
+              arrayOfByte = Wa;
+              i = oa;
+              oa = (i + 1);
+              i = arrayOfByte[i] & 0xFF;
+              if (paramA.d(i))
+              {
+                ((f.d.a.a.g.b)localObject).d(m >> 4);
+                continue;
+              }
+              localObject = f.a.a.a.a.b("expected padding character '");
+              ((StringBuilder)localObject).append(paramA.d());
+              ((StringBuilder)localObject).append("'");
+              throw a(paramA, i, 3, ((StringBuilder)localObject).toString());
+            }
+          }
+          m = m << 6 | k;
+          if (oa >= pa) {
+            Fa();
+          }
+          arrayOfByte = Wa;
+          i = oa;
+          oa = (i + 1);
+          n = arrayOfByte[i] & 0xFF;
+          j = paramA.a(n);
+          k = j;
+          if (j < 0)
+          {
+            i = j;
+            if (j != -2)
+            {
+              if ((n == 34) && (!paramA.f()))
+              {
+                ((f.d.a.a.g.b)localObject).f(m >> 2);
+                return ((f.d.a.a.g.b)localObject).A();
+              }
+              i = a(paramA, n, 3);
+            }
+            k = i;
+            if (i == -2)
+            {
+              ((f.d.a.a.g.b)localObject).f(m >> 2);
+              continue;
+            }
+          }
+          ((f.d.a.a.g.b)localObject).e(m << 6 | k);
+        }
+      }
+    }
+  }
+  
+  public String ba()
+    throws IOException, i
+  {
+    if (A == n.h)
+    {
+      if (Ta)
+      {
+        Ta = false;
+        ta();
+      }
+      return ya.d();
+    }
+    return super.c(null);
+  }
+  
+  public String c(String paramString)
+    throws IOException, i
+  {
+    if (A == n.h)
+    {
+      if (Ta)
+      {
+        Ta = false;
+        ta();
+      }
+      return ya.d();
+    }
+    return super.c(paramString);
+  }
+  
+  public void close()
+    throws IOException
+  {
+    super.close();
+    Ra.h();
+  }
+  
+  public int e(int paramInt)
+    throws IOException, i
+  {
+    if (A == n.f)
+    {
+      Aa = false;
+      n localN = xa;
+      xa = null;
+      A = localN;
+      if (localN == n.i) {
+        return K();
+      }
+      if (localN == n.d)
+      {
+        wa = wa.a(ua, va);
+        return paramInt;
+      }
+      if (localN == n.b) {
+        wa = wa.b(ua, va);
+      }
+      return paramInt;
+    }
+    if (ha() == n.i) {
+      paramInt = K();
+    }
+    return paramInt;
+  }
+  
+  public Boolean fa()
+    throws IOException, i
+  {
+    if (A == n.f)
+    {
+      Aa = false;
+      n localN = xa;
+      xa = null;
+      A = localN;
+      if (localN == n.k) {
+        return Boolean.TRUE;
+      }
+      if (localN == n.l) {
+        return Boolean.FALSE;
+      }
+      if (localN == n.d)
+      {
+        wa = wa.a(ua, va);
+        return null;
+      }
+      if (localN == n.b) {
+        wa = wa.b(ua, va);
+      }
+      return null;
+    }
+    int i = ha().ordinal();
+    if (i != 10)
+    {
+      if (i != 11) {
+        return null;
+      }
+      return Boolean.FALSE;
+    }
+    return Boolean.TRUE;
+  }
+  
+  public String ga()
+    throws IOException, i
+  {
+    n localN1 = A;
+    n localN2 = n.f;
+    Object localObject = null;
+    if (localN1 == localN2)
+    {
+      Aa = false;
+      localObject = xa;
+      xa = null;
+      A = ((n)localObject);
+      if (localObject == n.h)
+      {
+        if (Ta)
+        {
+          Ta = false;
+          ta();
+        }
+        return ya.d();
+      }
+      if (localObject == n.d)
+      {
+        wa = wa.a(ua, va);
+        return null;
+      }
+      if (localObject == n.b) {
+        wa = wa.b(ua, va);
+      }
+      return null;
+    }
+    if (ha() == n.h) {
+      localObject = S();
+    }
+    return localObject;
+  }
+  
+  public n ha()
+    throws IOException, i
+  {
+    Da = 0;
+    if (A == n.f) {
+      return Pa();
+    }
+    if (Ta) {
+      Ma();
+    }
+    int j = Va();
+    if (j < 0)
+    {
+      close();
+      A = null;
+      return null;
+    }
+    long l = qa;
+    int i = oa;
+    ta = (l + i - 1L);
+    ua = ra;
+    va = (i - sa - 1);
+    Ca = null;
+    if (j == 93)
+    {
+      if (!wa.f()) {
+        a(j, '}');
+      }
+      wa = wa.d();
+      localObject = n.e;
+      A = ((n)localObject);
+      return localObject;
+    }
+    if (j == 125)
+    {
+      if (!wa.g()) {
+        a(j, ']');
+      }
+      wa = wa.d();
+      localObject = n.c;
+      A = ((n)localObject);
+      return localObject;
+    }
+    i = j;
+    if (wa.j())
+    {
+      if (j != 44)
+      {
+        localObject = f.a.a.a.a.b("was expecting comma to separate ");
+        ((StringBuilder)localObject).append(wa.e());
+        ((StringBuilder)localObject).append(" entries");
+        a(j, ((StringBuilder)localObject).toString());
+      }
+      i = Ua();
+    }
+    if (!wa.g()) {
+      return w(i);
+    }
+    Object localObject = m(i);
+    wa.a(((f)localObject).a());
+    A = n.f;
+    i = Ua();
+    if (i != 58) {
+      a(i, "was expecting a colon to separate field name and value");
+    }
+    i = Ua();
+    if (i == 34)
+    {
+      Ta = true;
+      xa = n.h;
+      return A;
+    }
+    if (i != 45)
+    {
+      if (i != 91) {
+        if (i != 93) {
+          if (i != 102) {
+            if (i != 110)
+            {
+              if (i == 116) {
+                break label499;
+              }
+              if (i != 123) {
+                if (i == 125) {
+                  break label492;
+                }
+              }
+            }
+          }
+        }
+      }
+      switch (i)
+      {
+      default: 
+        localObject = j(i);
+        break;
+        localObject = n.b;
+        break;
+        a("null", 1);
+        localObject = n.m;
+        break;
+        a("false", 1);
+        localObject = n.l;
+        break;
+        label492:
+        a(i, "expected a value");
+        label499:
+        a("true", 1);
+        localObject = n.k;
+        break;
+        localObject = n.d;
+        break;
+      }
+    }
+    else
+    {
+      localObject = r(i);
+    }
+    xa = ((n)localObject);
+    return A;
+  }
+  
+  public int i(int paramInt)
+    throws IOException, i
+  {
+    int i = paramInt;
+    if (paramInt < 0)
+    {
+      if ((paramInt & 0xE0) == 192) {}
+      for (i = paramInt & 0x1F;; i = paramInt)
+      {
+        paramInt = 1;
+        break;
+        if ((paramInt & 0xF0) == 224)
+        {
+          i = paramInt & 0xF;
+          paramInt = 2;
+          break;
+        }
+        if ((paramInt & 0xF8) == 240)
+        {
+          i = paramInt & 0x7;
+          paramInt = 3;
+          break;
+        }
+        o(paramInt & 0xFF);
+      }
+      int j = Xa();
+      if ((j & 0xC0) != 128) {
+        p(j & 0xFF);
+      }
+      j = i << 6 | j & 0x3F;
+      i = j;
+      if (paramInt > 1)
+      {
+        i = Xa();
+        if ((i & 0xC0) != 128) {
+          p(i & 0xFF);
+        }
+        j = j << 6 | i & 0x3F;
+        i = j;
+        if (paramInt > 2)
+        {
+          paramInt = Xa();
+          if ((paramInt & 0xC0) != 128) {
+            p(paramInt & 0xFF);
+          }
+          i = j << 6 | paramInt & 0x3F;
+        }
+      }
+    }
+    return i;
+  }
+  
+  public long i(long paramLong)
+    throws IOException, i
+  {
+    if (A == n.f)
+    {
+      Aa = false;
+      n localN = xa;
+      xa = null;
+      A = localN;
+      if (localN == n.i) {
+        return M();
+      }
+      if (localN == n.d)
+      {
+        wa = wa.a(ua, va);
+        return paramLong;
+      }
+      if (localN == n.b) {
+        wa = wa.b(ua, va);
+      }
+      return paramLong;
+    }
+    if (ha() == n.i) {
+      paramLong = M();
+    }
+    return paramLong;
+  }
+  
+  public n j(int paramInt)
+    throws IOException, i
+  {
+    if (paramInt != 39)
+    {
+      if (paramInt != 43)
+      {
+        if (paramInt == 78)
+        {
+          a("NaN", 1);
+          if (c(k.a.h)) {
+            return a("NaN", NaN.0D);
+          }
+          e("Non-standard token 'NaN': enable JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS to allow");
+        }
+      }
+      else
+      {
+        if ((oa >= pa) && (!Ea())) {
+          pa();
+        }
+        byte[] arrayOfByte = Wa;
+        paramInt = oa;
+        oa = (paramInt + 1);
+        return a(arrayOfByte[paramInt] & 0xFF, false);
+      }
+    }
+    else if (c(k.a.d)) {
+      return Ia();
+    }
+    a(paramInt, "expected a valid value (number, String, array, object, 'true', 'false' or 'null')");
+    return null;
+  }
+  
+  public f k(int paramInt)
+    throws IOException, i
+  {
+    if ((paramInt == 39) && (c(k.a.d))) {
+      return Ja();
+    }
+    if (!c(k.a.c)) {
+      a(paramInt, "was expecting double-quote to start field name");
+    }
+    Object localObject3 = f.d.a.a.c.b.f;
+    if (localObject3[paramInt] != 0) {
+      a(paramInt, "was expecting either valid name character (for unquoted name) or double-quote (for quoted) to start field name");
+    }
+    Object localObject1 = Sa;
+    int k = 0;
+    int i = paramInt;
+    paramInt = 0;
+    int j = 0;
+    for (;;)
+    {
+      if (k < 4)
+      {
+        k += 1;
+        j = j << 8 | i;
+        i = k;
+      }
+      else
+      {
+        localObject2 = localObject1;
+        if (paramInt >= localObject1.length)
+        {
+          localObject2 = a((int[])localObject1, localObject1.length);
+          Sa = ((int[])localObject2);
+        }
+        localObject2[paramInt] = j;
+        paramInt += 1;
+        k = 1;
+        j = i;
+        i = k;
+        localObject1 = localObject2;
+      }
+      if ((oa >= pa) && (!Ea())) {
+        f(" in field name");
+      }
+      Object localObject2 = Wa;
+      k = oa;
+      int m = localObject2[k] & 0xFF;
+      if (localObject3[m] != 0)
+      {
+        localObject2 = localObject1;
+        k = paramInt;
+        if (i > 0)
+        {
+          localObject2 = localObject1;
+          if (paramInt >= localObject1.length)
+          {
+            localObject2 = a((int[])localObject1, localObject1.length);
+            Sa = ((int[])localObject2);
+          }
+          localObject2[paramInt] = j;
+          k = paramInt + 1;
+        }
+        localObject3 = Ra.b((int[])localObject2, k);
+        localObject1 = localObject3;
+        if (localObject3 == null) {
+          localObject1 = a((int[])localObject2, k, i);
+        }
+        return localObject1;
+      }
+      oa = (k + 1);
+      k = i;
+      i = m;
+    }
+  }
+  
+  public boolean l(int paramInt)
+    throws IOException
+  {
+    if (Va == null) {
+      return false;
+    }
+    int i = pa;
+    int j = oa;
+    i -= j;
+    Object localObject;
+    if ((i > 0) && (j > 0))
+    {
+      qa += j;
+      sa -= j;
+      localObject = Wa;
+      System.arraycopy(localObject, j, localObject, 0, i);
+      pa = i;
+    }
+    else
+    {
+      pa = 0;
+    }
+    oa = 0;
+    for (;;)
+    {
+      j = pa;
+      if (j >= paramInt) {
+        break;
+      }
+      localObject = Va;
+      byte[] arrayOfByte = Wa;
+      j = ((InputStream)localObject).read(arrayOfByte, j, arrayOfByte.length - j);
+      if (j < 1)
+      {
+        ra();
+        if (j != 0) {
+          return false;
+        }
+        throw new IOException(f.a.a.a.a.a("InputStream.read() returned 0 characters when trying to read ", i, " bytes"));
+      }
+      pa += j;
+    }
+    return true;
+  }
+  
+  public f m(int paramInt)
+    throws IOException, i
+  {
+    if (paramInt != 34) {
+      return k(paramInt);
+    }
+    paramInt = oa;
+    if (paramInt + 9 > pa) {
+      return Na();
+    }
+    byte[] arrayOfByte = Wa;
+    int[] arrayOfInt = Pa;
+    oa = (paramInt + 1);
+    paramInt = arrayOfByte[paramInt] & 0xFF;
+    if (arrayOfInt[paramInt] == 0)
+    {
+      int i = oa;
+      oa = (i + 1);
+      i = arrayOfByte[i] & 0xFF;
+      if (arrayOfInt[i] == 0)
+      {
+        paramInt = paramInt << 8 | i;
+        i = oa;
+        oa = (i + 1);
+        i = arrayOfByte[i] & 0xFF;
+        if (arrayOfInt[i] == 0)
+        {
+          paramInt = paramInt << 8 | i;
+          i = oa;
+          oa = (i + 1);
+          i = arrayOfByte[i] & 0xFF;
+          if (arrayOfInt[i] == 0)
+          {
+            paramInt = paramInt << 8 | i;
+            i = oa;
+            oa = (i + 1);
+            i = arrayOfByte[i] & 0xFF;
+            if (arrayOfInt[i] == 0)
+            {
+              Ua = paramInt;
+              return a(i, arrayOfInt);
+            }
+            if (i == 34) {
+              return b(paramInt, 4);
+            }
+            return b(paramInt, i, 4);
+          }
+          if (i == 34) {
+            return b(paramInt, 3);
+          }
+          return b(paramInt, i, 3);
+        }
+        if (i == 34) {
+          return b(paramInt, 2);
+        }
+        return b(paramInt, i, 2);
+      }
+      if (i == 34) {
+        return b(paramInt, 1);
+      }
+      return b(paramInt, i, 1);
+    }
+    if (paramInt == 34) {
+      return f.d.a.a.e.c.b();
+    }
+    return b(0, paramInt, 0);
+  }
+  
+  public void n(int paramInt)
+    throws i
+  {
+    if (paramInt < 32) {
+      g(paramInt);
+    }
+    o(paramInt);
+  }
+  
+  public void o(int paramInt)
+    throws i
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Invalid UTF-8 start byte 0x");
+    localStringBuilder.append(Integer.toHexString(paramInt));
+    e(localStringBuilder.toString());
+  }
+  
+  public void p(int paramInt)
+    throws i
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Invalid UTF-8 middle byte 0x");
+    localStringBuilder.append(Integer.toHexString(paramInt));
+    e(localStringBuilder.toString());
+  }
+  
+  public f q(int paramInt)
+    throws IOException, i
+  {
+    int[] arrayOfInt = Pa;
+    int j = 2;
+    int i = paramInt;
+    paramInt = j;
+    for (;;)
+    {
+      j = pa;
+      int k = oa;
+      if (j - k < 4) {
+        return a(Sa, paramInt, 0, i, 0);
+      }
+      Object localObject = Wa;
+      oa = (k + 1);
+      j = localObject[k] & 0xFF;
+      if (arrayOfInt[j] != 0)
+      {
+        if (j == 34) {
+          return a(Sa, paramInt, i, 1);
+        }
+        return a(Sa, paramInt, i, j, 1);
+      }
+      i = i << 8 | j;
+      j = oa;
+      oa = (j + 1);
+      j = localObject[j] & 0xFF;
+      if (arrayOfInt[j] != 0)
+      {
+        if (j == 34) {
+          return a(Sa, paramInt, i, 2);
+        }
+        return a(Sa, paramInt, i, j, 2);
+      }
+      i = i << 8 | j;
+      j = oa;
+      oa = (j + 1);
+      j = localObject[j] & 0xFF;
+      if (arrayOfInt[j] != 0)
+      {
+        if (j == 34) {
+          return a(Sa, paramInt, i, 3);
+        }
+        return a(Sa, paramInt, i, j, 3);
+      }
+      j = i << 8 | j;
+      i = oa;
+      oa = (i + 1);
+      i = localObject[i] & 0xFF;
+      if (arrayOfInt[i] != 0)
+      {
+        if (i == 34) {
+          return a(Sa, paramInt, j, 4);
+        }
+        return a(Sa, paramInt, j, i, 4);
+      }
+      localObject = Sa;
+      if (paramInt >= localObject.length) {
+        Sa = a((int[])localObject, paramInt);
+      }
+      Sa[paramInt] = j;
+      paramInt += 1;
+    }
+  }
+  
+  public n r(int paramInt)
+    throws IOException, i
+  {
+    char[] arrayOfChar = ya.e();
+    int i = 0;
+    boolean bool;
+    if (paramInt == 45) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    byte[] arrayOfByte;
+    if (bool)
+    {
+      arrayOfChar[0] = '-';
+      if (oa >= pa) {
+        Fa();
+      }
+      arrayOfByte = Wa;
+      paramInt = oa;
+      oa = (paramInt + 1);
+      paramInt = arrayOfByte[paramInt] & 0xFF;
+      if ((paramInt >= 48) && (paramInt <= 57)) {
+        i = 1;
+      } else {
+        return a(paramInt, true);
+      }
+    }
+    int j = paramInt;
+    if (paramInt == 48) {
+      j = Wa();
+    }
+    int k = i + 1;
+    arrayOfChar[i] = ((char)j);
+    i = oa + arrayOfChar.length;
+    j = pa;
+    paramInt = i;
+    if (i > j) {
+      paramInt = j;
+    }
+    j = 1;
+    i = k;
+    for (;;)
+    {
+      k = oa;
+      if (k >= paramInt) {
+        return a(arrayOfChar, i, bool, j);
+      }
+      arrayOfByte = Wa;
+      oa = (k + 1);
+      k = arrayOfByte[k] & 0xFF;
+      if ((k < 48) || (k > 57)) {
+        break;
+      }
+      j += 1;
+      arrayOfChar[i] = ((char)k);
+      i += 1;
+    }
+    if ((k != 46) && (k != 101) && (k != 69))
+    {
+      oa -= 1;
+      ya.a(i);
+      return a(bool, j);
+    }
+    return a(arrayOfChar, i, k, bool, j);
+  }
+  
+  public void ra()
+    throws IOException
+  {
+    if (Va != null)
+    {
+      if ((ma.i()) || (c(k.a.a))) {
+        Va.close();
+      }
+      Va = null;
+    }
+  }
+  
+  public char sa()
+    throws IOException, i
+  {
+    if ((oa >= pa) && (!Ea())) {
+      f(" in character escape sequence");
+    }
+    byte[] arrayOfByte = Wa;
+    int i = oa;
+    oa = (i + 1);
+    i = arrayOfByte[i];
+    if ((i != 34) && (i != 47) && (i != 92))
+    {
+      if (i != 98)
+      {
+        if (i != 102)
+        {
+          if (i != 110)
+          {
+            if (i != 114)
+            {
+              if (i != 116)
+              {
+                if (i != 117) {
+                  return a((char)i(i));
+                }
+                i = 0;
+                int j = 0;
+                while (i < 4)
+                {
+                  if ((oa >= pa) && (!Ea())) {
+                    f(" in character escape sequence");
+                  }
+                  arrayOfByte = Wa;
+                  int k = oa;
+                  oa = (k + 1);
+                  k = arrayOfByte[k];
+                  int m = f.d.a.a.c.b.a(k);
+                  if (m < 0) {
+                    a(k, "expected a hex-digit for character escape sequence");
+                  }
+                  j = j << 4 | m;
+                  i += 1;
+                }
+                return (char)j;
+              }
+              return '\t';
+            }
+            return '\r';
+          }
+          return '\n';
+        }
+        return '\f';
+      }
+      return '\b';
+    }
+    return (char)i;
+  }
+  
+  public void ta()
+    throws IOException, i
+  {
+    int j = oa;
+    int i = j;
+    if (j >= pa)
+    {
+      Fa();
+      i = oa;
+    }
+    j = 0;
+    char[] arrayOfChar = ya.e();
+    int[] arrayOfInt = Oa;
+    int k = Math.min(pa, arrayOfChar.length + i);
+    byte[] arrayOfByte = Wa;
+    while (i < k)
+    {
+      int m = arrayOfByte[i] & 0xFF;
+      if (arrayOfInt[m] != 0)
+      {
+        if (m != 34) {
+          break;
+        }
+        oa = (i + 1);
+        ya.a(j);
+        return;
+      }
+      i += 1;
+      arrayOfChar[j] = ((char)m);
+      j += 1;
+    }
+    oa = i;
+    a(arrayOfChar, j);
+  }
+  
+  public s u()
+  {
+    return c.d.a();
+  }
+  
+  public void va()
+    throws IOException
+  {
+    super.va();
+    if (Xa)
+    {
+      byte[] arrayOfByte = Wa;
+      if (arrayOfByte != null)
+      {
+        Wa = null;
+        ma.b(arrayOfByte);
+      }
+    }
+  }
+}

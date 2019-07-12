@@ -1,0 +1,71 @@
+package com.google.android.gms.internal;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public final class zzaq
+  extends ByteArrayOutputStream
+{
+  public final zzae zzbp;
+  
+  public zzaq(zzae paramZzae, int paramInt)
+  {
+    zzbp = paramZzae;
+    buf = zzbp.zzb(Math.max(paramInt, 256));
+  }
+  
+  private final void zzc(int paramInt)
+  {
+    int i = count;
+    if (i + paramInt <= buf.length) {
+      return;
+    }
+    byte[] arrayOfByte = zzbp.zzb(i + paramInt << 1);
+    System.arraycopy(buf, 0, arrayOfByte, 0, count);
+    zzbp.zza(buf);
+    buf = arrayOfByte;
+  }
+  
+  public final void close()
+    throws IOException
+  {
+    zzbp.zza(buf);
+    buf = null;
+    super.close();
+  }
+  
+  public final void finalize()
+  {
+    zzbp.zza(buf);
+  }
+  
+  public final void write(int paramInt)
+  {
+    try
+    {
+      zzc(1);
+      super.write(paramInt);
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public final void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    try
+    {
+      zzc(paramInt2);
+      super.write(paramArrayOfByte, paramInt1, paramInt2);
+      return;
+    }
+    finally
+    {
+      paramArrayOfByte = finally;
+      throw paramArrayOfByte;
+    }
+  }
+}

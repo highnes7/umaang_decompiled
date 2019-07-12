@@ -1,0 +1,97 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.SortedSet;
+import m.a.h;
+
+@b
+public abstract class ab<E>
+  extends Ya<E>
+  implements SortedSet<E>
+{
+  public ab() {}
+  
+  private int f(Object paramObject1, Object paramObject2)
+  {
+    Comparator localComparator = comparator();
+    if (localComparator == null) {
+      return ((Comparable)paramObject1).compareTo(paramObject2);
+    }
+    return localComparator.compare(paramObject1, paramObject2);
+  }
+  
+  public Comparator<? super E> comparator()
+  {
+    return q().comparator();
+  }
+  
+  @a
+  public SortedSet<E> e(E paramE1, E paramE2)
+  {
+    return tailSet(paramE1).headSet(paramE2);
+  }
+  
+  public E first()
+  {
+    return q().first();
+  }
+  
+  public SortedSet<E> headSet(E paramE)
+  {
+    return q().headSet(paramE);
+  }
+  
+  @a
+  public boolean k(@h Object paramObject)
+  {
+    boolean bool = false;
+    try
+    {
+      int i = f(tailSet(paramObject).first(), paramObject);
+      if (i == 0) {
+        bool = true;
+      }
+      return bool;
+    }
+    catch (ClassCastException|NoSuchElementException|NullPointerException paramObject) {}
+    return false;
+  }
+  
+  @a
+  public boolean l(@h Object paramObject)
+  {
+    try
+    {
+      Iterator localIterator = tailSet(paramObject).iterator();
+      if ((localIterator.hasNext()) && (f(localIterator.next(), paramObject) == 0))
+      {
+        localIterator.remove();
+        return true;
+      }
+      return false;
+    }
+    catch (ClassCastException|NullPointerException paramObject) {}
+    return false;
+  }
+  
+  public E last()
+  {
+    return q().last();
+  }
+  
+  public abstract SortedSet<E> q();
+  
+  public SortedSet<E> subSet(E paramE1, E paramE2)
+  {
+    return q().subSet(paramE1, paramE2);
+  }
+  
+  public SortedSet<E> tailSet(E paramE)
+  {
+    return q().tailSet(paramE);
+  }
+}

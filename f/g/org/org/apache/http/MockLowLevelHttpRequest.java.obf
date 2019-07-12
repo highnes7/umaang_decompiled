@@ -1,0 +1,136 @@
+package f.g.b.a.f.a;
+
+import f.g.b.a.c.I;
+import f.g.b.a.c.J;
+import f.g.b.a.c.v;
+import f.g.b.a.g.V;
+import f.g.b.a.g.h;
+import f.g.b.a.g.l;
+import f.g.b.a.g.x;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.GZIPInputStream;
+
+@h
+public class f
+  extends I
+{
+  public String e;
+  public final Map<String, List<String>> f = new HashMap();
+  public g g = new g();
+  
+  public f() {}
+  
+  public f(String paramString)
+  {
+    e = paramString;
+  }
+  
+  public J a()
+    throws IOException
+  {
+    return g;
+  }
+  
+  public f a(g paramG)
+  {
+    g = paramG;
+    return this;
+  }
+  
+  public void a(String paramString1, String paramString2)
+    throws IOException
+  {
+    String str = paramString1.toLowerCase();
+    List localList = (List)f.get(str);
+    paramString1 = localList;
+    if (localList == null)
+    {
+      paramString1 = new ArrayList();
+      f.put(str, paramString1);
+    }
+    paramString1.add(paramString2);
+  }
+  
+  public String c(String paramString)
+  {
+    paramString = (List)f.get(paramString.toLowerCase());
+    if (paramString == null) {
+      return null;
+    }
+    return (String)paramString.get(0);
+  }
+  
+  public List<String> d(String paramString)
+  {
+    paramString = (List)f.get(paramString.toLowerCase());
+    if (paramString == null) {
+      return Collections.emptyList();
+    }
+    return Collections.unmodifiableList(paramString);
+  }
+  
+  public f e(String paramString)
+  {
+    e = paramString;
+    return this;
+  }
+  
+  public String f()
+    throws IOException
+  {
+    if (e() == null) {
+      return "";
+    }
+    Object localObject2 = new ByteArrayOutputStream();
+    e().writeTo((OutputStream)localObject2);
+    String str = b();
+    Object localObject1 = localObject2;
+    if (str != null)
+    {
+      localObject1 = localObject2;
+      if (str.contains("gzip"))
+      {
+        localObject2 = new GZIPInputStream(new ByteArrayInputStream(((ByteArrayOutputStream)localObject2).toByteArray()));
+        localObject1 = new ByteArrayOutputStream();
+        x.a((InputStream)localObject2, (OutputStream)localObject1, true);
+      }
+    }
+    localObject2 = d();
+    if (localObject2 != null) {
+      localObject2 = new v((String)localObject2);
+    } else {
+      localObject2 = null;
+    }
+    if ((localObject2 != null) && (((v)localObject2).c() != null)) {
+      localObject2 = ((v)localObject2).c();
+    } else {
+      localObject2 = l.b;
+    }
+    return ((ByteArrayOutputStream)localObject1).toString(((Charset)localObject2).name());
+  }
+  
+  public Map<String, List<String>> g()
+  {
+    return Collections.unmodifiableMap(f);
+  }
+  
+  public g h()
+  {
+    return g;
+  }
+  
+  public String i()
+  {
+    return e;
+  }
+}

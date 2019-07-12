@@ -1,0 +1,119 @@
+package com.crashlytics.android;
+
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
+import f.c.a.b;
+import f.c.a.c;
+import l.a.a.a.a.b.x;
+import l.a.a.a.g;
+import l.a.a.a.n;
+import l.a.a.a.q;
+
+public class CrashlyticsInitProvider
+  extends ContentProvider
+{
+  public static final String a = "CrashlyticsInitProvider";
+  public static final String b = "firebase_crashlytics_ndk_enabled";
+  
+  public CrashlyticsInitProvider() {}
+  
+  private n[] a(Context paramContext)
+  {
+    int i;
+    try
+    {
+      paramContext = getPackageManagergetApplicationInfogetPackageName128metaData;
+      if (paramContext != null)
+      {
+        boolean bool = paramContext.getBoolean("firebase_crashlytics_ndk_enabled", false);
+        if (bool) {
+          i = 1;
+        }
+      }
+    }
+    catch (PackageManager.NameNotFoundException paramContext)
+    {
+      g.h().a("Fabric", "Unable to get PackageManager while determining if Crashlytics NDK should be initialized", paramContext);
+      i = 0;
+    }
+    paramContext = new b();
+    if (i != 0) {
+      try
+      {
+        g.h().e("Fabric", "Crashlytics is initializing NDK crash reporter.");
+        CrashlyticsNdk localCrashlyticsNdk = new CrashlyticsNdk();
+        return new n[] { paramContext, localCrashlyticsNdk };
+      }
+      catch (Throwable localThrowable)
+      {
+        g.h().c("Fabric", "Crashlytics failed to initialize NDK crash reporting. Attempting to intialize SDK...", localThrowable);
+      }
+    }
+    return new n[] { paramContext };
+  }
+  
+  public boolean a(Context paramContext, x paramX, a paramA)
+  {
+    if (paramX.e(paramContext)) {
+      return paramA.a(paramContext);
+    }
+    return paramX.d(paramContext);
+  }
+  
+  public int delete(Uri paramUri, String paramString, String[] paramArrayOfString)
+  {
+    return 0;
+  }
+  
+  public String getType(Uri paramUri)
+  {
+    return null;
+  }
+  
+  public Uri insert(Uri paramUri, ContentValues paramContentValues)
+  {
+    return null;
+  }
+  
+  public boolean onCreate()
+  {
+    Context localContext = getContext();
+    if (a(localContext, new x(), new c())) {}
+    try
+    {
+      g.a(localContext, a(localContext.getApplicationContext()));
+      g.h().e("CrashlyticsInitProvider", "CrashlyticsInitProvider initialization successful");
+    }
+    catch (IllegalStateException localIllegalStateException)
+    {
+      for (;;) {}
+    }
+    g.h().e("CrashlyticsInitProvider", "CrashlyticsInitProvider initialization unsuccessful");
+    return false;
+    g.h().e("CrashlyticsInitProvider", "CrashlyticsInitProvider skipping initialization");
+    return true;
+  }
+  
+  public Cursor query(Uri paramUri, String[] paramArrayOfString1, String paramString1, String[] paramArrayOfString2, String paramString2)
+  {
+    return null;
+  }
+  
+  public int update(Uri paramUri, ContentValues paramContentValues, String paramString, String[] paramArrayOfString)
+  {
+    return 0;
+  }
+  
+  public static abstract interface a
+  {
+    public abstract boolean a(Context paramContext);
+  }
+}

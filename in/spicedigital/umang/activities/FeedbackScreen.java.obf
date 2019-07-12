@@ -1,0 +1,531 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import b.b.a.G;
+import b.b.x.b.c;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView.a;
+import e.a.a.i;
+import f.a.a.a.a;
+import f.l.a.b.d;
+import f.l.a.b.d.a;
+import f.l.a.b.f;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.ArrayList;
+import k.a.a.a.Ag;
+import k.a.a.a.Bg;
+import k.a.a.a.Cg;
+import k.a.a.a.Dg;
+import k.a.a.a.Eg;
+import k.a.a.a.ng;
+import k.a.a.a.pg;
+import k.a.a.a.qg;
+import k.a.a.a.rg;
+import k.a.a.a.sg;
+import k.a.a.a.tg;
+import k.a.a.a.vg;
+import k.a.a.a.wg;
+import k.a.a.a.xg;
+import k.a.a.a.yg;
+import k.a.a.a.zg;
+import k.a.a.c.o;
+import k.a.a.l.x;
+import k.a.a.m.Ea;
+import k.a.a.m.V;
+import org.json.JSONObject;
+
+public class FeedbackScreen
+  extends BaseActivity
+{
+  public EditText A;
+  public TextView B;
+  public i C;
+  public k.a.a.e.b D;
+  public V E;
+  public f F;
+  public d G;
+  public ArrayList<k.a.a.c.u> H;
+  public ArrayList<o> I;
+  public String J;
+  public String K;
+  public String L;
+  public CardView M;
+  public CardView N;
+  public TextView O;
+  public ImageView P;
+  public TextView Q;
+  public Uri R;
+  public String S = "";
+  public LinearLayout T;
+  public final String TAG = "FeedbackScreen";
+  public CardView U;
+  public Toolbar b;
+  public View c;
+  public TextView d;
+  public LinearLayout e;
+  public LinearLayout f;
+  public LinearLayout g;
+  public LinearLayout h;
+  public TextView i;
+  public TextView j;
+  public TextView k;
+  public TextView l;
+  public ImageView m;
+  public ImageView n;
+  public ImageView o;
+  public ImageView p;
+  public ImageView q;
+  public ImageView r;
+  public ImageView s;
+  public ImageView t;
+  public Spinner u;
+  public Spinner v;
+  public CardView w;
+  public CardView x;
+  public TextView y;
+  public TextView z;
+  
+  public FeedbackScreen() {}
+  
+  private String a(Bitmap paramBitmap)
+  {
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    paramBitmap.compress(Bitmap.CompressFormat.JPEG, 100, localByteArrayOutputStream);
+    return Base64.encodeToString(localByteArrayOutputStream.toByteArray(), 0);
+  }
+  
+  private void a(String paramString1, String paramString2, String paramString3, String paramString4)
+  {
+    for (;;)
+    {
+      try
+      {
+        str = getIntent().getStringExtra("rating");
+        if (str == null) {
+          break label180;
+        }
+        str = getIntent().getStringExtra("rating");
+        JSONObject localJSONObject = Ea.e(this);
+        localJSONObject.put("mno", E.a(V.da, ""));
+        localJSONObject.put("cate", paramString1);
+        localJSONObject.put("feedback", paramString2);
+        localJSONObject.put("catetype", "feedback");
+        localJSONObject.put("sid", paramString3);
+        localJSONObject.put("serviceID", paramString4);
+        localJSONObject.put("pic", S);
+        localJSONObject.put("rating", str);
+        paramString4 = localJSONObject;
+      }
+      catch (Exception paramString4)
+      {
+        k.a.a.m.b.a(paramString4);
+        paramString4 = null;
+      }
+      if (paramString4 != null) {
+        new x(new pg(this, paramString2, paramString1, paramString3), paramString4, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+      }
+      return;
+      label180:
+      String str = "";
+    }
+  }
+  
+  private void c(int paramInt)
+  {
+    JSONObject localJSONObject2;
+    try
+    {
+      JSONObject localJSONObject1 = Ea.e(this);
+      localJSONObject1.put("departmentID", ((k.a.a.c.u)H.get(paramInt)).k());
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localJSONObject2 = null;
+    }
+    if (localJSONObject2 != null) {
+      new k.a.a.l.u(new vg(this, paramInt), "https://app.umang.gov.in/umang/coreapi/ws2/fthds", localJSONObject2, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+    }
+  }
+  
+  private void e()
+  {
+    J = "appfd";
+    i.setTextColor(c.getColor(this, 2131099920));
+    j.setTextColor(c.getColor(this, 2131099895));
+    k.setTextColor(c.getColor(this, 2131099920));
+    l.setTextColor(c.getColor(this, 2131099920));
+    i.setTypeface(Typeface.create("sans-serif", 0));
+    j.setTypeface(Typeface.create("sans-serif-medium", 0));
+    k.setTypeface(Typeface.create("sans-serif", 0));
+    l.setTypeface(Typeface.create("sans-serif", 0));
+    m.setVisibility(8);
+    n.setVisibility(0);
+    o.setVisibility(8);
+    p.setVisibility(8);
+    q.setImageResource(2131231454);
+    r.setImageResource(2131231037);
+    s.setImageResource(2131231038);
+    t.setImageResource(2131231040);
+    w.setVisibility(8);
+    x.setVisibility(8);
+  }
+  
+  private void f()
+  {
+    J = "departmentfd";
+    i.setTextColor(c.getColor(this, 2131099920));
+    j.setTextColor(c.getColor(this, 2131099920));
+    k.setTextColor(c.getColor(this, 2131099895));
+    l.setTextColor(c.getColor(this, 2131099920));
+    i.setTypeface(Typeface.create("sans-serif", 0));
+    j.setTypeface(Typeface.create("sans-serif", 0));
+    k.setTypeface(Typeface.create("sans-serif-medium", 0));
+    l.setTypeface(Typeface.create("sans-serif", 0));
+    m.setVisibility(8);
+    n.setVisibility(8);
+    o.setVisibility(0);
+    p.setVisibility(8);
+    q.setImageResource(2131231454);
+    r.setImageResource(2131231036);
+    s.setImageResource(2131231039);
+    t.setImageResource(2131231040);
+    w.setVisibility(0);
+    if (a.a(this, 2131755407, y.getText().toString()))
+    {
+      x.setVisibility(8);
+      return;
+    }
+    x.setVisibility(0);
+  }
+  
+  private void g()
+  {
+    J = "otherfd";
+    i.setTextColor(c.getColor(this, 2131099920));
+    j.setTextColor(c.getColor(this, 2131099920));
+    k.setTextColor(c.getColor(this, 2131099920));
+    l.setTextColor(c.getColor(this, 2131099895));
+    i.setTypeface(Typeface.create("sans-serif", 0));
+    j.setTypeface(Typeface.create("sans-serif", 0));
+    k.setTypeface(Typeface.create("sans-serif", 0));
+    l.setTypeface(Typeface.create("sans-serif-medium", 0));
+    m.setVisibility(8);
+    n.setVisibility(8);
+    o.setVisibility(8);
+    p.setVisibility(0);
+    q.setImageResource(2131231454);
+    r.setImageResource(2131231036);
+    s.setImageResource(2131231038);
+    t.setImageResource(2131231041);
+    w.setVisibility(8);
+    x.setVisibility(8);
+  }
+  
+  private void h()
+  {
+    Object localObject = getIntent().getStringExtra("showInfo");
+    int i3 = 0;
+    if (localObject != null) {
+      M.setVisibility(0);
+    } else {
+      M.setVisibility(8);
+    }
+    J = "feedback";
+    K = "";
+    L = "";
+    I = new ArrayList();
+    H = new ArrayList();
+    H = D.I();
+    localObject = new String[H.size()];
+    int i1 = 0;
+    while (i1 < H.size())
+    {
+      localObject[i1] = ((k.a.a.c.u)H.get(i1)).i();
+      i1 += 1;
+    }
+    u.setAdapter(new FeedbackScreen.b(this, this, 2131492958, (String[])localObject));
+    e();
+    if (!"".equalsIgnoreCase(E.a(V.mb, "")))
+    {
+      A.setText(E.a(V.mb, ""));
+      localObject = E.a(V.nb, "");
+      if (((String)localObject).contains("appfd"))
+      {
+        e();
+        return;
+      }
+      if (((String)localObject).contains("departmentfd")) {
+        f();
+      }
+    }
+    for (;;)
+    {
+      try
+      {
+        localObject = localObject.split("\\|")[1];
+        int i2 = 0;
+        i1 = i3;
+        if (i1 < H.size())
+        {
+          if (!((k.a.a.c.u)H.get(i1)).k().equalsIgnoreCase((String)localObject)) {
+            break label357;
+          }
+          i2 = i1;
+          break label357;
+        }
+        u.setSelection(i2);
+        y.setText(((k.a.a.c.u)H.get(i2)).i());
+        K = ((String)localObject);
+        c(i2);
+        return;
+      }
+      catch (Exception localException)
+      {
+        k.a.a.m.b.a(localException);
+        return;
+      }
+      g();
+      return;
+      label357:
+      i1 += 1;
+    }
+  }
+  
+  private void i()
+  {
+    e = ((LinearLayout)findViewById(2131297528));
+    f = ((LinearLayout)findViewById(2131296359));
+    g = ((LinearLayout)findViewById(2131296609));
+    h = ((LinearLayout)findViewById(2131297237));
+    i = ((TextView)findViewById(2131297529));
+    j = ((TextView)findViewById(2131296360));
+    k = ((TextView)findViewById(2131296610));
+    l = ((TextView)findViewById(2131297238));
+    m = ((ImageView)findViewById(2131297527));
+    n = ((ImageView)findViewById(2131296358));
+    o = ((ImageView)findViewById(2131296608));
+    p = ((ImageView)findViewById(2131297236));
+    q = ((ImageView)findViewById(2131297526));
+    r = ((ImageView)findViewById(2131296357));
+    s = ((ImageView)findViewById(2131296607));
+    t = ((ImageView)findViewById(2131297235));
+    u = ((Spinner)findViewById(2131296509));
+    v = ((Spinner)findViewById(2131296513));
+    w = ((CardView)findViewById(2131296508));
+    x = ((CardView)findViewById(2131296512));
+    y = ((TextView)findViewById(2131297542));
+    z = ((TextView)findViewById(2131297650));
+    A = ((EditText)findViewById(2131296783));
+    B = ((TextView)findViewById(2131297657));
+    M = ((CardView)findViewById(2131296916));
+    N = ((CardView)findViewById(2131296860));
+    O = ((TextView)findViewById(2131296861));
+    T = ((LinearLayout)findViewById(2131297470));
+    U = ((CardView)findViewById(2131297471));
+    T.setOnClickListener(new ng(this));
+    P = ((ImageView)findViewById(2131296782));
+    Q = ((TextView)findViewById(2131296378));
+    P.setVisibility(8);
+    Q.setVisibility(8);
+    T.setVisibility(8);
+    U.setVisibility(8);
+    D = k.a.a.e.b.a(this);
+    E = new V(this);
+    F = f.g();
+    G = a.a(true, true).a(Bitmap.Config.RGB_565).a();
+  }
+  
+  private void showDialogChooser()
+  {
+    File localFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), Ea.v(this));
+    if (!localFile.exists()) {
+      localFile.mkdirs();
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(localFile);
+    localStringBuilder.append(File.separator);
+    localStringBuilder.append("IMG_");
+    localStringBuilder.append(String.valueOf(System.currentTimeMillis()));
+    localStringBuilder.append(".jpg");
+    localFile = new File(localStringBuilder.toString());
+    localStringBuilder = new StringBuilder();
+    localStringBuilder.append(getPackageName());
+    localStringBuilder.append(".fileprovider");
+    R = FileProvider.a(this, localStringBuilder.toString(), localFile);
+    Ea.a(this, R, false, false);
+  }
+  
+  public void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
+  {
+    super.onActivityResult(paramInt1, paramInt2, paramIntent);
+    if ((paramInt1 == 2016) && (paramInt2 == 0))
+    {
+      isFinishing();
+      return;
+    }
+    if ((paramInt1 == 2019) && (paramInt2 == 0))
+    {
+      isFinishing();
+      return;
+    }
+    if ((paramInt1 == 2016) && (paramInt2 == -1))
+    {
+      if (!isFinishing()) {
+        runOnUiThread(new qg(this));
+      }
+    }
+    else if ((paramInt1 == 2019) && (paramInt2 == -1))
+    {
+      if (!isFinishing()) {
+        runOnUiThread(new rg(this, paramIntent));
+      }
+    }
+    else if (paramInt1 == 203)
+    {
+      paramIntent = CropImage.a(paramIntent);
+      if (paramInt2 == -1)
+      {
+        if (!isFinishing())
+        {
+          runOnUiThread(new sg(this, paramIntent));
+          return;
+        }
+        if (paramInt2 == 204)
+        {
+          paramIntent = paramIntent.d();
+          if (!isFinishing()) {
+            runOnUiThread(new tg(this, paramIntent));
+          }
+        }
+      }
+    }
+    else if ((paramInt1 == 1012) && (paramInt2 == -1) && (paramIntent != null))
+    {
+      paramIntent = paramIntent.getExtras().getString("departmentId");
+      int i1 = 0;
+      paramInt1 = 0;
+      for (;;)
+      {
+        paramInt2 = i1;
+        if (paramInt1 >= H.size()) {
+          break;
+        }
+        if (paramIntent.equalsIgnoreCase(((k.a.a.c.u)H.get(paramInt1)).k()))
+        {
+          paramInt2 = paramInt1;
+          break;
+        }
+        paramInt1 += 1;
+      }
+      c(paramInt2);
+    }
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131493077);
+    if (getIntent().getStringExtra("showInfo") != null) {
+      Ea.a(this, "Feedback Screen from rating");
+    } else {
+      Ea.a(this, "Feedback Screen");
+    }
+    try
+    {
+      Ea.a(this, findViewById(2131297260));
+      getWindow().setSoftInputMode(3);
+      b = ((Toolbar)findViewById(2131297768));
+      a.a(this, b, true);
+      c = b.getRootView();
+      d = ((TextView)c.findViewById(2131297758));
+      a.a(this, 2131755719, d);
+      i();
+      h();
+      N.setVisibility(0);
+      N.setOnClickListener(new wg(this));
+      try
+      {
+        paramBundle = getIntent().getStringExtra("notifId");
+        if (paramBundle != null)
+        {
+          D.E(paramBundle);
+          Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+        }
+      }
+      catch (Exception paramBundle)
+      {
+        k.a.a.m.b.a(paramBundle);
+      }
+      e.setOnClickListener(new xg(this));
+      f.setOnClickListener(new yg(this));
+      g.setOnClickListener(new zg(this));
+      h.setOnClickListener(new Ag(this));
+      y.setOnClickListener(new Bg(this));
+      z.setOnClickListener(new Cg(this));
+      u.setOnItemSelectedListener(new Dg(this));
+      B.setOnClickListener(new Eg(this));
+      return;
+    }
+    catch (Exception paramBundle)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void onNewIntent(Intent paramIntent)
+  {
+    super.onNewIntent(paramIntent);
+    setIntent(paramIntent);
+    try
+    {
+      paramIntent = getIntent().getStringExtra("notifId");
+      if (paramIntent != null)
+      {
+        k.a.a.e.b.a(this).E(paramIntent);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+        return;
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      onBackPressed();
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+}

@@ -1,0 +1,113 @@
+package f.b.a;
+
+import com.coremedia.iso.boxes.Box;
+import com.coremedia.iso.boxes.MovieBox;
+import f.h.a.e;
+import f.h.a.f;
+import f.h.a.g.j;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.channels.WritableByteChannel;
+import java.util.Iterator;
+import java.util.List;
+
+@f.h.a.a.a
+public class g
+  extends e
+  implements Closeable
+{
+  public static j LOG = j.a(g.class);
+  
+  public g(f paramF)
+    throws IOException
+  {
+    parseContainer(paramF, paramF.size(), new l(new String[0]));
+  }
+  
+  public g(f paramF, d paramD)
+    throws IOException
+  {
+    dataSource = paramF;
+    boxParser = paramD;
+  }
+  
+  public g(String paramString)
+    throws IOException
+  {
+    this(new f.h.a.g(new File(paramString)));
+  }
+  
+  public static String a(byte[] paramArrayOfByte)
+  {
+    byte[] arrayOfByte = new byte[4];
+    if (paramArrayOfByte != null) {
+      System.arraycopy(paramArrayOfByte, 0, arrayOfByte, 0, Math.min(paramArrayOfByte.length, 4));
+    }
+    try
+    {
+      paramArrayOfByte = new String(arrayOfByte, "ISO-8859-1");
+      return paramArrayOfByte;
+    }
+    catch (UnsupportedEncodingException paramArrayOfByte)
+    {
+      throw new Error("Required character encoding is missing", paramArrayOfByte);
+    }
+  }
+  
+  public static byte[] b(String paramString)
+  {
+    byte[] arrayOfByte = new byte[4];
+    if (paramString != null)
+    {
+      int i = 0;
+      for (;;)
+      {
+        if (i >= Math.min(4, paramString.length())) {
+          return arrayOfByte;
+        }
+        arrayOfByte[i] = ((byte)paramString.charAt(i));
+        i += 1;
+      }
+    }
+    return arrayOfByte;
+  }
+  
+  public void close()
+    throws IOException
+  {
+    dataSource.close();
+  }
+  
+  public void getBox(WritableByteChannel paramWritableByteChannel)
+    throws IOException
+  {
+    writeContainer(paramWritableByteChannel);
+  }
+  
+  public long getSize()
+  {
+    return getContainerSize();
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.b("IsoFile[");
+    return f.a.a.a.a.a(dataSource, localStringBuilder, "]");
+  }
+  
+  public MovieBox u()
+  {
+    Iterator localIterator = getBoxes().iterator();
+    Box localBox;
+    do
+    {
+      if (!localIterator.hasNext()) {
+        return null;
+      }
+      localBox = (Box)localIterator.next();
+    } while (!(localBox instanceof MovieBox));
+    return (MovieBox)localBox;
+  }
+}

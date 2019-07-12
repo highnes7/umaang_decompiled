@@ -1,0 +1,217 @@
+package f.g.c.f;
+
+import f.g.c.b.ba;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.Charset;
+
+public abstract class e
+  implements n
+{
+  public e() {}
+  
+  public l a(long paramLong)
+  {
+    return b().a(paramLong).a();
+  }
+  
+  public l a(CharSequence paramCharSequence)
+  {
+    return b().a(paramCharSequence).a();
+  }
+  
+  public l a(CharSequence paramCharSequence, Charset paramCharset)
+  {
+    return b().a(paramCharSequence, paramCharset).a();
+  }
+  
+  public l a(byte[] paramArrayOfByte)
+  {
+    return b().a(paramArrayOfByte).a();
+  }
+  
+  public l a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    return b().a(paramArrayOfByte, paramInt1, paramInt2).a();
+  }
+  
+  public o a(int paramInt)
+  {
+    boolean bool;
+    if (paramInt >= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool);
+    return b();
+  }
+  
+  public l b(int paramInt)
+  {
+    return b().a(paramInt).a();
+  }
+  
+  protected static abstract class a
+    extends c
+  {
+    public final ByteBuffer a;
+    public final int b;
+    public final int c;
+    
+    public a(int paramInt)
+    {
+      this(paramInt, paramInt);
+    }
+    
+    public a(int paramInt1, int paramInt2)
+    {
+      boolean bool;
+      if (paramInt2 % paramInt1 == 0) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool);
+      a = ByteBuffer.allocate(paramInt2 + 7).order(ByteOrder.LITTLE_ENDIAN);
+      b = paramInt2;
+      c = paramInt1;
+    }
+    
+    private final o c(ByteBuffer paramByteBuffer)
+    {
+      if (paramByteBuffer.remaining() <= a.remaining())
+      {
+        a.put(paramByteBuffer);
+        d();
+        return this;
+      }
+      int j = b;
+      int k = a.position();
+      int i = 0;
+      while (i < j - k)
+      {
+        a.put(paramByteBuffer.get());
+        i += 1;
+      }
+      c();
+      while (paramByteBuffer.remaining() >= c) {
+        a(paramByteBuffer);
+      }
+      a.put(paramByteBuffer);
+      return this;
+    }
+    
+    private void c()
+    {
+      a.flip();
+      while (a.remaining() >= c) {
+        a(a);
+      }
+      a.compact();
+    }
+    
+    private void d()
+    {
+      if (a.remaining() < 8) {
+        c();
+      }
+    }
+    
+    public final l a()
+    {
+      c();
+      a.flip();
+      if (a.remaining() > 0) {
+        b(a);
+      }
+      return b();
+    }
+    
+    public final o a(byte paramByte)
+    {
+      a.put(paramByte);
+      d();
+      return this;
+    }
+    
+    public final o a(char paramChar)
+    {
+      a.putChar(paramChar);
+      d();
+      return this;
+    }
+    
+    public final o a(int paramInt)
+    {
+      a.putInt(paramInt);
+      d();
+      return this;
+    }
+    
+    public final o a(long paramLong)
+    {
+      a.putLong(paramLong);
+      d();
+      return this;
+    }
+    
+    public final o a(CharSequence paramCharSequence)
+    {
+      int i = 0;
+      while (i < paramCharSequence.length())
+      {
+        a(paramCharSequence.charAt(i));
+        i += 1;
+      }
+      return this;
+    }
+    
+    public final <T> o a(T paramT, j<? super T> paramJ)
+    {
+      paramJ.a(paramT, this);
+      return this;
+    }
+    
+    public final o a(short paramShort)
+    {
+      a.putShort(paramShort);
+      d();
+      return this;
+    }
+    
+    public final o a(byte[] paramArrayOfByte)
+    {
+      return a(paramArrayOfByte, 0, paramArrayOfByte.length);
+    }
+    
+    public final o a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    {
+      c(ByteBuffer.wrap(paramArrayOfByte, paramInt1, paramInt2).order(ByteOrder.LITTLE_ENDIAN));
+      return this;
+    }
+    
+    public abstract void a(ByteBuffer paramByteBuffer);
+    
+    public abstract l b();
+    
+    public void b(ByteBuffer paramByteBuffer)
+    {
+      paramByteBuffer.position(paramByteBuffer.limit());
+      paramByteBuffer.limit(c + 7);
+      int j;
+      for (;;)
+      {
+        int i = paramByteBuffer.position();
+        j = c;
+        if (i >= j) {
+          break;
+        }
+        paramByteBuffer.putLong(0L);
+      }
+      paramByteBuffer.limit(j);
+      paramByteBuffer.flip();
+      a(paramByteBuffer);
+    }
+  }
+}

@@ -1,0 +1,36 @@
+package f.l.a.a.a.b;
+
+import f.l.a.c.e;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class c
+  implements a
+{
+  public static final String a = "MD5";
+  public static final int b = 36;
+  
+  public c() {}
+  
+  private byte[] a(byte[] paramArrayOfByte)
+  {
+    try
+    {
+      MessageDigest localMessageDigest = MessageDigest.getInstance("MD5");
+      localMessageDigest.update(paramArrayOfByte);
+      paramArrayOfByte = localMessageDigest.digest();
+      return paramArrayOfByte;
+    }
+    catch (NoSuchAlgorithmException paramArrayOfByte)
+    {
+      e.a(paramArrayOfByte);
+    }
+    return null;
+  }
+  
+  public String a(String paramString)
+  {
+    return new BigInteger(a(paramString.getBytes())).abs().toString(36);
+  }
+}

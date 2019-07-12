@@ -1,0 +1,80 @@
+package b.b.x.p;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.os.Build.VERSION;
+import android.widget.EdgeEffect;
+import b.b.a.F;
+
+public final class p
+{
+  public EdgeEffect a;
+  
+  @Deprecated
+  public p(Context paramContext)
+  {
+    a = new EdgeEffect(paramContext);
+  }
+  
+  public static void a(@F EdgeEffect paramEdgeEffect, float paramFloat1, float paramFloat2)
+  {
+    if (Build.VERSION.SDK_INT >= 21)
+    {
+      paramEdgeEffect.onPull(paramFloat1, paramFloat2);
+      return;
+    }
+    paramEdgeEffect.onPull(paramFloat1);
+  }
+  
+  @Deprecated
+  public void a()
+  {
+    a.finish();
+  }
+  
+  @Deprecated
+  public void a(int paramInt1, int paramInt2)
+  {
+    a.setSize(paramInt1, paramInt2);
+  }
+  
+  @Deprecated
+  public boolean a(float paramFloat)
+  {
+    a.onPull(paramFloat);
+    return true;
+  }
+  
+  @Deprecated
+  public boolean a(float paramFloat1, float paramFloat2)
+  {
+    a(a, paramFloat1, paramFloat2);
+    return true;
+  }
+  
+  @Deprecated
+  public boolean a(int paramInt)
+  {
+    a.onAbsorb(paramInt);
+    return true;
+  }
+  
+  @Deprecated
+  public boolean a(Canvas paramCanvas)
+  {
+    return a.draw(paramCanvas);
+  }
+  
+  @Deprecated
+  public boolean b()
+  {
+    return a.isFinished();
+  }
+  
+  @Deprecated
+  public boolean c()
+  {
+    a.onRelease();
+    return a.isFinished();
+  }
+}

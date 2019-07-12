@@ -1,0 +1,125 @@
+package b.b.v;
+
+import android.animation.LayoutTransition;
+import android.view.ViewGroup;
+import b.b.a.F;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class qa
+{
+  public static final String a = "ViewGroupUtilsApi14";
+  public static final int b = 4;
+  public static LayoutTransition c;
+  public static Field d;
+  public static boolean e;
+  public static Method f;
+  public static boolean g;
+  
+  public qa() {}
+  
+  public static void a(LayoutTransition paramLayoutTransition)
+  {
+    if (!g) {}
+    try
+    {
+      f = LayoutTransition.class.getDeclaredMethod("cancel", new Class[0]);
+      f.setAccessible(true);
+      g = true;
+      localMethod = f;
+      if (localMethod == null) {}
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;)
+      {
+        try
+        {
+          Method localMethod;
+          localMethod.invoke(paramLayoutTransition, new Object[0]);
+          return;
+        }
+        catch (IllegalAccessException|InvocationTargetException paramLayoutTransition) {}
+        localNoSuchMethodException = localNoSuchMethodException;
+      }
+    }
+  }
+  
+  public static void a(@F ViewGroup paramViewGroup, boolean paramBoolean)
+  {
+    Object localObject = c;
+    boolean bool = false;
+    if (localObject == null)
+    {
+      c = new pa();
+      c.setAnimator(2, null);
+      c.setAnimator(0, null);
+      c.setAnimator(1, null);
+      c.setAnimator(3, null);
+      c.setAnimator(4, null);
+    }
+    if (paramBoolean)
+    {
+      localObject = paramViewGroup.getLayoutTransition();
+      if (localObject != null)
+      {
+        if (((LayoutTransition)localObject).isRunning()) {
+          a((LayoutTransition)localObject);
+        }
+        if (localObject != c) {
+          paramViewGroup.setTag(M.e.transition_layout_save, localObject);
+        }
+      }
+      paramViewGroup.setLayoutTransition(c);
+      return;
+    }
+    paramViewGroup.setLayoutTransition(null);
+    if (!e) {}
+    try
+    {
+      d = ViewGroup.class.getDeclaredField("mLayoutSuppressed");
+      d.setAccessible(true);
+      e = true;
+      localObject = d;
+      paramBoolean = bool;
+      if (localObject == null) {}
+    }
+    catch (NoSuchFieldException localIllegalAccessException1)
+    {
+      try
+      {
+        paramBoolean = ((Field)localObject).getBoolean(paramViewGroup);
+        if (!paramBoolean) {}
+      }
+      catch (IllegalAccessException localIllegalAccessException1)
+      {
+        try
+        {
+          d.setBoolean(paramViewGroup, false);
+          for (;;)
+          {
+            if (paramBoolean) {
+              paramViewGroup.requestLayout();
+            }
+            localObject = (LayoutTransition)paramViewGroup.getTag(M.e.transition_layout_save);
+            if (localObject != null)
+            {
+              paramViewGroup.setTag(M.e.transition_layout_save, null);
+              paramViewGroup.setLayoutTransition((LayoutTransition)localObject);
+            }
+            return;
+            localNoSuchFieldException = localNoSuchFieldException;
+            break;
+            localIllegalAccessException1 = localIllegalAccessException1;
+            paramBoolean = bool;
+          }
+        }
+        catch (IllegalAccessException localIllegalAccessException2)
+        {
+          for (;;) {}
+        }
+      }
+    }
+  }
+}

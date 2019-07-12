@@ -1,0 +1,169 @@
+package f.g.c.d;
+
+import java.util.Iterator;
+import java.util.Set;
+import m.a.h;
+
+public abstract class tf<C extends Comparable>
+{
+  public tf() {}
+  
+  public abstract Set<qf<C>> a();
+  
+  public void a(qf<C> paramQf)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public void a(tf<C> paramTf)
+  {
+    paramTf = paramTf.a().iterator();
+    while (paramTf.hasNext()) {
+      a((qf)paramTf.next());
+    }
+  }
+  
+  public boolean a(C paramC)
+  {
+    return b(paramC) != null;
+  }
+  
+  public qf<C> b(C paramC)
+  {
+    if (paramC != null)
+    {
+      Iterator localIterator = a().iterator();
+      while (localIterator.hasNext())
+      {
+        qf localQf = (qf)localIterator.next();
+        if (localQf.b(paramC)) {
+          return localQf;
+        }
+      }
+      return null;
+    }
+    paramC = new NullPointerException();
+    for (;;)
+    {
+      throw paramC;
+    }
+  }
+  
+  public abstract tf<C> b();
+  
+  public boolean b(qf<C> paramQf)
+  {
+    Iterator localIterator = a().iterator();
+    while (localIterator.hasNext()) {
+      if (((qf)localIterator.next()).a(paramQf)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public boolean b(tf<C> paramTf)
+  {
+    paramTf = paramTf.a().iterator();
+    while (paramTf.hasNext()) {
+      if (!b((qf)paramTf.next())) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public void c(qf<C> paramQf)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public void c(tf<C> paramTf)
+  {
+    paramTf = paramTf.a().iterator();
+    while (paramTf.hasNext()) {
+      c((qf)paramTf.next());
+    }
+  }
+  
+  public boolean c()
+  {
+    return a().isEmpty();
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if ((paramObject instanceof tf))
+    {
+      paramObject = (tf)paramObject;
+      return a().equals(paramObject.a());
+    }
+    return false;
+  }
+  
+  public final int hashCode()
+  {
+    return a().hashCode();
+  }
+  
+  public final String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append('{');
+    Iterator localIterator = a().iterator();
+    while (localIterator.hasNext()) {
+      localStringBuilder.append((qf)localIterator.next());
+    }
+    localStringBuilder.append('}');
+    return localStringBuilder.toString();
+  }
+  
+  public static class a<C extends Comparable>
+    extends tf<C>
+  {
+    public final tf<C> a;
+    public transient Set<qf<C>> b;
+    
+    public a(tf<C> paramTf)
+    {
+      a = paramTf;
+    }
+    
+    public final Set<qf<C>> a()
+    {
+      Set localSet2 = b;
+      Set localSet1 = localSet2;
+      if (localSet2 == null)
+      {
+        localSet1 = d();
+        b = localSet1;
+      }
+      return localSet1;
+    }
+    
+    public void a(qf<C> paramQf)
+    {
+      a.c(paramQf);
+    }
+    
+    public boolean a(C paramC)
+    {
+      return a.a(paramC) ^ true;
+    }
+    
+    public tf<C> b()
+    {
+      return a;
+    }
+    
+    public void c(qf<C> paramQf)
+    {
+      a.a(paramQf);
+    }
+    
+    public Set<qf<C>> d()
+    {
+      return new sf(this);
+    }
+  }
+}

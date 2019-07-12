@@ -1,0 +1,359 @@
+package android.support.transition;
+
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.util.Property;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.v.Ba;
+import b.b.v.J;
+import b.b.v.L;
+import b.b.v.N;
+import b.b.v.X;
+import b.b.v.b;
+import b.b.v.c;
+import b.b.v.d;
+import b.b.v.e;
+import b.b.v.f;
+import b.b.v.g;
+import b.b.v.h;
+import b.b.v.ha;
+import b.b.v.i;
+import b.b.v.ia;
+import b.b.v.k;
+import b.b.v.ra;
+import b.b.v.ua;
+import b.b.v.xa;
+import b.b.x.o.H;
+import java.util.Map;
+
+public class ChangeBounds
+  extends Transition
+{
+  public static final String a = "android:changeBounds:bounds";
+  public static final String b = "android:changeBounds:clip";
+  public static final String c = "android:changeBounds:parent";
+  public static final String d = "android:changeBounds:windowX";
+  public static final String e = "android:changeBounds:windowY";
+  public static final String[] f = { "android:changeBounds:bounds", "android:changeBounds:clip", "android:changeBounds:parent", "android:changeBounds:windowX", "android:changeBounds:windowY" };
+  public static final Property<Drawable, PointF> g = new c(PointF.class, "boundsOrigin");
+  public static final Property<a, PointF> h = new d(PointF.class, "topLeft");
+  public static final Property<a, PointF> i = new e(PointF.class, "bottomRight");
+  public static final Property<View, PointF> j = new f(PointF.class, "bottomRight");
+  public static final Property<View, PointF> k = new g(PointF.class, "topLeft");
+  public static final Property<View, PointF> l = new h(PointF.class, "position");
+  public static N m = new N();
+  public int[] n = new int[2];
+  public boolean o = false;
+  public boolean p = false;
+  
+  public ChangeBounds() {}
+  
+  public ChangeBounds(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, X.d);
+    boolean bool = b.b.x.b.b.j.a(paramContext, (XmlResourceParser)paramAttributeSet, "resizeClip", 0, false);
+    paramContext.recycle();
+    a(bool);
+  }
+  
+  private boolean a(View paramView1, View paramView2)
+  {
+    if (p)
+    {
+      ia localIa = getMatchedTransitionValues(paramView1, true);
+      if (localIa == null) {
+        if (paramView1 == paramView2) {
+          return true;
+        }
+      }
+      while (paramView2 != b) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  private void captureValues(ia paramIa)
+  {
+    View localView = b;
+    if ((H.fa(localView)) || (localView.getWidth() != 0) || (localView.getHeight() != 0))
+    {
+      a.put("android:changeBounds:bounds", new Rect(localView.getLeft(), localView.getTop(), localView.getRight(), localView.getBottom()));
+      a.put("android:changeBounds:parent", b.getParent());
+      if (p)
+      {
+        b.getLocationInWindow(n);
+        a.put("android:changeBounds:windowX", Integer.valueOf(n[0]));
+        a.put("android:changeBounds:windowY", Integer.valueOf(n[1]));
+      }
+      if (o) {
+        a.put("android:changeBounds:clip", H.j(localView));
+      }
+    }
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    o = paramBoolean;
+  }
+  
+  public boolean b()
+  {
+    return o;
+  }
+  
+  public void captureEndValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  public void captureStartValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  @G
+  public Animator createAnimator(@F ViewGroup paramViewGroup, @G ia paramIa1, @G ia paramIa2)
+  {
+    if ((paramIa1 != null) && (paramIa2 != null))
+    {
+      Object localObject2 = a;
+      Object localObject1 = a;
+      localObject2 = (ViewGroup)((Map)localObject2).get("android:changeBounds:parent");
+      Object localObject3 = (ViewGroup)((Map)localObject1).get("android:changeBounds:parent");
+      if ((localObject2 != null) && (localObject3 != null))
+      {
+        localObject1 = b;
+        int i3;
+        int i4;
+        int i2;
+        int i1;
+        if (a((View)localObject2, (View)localObject3))
+        {
+          paramViewGroup = (Rect)a.get("android:changeBounds:bounds");
+          localObject2 = (Rect)a.get("android:changeBounds:bounds");
+          i3 = left;
+          i4 = left;
+          int i5 = top;
+          int i6 = top;
+          int i7 = right;
+          int i8 = right;
+          int i9 = bottom;
+          int i10 = bottom;
+          int i11 = i7 - i3;
+          int i12 = i9 - i5;
+          int i13 = i8 - i4;
+          int i14 = i10 - i6;
+          paramIa1 = (Rect)a.get("android:changeBounds:clip");
+          localObject2 = (Rect)a.get("android:changeBounds:clip");
+          if (((i11 != 0) && (i12 != 0)) || ((i13 != 0) && (i14 != 0)))
+          {
+            if ((i3 == i4) && (i5 == i6)) {
+              i2 = 0;
+            } else {
+              i2 = 1;
+            }
+            if (i7 == i8)
+            {
+              i1 = i2;
+              if (i9 == i10) {}
+            }
+            else
+            {
+              i1 = i2 + 1;
+            }
+          }
+          else
+          {
+            i1 = 0;
+          }
+          if ((paramIa1 == null) || (paramIa1.equals(localObject2)))
+          {
+            i2 = i1;
+            if (paramIa1 == null)
+            {
+              i2 = i1;
+              if (localObject2 == null) {}
+            }
+          }
+          else
+          {
+            i2 = i1 + 1;
+          }
+          if (i2 > 0)
+          {
+            if (!o)
+            {
+              paramViewGroup = (ViewGroup)localObject1;
+              xa.a(paramViewGroup, i3, i5, i7, i9);
+              if (i2 == 2)
+              {
+                if ((i11 == i13) && (i12 == i14))
+                {
+                  paramIa1 = getPathMotion().a(i3, i5, i4, i6);
+                  paramViewGroup = J.a(paramViewGroup, l, paramIa1);
+                }
+                else
+                {
+                  paramIa1 = new a(paramViewGroup);
+                  paramViewGroup = getPathMotion().a(i3, i5, i4, i6);
+                  paramIa2 = J.a(paramIa1, h, paramViewGroup);
+                  paramViewGroup = getPathMotion().a(i7, i9, i8, i10);
+                  localObject2 = J.a(paramIa1, i, paramViewGroup);
+                  paramViewGroup = new AnimatorSet();
+                  paramViewGroup.playTogether(new Animator[] { paramIa2, localObject2 });
+                  paramViewGroup.addListener(new i(this, paramIa1));
+                }
+              }
+              else if ((i3 == i4) && (i5 == i6))
+              {
+                paramIa1 = getPathMotion().a(i7, i9, i8, i10);
+                paramViewGroup = J.a(paramViewGroup, j, paramIa1);
+              }
+              else
+              {
+                paramIa1 = getPathMotion().a(i3, i5, i4, i6);
+                paramViewGroup = J.a(paramViewGroup, k, paramIa1);
+              }
+            }
+            else
+            {
+              localObject3 = localObject1;
+              xa.a((View)localObject3, i3, i5, Math.max(i11, i13) + i3, Math.max(i12, i14) + i5);
+              if ((i3 == i4) && (i5 == i6))
+              {
+                paramViewGroup = null;
+              }
+              else
+              {
+                paramViewGroup = getPathMotion().a(i3, i5, i4, i6);
+                paramViewGroup = J.a(localObject3, l, paramViewGroup);
+              }
+              if (paramIa1 == null) {
+                paramIa1 = new Rect(0, 0, i11, i12);
+              }
+              if (localObject2 == null) {
+                paramIa2 = new Rect(0, 0, i13, i14);
+              } else {
+                paramIa2 = (ia)localObject2;
+              }
+              if (!paramIa1.equals(paramIa2))
+              {
+                H.a((View)localObject3, paramIa1);
+                paramIa1 = ObjectAnimator.ofObject(localObject3, "clipBounds", m, new Object[] { paramIa1, paramIa2 });
+                paramIa1.addListener(new b.b.v.j(this, (View)localObject3, (Rect)localObject2, i4, i6, i8, i10));
+              }
+              else
+              {
+                paramIa1 = null;
+              }
+              paramViewGroup = ha.a(paramViewGroup, paramIa1);
+            }
+            if ((((View)localObject1).getParent() instanceof ViewGroup))
+            {
+              paramIa1 = (ViewGroup)((View)localObject1).getParent();
+              i1 = Build.VERSION.SDK_INT;
+              ra.a(paramIa1, true);
+              addListener(new k(this, paramIa1));
+            }
+            return paramViewGroup;
+          }
+        }
+        else
+        {
+          i1 = ((Integer)a.get("android:changeBounds:windowX")).intValue();
+          i2 = ((Integer)a.get("android:changeBounds:windowY")).intValue();
+          i3 = ((Integer)a.get("android:changeBounds:windowX")).intValue();
+          i4 = ((Integer)a.get("android:changeBounds:windowY")).intValue();
+          if ((i1 != i3) || (i2 != i4)) {
+            break label949;
+          }
+        }
+        return null;
+        label949:
+        paramViewGroup.getLocationInWindow(n);
+        paramIa1 = Bitmap.createBitmap(((View)localObject1).getWidth(), ((View)localObject1).getHeight(), Bitmap.Config.ARGB_8888);
+        ((View)localObject1).draw(new Canvas(paramIa1));
+        paramIa1 = new BitmapDrawable(paramIa1);
+        float f1 = xa.c((View)localObject1);
+        xa.a.a((View)localObject1, 0.0F);
+        xa.b(paramViewGroup).a(paramIa1);
+        paramIa2 = getPathMotion();
+        localObject2 = n;
+        paramIa2 = paramIa2.a(i1 - localObject2[0], i2 - localObject2[1], i3 - localObject2[0], i4 - localObject2[1]);
+        paramIa2 = ObjectAnimator.ofPropertyValuesHolder(paramIa1, new PropertyValuesHolder[] { L.a(g, paramIa2) });
+        paramIa2.addListener(new b(this, paramViewGroup, paramIa1, (View)localObject1, f1));
+        return paramIa2;
+      }
+      return null;
+    }
+    return null;
+  }
+  
+  @G
+  public String[] getTransitionProperties()
+  {
+    return f;
+  }
+  
+  private static class a
+  {
+    public int a;
+    public int b;
+    public int c;
+    public int d;
+    public View e;
+    public int f;
+    public int g;
+    
+    public a(View paramView)
+    {
+      e = paramView;
+    }
+    
+    private void a()
+    {
+      xa.a(e, a, b, c, d);
+      f = 0;
+      g = 0;
+    }
+    
+    public void a(PointF paramPointF)
+    {
+      c = Math.round(x);
+      d = Math.round(y);
+      g += 1;
+      if (f == g) {
+        a();
+      }
+    }
+    
+    public void b(PointF paramPointF)
+    {
+      a = Math.round(x);
+      b = Math.round(y);
+      f += 1;
+      if (f == g) {
+        a();
+      }
+    }
+  }
+}

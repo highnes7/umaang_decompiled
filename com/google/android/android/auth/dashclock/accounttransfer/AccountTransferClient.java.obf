@@ -1,0 +1,134 @@
+package com.google.android.gms.auth.api.accounttransfer;
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.os.RemoteException;
+import b.b.a.F;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.zza;
+import com.google.android.gms.common.api.Api.zzf;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.internal.zzdd;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzaro;
+import com.google.android.gms.internal.zzarq;
+import com.google.android.gms.internal.zzarr;
+import com.google.android.gms.internal.zzaru;
+import com.google.android.gms.internal.zzarv;
+import com.google.android.gms.internal.zzarx;
+import com.google.android.gms.internal.zzarz;
+import com.google.android.gms.internal.zzasb;
+import com.google.android.gms.internal.zzasd;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+
+public class AccountTransferClient
+  extends GoogleApi<zzo>
+{
+  public static final Api.zzf<zzarq> zzdyp = new Api.zzf();
+  public static final Api.zza<zzarq, zzo> zzdyq = new zzc();
+  public static final Api<zzo> zzdyr = new Api("AccountTransfer.ACCOUNT_TRANSFER_API", zzdyq, zzdyp);
+  
+  public AccountTransferClient(@F Activity paramActivity)
+  {
+    super(paramActivity, zzdyr, null, new com.google.android.gms.common.api.zzd().zza(new com.google.android.gms.common.api.internal.zzg()).zzafn());
+  }
+  
+  public AccountTransferClient(@F Context paramContext)
+  {
+    super(paramContext, zzdyr, null, new com.google.android.gms.common.api.zzd().zza(new com.google.android.gms.common.api.internal.zzg()).zzafn());
+  }
+  
+  public static void zza(TaskCompletionSource paramTaskCompletionSource, Status paramStatus)
+  {
+    paramStatus = String.valueOf(paramStatus.zzafu());
+    if (paramStatus.length() != 0) {
+      paramStatus = "Exception with Status code=".concat(paramStatus);
+    } else {
+      paramStatus = new String("Exception with Status code=");
+    }
+    paramTaskCompletionSource.setException(new zzl(paramStatus));
+  }
+  
+  public Task<DeviceMetaData> getDeviceMetaData(String paramString)
+  {
+    zzbp.zzu(paramString);
+    return zza(new zzg(this, new zzarr(1, paramString)));
+  }
+  
+  public Task<Void> notifyCompletion(String paramString, int paramInt)
+  {
+    zzbp.zzu(paramString);
+    return zzb(new zzj(this, new zzarx(1, paramString, paramInt)));
+  }
+  
+  public Task<byte[]> retrieveData(String paramString)
+  {
+    zzbp.zzu(paramString);
+    return zza(new zze(this, new zzarz(1, paramString)));
+  }
+  
+  public Task<Void> sendData(String paramString, byte[] paramArrayOfByte)
+  {
+    zzbp.zzu(paramString);
+    zzbp.zzu(paramArrayOfByte);
+    return zzb(new zzd(this, new zzasb(1, paramString, paramArrayOfByte)));
+  }
+  
+  public Task<Void> showUserChallenge(String paramString, PendingIntent paramPendingIntent)
+  {
+    zzbp.zzu(paramString);
+    zzbp.zzu(paramPendingIntent);
+    return zzb(new zzi(this, new zzasd(1, paramString, paramPendingIntent)));
+  }
+  
+  public static class zza<T>
+    extends zzaro
+  {
+    public AccountTransferClient.zzb<T> zzdzb;
+    
+    public zza(AccountTransferClient.zzb<T> paramZzb)
+    {
+      zzdzb = paramZzb;
+    }
+    
+    public final void onFailure(Status paramStatus)
+    {
+      zzdzb.zzd(paramStatus);
+    }
+  }
+  
+  public static abstract class zzb<T>
+    extends zzdd<zzarq, T>
+  {
+    public TaskCompletionSource<T> zzdzc;
+    
+    public zzb() {}
+    
+    public final void setResult(T paramT)
+    {
+      zzdzc.setResult(paramT);
+    }
+    
+    public abstract void zza(zzarv paramZzarv)
+      throws RemoteException;
+    
+    public final void zzd(Status paramStatus)
+    {
+      AccountTransferClient.zza(zzdzc, paramStatus);
+    }
+  }
+  
+  public static abstract class zzc
+    extends AccountTransferClient.zzb<Void>
+  {
+    public zzaru zzdzd = new zzk(this);
+    
+    public zzc()
+    {
+      super();
+    }
+  }
+}

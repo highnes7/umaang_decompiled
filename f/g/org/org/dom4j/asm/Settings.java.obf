@@ -1,0 +1,123 @@
+package f.g.b.a.a.b;
+
+import f.g.b.a.c.M;
+import f.g.b.a.c.k;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.r;
+import f.g.b.a.g.w;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+public class f
+{
+  public static final String a = "access_token";
+  public static final Pattern b = Pattern.compile("\\s*error\\s*=\\s*\"?invalid_token\"?");
+  
+  public f() {}
+  
+  public static j.a a()
+  {
+    return new a();
+  }
+  
+  public static j.a b()
+  {
+    return new b();
+  }
+  
+  public static j.a c()
+  {
+    return new c();
+  }
+  
+  public static final class a
+    implements j.a
+  {
+    public static final String a = "Bearer ";
+    
+    public a() {}
+    
+    public String a(y paramY)
+    {
+      paramY = paramY.i().m();
+      if (paramY != null)
+      {
+        paramY = paramY.iterator();
+        while (paramY.hasNext())
+        {
+          String str = (String)paramY.next();
+          if (str.startsWith("Bearer ")) {
+            return str.substring(7);
+          }
+        }
+      }
+      return null;
+    }
+    
+    public void a(y paramY, String paramString)
+      throws IOException
+    {
+      t localT = paramY.i();
+      paramY = String.valueOf(paramString);
+      if (paramY.length() != 0) {
+        paramY = "Bearer ".concat(paramY);
+      } else {
+        paramY = new String("Bearer ");
+      }
+      localT.f(paramY);
+    }
+  }
+  
+  public static final class b
+    implements j.a
+  {
+    public b() {}
+    
+    public static Map<String, Object> b(y paramY)
+    {
+      return r.d(M.a(paramY).e());
+    }
+    
+    public String a(y paramY)
+    {
+      paramY = b(paramY).get("access_token");
+      if (paramY == null) {
+        return null;
+      }
+      return paramY.toString();
+    }
+    
+    public void a(y paramY, String paramString)
+      throws IOException
+    {
+      g.a("GET".equals(paramY.o()) ^ true, "HTTP GET method is not supported");
+      b(paramY).put("access_token", paramString);
+    }
+  }
+  
+  public static final class c
+    implements j.a
+  {
+    public c() {}
+    
+    public String a(y paramY)
+    {
+      paramY = paramY.x().get("access_token");
+      if (paramY == null) {
+        return null;
+      }
+      return paramY.toString();
+    }
+    
+    public void a(y paramY, String paramString)
+      throws IOException
+    {
+      paramY.x().b("access_token", paramString);
+    }
+  }
+}

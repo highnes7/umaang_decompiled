@@ -1,0 +1,48 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.os.RemoteException;
+import com.google.android.gms.measurement.AppMeasurement.zzb;
+
+public final class zzces
+  implements Runnable
+{
+  public zzces(zzceo paramZzceo, AppMeasurement.zzb paramZzb) {}
+  
+  public final void run()
+  {
+    Object localObject = zziwf;
+    zzcbo localZzcbo = zzivz;
+    if (localZzcbo == null)
+    {
+      ((zzceo)localObject).zzaul().zzayd().log("Failed to send current screen to service");
+      return;
+    }
+    try
+    {
+      long l;
+      String str1;
+      String str2;
+      if (zziwh == null)
+      {
+        l = 0L;
+        str1 = null;
+        str2 = null;
+      }
+      for (localObject = ((zzceo)localObject).getContext().getPackageName();; localObject = ((zzceo)localObject).getContext().getPackageName())
+      {
+        localZzcbo.zza(l, str1, str2, (String)localObject);
+        break;
+        l = zziwh.zzikp;
+        str1 = zziwh.zzikn;
+        str2 = zziwh.zziko;
+      }
+      zzceo.zze(zziwf);
+      return;
+    }
+    catch (RemoteException localRemoteException)
+    {
+      zziwf.zzaul().zzayd().zzj("Failed to send current screen to the service", localRemoteException);
+    }
+  }
+}

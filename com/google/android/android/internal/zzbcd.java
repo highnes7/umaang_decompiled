@@ -1,0 +1,251 @@
+package com.google.android.android.internal;
+
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Drawable.Callback;
+import android.graphics.drawable.Drawable.ConstantState;
+import android.os.SystemClock;
+
+public final class zzbcd
+  extends Drawable
+  implements Drawable.Callback
+{
+  public int mFrom;
+  public long zzdqt;
+  public boolean zzfrt = true;
+  public int zzfry = 0;
+  public int zzfrz;
+  public int zzfsa = 255;
+  public int zzfsb;
+  public int zzfsc = 0;
+  public boolean zzfsd;
+  public zzbch zzfse;
+  public Drawable zzfsf;
+  public Drawable zzfsg;
+  public boolean zzfsh;
+  public boolean zzfsi;
+  public boolean zzfsj;
+  public int zzfsk;
+  
+  public zzbcd(Drawable paramDrawable1, Drawable paramDrawable2)
+  {
+    this(null);
+    Object localObject = paramDrawable1;
+    if (paramDrawable1 == null) {
+      localObject = zzbcf.zzfsl;
+    }
+    zzfsf = ((Drawable)localObject);
+    ((Drawable)localObject).setCallback(this);
+    paramDrawable1 = zzfse;
+    int i = zzfsn;
+    zzfsn = (((Drawable)localObject).getChangingConfigurations() | i);
+    paramDrawable1 = paramDrawable2;
+    if (paramDrawable2 == null) {
+      paramDrawable1 = zzbcf.zzfsl;
+    }
+    zzfsg = paramDrawable1;
+    paramDrawable1.setCallback(this);
+    paramDrawable2 = zzfse;
+    i = zzfsn;
+    zzfsn = (paramDrawable1.getChangingConfigurations() | i);
+  }
+  
+  public zzbcd(zzbch paramZzbch)
+  {
+    zzfse = new zzbch(paramZzbch);
+  }
+  
+  private final boolean canConstantState()
+  {
+    if (!zzfsh)
+    {
+      boolean bool;
+      if ((zzfsf.getConstantState() != null) && (zzfsg.getConstantState() != null)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      zzfsi = bool;
+      zzfsh = true;
+    }
+    return zzfsi;
+  }
+  
+  public final void draw(Canvas paramCanvas)
+  {
+    int k = zzfry;
+    int i = 1;
+    int j = 1;
+    if (k != 1)
+    {
+      if ((k == 2) && (zzdqt >= 0L))
+      {
+        float f = (float)(SystemClock.uptimeMillis() - zzdqt) / zzfsb;
+        if (f >= 1.0F) {
+          i = j;
+        } else {
+          i = 0;
+        }
+        if (i != 0) {
+          zzfry = 0;
+        }
+        f = Math.min(f, 1.0F);
+        zzfsc = ((int)(zzfrz * f + 0.0F));
+      }
+    }
+    else
+    {
+      zzdqt = SystemClock.uptimeMillis();
+      zzfry = 2;
+      i = 0;
+    }
+    j = zzfsc;
+    boolean bool = zzfrt;
+    Drawable localDrawable1 = zzfsf;
+    Drawable localDrawable2 = zzfsg;
+    if (i != 0)
+    {
+      if ((!bool) || (j == 0)) {
+        localDrawable1.draw(paramCanvas);
+      }
+      i = zzfsa;
+      if (j == i)
+      {
+        localDrawable2.setAlpha(i);
+        localDrawable2.draw(paramCanvas);
+      }
+    }
+    else
+    {
+      if (bool) {
+        localDrawable1.setAlpha(zzfsa - j);
+      }
+      localDrawable1.draw(paramCanvas);
+      if (bool) {
+        localDrawable1.setAlpha(zzfsa);
+      }
+      if (j > 0)
+      {
+        localDrawable2.setAlpha(j);
+        localDrawable2.draw(paramCanvas);
+        localDrawable2.setAlpha(zzfsa);
+      }
+      invalidateSelf();
+    }
+  }
+  
+  public final int getChangingConfigurations()
+  {
+    int i = super.getChangingConfigurations();
+    zzbch localZzbch = zzfse;
+    return i | mChangingConfigurations | zzfsn;
+  }
+  
+  public final Drawable.ConstantState getConstantState()
+  {
+    if (canConstantState())
+    {
+      zzfse.mChangingConfigurations = getChangingConfigurations();
+      return zzfse;
+    }
+    return null;
+  }
+  
+  public final int getIntrinsicHeight()
+  {
+    return Math.max(zzfsf.getIntrinsicHeight(), zzfsg.getIntrinsicHeight());
+  }
+  
+  public final int getIntrinsicWidth()
+  {
+    return Math.max(zzfsf.getIntrinsicWidth(), zzfsg.getIntrinsicWidth());
+  }
+  
+  public final int getOpacity()
+  {
+    if (!zzfsj)
+    {
+      zzfsk = Drawable.resolveOpacity(zzfsf.getOpacity(), zzfsg.getOpacity());
+      zzfsj = true;
+    }
+    return zzfsk;
+  }
+  
+  public final void invalidateDrawable(Drawable paramDrawable)
+  {
+    paramDrawable = getCallback();
+    if (paramDrawable != null) {
+      paramDrawable.invalidateDrawable(this);
+    }
+  }
+  
+  public final Drawable mutate()
+  {
+    if ((!zzfsd) && (super.mutate() == this))
+    {
+      if (canConstantState())
+      {
+        zzfsf.mutate();
+        zzfsg.mutate();
+        zzfsd = true;
+        return this;
+      }
+      throw new IllegalStateException("One or more children of this LayerDrawable does not have constant state; this drawable cannot be mutated.");
+    }
+    return this;
+  }
+  
+  public final void onBoundsChange(Rect paramRect)
+  {
+    zzfsf.setBounds(paramRect);
+    zzfsg.setBounds(paramRect);
+  }
+  
+  public final void scheduleDrawable(Drawable paramDrawable, Runnable paramRunnable, long paramLong)
+  {
+    paramDrawable = getCallback();
+    if (paramDrawable != null) {
+      paramDrawable.scheduleDrawable(this, paramRunnable, paramLong);
+    }
+  }
+  
+  public final void setAlpha(int paramInt)
+  {
+    if (zzfsc == zzfsa) {
+      zzfsc = paramInt;
+    }
+    zzfsa = paramInt;
+    invalidateSelf();
+  }
+  
+  public final void setColorFilter(ColorFilter paramColorFilter)
+  {
+    zzfsf.setColorFilter(paramColorFilter);
+    zzfsg.setColorFilter(paramColorFilter);
+  }
+  
+  public final void startTransition(int paramInt)
+  {
+    mFrom = 0;
+    zzfrz = zzfsa;
+    zzfsc = 0;
+    zzfsb = 250;
+    zzfry = 1;
+    invalidateSelf();
+  }
+  
+  public final void unscheduleDrawable(Drawable paramDrawable, Runnable paramRunnable)
+  {
+    paramDrawable = getCallback();
+    if (paramDrawable != null) {
+      paramDrawable.unscheduleDrawable(this, paramRunnable);
+    }
+  }
+  
+  public final Drawable zzaja()
+  {
+    return zzfsg;
+  }
+}

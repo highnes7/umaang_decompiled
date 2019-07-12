@@ -1,0 +1,134 @@
+package b.a.b;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import b.b.a.N;
+
+@N({b.b.a.N.a.b})
+public class v
+  extends Fragment
+{
+  public static final String a = "android.arch.lifecycle.LifecycleDispatcher.report_fragment_tag";
+  public a b;
+  
+  public v() {}
+  
+  public static v a(Activity paramActivity)
+  {
+    return (v)paramActivity.getFragmentManager().findFragmentByTag("android.arch.lifecycle.LifecycleDispatcher.report_fragment_tag");
+  }
+  
+  private void a(h.a paramA)
+  {
+    Object localObject = getActivity();
+    if ((localObject instanceof m))
+    {
+      ((m)localObject).getLifecycle().b(paramA);
+      return;
+    }
+    if ((localObject instanceof j))
+    {
+      localObject = ((j)localObject).getLifecycle();
+      if ((localObject instanceof l)) {
+        ((l)localObject).b(paramA);
+      }
+    }
+  }
+  
+  public static void b(Activity paramActivity)
+  {
+    paramActivity = paramActivity.getFragmentManager();
+    if (paramActivity.findFragmentByTag("android.arch.lifecycle.LifecycleDispatcher.report_fragment_tag") == null)
+    {
+      paramActivity.beginTransaction().add(new v(), "android.arch.lifecycle.LifecycleDispatcher.report_fragment_tag").commit();
+      paramActivity.executePendingTransactions();
+    }
+  }
+  
+  private void b(a paramA)
+  {
+    if (paramA != null) {
+      paramA.onCreate();
+    }
+  }
+  
+  private void c(a paramA)
+  {
+    if (paramA != null) {
+      paramA.onResume();
+    }
+  }
+  
+  private void d(a paramA)
+  {
+    if (paramA != null) {
+      paramA.onStart();
+    }
+  }
+  
+  public void a(a paramA)
+  {
+    b = paramA;
+  }
+  
+  public void onActivityCreated(Bundle paramBundle)
+  {
+    super.onActivityCreated(paramBundle);
+    paramBundle = b;
+    if (paramBundle != null) {
+      paramBundle.onCreate();
+    }
+    a(h.a.ON_CREATE);
+  }
+  
+  public void onDestroy()
+  {
+    super.onDestroy();
+    a(h.a.ON_DESTROY);
+    b = null;
+  }
+  
+  public void onPause()
+  {
+    super.onPause();
+    a(h.a.ON_PAUSE);
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    a localA = b;
+    if (localA != null) {
+      localA.onResume();
+    }
+    a(h.a.ON_RESUME);
+  }
+  
+  public void onStart()
+  {
+    super.onStart();
+    a localA = b;
+    if (localA != null) {
+      localA.onStart();
+    }
+    a(h.a.ON_START);
+  }
+  
+  public void onStop()
+  {
+    super.onStop();
+    a(h.a.ON_STOP);
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void onCreate();
+    
+    public abstract void onResume();
+    
+    public abstract void onStart();
+  }
+}

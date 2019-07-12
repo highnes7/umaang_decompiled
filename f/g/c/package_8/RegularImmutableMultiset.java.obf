@@ -1,0 +1,88 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.Map;
+import java.util.Map.Entry;
+import m.a.h;
+
+@b(serializable=true)
+public class Gf<E>
+  extends Mb<E>
+{
+  public final transient Ab<E, Integer> d;
+  public final transient int e;
+  
+  public Gf(Ab<E, Integer> paramAb, int paramInt)
+  {
+    d = paramAb;
+    e = paramInt;
+  }
+  
+  public static <E> Ye.a<E> b(Map.Entry<E, Integer> paramEntry)
+  {
+    return bf.a(paramEntry.getKey(), ((Integer)paramEntry.getValue()).intValue());
+  }
+  
+  public int a(@h Object paramObject)
+  {
+    paramObject = (Integer)d.get(paramObject);
+    if (paramObject == null) {
+      return 0;
+    }
+    return paramObject.intValue();
+  }
+  
+  public boolean c()
+  {
+    return d.e();
+  }
+  
+  public boolean contains(@h Object paramObject)
+  {
+    return d.containsKey(paramObject);
+  }
+  
+  public Nb<Ye.a<E>> f()
+  {
+    return new a(null);
+  }
+  
+  public int hashCode()
+  {
+    return d.hashCode();
+  }
+  
+  public int size()
+  {
+    return e;
+  }
+  
+  public Nb<E> u()
+  {
+    return d.keySet();
+  }
+  
+  private class a
+    extends Mb.b
+  {
+    public a()
+    {
+      super();
+    }
+    
+    public vb<Ye.a<E>> b()
+    {
+      return new Ff(this, Gf.a(Gf.this).entrySet().a());
+    }
+    
+    public th<Ye.a<E>> iterator()
+    {
+      return a().iterator();
+    }
+    
+    public int size()
+    {
+      return Gf.a(Gf.this).size();
+    }
+  }
+}

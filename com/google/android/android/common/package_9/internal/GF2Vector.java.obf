@@ -1,0 +1,50 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.DeadObjectException;
+import android.os.RemoteException;
+import b.b.a.F;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.TaskCompletionSource;
+
+public abstract class zzb<T>
+  extends zza
+{
+  public final TaskCompletionSource<T> zzdzc;
+  
+  public zzb(int paramInt, TaskCompletionSource<T> paramTaskCompletionSource)
+  {
+    super(paramInt);
+    zzdzc = paramTaskCompletionSource;
+  }
+  
+  public void zza(@F zzah paramZzah, boolean paramBoolean) {}
+  
+  public final void zza(zzbr<?> paramZzbr)
+    throws DeadObjectException
+  {
+    try
+    {
+      zzb(paramZzbr);
+      return;
+    }
+    catch (RemoteException paramZzbr)
+    {
+      zzr(zza.zza(paramZzbr));
+      return;
+    }
+    catch (DeadObjectException paramZzbr)
+    {
+      zzr(zza.zza(paramZzbr));
+      throw paramZzbr;
+    }
+  }
+  
+  public abstract void zzb(zzbr<?> paramZzbr)
+    throws RemoteException;
+  
+  public void zzr(@F Status paramStatus)
+  {
+    zzdzc.trySetException(new ApiException(paramStatus));
+  }
+}

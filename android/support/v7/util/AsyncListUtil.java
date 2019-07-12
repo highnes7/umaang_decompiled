@@ -1,0 +1,433 @@
+package android.support.v7.util;
+
+import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
+
+public class AsyncListUtil<T>
+{
+  public static final boolean DEBUG = false;
+  public static final String TAG = "AsyncListUtil";
+  public boolean mAllowScrollHints;
+  public final ThreadUtil.BackgroundCallback<T> mBackgroundCallback = new ThreadUtil.BackgroundCallback()
+  {
+    public int mFirstRequiredTileStart;
+    public int mGeneration;
+    public int mItemCount;
+    public int mLastRequiredTileStart;
+    public final SparseBooleanArray mLoadedTiles = new SparseBooleanArray();
+    public TileList.Tile<T> mRecycledRoot;
+    
+    private TileList.Tile acquireTile()
+    {
+      Object localObject = mRecycledRoot;
+      if (localObject != null)
+      {
+        mRecycledRoot = mNext;
+        return localObject;
+      }
+      localObject = AsyncListUtil.this;
+      return new TileList.Tile(mTClass, mTileSize);
+    }
+    
+    private void addTile(TileList.Tile paramAnonymousTile)
+    {
+      mLoadedTiles.put(mStartPosition, true);
+      mMainThreadProxy.addTile(mGeneration, paramAnonymousTile);
+    }
+    
+    private void flushTileCache(int paramAnonymousInt)
+    {
+      int i = mDataCallback.getMaxCachedTiles();
+      while (mLoadedTiles.size() >= i)
+      {
+        int j = mLoadedTiles.keyAt(0);
+        SparseBooleanArray localSparseBooleanArray = mLoadedTiles;
+        int k = localSparseBooleanArray.keyAt(localSparseBooleanArray.size() - 1);
+        int m = mFirstRequiredTileStart - j;
+        int n = k - mLastRequiredTileStart;
+        if ((m > 0) && ((m >= n) || (paramAnonymousInt == 2)))
+        {
+          removeTile(j);
+        }
+        else
+        {
+          if ((n <= 0) || ((m >= n) && (paramAnonymousInt != 1))) {
+            break;
+          }
+          removeTile(k);
+        }
+      }
+    }
+    
+    private int getTileStart(int paramAnonymousInt)
+    {
+      return paramAnonymousInt - paramAnonymousInt % mTileSize;
+    }
+    
+    private boolean isTileLoaded(int paramAnonymousInt)
+    {
+      return mLoadedTiles.get(paramAnonymousInt);
+    }
+    
+    private void log(String paramAnonymousString, Object... paramAnonymousVarArgs)
+    {
+      StringBuilder localStringBuilder = f.sufficientlysecure.rootcommands.util.StringBuilder.append("[BKGR] ");
+      localStringBuilder.append(String.format(paramAnonymousString, paramAnonymousVarArgs));
+      localStringBuilder.toString();
+    }
+    
+    private void removeTile(int paramAnonymousInt)
+    {
+      mLoadedTiles.delete(paramAnonymousInt);
+      mMainThreadProxy.removeTile(mGeneration, paramAnonymousInt);
+    }
+    
+    private void requestTiles(int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3, boolean paramAnonymousBoolean)
+    {
+      int i = paramAnonymousInt1;
+      while (i <= paramAnonymousInt2)
+      {
+        int j;
+        if (paramAnonymousBoolean) {
+          j = paramAnonymousInt2 + paramAnonymousInt1 - i;
+        } else {
+          j = i;
+        }
+        mBackgroundProxy.loadTile(j, paramAnonymousInt3);
+        i += mTileSize;
+      }
+    }
+    
+    public void loadTile(int paramAnonymousInt1, int paramAnonymousInt2)
+    {
+      if (mLoadedTiles.get(paramAnonymousInt1)) {
+        return;
+      }
+      TileList.Tile localTile = acquireTile();
+      mStartPosition = paramAnonymousInt1;
+      mItemCount = Math.min(mTileSize, mItemCount - mStartPosition);
+      mDataCallback.fillData(mItems, mStartPosition, mItemCount);
+      flushTileCache(paramAnonymousInt2);
+      addTile(localTile);
+    }
+    
+    public void recycleTile(TileList.Tile paramAnonymousTile)
+    {
+      mDataCallback.recycleData(mItems, mItemCount);
+      mNext = mRecycledRoot;
+      mRecycledRoot = paramAnonymousTile;
+    }
+    
+    public void refresh(int paramAnonymousInt)
+    {
+      mGeneration = paramAnonymousInt;
+      mLoadedTiles.clear();
+      mItemCount = mDataCallback.refreshData();
+      mMainThreadProxy.updateItemCount(mGeneration, mItemCount);
+    }
+    
+    public void updateRange(int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3, int paramAnonymousInt4, int paramAnonymousInt5)
+    {
+      if (paramAnonymousInt1 > paramAnonymousInt2) {
+        return;
+      }
+      int i = mTileSize;
+      paramAnonymousInt1 -= paramAnonymousInt1 % i;
+      paramAnonymousInt2 -= paramAnonymousInt2 % i;
+      mFirstRequiredTileStart = (paramAnonymousInt3 - paramAnonymousInt3 % i);
+      mLastRequiredTileStart = (paramAnonymousInt4 - paramAnonymousInt4 % i);
+      if (paramAnonymousInt5 == 1)
+      {
+        requestTiles(mFirstRequiredTileStart, paramAnonymousInt2, paramAnonymousInt5, true);
+        requestTiles(paramAnonymousInt2 + mTileSize, mLastRequiredTileStart, paramAnonymousInt5, false);
+        return;
+      }
+      requestTiles(paramAnonymousInt1, mLastRequiredTileStart, paramAnonymousInt5, false);
+      requestTiles(mFirstRequiredTileStart, paramAnonymousInt1 - mTileSize, paramAnonymousInt5, true);
+    }
+  };
+  public final ThreadUtil.BackgroundCallback<T> mBackgroundProxy;
+  public final DataCallback<T> mDataCallback;
+  public int mDisplayedGeneration = 0;
+  public int mItemCount = 0;
+  public final ThreadUtil.MainThreadCallback<T> mMainThreadCallback = new ThreadUtil.MainThreadCallback()
+  {
+    private boolean isRequestedGeneration(int paramAnonymousInt)
+    {
+      return paramAnonymousInt == mRequestedGeneration;
+    }
+    
+    private void recycleAllTiles()
+    {
+      int i = 0;
+      while (i < mTileList.size())
+      {
+        AsyncListUtil localAsyncListUtil = AsyncListUtil.this;
+        mBackgroundProxy.recycleTile(mTileList.getAtIndex(i));
+        i += 1;
+      }
+      mTileList.clear();
+    }
+    
+    public void addTile(int paramAnonymousInt, TileList.Tile paramAnonymousTile)
+    {
+      int j = mRequestedGeneration;
+      int i = 0;
+      if (paramAnonymousInt == j) {
+        paramAnonymousInt = 1;
+      } else {
+        paramAnonymousInt = 0;
+      }
+      if (paramAnonymousInt == 0)
+      {
+        mBackgroundProxy.recycleTile(paramAnonymousTile);
+        return;
+      }
+      TileList.Tile localTile = mTileList.addOrReplace(paramAnonymousTile);
+      if (localTile != null)
+      {
+        StringBuilder localStringBuilder = f.sufficientlysecure.rootcommands.util.StringBuilder.append("duplicate tile @");
+        localStringBuilder.append(mStartPosition);
+        localStringBuilder.toString();
+        mBackgroundProxy.recycleTile(localTile);
+      }
+      j = mStartPosition;
+      int k = mItemCount;
+      paramAnonymousInt = i;
+      while (paramAnonymousInt < mMissingPositions.size())
+      {
+        i = mMissingPositions.keyAt(paramAnonymousInt);
+        if ((mStartPosition <= i) && (i < j + k))
+        {
+          mMissingPositions.removeAt(paramAnonymousInt);
+          mViewCallback.onItemLoaded(i);
+        }
+        else
+        {
+          paramAnonymousInt += 1;
+        }
+      }
+    }
+    
+    public void removeTile(int paramAnonymousInt1, int paramAnonymousInt2)
+    {
+      if (paramAnonymousInt1 == mRequestedGeneration) {
+        paramAnonymousInt1 = 1;
+      } else {
+        paramAnonymousInt1 = 0;
+      }
+      if (paramAnonymousInt1 == 0) {
+        return;
+      }
+      TileList.Tile localTile = mTileList.removeAtPos(paramAnonymousInt2);
+      if (localTile == null)
+      {
+        f.sufficientlysecure.rootcommands.util.StringBuilder.append("tile not found @", paramAnonymousInt2);
+        return;
+      }
+      mBackgroundProxy.recycleTile(localTile);
+    }
+    
+    public void updateItemCount(int paramAnonymousInt1, int paramAnonymousInt2)
+    {
+      if (paramAnonymousInt1 == mRequestedGeneration) {
+        paramAnonymousInt1 = 1;
+      } else {
+        paramAnonymousInt1 = 0;
+      }
+      if (paramAnonymousInt1 == 0) {
+        return;
+      }
+      AsyncListUtil localAsyncListUtil = AsyncListUtil.this;
+      mItemCount = paramAnonymousInt2;
+      mViewCallback.onDataRefresh();
+      localAsyncListUtil = AsyncListUtil.this;
+      mDisplayedGeneration = mRequestedGeneration;
+      recycleAllTiles();
+      localAsyncListUtil = AsyncListUtil.this;
+      mAllowScrollHints = false;
+      localAsyncListUtil.updateRange();
+    }
+  };
+  public final ThreadUtil.MainThreadCallback<T> mMainThreadProxy;
+  public final SparseIntArray mMissingPositions = new SparseIntArray();
+  public final int[] mPrevRange = new int[2];
+  public int mRequestedGeneration = mDisplayedGeneration;
+  public int mScrollHint = 0;
+  public final Class<T> mTClass;
+  public final TileList<T> mTileList;
+  public final int mTileSize;
+  public final int[] mTmpRange = new int[2];
+  public final int[] mTmpRangeExtended = new int[2];
+  public final ViewCallback mViewCallback;
+  
+  public AsyncListUtil(Class paramClass, int paramInt, DataCallback paramDataCallback, ViewCallback paramViewCallback)
+  {
+    mTClass = paramClass;
+    mTileSize = paramInt;
+    mDataCallback = paramDataCallback;
+    mViewCallback = paramViewCallback;
+    mTileList = new TileList(mTileSize);
+    paramClass = new MessageThreadUtil();
+    mMainThreadProxy = paramClass.getMainThreadProxy(mMainThreadCallback);
+    mBackgroundProxy = paramClass.getBackgroundProxy(mBackgroundCallback);
+    refresh();
+  }
+  
+  private boolean isRefreshPending()
+  {
+    return mRequestedGeneration != mDisplayedGeneration;
+  }
+  
+  public Object getItem(int paramInt)
+  {
+    Object localObject;
+    if ((paramInt >= 0) && (paramInt < mItemCount))
+    {
+      localObject = mTileList.getItemAt(paramInt);
+      if ((localObject == null) && (!isRefreshPending()))
+      {
+        mMissingPositions.put(paramInt, 0);
+        return localObject;
+      }
+    }
+    else
+    {
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append(paramInt);
+      ((StringBuilder)localObject).append(" is not within 0 and ");
+      ((StringBuilder)localObject).append(mItemCount);
+      throw new IndexOutOfBoundsException(((StringBuilder)localObject).toString());
+    }
+    return localObject;
+  }
+  
+  public int getItemCount()
+  {
+    return mItemCount;
+  }
+  
+  public void log(String paramString, Object... paramVarArgs)
+  {
+    StringBuilder localStringBuilder = f.sufficientlysecure.rootcommands.util.StringBuilder.append("[MAIN] ");
+    localStringBuilder.append(String.format(paramString, paramVarArgs));
+    localStringBuilder.toString();
+  }
+  
+  public void onRangeChanged()
+  {
+    if (isRefreshPending()) {
+      return;
+    }
+    updateRange();
+    mAllowScrollHints = true;
+  }
+  
+  public void refresh()
+  {
+    mMissingPositions.clear();
+    ThreadUtil.BackgroundCallback localBackgroundCallback = mBackgroundProxy;
+    int i = mRequestedGeneration + 1;
+    mRequestedGeneration = i;
+    localBackgroundCallback.refresh(i);
+  }
+  
+  public void updateRange()
+  {
+    mViewCallback.getItemRangeInto(mTmpRange);
+    Object localObject = mTmpRange;
+    if (localObject[0] <= localObject[1])
+    {
+      if (localObject[0] < 0) {
+        return;
+      }
+      if (localObject[1] >= mItemCount) {
+        return;
+      }
+      if (!mAllowScrollHints)
+      {
+        mScrollHint = 0;
+      }
+      else
+      {
+        i = localObject[0];
+        arrayOfInt = mPrevRange;
+        if ((i <= arrayOfInt[1]) && (arrayOfInt[0] <= localObject[1]))
+        {
+          if (localObject[0] < arrayOfInt[0]) {
+            mScrollHint = 1;
+          } else if (localObject[0] > arrayOfInt[0]) {
+            mScrollHint = 2;
+          }
+        }
+        else {
+          mScrollHint = 0;
+        }
+      }
+      localObject = mPrevRange;
+      int[] arrayOfInt = mTmpRange;
+      localObject[0] = arrayOfInt[0];
+      localObject[1] = arrayOfInt[1];
+      mViewCallback.extendRangeInto(arrayOfInt, mTmpRangeExtended, mScrollHint);
+      localObject = mTmpRangeExtended;
+      localObject[0] = Math.min(mTmpRange[0], Math.max(localObject[0], 0));
+      localObject = mTmpRangeExtended;
+      localObject[1] = Math.max(mTmpRange[1], Math.min(localObject[1], mItemCount - 1));
+      localObject = mBackgroundProxy;
+      arrayOfInt = mTmpRange;
+      int i = arrayOfInt[0];
+      int j = arrayOfInt[1];
+      arrayOfInt = mTmpRangeExtended;
+      ((ThreadUtil.BackgroundCallback)localObject).updateRange(i, j, arrayOfInt[0], arrayOfInt[1], mScrollHint);
+    }
+  }
+  
+  public static abstract class DataCallback<T>
+  {
+    public DataCallback() {}
+    
+    public abstract void fillData(Object[] paramArrayOfObject, int paramInt1, int paramInt2);
+    
+    public int getMaxCachedTiles()
+    {
+      return 10;
+    }
+    
+    public void recycleData(Object[] paramArrayOfObject, int paramInt) {}
+    
+    public abstract int refreshData();
+  }
+  
+  public static abstract class ViewCallback
+  {
+    public static final int HINT_SCROLL_ASC = 2;
+    public static final int HINT_SCROLL_DESC = 1;
+    public static final int HINT_SCROLL_NONE = 0;
+    
+    public ViewCallback() {}
+    
+    public void extendRangeInto(int[] paramArrayOfInt1, int[] paramArrayOfInt2, int paramInt)
+    {
+      int i = paramArrayOfInt1[1] - paramArrayOfInt1[0] + 1;
+      int j = i / 2;
+      int m = paramArrayOfInt1[0];
+      if (paramInt == 1) {
+        k = i;
+      } else {
+        k = j;
+      }
+      paramArrayOfInt2[0] = (m - k);
+      int k = paramArrayOfInt1[1];
+      if (paramInt != 2) {
+        i = j;
+      }
+      paramArrayOfInt2[1] = (k + i);
+    }
+    
+    public abstract void getItemRangeInto(int[] paramArrayOfInt);
+    
+    public abstract void onDataRefresh();
+    
+    public abstract void onItemLoaded(int paramInt);
+  }
+}

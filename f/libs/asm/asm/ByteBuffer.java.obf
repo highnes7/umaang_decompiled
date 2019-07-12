@@ -1,0 +1,69 @@
+package f.c.a.a;
+
+import java.math.BigDecimal;
+import java.util.Currency;
+
+public class J
+  extends I<J>
+{
+  public static final String f = "purchase";
+  public static final BigDecimal g = BigDecimal.valueOf(1000000L);
+  public static final String h = "itemId";
+  public static final String i = "itemName";
+  public static final String j = "itemType";
+  public static final String k = "itemPrice";
+  public static final String l = "currency";
+  public static final String m = "success";
+  
+  public J() {}
+  
+  public long a(BigDecimal paramBigDecimal)
+  {
+    return g.multiply(paramBigDecimal).longValue();
+  }
+  
+  public J a(String paramString)
+  {
+    e.a("itemId", paramString);
+    return this;
+  }
+  
+  public J a(Currency paramCurrency)
+  {
+    if (!c.a(paramCurrency, "currency")) {
+      e.a("currency", paramCurrency.getCurrencyCode());
+    }
+    return this;
+  }
+  
+  public J a(boolean paramBoolean)
+  {
+    e.a("success", Boolean.toString(paramBoolean));
+    return this;
+  }
+  
+  public J b(String paramString)
+  {
+    e.a("itemName", paramString);
+    return this;
+  }
+  
+  public J b(BigDecimal paramBigDecimal)
+  {
+    if (!c.a(paramBigDecimal, "itemPrice")) {
+      e.a("itemPrice", Long.valueOf(a(paramBigDecimal)));
+    }
+    return this;
+  }
+  
+  public J c(String paramString)
+  {
+    e.a("itemType", paramString);
+    return this;
+  }
+  
+  public String c()
+  {
+    return "purchase";
+  }
+}

@@ -1,0 +1,98 @@
+package com.github.mikephil.charting.data.realm.implementation;
+
+import com.github.mikephil.charting.charts.ScatterChart.ScatterShape;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.realm.base.RealmBaseDataSet;
+import com.github.mikephil.charting.data.realm.base.RealmLineScatterCandleRadarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
+import io.realm.DynamicRealmObject;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
+import java.util.Iterator;
+import java.util.List;
+
+public class RealmScatterDataSet<T extends RealmObject>
+  extends RealmLineScatterCandleRadarDataSet<T, Entry>
+  implements IScatterDataSet
+{
+  public ScatterChart.ScatterShape mScatterShape = ScatterChart.ScatterShape.SQUARE;
+  public int mScatterShapeHoleColor = 1122867;
+  public float mScatterShapeHoleRadius = 0.0F;
+  public float mShapeSize = 10.0F;
+  
+  public RealmScatterDataSet(RealmResults paramRealmResults, String paramString)
+  {
+    super(paramRealmResults, paramString);
+    build(results);
+    calcMinMax(0, results.size());
+  }
+  
+  public RealmScatterDataSet(RealmResults paramRealmResults, String paramString1, String paramString2)
+  {
+    super(paramRealmResults, paramString1, paramString2);
+    build(results);
+    calcMinMax(0, results.size());
+  }
+  
+  public void build(RealmResults paramRealmResults)
+  {
+    DynamicRealmObject localDynamicRealmObject;
+    if (mIndexField == null)
+    {
+      int i = 0;
+      paramRealmResults = paramRealmResults.iterator();
+      while (paramRealmResults.hasNext())
+      {
+        localDynamicRealmObject = new DynamicRealmObject((RealmObject)paramRealmResults.next());
+        mValues.add(new Entry(localDynamicRealmObject.getFloat(mValuesField), i));
+        i += 1;
+      }
+    }
+    paramRealmResults = paramRealmResults.iterator();
+    while (paramRealmResults.hasNext())
+    {
+      localDynamicRealmObject = new DynamicRealmObject((RealmObject)paramRealmResults.next());
+      mValues.add(new Entry(localDynamicRealmObject.getFloat(mValuesField), localDynamicRealmObject.getInt(mIndexField)));
+    }
+  }
+  
+  public ScatterChart.ScatterShape getScatterShape()
+  {
+    return mScatterShape;
+  }
+  
+  public int getScatterShapeHoleColor()
+  {
+    return mScatterShapeHoleColor;
+  }
+  
+  public float getScatterShapeHoleRadius()
+  {
+    return mScatterShapeHoleRadius;
+  }
+  
+  public float getScatterShapeSize()
+  {
+    return mShapeSize;
+  }
+  
+  public void setScatterShape(ScatterChart.ScatterShape paramScatterShape)
+  {
+    mScatterShape = paramScatterShape;
+  }
+  
+  public void setScatterShapeHoleColor(int paramInt)
+  {
+    mScatterShapeHoleColor = paramInt;
+  }
+  
+  public void setScatterShapeHoleRadius(float paramFloat)
+  {
+    mScatterShapeHoleRadius = paramFloat;
+  }
+  
+  public void setScatterShapeSize(float paramFloat)
+  {
+    mShapeSize = paramFloat;
+  }
+}

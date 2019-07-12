@@ -1,0 +1,133 @@
+package f.g.c.g;
+
+import f.g.c.a.a;
+import f.g.c.j.g;
+import f.g.c.j.h;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+@a
+public final class E
+  extends FilterInputStream
+  implements DataInput
+{
+  public E(InputStream paramInputStream) {}
+  
+  private byte u()
+    throws IOException, EOFException
+  {
+    int i = in.read();
+    if (-1 != i) {
+      return (byte)i;
+    }
+    throw new EOFException();
+  }
+  
+  public boolean readBoolean()
+    throws IOException
+  {
+    return readUnsignedByte() != 0;
+  }
+  
+  public byte readByte()
+    throws IOException
+  {
+    return (byte)readUnsignedByte();
+  }
+  
+  public char readChar()
+    throws IOException
+  {
+    return (char)readUnsignedShort();
+  }
+  
+  public double readDouble()
+    throws IOException
+  {
+    return Double.longBitsToDouble(readLong());
+  }
+  
+  public float readFloat()
+    throws IOException
+  {
+    return Float.intBitsToFloat(readInt());
+  }
+  
+  public void readFully(byte[] paramArrayOfByte)
+    throws IOException
+  {
+    i.b(this, paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public void readFully(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    i.b(this, paramArrayOfByte, paramInt1, paramInt2);
+  }
+  
+  public int readInt()
+    throws IOException
+  {
+    byte b1 = u();
+    byte b2 = u();
+    byte b3 = u();
+    return g.a(u(), b3, b2, b1);
+  }
+  
+  public String readLine()
+  {
+    throw new UnsupportedOperationException("readLine is not supported");
+  }
+  
+  public long readLong()
+    throws IOException
+  {
+    byte b1 = u();
+    byte b2 = u();
+    byte b3 = u();
+    byte b4 = u();
+    byte b5 = u();
+    byte b6 = u();
+    byte b7 = u();
+    return h.a(u(), b7, b6, b5, b4, b3, b2, b1);
+  }
+  
+  public short readShort()
+    throws IOException
+  {
+    return (short)readUnsignedShort();
+  }
+  
+  public String readUTF()
+    throws IOException
+  {
+    return new DataInputStream(in).readUTF();
+  }
+  
+  public int readUnsignedByte()
+    throws IOException
+  {
+    int i = in.read();
+    if (i >= 0) {
+      return i;
+    }
+    throw new EOFException();
+  }
+  
+  public int readUnsignedShort()
+    throws IOException
+  {
+    byte b = u();
+    return g.a((byte)0, (byte)0, u(), b);
+  }
+  
+  public int skipBytes(int paramInt)
+    throws IOException
+  {
+    return (int)in.skip(paramInt);
+  }
+}

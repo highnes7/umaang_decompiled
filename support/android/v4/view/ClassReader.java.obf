@@ -1,0 +1,29 @@
+package b.b.x.o;
+
+import android.os.Build.VERSION;
+import android.view.View;
+import android.view.Window;
+import b.b.a.F;
+import b.b.a.v;
+
+public final class X
+{
+  public static final int a = 8;
+  public static final int b = 9;
+  public static final int c = 10;
+  
+  public X() {}
+  
+  @F
+  public static <T extends View> T a(@F Window paramWindow, @v int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramWindow.requireViewById(paramInt);
+    }
+    paramWindow = paramWindow.findViewById(paramInt);
+    if (paramWindow != null) {
+      return paramWindow;
+    }
+    throw new IllegalArgumentException("ID does not reference a View inside this Window");
+  }
+}

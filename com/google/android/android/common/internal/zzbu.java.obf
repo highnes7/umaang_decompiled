@@ -1,0 +1,41 @@
+package com.google.android.gms.common.internal;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+public final class zzbu
+  extends zzbck
+{
+  public static final Parcelable.Creator<zzbu> CREATOR = new zzbv();
+  public int zzdxs;
+  public final int zzfwb;
+  public final int zzfwc;
+  @Deprecated
+  public final Scope[] zzfwd;
+  
+  public zzbu(int paramInt1, int paramInt2, int paramInt3, Scope[] paramArrayOfScope)
+  {
+    zzdxs = paramInt1;
+    zzfwb = paramInt2;
+    zzfwc = paramInt3;
+    zzfwd = paramArrayOfScope;
+  }
+  
+  public zzbu(int paramInt1, int paramInt2, Scope[] paramArrayOfScope)
+  {
+    this(1, paramInt1, paramInt2, null);
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    zzbcn.zzc(paramParcel, 2, zzfwb);
+    zzbcn.zzc(paramParcel, 3, zzfwc);
+    zzbcn.zza(paramParcel, 4, zzfwd, paramInt, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+}

@@ -1,0 +1,74 @@
+package b.b.x.l;
+
+import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Typeface;
+import android.os.Handler;
+
+public final class p
+  implements Runnable
+{
+  public p(Context paramContext, c paramC, Handler paramHandler, r.d paramD) {}
+  
+  public void run()
+  {
+    try
+    {
+      Object localObject1 = r.a(a, null, b);
+      int i;
+      if (((r.b)localObject1).b() != 0)
+      {
+        i = ((r.b)localObject1).b();
+        if (i != 1)
+        {
+          if (i != 2)
+          {
+            c.post(new j(this));
+            return;
+          }
+          c.post(new i(this));
+          return;
+        }
+        c.post(new h(this));
+        return;
+      }
+      localObject1 = ((r.b)localObject1).a();
+      if ((localObject1 != null) && (localObject1.length != 0))
+      {
+        int j = localObject1.length;
+        i = 0;
+        while (i < j)
+        {
+          Object localObject2 = localObject1[i];
+          if (localObject2.a() != 0)
+          {
+            i = localObject2.a();
+            if (i < 0)
+            {
+              c.post(new l(this));
+              return;
+            }
+            c.post(new m(this, i));
+            return;
+          }
+          i += 1;
+        }
+        localObject1 = r.a(a, null, (r.c[])localObject1);
+        if (localObject1 == null)
+        {
+          c.post(new n(this));
+          return;
+        }
+        c.post(new o(this, (Typeface)localObject1));
+        return;
+      }
+      c.post(new k(this));
+      return;
+    }
+    catch (PackageManager.NameNotFoundException localNameNotFoundException)
+    {
+      for (;;) {}
+    }
+    c.post(new g(this));
+  }
+}

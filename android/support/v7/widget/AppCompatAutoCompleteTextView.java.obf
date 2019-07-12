@@ -1,0 +1,147 @@
+package android.support.v7.widget;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
+import android.support.v7.appcompat.R.attr;
+import android.support.v7.content.res.AppCompatResources;
+import android.util.AttributeSet;
+import android.view.ActionMode.Callback;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.widget.AutoCompleteTextView;
+import b.b.a.G;
+import b.b.a.p;
+import b.b.x.o.E;
+
+public class AppCompatAutoCompleteTextView
+  extends AutoCompleteTextView
+  implements E
+{
+  public static final int[] TINT_ATTRS = { 16843126 };
+  public final AppCompatBackgroundHelper mBackgroundTintHelper;
+  public final AppCompatTextHelper mTextHelper;
+  
+  public AppCompatAutoCompleteTextView(Context paramContext)
+  {
+    this(paramContext, null, R.attr.autoCompleteTextViewStyle);
+  }
+  
+  public AppCompatAutoCompleteTextView(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    this(paramContext, paramAttributeSet, R.attr.autoCompleteTextViewStyle);
+  }
+  
+  public AppCompatAutoCompleteTextView(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+  {
+    super(TintContextWrapper.wrap(paramContext), paramAttributeSet, paramInt);
+    paramContext = TintTypedArray.obtainStyledAttributes(getContext(), paramAttributeSet, TINT_ATTRS, paramInt, 0);
+    if (paramContext.hasValue(0)) {
+      setDropDownBackgroundDrawable(paramContext.getDrawable(0));
+    }
+    paramContext.recycle();
+    mBackgroundTintHelper = new AppCompatBackgroundHelper(this);
+    mBackgroundTintHelper.loadFromAttributes(paramAttributeSet, paramInt);
+    mTextHelper = new AppCompatTextHelper(this);
+    mTextHelper.loadFromAttributes(paramAttributeSet, paramInt);
+    mTextHelper.applyCompoundDrawablesTints();
+  }
+  
+  public void drawableStateChanged()
+  {
+    super.drawableStateChanged();
+    Object localObject = mBackgroundTintHelper;
+    if (localObject != null) {
+      ((AppCompatBackgroundHelper)localObject).applySupportBackgroundTint();
+    }
+    localObject = mTextHelper;
+    if (localObject != null) {
+      ((AppCompatTextHelper)localObject).applyCompoundDrawablesTints();
+    }
+  }
+  
+  @G
+  @b.b.a.N({b.b.a.N.a.b})
+  public ColorStateList getSupportBackgroundTintList()
+  {
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      return localAppCompatBackgroundHelper.getSupportBackgroundTintList();
+    }
+    return null;
+  }
+  
+  @G
+  @b.b.a.N({b.b.a.N.a.b})
+  public PorterDuff.Mode getSupportBackgroundTintMode()
+  {
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      return localAppCompatBackgroundHelper.getSupportBackgroundTintMode();
+    }
+    return null;
+  }
+  
+  public InputConnection onCreateInputConnection(EditorInfo paramEditorInfo)
+  {
+    InputConnection localInputConnection = super.onCreateInputConnection(paramEditorInfo);
+    AppCompatHintHelper.onCreateInputConnection(localInputConnection, paramEditorInfo, this);
+    return localInputConnection;
+  }
+  
+  public void setBackgroundDrawable(Drawable paramDrawable)
+  {
+    super.setBackgroundDrawable(paramDrawable);
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      localAppCompatBackgroundHelper.onSetBackgroundDrawable(paramDrawable);
+    }
+  }
+  
+  public void setBackgroundResource(@p int paramInt)
+  {
+    super.setBackgroundResource(paramInt);
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      localAppCompatBackgroundHelper.onSetBackgroundResource(paramInt);
+    }
+  }
+  
+  public void setCustomSelectionActionModeCallback(ActionMode.Callback paramCallback)
+  {
+    super.setCustomSelectionActionModeCallback(b.b.x.p.N.b(this, paramCallback));
+  }
+  
+  public void setDropDownBackgroundResource(@p int paramInt)
+  {
+    setDropDownBackgroundDrawable(AppCompatResources.getDrawable(getContext(), paramInt));
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void setSupportBackgroundTintList(@G ColorStateList paramColorStateList)
+  {
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      localAppCompatBackgroundHelper.setSupportBackgroundTintList(paramColorStateList);
+    }
+  }
+  
+  @b.b.a.N({b.b.a.N.a.b})
+  public void setSupportBackgroundTintMode(@G PorterDuff.Mode paramMode)
+  {
+    AppCompatBackgroundHelper localAppCompatBackgroundHelper = mBackgroundTintHelper;
+    if (localAppCompatBackgroundHelper != null) {
+      localAppCompatBackgroundHelper.setSupportBackgroundTintMode(paramMode);
+    }
+  }
+  
+  public void setTextAppearance(Context paramContext, int paramInt)
+  {
+    super.setTextAppearance(paramContext, paramInt);
+    AppCompatTextHelper localAppCompatTextHelper = mTextHelper;
+    if (localAppCompatTextHelper != null) {
+      localAppCompatTextHelper.onSetTextAppearance(paramContext, paramInt);
+    }
+  }
+}

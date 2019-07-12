@@ -1,0 +1,808 @@
+package f.g.b.a.d;
+
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.ba;
+import f.g.b.a.g.n;
+import f.g.b.a.g.r;
+import f.g.b.a.g.v;
+import f.g.b.a.g.w;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public abstract class h
+{
+  public static WeakHashMap<Class<?>, Field> a = new WeakHashMap();
+  public static final Lock b = new ReentrantLock();
+  
+  public h() {}
+  
+  private final Object a(Field paramField, Type paramType, ArrayList<Type> paramArrayList, Object paramObject, a paramA, boolean paramBoolean)
+    throws IOException
+  {
+    Type localType = r.a(paramArrayList, paramType);
+    boolean bool1 = localType instanceof Class;
+    Object localObject2 = null;
+    Field localField = null;
+    if (bool1) {
+      paramType = (Class)localType;
+    } else {
+      paramType = null;
+    }
+    Object localObject1 = paramType;
+    if ((localType instanceof ParameterizedType)) {
+      localObject1 = ba.a((ParameterizedType)localType);
+    }
+    if (localObject1 == Void.class)
+    {
+      o();
+      return null;
+    }
+    paramType = e();
+    int i;
+    boolean bool2;
+    try
+    {
+      i = e().ordinal();
+      bool1 = false;
+      bool4 = false;
+      bool2 = false;
+      bool3 = false;
+      switch (i)
+      {
+      }
+    }
+    catch (IllegalArgumentException paramType)
+    {
+      for (;;)
+      {
+        boolean bool4;
+        boolean bool3;
+        label846:
+        label870:
+        label891:
+        label907:
+        label916:
+        label922:
+        int j;
+        label976:
+        label1020:
+        label1045:
+        label1086:
+        paramArrayList = new StringBuilder();
+        paramObject = d();
+        if (paramObject != null)
+        {
+          paramArrayList.append("key ");
+          paramArrayList.append(paramObject);
+        }
+        if (paramField != null)
+        {
+          if (paramObject != null) {
+            paramArrayList.append(", ");
+          }
+          paramArrayList.append("field ");
+          paramArrayList.append(paramField);
+        }
+        paramField = new IllegalArgumentException(paramArrayList.toString(), paramType);
+        for (;;)
+        {
+          throw paramField;
+        }
+        continue;
+        paramBoolean = true;
+        continue;
+        paramBoolean = true;
+        continue;
+        paramBoolean = true;
+        continue;
+        paramBoolean = false;
+        continue;
+        paramBoolean = true;
+        continue;
+        paramBoolean = false;
+        continue;
+        paramBoolean = true;
+        continue;
+        paramType = null;
+      }
+    }
+    if (localObject1 != null)
+    {
+      paramBoolean = bool3;
+      if (((Class)localObject1).isPrimitive())
+      {
+        g.a(paramBoolean, "primitive number field but found a JSON null");
+        if ((localObject1 != null) && ((((Class)localObject1).getModifiers() & 0x600) != 0))
+        {
+          if (ba.a((Class)localObject1, Collection.class)) {
+            return r.b(r.b(localType).getClass());
+          }
+          if (ba.a((Class)localObject1, Map.class)) {
+            return r.b(r.a((Class)localObject1).getClass());
+          }
+        }
+        return r.b(ba.a(paramArrayList, localType));
+        if ((localObject1 == null) || (!Number.class.isAssignableFrom((Class)localObject1))) {
+          break label1355;
+        }
+        paramBoolean = bool1;
+        if (paramField != null)
+        {
+          paramBoolean = bool1;
+          if (paramField.getAnnotation(j.class) != null) {
+            break label1355;
+          }
+        }
+        g.a(paramBoolean, "number field formatted as a JSON string must use the @JsonString annotation");
+        return r.a(localType, m());
+        if (paramField == null) {
+          break label1361;
+        }
+        paramBoolean = bool4;
+        if (paramField.getAnnotation(j.class) == null) {
+          break label1361;
+        }
+        g.a(paramBoolean, "number type formatted as a JSON number cannot use @JsonString annotation");
+        if ((localObject1 != null) && (!((Class)localObject1).isAssignableFrom(BigDecimal.class)))
+        {
+          if (localObject1 == BigInteger.class) {
+            return b();
+          }
+          if ((localObject1 != Double.class) && (localObject1 != Double.TYPE))
+          {
+            if ((localObject1 != Long.class) && (localObject1 != Long.TYPE))
+            {
+              if ((localObject1 != Float.class) && (localObject1 != Float.TYPE))
+              {
+                if ((localObject1 != Integer.class) && (localObject1 != Integer.TYPE))
+                {
+                  if ((localObject1 != Short.class) && (localObject1 != Short.TYPE))
+                  {
+                    if ((localObject1 != Byte.class) && (localObject1 != Byte.TYPE))
+                    {
+                      paramType = String.valueOf(localType);
+                      paramArrayList = new StringBuilder(paramType.length() + 30);
+                      paramArrayList.append("expected numeric type but got ");
+                      paramArrayList.append(paramType);
+                      throw new IllegalArgumentException(paramArrayList.toString());
+                    }
+                    return Byte.valueOf(c());
+                  }
+                  return Short.valueOf(l());
+                }
+                return Integer.valueOf(j());
+              }
+              return Float.valueOf(i());
+            }
+            return Long.valueOf(k());
+          }
+          return Double.valueOf(g());
+        }
+        return f();
+        if ((localType == null) || (localObject1 == Boolean.TYPE)) {
+          break label1373;
+        }
+        if ((localObject1 == null) || (!((Class)localObject1).isAssignableFrom(Boolean.class))) {
+          break label1367;
+        }
+        break label1373;
+        g.a(paramBoolean, "expected type Boolean or boolean but got %s", new Object[] { localType });
+        if (paramType == k.i) {
+          return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+        bool1 = ba.d(localType);
+        if ((localType == null) || (bool1)) {
+          break label1385;
+        }
+        if ((localObject1 == null) || (!ba.a((Class)localObject1, Collection.class))) {
+          break label1379;
+        }
+        break label1385;
+        g.a(paramBoolean, "expected collection or array type but got %s", new Object[] { localType });
+        if ((paramA == null) || (paramField == null)) {
+          break label1391;
+        }
+        paramType = paramA.a(paramObject, paramField);
+        paramObject = paramType;
+        if (paramType == null) {
+          paramObject = r.b(localType);
+        }
+        if (bool1)
+        {
+          paramType = ba.a(localType);
+        }
+        else
+        {
+          paramType = localField;
+          if (localObject1 != null)
+          {
+            paramType = localField;
+            if (Iterable.class.isAssignableFrom((Class)localObject1)) {
+              paramType = ba.b(localType);
+            }
+          }
+        }
+        paramType = r.a(paramArrayList, paramType);
+        a(paramField, paramObject, paramType, paramArrayList, paramA);
+        if (!bool1) {
+          break label1396;
+        }
+        return ba.a(paramObject, ba.a(paramArrayList, paramType));
+        if (ba.d(localType)) {
+          break label1399;
+        }
+        bool1 = true;
+        g.a(bool1, "expected object or map type but got %s", new Object[] { localType });
+        if (!paramBoolean) {
+          break label1405;
+        }
+        localField = a((Class)localObject1);
+        if ((localObject1 == null) || (paramA == null)) {
+          break label1411;
+        }
+        paramObject = paramA.a(paramObject, (Class)localObject1);
+        if ((localObject1 == null) || (!ba.a((Class)localObject1, Map.class))) {
+          break label1417;
+        }
+        i = 1;
+        if (localField == null) {
+          break label1423;
+        }
+        paramType = new b();
+        break label922;
+        paramType = ba.a((Class)localObject1);
+        break label922;
+        paramType = r.a((Class)localObject1);
+        j = paramArrayList.size();
+        if (localType != null) {
+          paramArrayList.add(localType);
+        }
+        if ((i != 0) && (!w.class.isAssignableFrom((Class)localObject1)))
+        {
+          if (!Map.class.isAssignableFrom((Class)localObject1)) {
+            break label1444;
+          }
+          paramObject = ba.c(localType);
+          if (paramObject != null)
+          {
+            a(paramField, (Map)paramType, paramObject, paramArrayList, paramA);
+            return paramType;
+          }
+        }
+        a(paramArrayList, paramType, paramA);
+        if (localType == null) {
+          break label1450;
+        }
+        paramArrayList.remove(j);
+        break label1450;
+        paramObject = ((b)paramType).get(localField.getName());
+        if (paramObject == null) {
+          break label1457;
+        }
+        paramBoolean = true;
+        g.a(paramBoolean, "No value specified for @JsonPolymorphicTypeMap field");
+        paramA = paramObject.toString();
+        localObject1 = ((i)localField.getAnnotation(i.class)).typeDefinitions();
+        j = localObject1.length;
+        i = 0;
+        paramObject = localObject2;
+        if (i >= j) {
+          break label1472;
+        }
+        paramObject = localObject1[i];
+        if (!paramObject.key().equals(paramA)) {
+          break label1463;
+        }
+        paramObject = paramObject.ref();
+        break label1472;
+      }
+    }
+    for (;;)
+    {
+      paramA = String.valueOf(paramA);
+      if (paramA.length() != 0) {
+        paramA = "No TypeDef annotation found with key: ".concat(paramA);
+      } else {
+        paramA = new String("No TypeDef annotation found with key: ");
+      }
+      g.a(paramBoolean, paramA);
+      paramA = h();
+      paramType = paramA.a(paramA.c(paramType));
+      paramType.p();
+      return paramType.a(paramField, paramObject, paramArrayList, null, null, false);
+      paramType = String.valueOf(paramType);
+      paramArrayList = new StringBuilder(paramType.length() + 27);
+      paramArrayList.append("unexpected JSON node type: ");
+      paramArrayList.append(paramType);
+      throw new IllegalArgumentException(paramArrayList.toString());
+      label1355:
+      label1361:
+      label1367:
+      label1373:
+      label1379:
+      label1385:
+      label1391:
+      label1396:
+      return paramObject;
+      label1399:
+      bool1 = false;
+      break;
+      label1405:
+      localField = null;
+      break label846;
+      label1411:
+      paramObject = null;
+      break label870;
+      label1417:
+      i = 0;
+      break label891;
+      label1423:
+      paramType = paramObject;
+      if (paramObject != null) {
+        break label922;
+      }
+      if (i != 0) {
+        break label916;
+      }
+      if (localObject1 != null) {
+        break label907;
+      }
+      break label916;
+      label1444:
+      paramObject = null;
+      break label976;
+      label1450:
+      if (localField != null) {
+        break label1020;
+      }
+      return paramType;
+      label1457:
+      paramBoolean = false;
+      break label1045;
+      label1463:
+      i += 1;
+      break label1086;
+      label1472:
+      paramBoolean = bool2;
+      if (paramObject != null) {
+        paramBoolean = true;
+      }
+    }
+  }
+  
+  public static Field a(Class<?> paramClass)
+  {
+    localObject1 = null;
+    if (paramClass == null) {
+      return null;
+    }
+    b.lock();
+    do
+    {
+      try
+      {
+        if (a.containsKey(paramClass))
+        {
+          paramClass = (Field)a.get(paramClass);
+          b.unlock();
+          return paramClass;
+        }
+        localIterator = n.a(paramClass).a().iterator();
+      }
+      finally
+      {
+        for (;;)
+        {
+          Iterator localIterator;
+          Field localField;
+          Object localObject2;
+          int j;
+          int i;
+          b.unlock();
+          for (;;)
+          {
+            throw paramClass;
+          }
+          boolean bool = false;
+          continue;
+          bool = false;
+          continue;
+          localObject1 = localField;
+        }
+      }
+      if (!localIterator.hasNext()) {
+        break label252;
+      }
+      localField = ((v)localIterator.next()).c();
+      localObject2 = (i)localField.getAnnotation(i.class);
+    } while (localObject2 == null);
+    if (localObject1 == null)
+    {
+      bool = true;
+      g.a(bool, "Class contains more than one field with @JsonPolymorphicTypeMap annotation: %s", new Object[] { paramClass });
+      g.a(r.a(localField.getType()), "Field which has the @JsonPolymorphicTypeMap, %s, is not a supported type: %s", new Object[] { paramClass, localField.getType() });
+      localObject1 = ((i)localObject2).typeDefinitions();
+      localObject2 = new HashSet();
+      if (localObject1.length <= 0) {
+        break label295;
+      }
+      bool = true;
+      g.a(bool, "@JsonPolymorphicTypeMap must have at least one @TypeDef");
+      j = localObject1.length;
+      i = 0;
+      while (i < j)
+      {
+        Object localObject3 = localObject1[i];
+        g.a(((HashSet)localObject2).add(localObject3.key()), "Class contains two @TypeDef annotations with identical key: %s", new Object[] { localObject3.key() });
+        i += 1;
+      }
+      label252:
+      a.put(paramClass, localObject1);
+      b.unlock();
+      return localObject1;
+    }
+  }
+  
+  private <T> void a(Field paramField, Collection<T> paramCollection, Type paramType, ArrayList<Type> paramArrayList, a paramA)
+    throws IOException
+  {
+    for (k localK = q(); localK != k.b; localK = n()) {
+      paramCollection.add(a(paramField, paramType, paramArrayList, paramCollection, paramA, true));
+    }
+  }
+  
+  private void a(Field paramField, Map<String, Object> paramMap, Type paramType, ArrayList<Type> paramArrayList, a paramA)
+    throws IOException
+  {
+    for (Object localObject = q(); localObject == k.e; localObject = n())
+    {
+      localObject = m();
+      n();
+      if ((paramA != null) && (paramA.b(paramMap, (String)localObject))) {
+        return;
+      }
+      paramMap.put(localObject, a(paramField, paramType, paramArrayList, paramMap, paramA, true));
+    }
+  }
+  
+  private void a(ArrayList<Type> paramArrayList, Object paramObject, a paramA)
+    throws IOException
+  {
+    if ((paramObject instanceof b)) {
+      ((b)paramObject).a(h());
+    }
+    Object localObject2 = q();
+    Class localClass = paramObject.getClass();
+    n localN = n.a(localClass);
+    boolean bool = w.class.isAssignableFrom(localClass);
+    Object localObject1 = localObject2;
+    if (!bool)
+    {
+      localObject1 = localObject2;
+      if (Map.class.isAssignableFrom(localClass))
+      {
+        a(null, (Map)paramObject, ba.c(localClass), paramArrayList, paramA);
+        return;
+      }
+    }
+    while (localObject1 == k.e)
+    {
+      localObject2 = m();
+      n();
+      if ((paramA != null) && (paramA.b(paramObject, (String)localObject2))) {
+        return;
+      }
+      localObject1 = localN.b((String)localObject2);
+      if (localObject1 != null)
+      {
+        if ((((v)localObject1).g()) && (!((v)localObject1).h())) {
+          throw new IllegalArgumentException("final array/object fields are not supported");
+        }
+        localObject2 = ((v)localObject1).c();
+        int i = paramArrayList.size();
+        paramArrayList.add(((Field)localObject2).getGenericType());
+        localObject2 = a((Field)localObject2, ((v)localObject1).d(), paramArrayList, paramObject, paramA, true);
+        paramArrayList.remove(i);
+        ((v)localObject1).a(paramObject, localObject2);
+      }
+      else if (bool)
+      {
+        ((w)paramObject).b((String)localObject2, a(null, null, paramArrayList, paramObject, paramA, true));
+      }
+      else
+      {
+        if (paramA != null) {
+          paramA.a(paramObject, (String)localObject2);
+        }
+        o();
+      }
+      localObject1 = n();
+    }
+  }
+  
+  private k p()
+    throws IOException
+  {
+    k localK2 = e();
+    k localK1 = localK2;
+    if (localK2 == null) {
+      localK1 = n();
+    }
+    boolean bool;
+    if (localK1 != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    g.a(bool, "no JSON input found");
+    return localK1;
+  }
+  
+  private k q()
+    throws IOException
+  {
+    k localK = p();
+    int i = localK.ordinal();
+    if (i != 0)
+    {
+      if (i != 2) {
+        return localK;
+      }
+      localK = n();
+      boolean bool;
+      if ((localK != k.e) && (localK != k.d)) {
+        bool = false;
+      } else {
+        bool = true;
+      }
+      g.a(bool, localK);
+      return localK;
+    }
+    return n();
+  }
+  
+  @f.g.b.a.g.h
+  public final <T> T a(Class<T> paramClass, a paramA)
+    throws IOException
+  {
+    return a(paramClass, false, paramA);
+  }
+  
+  public Object a(Type paramType, boolean paramBoolean)
+    throws IOException
+  {
+    return a(paramType, paramBoolean, null);
+  }
+  
+  @f.g.b.a.g.h
+  public Object a(Type paramType, boolean paramBoolean, a paramA)
+    throws IOException
+  {
+    try
+    {
+      if (!Void.class.equals(paramType)) {
+        p();
+      }
+      paramType = a(null, paramType, new ArrayList(), null, paramA, true);
+      return paramType;
+    }
+    finally
+    {
+      if (paramBoolean) {
+        a();
+      }
+    }
+  }
+  
+  public final String a(Set<String> paramSet)
+    throws IOException
+  {
+    for (Object localObject = q(); localObject == k.e; localObject = n())
+    {
+      localObject = m();
+      n();
+      if (paramSet.contains(localObject)) {
+        return localObject;
+      }
+      o();
+    }
+    return null;
+  }
+  
+  public final <T> Collection<T> a(Class<?> paramClass, Class<T> paramClass1)
+    throws IOException
+  {
+    return a(paramClass, paramClass1, null);
+  }
+  
+  @f.g.b.a.g.h
+  public final <T> Collection<T> a(Class<?> paramClass, Class<T> paramClass1, a paramA)
+    throws IOException
+  {
+    paramClass = r.b(paramClass);
+    a(paramClass, paramClass1, paramA);
+    return paramClass;
+  }
+  
+  public abstract void a()
+    throws IOException;
+  
+  public final void a(Object paramObject)
+    throws IOException
+  {
+    a(paramObject, null);
+  }
+  
+  @f.g.b.a.g.h
+  public final void a(Object paramObject, a paramA)
+    throws IOException
+  {
+    ArrayList localArrayList = new ArrayList();
+    localArrayList.add(paramObject.getClass());
+    a(localArrayList, paramObject, paramA);
+  }
+  
+  public final void a(String paramString)
+    throws IOException
+  {
+    a(Collections.singleton(paramString));
+  }
+  
+  public final <T> void a(Collection<? super T> paramCollection, Class<T> paramClass)
+    throws IOException
+  {
+    a(paramCollection, paramClass, null);
+  }
+  
+  @f.g.b.a.g.h
+  public final <T> void a(Collection<? super T> paramCollection, Class<T> paramClass, a paramA)
+    throws IOException
+  {
+    a(null, paramCollection, paramClass, new ArrayList(), paramA);
+  }
+  
+  public final <T> T b(Class<T> paramClass)
+    throws IOException
+  {
+    return a(paramClass, null);
+  }
+  
+  @f.g.b.a.g.h
+  public final <T> T b(Class<T> paramClass, a paramA)
+    throws IOException
+  {
+    try
+    {
+      paramClass = a(paramClass, paramA);
+      return paramClass;
+    }
+    finally
+    {
+      a();
+    }
+  }
+  
+  public abstract BigInteger b()
+    throws IOException;
+  
+  public final <T> Collection<T> b(Class<?> paramClass, Class<T> paramClass1)
+    throws IOException
+  {
+    return b(paramClass, paramClass1, null);
+  }
+  
+  @f.g.b.a.g.h
+  public final <T> Collection<T> b(Class<?> paramClass, Class<T> paramClass1, a paramA)
+    throws IOException
+  {
+    try
+    {
+      paramClass = a(paramClass, paramClass1, paramA);
+      return paramClass;
+    }
+    finally
+    {
+      a();
+    }
+  }
+  
+  public final void b(Object paramObject)
+    throws IOException
+  {
+    b(paramObject, null);
+  }
+  
+  @f.g.b.a.g.h
+  public final void b(Object paramObject, a paramA)
+    throws IOException
+  {
+    try
+    {
+      a(paramObject, paramA);
+      return;
+    }
+    finally
+    {
+      a();
+    }
+  }
+  
+  public final <T> void b(Collection<? super T> paramCollection, Class<T> paramClass)
+    throws IOException
+  {
+    b(paramCollection, paramClass, null);
+  }
+  
+  @f.g.b.a.g.h
+  public final <T> void b(Collection<? super T> paramCollection, Class<T> paramClass, a paramA)
+    throws IOException
+  {
+    try
+    {
+      a(paramCollection, paramClass, paramA);
+      return;
+    }
+    finally
+    {
+      a();
+    }
+  }
+  
+  public abstract byte c()
+    throws IOException;
+  
+  public final <T> T c(Class<T> paramClass)
+    throws IOException
+  {
+    return b(paramClass, null);
+  }
+  
+  public abstract String d()
+    throws IOException;
+  
+  public abstract k e();
+  
+  public abstract BigDecimal f()
+    throws IOException;
+  
+  public abstract double g()
+    throws IOException;
+  
+  public abstract d h();
+  
+  public abstract float i()
+    throws IOException;
+  
+  public abstract int j()
+    throws IOException;
+  
+  public abstract long k()
+    throws IOException;
+  
+  public abstract short l()
+    throws IOException;
+  
+  public abstract String m()
+    throws IOException;
+  
+  public abstract k n()
+    throws IOException;
+  
+  public abstract h o()
+    throws IOException;
+}

@@ -1,0 +1,269 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.SortedSet;
+import m.a.h;
+
+@b(emulated=true)
+public final class yf<C extends Comparable>
+  extends ia<C>
+{
+  public static final long k = 0L;
+  public final qf<C> l;
+  
+  public yf(qf<C> paramQf, oa<C> paramOa)
+  {
+    super(paramOa);
+    l = paramQf;
+  }
+  
+  private ia<C> a(qf<C> paramQf)
+  {
+    if (l.c(paramQf)) {
+      return l.b(paramQf).a(j);
+    }
+    return new ra(j);
+  }
+  
+  public static boolean d(Comparable<?> paramComparable1, @h Comparable<?> paramComparable2)
+  {
+    return (paramComparable2 != null) && (paramComparable1.compareTo(paramComparable2) == 0);
+  }
+  
+  public ia<C> a(ia<C> paramIa)
+  {
+    if (paramIa != null)
+    {
+      ba.a(j.equals(j));
+      if (paramIa.isEmpty()) {
+        return paramIa;
+      }
+      Comparable localComparable = (Comparable)mf.d().a(first(), paramIa.first());
+      paramIa = (Comparable)mf.d().b(last(), paramIa.last());
+      if (localComparable.compareTo(paramIa) < 0) {
+        return vf.a(localComparable, paramIa).a(j);
+      }
+      return new ra(j);
+    }
+    throw new NullPointerException();
+  }
+  
+  public qf<C> a(O paramO1, O paramO2)
+  {
+    return new qf(l.b.a(paramO1, j), l.c.b(paramO2, j));
+  }
+  
+  public ia<C> b(C paramC, boolean paramBoolean)
+  {
+    return a(vf.b(paramC, O.a(paramBoolean)));
+  }
+  
+  public ia<C> b(C paramC1, boolean paramBoolean1, C paramC2, boolean paramBoolean2)
+  {
+    if ((paramC1.compareTo(paramC2) == 0) && (!paramBoolean1) && (!paramBoolean2)) {
+      return new ra(j);
+    }
+    return a(vf.a(paramC1, O.a(paramBoolean1), paramC2, O.a(paramBoolean2)));
+  }
+  
+  public boolean c()
+  {
+    return false;
+  }
+  
+  public boolean contains(Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    try
+    {
+      boolean bool = l.b((Comparable)paramObject);
+      return bool;
+    }
+    catch (ClassCastException paramObject) {}
+    return false;
+  }
+  
+  public boolean containsAll(Collection<?> paramCollection)
+  {
+    return V.a(this, paramCollection);
+  }
+  
+  public ia<C> d(C paramC, boolean paramBoolean)
+  {
+    return a(vf.a(paramC, O.a(paramBoolean)));
+  }
+  
+  @c("serialization")
+  public Object d()
+  {
+    return new b(l, j, null);
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof yf))
+    {
+      yf localYf = (yf)paramObject;
+      if (j.equals(j)) {
+        return (first().equals(localYf.first())) && (last().equals(localYf.last()));
+      }
+    }
+    return super.equals(paramObject);
+  }
+  
+  public C first()
+  {
+    return l.b.c(j);
+  }
+  
+  @c("NavigableSet")
+  public Wb<C> h()
+  {
+    return new a(null);
+  }
+  
+  public int hashCode()
+  {
+    return gg.a(this);
+  }
+  
+  @c("not used by GWT emulation")
+  public int indexOf(Object paramObject)
+  {
+    if (contains(paramObject)) {
+      return (int)j.a(first(), (Comparable)paramObject);
+    }
+    return -1;
+  }
+  
+  public boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public th<C> iterator()
+  {
+    return new wf(this, first());
+  }
+  
+  public qf<C> l()
+  {
+    O localO = O.b;
+    return a(localO, localO);
+  }
+  
+  public C last()
+  {
+    return l.c.b(j);
+  }
+  
+  public int size()
+  {
+    long l1 = j.a(first(), last());
+    if (l1 >= 2147483647L) {
+      return Integer.MAX_VALUE;
+    }
+    return (int)l1 + 1;
+  }
+  
+  public Object[] toArray()
+  {
+    return kf.a(this);
+  }
+  
+  public <T> T[] toArray(T[] paramArrayOfT)
+  {
+    return kf.a(this, paramArrayOfT);
+  }
+  
+  @c("NavigableSet")
+  private final class a
+    extends Wb<C>
+  {
+    public a()
+    {
+      super();
+    }
+    
+    public Wb<C> a(C paramC, boolean paramBoolean)
+    {
+      return d(paramC, paramBoolean).descendingSet();
+    }
+    
+    public Wb<C> a(C paramC1, boolean paramBoolean1, C paramC2, boolean paramBoolean2)
+    {
+      return b(paramC2, paramBoolean2, paramC1, paramBoolean1).descendingSet();
+    }
+    
+    public Wb<C> b(C paramC, boolean paramBoolean)
+    {
+      return b(paramC, paramBoolean).descendingSet();
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+    
+    public C first()
+    {
+      return yf.this.last();
+    }
+    
+    public Wb<C> h()
+    {
+      return yf.this;
+    }
+    
+    public int indexOf(Object paramObject)
+    {
+      if (contains(paramObject)) {
+        return (int)j.a(last(), (Comparable)paramObject);
+      }
+      return -1;
+    }
+    
+    public th<C> iterator()
+    {
+      return new xf(this, first());
+    }
+    
+    public C last()
+    {
+      return yf.this.first();
+    }
+    
+    public int size()
+    {
+      return yf.this.size();
+    }
+  }
+  
+  @c("serialization")
+  private static final class b<C extends Comparable>
+    implements Serializable
+  {
+    public final qf<C> a;
+    public final oa<C> b;
+    
+    public b(qf<C> paramQf, oa<C> paramOa)
+    {
+      a = paramQf;
+      b = paramOa;
+    }
+    
+    private Object a()
+    {
+      return new yf(a, b);
+    }
+  }
+}

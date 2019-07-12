@@ -1,0 +1,88 @@
+package com.google.android.gms.auth.api;
+
+import android.os.Bundle;
+import b.b.a.F;
+import com.google.android.gms.auth.api.credentials.CredentialsApi;
+import com.google.android.gms.auth.api.credentials.PasswordSpecification;
+import com.google.android.gms.auth.api.proxy.ProxyApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.annotation.KeepForSdk;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.ApiOptions.NoOptions;
+import com.google.android.gms.common.api.Api.ApiOptions.Optional;
+import com.google.android.gms.common.api.Api.zza;
+import com.google.android.gms.common.api.Api.zzf;
+import com.google.android.gms.internal.zzarj;
+import com.google.android.gms.internal.zzark;
+import com.google.android.gms.internal.zzarl;
+import com.google.android.gms.internal.zzash;
+import com.google.android.gms.internal.zzasp;
+import com.google.android.gms.internal.zzato;
+import f.a.a.a.a;
+
+public final class Auth
+{
+  public static final Api<AuthCredentialsOptions> CREDENTIALS_API;
+  public static final CredentialsApi CredentialsApi;
+  public static final Api<GoogleSignInOptions> GOOGLE_SIGN_IN_API;
+  public static final GoogleSignInApi GoogleSignInApi = new com.google.android.gms.auth.api.signin.internal.zzc();
+  @KeepForSdk
+  public static final Api<zzf> PROXY_API;
+  @KeepForSdk
+  public static final ProxyApi ProxyApi;
+  public static final Api.zzf<zzasp> zzdyc = new Api.zzf();
+  public static Api.zzf<zzarl> zzdyd = new Api.zzf();
+  public static final Api.zzf<com.google.android.gms.auth.api.signin.internal.zzd> zzdye = new Api.zzf();
+  public static final Api.zza<zzasp, AuthCredentialsOptions> zzdyf = new zza();
+  public static final Api.zza<zzarl, Api.ApiOptions.NoOptions> zzdyg = new zzb();
+  public static final Api.zza<com.google.android.gms.auth.api.signin.internal.zzd, GoogleSignInOptions> zzdyh = new zzc();
+  public static Api<Api.ApiOptions.NoOptions> zzdyi;
+  public static zzarj zzdyj;
+  
+  static
+  {
+    PROXY_API = zzd.API;
+    CREDENTIALS_API = new Api("Auth.CREDENTIALS_API", zzdyf, zzdyc);
+    GOOGLE_SIGN_IN_API = new Api("Auth.GOOGLE_SIGN_IN_API", zzdyh, zzdye);
+    zzdyi = new Api("Auth.ACCOUNT_STATUS_API", zzdyg, zzdyd);
+    ProxyApi = new zzato();
+    CredentialsApi = new zzash();
+    zzdyj = new zzark();
+  }
+  
+  public Auth() {}
+  
+  public static final class AuthCredentialsOptions
+    implements Api.ApiOptions.Optional
+  {
+    public static AuthCredentialsOptions zzdyk = new AuthCredentialsOptions(new Builder());
+    public final String zzdyl = null;
+    public final PasswordSpecification zzdym;
+    
+    public AuthCredentialsOptions(Builder paramBuilder)
+    {
+      zzdym = zzdym;
+    }
+    
+    public final Bundle zzzu()
+    {
+      Bundle localBundle = a.a("consumer_package", null);
+      localBundle.putParcelable("password_specification", zzdym);
+      return localBundle;
+    }
+    
+    public final PasswordSpecification zzzx()
+    {
+      return zzdym;
+    }
+    
+    public static class Builder
+    {
+      @F
+      public PasswordSpecification zzdym = PasswordSpecification.zzeax;
+      
+      public Builder() {}
+    }
+  }
+}

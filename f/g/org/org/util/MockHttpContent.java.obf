@@ -1,0 +1,40 @@
+package f.g.b.a.g;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public final class E
+  implements V
+{
+  public final V a;
+  public final int b;
+  public final Level c;
+  public final Logger d;
+  
+  public E(V paramV, Logger paramLogger, Level paramLevel, int paramInt)
+  {
+    a = paramV;
+    d = paramLogger;
+    c = paramLevel;
+    b = paramInt;
+  }
+  
+  public void writeTo(OutputStream paramOutputStream)
+    throws IOException
+  {
+    D localD = new D(paramOutputStream, d, c, b);
+    try
+    {
+      a.writeTo(localD);
+      localD.u().close();
+      paramOutputStream.flush();
+      return;
+    }
+    finally
+    {
+      localD.u().close();
+    }
+  }
+}

@@ -1,0 +1,244 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import b.b.a.G;
+import e.a.a.i;
+import f.a.a.a.a;
+import k.a.a.a.hd;
+import k.a.a.a.id;
+import k.a.a.a.jd;
+import k.a.a.a.kd;
+import k.a.a.a.ld;
+import k.a.a.a.md;
+import k.a.a.a.nd;
+import k.a.a.a.od;
+import k.a.a.a.qd;
+import k.a.a.a.rd;
+import k.a.a.l.v;
+import k.a.a.m.Ea;
+import k.a.a.m.V;
+import k.a.a.m.b;
+import org.json.JSONObject;
+
+public class DigiLockerMenuScreen
+  extends BaseActivity
+{
+  public static int b = 2301;
+  public final String TAG = "DigiLockerMenuScreen";
+  public Toolbar c;
+  public View d;
+  public TextView e;
+  public V f;
+  public Button g;
+  public Button h;
+  public LinearLayout i;
+  public LinearLayout j;
+  public LinearLayout k;
+  public String l;
+  public String m;
+  public String n;
+  public String o;
+  public TextView p;
+  public TextView q;
+  public LinearLayout r;
+  public i s;
+  public String t;
+  public String u;
+  public String v;
+  public String w;
+  public String x;
+  public String y;
+  public String z;
+  
+  public DigiLockerMenuScreen() {}
+  
+  private void e()
+  {
+    g = ((Button)findViewById(2131296652));
+    h = ((Button)findViewById(2131296579));
+    i = ((LinearLayout)findViewById(2131296770));
+    j = ((LinearLayout)findViewById(2131296295));
+    k = ((LinearLayout)findViewById(2131296569));
+    p = ((TextView)findViewById(2131296820));
+    q = ((TextView)findViewById(2131296819));
+    r = ((LinearLayout)findViewById(2131296821));
+  }
+  
+  private void g(String paramString)
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("flow", paramString);
+      paramString = localJSONObject;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+      paramString = null;
+    }
+    if (paramString != null) {
+      new v(new qd(this), "https://app.umang.gov.in/umang/modsapi/digilockerNew/ws1/initauth", paramString, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+    }
+  }
+  
+  private void h(String paramString)
+  {
+    Dialog localDialog = new Dialog(this);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131493020);
+    localDialog.setCancelable(true);
+    localDialog.setCanceledOnTouchOutside(false);
+    localDialog.show();
+    TextView localTextView = (TextView)localDialog.findViewById(2131297214);
+    ((TextView)localDialog.findViewById(2131296456)).setOnClickListener(new rd(this, localDialog));
+    localTextView.setOnClickListener(new hd(this, paramString, localDialog));
+  }
+  
+  public void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
+  {
+    super.onActivityResult(paramInt1, paramInt2, paramIntent);
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramInt1);
+    localStringBuilder.append(" // ");
+    localStringBuilder.append(paramInt2);
+    localStringBuilder.toString();
+    int i1 = b;
+    if ((paramInt1 == i1) && (paramInt2 == i1))
+    {
+      paramIntent = a.b("in Activity Result ");
+      paramIntent.append(f.a(V.Nb, ""));
+      paramIntent.toString();
+      return;
+    }
+    if (paramInt1 == 2050)
+    {
+      if (paramInt2 == -1) {
+        setResult(-1, paramIntent);
+      } else {
+        setResult(0);
+      }
+      finish();
+      return;
+    }
+    if (paramInt1 == 2051)
+    {
+      if (paramInt2 == -1)
+      {
+        setResult(-1);
+        finish();
+      }
+    }
+    else if (paramInt1 == 2052)
+    {
+      if (paramInt2 == -1) {
+        setResult(-1);
+      }
+      finish();
+    }
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131493055);
+    c = ((Toolbar)findViewById(2131297768));
+    a.a(this, c, true);
+    d = c.getRootView();
+    e = ((TextView)d.findViewById(2131297758));
+    e.setText(getResources().getString(2131755577));
+    t = getIntent().getStringExtra("intentType");
+    u = getIntent().getStringExtra("intentValue");
+    v = getIntent().getStringExtra("deptID");
+    w = getIntent().getStringExtra("servID");
+    x = getIntent().getStringExtra("subsID");
+    if (t == null)
+    {
+      t = "";
+      u = "";
+      v = "0";
+      w = "0";
+      x = "0";
+    }
+    f = new V(this);
+    e();
+    paramBundle = f.a(V.C, "");
+    l = "";
+    m = "";
+    n = "";
+    o = "";
+    if (!paramBundle.equalsIgnoreCase(""))
+    {
+      paramBundle = paramBundle.split("\\|");
+      l = paramBundle[0];
+      m = paramBundle[1];
+      n = paramBundle[2];
+      o = paramBundle[3];
+    }
+    else
+    {
+      l = "true";
+      n = "true";
+    }
+    Object localObject = f.a(V._a, "");
+    paramBundle = f.a(V.ab, "");
+    try
+    {
+      if (!((String)localObject).equalsIgnoreCase(""))
+      {
+        localObject = ((String)localObject).split("\\|");
+        paramBundle = paramBundle.split("\\|");
+        if (localObject[1].equalsIgnoreCase("true"))
+        {
+          r.setVisibility(0);
+          y = localObject[0];
+          z = paramBundle[0];
+        }
+        else
+        {
+          r.setVisibility(8);
+        }
+      }
+      else
+      {
+        r.setVisibility(8);
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      b.a(paramBundle);
+    }
+    p.setOnClickListener(new id(this));
+    q.setOnClickListener(new jd(this));
+    g.setOnClickListener(new kd(this));
+    h.setOnClickListener(new ld(this));
+    i.setOnClickListener(new md(this));
+    j.setOnClickListener(new nd(this));
+    k.setOnClickListener(new od(this));
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      onBackPressed();
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+}

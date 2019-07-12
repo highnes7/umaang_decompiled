@@ -1,0 +1,879 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.TextUtils;
+import b.b.a.G;
+import b.b.a.X;
+import b.b.x.n.b;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+import com.google.android.gms.measurement.AppMeasurement.ConditionalUserProperty;
+import com.google.android.gms.measurement.AppMeasurement.EventInterceptor;
+import com.google.android.gms.measurement.AppMeasurement.OnEventListener;
+import com.google.android.gms.measurement.AppMeasurement.zzb;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import f.a.a.a.a;
+import java.lang.reflect.Method;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.atomic.AtomicReference;
+
+public final class zzcdw
+  extends zzcdu
+{
+  public zzcej zziut;
+  public AppMeasurement.EventInterceptor zziuu;
+  public final Set<AppMeasurement.OnEventListener> zziuv = new CopyOnWriteArraySet();
+  public boolean zziuw;
+  public final AtomicReference<String> zziux = new AtomicReference();
+  
+  public zzcdw(zzccw paramZzccw)
+  {
+    super(paramZzccw);
+  }
+  
+  public static int getMaxUserProperties(String paramString)
+  {
+    zzbp.zzgg(paramString);
+    zzcax.zzawa();
+    return 25;
+  }
+  
+  private final void zza(AppMeasurement.ConditionalUserProperty paramConditionalUserProperty)
+  {
+    long l = zzvx().currentTimeMillis();
+    zzbp.zzu(paramConditionalUserProperty);
+    zzbp.zzgg(mName);
+    zzbp.zzgg(mOrigin);
+    zzbp.zzu(mValue);
+    mCreationTimestamp = l;
+    String str = mName;
+    Object localObject1 = mValue;
+    if (zzauh().zzjy(str) != 0)
+    {
+      zzaul().zzayd().zzj("Invalid conditional user property name", zzaug().zzje(str));
+      return;
+    }
+    if (zzauh().zzl(str, localObject1) != 0)
+    {
+      zzaul().zzayd().zze("Invalid conditional user property value", zzaug().zzje(str), localObject1);
+      return;
+    }
+    Object localObject2 = zzauh().zzm(str, localObject1);
+    if (localObject2 == null)
+    {
+      zzaul().zzayd().zze("Unable to normalize conditional user property value", zzaug().zzje(str), localObject1);
+      return;
+    }
+    mValue = localObject2;
+    l = mTriggerTimeout;
+    if (!TextUtils.isEmpty(mTriggerEventName))
+    {
+      zzcax.zzawc();
+      if ((l > 15552000000L) || (l < 1L))
+      {
+        zzaul().zzayd().zze("Invalid conditional user property timeout", zzaug().zzje(str), Long.valueOf(l));
+        return;
+      }
+    }
+    l = mTimeToLive;
+    zzcax.zzawd();
+    if ((l <= 15552000000L) && (l >= 1L))
+    {
+      zzauk().zzg(new zzcdy(this, paramConditionalUserProperty));
+      return;
+    }
+    zzaul().zzayd().zze("Invalid conditional user property time to live", zzaug().zzje(str), Long.valueOf(l));
+  }
+  
+  private final void zza(String paramString1, String paramString2, long paramLong, Bundle paramBundle, boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3, String paramString3)
+  {
+    if (paramBundle == null)
+    {
+      paramBundle = new Bundle();
+    }
+    else
+    {
+      paramBundle = new Bundle(paramBundle);
+      Iterator localIterator = paramBundle.keySet().iterator();
+      while (localIterator.hasNext())
+      {
+        Object localObject1 = (String)localIterator.next();
+        Object localObject2 = paramBundle.get((String)localObject1);
+        if ((localObject2 instanceof Bundle))
+        {
+          paramBundle.putBundle((String)localObject1, new Bundle((Bundle)localObject2));
+        }
+        else
+        {
+          boolean bool = localObject2 instanceof Parcelable[];
+          int j = 0;
+          int i = 0;
+          if (bool)
+          {
+            localObject1 = (Parcelable[])localObject2;
+            while (i < localObject1.length)
+            {
+              if ((localObject1[i] instanceof Bundle)) {
+                localObject1[i] = new Bundle((Bundle)localObject1[i]);
+              }
+              i += 1;
+            }
+          }
+          else if ((localObject2 instanceof ArrayList))
+          {
+            localObject1 = (ArrayList)localObject2;
+            i = j;
+            while (i < ((ArrayList)localObject1).size())
+            {
+              localObject2 = ((ArrayList)localObject1).get(i);
+              if ((localObject2 instanceof Bundle)) {
+                ((ArrayList)localObject1).set(i, new Bundle((Bundle)localObject2));
+              }
+              i += 1;
+            }
+          }
+        }
+      }
+    }
+    zzauk().zzg(new zzcee(this, paramString1, paramString2, paramLong, paramBundle, paramBoolean1, paramBoolean2, paramBoolean3, paramString3));
+  }
+  
+  private final void zza(String paramString1, String paramString2, long paramLong, Object paramObject)
+  {
+    zzauk().zzg(new zzcef(this, paramString1, paramString2, paramObject, paramLong));
+  }
+  
+  private final void zza(String paramString1, String paramString2, Bundle paramBundle, boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3, String paramString3)
+  {
+    zza(paramString1, paramString2, zzvx().currentTimeMillis(), paramBundle, true, paramBoolean2, paramBoolean3, null);
+  }
+  
+  @X
+  private final void zza(String paramString1, String paramString2, Object paramObject, long paramLong)
+  {
+    zzbp.zzgg(paramString1);
+    zzbp.zzgg(paramString2);
+    zzuj();
+    zzatv();
+    zzwk();
+    if (!zziki.isEnabled())
+    {
+      zzaul().zzayi().log("User property not set since app measurement is disabled");
+      return;
+    }
+    if (!zziki.zzayv()) {
+      return;
+    }
+    zzaul().zzayi().zze("Setting user property (FE)", zzaug().zzjc(paramString2), paramObject);
+    paramString1 = new zzcft(paramString2, paramLong, paramObject, paramString1);
+    zzauc().zzb(paramString1);
+  }
+  
+  private final void zza(String paramString1, String paramString2, String paramString3, Bundle paramBundle)
+  {
+    long l = zzvx().currentTimeMillis();
+    zzbp.zzgg(paramString2);
+    AppMeasurement.ConditionalUserProperty localConditionalUserProperty = new AppMeasurement.ConditionalUserProperty();
+    mAppId = paramString1;
+    mName = paramString2;
+    mCreationTimestamp = l;
+    if (paramString3 != null)
+    {
+      mExpiredEventName = paramString3;
+      mExpiredEventParams = paramBundle;
+    }
+    zzauk().zzg(new zzcdz(this, localConditionalUserProperty));
+  }
+  
+  private final Map<String, Object> zzb(String paramString1, String paramString2, String paramString3, boolean paramBoolean)
+  {
+    if (zzauk().zzays())
+    {
+      paramString1 = zzaul().zzayd();
+      paramString2 = "Cannot get user properties from analytics worker thread";
+    }
+    for (;;)
+    {
+      paramString1.log(paramString2);
+      return Collections.emptyMap();
+      zzauk();
+      if (zzccr.zzaq())
+      {
+        paramString1 = zzaul().zzayd();
+        paramString2 = "Cannot get user properties from main thread";
+      }
+      else
+      {
+        synchronized (new AtomicReference())
+        {
+          zziki.zzauk().zzg(new zzceb(this, ???, paramString1, paramString2, paramString3, paramBoolean));
+          try
+          {
+            ???.wait(5000L);
+          }
+          catch (InterruptedException paramString1)
+          {
+            zzaul().zzayf().zzj("Interrupted waiting for get user properties", paramString1);
+          }
+          paramString2 = (List)???.get();
+          if (paramString2 == null)
+          {
+            paramString1 = zzaul().zzayf();
+            paramString2 = "Timed out waiting for get user properties";
+          }
+          else
+          {
+            paramString1 = new b(paramString2.size());
+            paramString2 = paramString2.iterator();
+            while (paramString2.hasNext())
+            {
+              paramString3 = (zzcft)paramString2.next();
+              paramString1.put(name, paramString3.getValue());
+            }
+            return paramString1;
+          }
+        }
+      }
+    }
+    for (;;)
+    {
+      throw paramString1;
+    }
+  }
+  
+  @X
+  private final void zzb(AppMeasurement.ConditionalUserProperty paramConditionalUserProperty)
+  {
+    zzuj();
+    zzwk();
+    zzbp.zzu(paramConditionalUserProperty);
+    zzbp.zzgg(mName);
+    zzbp.zzgg(mOrigin);
+    zzbp.zzu(mValue);
+    if (!zziki.isEnabled())
+    {
+      zzaul().zzayi().log("Conditional property not sent since Firebase Analytics is disabled");
+      return;
+    }
+    zzcft localZzcft = new zzcft(mName, mTriggeredTimestamp, mValue, mOrigin);
+    try
+    {
+      zzcbk localZzcbk1 = zzauh().zza(mTriggeredEventName, mTriggeredEventParams, mOrigin, 0L, true, false);
+      zzcbk localZzcbk2 = zzauh().zza(mTimedOutEventName, mTimedOutEventParams, mOrigin, 0L, true, false);
+      zzcbk localZzcbk3 = zzauh().zza(mExpiredEventName, mExpiredEventParams, mOrigin, 0L, true, false);
+      paramConditionalUserProperty = new zzcav(mAppId, mOrigin, localZzcft, mCreationTimestamp, false, mTriggerEventName, localZzcbk2, mTriggerTimeout, localZzcbk1, mTimeToLive, localZzcbk3);
+      zzauc().zzf(paramConditionalUserProperty);
+      return;
+    }
+    catch (IllegalArgumentException paramConditionalUserProperty) {}
+  }
+  
+  @X
+  private final void zzb(String paramString1, String paramString2, long paramLong, Bundle paramBundle, boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3, String paramString3)
+  {
+    zzbp.zzgg(paramString1);
+    zzbp.zzgg(paramString2);
+    zzbp.zzu(paramBundle);
+    zzuj();
+    zzwk();
+    if (!zziki.isEnabled())
+    {
+      zzaul().zzayi().log("Event not sent since app measurement is disabled");
+      return;
+    }
+    if (!zziuw) {
+      zziuw = true;
+    }
+    try
+    {
+      Class localClass = Class.forName("com.google.android.gms.tagmanager.TagManagerService");
+      try
+      {
+        localClass.getDeclaredMethod("initialize", new Class[] { Context.class }).invoke(null, new Object[] { getContext() });
+      }
+      catch (Exception localException)
+      {
+        zzaul().zzayf().zzj("Failed to invoke Tag Manager's initialize() method", localException);
+      }
+    }
+    catch (ClassNotFoundException localClassNotFoundException)
+    {
+      boolean bool1;
+      boolean bool2;
+      int i;
+      int j;
+      Object localObject1;
+      Bundle localBundle1;
+      ArrayList localArrayList;
+      long l;
+      int m;
+      Object localObject3;
+      Object localObject2;
+      for (;;) {}
+    }
+    zzaul().zzayh().log("Tag Manager is not found and thus will not be used");
+    bool1 = "am".equals(paramString1);
+    bool2 = zzcfw.zzkd(paramString2);
+    if ((paramBoolean1) && (zziuu != null) && (!bool2) && (!bool1))
+    {
+      zzaul().zzayi().zze("Passing event to registered event handler (FE)", zzaug().zzjc(paramString2), zzaug().zzx(paramBundle));
+      zziuu.interceptEvent(paramString1, paramString2, paramBundle, paramLong);
+      return;
+    }
+    if (!zziki.zzayv()) {
+      return;
+    }
+    i = zzauh().zzjw(paramString2);
+    if (i != 0)
+    {
+      zzauh();
+      zzcax.zzavn();
+      paramString1 = zzcfw.zza(paramString2, 40, true);
+      j = paramString2.length();
+      zziki.zzauh().zza(paramString3, i, "_ev", paramString1, j);
+      return;
+    }
+    localObject1 = Collections.singletonList("_o");
+    localBundle1 = zzauh().zza(paramString2, paramBundle, (List)localObject1, paramBoolean3, true);
+    localArrayList = a.a(localBundle1);
+    l = zzauh().zzazy().nextLong();
+    paramBundle = (String[])localBundle1.keySet().toArray(new String[paramBundle.size()]);
+    Arrays.sort(paramBundle);
+    m = paramBundle.length;
+    j = 0;
+    i = 0;
+    paramBoolean1 = bool1;
+    for (;;)
+    {
+      String str = "_eid";
+      if (i >= m) {
+        break;
+      }
+      localObject3 = paramBundle[i];
+      localObject2 = localBundle1.get((String)localObject3);
+      zzauh();
+      localObject2 = zzcfw.zzac(localObject2);
+      if (localObject2 != null)
+      {
+        localBundle1.putInt((String)localObject3, localObject2.length);
+        int k = 0;
+        while (k < localObject2.length)
+        {
+          Bundle localBundle2 = localObject2[k];
+          localBundle2 = zzauh().zza("_ep", localBundle2, (List)localObject1, paramBoolean3, false);
+          localBundle2.putString("_en", paramString2);
+          localBundle2.putLong(str, l);
+          localBundle2.putString("_gn", (String)localObject3);
+          localBundle2.putInt("_ll", localObject2.length);
+          localBundle2.putInt("_i", k);
+          localArrayList.add(localBundle2);
+          k += 1;
+        }
+        localObject3 = localObject1;
+        j = localObject2.length + j;
+        localObject1 = paramBundle;
+        paramBundle = (Bundle)localObject3;
+      }
+      else
+      {
+        localObject2 = paramBundle;
+        paramBundle = (Bundle)localObject1;
+        localObject1 = localObject2;
+      }
+      i += 1;
+      localObject2 = paramBundle;
+      paramBundle = (Bundle)localObject1;
+      localObject1 = localObject2;
+    }
+    if (j != 0)
+    {
+      localBundle1.putLong("_eid", l);
+      localBundle1.putInt("_epc", j);
+    }
+    zzcax.zzawk();
+    localObject3 = zzaud().zzazn();
+    if ((localObject3 != null) && (!localBundle1.containsKey("_sc"))) {
+      zzivx = true;
+    }
+    i = 0;
+    while (i < localArrayList.size())
+    {
+      localObject2 = (Bundle)localArrayList.get(i);
+      if (i != 0) {
+        j = 1;
+      } else {
+        j = 0;
+      }
+      if (j != 0) {
+        localObject1 = "_ep";
+      } else {
+        localObject1 = paramString2;
+      }
+      ((Bundle)localObject2).putString("_o", paramString1);
+      if (!((Bundle)localObject2).containsKey("_sc")) {
+        zzcek.zza((AppMeasurement.zzb)localObject3, (Bundle)localObject2);
+      }
+      paramBundle = (Bundle)localObject2;
+      if (paramBoolean2) {
+        paramBundle = zzauh().zzy((Bundle)localObject2);
+      }
+      zzaul().zzayi().zze("Logging event (FE)", zzaug().zzjc(paramString2), zzaug().zzx(paramBundle));
+      localObject1 = new zzcbk((String)localObject1, new zzcbh(paramBundle), paramString1, paramLong);
+      zzauc().zzc((zzcbk)localObject1, paramString3);
+      if (!paramBoolean1)
+      {
+        localObject1 = zziuv.iterator();
+        while (((Iterator)localObject1).hasNext()) {
+          ((AppMeasurement.OnEventListener)((Iterator)localObject1).next()).onEvent(paramString1, paramString2, new Bundle(paramBundle), paramLong);
+        }
+      }
+      i += 1;
+    }
+    zzcax.zzawk();
+    if ((zzaud().zzazn() != null) && ("_ae".equals(paramString2))) {
+      zzauj().zzbs(true);
+    }
+  }
+  
+  @X
+  private final void zzbp(boolean paramBoolean)
+  {
+    zzuj();
+    zzatv();
+    zzwk();
+    zzaul().zzayi().zzj("Setting app measurement enabled (FE)", Boolean.valueOf(paramBoolean));
+    zzaum().setMeasurementEnabled(paramBoolean);
+    zzauc().zzazp();
+  }
+  
+  @X
+  private final void zzc(AppMeasurement.ConditionalUserProperty paramConditionalUserProperty)
+  {
+    zzuj();
+    zzwk();
+    zzbp.zzu(paramConditionalUserProperty);
+    zzbp.zzgg(mName);
+    if (!zziki.isEnabled())
+    {
+      zzaul().zzayi().log("Conditional property not cleared since Firebase Analytics is disabled");
+      return;
+    }
+    zzcft localZzcft = new zzcft(mName, 0L, null, null);
+    try
+    {
+      zzcbk localZzcbk = zzauh().zza(mExpiredEventName, mExpiredEventParams, mOrigin, mCreationTimestamp, true, false);
+      paramConditionalUserProperty = new zzcav(mAppId, mOrigin, localZzcft, mCreationTimestamp, mActive, mTriggerEventName, null, mTriggerTimeout, null, mTimeToLive, localZzcbk);
+      zzauc().zzf(paramConditionalUserProperty);
+      return;
+    }
+    catch (IllegalArgumentException paramConditionalUserProperty) {}
+  }
+  
+  private final List<AppMeasurement.ConditionalUserProperty> zzk(String paramString1, String paramString2, String paramString3)
+  {
+    if (zzauk().zzays())
+    {
+      paramString1 = zzaul().zzayd();
+      paramString2 = "Cannot get conditional user properties from analytics worker thread";
+      paramString1.log(paramString2);
+    }
+    for (;;)
+    {
+      return Collections.emptyList();
+      zzauk();
+      if (zzccr.zzaq())
+      {
+        paramString1 = zzaul().zzayd();
+        paramString2 = "Cannot get conditional user properties from main thread";
+        break;
+      }
+      synchronized (new AtomicReference())
+      {
+        zziki.zzauk().zzg(new zzcea(this, (AtomicReference)???, paramString1, paramString2, paramString3));
+        try
+        {
+          ???.wait(5000L);
+        }
+        catch (InterruptedException paramString3)
+        {
+          zzaul().zzayf().zze("Interrupted waiting for get conditional user properties", paramString1, paramString3);
+        }
+        ??? = (List)((AtomicReference)???).get();
+        if (??? == null)
+        {
+          zzaul().zzayf().zzj("Timed out waiting for get conditional user properties", paramString1);
+        }
+        else
+        {
+          paramString3 = new ArrayList(((List)???).size());
+          ??? = ((List)???).iterator();
+          while (((Iterator)???).hasNext())
+          {
+            Object localObject2 = (zzcav)((Iterator)???).next();
+            AppMeasurement.ConditionalUserProperty localConditionalUserProperty = new AppMeasurement.ConditionalUserProperty();
+            mAppId = paramString1;
+            mOrigin = paramString2;
+            mCreationTimestamp = zzimi;
+            Object localObject3 = zzimh;
+            mName = name;
+            mValue = ((zzcft)localObject3).getValue();
+            mActive = zzimj;
+            mTriggerEventName = zzimk;
+            localObject3 = zziml;
+            if (localObject3 != null)
+            {
+              mTimedOutEventName = name;
+              localObject3 = zzinr;
+              if (localObject3 != null) {
+                mTimedOutEventParams = ((zzcbh)localObject3).zzaxz();
+              }
+            }
+            mTriggerTimeout = zzimm;
+            localObject3 = zzimn;
+            if (localObject3 != null)
+            {
+              mTriggeredEventName = name;
+              localObject3 = zzinr;
+              if (localObject3 != null) {
+                mTriggeredEventParams = ((zzcbh)localObject3).zzaxz();
+              }
+            }
+            mTriggeredTimestamp = zzimh.zziwz;
+            mTimeToLive = zzimo;
+            localObject2 = zzimp;
+            if (localObject2 != null)
+            {
+              mExpiredEventName = name;
+              localObject2 = zzinr;
+              if (localObject2 != null) {
+                mExpiredEventParams = ((zzcbh)localObject2).zzaxz();
+              }
+            }
+            paramString3.add(localConditionalUserProperty);
+          }
+          return paramString3;
+        }
+      }
+    }
+    for (;;)
+    {
+      throw paramString1;
+    }
+  }
+  
+  public final void clearConditionalUserProperty(String paramString1, String paramString2, Bundle paramBundle)
+  {
+    zzatv();
+    zza(null, paramString1, paramString2, paramBundle);
+  }
+  
+  public final void clearConditionalUserPropertyAs(String paramString1, String paramString2, String paramString3, Bundle paramBundle)
+  {
+    zzbp.zzgg(paramString1);
+    zzatu();
+    zza(paramString1, paramString2, paramString3, paramBundle);
+  }
+  
+  public final Task<String> getAppInstanceId()
+  {
+    try
+    {
+      Object localObject = zzaum().zzayn();
+      if (localObject != null) {
+        return Tasks.forResult(localObject);
+      }
+      localObject = Tasks.call(zzauk().zzayt(), new zzceh(this));
+      return localObject;
+    }
+    catch (Exception localException)
+    {
+      zzaul().zzayf().log("Failed to schedule task for getAppInstanceId");
+      return Tasks.forException(localException);
+    }
+  }
+  
+  public final List<AppMeasurement.ConditionalUserProperty> getConditionalUserProperties(String paramString1, String paramString2)
+  {
+    zzatv();
+    return zzk(null, paramString1, paramString2);
+  }
+  
+  public final List<AppMeasurement.ConditionalUserProperty> getConditionalUserPropertiesAs(String paramString1, String paramString2, String paramString3)
+  {
+    zzbp.zzgg(paramString1);
+    zzatu();
+    return zzk(paramString1, paramString2, paramString3);
+  }
+  
+  public final Map<String, Object> getUserProperties(String paramString1, String paramString2, boolean paramBoolean)
+  {
+    zzatv();
+    return zzb(null, paramString1, paramString2, paramBoolean);
+  }
+  
+  public final Map<String, Object> getUserPropertiesAs(String paramString1, String paramString2, String paramString3, boolean paramBoolean)
+  {
+    zzbp.zzgg(paramString1);
+    zzatu();
+    return zzb(paramString1, paramString2, paramString3, paramBoolean);
+  }
+  
+  public final void registerOnMeasurementEventListener(AppMeasurement.OnEventListener paramOnEventListener)
+  {
+    zzatv();
+    zzwk();
+    zzbp.zzu(paramOnEventListener);
+    if (!zziuv.add(paramOnEventListener)) {
+      zzaul().zzayf().log("OnEventListener already registered");
+    }
+  }
+  
+  public final void setConditionalUserProperty(AppMeasurement.ConditionalUserProperty paramConditionalUserProperty)
+  {
+    zzbp.zzu(paramConditionalUserProperty);
+    zzatv();
+    paramConditionalUserProperty = new AppMeasurement.ConditionalUserProperty(paramConditionalUserProperty);
+    if (!TextUtils.isEmpty(mAppId)) {
+      zzaul().zzayf().log("Package name should be null when calling setConditionalUserProperty");
+    }
+    mAppId = null;
+    zza(paramConditionalUserProperty);
+  }
+  
+  public final void setConditionalUserPropertyAs(AppMeasurement.ConditionalUserProperty paramConditionalUserProperty)
+  {
+    zzbp.zzu(paramConditionalUserProperty);
+    zzbp.zzgg(mAppId);
+    zzatu();
+    zza(new AppMeasurement.ConditionalUserProperty(paramConditionalUserProperty));
+  }
+  
+  @X
+  public final void setEventInterceptor(AppMeasurement.EventInterceptor paramEventInterceptor)
+  {
+    zzuj();
+    zzatv();
+    zzwk();
+    if (paramEventInterceptor != null)
+    {
+      AppMeasurement.EventInterceptor localEventInterceptor = zziuu;
+      if (paramEventInterceptor != localEventInterceptor)
+      {
+        boolean bool;
+        if (localEventInterceptor == null) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        zzbp.zza(bool, "EventInterceptor already set.");
+      }
+    }
+    zziuu = paramEventInterceptor;
+  }
+  
+  public final void setMeasurementEnabled(boolean paramBoolean)
+  {
+    zzwk();
+    zzatv();
+    zzauk().zzg(new zzcdx(this, paramBoolean));
+  }
+  
+  public final void setMinimumSessionDuration(long paramLong)
+  {
+    zzatv();
+    zzauk().zzg(new zzcec(this, paramLong));
+  }
+  
+  public final void setSessionTimeoutDuration(long paramLong)
+  {
+    zzatv();
+    zzauk().zzg(new zzced(this, paramLong));
+  }
+  
+  public final void unregisterOnMeasurementEventListener(AppMeasurement.OnEventListener paramOnEventListener)
+  {
+    zzatv();
+    zzwk();
+    zzbp.zzu(paramOnEventListener);
+    if (!zziuv.remove(paramOnEventListener)) {
+      zzaul().zzayf().log("OnEventListener had not been registered");
+    }
+  }
+  
+  public final void zza(String paramString1, String paramString2, Bundle paramBundle, long paramLong)
+  {
+    zzatv();
+    zza(paramString1, paramString2, paramLong, paramBundle, false, true, true, null);
+  }
+  
+  public final void zza(String paramString1, String paramString2, Bundle paramBundle, boolean paramBoolean)
+  {
+    zzatv();
+    if ((zziuu != null) && (!zzcfw.zzkd(paramString2))) {
+      paramBoolean = false;
+    } else {
+      paramBoolean = true;
+    }
+    zza(paramString1, paramString2, paramBundle, true, paramBoolean, true, null);
+  }
+  
+  public final void zzatu()
+  {
+    zzccw.zzatu();
+    throw null;
+  }
+  
+  public final void zzatv()
+  {
+    zzcax.zzawk();
+  }
+  
+  @G
+  public final String zzayn()
+  {
+    zzatv();
+    return (String)zziux.get();
+  }
+  
+  public final void zzb(String paramString1, String paramString2, Object paramObject)
+  {
+    zzbp.zzgg(paramString1);
+    long l = zzvx().currentTimeMillis();
+    int i = zzauh().zzjy(paramString2);
+    int j;
+    if (i != 0)
+    {
+      zzauh();
+      zzcax.zzavo();
+      paramString1 = zzcfw.zza(paramString2, 24, true);
+      j = paramString2.length();
+      zziki.zzauh().zza(i, "_ev", paramString1, j);
+      return;
+    }
+    if (paramObject != null)
+    {
+      j = zzauh().zzl(paramString2, paramObject);
+      if (j != 0)
+      {
+        zzauh();
+        zzcax.zzavo();
+        paramString1 = zzcfw.zza(paramString2, 24, true);
+        i = 0;
+        if (((paramObject instanceof String)) || ((paramObject instanceof CharSequence))) {
+          i = String.valueOf(paramObject).length();
+        }
+        zziki.zzauh().zza(j, "_ev", paramString1, i);
+        return;
+      }
+      paramObject = zzauh().zzm(paramString2, paramObject);
+      if (paramObject != null) {
+        zza(paramString1, paramString2, l, paramObject);
+      }
+      return;
+    }
+    zza(paramString1, paramString2, l, null);
+  }
+  
+  @G
+  public final String zzbc(long paramLong)
+  {
+    synchronized (new AtomicReference())
+    {
+      zzauk().zzg(new zzcei(this, ???));
+      try
+      {
+        ???.wait(paramLong);
+        return (String)???.get();
+      }
+      catch (InterruptedException localInterruptedException)
+      {
+        for (;;) {}
+      }
+      zzaul().zzayf().log("Interrupted waiting for app instance id");
+      return null;
+    }
+  }
+  
+  public final List<zzcft> zzbq(boolean paramBoolean)
+  {
+    zzatv();
+    zzwk();
+    zzaul().zzayi().log("Fetching user attributes (FE)");
+    zzcby localZzcby1;
+    if (zzauk().zzays())
+    {
+      localZzcby1 = zzaul().zzayd();
+      ??? = "Cannot get all user properties from analytics worker thread";
+    }
+    for (;;)
+    {
+      localZzcby1.log((String)???);
+      return Collections.emptyList();
+      zzauk();
+      if (zzccr.zzaq())
+      {
+        localZzcby1 = zzaul().zzayd();
+        ??? = "Cannot get all user properties from main thread";
+      }
+      else
+      {
+        synchronized (new AtomicReference())
+        {
+          zziki.zzauk().zzg(new zzceg(this, (AtomicReference)???, paramBoolean));
+          try
+          {
+            ???.wait(5000L);
+          }
+          catch (InterruptedException localInterruptedException)
+          {
+            zzaul().zzayf().zzj("Interrupted waiting for get user properties", localInterruptedException);
+          }
+          ??? = (List)((AtomicReference)???).get();
+          if (??? == null)
+          {
+            zzcby localZzcby2 = zzaul().zzayf();
+            ??? = "Timed out waiting for get user properties";
+          }
+          else
+          {
+            return ???;
+          }
+        }
+      }
+    }
+    for (;;)
+    {
+      throw localObject2;
+    }
+  }
+  
+  public final void zzc(String paramString1, String paramString2, Bundle paramBundle)
+  {
+    zzatv();
+    boolean bool;
+    if ((zziuu != null) && (!zzcfw.zzkd(paramString2))) {
+      bool = false;
+    } else {
+      bool = true;
+    }
+    zza(paramString1, paramString2, paramBundle, true, bool, false, null);
+  }
+  
+  public final void zzjk(@G String paramString)
+  {
+    zziux.set(paramString);
+  }
+  
+  public final void zzuk() {}
+}

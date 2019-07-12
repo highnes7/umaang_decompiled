@@ -1,0 +1,379 @@
+package f.h.a;
+
+import com.coremedia.iso.boxes.Box;
+import com.coremedia.iso.boxes.Container;
+import f.h.a.g.c;
+import f.h.a.g.j;
+import f.h.a.g.m;
+import f.slide.asm.Buffer;
+import f.slide.asm.Frame;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.WritableByteChannel;
+
+public abstract class Message
+  implements Box
+{
+  public static j LOG = j.a(a.class);
+  public ByteBuffer content;
+  public long contentStartPosition;
+  public f dataSource;
+  public ByteBuffer deadBytes = null;
+  public boolean isParsed;
+  public boolean isRead;
+  public long memMapSize = -1L;
+  public long offset;
+  public Container parent;
+  public String type;
+  public byte[] userType;
+  
+  public Message(String paramString)
+  {
+    type = paramString;
+    isRead = true;
+    isParsed = true;
+  }
+  
+  public Message(String paramString, byte[] paramArrayOfByte)
+  {
+    type = paramString;
+    userType = paramArrayOfByte;
+    isRead = true;
+    isParsed = true;
+  }
+  
+  private void getHeader(ByteBuffer paramByteBuffer)
+  {
+    if (isSmallBox())
+    {
+      paramByteBuffer.putInt((int)getSize());
+      paramByteBuffer.put(Buffer.append(getType()));
+    }
+    else
+    {
+      paramByteBuffer.putInt((int)1L);
+      paramByteBuffer.put(Buffer.append(getType()));
+      paramByteBuffer.putLong(getSize());
+    }
+    if ("uuid".equals(getType())) {
+      paramByteBuffer.put(getUserType());
+    }
+  }
+  
+  private boolean isSmallBox()
+  {
+    int i;
+    if ("uuid".equals(getType())) {
+      i = 24;
+    } else {
+      i = 8;
+    }
+    if (isRead)
+    {
+      if (isParsed)
+      {
+        long l = getContentSize();
+        ByteBuffer localByteBuffer = deadBytes;
+        int j;
+        if (localByteBuffer != null) {
+          j = localByteBuffer.limit();
+        } else {
+          j = 0;
+        }
+        return l + j + i < 4294967296L;
+      }
+      return content.limit() + i < 4294967296L;
+    }
+    return memMapSize + i < 4294967296L;
+  }
+  
+  private void readContent()
+  {
+    try
+    {
+      boolean bool = isRead;
+      if (!bool)
+      {
+        Object localObject = LOG;
+        try
+        {
+          StringBuilder localStringBuilder = new StringBuilder("mem mapping ");
+          localStringBuilder.append(getType());
+          ((j)localObject).a(localStringBuilder.toString());
+          localObject = dataSource;
+          long l1 = contentStartPosition;
+          long l2 = memMapSize;
+          localObject = ((f)localObject).a(l1, l2);
+          content = ((ByteBuffer)localObject);
+          isRead = true;
+        }
+        catch (IOException localIOException)
+        {
+          throw new RuntimeException(localIOException);
+        }
+      }
+      return;
+    }
+    catch (Throwable localThrowable)
+    {
+      throw localThrowable;
+    }
+  }
+  
+  private boolean verify(ByteBuffer paramByteBuffer)
+  {
+    long l = getContentSize();
+    Object localObject1 = deadBytes;
+    if (localObject1 != null) {
+      i = ((ByteBuffer)localObject1).limit();
+    } else {
+      i = 0;
+    }
+    localObject1 = ByteBuffer.allocate(c.a(l + i));
+    getContent((ByteBuffer)localObject1);
+    Object localObject2 = deadBytes;
+    if (localObject2 != null)
+    {
+      ((ByteBuffer)localObject2).rewind();
+      while (deadBytes.remaining() > 0) {
+        ((ByteBuffer)localObject1).put(deadBytes);
+      }
+    }
+    paramByteBuffer.rewind();
+    ((ByteBuffer)localObject1).rewind();
+    Object localObject3;
+    if (paramByteBuffer.remaining() != ((ByteBuffer)localObject1).remaining())
+    {
+      localObject2 = System.err;
+      localObject3 = new StringBuilder(String.valueOf(getType()));
+      ((StringBuilder)localObject3).append(": remaining differs ");
+      ((StringBuilder)localObject3).append(paramByteBuffer.remaining());
+      ((StringBuilder)localObject3).append(" vs. ");
+      ((StringBuilder)localObject3).append(((ByteBuffer)localObject1).remaining());
+      ((PrintStream)localObject2).print(((StringBuilder)localObject3).toString());
+      localObject2 = LOG;
+      localObject3 = new StringBuilder(String.valueOf(getType()));
+      ((StringBuilder)localObject3).append(": remaining differs ");
+      ((StringBuilder)localObject3).append(paramByteBuffer.remaining());
+      ((StringBuilder)localObject3).append(" vs. ");
+      ((StringBuilder)localObject3).append(((ByteBuffer)localObject1).remaining());
+      ((j)localObject2).b(((StringBuilder)localObject3).toString());
+      return false;
+    }
+    int k = paramByteBuffer.position();
+    int j = paramByteBuffer.limit() - 1;
+    int i = ((ByteBuffer)localObject1).limit() - 1;
+    for (;;)
+    {
+      if (j < k) {
+        return true;
+      }
+      byte b1 = paramByteBuffer.get(j);
+      byte b2 = ((ByteBuffer)localObject1).get(i);
+      if (b1 != b2)
+      {
+        LOG.b(String.format("%s: buffers differ at %d: %2X/%2X", new Object[] { getType(), Integer.valueOf(j), Byte.valueOf(b1), Byte.valueOf(b2) }));
+        localObject3 = new byte[paramByteBuffer.remaining()];
+        localObject2 = new byte[((ByteBuffer)localObject1).remaining()];
+        paramByteBuffer.get((byte[])localObject3);
+        ((ByteBuffer)localObject1).get((byte[])localObject2);
+        paramByteBuffer = System.err;
+        localObject1 = new StringBuilder("original      : ");
+        ((StringBuilder)localObject1).append(Frame.a((byte[])localObject3, 4));
+        paramByteBuffer.println(((StringBuilder)localObject1).toString());
+        paramByteBuffer = System.err;
+        localObject1 = new StringBuilder("reconstructed : ");
+        ((StringBuilder)localObject1).append(Frame.a((byte[])localObject2, 4));
+        paramByteBuffer.println(((StringBuilder)localObject1).toString());
+        return false;
+      }
+      j -= 1;
+      i -= 1;
+    }
+  }
+  
+  public abstract void _parseDetails(ByteBuffer paramByteBuffer);
+  
+  public void getBox(WritableByteChannel paramWritableByteChannel)
+    throws IOException
+  {
+    boolean bool = isRead;
+    int i = 8;
+    int j = 0;
+    int k = 16;
+    if (bool)
+    {
+      if (isParsed)
+      {
+        localByteBuffer1 = ByteBuffer.allocate(c.a(getSize()));
+        getHeader(localByteBuffer1);
+        getContent(localByteBuffer1);
+        ByteBuffer localByteBuffer2 = deadBytes;
+        if (localByteBuffer2 != null)
+        {
+          localByteBuffer2.rewind();
+          while (deadBytes.remaining() > 0) {
+            localByteBuffer1.put(deadBytes);
+          }
+        }
+        paramWritableByteChannel.write((ByteBuffer)localByteBuffer1.rewind());
+        return;
+      }
+      if (!isSmallBox()) {
+        i = 16;
+      }
+      if ("uuid".equals(getType())) {
+        j = k;
+      } else {
+        j = 0;
+      }
+      localByteBuffer1 = ByteBuffer.allocate(i + j);
+      getHeader(localByteBuffer1);
+      paramWritableByteChannel.write((ByteBuffer)localByteBuffer1.rewind());
+      paramWritableByteChannel.write((ByteBuffer)content.position(0));
+      return;
+    }
+    if (!isSmallBox()) {
+      i = 16;
+    }
+    if ("uuid".equals(getType())) {
+      j = 16;
+    }
+    ByteBuffer localByteBuffer1 = ByteBuffer.allocate(i + j);
+    getHeader(localByteBuffer1);
+    paramWritableByteChannel.write((ByteBuffer)localByteBuffer1.rewind());
+    dataSource.a(contentStartPosition, memMapSize, paramWritableByteChannel);
+  }
+  
+  public abstract void getContent(ByteBuffer paramByteBuffer);
+  
+  public abstract long getContentSize();
+  
+  public long getOffset()
+  {
+    return offset;
+  }
+  
+  public Container getParent()
+  {
+    return parent;
+  }
+  
+  public String getPath()
+  {
+    return m.a(this);
+  }
+  
+  public long getSize()
+  {
+    boolean bool = isRead;
+    int k = 0;
+    long l1;
+    int i;
+    if (bool)
+    {
+      if (isParsed)
+      {
+        l1 = getContentSize();
+      }
+      else
+      {
+        localByteBuffer = content;
+        if (localByteBuffer != null) {
+          i = localByteBuffer.limit();
+        } else {
+          i = 0;
+        }
+        l1 = i;
+      }
+    }
+    else {
+      l1 = memMapSize;
+    }
+    if (l1 >= 4294967288L) {
+      i = 8;
+    } else {
+      i = 0;
+    }
+    int j;
+    if ("uuid".equals(getType())) {
+      j = 16;
+    } else {
+      j = 0;
+    }
+    long l2 = i + 8 + j;
+    ByteBuffer localByteBuffer = deadBytes;
+    if (localByteBuffer == null) {
+      i = k;
+    } else {
+      i = localByteBuffer.limit();
+    }
+    return l1 + l2 + i;
+  }
+  
+  public String getType()
+  {
+    return type;
+  }
+  
+  public byte[] getUserType()
+  {
+    return userType;
+  }
+  
+  public boolean isParsed()
+  {
+    return isParsed;
+  }
+  
+  public void parse(f paramF, ByteBuffer paramByteBuffer, long paramLong, f.slide.asm.a paramA)
+    throws IOException
+  {
+    contentStartPosition = paramF.position();
+    offset = (contentStartPosition - paramByteBuffer.remaining());
+    memMapSize = paramLong;
+    dataSource = paramF;
+    paramF.position(paramF.position() + paramLong);
+    isRead = false;
+    isParsed = false;
+  }
+  
+  public final void parseDetails()
+  {
+    try
+    {
+      readContent();
+      Object localObject = LOG;
+      StringBuilder localStringBuilder = new StringBuilder("parsing details of ");
+      localStringBuilder.append(getType());
+      ((j)localObject).a(localStringBuilder.toString());
+      if (content != null)
+      {
+        localObject = content;
+        isParsed = true;
+        ((ByteBuffer)localObject).rewind();
+        _parseDetails((ByteBuffer)localObject);
+        if (((ByteBuffer)localObject).remaining() > 0) {
+          deadBytes = ((ByteBuffer)localObject).slice();
+        }
+        content = null;
+      }
+      return;
+    }
+    catch (Throwable localThrowable)
+    {
+      throw localThrowable;
+    }
+  }
+  
+  public void setDeadBytes(ByteBuffer paramByteBuffer)
+  {
+    deadBytes = paramByteBuffer;
+  }
+  
+  public void setParent(Container paramContainer)
+  {
+    parent = paramContainer;
+  }
+}

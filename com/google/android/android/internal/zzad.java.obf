@@ -1,0 +1,665 @@
+package com.google.android.gms.internal;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.TreeMap;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+
+public final class zzad
+  implements zzk
+{
+  public static boolean DEBUG = zzab.DEBUG;
+  public static int zzbm = 3000;
+  public static int zzbn = 4096;
+  public zzan zzbo;
+  public zzae zzbp;
+  
+  public zzad(zzan paramZzan)
+  {
+    zzbo = paramZzan;
+    zzbp = localZzae;
+  }
+  
+  public zzad(zzan paramZzan, zzae paramZzae)
+  {
+    zzbo = paramZzan;
+    zzbp = paramZzae;
+  }
+  
+  public static Map<String, String> zza(Header[] paramArrayOfHeader)
+  {
+    TreeMap localTreeMap = new TreeMap(String.CASE_INSENSITIVE_ORDER);
+    int i = 0;
+    while (i < paramArrayOfHeader.length)
+    {
+      localTreeMap.put(paramArrayOfHeader[i].getName(), paramArrayOfHeader[i].getValue());
+      i += 1;
+    }
+    return localTreeMap;
+  }
+  
+  public static void zza(String paramString, zzp<?> paramZzp, zzaa paramZzaa)
+    throws zzaa
+  {
+    zzx localZzx = paramZzp.zzj();
+    int i = paramZzp.zzi();
+    try
+    {
+      localZzx.zza(paramZzaa);
+      paramZzp.zzb(String.format("%s-retry [timeout=%s]", new Object[] { paramString, Integer.valueOf(i) }));
+      return;
+    }
+    catch (zzaa paramZzaa)
+    {
+      paramZzp.zzb(String.format("%s-timeout-giveup [timeout=%s]", new Object[] { paramString, Integer.valueOf(i) }));
+      throw paramZzaa;
+    }
+  }
+  
+  private final byte[] zza(HttpEntity paramHttpEntity)
+    throws IOException, zzy
+  {
+    zzaq localZzaq = new zzaq(zzbp, (int)paramHttpEntity.getContentLength());
+    byte[] arrayOfByte2 = null;
+    byte[] arrayOfByte1 = arrayOfByte2;
+    for (;;)
+    {
+      Object localObject2;
+      try
+      {
+        localObject2 = paramHttpEntity.getContent();
+        if (localObject2 != null)
+        {
+          arrayOfByte1 = arrayOfByte2;
+          arrayOfByte2 = zzbp.zzb(1024);
+          arrayOfByte1 = arrayOfByte2;
+          int i = ((InputStream)localObject2).read(arrayOfByte2);
+          if (i != -1)
+          {
+            arrayOfByte1 = arrayOfByte2;
+            localZzaq.write(arrayOfByte2, 0, i);
+            continue;
+          }
+          arrayOfByte1 = arrayOfByte2;
+          localObject2 = localZzaq.toByteArray();
+        }
+      }
+      finally {}
+      try
+      {
+        paramHttpEntity.consumeContent();
+      }
+      catch (IOException paramHttpEntity) {}
+    }
+    zzab.zza("Error occured when calling consumingContent", new Object[0]);
+    zzbp.zza(arrayOfByte2);
+    localZzaq.close();
+    return localObject2;
+    arrayOfByte1 = arrayOfByte2;
+    throw new zzy();
+    try
+    {
+      paramHttpEntity.consumeContent();
+    }
+    catch (IOException paramHttpEntity)
+    {
+      for (;;) {}
+    }
+    zzab.zza("Error occured when calling consumingContent", new Object[0]);
+    zzbp.zza(arrayOfByte1);
+    localZzaq.close();
+    for (;;)
+    {
+      throw localObject1;
+    }
+  }
+  
+  /* Error */
+  public final zzn zza(zzp<?> arg1)
+    throws zzaa
+  {
+    // Byte code:
+    //   0: invokestatic 175	android/os/SystemClock:elapsedRealtime	()J
+    //   3: lstore 5
+    //   5: invokestatic 181	java/util/Collections:emptyMap	()Ljava/util/Map;
+    //   8: astore 10
+    //   10: aconst_null
+    //   11: astore 15
+    //   13: new 183	java/util/HashMap
+    //   16: dup
+    //   17: invokespecial 184	java/util/HashMap:<init>	()V
+    //   20: astore 11
+    //   22: aload_1
+    //   23: invokevirtual 188	com/google/android/gms/internal/zzp:zze	()Lcom/google/android/gms/internal/zzc;
+    //   26: astore 12
+    //   28: aload 12
+    //   30: ifnull +63 -> 93
+    //   33: aload 12
+    //   35: getfield 193	com/google/android/gms/internal/zzc:zza	Ljava/lang/String;
+    //   38: astore 13
+    //   40: aload 13
+    //   42: ifnull +15 -> 57
+    //   45: aload 11
+    //   47: ldc -61
+    //   49: aload 13
+    //   51: invokeinterface 69 3 0
+    //   56: pop
+    //   57: aload 12
+    //   59: getfield 199	com/google/android/gms/internal/zzc:zzc	J
+    //   62: lstore 7
+    //   64: lload 7
+    //   66: lconst_0
+    //   67: lcmp
+    //   68: ifle +25 -> 93
+    //   71: aload 11
+    //   73: ldc -55
+    //   75: new 203	java/util/Date
+    //   78: dup
+    //   79: lload 7
+    //   81: invokespecial 206	java/util/Date:<init>	(J)V
+    //   84: invokestatic 212	org/apache/http/impl/cookie/DateUtils:formatDate	(Ljava/util/Date;)Ljava/lang/String;
+    //   87: invokeinterface 69 3 0
+    //   92: pop
+    //   93: aload_0
+    //   94: getfield 38	com/google/android/gms/internal/zzad:zzbo	Lcom/google/android/gms/internal/zzan;
+    //   97: aload_1
+    //   98: aload 11
+    //   100: invokeinterface 217 3 0
+    //   105: astore 14
+    //   107: aload 10
+    //   109: astore 13
+    //   111: aload 15
+    //   113: astore 11
+    //   115: aload 14
+    //   117: invokeinterface 223 1 0
+    //   122: astore 16
+    //   124: aload 10
+    //   126: astore 13
+    //   128: aload 15
+    //   130: astore 11
+    //   132: aload 16
+    //   134: invokeinterface 228 1 0
+    //   139: istore_2
+    //   140: aload 10
+    //   142: astore 13
+    //   144: aload 15
+    //   146: astore 11
+    //   148: aload 14
+    //   150: invokeinterface 234 1 0
+    //   155: invokestatic 236	com/google/android/gms/internal/zzad:zza	([Lorg/apache/http/Header;)Ljava/util/Map;
+    //   158: astore 12
+    //   160: iload_2
+    //   161: sipush 304
+    //   164: if_icmpne +107 -> 271
+    //   167: aload 12
+    //   169: astore 13
+    //   171: aload 15
+    //   173: astore 11
+    //   175: aload_1
+    //   176: invokevirtual 188	com/google/android/gms/internal/zzp:zze	()Lcom/google/android/gms/internal/zzc;
+    //   179: astore 10
+    //   181: aload 10
+    //   183: ifnonnull +32 -> 215
+    //   186: aload 12
+    //   188: astore 13
+    //   190: aload 15
+    //   192: astore 11
+    //   194: new 238	com/google/android/gms/internal/zzn
+    //   197: dup
+    //   198: sipush 304
+    //   201: aconst_null
+    //   202: aload 12
+    //   204: iconst_1
+    //   205: invokestatic 175	android/os/SystemClock:elapsedRealtime	()J
+    //   208: lload 5
+    //   210: lsub
+    //   211: invokespecial 241	com/google/android/gms/internal/zzn:<init>	(I[BLjava/util/Map;ZJ)V
+    //   214: areturn
+    //   215: aload 12
+    //   217: astore 13
+    //   219: aload 15
+    //   221: astore 11
+    //   223: aload 10
+    //   225: getfield 245	com/google/android/gms/internal/zzc:zzf	Ljava/util/Map;
+    //   228: aload 12
+    //   230: invokeinterface 249 2 0
+    //   235: aload 12
+    //   237: astore 13
+    //   239: aload 15
+    //   241: astore 11
+    //   243: new 238	com/google/android/gms/internal/zzn
+    //   246: dup
+    //   247: sipush 304
+    //   250: aload 10
+    //   252: getfield 253	com/google/android/gms/internal/zzc:data	[B
+    //   255: aload 10
+    //   257: getfield 245	com/google/android/gms/internal/zzc:zzf	Ljava/util/Map;
+    //   260: iconst_1
+    //   261: invokestatic 175	android/os/SystemClock:elapsedRealtime	()J
+    //   264: lload 5
+    //   266: lsub
+    //   267: invokespecial 241	com/google/android/gms/internal/zzn:<init>	(I[BLjava/util/Map;ZJ)V
+    //   270: areturn
+    //   271: aload 12
+    //   273: astore 13
+    //   275: aload 15
+    //   277: astore 11
+    //   279: aload 14
+    //   281: invokeinterface 257 1 0
+    //   286: ifnull +27 -> 313
+    //   289: aload 12
+    //   291: astore 13
+    //   293: aload 15
+    //   295: astore 11
+    //   297: aload_0
+    //   298: aload 14
+    //   300: invokeinterface 257 1 0
+    //   305: invokespecial 259	com/google/android/gms/internal/zzad:zza	(Lorg/apache/http/HttpEntity;)[B
+    //   308: astore 10
+    //   310: goto +16 -> 326
+    //   313: aload 12
+    //   315: astore 13
+    //   317: aload 15
+    //   319: astore 11
+    //   321: iconst_0
+    //   322: newarray byte
+    //   324: astore 10
+    //   326: aload 12
+    //   328: astore 13
+    //   330: aload 10
+    //   332: astore 11
+    //   334: invokestatic 175	android/os/SystemClock:elapsedRealtime	()J
+    //   337: lload 5
+    //   339: lsub
+    //   340: lstore 7
+    //   342: aload 12
+    //   344: astore 13
+    //   346: aload 10
+    //   348: astore 11
+    //   350: getstatic 22	com/google/android/gms/internal/zzad:DEBUG	Z
+    //   353: istore 9
+    //   355: iload 9
+    //   357: ifne +38 -> 395
+    //   360: getstatic 24	com/google/android/gms/internal/zzad:zzbm	I
+    //   363: istore_3
+    //   364: lload 7
+    //   366: iload_3
+    //   367: i2l
+    //   368: lcmp
+    //   369: ifle +6 -> 375
+    //   372: goto +23 -> 395
+    //   375: goto +137 -> 512
+    //   378: astore 13
+    //   380: aload 10
+    //   382: astore 11
+    //   384: aload 13
+    //   386: astore 10
+    //   388: aload 14
+    //   390: astore 13
+    //   392: goto +220 -> 612
+    //   395: aload 10
+    //   397: ifnull +27 -> 424
+    //   400: aload 10
+    //   402: astore 11
+    //   404: aload 11
+    //   406: arraylength
+    //   407: invokestatic 97	java/lang/Integer:valueOf	(I)Ljava/lang/Integer;
+    //   410: astore 13
+    //   412: goto +17 -> 429
+    //   415: astore 10
+    //   417: aload 14
+    //   419: astore 13
+    //   421: goto +191 -> 612
+    //   424: ldc_w 261
+    //   427: astore 13
+    //   429: aload 10
+    //   431: astore 11
+    //   433: aload 16
+    //   435: invokeinterface 228 1 0
+    //   440: istore_3
+    //   441: aload 10
+    //   443: astore 11
+    //   445: aload_1
+    //   446: invokevirtual 80	com/google/android/gms/internal/zzp:zzj	()Lcom/google/android/gms/internal/zzx;
+    //   449: invokeinterface 263 1 0
+    //   454: istore 4
+    //   456: aload 10
+    //   458: astore 11
+    //   460: getstatic 266	com/google/android/gms/internal/zzab:TAG	Ljava/lang/String;
+    //   463: astore 15
+    //   465: aload 10
+    //   467: astore 11
+    //   469: ldc_w 268
+    //   472: iconst_5
+    //   473: anewarray 4	java/lang/Object
+    //   476: dup
+    //   477: iconst_0
+    //   478: aload_1
+    //   479: aastore
+    //   480: dup
+    //   481: iconst_1
+    //   482: lload 7
+    //   484: invokestatic 273	java/lang/Long:valueOf	(J)Ljava/lang/Long;
+    //   487: aastore
+    //   488: dup
+    //   489: iconst_2
+    //   490: aload 13
+    //   492: aastore
+    //   493: dup
+    //   494: iconst_3
+    //   495: iload_3
+    //   496: invokestatic 97	java/lang/Integer:valueOf	(I)Ljava/lang/Integer;
+    //   499: aastore
+    //   500: dup
+    //   501: iconst_4
+    //   502: iload 4
+    //   504: invokestatic 97	java/lang/Integer:valueOf	(I)Ljava/lang/Integer;
+    //   507: aastore
+    //   508: invokestatic 276	com/google/android/gms/internal/zzab:zzd	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    //   511: pop
+    //   512: iload_2
+    //   513: sipush 200
+    //   516: if_icmplt +46 -> 562
+    //   519: iload_2
+    //   520: sipush 299
+    //   523: if_icmpgt +39 -> 562
+    //   526: aload 10
+    //   528: astore 11
+    //   530: invokestatic 175	android/os/SystemClock:elapsedRealtime	()J
+    //   533: lstore 7
+    //   535: aload 10
+    //   537: astore 11
+    //   539: aload 12
+    //   541: astore 13
+    //   543: new 238	com/google/android/gms/internal/zzn
+    //   546: dup
+    //   547: iload_2
+    //   548: aload 10
+    //   550: aload 12
+    //   552: iconst_0
+    //   553: lload 7
+    //   555: lload 5
+    //   557: lsub
+    //   558: invokespecial 241	com/google/android/gms/internal/zzn:<init>	(I[BLjava/util/Map;ZJ)V
+    //   561: areturn
+    //   562: aload 12
+    //   564: astore 13
+    //   566: aload 10
+    //   568: astore 11
+    //   570: new 112	java/io/IOException
+    //   573: dup
+    //   574: invokespecial 277	java/io/IOException:<init>	()V
+    //   577: athrow
+    //   578: astore_1
+    //   579: goto +9 -> 588
+    //   582: astore 10
+    //   584: aload 13
+    //   586: astore 12
+    //   588: aload 14
+    //   590: astore 13
+    //   592: goto +20 -> 612
+    //   595: astore 14
+    //   597: aconst_null
+    //   598: astore 13
+    //   600: aload 13
+    //   602: astore 11
+    //   604: aload 10
+    //   606: astore 12
+    //   608: aload 14
+    //   610: astore 10
+    //   612: aload 13
+    //   614: ifnull +190 -> 804
+    //   617: aload 13
+    //   619: invokeinterface 223 1 0
+    //   624: invokeinterface 228 1 0
+    //   629: istore_2
+    //   630: aload_1
+    //   631: invokevirtual 280	com/google/android/gms/internal/zzp:getUrl	()Ljava/lang/String;
+    //   634: astore 10
+    //   636: getstatic 266	com/google/android/gms/internal/zzab:TAG	Ljava/lang/String;
+    //   639: astore 13
+    //   641: ldc_w 282
+    //   644: iconst_2
+    //   645: anewarray 4	java/lang/Object
+    //   648: dup
+    //   649: iconst_0
+    //   650: iload_2
+    //   651: invokestatic 97	java/lang/Integer:valueOf	(I)Ljava/lang/Integer;
+    //   654: aastore
+    //   655: dup
+    //   656: iconst_1
+    //   657: aload 10
+    //   659: aastore
+    //   660: invokestatic 276	com/google/android/gms/internal/zzab:zzd	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    //   663: pop
+    //   664: aload 11
+    //   666: ifnull +121 -> 787
+    //   669: new 238	com/google/android/gms/internal/zzn
+    //   672: dup
+    //   673: iload_2
+    //   674: aload 11
+    //   676: aload 12
+    //   678: iconst_0
+    //   679: invokestatic 175	android/os/SystemClock:elapsedRealtime	()J
+    //   682: lload 5
+    //   684: lsub
+    //   685: invokespecial 241	com/google/android/gms/internal/zzn:<init>	(I[BLjava/util/Map;ZJ)V
+    //   688: astore 10
+    //   690: iload_2
+    //   691: sipush 401
+    //   694: if_icmpeq +74 -> 768
+    //   697: iload_2
+    //   698: sipush 403
+    //   701: if_icmpne +6 -> 707
+    //   704: goto +64 -> 768
+    //   707: iload_2
+    //   708: sipush 400
+    //   711: if_icmplt +23 -> 734
+    //   714: iload_2
+    //   715: sipush 499
+    //   718: if_icmple +6 -> 724
+    //   721: goto +13 -> 734
+    //   724: new 284	com/google/android/gms/internal/zzf
+    //   727: dup
+    //   728: aload 10
+    //   730: invokespecial 287	com/google/android/gms/internal/zzf:<init>	(Lcom/google/android/gms/internal/zzn;)V
+    //   733: athrow
+    //   734: iload_2
+    //   735: sipush 500
+    //   738: if_icmplt +20 -> 758
+    //   741: iload_2
+    //   742: sipush 599
+    //   745: if_icmpgt +13 -> 758
+    //   748: new 114	com/google/android/gms/internal/zzy
+    //   751: dup
+    //   752: aload 10
+    //   754: invokespecial 288	com/google/android/gms/internal/zzy:<init>	(Lcom/google/android/gms/internal/zzn;)V
+    //   757: athrow
+    //   758: new 114	com/google/android/gms/internal/zzy
+    //   761: dup
+    //   762: aload 10
+    //   764: invokespecial 288	com/google/android/gms/internal/zzy:<init>	(Lcom/google/android/gms/internal/zzn;)V
+    //   767: athrow
+    //   768: new 290	com/google/android/gms/internal/zza
+    //   771: dup
+    //   772: aload 10
+    //   774: invokespecial 291	com/google/android/gms/internal/zza:<init>	(Lcom/google/android/gms/internal/zzn;)V
+    //   777: astore 10
+    //   779: ldc_w 293
+    //   782: astore 11
+    //   784: goto +111 -> 895
+    //   787: new 295	com/google/android/gms/internal/zzm
+    //   790: dup
+    //   791: invokespecial 296	com/google/android/gms/internal/zzm:<init>	()V
+    //   794: astore 10
+    //   796: ldc_w 298
+    //   799: astore 11
+    //   801: goto +94 -> 895
+    //   804: new 300	com/google/android/gms/internal/zzo
+    //   807: dup
+    //   808: aload 10
+    //   810: invokespecial 303	com/google/android/gms/internal/zzo:<init>	(Ljava/lang/Throwable;)V
+    //   813: athrow
+    //   814: astore 10
+    //   816: aload_1
+    //   817: invokevirtual 280	com/google/android/gms/internal/zzp:getUrl	()Ljava/lang/String;
+    //   820: invokestatic 306	java/lang/String:valueOf	(Ljava/lang/Object;)Ljava/lang/String;
+    //   823: astore_1
+    //   824: aload_1
+    //   825: invokevirtual 309	java/lang/String:length	()I
+    //   828: ifeq +14 -> 842
+    //   831: ldc_w 311
+    //   834: aload_1
+    //   835: invokevirtual 315	java/lang/String:concat	(Ljava/lang/String;)Ljava/lang/String;
+    //   838: astore_1
+    //   839: goto +14 -> 853
+    //   842: new 47	java/lang/String
+    //   845: dup
+    //   846: ldc_w 311
+    //   849: invokespecial 317	java/lang/String:<init>	(Ljava/lang/String;)V
+    //   852: astore_1
+    //   853: new 319	java/lang/RuntimeException
+    //   856: dup
+    //   857: aload_1
+    //   858: aload 10
+    //   860: invokespecial 322	java/lang/RuntimeException:<init>	(Ljava/lang/String;Ljava/lang/Throwable;)V
+    //   863: athrow
+    //   864: new 324	com/google/android/gms/internal/zzz
+    //   867: dup
+    //   868: invokespecial 325	com/google/android/gms/internal/zzz:<init>	()V
+    //   871: astore 10
+    //   873: ldc_w 327
+    //   876: astore 11
+    //   878: goto +17 -> 895
+    //   881: new 324	com/google/android/gms/internal/zzz
+    //   884: dup
+    //   885: invokespecial 325	com/google/android/gms/internal/zzz:<init>	()V
+    //   888: astore 10
+    //   890: ldc_w 329
+    //   893: astore 11
+    //   895: aload 11
+    //   897: aload_1
+    //   898: aload 10
+    //   900: invokestatic 331	com/google/android/gms/internal/zzad:zza	(Ljava/lang/String;Lcom/google/android/gms/internal/zzp;Lcom/google/android/gms/internal/zzaa;)V
+    //   903: goto -898 -> 5
+    //   906: astore 10
+    //   908: goto -27 -> 881
+    //   911: astore 10
+    //   913: goto -49 -> 864
+    //   916: astore 10
+    //   918: goto -330 -> 588
+    // Exception table:
+    //   from	to	target	type
+    //   360	364	378	java/io/IOException
+    //   404	412	415	java/io/IOException
+    //   115	124	582	java/io/IOException
+    //   132	140	582	java/io/IOException
+    //   148	160	582	java/io/IOException
+    //   175	181	582	java/io/IOException
+    //   194	215	582	java/io/IOException
+    //   223	235	582	java/io/IOException
+    //   243	271	582	java/io/IOException
+    //   279	289	582	java/io/IOException
+    //   297	310	582	java/io/IOException
+    //   321	326	582	java/io/IOException
+    //   334	342	582	java/io/IOException
+    //   350	355	582	java/io/IOException
+    //   543	562	582	java/io/IOException
+    //   570	578	582	java/io/IOException
+    //   13	28	595	java/io/IOException
+    //   33	40	595	java/io/IOException
+    //   45	57	595	java/io/IOException
+    //   57	64	595	java/io/IOException
+    //   71	93	595	java/io/IOException
+    //   93	107	595	java/io/IOException
+    //   13	28	814	java/net/MalformedURLException
+    //   33	40	814	java/net/MalformedURLException
+    //   45	57	814	java/net/MalformedURLException
+    //   57	64	814	java/net/MalformedURLException
+    //   71	93	814	java/net/MalformedURLException
+    //   93	107	814	java/net/MalformedURLException
+    //   115	124	814	java/net/MalformedURLException
+    //   132	140	814	java/net/MalformedURLException
+    //   148	160	814	java/net/MalformedURLException
+    //   175	181	814	java/net/MalformedURLException
+    //   194	215	814	java/net/MalformedURLException
+    //   223	235	814	java/net/MalformedURLException
+    //   243	271	814	java/net/MalformedURLException
+    //   279	289	814	java/net/MalformedURLException
+    //   297	310	814	java/net/MalformedURLException
+    //   321	326	814	java/net/MalformedURLException
+    //   334	342	814	java/net/MalformedURLException
+    //   350	355	814	java/net/MalformedURLException
+    //   360	364	814	java/net/MalformedURLException
+    //   404	412	814	java/net/MalformedURLException
+    //   433	441	814	java/net/MalformedURLException
+    //   445	456	814	java/net/MalformedURLException
+    //   460	465	814	java/net/MalformedURLException
+    //   469	512	814	java/net/MalformedURLException
+    //   530	535	814	java/net/MalformedURLException
+    //   543	562	814	java/net/MalformedURLException
+    //   570	578	814	java/net/MalformedURLException
+    //   13	28	906	java/net/SocketTimeoutException
+    //   33	40	906	java/net/SocketTimeoutException
+    //   45	57	906	java/net/SocketTimeoutException
+    //   57	64	906	java/net/SocketTimeoutException
+    //   71	93	906	java/net/SocketTimeoutException
+    //   93	107	906	java/net/SocketTimeoutException
+    //   115	124	906	java/net/SocketTimeoutException
+    //   132	140	906	java/net/SocketTimeoutException
+    //   148	160	906	java/net/SocketTimeoutException
+    //   175	181	906	java/net/SocketTimeoutException
+    //   194	215	906	java/net/SocketTimeoutException
+    //   223	235	906	java/net/SocketTimeoutException
+    //   243	271	906	java/net/SocketTimeoutException
+    //   279	289	906	java/net/SocketTimeoutException
+    //   297	310	906	java/net/SocketTimeoutException
+    //   321	326	906	java/net/SocketTimeoutException
+    //   334	342	906	java/net/SocketTimeoutException
+    //   350	355	906	java/net/SocketTimeoutException
+    //   360	364	906	java/net/SocketTimeoutException
+    //   404	412	906	java/net/SocketTimeoutException
+    //   433	441	906	java/net/SocketTimeoutException
+    //   445	456	906	java/net/SocketTimeoutException
+    //   460	465	906	java/net/SocketTimeoutException
+    //   469	512	906	java/net/SocketTimeoutException
+    //   530	535	906	java/net/SocketTimeoutException
+    //   543	562	906	java/net/SocketTimeoutException
+    //   570	578	906	java/net/SocketTimeoutException
+    //   13	28	911	org/apache/http/conn/ConnectTimeoutException
+    //   33	40	911	org/apache/http/conn/ConnectTimeoutException
+    //   45	57	911	org/apache/http/conn/ConnectTimeoutException
+    //   57	64	911	org/apache/http/conn/ConnectTimeoutException
+    //   71	93	911	org/apache/http/conn/ConnectTimeoutException
+    //   93	107	911	org/apache/http/conn/ConnectTimeoutException
+    //   115	124	911	org/apache/http/conn/ConnectTimeoutException
+    //   132	140	911	org/apache/http/conn/ConnectTimeoutException
+    //   148	160	911	org/apache/http/conn/ConnectTimeoutException
+    //   175	181	911	org/apache/http/conn/ConnectTimeoutException
+    //   194	215	911	org/apache/http/conn/ConnectTimeoutException
+    //   223	235	911	org/apache/http/conn/ConnectTimeoutException
+    //   243	271	911	org/apache/http/conn/ConnectTimeoutException
+    //   279	289	911	org/apache/http/conn/ConnectTimeoutException
+    //   297	310	911	org/apache/http/conn/ConnectTimeoutException
+    //   321	326	911	org/apache/http/conn/ConnectTimeoutException
+    //   334	342	911	org/apache/http/conn/ConnectTimeoutException
+    //   350	355	911	org/apache/http/conn/ConnectTimeoutException
+    //   360	364	911	org/apache/http/conn/ConnectTimeoutException
+    //   404	412	911	org/apache/http/conn/ConnectTimeoutException
+    //   433	441	911	org/apache/http/conn/ConnectTimeoutException
+    //   445	456	911	org/apache/http/conn/ConnectTimeoutException
+    //   460	465	911	org/apache/http/conn/ConnectTimeoutException
+    //   469	512	911	org/apache/http/conn/ConnectTimeoutException
+    //   530	535	911	org/apache/http/conn/ConnectTimeoutException
+    //   543	562	911	org/apache/http/conn/ConnectTimeoutException
+    //   570	578	911	org/apache/http/conn/ConnectTimeoutException
+    //   433	441	916	java/io/IOException
+    //   445	456	916	java/io/IOException
+    //   460	465	916	java/io/IOException
+    //   469	512	916	java/io/IOException
+    //   530	535	916	java/io/IOException
+  }
+}

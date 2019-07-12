@@ -1,0 +1,70 @@
+package b.b.x.d;
+
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.os.Build.VERSION;
+import b.b.a.F;
+import b.b.x.n.p;
+
+public final class c
+{
+  public static final String a = "?";
+  public static final String b = "m";
+  public static final ThreadLocal<p<Rect, Rect>> c = new ThreadLocal();
+  
+  public c() {}
+  
+  public static p<Rect, Rect> a()
+  {
+    p localP = (p)c.get();
+    if (localP == null)
+    {
+      localP = new p(new Rect(), new Rect());
+      c.set(localP);
+      return localP;
+    }
+    ((Rect)a).setEmpty();
+    ((Rect)b).setEmpty();
+    return localP;
+  }
+  
+  public static boolean a(@F Paint paramPaint, @F String paramString)
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramPaint.hasGlyph(paramString);
+    }
+    int k = paramString.length();
+    if ((k == 1) && (Character.isWhitespace(paramString.charAt(0)))) {
+      return true;
+    }
+    float f2 = paramPaint.measureText("?");
+    float f4 = paramPaint.measureText("m");
+    float f3 = paramPaint.measureText(paramString);
+    float f1 = 0.0F;
+    if (f3 == 0.0F) {
+      return false;
+    }
+    if (paramString.codePointCount(0, paramString.length()) > 1)
+    {
+      if (f3 > f4 * 2.0F) {
+        return false;
+      }
+      int j;
+      for (int i = 0; i < k; i = j)
+      {
+        j = Character.charCount(paramString.codePointAt(i)) + i;
+        f1 += paramPaint.measureText(paramString, i, j);
+      }
+      if (f3 >= f1) {
+        return false;
+      }
+    }
+    if (f3 != f2) {
+      return true;
+    }
+    p localP = a();
+    paramPaint.getTextBounds("?", 0, 2, (Rect)a);
+    paramPaint.getTextBounds(paramString, 0, k, (Rect)b);
+    return ((Rect)a).equals(b) ^ true;
+  }
+}

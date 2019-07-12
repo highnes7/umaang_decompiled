@@ -1,0 +1,35 @@
+package com.google.android.gms.common.internal;
+
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.g;
+
+public final class zzk
+  extends zzaw
+{
+  public zzd zzftn;
+  public final int zzfto;
+  
+  public zzk(@F zzd paramZzd, int paramInt)
+  {
+    zzftn = paramZzd;
+    zzfto = paramInt;
+  }
+  
+  @g
+  public final void zza(int paramInt, @G Bundle paramBundle)
+  {
+    Log.wtf("GmsClient", "received deprecated onAccountValidationComplete callback, ignoring", new Exception());
+  }
+  
+  @g
+  public final void zza(int paramInt, @F IBinder paramIBinder, @G Bundle paramBundle)
+  {
+    zzbp.zzb(zzftn, "onPostInitComplete can be called only once per call to getRemoteService");
+    zzftn.zza(paramInt, paramIBinder, paramBundle, zzfto);
+    zzftn = null;
+  }
+}

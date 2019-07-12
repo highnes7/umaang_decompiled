@@ -1,0 +1,132 @@
+package f.g.b.a.g;
+
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.e.b.a.a.a.a.a;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@h
+public final class L
+{
+  public static final Pattern a = Pattern.compile("-----BEGIN ([A-Z ]+)-----");
+  public static final Pattern b = Pattern.compile("-----END ([A-Z ]+)-----");
+  public BufferedReader c;
+  
+  public L(Reader paramReader)
+  {
+    c = new BufferedReader(paramReader);
+  }
+  
+  public static a a(Reader paramReader)
+    throws IOException
+  {
+    return a(paramReader, null);
+  }
+  
+  public static a a(Reader paramReader, String paramString)
+    throws IOException
+  {
+    paramReader = new L(paramReader);
+    try
+    {
+      paramString = paramReader.a(paramString);
+      return paramString;
+    }
+    finally
+    {
+      paramReader.a();
+    }
+  }
+  
+  public a a(String paramString)
+    throws IOException
+  {
+    StringBuilder localStringBuilder = null;
+    Object localObject1 = localStringBuilder;
+    for (;;)
+    {
+      Object localObject2 = c.readLine();
+      if (localObject2 == null)
+      {
+        boolean bool;
+        if (localObject1 == null) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        g.a(bool, "missing end tag (%s)", new Object[] { localObject1 });
+        return null;
+      }
+      if (localStringBuilder == null)
+      {
+        localObject2 = a.matcher((CharSequence)localObject2);
+        if (((Matcher)localObject2).matches())
+        {
+          localObject2 = ((Matcher)localObject2).group(1);
+          if ((paramString == null) || (((String)localObject2).equals(paramString)))
+          {
+            localStringBuilder = new StringBuilder();
+            localObject1 = localObject2;
+          }
+        }
+      }
+      else
+      {
+        Matcher localMatcher = b.matcher((CharSequence)localObject2);
+        if (localMatcher.matches())
+        {
+          paramString = localMatcher.group(1);
+          g.a(paramString.equals(localObject1), "end tag (%s) doesn't match begin tag (%s)", new Object[] { paramString, localObject1 });
+          return new a((String)localObject1, a.c(localStringBuilder.toString()));
+        }
+        localStringBuilder.append((String)localObject2);
+      }
+    }
+  }
+  
+  public void a()
+    throws IOException
+  {
+    c.close();
+  }
+  
+  public a b()
+    throws IOException
+  {
+    return a(null);
+  }
+  
+  public static final class a
+  {
+    public final String a;
+    public final byte[] b;
+    
+    public a(String paramString, byte[] paramArrayOfByte)
+    {
+      if (paramString != null)
+      {
+        a = paramString;
+        if (paramArrayOfByte != null)
+        {
+          b = paramArrayOfByte;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public byte[] a()
+    {
+      return b;
+    }
+    
+    public String b()
+    {
+      return a;
+    }
+  }
+}

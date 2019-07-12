@@ -1,0 +1,39 @@
+package com.google.android.gms.tasks;
+
+import b.b.a.F;
+import java.util.concurrent.Executor;
+
+public final class zzc<TResult, TContinuationResult>
+  implements OnFailureListener, OnSuccessListener<TContinuationResult>, zzk<TResult>
+{
+  public final Executor zzjqr;
+  public final Continuation<TResult, Task<TContinuationResult>> zzkfu;
+  public final zzn<TContinuationResult> zzkfv;
+  
+  public zzc(@F Executor paramExecutor, @F Continuation<TResult, Task<TContinuationResult>> paramContinuation, @F zzn<TContinuationResult> paramZzn)
+  {
+    zzjqr = paramExecutor;
+    zzkfu = paramContinuation;
+    zzkfv = paramZzn;
+  }
+  
+  public final void cancel()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final void onComplete(@F Task<TResult> paramTask)
+  {
+    zzjqr.execute(new zzd(this, paramTask));
+  }
+  
+  public final void onFailure(@F Exception paramException)
+  {
+    zzkfv.setException(paramException);
+  }
+  
+  public final void onSuccess(TContinuationResult paramTContinuationResult)
+  {
+    zzkfv.setResult(paramTContinuationResult);
+  }
+}

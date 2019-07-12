@@ -1,0 +1,79 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.DeadObjectException;
+import android.os.RemoteException;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.zzb;
+import com.google.android.gms.common.api.Api.zzc;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.zzbp;
+
+public abstract class zzm<R extends Result, A extends Api.zzb>
+  extends zzs<R>
+  implements zzn<R>
+{
+  public final Api<?> zzfdg;
+  public final Api.zzc<A> zzfiv;
+  
+  @Deprecated
+  public zzm(Api.zzc<A> paramZzc, GoogleApiClient paramGoogleApiClient)
+  {
+    super((GoogleApiClient)paramGoogleApiClient);
+    zzbp.zzu(paramZzc);
+    zzfiv = ((Api.zzc)paramZzc);
+    zzfdg = null;
+  }
+  
+  public zzm(Api<?> paramApi, GoogleApiClient paramGoogleApiClient)
+  {
+    super((GoogleApiClient)paramGoogleApiClient);
+    zzfiv = paramApi.zzafe();
+    zzfdg = paramApi;
+  }
+  
+  private final void zzc(RemoteException paramRemoteException)
+  {
+    zzt(new Status(1, 8, paramRemoteException.getLocalizedMessage(), null));
+  }
+  
+  public abstract void zza(A paramA)
+    throws RemoteException;
+  
+  public final Api.zzc<A> zzafe()
+  {
+    return zzfiv;
+  }
+  
+  public final Api<?> zzafj()
+  {
+    return zzfdg;
+  }
+  
+  public final void zzb(A paramA)
+    throws DeadObjectException
+  {
+    try
+    {
+      zza(paramA);
+      return;
+    }
+    catch (RemoteException paramA)
+    {
+      zzc(paramA);
+      return;
+    }
+    catch (DeadObjectException paramA)
+    {
+      zzc(paramA);
+      throw paramA;
+    }
+  }
+  
+  public final void zzt(Status paramStatus)
+  {
+    zzbp.zzb(paramStatus.isSuccess() ^ true, "Failed result must not be success");
+    setResult(zzb(paramStatus));
+  }
+}

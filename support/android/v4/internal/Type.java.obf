@@ -1,0 +1,120 @@
+package b.b.x.d;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.os.Build.VERSION;
+import android.os.CancellationSignal;
+import android.os.Handler;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.x.b.b.d.a;
+import b.b.x.b.b.d.c;
+import b.b.x.b.b.d.e;
+import b.b.x.b.b.i.a;
+import b.b.x.l.r;
+import b.b.x.l.r.c;
+import b.b.x.n.m;
+
+@N({b.b.a.N.a.b})
+public class g
+{
+  public static final String a = "TypefaceCompat";
+  public static final n b;
+  public static final m<String, Typeface> c = new m(16);
+  
+  static
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (i >= 28) {
+      b = new k();
+    } else if (i >= 26) {
+      b = new j();
+    } else if ((i >= 24) && (i.a())) {
+      b = new i();
+    } else if (Build.VERSION.SDK_INT >= 21) {
+      b = new h();
+    } else {
+      b = new n();
+    }
+  }
+  
+  public g() {}
+  
+  @G
+  public static Typeface a(@F Context paramContext, @F Resources paramResources, int paramInt1, String paramString, int paramInt2)
+  {
+    paramContext = b.a(paramContext, paramResources, paramInt1, paramString, paramInt2);
+    if (paramContext != null)
+    {
+      paramResources = a(paramResources, paramInt1, paramInt2);
+      c.put(paramResources, paramContext);
+    }
+    return paramContext;
+  }
+  
+  @G
+  public static Typeface a(@F Context paramContext, @G CancellationSignal paramCancellationSignal, @F r.c[] paramArrayOfC, int paramInt)
+  {
+    return b.a(paramContext, paramCancellationSignal, paramArrayOfC, paramInt);
+  }
+  
+  @G
+  public static Typeface a(@F Context paramContext, @F d.a paramA, @F Resources paramResources, int paramInt1, int paramInt2, @G i.a paramA1, @G Handler paramHandler, boolean paramBoolean)
+  {
+    if ((paramA instanceof d.e))
+    {
+      paramA = (d.e)paramA;
+      boolean bool = false;
+      if (paramBoolean ? paramA.a() == 0 : paramA1 == null) {
+        bool = true;
+      }
+      int i;
+      if (paramBoolean) {
+        i = paramA.c();
+      } else {
+        i = -1;
+      }
+      paramContext = r.a(paramContext, paramA.b(), paramA1, paramHandler, bool, i, paramInt2);
+    }
+    else
+    {
+      paramA = b.a(paramContext, (d.c)paramA, paramResources, paramInt2);
+      paramContext = paramA;
+      if (paramA1 != null) {
+        if (paramA != null)
+        {
+          paramA1.callbackSuccessAsync(paramA, paramHandler);
+          paramContext = paramA;
+        }
+        else
+        {
+          paramA1.callbackFailAsync(-3, paramHandler);
+          paramContext = paramA;
+        }
+      }
+    }
+    if (paramContext != null) {
+      c.put(a(paramResources, paramInt1, paramInt2), paramContext);
+    }
+    return paramContext;
+  }
+  
+  public static String a(Resources paramResources, int paramInt1, int paramInt2)
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(paramResources.getResourcePackageName(paramInt1));
+    localStringBuilder.append("-");
+    localStringBuilder.append(paramInt1);
+    localStringBuilder.append("-");
+    localStringBuilder.append(paramInt2);
+    return localStringBuilder.toString();
+  }
+  
+  @G
+  public static Typeface b(@F Resources paramResources, int paramInt1, int paramInt2)
+  {
+    return (Typeface)c.get(a(paramResources, paramInt1, paramInt2));
+  }
+}

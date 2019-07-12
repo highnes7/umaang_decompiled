@@ -1,0 +1,211 @@
+package com.google.android.gms.internal;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.DeadObjectException;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Looper;
+import android.os.RemoteException;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.X;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.internal.zzd;
+import com.google.android.gms.common.internal.zzf;
+import com.google.android.gms.common.internal.zzg;
+import com.google.android.gms.common.stats.zza;
+
+public final class zzcfb
+  implements ServiceConnection, zzf, zzg
+{
+  public volatile boolean zziwm;
+  public volatile zzcbv zziwn;
+  
+  public zzcfb(zzceo paramZzceo) {}
+  
+  @C
+  public final void onConnected(@G Bundle paramBundle)
+  {
+    zzbp.zzfy("MeasurementServiceConnection.onConnected");
+    try
+    {
+      try
+      {
+        paramBundle = (zzcbo)zziwn.zzajj();
+        zziwn = null;
+        zziwf.zzauk().zzg(new zzcfe(this, paramBundle));
+      }
+      finally
+      {
+        break label62;
+      }
+    }
+    catch (DeadObjectException|IllegalStateException paramBundle)
+    {
+      for (;;) {}
+    }
+    zziwn = null;
+    zziwm = false;
+    return;
+    label62:
+    throw paramBundle;
+  }
+  
+  @C
+  public final void onConnectionFailed(@F ConnectionResult paramConnectionResult)
+  {
+    zzbp.zzfy("MeasurementServiceConnection.onConnectionFailed");
+    zzcbw localZzcbw = zziwf.zziki.zzayw();
+    if (localZzcbw != null) {
+      localZzcbw.zzayf().zzj("Service connection failed", paramConnectionResult);
+    }
+    try
+    {
+      zziwm = false;
+      zziwn = null;
+      zziwf.zzauk().zzg(new zzcfg(this));
+      return;
+    }
+    finally {}
+  }
+  
+  @C
+  public final void onConnectionSuspended(int paramInt)
+  {
+    zzbp.zzfy("MeasurementServiceConnection.onConnectionSuspended");
+    zziwf.zzaul().zzayi().log("Service connection suspended");
+    zziwf.zzauk().zzg(new zzcff(this));
+  }
+  
+  @C
+  public final void onServiceConnected(ComponentName paramComponentName, IBinder paramIBinder)
+  {
+    zzbp.zzfy("MeasurementServiceConnection.onServiceConnected");
+    if (paramIBinder == null) {
+      try
+      {
+        zziwm = false;
+        zziwf.zzaul().zzayd().log("Service connected with null binder");
+        return;
+      }
+      finally
+      {
+        break label226;
+      }
+    }
+    Object localObject = null;
+    IInterface localIInterface = null;
+    paramComponentName = localObject;
+    try
+    {
+      String str = paramIBinder.getInterfaceDescriptor();
+      paramComponentName = localObject;
+      if ("com.google.android.gms.measurement.internal.IMeasurementService".equals(str))
+      {
+        paramComponentName = localObject;
+        localIInterface = paramIBinder.queryLocalInterface("com.google.android.gms.measurement.internal.IMeasurementService");
+        paramComponentName = localObject;
+        if ((localIInterface instanceof zzcbo))
+        {
+          paramComponentName = localObject;
+          paramIBinder = (zzcbo)localIInterface;
+        }
+        else
+        {
+          paramComponentName = localObject;
+          paramIBinder = new zzcbq(paramIBinder);
+        }
+        paramComponentName = paramIBinder;
+        zziwf.zzaul().zzayj().log("Bound to IMeasurementService interface");
+        paramComponentName = paramIBinder;
+      }
+      else
+      {
+        paramComponentName = localObject;
+        zziwf.zzaul().zzayd().zzj("Got binder with a wrong descriptor", str);
+        paramComponentName = localIInterface;
+      }
+    }
+    catch (RemoteException paramIBinder)
+    {
+      label226:
+      for (;;) {}
+    }
+    zziwf.zzaul().zzayd().log("Service connect failed to get IMeasurementService");
+    if (paramComponentName == null) {
+      zziwm = false;
+    }
+    try
+    {
+      zza.zzaky();
+      zziwf.getContext().unbindService(zziwf.zzivy);
+    }
+    catch (IllegalArgumentException paramComponentName)
+    {
+      for (;;) {}
+    }
+    zziwf.zzauk().zzg(new zzcfc(this, paramComponentName));
+    return;
+    throw paramComponentName;
+  }
+  
+  @C
+  public final void onServiceDisconnected(ComponentName paramComponentName)
+  {
+    zzbp.zzfy("MeasurementServiceConnection.onServiceDisconnected");
+    zziwf.zzaul().zzayi().log("Service disconnected");
+    zziwf.zzauk().zzg(new zzcfd(this, paramComponentName));
+  }
+  
+  @X
+  public final void zzazs()
+  {
+    zziwf.zzuj();
+    Context localContext = zziwf.getContext();
+    try
+    {
+      if (zziwm)
+      {
+        zziwf.zzaul().zzayj().log("Connection attempt already in progress");
+        return;
+      }
+      if (zziwn != null)
+      {
+        zziwf.zzaul().zzayj().log("Already awaiting connection attempt");
+        return;
+      }
+      zziwn = new zzcbv(localContext, Looper.getMainLooper(), this, this);
+      zziwf.zzaul().zzayj().log("Connecting to remote service");
+      zziwm = true;
+      zziwn.zzajf();
+      return;
+    }
+    finally {}
+  }
+  
+  @X
+  public final void zzk(Intent paramIntent)
+  {
+    zziwf.zzuj();
+    Context localContext = zziwf.getContext();
+    zza localZza = zza.zzaky();
+    try
+    {
+      if (zziwm)
+      {
+        zziwf.zzaul().zzayj().log("Connection attempt already in progress");
+        return;
+      }
+      zziwm = true;
+      localZza.zza(localContext, paramIntent, zziwf.zzivy, 129);
+      return;
+    }
+    finally {}
+  }
+}

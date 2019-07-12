@@ -1,0 +1,47 @@
+package f.g.c.e;
+
+import f.g.c.a.a;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Executor;
+
+@a
+public class d
+  extends j
+{
+  public final Executor g;
+  public final ConcurrentLinkedQueue<j.a> h = new ConcurrentLinkedQueue();
+  
+  public d(String paramString, Executor paramExecutor)
+  {
+    super(paramString);
+    g = paramExecutor;
+  }
+  
+  public d(Executor paramExecutor)
+  {
+    super("default");
+    g = paramExecutor;
+  }
+  
+  public void a()
+  {
+    for (;;)
+    {
+      j.a localA = (j.a)h.poll();
+      if (localA == null) {
+        return;
+      }
+      a(a, b);
+    }
+  }
+  
+  public void a(Object paramObject, k paramK)
+  {
+    g.execute(new c(this, paramObject, paramK));
+  }
+  
+  public void b(Object paramObject, k paramK)
+  {
+    h.offer(new j.a(paramObject, paramK));
+  }
+}

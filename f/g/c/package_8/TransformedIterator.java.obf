@@ -1,0 +1,38 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.Iterator;
+
+@b
+public abstract class gh<F, T>
+  implements Iterator<T>
+{
+  public final Iterator<? extends F> a;
+  
+  public gh(Iterator<? extends F> paramIterator)
+  {
+    if (paramIterator != null)
+    {
+      a = paramIterator;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public abstract T a(F paramF);
+  
+  public final boolean hasNext()
+  {
+    return a.hasNext();
+  }
+  
+  public final T next()
+  {
+    return a(a.next());
+  }
+  
+  public final void remove()
+  {
+    a.remove();
+  }
+}

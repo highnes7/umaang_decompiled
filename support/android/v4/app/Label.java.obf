@@ -1,0 +1,312 @@
+package b.b.x.j;
+
+import android.os.Build.VERSION;
+import android.os.LocaleList;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.O;
+import b.b.a.x;
+import java.util.Locale;
+
+public final class h
+{
+  public static final j a = new b();
+  public static final h b = new h();
+  
+  static
+  {
+    if (Build.VERSION.SDK_INT >= 24)
+    {
+      a = new a();
+      return;
+    }
+  }
+  
+  public h() {}
+  
+  @F
+  @O(min=1L)
+  public static h a()
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      return a(LocaleList.getAdjustedDefault());
+    }
+    return a(new Locale[] { Locale.getDefault() });
+  }
+  
+  @K(24)
+  public static h a(Object paramObject)
+  {
+    h localH = new h();
+    if ((paramObject instanceof LocaleList)) {
+      localH.a((LocaleList)paramObject);
+    }
+    return localH;
+  }
+  
+  @F
+  public static h a(@G String paramString)
+  {
+    if ((paramString != null) && (!paramString.isEmpty()))
+    {
+      String[] arrayOfString = paramString.split(",", -1);
+      Locale[] arrayOfLocale = new Locale[arrayOfString.length];
+      int i = 0;
+      while (i < arrayOfLocale.length)
+      {
+        if (Build.VERSION.SDK_INT >= 21) {
+          paramString = Locale.forLanguageTag(arrayOfString[i]);
+        } else {
+          paramString = g.a(arrayOfString[i]);
+        }
+        arrayOfLocale[i] = paramString;
+        i += 1;
+      }
+      paramString = new h();
+      a.a(arrayOfLocale);
+      return paramString;
+    }
+    return b;
+  }
+  
+  public static h a(@F Locale... paramVarArgs)
+  {
+    h localH = new h();
+    a.a(paramVarArgs);
+    return localH;
+  }
+  
+  @K(24)
+  private void a(LocaleList paramLocaleList)
+  {
+    int j = paramLocaleList.size();
+    if (j > 0)
+    {
+      Locale[] arrayOfLocale = new Locale[j];
+      int i = 0;
+      while (i < j)
+      {
+        arrayOfLocale[i] = paramLocaleList.get(i);
+        i += 1;
+      }
+      a.a(arrayOfLocale);
+    }
+  }
+  
+  @F
+  @O(min=1L)
+  public static h b()
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      return a(LocaleList.getDefault());
+    }
+    return a(new Locale[] { Locale.getDefault() });
+  }
+  
+  private void b(Locale... paramVarArgs)
+  {
+    a.a(paramVarArgs);
+  }
+  
+  @F
+  public static h c()
+  {
+    return b;
+  }
+  
+  @x(from=-1L)
+  public int a(Locale paramLocale)
+  {
+    return a.a(paramLocale);
+  }
+  
+  public Locale a(int paramInt)
+  {
+    return a.get(paramInt);
+  }
+  
+  public Locale a(String[] paramArrayOfString)
+  {
+    return a.a(paramArrayOfString);
+  }
+  
+  public boolean d()
+  {
+    return a.isEmpty();
+  }
+  
+  @x(from=0L)
+  public int e()
+  {
+    return a.size();
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    return a.equals(paramObject);
+  }
+  
+  @F
+  public String f()
+  {
+    return a.a();
+  }
+  
+  @G
+  public Object g()
+  {
+    return a.b();
+  }
+  
+  public int hashCode()
+  {
+    return a.hashCode();
+  }
+  
+  public String toString()
+  {
+    return a.toString();
+  }
+  
+  @K(24)
+  public static class a
+    implements j
+  {
+    public LocaleList a = new LocaleList(new Locale[0]);
+    
+    public a() {}
+    
+    @x(from=-1L)
+    public int a(Locale paramLocale)
+    {
+      return a.indexOf(paramLocale);
+    }
+    
+    public String a()
+    {
+      return a.toLanguageTags();
+    }
+    
+    @G
+    public Locale a(String[] paramArrayOfString)
+    {
+      LocaleList localLocaleList = a;
+      if (localLocaleList != null) {
+        return localLocaleList.getFirstMatch(paramArrayOfString);
+      }
+      return null;
+    }
+    
+    public void a(@F Locale... paramVarArgs)
+    {
+      a = new LocaleList(paramVarArgs);
+    }
+    
+    public Object b()
+    {
+      return a;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      return a.equals(((h)paramObject).g());
+    }
+    
+    public Locale get(int paramInt)
+    {
+      return a.get(paramInt);
+    }
+    
+    public int hashCode()
+    {
+      return a.hashCode();
+    }
+    
+    public boolean isEmpty()
+    {
+      return a.isEmpty();
+    }
+    
+    @x(from=0L)
+    public int size()
+    {
+      return a.size();
+    }
+    
+    public String toString()
+    {
+      return a.toString();
+    }
+  }
+  
+  public static class b
+    implements j
+  {
+    public i a = new i(new Locale[0]);
+    
+    public b() {}
+    
+    @x(from=-1L)
+    public int a(Locale paramLocale)
+    {
+      return a.b(paramLocale);
+    }
+    
+    public String a()
+    {
+      return a.f();
+    }
+    
+    @G
+    public Locale a(String[] paramArrayOfString)
+    {
+      i localI = a;
+      if (localI != null) {
+        return localI.a(paramArrayOfString);
+      }
+      return null;
+    }
+    
+    public void a(@F Locale... paramVarArgs)
+    {
+      a = new i(paramVarArgs);
+    }
+    
+    public Object b()
+    {
+      return a;
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      return a.equals(((h)paramObject).g());
+    }
+    
+    public Locale get(int paramInt)
+    {
+      return a.a(paramInt);
+    }
+    
+    public int hashCode()
+    {
+      return a.hashCode();
+    }
+    
+    public boolean isEmpty()
+    {
+      return a.d();
+    }
+    
+    @x(from=0L)
+    public int size()
+    {
+      return a.e();
+    }
+    
+    public String toString()
+    {
+      return a.toString();
+    }
+  }
+}

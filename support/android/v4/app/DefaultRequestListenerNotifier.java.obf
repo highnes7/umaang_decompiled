@@ -1,0 +1,22 @@
+package b.b.x.j;
+
+import android.os.Build.VERSION;
+import android.os.Handler;
+import android.os.Message;
+import b.b.a.F;
+import b.b.a.G;
+
+public final class e
+{
+  public e() {}
+  
+  public static boolean a(@F Handler paramHandler, @F Runnable paramRunnable, @G Object paramObject, long paramLong)
+  {
+    if (Build.VERSION.SDK_INT >= 28) {
+      return paramHandler.postDelayed(paramRunnable, paramObject, paramLong);
+    }
+    paramRunnable = Message.obtain(paramHandler, paramRunnable);
+    obj = paramObject;
+    return paramHandler.sendMessageDelayed(paramRunnable, paramLong);
+  }
+}

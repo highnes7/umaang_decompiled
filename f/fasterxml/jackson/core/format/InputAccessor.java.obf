@@ -1,0 +1,107 @@
+package f.d.a.a.b;
+
+import f.a.a.a.a;
+import f.d.a.a.e;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+
+public abstract interface c
+{
+  public abstract byte a()
+    throws IOException;
+  
+  public abstract boolean b()
+    throws IOException;
+  
+  public abstract void reset();
+  
+  public static class a
+    implements c
+  {
+    public final InputStream a;
+    public final byte[] b;
+    public final int c;
+    public int d;
+    public int e;
+    
+    public a(InputStream paramInputStream, byte[] paramArrayOfByte)
+    {
+      a = paramInputStream;
+      b = paramArrayOfByte;
+      c = 0;
+      e = 0;
+      d = 0;
+    }
+    
+    public a(byte[] paramArrayOfByte)
+    {
+      a = null;
+      b = paramArrayOfByte;
+      c = 0;
+      d = paramArrayOfByte.length;
+    }
+    
+    public a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    {
+      a = null;
+      b = paramArrayOfByte;
+      e = paramInt1;
+      c = paramInt1;
+      d = (paramInt1 + paramInt2);
+    }
+    
+    public byte a()
+      throws IOException
+    {
+      if ((e >= d) && (!b()))
+      {
+        localObject = a.b("Failed auto-detect: could not read more than ");
+        ((StringBuilder)localObject).append(e);
+        ((StringBuilder)localObject).append(" bytes (max buffer size: ");
+        throw new EOFException(a.a((StringBuilder)localObject, b.length, ")"));
+      }
+      Object localObject = b;
+      int i = e;
+      e = (i + 1);
+      return localObject[i];
+    }
+    
+    public b a(e paramE, d paramD)
+    {
+      InputStream localInputStream = a;
+      byte[] arrayOfByte = b;
+      int i = c;
+      return new b(localInputStream, arrayOfByte, i, d - i, paramE, paramD);
+    }
+    
+    public boolean b()
+      throws IOException
+    {
+      int i = e;
+      if (i < d) {
+        return true;
+      }
+      InputStream localInputStream = a;
+      if (localInputStream == null) {
+        return false;
+      }
+      byte[] arrayOfByte = b;
+      int j = arrayOfByte.length - i;
+      if (j < 1) {
+        return false;
+      }
+      i = localInputStream.read(arrayOfByte, i, j);
+      if (i <= 0) {
+        return false;
+      }
+      d += i;
+      return true;
+    }
+    
+    public void reset()
+    {
+      e = c;
+    }
+  }
+}

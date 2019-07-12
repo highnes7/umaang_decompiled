@@ -1,0 +1,234 @@
+package com.google.android.gms.common.api;
+
+import android.accounts.Account;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.X;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.internal.zzak;
+import com.google.android.gms.common.api.internal.zzbr;
+import com.google.android.gms.common.api.internal.zzbx;
+import com.google.android.gms.common.api.internal.zzcw;
+import com.google.android.gms.common.api.internal.zzcz;
+import com.google.android.gms.common.api.internal.zzdd;
+import com.google.android.gms.common.api.internal.zzg;
+import com.google.android.gms.common.api.internal.zzh;
+import com.google.android.gms.common.api.internal.zzm;
+import com.google.android.gms.common.api.internal.zzs;
+import com.google.android.gms.common.internal.zzq;
+import com.google.android.gms.common.internal.zzr;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import java.util.Collection;
+import java.util.Collections;
+
+public class GoogleApi<O extends Api.ApiOptions>
+{
+  public final Context mContext;
+  public final int mId;
+  public final Looper zzakg;
+  public final Api<O> zzfdg;
+  public final O zzfgr;
+  public final zzh<O> zzfgs;
+  public final GoogleApiClient zzfgt;
+  public final zzcz zzfgu;
+  public final com.google.android.gms.common.api.internal.zzbp zzfgv;
+  
+  @C
+  public GoogleApi(@F Activity paramActivity, Api<O> paramApi, O paramO, zza paramZza)
+  {
+    com.google.android.gms.common.internal.zzbp.zzb(paramActivity, "Null activity is not permitted.");
+    com.google.android.gms.common.internal.zzbp.zzb(paramApi, "Api must not be null.");
+    com.google.android.gms.common.internal.zzbp.zzb(paramZza, "Settings must not be null; use Settings.DEFAULT_SETTINGS instead.");
+    mContext = paramActivity.getApplicationContext();
+    zzfdg = paramApi;
+    zzfgr = paramO;
+    zzakg = zzfgy;
+    zzfgs = new zzh(zzfdg, zzfgr);
+    zzfgt = new zzbx(this);
+    zzfgv = com.google.android.gms.common.api.internal.zzbp.zzca(mContext);
+    mId = zzfgv.zzahq();
+    zzfgu = zzfgx;
+    zzak.zza(paramActivity, zzfgv, zzfgs);
+    zzfgv.zza(this);
+  }
+  
+  @Deprecated
+  public GoogleApi(@F Activity paramActivity, Api<O> paramApi, O paramO, zzcz paramZzcz)
+  {
+    this(paramActivity, paramApi, paramO, new zzd().zza(paramZzcz).zza(paramActivity.getMainLooper()).zzafn());
+  }
+  
+  public GoogleApi(@F Context paramContext, Api<O> paramApi, Looper paramLooper)
+  {
+    com.google.android.gms.common.internal.zzbp.zzb(paramContext, "Null context is not permitted.");
+    com.google.android.gms.common.internal.zzbp.zzb(paramApi, "Api must not be null.");
+    com.google.android.gms.common.internal.zzbp.zzb(paramLooper, "Looper must not be null.");
+    mContext = paramContext.getApplicationContext();
+    zzfdg = paramApi;
+    zzfgr = null;
+    zzakg = paramLooper;
+    zzfgs = new zzh(paramApi);
+    zzfgt = new zzbx(this);
+    zzfgv = com.google.android.gms.common.api.internal.zzbp.zzca(mContext);
+    mId = zzfgv.zzahq();
+    zzfgu = new zzg();
+  }
+  
+  @Deprecated
+  public GoogleApi(@F Context paramContext, Api<O> paramApi, O paramO, Looper paramLooper, zzcz paramZzcz)
+  {
+    this(paramContext, paramApi, null, new zzd().zza(paramLooper).zza(paramZzcz).zzafn());
+  }
+  
+  public GoogleApi(@F Context paramContext, Api<O> paramApi, O paramO, zza paramZza)
+  {
+    com.google.android.gms.common.internal.zzbp.zzb(paramContext, "Null context is not permitted.");
+    com.google.android.gms.common.internal.zzbp.zzb(paramApi, "Api must not be null.");
+    com.google.android.gms.common.internal.zzbp.zzb(paramZza, "Settings must not be null; use Settings.DEFAULT_SETTINGS instead.");
+    mContext = paramContext.getApplicationContext();
+    zzfdg = paramApi;
+    zzfgr = paramO;
+    zzakg = zzfgy;
+    zzfgs = new zzh(zzfdg, zzfgr);
+    zzfgt = new zzbx(this);
+    zzfgv = com.google.android.gms.common.api.internal.zzbp.zzca(mContext);
+    mId = zzfgv.zzahq();
+    zzfgu = zzfgx;
+    zzfgv.zza(this);
+  }
+  
+  @Deprecated
+  public GoogleApi(@F Context paramContext, Api<O> paramApi, O paramO, zzcz paramZzcz)
+  {
+    this(paramContext, paramApi, paramO, new zzd().zza(paramZzcz).zzafn());
+  }
+  
+  private final <A extends Api.zzb, T extends zzm<? extends Result, A>> T zza(int paramInt, @F T paramT)
+  {
+    paramT.zzagg();
+    zzfgv.zza(this, paramInt, paramT);
+    return paramT;
+  }
+  
+  private final <TResult, A extends Api.zzb> Task<TResult> zza(int paramInt, @F zzdd<A, TResult> paramZzdd)
+  {
+    TaskCompletionSource localTaskCompletionSource = new TaskCompletionSource();
+    zzfgv.zza(this, paramInt, paramZzdd, localTaskCompletionSource, zzfgu);
+    return localTaskCompletionSource.getTask();
+  }
+  
+  private final zzr zzafm()
+  {
+    zzr localZzr = new zzr();
+    Object localObject = zzfgr;
+    if ((localObject instanceof Api.ApiOptions.HasGoogleSignInAccountOptions)) {
+      localObject = ((Api.ApiOptions.HasGoogleSignInAccountOptions)localObject).getGoogleSignInAccount().getAccount();
+    } else if ((localObject instanceof Api.ApiOptions.HasAccountOptions)) {
+      localObject = ((Api.ApiOptions.HasAccountOptions)localObject).getAccount();
+    } else {
+      localObject = null;
+    }
+    localZzr = localZzr.zze((Account)localObject);
+    localObject = zzfgr;
+    if ((localObject instanceof Api.ApiOptions.HasGoogleSignInAccountOptions))
+    {
+      localObject = ((Api.ApiOptions.HasGoogleSignInAccountOptions)localObject).getGoogleSignInAccount();
+      if (localObject != null)
+      {
+        localObject = ((GoogleSignInAccount)localObject).getGrantedScopes();
+        break label102;
+      }
+    }
+    localObject = Collections.emptySet();
+    label102:
+    return localZzr.zze((Collection)localObject);
+  }
+  
+  public final Context getApplicationContext()
+  {
+    return mContext;
+  }
+  
+  public final int getInstanceId()
+  {
+    return mId;
+  }
+  
+  public final Looper getLooper()
+  {
+    return zzakg;
+  }
+  
+  @X
+  public Api.zze zza(Looper paramLooper, zzbr<O> paramZzbr)
+  {
+    zzq localZzq = zzafm().zzfz(mContext.getPackageName()).zzga(mContext.getClass().getName()).zzajz();
+    return zzfdg.zzafd().zza(mContext, paramLooper, localZzq, zzfgr, paramZzbr, paramZzbr);
+  }
+  
+  public zzcw zza(Context paramContext, Handler paramHandler)
+  {
+    return new zzcw(paramContext, paramHandler, zzafm().zzajz(), zzcw.zzfpd);
+  }
+  
+  public final <A extends Api.zzb, T extends zzm<? extends Result, A>> T zza(@F T paramT)
+  {
+    zza(0, paramT);
+    return paramT;
+  }
+  
+  public final <TResult, A extends Api.zzb> Task<TResult> zza(zzdd<A, TResult> paramZzdd)
+  {
+    return zza(0, paramZzdd);
+  }
+  
+  public final Api<O> zzafj()
+  {
+    return zzfdg;
+  }
+  
+  public final zzh<O> zzafk()
+  {
+    return zzfgs;
+  }
+  
+  public final GoogleApiClient zzafl()
+  {
+    return zzfgt;
+  }
+  
+  public final <A extends Api.zzb, T extends zzm<? extends Result, A>> T zzb(@F T paramT)
+  {
+    zza(1, paramT);
+    return paramT;
+  }
+  
+  public final <TResult, A extends Api.zzb> Task<TResult> zzb(zzdd<A, TResult> paramZzdd)
+  {
+    return zza(1, paramZzdd);
+  }
+  
+  public final <A extends Api.zzb, T extends zzm<? extends Result, A>> T zzc(@F T paramT)
+  {
+    zza(2, paramT);
+    return paramT;
+  }
+  
+  public static final class zza
+  {
+    public static final zza zzfgw = new zzd().zzafn();
+    public final zzcz zzfgx;
+    public final Looper zzfgy;
+    
+    public zza(zzcz paramZzcz, Account paramAccount, Looper paramLooper)
+    {
+      zzfgx = paramZzcz;
+      zzfgy = paramLooper;
+    }
+  }
+}

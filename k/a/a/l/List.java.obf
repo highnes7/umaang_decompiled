@@ -1,0 +1,64 @@
+package k.a.a.l;
+
+import android.content.Context;
+import android.os.AsyncTask;
+import org.json.JSONObject;
+
+public class u
+  extends AsyncTask<Object, Object, Object>
+{
+  public String a = "RequestAsyncTask";
+  public k.a.a.i.a b = null;
+  public JSONObject c;
+  public String d;
+  public Context e;
+  
+  public u(k.a.a.i.a paramA, String paramString, JSONObject paramJSONObject, Context paramContext)
+  {
+    b = paramA;
+    c = paramJSONObject;
+    d = paramString;
+    e = paramContext;
+  }
+  
+  public Object doInBackground(Object... paramVarArgs)
+  {
+    paramVarArgs = a;
+    return k.a.a.m.a.d(d, c.toString(), e);
+  }
+  
+  public void onPostExecute(Object paramObject)
+  {
+    if (paramObject != null)
+    {
+      String str = (String)paramObject;
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("=============");
+      localStringBuilder.append(str);
+      localStringBuilder.toString();
+      if (str.equalsIgnoreCase("90001"))
+      {
+        b.forceLogout();
+        return;
+      }
+      if (str.equalsIgnoreCase("90003"))
+      {
+        b.underMaintenance();
+        return;
+      }
+      if (str.equalsIgnoreCase("90002"))
+      {
+        b.showNetworkError();
+        return;
+      }
+      b.processFinish(paramObject);
+      return;
+    }
+    b.processFinish(paramObject);
+  }
+  
+  public void onPreExecute()
+  {
+    b.processStart();
+  }
+}

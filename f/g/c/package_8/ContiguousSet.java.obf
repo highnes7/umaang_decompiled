@@ -1,0 +1,153 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.util.Comparator;
+import java.util.NoSuchElementException;
+
+@a
+@b(emulated=true)
+public abstract class ia<C extends Comparable>
+  extends Wb<C>
+{
+  public final oa<C> j;
+  
+  public ia(oa<C> paramOa)
+  {
+    super(mf.d());
+    j = paramOa;
+  }
+  
+  public static <C extends Comparable> ia<C> a(qf<C> paramQf, oa<C> paramOa)
+  {
+    if (paramQf != null) {
+      if (paramOa == null) {}
+    }
+    for (;;)
+    {
+      try
+      {
+        if (paramQf.a()) {
+          break label145;
+        }
+        localObject1 = paramQf.b(vf.a(paramOa.b()));
+        Object localObject2 = localObject1;
+        if (!paramQf.b()) {
+          localObject2 = ((qf)localObject1).b(vf.b(paramOa.a()));
+        }
+        int i;
+        if ((!((qf)localObject2).c()) && (b.c(paramOa).compareTo(c.b(paramOa)) <= 0)) {
+          i = 0;
+        } else {
+          i = 1;
+        }
+        if (i != 0) {
+          return new ra(paramOa);
+        }
+        return new yf((qf)localObject2, paramOa);
+      }
+      catch (NoSuchElementException paramQf)
+      {
+        throw new IllegalArgumentException(paramQf);
+      }
+      throw new NullPointerException();
+      throw new NullPointerException();
+      label145:
+      Object localObject1 = paramQf;
+    }
+  }
+  
+  public abstract ia<C> a(ia<C> paramIa);
+  
+  @c("NavigableSet")
+  public ia<C> a(C paramC, boolean paramBoolean)
+  {
+    if (paramC != null) {
+      return b(paramC, paramBoolean);
+    }
+    throw new NullPointerException();
+  }
+  
+  @c("NavigableSet")
+  public ia<C> a(C paramC1, boolean paramBoolean1, C paramC2, boolean paramBoolean2)
+  {
+    if (paramC1 != null)
+    {
+      if (paramC2 != null)
+      {
+        boolean bool;
+        if (comparator().compare(paramC1, paramC2) <= 0) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool);
+        return b(paramC1, paramBoolean1, paramC2, paramBoolean2);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public abstract qf<C> a(O paramO1, O paramO2);
+  
+  public ia<C> b(C paramC)
+  {
+    if (paramC != null) {
+      return b(paramC, false);
+    }
+    throw new NullPointerException();
+  }
+  
+  public ia<C> b(C paramC1, C paramC2)
+  {
+    if (paramC1 != null)
+    {
+      if (paramC2 != null)
+      {
+        boolean bool;
+        if (comparator().compare(paramC1, paramC2) <= 0) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool);
+        return b(paramC1, true, paramC2, false);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public abstract ia<C> b(C paramC, boolean paramBoolean);
+  
+  public abstract ia<C> b(C paramC1, boolean paramBoolean1, C paramC2, boolean paramBoolean2);
+  
+  public ia<C> c(C paramC)
+  {
+    if (paramC != null) {
+      return d(paramC, true);
+    }
+    throw new NullPointerException();
+  }
+  
+  @c("NavigableSet")
+  public ia<C> c(C paramC, boolean paramBoolean)
+  {
+    if (paramC != null) {
+      return d(paramC, paramBoolean);
+    }
+    throw new NullPointerException();
+  }
+  
+  public abstract ia<C> d(C paramC, boolean paramBoolean);
+  
+  public abstract qf<C> l();
+  
+  public String toString()
+  {
+    return l().toString();
+  }
+}

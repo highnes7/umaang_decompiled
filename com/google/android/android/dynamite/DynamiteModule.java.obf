@@ -1,0 +1,958 @@
+package com.google.android.gms.dynamite;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.RemoteException;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.DynamiteApi;
+import f.a.a.a.a;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+
+public final class DynamiteModule
+{
+  public static Boolean zzgpi;
+  public static zzk zzgpj;
+  public static zzm zzgpk;
+  public static String zzgpl;
+  public static final ThreadLocal<zza> zzgpm = new ThreadLocal();
+  public static final zzi zzgpn = new zza();
+  public static final zzd zzgpo = new zzb();
+  public static zzd zzgpp = new zzc();
+  public static final zzd zzgpq = new zzd();
+  public static final zzd zzgpr = new zze();
+  public static final zzd zzgps = new zzf();
+  public static final zzd zzgpt = new zzg();
+  public final Context zzgpu;
+  
+  public DynamiteModule(Context paramContext)
+  {
+    zzbp.zzu(paramContext);
+    zzgpu = ((Context)paramContext);
+  }
+  
+  public static Context zza(Context paramContext, String paramString, int paramInt, Cursor paramCursor, zzm paramZzm)
+  {
+    try
+    {
+      paramContext = (Context)com.google.android.gms.dynamic.zzn.zzx(paramZzm.zza(new com.google.android.gms.dynamic.zzn(paramContext), paramString, paramInt, new com.google.android.gms.dynamic.zzn(paramCursor)));
+      return paramContext;
+    }
+    catch (Exception paramContext)
+    {
+      paramContext = String.valueOf(paramContext.toString());
+      if (paramContext.length() != 0) {
+        "Failed to load DynamiteLoader: ".concat(paramContext);
+      } else {
+        new String("Failed to load DynamiteLoader: ");
+      }
+    }
+    return null;
+  }
+  
+  public static DynamiteModule zza(Context paramContext, zzd paramZzd, String paramString)
+    throws DynamiteModule.zzc
+  {
+    zza localZza1 = (zza)zzgpm.get();
+    zza localZza2 = new zza(null);
+    zzgpm.set(localZza2);
+    try
+    {
+      zzj localZzj = paramZzd.zza(paramContext, paramString, zzgpn);
+      int i = zzgpy;
+      int j = zzgpz;
+      Object localObject = new StringBuilder(String.valueOf(paramString).length() + 68 + String.valueOf(paramString).length());
+      ((StringBuilder)localObject).append("Considering local module ");
+      ((StringBuilder)localObject).append(paramString);
+      ((StringBuilder)localObject).append(":");
+      ((StringBuilder)localObject).append(i);
+      ((StringBuilder)localObject).append(" and remote module ");
+      ((StringBuilder)localObject).append(paramString);
+      ((StringBuilder)localObject).append(":");
+      ((StringBuilder)localObject).append(j);
+      ((StringBuilder)localObject).toString();
+      i = zzgqa;
+      if ((i != 0) && ((i != -1) || (zzgpy != 0)) && ((zzgqa != 1) || (zzgpz != 0)))
+      {
+        i = zzgqa;
+        if (i == -1)
+        {
+          paramString = zzaf(paramContext, paramString);
+          paramZzd = zzgpv;
+          paramContext = paramString;
+          if (paramZzd != null) {
+            paramContext = paramString;
+          }
+        }
+        for (;;)
+        {
+          paramZzd.close();
+          label226:
+          zzgpm.set(localZza1);
+          return paramContext;
+          if (i == 1) {
+            try
+            {
+              localObject = zza(paramContext, paramString, zzgpz);
+              paramZzd = zzgpv;
+              paramContext = (Context)localObject;
+              if (paramZzd == null) {
+                break label226;
+              }
+              paramContext = (Context)localObject;
+            }
+            catch (zzc localZzc)
+            {
+              String str = String.valueOf(localZzc.getMessage());
+              if (str.length() != 0) {
+                "Failed to load remote module: ".concat(str);
+              } else {
+                new String("Failed to load remote module: ");
+              }
+              i = zzgpy;
+              if ((i != 0) && (zzazzb0zzgqa == -1))
+              {
+                paramZzd = zzaf(paramContext, paramString);
+                paramString = zzgpv;
+                paramContext = paramZzd;
+                if (paramString == null) {
+                  break label226;
+                }
+                paramContext = paramZzd;
+                paramZzd = paramString;
+              }
+              else
+              {
+                throw new zzc("Remote load failed. No local fallback found.", localZzc, null);
+              }
+            }
+          }
+        }
+        paramContext = new StringBuilder(47);
+        paramContext.append("VersionPolicy returned invalid code:");
+        paramContext.append(i);
+        throw new zzc(paramContext.toString(), null);
+      }
+      i = zzgpy;
+      j = zzgpz;
+      paramContext = new StringBuilder(91);
+      paramContext.append("No acceptable module found. Local version is ");
+      paramContext.append(i);
+      paramContext.append(" and remote version is ");
+      paramContext.append(j);
+      paramContext.append(".");
+      throw new zzc(paramContext.toString(), null);
+    }
+    finally
+    {
+      paramZzd = zzgpv;
+      if (paramZzd != null) {
+        paramZzd.close();
+      }
+      zzgpm.set(localZza1);
+    }
+    for (;;)
+    {
+      throw paramContext;
+    }
+  }
+  
+  public static DynamiteModule zza(Context paramContext, String paramString, int paramInt)
+    throws DynamiteModule.zzc
+  {
+    try
+    {
+      Boolean localBoolean = zzgpi;
+      if (localBoolean != null)
+      {
+        if (localBoolean.booleanValue()) {
+          return zzc(paramContext, paramString, paramInt);
+        }
+        return zzb(paramContext, paramString, paramInt);
+      }
+      throw new zzc("Failed to determine which loading route to use.", null);
+    }
+    finally {}
+  }
+  
+  public static void zza(ClassLoader paramClassLoader)
+    throws DynamiteModule.zzc
+  {
+    try
+    {
+      paramClassLoader = (IBinder)paramClassLoader.loadClass("com.google.android.gms.dynamiteloader.DynamiteLoaderV2").getConstructor(new Class[0]).newInstance(new Object[0]);
+      if (paramClassLoader == null)
+      {
+        paramClassLoader = null;
+      }
+      else
+      {
+        IInterface localIInterface = paramClassLoader.queryLocalInterface("com.google.android.gms.dynamite.IDynamiteLoaderV2");
+        if ((localIInterface instanceof zzm)) {
+          paramClassLoader = (zzm)localIInterface;
+        } else {
+          paramClassLoader = new zzn(paramClassLoader);
+        }
+      }
+      zzgpk = paramClassLoader;
+      return;
+    }
+    catch (NoSuchMethodException paramClassLoader) {}catch (InvocationTargetException paramClassLoader) {}catch (InstantiationException paramClassLoader) {}catch (IllegalAccessException paramClassLoader) {}catch (ClassNotFoundException paramClassLoader) {}
+    throw new zzc("Failed to instantiate dynamite loader", paramClassLoader, null);
+  }
+  
+  public static int zzad(Context paramContext, String paramString)
+  {
+    try
+    {
+      paramContext = paramContext.getApplicationContext().getClassLoader();
+      Object localObject = new StringBuilder("com.google.android.gms.dynamite.descriptors.".length() + 1 + String.valueOf(paramString).length() + "ModuleDescriptor".length());
+      ((StringBuilder)localObject).append("com.google.android.gms.dynamite.descriptors.");
+      ((StringBuilder)localObject).append(paramString);
+      ((StringBuilder)localObject).append(".");
+      ((StringBuilder)localObject).append("ModuleDescriptor");
+      localObject = paramContext.loadClass(((StringBuilder)localObject).toString());
+      paramContext = ((Class)localObject).getDeclaredField("MODULE_ID");
+      localObject = ((Class)localObject).getDeclaredField("MODULE_VERSION");
+      if (!paramContext.get(null).equals(paramString))
+      {
+        paramContext = String.valueOf(paramContext.get(null));
+        localObject = new StringBuilder(paramContext.length() + 51 + String.valueOf(paramString).length());
+        ((StringBuilder)localObject).append("Module descriptor id '");
+        ((StringBuilder)localObject).append(paramContext);
+        ((StringBuilder)localObject).append("' didn't match expected id '");
+        ((StringBuilder)localObject).append(paramString);
+        ((StringBuilder)localObject).append("'");
+        ((StringBuilder)localObject).toString();
+        return 0;
+      }
+      int i = ((Field)localObject).getInt(null);
+      return i;
+    }
+    catch (Exception paramContext)
+    {
+      paramContext = String.valueOf(paramContext.getMessage());
+      if (paramContext.length() != 0)
+      {
+        "Failed to load module descriptor class: ".concat(paramContext);
+        return 0;
+      }
+      new String("Failed to load module descriptor class: ");
+      return 0;
+      paramContext = new StringBuilder(a.a(paramString, 45));
+      paramContext.append("Local module descriptor class for ");
+      paramContext.append(paramString);
+      paramContext.append(" not found.");
+      paramContext.toString();
+      return 0;
+    }
+    catch (ClassNotFoundException paramContext)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public static int zzae(Context paramContext, String paramString)
+  {
+    return zzb(paramContext, paramString, false);
+  }
+  
+  public static DynamiteModule zzaf(Context paramContext, String paramString)
+  {
+    paramString = String.valueOf(paramString);
+    if (paramString.length() != 0) {
+      "Selected local version of ".concat(paramString);
+    } else {
+      new String("Selected local version of ");
+    }
+    return new DynamiteModule(paramContext.getApplicationContext());
+  }
+  
+  /* Error */
+  public static int zzb(Context paramContext, String paramString, boolean paramBoolean)
+  {
+    // Byte code:
+    //   0: ldc 2
+    //   2: monitorenter
+    //   3: getstatic 226	com/google/android/gms/dynamite/DynamiteModule:zzgpi	Ljava/lang/Boolean;
+    //   6: astore 5
+    //   8: aload 5
+    //   10: astore 4
+    //   12: aload 5
+    //   14: ifnonnull +276 -> 290
+    //   17: aload_0
+    //   18: invokevirtual 292	android/content/Context:getApplicationContext	()Landroid/content/Context;
+    //   21: invokevirtual 296	android/content/Context:getClassLoader	()Ljava/lang/ClassLoader;
+    //   24: ldc 6
+    //   26: invokevirtual 351	java/lang/Class:getName	()Ljava/lang/String;
+    //   29: invokevirtual 257	java/lang/ClassLoader:loadClass	(Ljava/lang/String;)Ljava/lang/Class;
+    //   32: astore 5
+    //   34: aload 5
+    //   36: ldc_w 353
+    //   39: invokevirtual 306	java/lang/Class:getDeclaredField	(Ljava/lang/String;)Ljava/lang/reflect/Field;
+    //   42: astore 4
+    //   44: aload 5
+    //   46: monitorenter
+    //   47: aload 4
+    //   49: aconst_null
+    //   50: invokevirtual 312	java/lang/reflect/Field:get	(Ljava/lang/Object;)Ljava/lang/Object;
+    //   53: checkcast 253	java/lang/ClassLoader
+    //   56: astore 6
+    //   58: aload 6
+    //   60: ifnull +32 -> 92
+    //   63: aload 6
+    //   65: invokestatic 356	java/lang/ClassLoader:getSystemClassLoader	()Ljava/lang/ClassLoader;
+    //   68: if_acmpne +11 -> 79
+    //   71: getstatic 359	java/lang/Boolean:FALSE	Ljava/lang/Boolean;
+    //   74: astore 4
+    //   76: goto +131 -> 207
+    //   79: aload 6
+    //   81: invokestatic 361	com/google/android/gms/dynamite/DynamiteModule:zza	(Ljava/lang/ClassLoader;)V
+    //   84: getstatic 364	java/lang/Boolean:TRUE	Ljava/lang/Boolean;
+    //   87: astore 4
+    //   89: goto +118 -> 207
+    //   92: ldc_w 366
+    //   95: aload_0
+    //   96: invokevirtual 292	android/content/Context:getApplicationContext	()Landroid/content/Context;
+    //   99: invokevirtual 369	android/content/Context:getPackageName	()Ljava/lang/String;
+    //   102: invokevirtual 370	java/lang/String:equals	(Ljava/lang/Object;)Z
+    //   105: ifeq +15 -> 120
+    //   108: aload 4
+    //   110: aconst_null
+    //   111: invokestatic 356	java/lang/ClassLoader:getSystemClassLoader	()Ljava/lang/ClassLoader;
+    //   114: invokevirtual 373	java/lang/reflect/Field:set	(Ljava/lang/Object;Ljava/lang/Object;)V
+    //   117: goto -46 -> 71
+    //   120: aload_0
+    //   121: aload_1
+    //   122: iload_2
+    //   123: invokestatic 375	com/google/android/gms/dynamite/DynamiteModule:zzd	(Landroid/content/Context;Ljava/lang/String;Z)I
+    //   126: istore_3
+    //   127: getstatic 377	com/google/android/gms/dynamite/DynamiteModule:zzgpl	Ljava/lang/String;
+    //   130: ifnull +57 -> 187
+    //   133: getstatic 377	com/google/android/gms/dynamite/DynamiteModule:zzgpl	Ljava/lang/String;
+    //   136: invokevirtual 380	java/lang/String:isEmpty	()Z
+    //   139: ifeq +6 -> 145
+    //   142: goto +45 -> 187
+    //   145: new 382	com/google/android/gms/dynamite/zzh
+    //   148: dup
+    //   149: getstatic 377	com/google/android/gms/dynamite/DynamiteModule:zzgpl	Ljava/lang/String;
+    //   152: invokestatic 356	java/lang/ClassLoader:getSystemClassLoader	()Ljava/lang/ClassLoader;
+    //   155: invokespecial 385	com/google/android/gms/dynamite/zzh:<init>	(Ljava/lang/String;Ljava/lang/ClassLoader;)V
+    //   158: astore 6
+    //   160: aload 6
+    //   162: invokestatic 361	com/google/android/gms/dynamite/DynamiteModule:zza	(Ljava/lang/ClassLoader;)V
+    //   165: aload 4
+    //   167: aconst_null
+    //   168: aload 6
+    //   170: invokevirtual 373	java/lang/reflect/Field:set	(Ljava/lang/Object;Ljava/lang/Object;)V
+    //   173: getstatic 364	java/lang/Boolean:TRUE	Ljava/lang/Boolean;
+    //   176: putstatic 226	com/google/android/gms/dynamite/DynamiteModule:zzgpi	Ljava/lang/Boolean;
+    //   179: aload 5
+    //   181: monitorexit
+    //   182: ldc 2
+    //   184: monitorexit
+    //   185: iload_3
+    //   186: ireturn
+    //   187: aload 5
+    //   189: monitorexit
+    //   190: ldc 2
+    //   192: monitorexit
+    //   193: iload_3
+    //   194: ireturn
+    //   195: aload 4
+    //   197: aconst_null
+    //   198: invokestatic 356	java/lang/ClassLoader:getSystemClassLoader	()Ljava/lang/ClassLoader;
+    //   201: invokevirtual 373	java/lang/reflect/Field:set	(Ljava/lang/Object;Ljava/lang/Object;)V
+    //   204: goto -133 -> 71
+    //   207: aload 5
+    //   209: monitorexit
+    //   210: goto +75 -> 285
+    //   213: astore 4
+    //   215: aload 5
+    //   217: monitorexit
+    //   218: aload 4
+    //   220: athrow
+    //   221: astore 4
+    //   223: goto +10 -> 233
+    //   226: astore 4
+    //   228: goto +5 -> 233
+    //   231: astore 4
+    //   233: aload 4
+    //   235: invokestatic 125	java/lang/String:valueOf	(Ljava/lang/Object;)Ljava/lang/String;
+    //   238: astore 4
+    //   240: new 163	java/lang/StringBuilder
+    //   243: dup
+    //   244: aload 4
+    //   246: invokevirtual 129	java/lang/String:length	()I
+    //   249: bipush 30
+    //   251: iadd
+    //   252: invokespecial 166	java/lang/StringBuilder:<init>	(I)V
+    //   255: astore 5
+    //   257: aload 5
+    //   259: ldc_w 387
+    //   262: invokevirtual 172	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   265: pop
+    //   266: aload 5
+    //   268: aload 4
+    //   270: invokevirtual 172	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   273: pop
+    //   274: aload 5
+    //   276: invokevirtual 180	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   279: pop
+    //   280: getstatic 359	java/lang/Boolean:FALSE	Ljava/lang/Boolean;
+    //   283: astore 4
+    //   285: aload 4
+    //   287: putstatic 226	com/google/android/gms/dynamite/DynamiteModule:zzgpi	Ljava/lang/Boolean;
+    //   290: ldc 2
+    //   292: monitorexit
+    //   293: aload 4
+    //   295: invokevirtual 232	java/lang/Boolean:booleanValue	()Z
+    //   298: ifeq +52 -> 350
+    //   301: aload_0
+    //   302: aload_1
+    //   303: iload_2
+    //   304: invokestatic 375	com/google/android/gms/dynamite/DynamiteModule:zzd	(Landroid/content/Context;Ljava/lang/String;Z)I
+    //   307: istore_3
+    //   308: iload_3
+    //   309: ireturn
+    //   310: astore_0
+    //   311: aload_0
+    //   312: invokevirtual 202	java/lang/Exception:getMessage	()Ljava/lang/String;
+    //   315: invokestatic 125	java/lang/String:valueOf	(Ljava/lang/Object;)Ljava/lang/String;
+    //   318: astore_0
+    //   319: aload_0
+    //   320: invokevirtual 129	java/lang/String:length	()I
+    //   323: ifeq +14 -> 337
+    //   326: ldc_w 389
+    //   329: aload_0
+    //   330: invokevirtual 135	java/lang/String:concat	(Ljava/lang/String;)Ljava/lang/String;
+    //   333: pop
+    //   334: goto +14 -> 348
+    //   337: new 121	java/lang/String
+    //   340: dup
+    //   341: ldc_w 389
+    //   344: invokespecial 138	java/lang/String:<init>	(Ljava/lang/String;)V
+    //   347: pop
+    //   348: iconst_0
+    //   349: ireturn
+    //   350: aload_0
+    //   351: aload_1
+    //   352: iload_2
+    //   353: invokestatic 391	com/google/android/gms/dynamite/DynamiteModule:zzc	(Landroid/content/Context;Ljava/lang/String;Z)I
+    //   356: ireturn
+    //   357: astore_0
+    //   358: ldc 2
+    //   360: monitorexit
+    //   361: goto +5 -> 366
+    //   364: aload_0
+    //   365: athrow
+    //   366: goto -2 -> 364
+    //   369: astore 4
+    //   371: goto -287 -> 84
+    //   374: astore 6
+    //   376: goto -181 -> 195
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	379	0	paramContext	Context
+    //   0	379	1	paramString	String
+    //   0	379	2	paramBoolean	boolean
+    //   126	183	3	i	int
+    //   10	186	4	localObject1	Object
+    //   213	6	4	localObject2	Object
+    //   221	1	4	localNoSuchFieldException	NoSuchFieldException
+    //   226	1	4	localIllegalAccessException	IllegalAccessException
+    //   231	3	4	localClassNotFoundException	ClassNotFoundException
+    //   238	56	4	localObject3	Object
+    //   369	1	4	localZzc1	zzc
+    //   6	269	5	localObject4	Object
+    //   56	113	6	localObject5	Object
+    //   374	1	6	localZzc2	zzc
+    // Exception table:
+    //   from	to	target	type
+    //   47	58	213	finally
+    //   63	71	213	finally
+    //   71	76	213	finally
+    //   79	84	213	finally
+    //   84	89	213	finally
+    //   92	117	213	finally
+    //   120	142	213	finally
+    //   145	179	213	finally
+    //   179	182	213	finally
+    //   187	190	213	finally
+    //   195	204	213	finally
+    //   207	210	213	finally
+    //   215	218	213	finally
+    //   17	47	221	java/lang/NoSuchFieldException
+    //   218	221	221	java/lang/NoSuchFieldException
+    //   17	47	226	java/lang/IllegalAccessException
+    //   218	221	226	java/lang/IllegalAccessException
+    //   17	47	231	java/lang/ClassNotFoundException
+    //   218	221	231	java/lang/ClassNotFoundException
+    //   301	308	310	com/google/android/gms/dynamite/DynamiteModule$zzc
+    //   3	8	357	finally
+    //   17	47	357	finally
+    //   182	185	357	finally
+    //   190	193	357	finally
+    //   218	221	357	finally
+    //   233	285	357	finally
+    //   285	290	357	finally
+    //   290	293	357	finally
+    //   358	361	357	finally
+    //   79	84	369	com/google/android/gms/dynamite/DynamiteModule$zzc
+    //   120	142	374	com/google/android/gms/dynamite/DynamiteModule$zzc
+    //   145	179	374	com/google/android/gms/dynamite/DynamiteModule$zzc
+  }
+  
+  public static DynamiteModule zzb(Context paramContext, String paramString, int paramInt)
+    throws DynamiteModule.zzc
+  {
+    Object localObject = new StringBuilder(a.a(paramString, 51));
+    ((StringBuilder)localObject).append("Selected remote version of ");
+    ((StringBuilder)localObject).append(paramString);
+    ((StringBuilder)localObject).append(", version >= ");
+    ((StringBuilder)localObject).append(paramInt);
+    ((StringBuilder)localObject).toString();
+    localObject = zzcv(paramContext);
+    if (localObject != null) {
+      try
+      {
+        paramContext = ((zzk)localObject).zza(new com.google.android.gms.dynamic.zzn(paramContext), paramString, paramInt);
+        if (com.google.android.gms.dynamic.zzn.zzx(paramContext) != null) {
+          return new DynamiteModule((Context)com.google.android.gms.dynamic.zzn.zzx(paramContext));
+        }
+        throw new zzc("Failed to load remote module.", null);
+      }
+      catch (RemoteException paramContext)
+      {
+        throw new zzc("Failed to load remote module.", paramContext, null);
+      }
+    }
+    throw new zzc("Failed to create IDynamiteLoader.", null);
+  }
+  
+  public static int zzc(Context paramContext, String paramString, boolean paramBoolean)
+  {
+    zzk localZzk = zzcv(paramContext);
+    if (localZzk == null) {
+      return 0;
+    }
+    try
+    {
+      int i = localZzk.zza(new com.google.android.gms.dynamic.zzn(paramContext), paramString, paramBoolean);
+      return i;
+    }
+    catch (RemoteException paramContext)
+    {
+      paramContext = String.valueOf(paramContext.getMessage());
+      if (paramContext.length() != 0)
+      {
+        "Failed to retrieve remote module version: ".concat(paramContext);
+        return 0;
+      }
+      new String("Failed to retrieve remote module version: ");
+    }
+    return 0;
+  }
+  
+  public static DynamiteModule zzc(Context paramContext, String paramString, int paramInt)
+    throws DynamiteModule.zzc
+  {
+    Object localObject = new StringBuilder(a.a(paramString, 51));
+    ((StringBuilder)localObject).append("Selected remote version of ");
+    ((StringBuilder)localObject).append(paramString);
+    ((StringBuilder)localObject).append(", version >= ");
+    ((StringBuilder)localObject).append(paramInt);
+    ((StringBuilder)localObject).toString();
+    try
+    {
+      localObject = zzgpk;
+      if (localObject != null)
+      {
+        zza localZza = (zza)zzgpm.get();
+        if ((localZza != null) && (zzgpv != null))
+        {
+          paramContext = zza(paramContext.getApplicationContext(), paramString, paramInt, zzgpv, (zzm)localObject);
+          if (paramContext != null) {
+            return new DynamiteModule(paramContext);
+          }
+          throw new zzc("Failed to get module context", null);
+        }
+        throw new zzc("No result cursor", null);
+      }
+      throw new zzc("DynamiteLoaderV2 was not cached.", null);
+    }
+    finally {}
+  }
+  
+  /* Error */
+  public static zzk zzcv(Context paramContext)
+  {
+    // Byte code:
+    //   0: ldc 2
+    //   2: monitorenter
+    //   3: getstatic 424	com/google/android/gms/dynamite/DynamiteModule:zzgpj	Lcom/google/android/gms/dynamite/zzk;
+    //   6: ifnull +12 -> 18
+    //   9: getstatic 424	com/google/android/gms/dynamite/DynamiteModule:zzgpj	Lcom/google/android/gms/dynamite/zzk;
+    //   12: astore_0
+    //   13: ldc 2
+    //   15: monitorexit
+    //   16: aload_0
+    //   17: areturn
+    //   18: getstatic 430	com/google/android/gms/common/zze:zzffk	Lcom/google/android/gms/common/zze;
+    //   21: aload_0
+    //   22: invokevirtual 434	com/google/android/gms/common/zze:isGooglePlayServicesAvailable	(Landroid/content/Context;)I
+    //   25: ifeq +8 -> 33
+    //   28: ldc 2
+    //   30: monitorexit
+    //   31: aconst_null
+    //   32: areturn
+    //   33: aload_0
+    //   34: ldc_w 366
+    //   37: iconst_3
+    //   38: invokevirtual 438	android/content/Context:createPackageContext	(Ljava/lang/String;I)Landroid/content/Context;
+    //   41: invokevirtual 296	android/content/Context:getClassLoader	()Ljava/lang/ClassLoader;
+    //   44: ldc_w 440
+    //   47: invokevirtual 257	java/lang/ClassLoader:loadClass	(Ljava/lang/String;)Ljava/lang/Class;
+    //   50: invokevirtual 442	java/lang/Class:newInstance	()Ljava/lang/Object;
+    //   53: checkcast 271	android/os/IBinder
+    //   56: astore_0
+    //   57: aload_0
+    //   58: ifnonnull +8 -> 66
+    //   61: aconst_null
+    //   62: astore_0
+    //   63: goto +37 -> 100
+    //   66: aload_0
+    //   67: ldc_w 444
+    //   70: invokeinterface 277 2 0
+    //   75: astore_1
+    //   76: aload_1
+    //   77: instanceof 403
+    //   80: ifeq +11 -> 91
+    //   83: aload_1
+    //   84: checkcast 403	com/google/android/gms/dynamite/zzk
+    //   87: astore_0
+    //   88: goto +12 -> 100
+    //   91: new 446	com/google/android/gms/dynamite/zzl
+    //   94: dup
+    //   95: aload_0
+    //   96: invokespecial 447	com/google/android/gms/dynamite/zzl:<init>	(Landroid/os/IBinder;)V
+    //   99: astore_0
+    //   100: aload_0
+    //   101: ifnull +50 -> 151
+    //   104: aload_0
+    //   105: putstatic 424	com/google/android/gms/dynamite/DynamiteModule:zzgpj	Lcom/google/android/gms/dynamite/zzk;
+    //   108: ldc 2
+    //   110: monitorexit
+    //   111: aload_0
+    //   112: areturn
+    //   113: astore_0
+    //   114: aload_0
+    //   115: invokevirtual 202	java/lang/Exception:getMessage	()Ljava/lang/String;
+    //   118: invokestatic 125	java/lang/String:valueOf	(Ljava/lang/Object;)Ljava/lang/String;
+    //   121: astore_0
+    //   122: aload_0
+    //   123: invokevirtual 129	java/lang/String:length	()I
+    //   126: ifeq +14 -> 140
+    //   129: ldc_w 449
+    //   132: aload_0
+    //   133: invokevirtual 135	java/lang/String:concat	(Ljava/lang/String;)Ljava/lang/String;
+    //   136: pop
+    //   137: goto +14 -> 151
+    //   140: new 121	java/lang/String
+    //   143: dup
+    //   144: ldc_w 449
+    //   147: invokespecial 138	java/lang/String:<init>	(Ljava/lang/String;)V
+    //   150: pop
+    //   151: ldc 2
+    //   153: monitorexit
+    //   154: aconst_null
+    //   155: areturn
+    //   156: astore_0
+    //   157: ldc 2
+    //   159: monitorexit
+    //   160: aload_0
+    //   161: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	162	0	paramContext	Context
+    //   75	9	1	localIInterface	IInterface
+    // Exception table:
+    //   from	to	target	type
+    //   33	57	113	java/lang/Exception
+    //   66	88	113	java/lang/Exception
+    //   91	100	113	java/lang/Exception
+    //   104	108	113	java/lang/Exception
+    //   3	16	156	finally
+    //   18	31	156	finally
+    //   33	57	156	finally
+    //   66	88	156	finally
+    //   91	100	156	finally
+    //   104	108	156	finally
+    //   108	111	156	finally
+    //   114	137	156	finally
+    //   140	151	156	finally
+    //   151	154	156	finally
+    //   157	160	156	finally
+  }
+  
+  /* Error */
+  public static int zzd(Context paramContext, String paramString, boolean paramBoolean)
+    throws DynamiteModule.zzc
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 5
+    //   3: iload_2
+    //   4: ifeq +262 -> 266
+    //   7: ldc_w 451
+    //   10: astore 4
+    //   12: goto +3 -> 15
+    //   15: new 163	java/lang/StringBuilder
+    //   18: dup
+    //   19: ldc_w 453
+    //   22: invokevirtual 129	java/lang/String:length	()I
+    //   25: iconst_1
+    //   26: iadd
+    //   27: aload 4
+    //   29: invokevirtual 129	java/lang/String:length	()I
+    //   32: iadd
+    //   33: aload_1
+    //   34: invokestatic 125	java/lang/String:valueOf	(Ljava/lang/Object;)Ljava/lang/String;
+    //   37: invokevirtual 129	java/lang/String:length	()I
+    //   40: iadd
+    //   41: invokespecial 166	java/lang/StringBuilder:<init>	(I)V
+    //   44: astore 6
+    //   46: aload 6
+    //   48: ldc_w 453
+    //   51: invokevirtual 172	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   54: pop
+    //   55: aload 6
+    //   57: aload 4
+    //   59: invokevirtual 172	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   62: pop
+    //   63: aload 6
+    //   65: ldc_w 455
+    //   68: invokevirtual 172	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   71: pop
+    //   72: aload 6
+    //   74: aload_1
+    //   75: invokevirtual 172	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   78: pop
+    //   79: aload 6
+    //   81: invokevirtual 180	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   84: invokestatic 461	android/net/Uri:parse	(Ljava/lang/String;)Landroid/net/Uri;
+    //   87: astore_1
+    //   88: aload_0
+    //   89: invokevirtual 465	android/content/Context:getContentResolver	()Landroid/content/ContentResolver;
+    //   92: aload_1
+    //   93: aconst_null
+    //   94: aconst_null
+    //   95: aconst_null
+    //   96: aconst_null
+    //   97: invokevirtual 471	android/content/ContentResolver:query	(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+    //   100: astore_0
+    //   101: aload_0
+    //   102: ifnull +107 -> 209
+    //   105: aload_0
+    //   106: invokeinterface 474 1 0
+    //   111: ifeq +98 -> 209
+    //   114: aload_0
+    //   115: iconst_0
+    //   116: invokeinterface 477 2 0
+    //   121: istore_3
+    //   122: aload_0
+    //   123: astore_1
+    //   124: iload_3
+    //   125: ifle +64 -> 189
+    //   128: ldc 2
+    //   130: monitorenter
+    //   131: aload_0
+    //   132: iconst_2
+    //   133: invokeinterface 481 2 0
+    //   138: putstatic 377	com/google/android/gms/dynamite/DynamiteModule:zzgpl	Ljava/lang/String;
+    //   141: ldc 2
+    //   143: monitorexit
+    //   144: getstatic 50	com/google/android/gms/dynamite/DynamiteModule:zzgpm	Ljava/lang/ThreadLocal;
+    //   147: invokevirtual 143	java/lang/ThreadLocal:get	()Ljava/lang/Object;
+    //   150: checkcast 9	com/google/android/gms/dynamite/DynamiteModule$zza
+    //   153: astore 4
+    //   155: aload_0
+    //   156: astore_1
+    //   157: aload 4
+    //   159: ifnull +30 -> 189
+    //   162: aload_0
+    //   163: astore_1
+    //   164: aload 4
+    //   166: getfield 191	com/google/android/gms/dynamite/DynamiteModule$zza:zzgpv	Landroid/database/Cursor;
+    //   169: ifnonnull +20 -> 189
+    //   172: aload 4
+    //   174: aload_0
+    //   175: putfield 191	com/google/android/gms/dynamite/DynamiteModule$zza:zzgpv	Landroid/database/Cursor;
+    //   178: aconst_null
+    //   179: astore_1
+    //   180: goto +9 -> 189
+    //   183: astore_1
+    //   184: ldc 2
+    //   186: monitorexit
+    //   187: aload_1
+    //   188: athrow
+    //   189: aload_1
+    //   190: ifnull +9 -> 199
+    //   193: aload_1
+    //   194: invokeinterface 196 1 0
+    //   199: iload_3
+    //   200: ireturn
+    //   201: astore_1
+    //   202: goto +52 -> 254
+    //   205: astore_1
+    //   206: goto +25 -> 231
+    //   209: new 15	com/google/android/gms/dynamite/DynamiteModule$zzc
+    //   212: dup
+    //   213: ldc_w 483
+    //   216: aconst_null
+    //   217: invokespecial 217	com/google/android/gms/dynamite/DynamiteModule$zzc:<init>	(Ljava/lang/String;Lcom/google/android/gms/dynamite/zza;)V
+    //   220: athrow
+    //   221: astore_1
+    //   222: aload 5
+    //   224: astore_0
+    //   225: goto +29 -> 254
+    //   228: astore_1
+    //   229: aconst_null
+    //   230: astore_0
+    //   231: aload_1
+    //   232: instanceof 15
+    //   235: ifeq +5 -> 240
+    //   238: aload_1
+    //   239: athrow
+    //   240: new 15	com/google/android/gms/dynamite/DynamiteModule$zzc
+    //   243: dup
+    //   244: ldc_w 485
+    //   247: aload_1
+    //   248: aconst_null
+    //   249: invokespecial 212	com/google/android/gms/dynamite/DynamiteModule$zzc:<init>	(Ljava/lang/String;Ljava/lang/Throwable;Lcom/google/android/gms/dynamite/zza;)V
+    //   252: athrow
+    //   253: astore_1
+    //   254: aload_0
+    //   255: ifnull +9 -> 264
+    //   258: aload_0
+    //   259: invokeinterface 196 1 0
+    //   264: aload_1
+    //   265: athrow
+    //   266: ldc_w 487
+    //   269: astore 4
+    //   271: goto -256 -> 15
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	274	0	paramContext	Context
+    //   0	274	1	paramString	String
+    //   0	274	2	paramBoolean	boolean
+    //   121	79	3	i	int
+    //   10	260	4	localObject1	Object
+    //   1	222	5	localObject2	Object
+    //   44	36	6	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   131	144	183	finally
+    //   184	187	183	finally
+    //   105	122	201	finally
+    //   128	131	201	finally
+    //   144	155	201	finally
+    //   164	178	201	finally
+    //   187	189	201	finally
+    //   209	221	201	finally
+    //   105	122	205	java/lang/Exception
+    //   128	131	205	java/lang/Exception
+    //   144	155	205	java/lang/Exception
+    //   164	178	205	java/lang/Exception
+    //   187	189	205	java/lang/Exception
+    //   209	221	205	java/lang/Exception
+    //   15	101	221	finally
+    //   15	101	228	java/lang/Exception
+    //   231	240	253	finally
+    //   240	253	253	finally
+  }
+  
+  public final Context zzaog()
+  {
+    return zzgpu;
+  }
+  
+  public final IBinder zzgv(String paramString)
+    throws DynamiteModule.zzc
+  {
+    try
+    {
+      IBinder localIBinder = (IBinder)zzgpu.getClassLoader().loadClass(paramString).newInstance();
+      return localIBinder;
+    }
+    catch (IllegalAccessException localIllegalAccessException) {}catch (InstantiationException localInstantiationException) {}catch (ClassNotFoundException localClassNotFoundException) {}
+    paramString = String.valueOf(paramString);
+    if (paramString.length() != 0) {
+      paramString = "Failed to instantiate module class: ".concat(paramString);
+    } else {
+      paramString = new String("Failed to instantiate module class: ");
+    }
+    throw new zzc(paramString, localClassNotFoundException, null);
+  }
+  
+  @DynamiteApi
+  public static class DynamiteLoaderClassLoader
+  {
+    public static ClassLoader sClassLoader;
+    
+    public DynamiteLoaderClassLoader() {}
+  }
+  
+  public static final class zza
+  {
+    public Cursor zzgpv;
+    
+    public zza() {}
+  }
+  
+  public static final class zzb
+    implements zzi
+  {
+    public final int zzgpw;
+    public final int zzgpx;
+    
+    public zzb(int paramInt1, int paramInt2)
+    {
+      zzgpw = paramInt1;
+      zzgpx = 0;
+    }
+    
+    public final int zzad(Context paramContext, String paramString)
+    {
+      return zzgpw;
+    }
+    
+    public final int zzb(Context paramContext, String paramString, boolean paramBoolean)
+    {
+      return 0;
+    }
+  }
+  
+  public static final class zzc
+    extends Exception
+  {
+    public zzc(String paramString)
+    {
+      super();
+    }
+    
+    public zzc(String paramString, Throwable paramThrowable)
+    {
+      super(paramThrowable);
+    }
+  }
+  
+  public static abstract interface zzd
+  {
+    public abstract zzj zza(Context paramContext, String paramString, zzi paramZzi)
+      throws DynamiteModule.zzc;
+  }
+}

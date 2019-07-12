@@ -1,0 +1,205 @@
+package com.google.android.gms.common.api.internal;
+
+import android.util.Log;
+import android.util.SparseArray;
+import b.b.a.F;
+import b.b.a.G;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.internal.zzbp;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.concurrent.atomic.AtomicReference;
+
+public class zzi
+  extends zzo
+{
+  public final SparseArray<zza> zzfik = new SparseArray();
+  
+  public zzi(zzcg paramZzcg)
+  {
+    super(paramZzcg, GoogleApiAvailability.zzffi);
+    zzfoo.zza("AutoManageHelper", this);
+  }
+  
+  public static zzi zza(zzcf paramZzcf)
+  {
+    paramZzcf = LifecycleCallback.zzb(paramZzcf);
+    zzi localZzi = (zzi)paramZzcf.zza("AutoManageHelper", zzi.class);
+    if (localZzi != null) {
+      return localZzi;
+    }
+    return new zzi(paramZzcf);
+  }
+  
+  @G
+  private final zza zzbq(int paramInt)
+  {
+    if (zzfik.size() <= paramInt) {
+      return null;
+    }
+    SparseArray localSparseArray = zzfik;
+    return (zza)localSparseArray.get(localSparseArray.keyAt(paramInt));
+  }
+  
+  public final void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+  {
+    int i = 0;
+    while (i < zzfik.size())
+    {
+      zza localZza = zzbq(i);
+      if (localZza != null)
+      {
+        paramPrintWriter.append(paramString).append("GoogleApiClient #").print(zzfil);
+        paramPrintWriter.println(":");
+        zzfim.dump(String.valueOf(paramString).concat("  "), paramFileDescriptor, paramPrintWriter, paramArrayOfString);
+      }
+      i += 1;
+    }
+  }
+  
+  public final void onStart()
+  {
+    mStarted = true;
+    boolean bool = mStarted;
+    Object localObject = String.valueOf(zzfik);
+    StringBuilder localStringBuilder = new StringBuilder(((String)localObject).length() + 14);
+    localStringBuilder.append("onStart ");
+    localStringBuilder.append(bool);
+    localStringBuilder.append(" ");
+    localStringBuilder.append((String)localObject);
+    localStringBuilder.toString();
+    if (zzfiw.get() == null)
+    {
+      int i = 0;
+      while (i < zzfik.size())
+      {
+        localObject = zzbq(i);
+        if (localObject != null) {
+          zzfim.connect();
+        }
+        i += 1;
+      }
+    }
+  }
+  
+  public final void onStop()
+  {
+    int i = 0;
+    mStarted = false;
+    while (i < zzfik.size())
+    {
+      zza localZza = zzbq(i);
+      if (localZza != null) {
+        zzfim.disconnect();
+      }
+      i += 1;
+    }
+  }
+  
+  public final void zza(int paramInt, GoogleApiClient paramGoogleApiClient, GoogleApiClient.OnConnectionFailedListener paramOnConnectionFailedListener)
+  {
+    zzbp.zzb(paramGoogleApiClient, "GoogleApiClient instance cannot be null");
+    if (zzfik.indexOfKey(paramInt) < 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    Object localObject = new StringBuilder(54);
+    ((StringBuilder)localObject).append("Already managing a GoogleApiClient with id ");
+    ((StringBuilder)localObject).append(paramInt);
+    zzbp.zza(bool, ((StringBuilder)localObject).toString());
+    localObject = (zzp)zzfiw.get();
+    boolean bool = mStarted;
+    String str = String.valueOf(localObject);
+    StringBuilder localStringBuilder = new StringBuilder(str.length() + 49);
+    localStringBuilder.append("starting AutoManage for client ");
+    localStringBuilder.append(paramInt);
+    localStringBuilder.append(" ");
+    localStringBuilder.append(bool);
+    localStringBuilder.append(" ");
+    localStringBuilder.append(str);
+    localStringBuilder.toString();
+    paramOnConnectionFailedListener = new zza(paramInt, paramGoogleApiClient, paramOnConnectionFailedListener);
+    zzfik.put(paramInt, paramOnConnectionFailedListener);
+    if ((mStarted) && (localObject == null))
+    {
+      paramOnConnectionFailedListener = String.valueOf(paramGoogleApiClient);
+      localObject = new StringBuilder(paramOnConnectionFailedListener.length() + 11);
+      ((StringBuilder)localObject).append("connecting ");
+      ((StringBuilder)localObject).append(paramOnConnectionFailedListener);
+      ((StringBuilder)localObject).toString();
+      paramGoogleApiClient.connect();
+    }
+  }
+  
+  public final void zza(ConnectionResult paramConnectionResult, int paramInt)
+  {
+    if (paramInt < 0)
+    {
+      Log.wtf("AutoManageHelper", "AutoManageLifecycleHelper received onErrorResolutionFailed callback but no failing client ID is set", new Exception());
+      return;
+    }
+    Object localObject = (zza)zzfik.get(paramInt);
+    if (localObject != null)
+    {
+      zzbp(paramInt);
+      localObject = zzfin;
+      if (localObject != null) {
+        ((GoogleApiClient.OnConnectionFailedListener)localObject).onConnectionFailed(paramConnectionResult);
+      }
+    }
+  }
+  
+  public final void zzafw()
+  {
+    int i = 0;
+    while (i < zzfik.size())
+    {
+      zza localZza = zzbq(i);
+      if (localZza != null) {
+        zzfim.connect();
+      }
+      i += 1;
+    }
+  }
+  
+  public final void zzbp(int paramInt)
+  {
+    zza localZza = (zza)zzfik.get(paramInt);
+    zzfik.remove(paramInt);
+    if (localZza != null)
+    {
+      zzfim.unregisterConnectionFailedListener(localZza);
+      zzfim.disconnect();
+    }
+  }
+  
+  public final class zza
+    implements GoogleApiClient.OnConnectionFailedListener
+  {
+    public final int zzfil;
+    public final GoogleApiClient zzfim;
+    public final GoogleApiClient.OnConnectionFailedListener zzfin;
+    
+    public zza(int paramInt, GoogleApiClient paramGoogleApiClient, GoogleApiClient.OnConnectionFailedListener paramOnConnectionFailedListener)
+    {
+      zzfil = paramInt;
+      zzfim = paramGoogleApiClient;
+      zzfin = paramOnConnectionFailedListener;
+      paramGoogleApiClient.registerConnectionFailedListener(this);
+    }
+    
+    public final void onConnectionFailed(@F ConnectionResult paramConnectionResult)
+    {
+      String str = String.valueOf(paramConnectionResult);
+      StringBuilder localStringBuilder = new StringBuilder(str.length() + 27);
+      localStringBuilder.append("beginFailureResolution for ");
+      localStringBuilder.append(str);
+      localStringBuilder.toString();
+      zzb(paramConnectionResult, zzfil);
+    }
+  }
+}

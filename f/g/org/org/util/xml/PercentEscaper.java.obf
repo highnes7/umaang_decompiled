@@ -1,0 +1,175 @@
+package f.g.b.a.g.a;
+
+import f.a.a.a.a;
+
+public class c
+  extends f
+{
+  public static final String b = "-_.*";
+  public static final String c = "-_.!~*'()@:$&,;=";
+  public static final String d = "-_.!~*'()@:$&,;=+/?";
+  public static final String e = "-_.!~*'():$&,;=";
+  public static final String f = "-_.!~*'()@:$,;/?:";
+  public static final char[] g = { '+' };
+  public static final char[] h = "0123456789ABCDEF".toCharArray();
+  public final boolean i;
+  public final boolean[] j;
+  
+  public c(String paramString, boolean paramBoolean)
+  {
+    if (!paramString.matches(".*[0-9A-Za-z].*"))
+    {
+      if ((paramBoolean) && (paramString.contains(" "))) {
+        throw new IllegalArgumentException("plusForSpace cannot be specified when space is a 'safe' character");
+      }
+      if (!paramString.contains("%"))
+      {
+        i = paramBoolean;
+        j = b(paramString);
+        return;
+      }
+      throw new IllegalArgumentException("The '%' character cannot be specified as 'safe'");
+    }
+    throw new IllegalArgumentException("Alphanumeric characters are always 'safe' and should not be explicitly specified");
+  }
+  
+  public static boolean[] b(String paramString)
+  {
+    paramString = paramString.toCharArray();
+    int i1 = paramString.length;
+    int n = 0;
+    int k = 0;
+    int m = 122;
+    while (k < i1)
+    {
+      m = Math.max(paramString[k], m);
+      k += 1;
+    }
+    boolean[] arrayOfBoolean = new boolean[m + 1];
+    k = 48;
+    while (k <= 57)
+    {
+      arrayOfBoolean[k] = true;
+      k += 1;
+    }
+    k = 65;
+    while (k <= 90)
+    {
+      arrayOfBoolean[k] = true;
+      k += 1;
+    }
+    k = 97;
+    while (k <= 122)
+    {
+      arrayOfBoolean[k] = true;
+      k += 1;
+    }
+    m = paramString.length;
+    k = n;
+    while (k < m)
+    {
+      arrayOfBoolean[paramString[k]] = true;
+      k += 1;
+    }
+    return arrayOfBoolean;
+  }
+  
+  public String a(String paramString)
+  {
+    int m = paramString.length();
+    int k = 0;
+    for (;;)
+    {
+      localObject = paramString;
+      if (k >= m) {
+        break label62;
+      }
+      int n = paramString.charAt(k);
+      localObject = j;
+      if ((n >= localObject.length) || (localObject[n] == 0)) {
+        break;
+      }
+      k += 1;
+    }
+    Object localObject = a(paramString, k);
+    label62:
+    return localObject;
+  }
+  
+  public char[] a(int paramInt)
+  {
+    Object localObject = j;
+    if ((paramInt < localObject.length) && (localObject[paramInt] != 0)) {
+      return null;
+    }
+    if ((paramInt == 32) && (i)) {
+      return g;
+    }
+    int k;
+    if (paramInt <= 127)
+    {
+      localObject = h;
+      k = localObject[(paramInt & 0xF)];
+      return new char[] { '%', localObject[(paramInt >>> 4)], k };
+    }
+    int m;
+    int n;
+    if (paramInt <= 2047)
+    {
+      localObject = h;
+      k = localObject[(paramInt & 0xF)];
+      paramInt >>>= 4;
+      m = localObject[(paramInt & 0x3 | 0x8)];
+      paramInt >>>= 2;
+      n = localObject[(paramInt & 0xF)];
+      return new char[] { '%', localObject[(paramInt >>> 4 | 0xC)], n, '%', m, k };
+    }
+    int i1;
+    if (paramInt <= 65535)
+    {
+      localObject = h;
+      k = localObject[(paramInt & 0xF)];
+      paramInt >>>= 4;
+      m = localObject[(paramInt & 0x3 | 0x8)];
+      paramInt >>>= 2;
+      n = localObject[(paramInt & 0xF)];
+      paramInt >>>= 4;
+      i1 = localObject[(paramInt & 0x3 | 0x8)];
+      return new char[] { '%', 'E', localObject[(paramInt >>> 2)], '%', i1, n, '%', m, k };
+    }
+    if (paramInt <= 1114111)
+    {
+      localObject = h;
+      k = localObject[(paramInt & 0xF)];
+      paramInt >>>= 4;
+      m = localObject[(paramInt & 0x3 | 0x8)];
+      paramInt >>>= 2;
+      n = localObject[(paramInt & 0xF)];
+      paramInt >>>= 4;
+      i1 = localObject[(paramInt & 0x3 | 0x8)];
+      paramInt >>>= 2;
+      int i2 = localObject[(paramInt & 0xF)];
+      paramInt >>>= 4;
+      int i3 = localObject[(paramInt & 0x3 | 0x8)];
+      return new char[] { '%', 'F', localObject[(paramInt >>> 2 & 0x7)], '%', i3, i2, '%', i1, n, '%', m, k };
+    }
+    throw new IllegalArgumentException(a.a(43, "Invalid unicode character value ", paramInt));
+  }
+  
+  public int b(CharSequence paramCharSequence, int paramInt1, int paramInt2)
+  {
+    while (paramInt1 < paramInt2)
+    {
+      int k = paramCharSequence.charAt(paramInt1);
+      boolean[] arrayOfBoolean = j;
+      if (k >= arrayOfBoolean.length) {
+        break;
+      }
+      if (arrayOfBoolean[k] == 0) {
+        return paramInt1;
+      }
+      paramInt1 += 1;
+    }
+    return paramInt1;
+  }
+}

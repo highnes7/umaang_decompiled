@@ -1,0 +1,46 @@
+package com.google.android.gms.common.api;
+
+import android.os.Looper;
+import com.google.android.gms.common.api.internal.zzcz;
+import com.google.android.gms.common.api.internal.zzg;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzd
+{
+  public Looper zzakg;
+  public zzcz zzfgu;
+  
+  public zzd() {}
+  
+  public final zzd zza(Looper paramLooper)
+  {
+    zzbp.zzb(paramLooper, "Looper must not be null.");
+    zzakg = paramLooper;
+    return this;
+  }
+  
+  public final zzd zza(zzcz paramZzcz)
+  {
+    zzbp.zzb(paramZzcz, "StatusExceptionMapper must not be null.");
+    zzfgu = paramZzcz;
+    return this;
+  }
+  
+  public final GoogleApi.zza zzafn()
+  {
+    if (zzfgu == null) {
+      zzfgu = new zzg();
+    }
+    if (zzakg == null)
+    {
+      Looper localLooper;
+      if (Looper.myLooper() != null) {
+        localLooper = Looper.myLooper();
+      } else {
+        localLooper = Looper.getMainLooper();
+      }
+      zzakg = localLooper;
+    }
+    return new GoogleApi.zza(zzfgu, null, zzakg, null);
+  }
+}

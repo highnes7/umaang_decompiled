@@ -1,0 +1,58 @@
+package b.b.x.e.a;
+
+import android.content.Context;
+import android.hardware.display.DisplayManager;
+import android.os.Build.VERSION;
+import android.view.Display;
+import b.b.a.F;
+import b.b.a.G;
+import java.util.WeakHashMap;
+
+public final class a
+{
+  public static final WeakHashMap<Context, a> a = new WeakHashMap();
+  public static final String b = "android.hardware.display.category.PRESENTATION";
+  public final Context c;
+  
+  public a(Context paramContext)
+  {
+    c = paramContext;
+  }
+  
+  @F
+  public static a a(@F Context paramContext)
+  {
+    synchronized (a)
+    {
+      a localA2 = (a)a.get(paramContext);
+      a localA1 = localA2;
+      if (localA2 == null)
+      {
+        localA1 = new a(paramContext);
+        a.put(paramContext, localA1);
+      }
+      return localA1;
+    }
+  }
+  
+  @G
+  public Display a(int paramInt)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return ((DisplayManager)c.getSystemService("display")).getDisplay(paramInt);
+  }
+  
+  @F
+  public Display[] a()
+  {
+    int i = Build.VERSION.SDK_INT;
+    return ((DisplayManager)c.getSystemService("display")).getDisplays();
+  }
+  
+  @F
+  public Display[] a(@G String paramString)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return ((DisplayManager)c.getSystemService("display")).getDisplays(paramString);
+  }
+}

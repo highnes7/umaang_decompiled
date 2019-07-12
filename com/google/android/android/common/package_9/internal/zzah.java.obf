@@ -1,0 +1,82 @@
+package com.google.android.gms.common.api.internal;
+
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.WeakHashMap;
+
+public final class zzah
+{
+  public final Map<zzs<?>, Boolean> zzfla = Collections.synchronizedMap(new WeakHashMap());
+  public final Map<TaskCompletionSource<?>, Boolean> zzflb = Collections.synchronizedMap(new WeakHashMap());
+  
+  public zzah() {}
+  
+  private final void zza(boolean paramBoolean, Status paramStatus)
+  {
+    synchronized (zzfla)
+    {
+      Object localObject2 = new HashMap(zzfla);
+      synchronized (zzflb)
+      {
+        ??? = new HashMap(zzflb);
+        localObject2 = ((Map)localObject2).entrySet().iterator();
+        while (((Iterator)localObject2).hasNext())
+        {
+          ??? = (Map.Entry)((Iterator)localObject2).next();
+          if ((paramBoolean) || (((Boolean)((Map.Entry)???).getValue()).booleanValue())) {
+            ((zzs)((Map.Entry)???).getKey()).zzu(paramStatus);
+          }
+        }
+        ??? = ((Map)???).entrySet().iterator();
+        while (((Iterator)???).hasNext())
+        {
+          localObject2 = (Map.Entry)((Iterator)???).next();
+          if ((paramBoolean) || (((Boolean)((Map.Entry)localObject2).getValue()).booleanValue())) {
+            ((TaskCompletionSource)((Map.Entry)localObject2).getKey()).trySetException(new ApiException(paramStatus));
+          }
+        }
+        return;
+      }
+    }
+    for (;;)
+    {
+      throw paramStatus;
+    }
+  }
+  
+  public final void zza(zzs<? extends Result> paramZzs, boolean paramBoolean)
+  {
+    zzfla.put(paramZzs, Boolean.valueOf(paramBoolean));
+    paramZzs.zza(new zzai(this, paramZzs));
+  }
+  
+  public final <TResult> void zza(TaskCompletionSource<TResult> paramTaskCompletionSource, boolean paramBoolean)
+  {
+    zzflb.put(paramTaskCompletionSource, Boolean.valueOf(paramBoolean));
+    paramTaskCompletionSource.getTask().addOnCompleteListener(new zzaj(this, paramTaskCompletionSource));
+  }
+  
+  public final boolean zzags()
+  {
+    return (!zzfla.isEmpty()) || (!zzflb.isEmpty());
+  }
+  
+  public final void zzagt()
+  {
+    zza(false, zzbp.zzfnk);
+  }
+  
+  public final void zzagu()
+  {
+    zza(true, zzdj.zzfpq);
+  }
+}

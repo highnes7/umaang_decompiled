@@ -1,0 +1,377 @@
+package com.google.android.gms.common.images;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.ParcelFileDescriptor;
+import android.os.ResultReceiver;
+import android.os.SystemClock;
+import android.widget.ImageView;
+import b.b.x.n.m;
+import com.google.android.gms.common.annotation.KeepName;
+import com.google.android.gms.internal.zzbcj;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public final class ImageManager
+{
+  public static final Object zzfrb = new Object();
+  public static HashSet<Uri> zzfrc = new HashSet();
+  public static ImageManager zzfrd;
+  public final Context mContext;
+  public final Handler mHandler;
+  public final ExecutorService zzfre;
+  public final zza zzfrf;
+  public final zzbcj zzfrg;
+  public final Map<zza, ImageReceiver> zzfrh;
+  public final Map<Uri, ImageReceiver> zzfri;
+  public final Map<Uri, Long> zzfrj;
+  
+  public ImageManager(Context paramContext, boolean paramBoolean)
+  {
+    mContext = paramContext.getApplicationContext();
+    mHandler = new Handler(Looper.getMainLooper());
+    zzfre = Executors.newFixedThreadPool(4);
+    zzfrf = null;
+    zzfrg = new zzbcj();
+    zzfrh = new HashMap();
+    zzfri = new HashMap();
+    zzfrj = new HashMap();
+  }
+  
+  public static ImageManager create(Context paramContext)
+  {
+    if (zzfrd == null) {
+      zzfrd = new ImageManager(paramContext, false);
+    }
+    return zzfrd;
+  }
+  
+  private final Bitmap zza(zzb paramZzb)
+  {
+    zza localZza = zzfrf;
+    if (localZza == null) {
+      return null;
+    }
+    return (Bitmap)localZza.get(paramZzb);
+  }
+  
+  private final void zza(zza paramZza)
+  {
+    com.google.android.gms.common.internal.zzc.zzfy("ImageManager.loadImage() must be called in the main thread");
+    new zzc(paramZza).run();
+  }
+  
+  public final void loadImage(ImageView paramImageView, int paramInt)
+  {
+    zza(new zzc(paramImageView, paramInt));
+  }
+  
+  public final void loadImage(ImageView paramImageView, Uri paramUri)
+  {
+    zza(new zzc(paramImageView, paramUri));
+  }
+  
+  public final void loadImage(ImageView paramImageView, Uri paramUri, int paramInt)
+  {
+    paramImageView = new zzc(paramImageView, paramUri);
+    zzfrr = paramInt;
+    zza(paramImageView);
+  }
+  
+  public final void loadImage(OnImageLoadedListener paramOnImageLoadedListener, Uri paramUri)
+  {
+    zza(new zzd(paramOnImageLoadedListener, paramUri));
+  }
+  
+  public final void loadImage(OnImageLoadedListener paramOnImageLoadedListener, Uri paramUri, int paramInt)
+  {
+    paramOnImageLoadedListener = new zzd(paramOnImageLoadedListener, paramUri);
+    zzfrr = paramInt;
+    zza(paramOnImageLoadedListener);
+  }
+  
+  @KeepName
+  public final class ImageReceiver
+    extends ResultReceiver
+  {
+    public final Uri mUri;
+    public final ArrayList<zza> zzfrk;
+    
+    public ImageReceiver(Uri paramUri)
+    {
+      super();
+      mUri = paramUri;
+      zzfrk = new ArrayList();
+    }
+    
+    public final void onReceiveResult(int paramInt, Bundle paramBundle)
+    {
+      paramBundle = (ParcelFileDescriptor)paramBundle.getParcelable("com.google.android.gms.extra.fileDescriptor");
+      ImageManager.zzf(ImageManager.this).execute(new ImageManager.zzb(ImageManager.this, mUri, paramBundle));
+    }
+    
+    public final void zzaiz()
+    {
+      Intent localIntent = new Intent("com.google.android.gms.common.images.LOAD_IMAGE");
+      localIntent.putExtra("com.google.android.gms.extras.uri", mUri);
+      localIntent.putExtra("com.google.android.gms.extras.resultReceiver", this);
+      localIntent.putExtra("com.google.android.gms.extras.priority", 3);
+      ImageManager.zzb(ImageManager.this).sendBroadcast(localIntent);
+    }
+    
+    public final void zzb(zza paramZza)
+    {
+      com.google.android.gms.common.internal.zzc.zzfy("ImageReceiver.addImageRequest() must be called in the main thread");
+      zzfrk.add(paramZza);
+    }
+    
+    public final void zzc(zza paramZza)
+    {
+      com.google.android.gms.common.internal.zzc.zzfy("ImageReceiver.removeImageRequest() must be called in the main thread");
+      zzfrk.remove(paramZza);
+    }
+  }
+  
+  public static abstract interface OnImageLoadedListener
+  {
+    public abstract void onImageLoaded(Uri paramUri, Drawable paramDrawable, boolean paramBoolean);
+  }
+  
+  public static final class zza
+    extends m<zzb, Bitmap>
+  {}
+  
+  public final class zzb
+    implements Runnable
+  {
+    public final Uri mUri;
+    public final ParcelFileDescriptor zzfrm;
+    
+    public zzb(Uri paramUri, ParcelFileDescriptor paramParcelFileDescriptor)
+    {
+      mUri = paramUri;
+      zzfrm = paramParcelFileDescriptor;
+    }
+    
+    public final void run()
+    {
+      if (Looper.getMainLooper().getThread() != Thread.currentThread())
+      {
+        bool = false;
+        localObject1 = null;
+        localObject2 = zzfrm;
+        if (localObject2 == null) {}
+      }
+      try
+      {
+        localObject2 = BitmapFactory.decodeFileDescriptor(((ParcelFileDescriptor)localObject2).getFileDescriptor());
+        localObject1 = localObject2;
+      }
+      catch (OutOfMemoryError localOutOfMemoryError)
+      {
+        try
+        {
+          zzfrm.close();
+          break label107;
+          localObject1 = null;
+          bool = false;
+          localObject2 = new CountDownLatch(1);
+          ImageManager.zzg(ImageManager.this).post(new ImageManager.zzd(ImageManager.this, mUri, (Bitmap)localObject1, bool, (CountDownLatch)localObject2));
+          try
+          {
+            ((CountDownLatch)localObject2).await();
+            return;
+          }
+          catch (InterruptedException localInterruptedException)
+          {
+            int i;
+            for (;;) {}
+          }
+          localObject1 = String.valueOf(mUri);
+          localObject2 = new StringBuilder(((String)localObject1).length() + 32);
+          ((StringBuilder)localObject2).append("Latch interrupted while posting ");
+          ((StringBuilder)localObject2).append((String)localObject1);
+          ((StringBuilder)localObject2).toString();
+          return;
+          localObject1 = String.valueOf(Thread.currentThread());
+          localObject2 = String.valueOf(Looper.getMainLooper().getThread());
+          i = ((String)localObject1).length();
+          StringBuilder localStringBuilder = new StringBuilder(((String)localObject2).length() + (i + 56));
+          localStringBuilder.append("checkNotMainThread: current thread ");
+          localStringBuilder.append((String)localObject1);
+          localStringBuilder.append(" IS the main thread ");
+          localStringBuilder.append((String)localObject2);
+          localStringBuilder.append("!");
+          localStringBuilder.toString();
+          throw new IllegalStateException("LoadBitmapFromDiskRunnable can't be executed in the main thread");
+          localOutOfMemoryError = localOutOfMemoryError;
+        }
+        catch (IOException localIOException)
+        {
+          for (;;) {}
+        }
+      }
+      localObject2 = String.valueOf(mUri);
+      localStringBuilder = new StringBuilder(((String)localObject2).length() + 34);
+      localStringBuilder.append("OOM while loading bitmap for uri: ");
+      localStringBuilder.append((String)localObject2);
+      localStringBuilder.toString();
+      bool = true;
+    }
+  }
+  
+  public final class zzc
+    implements Runnable
+  {
+    public final zza zzfrn;
+    
+    public zzc(zza paramZza)
+    {
+      zzfrn = paramZza;
+    }
+    
+    public final void run()
+    {
+      com.google.android.gms.common.internal.zzc.zzfy("LoadImageRunnable must be executed on the main thread");
+      Object localObject1 = (ImageManager.ImageReceiver)ImageManager.zza(ImageManager.this).get(zzfrn);
+      if (localObject1 != null)
+      {
+        ImageManager.zza(ImageManager.this).remove(zzfrn);
+        ((ImageManager.ImageReceiver)localObject1).zzc(zzfrn);
+      }
+      localObject1 = zzfrn;
+      zzb localZzb = zzfrp;
+      if (uri == null)
+      {
+        ((zza)localObject1).zza(ImageManager.zzb(ImageManager.this), ImageManager.zzc(ImageManager.this), true);
+        return;
+      }
+      localObject1 = ImageManager.zza(ImageManager.this, localZzb);
+      if (localObject1 != null)
+      {
+        zzfrn.zza(ImageManager.zzb(ImageManager.this), (Bitmap)localObject1, true);
+        return;
+      }
+      localObject1 = (Long)ImageManager.zzd(ImageManager.this).get(uri);
+      if (localObject1 != null)
+      {
+        if (SystemClock.elapsedRealtime() - ((Long)localObject1).longValue() < 3600000L)
+        {
+          zzfrn.zza(ImageManager.zzb(ImageManager.this), ImageManager.zzc(ImageManager.this), true);
+          return;
+        }
+        ImageManager.zzd(ImageManager.this).remove(uri);
+      }
+      zzfrn.zza(ImageManager.zzb(ImageManager.this), ImageManager.zzc(ImageManager.this));
+      ??? = (ImageManager.ImageReceiver)ImageManager.zze(ImageManager.this).get(uri);
+      localObject1 = ???;
+      if (??? == null)
+      {
+        localObject1 = new ImageManager.ImageReceiver(ImageManager.this, uri);
+        ImageManager.zze(ImageManager.this).put(uri, localObject1);
+      }
+      ((ImageManager.ImageReceiver)localObject1).zzb(zzfrn);
+      if (!(zzfrn instanceof zzd)) {
+        ImageManager.zza(ImageManager.this).put(zzfrn, localObject1);
+      }
+      synchronized (ImageManager.zzfrb)
+      {
+        if (!ImageManager.zzfrc.contains(uri))
+        {
+          ImageManager.zzfrc.add(uri);
+          ((ImageManager.ImageReceiver)localObject1).zzaiz();
+        }
+        return;
+      }
+    }
+  }
+  
+  public final class zzd
+    implements Runnable
+  {
+    public final Bitmap mBitmap;
+    public final Uri mUri;
+    public final CountDownLatch zzaof;
+    public boolean zzfro;
+    
+    public zzd(Uri paramUri, Bitmap paramBitmap, boolean paramBoolean, CountDownLatch paramCountDownLatch)
+    {
+      mUri = paramUri;
+      mBitmap = paramBitmap;
+      zzfro = paramBoolean;
+      zzaof = paramCountDownLatch;
+    }
+    
+    public final void run()
+    {
+      com.google.android.gms.common.internal.zzc.zzfy("OnBitmapLoadedRunnable must be executed in the main thread");
+      int i;
+      if (mBitmap != null) {
+        i = 1;
+      } else {
+        i = 0;
+      }
+      if (ImageManager.zzh(ImageManager.this) != null)
+      {
+        if (zzfro)
+        {
+          ImageManager.zzh(ImageManager.this).evictAll();
+          System.gc();
+          zzfro = false;
+          ImageManager.zzg(ImageManager.this).post(this);
+          return;
+        }
+        if (i != 0) {
+          ImageManager.zzh(ImageManager.this).put(new zzb(mUri), mBitmap);
+        }
+      }
+      ??? = (ImageManager.ImageReceiver)ImageManager.zze(ImageManager.this).remove(mUri);
+      if (??? != null)
+      {
+        ??? = ImageManager.ImageReceiver.zza((ImageManager.ImageReceiver)???);
+        int k = ((ArrayList)???).size();
+        int j = 0;
+        while (j < k)
+        {
+          zza localZza = (zza)((ArrayList)???).get(j);
+          if (i != 0)
+          {
+            localZza.zza(ImageManager.zzb(ImageManager.this), mBitmap, false);
+          }
+          else
+          {
+            ImageManager.zzd(ImageManager.this).put(mUri, Long.valueOf(SystemClock.elapsedRealtime()));
+            localZza.zza(ImageManager.zzb(ImageManager.this), ImageManager.zzc(ImageManager.this), false);
+          }
+          if (!(localZza instanceof zzd)) {
+            ImageManager.zza(ImageManager.this).remove(localZza);
+          }
+          j += 1;
+        }
+      }
+      zzaof.countDown();
+      synchronized (ImageManager.zzfrb)
+      {
+        ImageManager.zzfrc.remove(mUri);
+        return;
+      }
+      for (;;)
+      {
+        throw localObject2;
+      }
+    }
+  }
+}

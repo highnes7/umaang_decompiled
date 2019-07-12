@@ -1,0 +1,91 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.os.Handler;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+
+public abstract class zzanx
+{
+  public static volatile Handler zzdqs;
+  public final zzamu zzdod;
+  public volatile long zzdqt;
+  public final Runnable zzv;
+  
+  public zzanx(zzamu paramZzamu)
+  {
+    zzbp.zzu(paramZzamu);
+    zzdod = paramZzamu;
+    zzv = new zzany(this);
+  }
+  
+  private final Handler getHandler()
+  {
+    if (zzdqs != null) {
+      return zzdqs;
+    }
+    try
+    {
+      if (zzdqs == null) {
+        zzdqs = new Handler(zzdod.getContext().getMainLooper());
+      }
+      Handler localHandler = zzdqs;
+      return localHandler;
+    }
+    finally {}
+  }
+  
+  public final void cancel()
+  {
+    zzdqt = 0L;
+    getHandler().removeCallbacks(zzv);
+  }
+  
+  public abstract void run();
+  
+  public final boolean zzdp()
+  {
+    return zzdqt != 0L;
+  }
+  
+  public final void zzs(long paramLong)
+  {
+    cancel();
+    if (paramLong >= 0L)
+    {
+      zzdqt = zzdod.zzvx().currentTimeMillis();
+      if (!getHandler().postDelayed(zzv, paramLong)) {
+        zzdod.zzvy().zze("Failed to schedule delayed post. time", Long.valueOf(paramLong));
+      }
+    }
+  }
+  
+  public final void zzt(long paramLong)
+  {
+    if (!zzdp()) {
+      return;
+    }
+    if (paramLong < 0L)
+    {
+      cancel();
+      return;
+    }
+    long l = paramLong - Math.abs(zzdod.zzvx().currentTimeMillis() - zzdqt);
+    paramLong = l;
+    if (l < 0L) {
+      paramLong = 0L;
+    }
+    getHandler().removeCallbacks(zzv);
+    if (!getHandler().postDelayed(zzv, paramLong)) {
+      zzdod.zzvy().zze("Failed to adjust delayed post. time", Long.valueOf(paramLong));
+    }
+  }
+  
+  public final long zzyg()
+  {
+    if (zzdqt == 0L) {
+      return 0L;
+    }
+    return Math.abs(zzdod.zzvx().currentTimeMillis() - zzdqt);
+  }
+}

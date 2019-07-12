@@ -1,0 +1,108 @@
+package com.coremedia.iso.boxes.sampleentry;
+
+import f.b.a.d;
+import f.b.a.h;
+import f.b.a.j;
+import f.h.a.b;
+import f.h.a.e;
+import f.h.a.f;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.WritableByteChannel;
+
+public class SubtitleSampleEntry
+  extends AbstractSampleEntry
+{
+  public static final String TYPE1 = "stpp";
+  public String imageMimeType = "";
+  public String namespace = "";
+  public String schemaLocation = "";
+  
+  public SubtitleSampleEntry()
+  {
+    super("stpp");
+  }
+  
+  public void getBox(WritableByteChannel paramWritableByteChannel)
+    throws IOException
+  {
+    paramWritableByteChannel.write(getHeader());
+    int i = namespace.length();
+    int j = schemaLocation.length();
+    ByteBuffer localByteBuffer = ByteBuffer.allocate(imageMimeType.length() + (j + (i + 8)) + 3);
+    localByteBuffer.position(6);
+    j.a(localByteBuffer, dataReferenceIndex);
+    j.d(localByteBuffer, namespace);
+    j.d(localByteBuffer, schemaLocation);
+    j.d(localByteBuffer, imageMimeType);
+    paramWritableByteChannel.write((ByteBuffer)localByteBuffer.rewind());
+    writeContainer(paramWritableByteChannel);
+  }
+  
+  public String getImageMimeType()
+  {
+    return imageMimeType;
+  }
+  
+  public String getNamespace()
+  {
+    return namespace;
+  }
+  
+  public String getSchemaLocation()
+  {
+    return schemaLocation;
+  }
+  
+  public long getSize()
+  {
+    long l = getContainerSize();
+    int j = namespace.length();
+    int i = 8;
+    int k = schemaLocation.length();
+    l += imageMimeType.length() + (k + (j + 8)) + 3;
+    if ((largeBox) || (8L + l >= 4294967296L)) {
+      i = 16;
+    }
+    return l + i;
+  }
+  
+  public void parse(f paramF, ByteBuffer paramByteBuffer, long paramLong, d paramD)
+    throws IOException
+  {
+    ByteBuffer localByteBuffer = ByteBuffer.allocate(8);
+    paramF.read((ByteBuffer)localByteBuffer.rewind());
+    localByteBuffer.position(6);
+    dataReferenceIndex = h.g(localByteBuffer);
+    long l = paramF.position();
+    localByteBuffer = ByteBuffer.allocate(1024);
+    paramF.read((ByteBuffer)localByteBuffer.rewind());
+    namespace = h.f((ByteBuffer)localByteBuffer.rewind());
+    paramF.position(namespace.length() + l + 1L);
+    paramF.read((ByteBuffer)localByteBuffer.rewind());
+    schemaLocation = h.f((ByteBuffer)localByteBuffer.rewind());
+    paramF.position(namespace.length() + l + schemaLocation.length() + 2L);
+    paramF.read((ByteBuffer)localByteBuffer.rewind());
+    imageMimeType = h.f((ByteBuffer)localByteBuffer.rewind());
+    paramF.position(l + namespace.length() + schemaLocation.length() + imageMimeType.length() + 3L);
+    int i = paramByteBuffer.remaining();
+    int j = namespace.length();
+    int k = schemaLocation.length();
+    parseContainer(paramF, paramLong - (imageMimeType.length() + (k + (j + i)) + 3), paramD);
+  }
+  
+  public void setImageMimeType(String paramString)
+  {
+    imageMimeType = paramString;
+  }
+  
+  public void setNamespace(String paramString)
+  {
+    namespace = paramString;
+  }
+  
+  public void setSchemaLocation(String paramString)
+  {
+    schemaLocation = paramString;
+  }
+}

@@ -1,0 +1,60 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Handler;
+import android.os.Looper;
+import b.b.a.F;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzcj<L>
+{
+  public volatile L mListener;
+  public final zzck zzfou;
+  public final zzcl<L> zzfov;
+  
+  public zzcj(@F Looper paramLooper, @F L paramL, @F String paramString)
+  {
+    zzfou = new zzck(this, paramLooper);
+    zzbp.zzb(paramL, "Listener must not be null");
+    mListener = paramL;
+    zzbp.zzgg(paramString);
+    zzfov = new zzcl(paramL, paramString);
+  }
+  
+  public final void clear()
+  {
+    mListener = null;
+  }
+  
+  public final void zza(zzcm<? super L> paramZzcm)
+  {
+    zzbp.zzb(paramZzcm, "Notifier must not be null");
+    paramZzcm = zzfou.obtainMessage(1, paramZzcm);
+    zzfou.sendMessage(paramZzcm);
+  }
+  
+  @F
+  public final zzcl<L> zzaik()
+  {
+    return zzfov;
+  }
+  
+  public final void zzb(zzcm<? super L> paramZzcm)
+  {
+    Object localObject = mListener;
+    if (localObject == null)
+    {
+      paramZzcm.zzagx();
+      return;
+    }
+    try
+    {
+      paramZzcm.zzq(localObject);
+      return;
+    }
+    catch (RuntimeException localRuntimeException)
+    {
+      paramZzcm.zzagx();
+      throw localRuntimeException;
+    }
+  }
+}

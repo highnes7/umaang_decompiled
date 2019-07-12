@@ -1,0 +1,59 @@
+package b.b.x.p;
+
+import android.os.Build.VERSION;
+import android.view.View;
+import android.widget.ListView;
+import b.b.a.F;
+
+public class w
+  extends a
+{
+  public final ListView I;
+  
+  public w(@F ListView paramListView)
+  {
+    super(paramListView);
+    I = paramListView;
+  }
+  
+  public void a(int paramInt1, int paramInt2)
+  {
+    ListView localListView = I;
+    paramInt1 = Build.VERSION.SDK_INT;
+    localListView.scrollListBy(paramInt2);
+  }
+  
+  public boolean a(int paramInt)
+  {
+    return false;
+  }
+  
+  public boolean b(int paramInt)
+  {
+    ListView localListView = I;
+    int i = localListView.getCount();
+    if (i == 0) {
+      return false;
+    }
+    int j = localListView.getChildCount();
+    int k = localListView.getFirstVisiblePosition();
+    if (paramInt > 0)
+    {
+      if ((k + j >= i) && (localListView.getChildAt(j - 1).getBottom() <= localListView.getHeight())) {
+        return false;
+      }
+    }
+    else
+    {
+      if (paramInt >= 0) {
+        break label89;
+      }
+      if ((k <= 0) && (localListView.getChildAt(0).getTop() >= 0)) {
+        return false;
+      }
+    }
+    return true;
+    label89:
+    return false;
+  }
+}

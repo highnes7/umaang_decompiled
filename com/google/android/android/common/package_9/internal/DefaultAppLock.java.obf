@@ -1,0 +1,136 @@
+package com.google.android.gms.common.api.internal;
+
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.Application;
+import android.app.Application.ActivityLifecycleCallbacks;
+import android.content.ComponentCallbacks2;
+import android.content.res.Configuration;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public final class zzk
+  implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2
+{
+  public static final zzk zzfis = new zzk();
+  public final ArrayList<zzl> mListeners = new ArrayList();
+  public boolean zzdoe = false;
+  public final AtomicBoolean zzfit = new AtomicBoolean();
+  public final AtomicBoolean zzfiu = new AtomicBoolean();
+  
+  public zzk() {}
+  
+  public static void zza(Application paramApplication)
+  {
+    synchronized (zzfis)
+    {
+      if (!zzfiszzdoe)
+      {
+        paramApplication.registerActivityLifecycleCallbacks(zzfis);
+        paramApplication.registerComponentCallbacks(zzfis);
+        zzfiszzdoe = true;
+      }
+      return;
+    }
+  }
+  
+  public static zzk zzafz()
+  {
+    return zzfis;
+  }
+  
+  private final void zzbe(boolean paramBoolean)
+  {
+    synchronized (zzfis)
+    {
+      ArrayList localArrayList = mListeners;
+      int j = localArrayList.size();
+      int i = 0;
+      while (i < j)
+      {
+        Object localObject2 = localArrayList.get(i);
+        i += 1;
+        ((zzl)localObject2).zzbe(paramBoolean);
+      }
+      return;
+    }
+    for (;;)
+    {
+      throw localObject1;
+    }
+  }
+  
+  public final void onActivityCreated(Activity paramActivity, Bundle paramBundle)
+  {
+    boolean bool = zzfit.compareAndSet(true, false);
+    zzfiu.set(true);
+    if (bool) {
+      zzbe(false);
+    }
+  }
+  
+  public final void onActivityDestroyed(Activity paramActivity) {}
+  
+  public final void onActivityPaused(Activity paramActivity) {}
+  
+  public final void onActivityResumed(Activity paramActivity)
+  {
+    boolean bool = zzfit.compareAndSet(true, false);
+    zzfiu.set(true);
+    if (bool) {
+      zzbe(false);
+    }
+  }
+  
+  public final void onActivitySaveInstanceState(Activity paramActivity, Bundle paramBundle) {}
+  
+  public final void onActivityStarted(Activity paramActivity) {}
+  
+  public final void onActivityStopped(Activity paramActivity) {}
+  
+  public final void onConfigurationChanged(Configuration paramConfiguration) {}
+  
+  public final void onLowMemory() {}
+  
+  public final void onTrimMemory(int paramInt)
+  {
+    if ((paramInt == 20) && (zzfit.compareAndSet(false, true)))
+    {
+      zzfiu.set(true);
+      zzbe(true);
+    }
+  }
+  
+  public final void zza(zzl paramZzl)
+  {
+    synchronized (zzfis)
+    {
+      mListeners.add(paramZzl);
+      return;
+    }
+  }
+  
+  public final boolean zzaga()
+  {
+    return zzfit.get();
+  }
+  
+  @TargetApi(16)
+  public final boolean zzbd(boolean paramBoolean)
+  {
+    if (!zzfiu.get())
+    {
+      int i = Build.VERSION.SDK_INT;
+      ActivityManager.RunningAppProcessInfo localRunningAppProcessInfo = new ActivityManager.RunningAppProcessInfo();
+      ActivityManager.getMyMemoryState(localRunningAppProcessInfo);
+      if ((!zzfiu.getAndSet(true)) && (importance > 100)) {
+        zzfit.set(true);
+      }
+    }
+    return zzfit.get();
+  }
+}

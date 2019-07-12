@@ -1,0 +1,38 @@
+package com.google.android.gms.location;
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
+import b.b.a.F;
+import b.b.a.M;
+import com.google.android.gms.common.api.Api.ApiOptions.NoOptions;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.internal.zzg;
+import com.google.android.gms.common.internal.zzbi;
+import com.google.android.gms.tasks.Task;
+
+public class ActivityRecognitionClient
+  extends GoogleApi<Api.ApiOptions.NoOptions>
+{
+  public ActivityRecognitionClient(@F Activity paramActivity)
+  {
+    super(paramActivity, LocationServices.API, null, new zzg());
+  }
+  
+  public ActivityRecognitionClient(@F Context paramContext)
+  {
+    super(paramContext, LocationServices.API, null, new zzg());
+  }
+  
+  @M("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
+  public Task<Void> removeActivityUpdates(PendingIntent paramPendingIntent)
+  {
+    return zzbi.zzb(ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(zzafl(), paramPendingIntent));
+  }
+  
+  @M("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
+  public Task<Void> requestActivityUpdates(long paramLong, PendingIntent paramPendingIntent)
+  {
+    return zzbi.zzb(ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(zzafl(), paramLong, paramPendingIntent));
+  }
+}

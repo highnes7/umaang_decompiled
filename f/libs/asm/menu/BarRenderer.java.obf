@@ -1,0 +1,38 @@
+package f.c.a.c;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public final class Ka
+{
+  public static final Pattern a = Pattern.compile("\\s*(\\p{XDigit}+)-\\s*(\\p{XDigit}+)\\s+(.{4})\\s+\\p{XDigit}+\\s+.+\\s+\\d+\\s+(.*)");
+  
+  public Ka() {}
+  
+  public static Ja a(String paramString)
+  {
+    Object localObject = a.matcher(paramString);
+    if (!((Matcher)localObject).matches()) {
+      return null;
+    }
+    try
+    {
+      long l = Long.valueOf(((Matcher)localObject).group(1), 16).longValue();
+      localObject = new Ja(l, Long.valueOf(((Matcher)localObject).group(2), 16).longValue() - l, ((Matcher)localObject).group(3), ((Matcher)localObject).group(4));
+      return localObject;
+    }
+    catch (Exception localException)
+    {
+      StringBuilder localStringBuilder;
+      for (;;) {}
+    }
+    localObject = g.h();
+    localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Could not parse map entry: ");
+    localStringBuilder.append(paramString);
+    ((q)localObject).d("CrashlyticsCore", localStringBuilder.toString());
+    return null;
+  }
+}

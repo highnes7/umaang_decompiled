@@ -1,0 +1,148 @@
+package f.c.a.c;
+
+import f.a.a.a.a;
+import java.io.File;
+import java.io.IOException;
+import java.util.Locale;
+import l.a.a.a.a.b.C;
+import l.a.a.a.a.b.l;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class Ma
+  implements va
+{
+  public final File a;
+  public final int b;
+  public C c;
+  
+  public Ma(File paramFile, int paramInt)
+  {
+    a = paramFile;
+    b = paramInt;
+  }
+  
+  private void b(long paramLong, String paramString)
+  {
+    if (c == null) {
+      return;
+    }
+    String str = paramString;
+    if (paramString == null) {
+      str = "null";
+    }
+    try
+    {
+      int i = b / 4;
+      paramString = str;
+      if (str.length() > i)
+      {
+        paramString = new StringBuilder();
+        paramString.append("...");
+        paramString.append(str.substring(str.length() - i));
+        paramString = paramString.toString();
+      }
+      paramString = paramString.replaceAll("\r", " ").replaceAll("\n", " ");
+      paramString = String.format(Locale.US, "%d %s%n", new Object[] { Long.valueOf(paramLong), paramString }).getBytes("UTF-8");
+      c.a(paramString);
+      while ((!c.v()) && (c.y() > b)) {
+        c.x();
+      }
+      return;
+    }
+    catch (IOException paramString)
+    {
+      g.h().c("CrashlyticsCore", "There was a problem writing to the Crashlytics log.", paramString);
+    }
+  }
+  
+  private a e()
+  {
+    if (!a.exists()) {
+      return null;
+    }
+    f();
+    Object localObject = c;
+    if (localObject == null) {
+      return null;
+    }
+    int[] arrayOfInt = new int[1];
+    arrayOfInt[0] = 0;
+    localObject = new byte[((C)localObject).y()];
+    try
+    {
+      c.a(new La(this, (byte[])localObject, arrayOfInt));
+    }
+    catch (IOException localIOException)
+    {
+      g.h().c("CrashlyticsCore", "A problem occurred while reading the Crashlytics log file.", localIOException);
+    }
+    return new a((byte[])localObject, arrayOfInt[0]);
+  }
+  
+  private void f()
+  {
+    if (c == null) {
+      try
+      {
+        c = new C(a);
+        return;
+      }
+      catch (IOException localIOException)
+      {
+        q localQ = g.h();
+        StringBuilder localStringBuilder = a.b("Could not open log file: ");
+        localStringBuilder.append(a);
+        localQ.c("CrashlyticsCore", localStringBuilder.toString(), localIOException);
+      }
+    }
+  }
+  
+  public void a()
+  {
+    l.a(c, "There was a problem closing the Crashlytics log file.");
+    c = null;
+  }
+  
+  public void a(long paramLong, String paramString)
+  {
+    f();
+    b(paramLong, paramString);
+  }
+  
+  public f b()
+  {
+    a localA = e();
+    if (localA == null) {
+      return null;
+    }
+    return f.a(a, 0, b);
+  }
+  
+  public byte[] c()
+  {
+    a localA = e();
+    if (localA == null) {
+      return null;
+    }
+    return a;
+  }
+  
+  public void d()
+  {
+    a();
+    a.delete();
+  }
+  
+  public class a
+  {
+    public final byte[] a;
+    public final int b;
+    
+    public a(byte[] paramArrayOfByte, int paramInt)
+    {
+      a = paramArrayOfByte;
+      b = paramInt;
+    }
+  }
+}

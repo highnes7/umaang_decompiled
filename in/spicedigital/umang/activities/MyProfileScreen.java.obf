@@ -1,0 +1,233 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap.Config;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import de.hdodenhof.circleimageview.CircleImageView;
+import f.l.a.b.d;
+import f.l.a.b.d.a;
+import f.l.a.b.f;
+import k.a.a.a.Hl;
+import k.a.a.a.Il;
+import k.a.a.a.Jl;
+import k.a.a.a.Kl;
+import k.a.a.a.Ll;
+import k.a.a.c.W;
+import k.a.a.m.Ea;
+import k.a.a.m.V;
+import k.a.a.m.Wa;
+
+public class MyProfileScreen
+  extends BaseActivity
+{
+  public Toolbar b;
+  public View c;
+  public TextView d;
+  public LinearLayout e;
+  public LinearLayout f;
+  public LinearLayout g;
+  public LinearLayout h;
+  public ImageView i;
+  public CircleImageView j;
+  public TextView k;
+  public TextView l;
+  public TextView m;
+  public ImageView n;
+  public f o;
+  public d p;
+  public V q;
+  public View r;
+  public f.l.a.b.f.a s = new Ll(this);
+  
+  public MyProfileScreen() {}
+  
+  private void e()
+  {
+    try
+    {
+      Object localObject = new Wa(this);
+      W localW = ((Wa)localObject).i();
+      if (((Wa)localObject).c() != null) {
+        n.setVisibility(0);
+      } else {
+        n.setVisibility(8);
+      }
+      int i1 = localW.u().length();
+      if (i1 > 0)
+      {
+        k.setText(localW.u());
+        k.setVisibility(0);
+      }
+      else
+      {
+        k.setVisibility(0);
+        l.setVisibility(0);
+        k.setText("");
+        l.setText("");
+      }
+      if ((localW.p().length() > 0) && (localW.r().length() > 0))
+      {
+        localObject = l;
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(Ea.a(localW.p()));
+        localStringBuilder.append(", ");
+        localStringBuilder.append(localW.r());
+        ((TextView)localObject).setText(localStringBuilder.toString());
+        l.setVisibility(0);
+      }
+      else if (localW.r().length() > 0)
+      {
+        l.setText(localW.r());
+        l.setVisibility(0);
+      }
+      else if (localW.p().length() > 0)
+      {
+        l.setText(Ea.a(localW.p()));
+      }
+      else
+      {
+        l.setText("");
+        l.setVisibility(0);
+      }
+      if (localW.g().length() > 0) {
+        m.setText(localW.g());
+      } else {
+        m.setText("");
+      }
+      j.setVisibility(8);
+      if (localW.s().equalsIgnoreCase("M"))
+      {
+        j.setVisibility(0);
+        j.setImageResource(2131231235);
+      }
+      else if (localW.s().equalsIgnoreCase("F"))
+      {
+        j.setVisibility(0);
+        j.setImageResource(2131231042);
+      }
+      else if (localW.s().equalsIgnoreCase("T"))
+      {
+        j.setVisibility(0);
+        j.setImageResource(2131231690);
+      }
+      else
+      {
+        j.setVisibility(0);
+        j.setImageResource(2131231690);
+      }
+      if (localW.v().length() > 0)
+      {
+        o.a(localW.v(), j, p, s);
+        return;
+      }
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      k.setVisibility(8);
+      j.setVisibility(0);
+      j.setImageResource(2131231690);
+      l.setVisibility(8);
+      m.setVisibility(8);
+    }
+  }
+  
+  public void onCreate(Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131493156);
+    Ea.a(this, "MyProfile Screen");
+    q = new V(this);
+    o = f.g();
+    p = f.a.a.a.a.a(true, true).a(Bitmap.Config.RGB_565).a();
+    b = ((Toolbar)findViewById(2131297768));
+    f.a.a.a.a.a(this, b, true);
+    c = b.getRootView();
+    d = ((TextView)c.findViewById(2131297758));
+    f.a.a.a.a.a(this, 2131755971, d);
+    try
+    {
+      paramBundle = getIntent().getStringExtra("notifId");
+      if (paramBundle != null)
+      {
+        k.a.a.e.b.a(this).E(paramBundle);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      k.a.a.m.b.a(paramBundle);
+    }
+    j = ((CircleImageView)findViewById(2131297306));
+    k = ((TextView)findViewById(2131297157));
+    l = ((TextView)findViewById(2131297982));
+    m = ((TextView)findViewById(2131297984));
+    e = ((LinearLayout)findViewById(2131296833));
+    f = ((LinearLayout)findViewById(2131297592));
+    g = ((LinearLayout)findViewById(2131296969));
+    h = ((LinearLayout)findViewById(2131296967));
+    n = ((ImageView)findViewById(2131296921));
+    n.setVisibility(8);
+    r = findViewById(2131296281);
+    if (q.a(V.P, "remove").equalsIgnoreCase("remove"))
+    {
+      h.setVisibility(8);
+      r.setVisibility(8);
+    }
+    else
+    {
+      h.setVisibility(0);
+      r.setVisibility(0);
+    }
+    e.setOnClickListener(new Hl(this));
+    f.setOnClickListener(new Il(this));
+    g.setOnClickListener(new Jl(this));
+    h.setOnClickListener(new Kl(this));
+  }
+  
+  public void onNewIntent(Intent paramIntent)
+  {
+    super.onNewIntent(paramIntent);
+    setIntent(paramIntent);
+    try
+    {
+      paramIntent = getIntent().getStringExtra("notifId");
+      if (paramIntent != null)
+      {
+        k.a.a.e.b.a(this).E(paramIntent);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+        return;
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      onBackPressed();
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    e();
+  }
+}

@@ -1,0 +1,171 @@
+package com.google.android.gms.internal;
+
+import android.os.Looper;
+import com.google.android.gms.common.internal.zzbp;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+
+public final class zzccr
+  extends zzcdu
+{
+  public static final AtomicLong zzisk = new AtomicLong(Long.MIN_VALUE);
+  public ExecutorService zzisa;
+  public zzccv zzisb;
+  public zzccv zzisc;
+  public final PriorityBlockingQueue<FutureTask<?>> zzisd = new PriorityBlockingQueue();
+  public final BlockingQueue<FutureTask<?>> zzise = new LinkedBlockingQueue();
+  public final Thread.UncaughtExceptionHandler zzisf = new zzcct(this, "Thread death: Uncaught exception on worker thread");
+  public final Thread.UncaughtExceptionHandler zzisg = new zzcct(this, "Thread death: Uncaught exception on network thread");
+  public final Object zzish = new Object();
+  public final Semaphore zzisi = new Semaphore(2);
+  public volatile boolean zzisj;
+  
+  public zzccr(zzccw paramZzccw)
+  {
+    super(paramZzccw);
+  }
+  
+  private final void zza(zzccu<?> paramZzccu)
+  {
+    synchronized (zzish)
+    {
+      zzisd.add(paramZzccu);
+      if (zzisb == null)
+      {
+        zzisb = new zzccv(this, "Measurement Worker", zzisd);
+        zzisb.setUncaughtExceptionHandler(zzisf);
+        zzisb.start();
+      }
+      else
+      {
+        zzisb.zzml();
+      }
+      return;
+    }
+  }
+  
+  public static boolean zzaq()
+  {
+    return Looper.myLooper() == Looper.getMainLooper();
+  }
+  
+  public final void zzatu()
+  {
+    zzccw.zzatu();
+    throw null;
+  }
+  
+  public final void zzatv()
+  {
+    zzcax.zzawk();
+  }
+  
+  public final void zzatw()
+  {
+    if (Thread.currentThread() == zzisc) {
+      return;
+    }
+    throw new IllegalStateException("Call expected from network thread");
+  }
+  
+  public final boolean zzays()
+  {
+    return Thread.currentThread() == zzisb;
+  }
+  
+  public final ExecutorService zzayt()
+  {
+    synchronized (zzish)
+    {
+      if (zzisa == null) {
+        zzisa = new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new ArrayBlockingQueue(100));
+      }
+      ExecutorService localExecutorService = zzisa;
+      return localExecutorService;
+    }
+  }
+  
+  public final <V> Future<V> zzd(Callable<V> paramCallable)
+    throws IllegalStateException
+  {
+    zzwk();
+    zzbp.zzu(paramCallable);
+    paramCallable = new zzccu(this, paramCallable, false, "Task exception on worker thread");
+    if (Thread.currentThread() == zzisb)
+    {
+      if (!zzisd.isEmpty()) {
+        zzaul().zzayf().log("Callable skipped the worker queue.");
+      }
+      paramCallable.run();
+      return paramCallable;
+    }
+    zza(paramCallable);
+    return paramCallable;
+  }
+  
+  public final <V> Future<V> zze(Callable<V> paramCallable)
+    throws IllegalStateException
+  {
+    zzwk();
+    zzbp.zzu(paramCallable);
+    paramCallable = new zzccu(this, paramCallable, true, "Task exception on worker thread");
+    if (Thread.currentThread() == zzisb)
+    {
+      paramCallable.run();
+      return paramCallable;
+    }
+    zza(paramCallable);
+    return paramCallable;
+  }
+  
+  public final void zzg(Runnable paramRunnable)
+    throws IllegalStateException
+  {
+    zzwk();
+    zzbp.zzu(paramRunnable);
+    zza(new zzccu(this, paramRunnable, false, "Task exception on worker thread"));
+  }
+  
+  public final void zzh(Runnable arg1)
+    throws IllegalStateException
+  {
+    zzwk();
+    zzbp.zzu(???);
+    zzccu localZzccu = new zzccu(this, ???, false, "Task exception on network thread");
+    synchronized (zzish)
+    {
+      zzise.add(localZzccu);
+      if (zzisc == null)
+      {
+        zzisc = new zzccv(this, "Measurement Network", zzise);
+        zzisc.setUncaughtExceptionHandler(zzisg);
+        zzisc.start();
+      }
+      else
+      {
+        zzisc.zzml();
+      }
+      return;
+    }
+  }
+  
+  public final void zzuj()
+  {
+    if (Thread.currentThread() == zzisb) {
+      return;
+    }
+    throw new IllegalStateException("Call expected from worker thread");
+  }
+  
+  public final void zzuk() {}
+}

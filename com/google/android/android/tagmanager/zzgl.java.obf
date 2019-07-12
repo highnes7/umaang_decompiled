@@ -1,0 +1,677 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import com.google.android.gms.analytics.HitBuilders.HitBuilder;
+import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder;
+import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.analytics.ecommerce.Product;
+import com.google.android.gms.analytics.ecommerce.ProductAction;
+import com.google.android.gms.analytics.ecommerce.Promotion;
+import com.google.android.gms.internal.zzbd;
+import com.google.android.gms.internal.zzbe;
+import com.google.android.gms.internal.zzbp;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public final class zzgl
+  extends zzgi
+{
+  public static final String ID = zzbd.zzkr.toString();
+  public static final String zzjwq = zzbe.zzlx.toString();
+  public static final String zzjwr = zzbe.zzmi.toString();
+  public static final String zzjws = zzbe.zzpi.toString();
+  public static final String zzjwt = zzbe.zzpb.toString();
+  public static final String zzjwu = zzbe.zzpa.toString();
+  public static final String zzjwv = zzbe.zzmh.toString();
+  public static final String zzjww = zzbe.zzuq.toString();
+  public static final String zzjwx = zzbe.zzut.toString();
+  public static final String zzjwy = zzbe.zzuv.toString();
+  public static final List<String> zzjwz = Arrays.asList(new String[] { "detail", "checkout", "checkout_option", "click", "add", "remove", "purchase", "refund" });
+  public static final Pattern zzjxa = Pattern.compile("dimension(\\d+)");
+  public static final Pattern zzjxb = Pattern.compile("metric(\\d+)");
+  public static Map<String, String> zzjxc;
+  public static Map<String, String> zzjxd;
+  public final DataLayer zzjpa;
+  public final Set<String> zzjxe;
+  public final zzgg zzjxf;
+  
+  public zzgl(Context paramContext, DataLayer paramDataLayer)
+  {
+    this(paramContext, paramDataLayer, new zzgg(paramContext));
+  }
+  
+  public zzgl(Context paramContext, DataLayer paramDataLayer, zzgg paramZzgg)
+  {
+    super(ID, new String[0]);
+    zzjpa = paramDataLayer;
+    zzjxf = paramZzgg;
+    zzjxe = new HashSet();
+    zzjxe.add("");
+    zzjxe.add("0");
+    zzjxe.add("false");
+  }
+  
+  private final void zza(Tracker paramTracker, Map<String, zzbp> paramMap)
+  {
+    String str1 = zzmh("transactionId");
+    if (str1 == null)
+    {
+      zzdj.zzjss.e("Cannot find transactionId in data layer.");
+      return;
+    }
+    LinkedList localLinkedList = new LinkedList();
+    try
+    {
+      Object localObject2 = zzi((zzbp)paramMap.get(zzjwv));
+      ((Map)localObject2).put("&t", "transaction");
+      Object localObject1 = (zzbp)paramMap.get(zzjwx);
+      if (localObject1 != null)
+      {
+        localObject1 = zzh((zzbp)localObject1);
+      }
+      else
+      {
+        if (zzjxc == null)
+        {
+          localObject1 = new HashMap();
+          ((HashMap)localObject1).put("transactionId", "&ti");
+          ((HashMap)localObject1).put("transactionAffiliation", "&ta");
+          ((HashMap)localObject1).put("transactionTax", "&tt");
+          ((HashMap)localObject1).put("transactionShipping", "&ts");
+          ((HashMap)localObject1).put("transactionTotal", "&tr");
+          ((HashMap)localObject1).put("transactionCurrency", "&cu");
+          zzjxc = (Map)localObject1;
+        }
+        localObject1 = zzjxc;
+      }
+      localObject1 = ((Map)localObject1).entrySet().iterator();
+      Object localObject4;
+      Object localObject3;
+      while (((Iterator)localObject1).hasNext())
+      {
+        localObject4 = (Map.Entry)((Iterator)localObject1).next();
+        localObject3 = (String)((Map.Entry)localObject4).getValue();
+        localObject4 = zzmh((String)((Map.Entry)localObject4).getKey());
+        if (localObject4 != null) {
+          ((Map)localObject2).put(localObject3, localObject4);
+        }
+      }
+      localLinkedList.add(localObject2);
+      localObject1 = zzmi("transactionProducts");
+      if (localObject1 != null)
+      {
+        localObject2 = ((List)localObject1).iterator();
+        while (((Iterator)localObject2).hasNext())
+        {
+          localObject3 = (Map)((Iterator)localObject2).next();
+          if (((Map)localObject3).get("name") == null)
+          {
+            zzdj.zzjss.e("Unable to send transaction item hit due to missing 'name' field.");
+            return;
+          }
+          localObject4 = zzi((zzbp)paramMap.get(zzjwv));
+          ((Map)localObject4).put("&t", "item");
+          ((Map)localObject4).put("&ti", str1);
+          localObject1 = (zzbp)paramMap.get(zzjwy);
+          if (localObject1 != null)
+          {
+            localObject1 = zzh((zzbp)localObject1);
+          }
+          else
+          {
+            if (zzjxd == null)
+            {
+              localObject1 = new HashMap();
+              ((HashMap)localObject1).put("name", "&in");
+              ((HashMap)localObject1).put("sku", "&ic");
+              ((HashMap)localObject1).put("category", "&iv");
+              ((HashMap)localObject1).put("price", "&ip");
+              ((HashMap)localObject1).put("quantity", "&iq");
+              ((HashMap)localObject1).put("currency", "&cu");
+              zzjxd = (Map)localObject1;
+            }
+            localObject1 = zzjxd;
+          }
+          localObject1 = ((Map)localObject1).entrySet().iterator();
+          while (((Iterator)localObject1).hasNext())
+          {
+            Object localObject5 = (Map.Entry)((Iterator)localObject1).next();
+            String str2 = (String)((Map.Entry)localObject5).getValue();
+            localObject5 = (String)((Map)localObject3).get(((Map.Entry)localObject5).getKey());
+            if (localObject5 != null) {
+              ((Map)localObject4).put(str2, localObject5);
+            }
+          }
+          localLinkedList.add(localObject4);
+        }
+      }
+      paramMap = localLinkedList.iterator();
+      while (paramMap.hasNext()) {
+        paramTracker.send((Map)paramMap.next());
+      }
+      return;
+    }
+    catch (IllegalArgumentException paramTracker)
+    {
+      for (;;) {}
+    }
+    zzdj.zzjss.zzb("Unable to send transaction", paramTracker);
+  }
+  
+  public static Double zzal(Object paramObject)
+  {
+    if ((paramObject instanceof String)) {
+      try
+      {
+        paramObject = Double.valueOf((String)paramObject);
+        return paramObject;
+      }
+      catch (NumberFormatException paramObject)
+      {
+        paramObject = String.valueOf(paramObject.getMessage());
+        if (paramObject.length() != 0) {
+          paramObject = "Cannot convert the object to Double: ".concat(paramObject);
+        } else {
+          paramObject = new String("Cannot convert the object to Double: ");
+        }
+        throw new RuntimeException(paramObject);
+      }
+    }
+    if ((paramObject instanceof Integer)) {
+      return Double.valueOf(((Integer)paramObject).doubleValue());
+    }
+    if ((paramObject instanceof Double)) {
+      return (Double)paramObject;
+    }
+    paramObject = String.valueOf(paramObject.toString());
+    if (paramObject.length() != 0) {
+      paramObject = "Cannot convert the object to Double: ".concat(paramObject);
+    } else {
+      paramObject = new String("Cannot convert the object to Double: ");
+    }
+    throw new RuntimeException(paramObject);
+  }
+  
+  public static Integer zzam(Object paramObject)
+  {
+    if ((paramObject instanceof String)) {
+      try
+      {
+        paramObject = Integer.valueOf((String)paramObject);
+        return paramObject;
+      }
+      catch (NumberFormatException paramObject)
+      {
+        paramObject = String.valueOf(paramObject.getMessage());
+        if (paramObject.length() != 0) {
+          paramObject = "Cannot convert the object to Integer: ".concat(paramObject);
+        } else {
+          paramObject = new String("Cannot convert the object to Integer: ");
+        }
+        throw new RuntimeException(paramObject);
+      }
+    }
+    if ((paramObject instanceof Double)) {
+      return Integer.valueOf(((Double)paramObject).intValue());
+    }
+    if ((paramObject instanceof Integer)) {
+      return (Integer)paramObject;
+    }
+    paramObject = String.valueOf(paramObject.toString());
+    if (paramObject.length() != 0) {
+      paramObject = "Cannot convert the object to Integer: ".concat(paramObject);
+    } else {
+      paramObject = new String("Cannot convert the object to Integer: ");
+    }
+    throw new RuntimeException(paramObject);
+  }
+  
+  public static void zzd(Map<String, String> paramMap, String paramString1, String paramString2)
+  {
+    if (paramString2 != null) {
+      paramMap.put(paramString1, paramString2);
+    }
+  }
+  
+  public static boolean zzg(Map<String, zzbp> paramMap, String paramString)
+  {
+    paramMap = (zzbp)paramMap.get(paramString);
+    if (paramMap == null) {
+      return false;
+    }
+    return zzgk.zzf(paramMap).booleanValue();
+  }
+  
+  public static Map<String, String> zzh(zzbp paramZzbp)
+  {
+    paramZzbp = zzgk.zzg(paramZzbp);
+    if (!(paramZzbp instanceof Map)) {
+      return null;
+    }
+    Object localObject = (Map)paramZzbp;
+    paramZzbp = new LinkedHashMap();
+    localObject = ((Map)localObject).entrySet().iterator();
+    while (((Iterator)localObject).hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)((Iterator)localObject).next();
+      paramZzbp.put(localEntry.getKey().toString(), localEntry.getValue().toString());
+    }
+    return paramZzbp;
+  }
+  
+  private final Map<String, String> zzi(zzbp paramZzbp)
+  {
+    if (paramZzbp == null) {
+      return new HashMap();
+    }
+    paramZzbp = zzh(paramZzbp);
+    if (paramZzbp == null) {
+      return new HashMap();
+    }
+    String str = (String)paramZzbp.get("&aip");
+    if ((str != null) && (zzjxe.contains(str.toLowerCase()))) {
+      paramZzbp.remove("&aip");
+    }
+    return paramZzbp;
+  }
+  
+  private final String zzmh(String paramString)
+  {
+    paramString = zzjpa.get(paramString);
+    if (paramString == null) {
+      return null;
+    }
+    return paramString.toString();
+  }
+  
+  private final List<Map<String, String>> zzmi(String paramString)
+  {
+    paramString = zzjpa.get(paramString);
+    if (paramString == null) {
+      return null;
+    }
+    if ((paramString instanceof List))
+    {
+      paramString = (List)paramString;
+      Iterator localIterator = paramString.iterator();
+      while (localIterator.hasNext()) {
+        if (!(localIterator.next() instanceof Map)) {
+          throw new IllegalArgumentException("Each element of transactionProducts should be of type Map.");
+        }
+      }
+      return paramString;
+    }
+    paramString = new IllegalArgumentException("transactionProducts should be of type List.");
+    for (;;)
+    {
+      throw paramString;
+    }
+  }
+  
+  public static Product zzu(Map<String, Object> paramMap)
+  {
+    Product localProduct = new Product();
+    Object localObject1 = paramMap.get("id");
+    if (localObject1 != null) {
+      localProduct.setId(String.valueOf(localObject1));
+    }
+    localObject1 = paramMap.get("name");
+    if (localObject1 != null) {
+      localProduct.setName(String.valueOf(localObject1));
+    }
+    localObject1 = paramMap.get("brand");
+    if (localObject1 != null) {
+      localProduct.setBrand(String.valueOf(localObject1));
+    }
+    localObject1 = paramMap.get("category");
+    if (localObject1 != null) {
+      localProduct.setCategory(String.valueOf(localObject1));
+    }
+    localObject1 = paramMap.get("variant");
+    if (localObject1 != null) {
+      localProduct.setVariant(String.valueOf(localObject1));
+    }
+    localObject1 = paramMap.get("coupon");
+    if (localObject1 != null) {
+      localProduct.setCouponCode(String.valueOf(localObject1));
+    }
+    localObject1 = paramMap.get("position");
+    if (localObject1 != null) {
+      localProduct.setPosition(zzam(localObject1).intValue());
+    }
+    localObject1 = paramMap.get("price");
+    if (localObject1 != null) {
+      localProduct.setPrice(zzal(localObject1).doubleValue());
+    }
+    localObject1 = paramMap.get("quantity");
+    if (localObject1 != null) {
+      localProduct.setQuantity(zzam(localObject1).intValue());
+    }
+    Iterator localIterator = paramMap.keySet().iterator();
+    for (;;)
+    {
+      if (!localIterator.hasNext()) {
+        break label440;
+      }
+      localObject1 = (String)localIterator.next();
+      Object localObject2 = zzjxa.matcher((CharSequence)localObject1);
+      if (!((Matcher)localObject2).matches()) {
+        break label360;
+      }
+      try
+      {
+        i = Integer.parseInt(((Matcher)localObject2).group(1));
+        localProduct.setCustomDimension(i, String.valueOf(paramMap.get(localObject1)));
+      }
+      catch (NumberFormatException localNumberFormatException1)
+      {
+        int i;
+        for (;;) {}
+      }
+    }
+    localObject2 = "illegal number in custom dimension value: ";
+    localObject1 = String.valueOf(localObject1);
+    if (((String)localObject1).length() != 0) {
+      label328:
+      localObject1 = ((String)localObject2).concat((String)localObject1);
+    }
+    for (localObject1 = new String("illegal number in custom dimension value: ");; localObject1 = new String("illegal number in custom metric value: "))
+    {
+      zzdj.zzjss.zzcr((String)localObject1);
+      break;
+      label360:
+      localObject2 = zzjxb.matcher((CharSequence)localObject1);
+      if (!((Matcher)localObject2).matches()) {
+        break;
+      }
+      try
+      {
+        i = Integer.parseInt(((Matcher)localObject2).group(1));
+        localProduct.setCustomMetric(i, zzam(paramMap.get(localObject1)).intValue());
+      }
+      catch (NumberFormatException localNumberFormatException2)
+      {
+        for (;;) {}
+      }
+      localObject2 = "illegal number in custom metric value: ";
+      localObject1 = String.valueOf(localObject1);
+      if (((String)localObject1).length() != 0) {
+        break label328;
+      }
+    }
+    label440:
+    return localProduct;
+  }
+  
+  public final boolean zzbcj()
+  {
+    return false;
+  }
+  
+  public final String zzbdp()
+  {
+    return zzjrp;
+  }
+  
+  public final Set zzbdq()
+  {
+    return zzjro;
+  }
+  
+  public final zzbp zzp(Map paramMap)
+  {
+    zzr(paramMap);
+    return zzgk.zzjwp;
+  }
+  
+  public final void zzr(Map<String, zzbp> paramMap)
+  {
+    Tracker localTracker = zzjxf.zzmc("_GTM_DEFAULT_TRACKER_");
+    localTracker.enableAdvertisingIdCollection(zzg(paramMap, "collect_adid"));
+    HitBuilders.ScreenViewBuilder localScreenViewBuilder;
+    if (zzg(paramMap, zzjws))
+    {
+      localScreenViewBuilder = new HitBuilders.ScreenViewBuilder();
+      Object localObject1 = zzi((zzbp)paramMap.get(zzjwv));
+      localScreenViewBuilder.setAll((Map)localObject1);
+      boolean bool = zzg(paramMap, zzjwt);
+      Object localObject4 = null;
+      if (bool)
+      {
+        paramMap = zzjpa.get("ecommerce");
+        if (!(paramMap instanceof Map)) {
+          break label138;
+        }
+      }
+      else
+      {
+        paramMap = zzgk.zzg((zzbp)paramMap.get(zzjwu));
+        if (!(paramMap instanceof Map)) {
+          break label138;
+        }
+      }
+      paramMap = (Map)paramMap;
+      break label140;
+      label138:
+      paramMap = null;
+      label140:
+      if (paramMap != null)
+      {
+        Object localObject5 = (String)((Map)localObject1).get("&cu");
+        localObject1 = localObject5;
+        if (localObject5 == null) {
+          localObject1 = (String)paramMap.get("currencyCode");
+        }
+        if (localObject1 != null) {
+          localScreenViewBuilder.set("&cu", (String)localObject1);
+        }
+        localObject1 = paramMap.get("impressions");
+        if ((localObject1 instanceof List))
+        {
+          localObject5 = ((List)localObject1).iterator();
+          while (((Iterator)localObject5).hasNext())
+          {
+            localObject1 = (Map)((Iterator)localObject5).next();
+            try
+            {
+              localScreenViewBuilder.addImpression(zzu((Map)localObject1), (String)((Map)localObject1).get("list"));
+            }
+            catch (RuntimeException localRuntimeException1)
+            {
+              localObject2 = String.valueOf(localRuntimeException1.getMessage());
+              if (((String)localObject2).length() != 0) {
+                localObject2 = "Failed to extract a product from DataLayer. ".concat((String)localObject2);
+              } else {
+                localObject2 = new String("Failed to extract a product from DataLayer. ");
+              }
+              zzdj.zzjss.e((String)localObject2);
+            }
+          }
+        }
+        if (paramMap.containsKey("promoClick")) {}
+        for (Object localObject2 = paramMap.get("promoClick");; localObject2 = paramMap.get("promoView"))
+        {
+          localObject2 = (List)((Map)localObject2).get("promotions");
+          break;
+          localObject2 = localObject4;
+          if (!paramMap.containsKey("promoView")) {
+            break;
+          }
+        }
+        int j = 1;
+        int i = j;
+        Object localObject3;
+        if (localObject2 != null)
+        {
+          localObject4 = ((List)localObject2).iterator();
+          while (((Iterator)localObject4).hasNext())
+          {
+            localObject5 = (Map)((Iterator)localObject4).next();
+            try
+            {
+              localObject2 = new Promotion();
+              String str = (String)((Map)localObject5).get("id");
+              if (str != null) {
+                ((Promotion)localObject2).setId(str);
+              }
+              str = (String)((Map)localObject5).get("name");
+              if (str != null) {
+                ((Promotion)localObject2).setName(str);
+              }
+              str = (String)((Map)localObject5).get("creative");
+              if (str != null) {
+                ((Promotion)localObject2).setCreative(str);
+              }
+              localObject5 = (String)((Map)localObject5).get("position");
+              if (localObject5 != null) {
+                ((Promotion)localObject2).setPosition((String)localObject5);
+              }
+              localScreenViewBuilder.addPromotion((Promotion)localObject2);
+            }
+            catch (RuntimeException localRuntimeException2)
+            {
+              localObject3 = String.valueOf(localRuntimeException2.getMessage());
+              if (((String)localObject3).length() != 0) {
+                localObject3 = "Failed to extract a promotion from DataLayer. ".concat((String)localObject3);
+              } else {
+                localObject3 = new String("Failed to extract a promotion from DataLayer. ");
+              }
+              zzdj.zzjss.e((String)localObject3);
+            }
+          }
+          if (paramMap.containsKey("promoClick"))
+          {
+            localScreenViewBuilder.set("&promoa", "click");
+            i = 0;
+          }
+          else
+          {
+            localScreenViewBuilder.set("&promoa", "view");
+            i = j;
+          }
+        }
+        if (i != 0)
+        {
+          localObject4 = zzjwz.iterator();
+          while (((Iterator)localObject4).hasNext())
+          {
+            localObject3 = (String)((Iterator)localObject4).next();
+            if (paramMap.containsKey(localObject3))
+            {
+              localObject4 = (Map)paramMap.get(localObject3);
+              paramMap = (List)((Map)localObject4).get("products");
+              if (paramMap != null)
+              {
+                localObject5 = paramMap.iterator();
+                while (((Iterator)localObject5).hasNext())
+                {
+                  paramMap = (Map)((Iterator)localObject5).next();
+                  try
+                  {
+                    localScreenViewBuilder.addProduct(zzu(paramMap));
+                  }
+                  catch (RuntimeException paramMap)
+                  {
+                    paramMap = String.valueOf(paramMap.getMessage());
+                    if (paramMap.length() != 0) {
+                      paramMap = "Failed to extract a product from DataLayer. ".concat(paramMap);
+                    } else {
+                      paramMap = new String("Failed to extract a product from DataLayer. ");
+                    }
+                    zzdj.zzjss.e(paramMap);
+                  }
+                }
+              }
+              try
+              {
+                if (((Map)localObject4).containsKey("actionField"))
+                {
+                  paramMap = (Map)((Map)localObject4).get("actionField");
+                  localObject3 = new ProductAction((String)localObject3);
+                  localObject4 = paramMap.get("id");
+                  if (localObject4 != null) {
+                    ((ProductAction)localObject3).setTransactionId(String.valueOf(localObject4));
+                  }
+                  localObject4 = paramMap.get("affiliation");
+                  if (localObject4 != null) {
+                    ((ProductAction)localObject3).setTransactionAffiliation(String.valueOf(localObject4));
+                  }
+                  localObject4 = paramMap.get("coupon");
+                  if (localObject4 != null) {
+                    ((ProductAction)localObject3).setTransactionCouponCode(String.valueOf(localObject4));
+                  }
+                  localObject4 = paramMap.get("list");
+                  if (localObject4 != null) {
+                    ((ProductAction)localObject3).setProductActionList(String.valueOf(localObject4));
+                  }
+                  localObject4 = paramMap.get("option");
+                  if (localObject4 != null) {
+                    ((ProductAction)localObject3).setCheckoutOptions(String.valueOf(localObject4));
+                  }
+                  localObject4 = paramMap.get("revenue");
+                  if (localObject4 != null) {
+                    ((ProductAction)localObject3).setTransactionRevenue(zzal(localObject4).doubleValue());
+                  }
+                  localObject4 = paramMap.get("tax");
+                  if (localObject4 != null) {
+                    ((ProductAction)localObject3).setTransactionTax(zzal(localObject4).doubleValue());
+                  }
+                  localObject4 = paramMap.get("shipping");
+                  if (localObject4 != null) {
+                    ((ProductAction)localObject3).setTransactionShipping(zzal(localObject4).doubleValue());
+                  }
+                  localObject4 = paramMap.get("step");
+                  paramMap = (Map<String, zzbp>)localObject3;
+                  if (localObject4 != null)
+                  {
+                    ((ProductAction)localObject3).setCheckoutStep(zzam(localObject4).intValue());
+                    paramMap = (Map<String, zzbp>)localObject3;
+                  }
+                }
+                else
+                {
+                  paramMap = new ProductAction((String)localObject3);
+                }
+                localScreenViewBuilder.setProductAction(paramMap);
+              }
+              catch (RuntimeException paramMap)
+              {
+                paramMap = String.valueOf(paramMap.getMessage());
+                if (paramMap.length() != 0) {
+                  paramMap = "Failed to extract a product action from DataLayer. ".concat(paramMap);
+                } else {
+                  paramMap = new String("Failed to extract a product action from DataLayer. ");
+                }
+                zzdj.zzjss.e(paramMap);
+              }
+            }
+          }
+        }
+      }
+    }
+    for (paramMap = localScreenViewBuilder.build();; paramMap = zzi((zzbp)paramMap.get(zzjwv)))
+    {
+      localTracker.send(paramMap);
+      return;
+      if (!zzg(paramMap, zzjwr)) {
+        break;
+      }
+    }
+    if (zzg(paramMap, zzjww))
+    {
+      zza(localTracker, paramMap);
+      return;
+    }
+    zzdj.zzjss.zzcr("Ignoring unknown tag.");
+  }
+}

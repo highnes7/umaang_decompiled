@@ -1,0 +1,238 @@
+package com.google.android.gms.internal;
+
+import android.text.TextUtils;
+import com.google.android.gms.common.internal.zzbp;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzaoi
+{
+  public final Map<String, String> zzbqm;
+  public final List<zzanp> zzdsw;
+  public final long zzdsx;
+  public final long zzdsy;
+  public final int zzdsz;
+  public final boolean zzdta;
+  public final String zzdtb;
+  
+  public zzaoi(zzamr paramZzamr, Map<String, String> paramMap, long paramLong, boolean paramBoolean)
+  {
+    this(paramZzamr, paramMap, paramLong, paramBoolean, 0L, 0, null);
+  }
+  
+  public zzaoi(zzamr paramZzamr, Map<String, String> paramMap, long paramLong1, boolean paramBoolean, long paramLong2, int paramInt)
+  {
+    this(paramZzamr, paramMap, paramLong1, paramBoolean, paramLong2, paramInt, null);
+  }
+  
+  public zzaoi(zzamr paramZzamr, Map<String, String> paramMap, long paramLong1, boolean paramBoolean, long paramLong2, int paramInt, List<zzanp> paramList)
+  {
+    zzbp.zzu(paramZzamr);
+    zzbp.zzu(paramMap);
+    zzdsy = paramLong1;
+    zzdta = paramBoolean;
+    zzdsx = paramLong2;
+    zzdsz = paramInt;
+    if (paramList != null) {
+      localObject1 = paramList;
+    } else {
+      localObject1 = Collections.emptyList();
+    }
+    zzdsw = ((List)localObject1);
+    zzdtb = zzr(paramList);
+    paramList = new HashMap();
+    Object localObject1 = paramMap.entrySet().iterator();
+    Object localObject2;
+    while (((Iterator)localObject1).hasNext())
+    {
+      localObject2 = (Map.Entry)((Iterator)localObject1).next();
+      if (zzj(((Map.Entry)localObject2).getKey()))
+      {
+        String str = zza(paramZzamr, ((Map.Entry)localObject2).getKey());
+        if (str != null) {
+          paramList.put(str, zzb(paramZzamr, ((Map.Entry)localObject2).getValue()));
+        }
+      }
+    }
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext())
+    {
+      localObject1 = (Map.Entry)paramMap.next();
+      if (!zzj(((Map.Entry)localObject1).getKey()))
+      {
+        localObject2 = zza(paramZzamr, ((Map.Entry)localObject1).getKey());
+        if (localObject2 != null) {
+          paramList.put(localObject2, zzb(paramZzamr, ((Map.Entry)localObject1).getValue()));
+        }
+      }
+    }
+    if (!TextUtils.isEmpty(zzdtb))
+    {
+      zzapd.zzb(paramList, "_v", zzdtb);
+      if ((zzdtb.equals("ma4.0.0")) || (zzdtb.equals("ma4.0.1"))) {
+        paramList.remove("adid");
+      }
+    }
+    zzbqm = Collections.unmodifiableMap(paramList);
+  }
+  
+  public static String zza(zzamr paramZzamr, Object paramObject)
+  {
+    if (paramObject == null) {
+      return null;
+    }
+    Object localObject = paramObject.toString();
+    paramObject = localObject;
+    if (((String)localObject).startsWith("&")) {
+      paramObject = ((String)localObject).substring(1);
+    }
+    int i = paramObject.length();
+    localObject = paramObject;
+    if (i > 256)
+    {
+      localObject = paramObject.substring(0, 256);
+      paramZzamr.zzc("Hit param name is too long and will be trimmed", Integer.valueOf(i), localObject);
+    }
+    if (TextUtils.isEmpty((CharSequence)localObject)) {
+      return null;
+    }
+    return localObject;
+  }
+  
+  public static String zzb(zzamr paramZzamr, Object paramObject)
+  {
+    if (paramObject == null) {
+      paramObject = "";
+    } else {
+      paramObject = paramObject.toString();
+    }
+    int i = paramObject.length();
+    Object localObject = paramObject;
+    if (i > 8192)
+    {
+      localObject = paramObject.substring(0, 8192);
+      paramZzamr.zzc("Hit param value is too long and will be trimmed", Integer.valueOf(i), localObject);
+    }
+    return localObject;
+  }
+  
+  public static boolean zzj(Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    return paramObject.toString().startsWith("&");
+  }
+  
+  private final String zzl(String paramString1, String paramString2)
+  {
+    zzbp.zzgg(paramString1);
+    zzbp.zzb(paramString1.startsWith("&") ^ true, "Short param name required");
+    paramString1 = (String)zzbqm.get(paramString1);
+    if (paramString1 != null) {
+      return paramString1;
+    }
+    return paramString2;
+  }
+  
+  public static String zzr(List<zzanp> paramList)
+  {
+    if (paramList != null)
+    {
+      paramList = paramList.iterator();
+      while (paramList.hasNext())
+      {
+        zzanp localZzanp = (zzanp)paramList.next();
+        if ("appendVersion".equals(localZzanp.getId()))
+        {
+          paramList = localZzanp.getValue();
+          break label52;
+        }
+      }
+    }
+    paramList = null;
+    label52:
+    if (TextUtils.isEmpty(paramList)) {
+      return null;
+    }
+    return paramList;
+  }
+  
+  public final String toString()
+  {
+    StringBuffer localStringBuffer = a.a("ht=");
+    localStringBuffer.append(zzdsy);
+    if (zzdsx != 0L)
+    {
+      localStringBuffer.append(", dbId=");
+      localStringBuffer.append(zzdsx);
+    }
+    if (zzdsz != 0)
+    {
+      localStringBuffer.append(", appUID=");
+      localStringBuffer.append(zzdsz);
+    }
+    ArrayList localArrayList = new ArrayList(zzbqm.keySet());
+    Collections.sort(localArrayList);
+    int j = localArrayList.size();
+    int i = 0;
+    while (i < j)
+    {
+      Object localObject = localArrayList.get(i);
+      i += 1;
+      localObject = (String)localObject;
+      localStringBuffer.append(", ");
+      localStringBuffer.append((String)localObject);
+      localStringBuffer.append("=");
+      localStringBuffer.append((String)zzbqm.get(localObject));
+    }
+    return localStringBuffer.toString();
+  }
+  
+  public final Map<String, String> zziy()
+  {
+    return zzbqm;
+  }
+  
+  public final int zzyl()
+  {
+    return zzdsz;
+  }
+  
+  public final long zzym()
+  {
+    return zzdsx;
+  }
+  
+  public final long zzyn()
+  {
+    return zzdsy;
+  }
+  
+  public final List<zzanp> zzyo()
+  {
+    return zzdsw;
+  }
+  
+  public final boolean zzyp()
+  {
+    return zzdta;
+  }
+  
+  public final long zzyq()
+  {
+    return zzapd.zzea(zzl("_s", "0"));
+  }
+  
+  public final String zzyr()
+  {
+    return zzl("_m", "");
+  }
+}

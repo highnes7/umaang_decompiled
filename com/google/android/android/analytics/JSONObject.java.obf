@@ -1,0 +1,399 @@
+package com.google.android.gms.analytics;
+
+import android.net.Uri;
+import android.net.Uri.Builder;
+import android.text.TextUtils;
+import com.google.android.gms.analytics.ecommerce.Product;
+import com.google.android.gms.analytics.ecommerce.ProductAction;
+import com.google.android.gms.analytics.ecommerce.Promotion;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzalv;
+import com.google.android.gms.internal.zzalw;
+import com.google.android.gms.internal.zzalx;
+import com.google.android.gms.internal.zzaly;
+import com.google.android.gms.internal.zzalz;
+import com.google.android.gms.internal.zzama;
+import com.google.android.gms.internal.zzamb;
+import com.google.android.gms.internal.zzamc;
+import com.google.android.gms.internal.zzamd;
+import com.google.android.gms.internal.zzame;
+import com.google.android.gms.internal.zzamf;
+import com.google.android.gms.internal.zzamg;
+import com.google.android.gms.internal.zzamh;
+import com.google.android.gms.internal.zzamj;
+import com.google.android.gms.internal.zzamr;
+import com.google.android.gms.internal.zzamt;
+import com.google.android.gms.internal.zzamu;
+import com.google.android.gms.internal.zzamx;
+import com.google.android.gms.internal.zzaoi;
+import com.google.android.gms.internal.zzaon;
+import com.google.android.gms.internal.zzapd;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzb
+  extends zzamr
+  implements zzm
+{
+  public static DecimalFormat zzdjn;
+  public final zzamu zzdjj;
+  public final String zzdjo;
+  public final Uri zzdjp;
+  
+  public zzb(zzamu paramZzamu, String paramString)
+  {
+    this(paramZzamu, paramString, true, false);
+  }
+  
+  public zzb(zzamu paramZzamu, String paramString, boolean paramBoolean1, boolean paramBoolean2)
+  {
+    super(paramZzamu);
+    zzbp.zzgg(paramString);
+    zzdjj = paramZzamu;
+    zzdjo = paramString;
+    zzdjp = zzcx(zzdjo);
+  }
+  
+  public static void zza(Map<String, String> paramMap, String paramString, double paramDouble)
+  {
+    if (paramDouble != 0.0D) {
+      paramMap.put(paramString, zzb(paramDouble));
+    }
+  }
+  
+  public static void zza(Map<String, String> paramMap, String paramString, int paramInt1, int paramInt2)
+  {
+    if ((paramInt1 > 0) && (paramInt2 > 0))
+    {
+      StringBuilder localStringBuilder = new StringBuilder(23);
+      localStringBuilder.append(paramInt1);
+      localStringBuilder.append("x");
+      localStringBuilder.append(paramInt2);
+      paramMap.put(paramString, localStringBuilder.toString());
+    }
+  }
+  
+  public static void zza(Map<String, String> paramMap, String paramString1, String paramString2)
+  {
+    if (!TextUtils.isEmpty(paramString2)) {
+      paramMap.put(paramString1, paramString2);
+    }
+  }
+  
+  public static String zzb(double paramDouble)
+  {
+    if (zzdjn == null) {
+      zzdjn = new DecimalFormat("0.######");
+    }
+    return zzdjn.format(paramDouble);
+  }
+  
+  public static void zzb(Map<String, String> paramMap, String paramString, boolean paramBoolean)
+  {
+    if (paramBoolean) {
+      paramMap.put(paramString, "1");
+    }
+  }
+  
+  public static Map<String, String> zzc(zzg paramZzg)
+  {
+    HashMap localHashMap = new HashMap();
+    Object localObject1 = (zzalz)paramZzg.zza(zzalz.class);
+    Object localObject3;
+    Object localObject4;
+    if (localObject1 != null)
+    {
+      localObject3 = ((zzalz)localObject1).zzuy().entrySet().iterator();
+      while (((Iterator)localObject3).hasNext())
+      {
+        localObject4 = (Map.Entry)((Iterator)localObject3).next();
+        localObject2 = ((Map.Entry)localObject4).getValue();
+        localObject1 = null;
+        if (localObject2 != null) {
+          if ((localObject2 instanceof String))
+          {
+            localObject2 = (String)localObject2;
+            if (!TextUtils.isEmpty((CharSequence)localObject2)) {
+              localObject1 = localObject2;
+            }
+          }
+          else if ((localObject2 instanceof Double))
+          {
+            localObject2 = (Double)localObject2;
+            if (((Double)localObject2).doubleValue() != 0.0D) {
+              localObject1 = zzb(((Double)localObject2).doubleValue());
+            }
+          }
+          else if ((localObject2 instanceof Boolean))
+          {
+            if (localObject2 != Boolean.FALSE) {
+              localObject1 = "1";
+            }
+          }
+          else
+          {
+            localObject1 = String.valueOf(localObject2);
+          }
+        }
+        if (localObject1 != null) {
+          localHashMap.put((String)((Map.Entry)localObject4).getKey(), localObject1);
+        }
+      }
+    }
+    localObject1 = (zzame)paramZzg.zza(zzame.class);
+    if (localObject1 != null)
+    {
+      zza(localHashMap, "t", ((zzame)localObject1).zzvd());
+      zza(localHashMap, "cid", ((zzame)localObject1).zzve());
+      zza(localHashMap, "uid", ((zzame)localObject1).getUserId());
+      zza(localHashMap, "sc", ((zzame)localObject1).zzvh());
+      zza(localHashMap, "sf", ((zzame)localObject1).zzvj());
+      zzb(localHashMap, "ni", ((zzame)localObject1).zzvi());
+      zza(localHashMap, "adid", ((zzame)localObject1).zzvf());
+      zzb(localHashMap, "ate", ((zzame)localObject1).zzvg());
+    }
+    localObject1 = (zzamf)paramZzg.zza(zzamf.class);
+    if (localObject1 != null)
+    {
+      zza(localHashMap, "cd", ((zzamf)localObject1).zzvk());
+      zza(localHashMap, "a", ((zzamf)localObject1).zzvl());
+      zza(localHashMap, "dr", ((zzamf)localObject1).zzvm());
+    }
+    localObject1 = (zzamc)paramZzg.zza(zzamc.class);
+    if (localObject1 != null)
+    {
+      zza(localHashMap, "ec", ((zzamc)localObject1).getCategory());
+      zza(localHashMap, "ea", ((zzamc)localObject1).getAction());
+      zza(localHashMap, "el", ((zzamc)localObject1).getLabel());
+      zza(localHashMap, "ev", ((zzamc)localObject1).getValue());
+    }
+    localObject1 = (zzalw)paramZzg.zza(zzalw.class);
+    if (localObject1 != null)
+    {
+      zza(localHashMap, "cn", ((zzalw)localObject1).getName());
+      zza(localHashMap, "cs", ((zzalw)localObject1).getSource());
+      zza(localHashMap, "cm", ((zzalw)localObject1).zzuq());
+      zza(localHashMap, "ck", ((zzalw)localObject1).zzur());
+      zza(localHashMap, "cc", ((zzalw)localObject1).getContent());
+      zza(localHashMap, "ci", ((zzalw)localObject1).getId());
+      zza(localHashMap, "anid", ((zzalw)localObject1).zzus());
+      zza(localHashMap, "gclid", ((zzalw)localObject1).zzut());
+      zza(localHashMap, "dclid", ((zzalw)localObject1).zzuu());
+      zza(localHashMap, "aclid", ((zzalw)localObject1).zzuv());
+    }
+    localObject1 = (zzamd)paramZzg.zza(zzamd.class);
+    if (localObject1 != null)
+    {
+      zza(localHashMap, "exd", zzdmu);
+      zzb(localHashMap, "exf", zzdmv);
+    }
+    localObject1 = (zzamg)paramZzg.zza(zzamg.class);
+    if (localObject1 != null)
+    {
+      zza(localHashMap, "sn", zzdnk);
+      zza(localHashMap, "sa", zzdmr);
+      zza(localHashMap, "st", zzdnl);
+    }
+    localObject1 = (zzamh)paramZzg.zza(zzamh.class);
+    if (localObject1 != null)
+    {
+      zza(localHashMap, "utv", zzdnm);
+      zza(localHashMap, "utt", zzdnn);
+      zza(localHashMap, "utc", mCategory);
+      zza(localHashMap, "utl", zzdms);
+    }
+    localObject1 = (zzalx)paramZzg.zza(zzalx.class);
+    if (localObject1 != null)
+    {
+      localObject1 = ((zzalx)localObject1).zzuw().entrySet().iterator();
+      while (((Iterator)localObject1).hasNext())
+      {
+        localObject2 = (Map.Entry)((Iterator)localObject1).next();
+        localObject3 = zzd.zzah(((Integer)((Map.Entry)localObject2).getKey()).intValue());
+        if (!TextUtils.isEmpty((CharSequence)localObject3)) {
+          localHashMap.put(localObject3, (String)((Map.Entry)localObject2).getValue());
+        }
+      }
+    }
+    localObject1 = (zzaly)paramZzg.zza(zzaly.class);
+    if (localObject1 != null)
+    {
+      localObject1 = ((zzaly)localObject1).zzux().entrySet().iterator();
+      while (((Iterator)localObject1).hasNext())
+      {
+        localObject2 = (Map.Entry)((Iterator)localObject1).next();
+        localObject3 = zzd.zzaj(((Integer)((Map.Entry)localObject2).getKey()).intValue());
+        if (!TextUtils.isEmpty((CharSequence)localObject3)) {
+          localHashMap.put(localObject3, zzb(((Double)((Map.Entry)localObject2).getValue()).doubleValue()));
+        }
+      }
+    }
+    Object localObject2 = (zzamb)paramZzg.zza(zzamb.class);
+    if (localObject2 != null)
+    {
+      localObject1 = ((zzamb)localObject2).zzuz();
+      if (localObject1 != null)
+      {
+        localObject3 = ((ProductAction)localObject1).build().entrySet().iterator();
+        while (((Iterator)localObject3).hasNext())
+        {
+          localObject4 = (Map.Entry)((Iterator)localObject3).next();
+          if (((String)((Map.Entry)localObject4).getKey()).startsWith("&")) {
+            localObject1 = ((String)((Map.Entry)localObject4).getKey()).substring(1);
+          } else {
+            localObject1 = (String)((Map.Entry)localObject4).getKey();
+          }
+          localHashMap.put(localObject1, (String)((Map.Entry)localObject4).getValue());
+        }
+      }
+      localObject1 = ((zzamb)localObject2).zzvc().iterator();
+      int i = 1;
+      while (((Iterator)localObject1).hasNext())
+      {
+        localHashMap.putAll(((Promotion)((Iterator)localObject1).next()).zzdj(zzd.zzan(i)));
+        i += 1;
+      }
+      localObject1 = ((zzamb)localObject2).zzva().iterator();
+      i = 1;
+      while (((Iterator)localObject1).hasNext())
+      {
+        localHashMap.putAll(((Product)((Iterator)localObject1).next()).zzdj(zzd.zzal(i)));
+        i += 1;
+      }
+      localObject2 = ((zzamb)localObject2).zzvb().entrySet().iterator();
+      i = 1;
+      while (((Iterator)localObject2).hasNext())
+      {
+        localObject3 = (Map.Entry)((Iterator)localObject2).next();
+        localObject1 = (List)((Map.Entry)localObject3).getValue();
+        localObject4 = zzd.zzaq(i);
+        Iterator localIterator = ((List)localObject1).iterator();
+        int j = 1;
+        while (localIterator.hasNext())
+        {
+          Product localProduct = (Product)localIterator.next();
+          localObject1 = String.valueOf(localObject4);
+          String str = String.valueOf(zzd.zzao(j));
+          if (str.length() != 0) {
+            localObject1 = ((String)localObject1).concat(str);
+          } else {
+            localObject1 = new String((String)localObject1);
+          }
+          localHashMap.putAll(localProduct.zzdj((String)localObject1));
+          j += 1;
+        }
+        if (!TextUtils.isEmpty((CharSequence)((Map.Entry)localObject3).getKey()))
+        {
+          localObject1 = String.valueOf(localObject4);
+          if ("nm".length() != 0) {
+            localObject1 = ((String)localObject1).concat("nm");
+          } else {
+            localObject1 = new String((String)localObject1);
+          }
+          localHashMap.put(localObject1, (String)((Map.Entry)localObject3).getKey());
+        }
+        i += 1;
+      }
+    }
+    localObject1 = (zzama)paramZzg.zza(zzama.class);
+    if (localObject1 != null)
+    {
+      zza(localHashMap, "ul", ((zzama)localObject1).getLanguage());
+      zza(localHashMap, "sd", zzdmo);
+      zza(localHashMap, "sr", zzceu, zzcev);
+      zza(localHashMap, "vp", zzdmp, zzdmq);
+    }
+    paramZzg = (zzalv)paramZzg.zza(zzalv.class);
+    if (paramZzg != null)
+    {
+      zza(localHashMap, "an", paramZzg.zzun());
+      zza(localHashMap, "aid", paramZzg.getAppId());
+      zza(localHashMap, "aiid", paramZzg.zzup());
+      zza(localHashMap, "av", paramZzg.zzuo());
+    }
+    return localHashMap;
+  }
+  
+  public static Uri zzcx(String paramString)
+  {
+    zzbp.zzgg(paramString);
+    Uri.Builder localBuilder = new Uri.Builder();
+    localBuilder.scheme("uri");
+    localBuilder.authority("google-analytics.com");
+    localBuilder.path(paramString);
+    return localBuilder.build();
+  }
+  
+  public final void zzb(zzg paramZzg)
+  {
+    zzbp.zzu(paramZzg);
+    zzbp.zzb(paramZzg.zzub(), "Can't deliver not submitted measurement");
+    zzbp.zzgh("deliver should be called on worker thread");
+    Object localObject1 = paramZzg.zztx();
+    Object localObject2 = (zzame)((zzg)localObject1).zzb(zzame.class);
+    if (TextUtils.isEmpty(((zzame)localObject2).zzvd()))
+    {
+      zzvy().zze(zzc((zzg)localObject1), "Ignoring measurement without type");
+      return;
+    }
+    if (TextUtils.isEmpty(((zzame)localObject2).zzve()))
+    {
+      zzvy().zze(zzc((zzg)localObject1), "Ignoring measurement without client id");
+      return;
+    }
+    if (zzdjj.zzwn().getAppOptOut()) {
+      return;
+    }
+    double d = ((zzame)localObject2).zzvj();
+    if (zzapd.zza(d, ((zzame)localObject2).zzve()))
+    {
+      zzb("Sampling enabled. Hit sampled out. sampling rate", Double.valueOf(d));
+      return;
+    }
+    localObject1 = zzc((zzg)localObject1);
+    ((Map)localObject1).put("v", "1");
+    ((Map)localObject1).put("_v", zzamt.zzdof);
+    ((Map)localObject1).put("tid", zzdjo);
+    if (zzdjj.zzwn().isDryRunEnabled())
+    {
+      paramZzg = new StringBuilder();
+      localObject1 = ((Map)localObject1).entrySet().iterator();
+      while (((Iterator)localObject1).hasNext())
+      {
+        localObject2 = (Map.Entry)((Iterator)localObject1).next();
+        if (paramZzg.length() != 0) {
+          paramZzg.append(", ");
+        }
+        paramZzg.append((String)((Map.Entry)localObject2).getKey());
+        paramZzg.append("=");
+        paramZzg.append((String)((Map.Entry)localObject2).getValue());
+      }
+      zzc("Dry run is enabled. GoogleAnalytics would have sent", paramZzg.toString());
+      return;
+    }
+    HashMap localHashMap = new HashMap();
+    zzapd.zzb(localHashMap, "uid", ((zzame)localObject2).getUserId());
+    zzalv localZzalv = (zzalv)paramZzg.zza(zzalv.class);
+    if (localZzalv != null)
+    {
+      zzapd.zzb(localHashMap, "an", localZzalv.zzun());
+      zzapd.zzb(localHashMap, "aid", localZzalv.getAppId());
+      zzapd.zzb(localHashMap, "av", localZzalv.zzuo());
+      zzapd.zzb(localHashMap, "aiid", localZzalv.zzup());
+    }
+    localObject2 = new zzamx(0L, ((zzame)localObject2).zzve(), zzdjo, TextUtils.isEmpty(((zzame)localObject2).zzvf()) ^ true, 0L, localHashMap);
+    ((Map)localObject1).put("_s", String.valueOf(zzwc().zza((zzamx)localObject2)));
+    paramZzg = new zzaoi(zzvy(), (Map)localObject1, paramZzg.zztz(), true);
+    zzwc().zza(paramZzg);
+  }
+  
+  public final Uri zztu()
+  {
+    return zzdjp;
+  }
+}

@@ -1,0 +1,168 @@
+package com.google.android.gms.tagmanager;
+
+import android.content.Context;
+import android.os.Process;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient.Info;
+import com.google.android.gms.common.util.zzh;
+
+public final class zza
+{
+  public static Object zzjon = new Object();
+  public static zza zzjoo;
+  public volatile boolean mClosed = false;
+  public final Context mContext;
+  public final com.google.android.gms.common.util.zzd zzasc;
+  public final Thread zzdbe;
+  public volatile AdvertisingIdClient.Info zzdnq;
+  public volatile long zzjoh = 900000L;
+  public volatile long zzjoi = 30000L;
+  public volatile long zzjoj;
+  public volatile long zzjok;
+  public final Object zzjol = new Object();
+  public zzd zzjom = new zzb(this);
+  
+  public zza(Context paramContext)
+  {
+    this(paramContext, null, zzh.zzfyr);
+  }
+  
+  public zza(Context paramContext, zzd paramZzd, com.google.android.gms.common.util.zzd paramZzd1)
+  {
+    zzasc = paramZzd1;
+    paramZzd = paramContext;
+    if (paramContext != null) {
+      paramZzd = paramContext.getApplicationContext();
+    }
+    mContext = paramZzd;
+    zzjoj = zzasc.currentTimeMillis();
+    zzdbe = new Thread(new zzc(this));
+  }
+  
+  private final void zzbce()
+  {
+    try
+    {
+      try
+      {
+        if (!mClosed)
+        {
+          zzbcf();
+          wait(500L);
+        }
+      }
+      finally
+      {
+        break label30;
+      }
+    }
+    catch (InterruptedException localInterruptedException)
+    {
+      label30:
+      for (;;) {}
+    }
+    return;
+    throw localObject;
+  }
+  
+  private final void zzbcf()
+  {
+    if (zzasc.currentTimeMillis() - zzjoj > zzjoi) {
+      synchronized (zzjol)
+      {
+        zzjol.notify();
+        zzjoj = zzasc.currentTimeMillis();
+        return;
+      }
+    }
+  }
+  
+  private final void zzbcg()
+  {
+    if (zzasc.currentTimeMillis() - zzjok > 3600000L) {
+      zzdnq = null;
+    }
+  }
+  
+  private final void zzbch()
+  {
+    Process.setThreadPriority(10);
+    while (!mClosed)
+    {
+      ??? = zzjom.zzbci();
+      if (??? != null)
+      {
+        zzdnq = ((AdvertisingIdClient.Info)???);
+        zzjok = zzasc.currentTimeMillis();
+        zzdj.zzjss.zzcq("Obtained fresh AdvertisingId info from GmsCore.");
+      }
+      label90:
+      try
+      {
+        notifyAll();
+      }
+      finally {}
+      try
+      {
+        synchronized (zzjol)
+        {
+          zzjol.wait(zzjoh);
+        }
+      }
+      catch (InterruptedException localInterruptedException)
+      {
+        break label90;
+      }
+      zzdj.zzjss.zzcq("sleep interrupted in AdvertiserDataPoller thread; continuing");
+    }
+  }
+  
+  public static zza zzdp(Context paramContext)
+  {
+    if (zzjoo == null) {
+      synchronized (zzjon)
+      {
+        if (zzjoo == null)
+        {
+          paramContext = new zza(paramContext);
+          zzjoo = paramContext;
+          zzdbe.start();
+        }
+      }
+    }
+    return zzjoo;
+  }
+  
+  public final void close()
+  {
+    mClosed = true;
+    zzdbe.interrupt();
+  }
+  
+  public final boolean isLimitAdTrackingEnabled()
+  {
+    if (zzdnq == null) {
+      zzbce();
+    } else {
+      zzbcf();
+    }
+    zzbcg();
+    if (zzdnq == null) {
+      return true;
+    }
+    return zzdnq.isLimitAdTrackingEnabled();
+  }
+  
+  public final String zzbcd()
+  {
+    if (zzdnq == null) {
+      zzbce();
+    } else {
+      zzbcf();
+    }
+    zzbcg();
+    if (zzdnq == null) {
+      return null;
+    }
+    return zzdnq.getId();
+  }
+}

@@ -1,0 +1,239 @@
+package f.g.b.a.a.a;
+
+import f.g.b.a.c.A;
+import f.g.b.a.c.k;
+import f.g.b.a.c.s;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.g.a.c;
+import f.g.b.a.g.w;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.SecureRandom;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
+
+@f.g.b.a.g.h
+public final class h
+  implements s, A
+{
+  public static final SecureRandom a = new SecureRandom();
+  public static final c b = new c("-_.~", false);
+  public j c;
+  public String d;
+  public String e;
+  public String f;
+  public String g;
+  public String h;
+  public String i;
+  public String j;
+  public String k;
+  public String l;
+  public String m;
+  
+  public h() {}
+  
+  public static String a(String paramString)
+  {
+    return b.a(paramString);
+  }
+  
+  private void a(StringBuilder paramStringBuilder, String paramString1, String paramString2)
+  {
+    if (paramString2 != null)
+    {
+      paramStringBuilder.append(' ');
+      paramStringBuilder.append(a(paramString1));
+      paramStringBuilder.append("=\"");
+      paramStringBuilder.append(a(paramString2));
+      paramStringBuilder.append("\",");
+    }
+  }
+  
+  private void a(TreeMap<String, String> paramTreeMap, String paramString, Object paramObject)
+  {
+    String str = a(paramString);
+    if (paramObject == null) {
+      paramString = null;
+    } else {
+      paramString = a(paramObject.toString());
+    }
+    paramTreeMap.put(str, paramString);
+  }
+  
+  private void a(TreeMap<String, String> paramTreeMap, String paramString1, String paramString2)
+  {
+    if (paramString2 != null) {
+      a(paramTreeMap, paramString1, paramString2);
+    }
+  }
+  
+  public void a()
+  {
+    f = Long.toHexString(Math.abs(a.nextLong()));
+  }
+  
+  public void a(y paramY)
+    throws IOException
+  {
+    a();
+    b();
+    try
+    {
+      a(paramY.o(), paramY.x());
+      paramY.i().f(c());
+      return;
+    }
+    catch (GeneralSecurityException paramY)
+    {
+      IOException localIOException = new IOException();
+      localIOException.initCause(paramY);
+      throw localIOException;
+    }
+  }
+  
+  public void a(String paramString, k paramK)
+    throws GeneralSecurityException
+  {
+    j localJ = c;
+    Object localObject2 = localJ.a();
+    i = ((String)localObject2);
+    Object localObject1 = new TreeMap();
+    Object localObject3 = d;
+    if (localObject3 != null) {
+      a((TreeMap)localObject1, "oauth_callback", localObject3);
+    }
+    localObject3 = e;
+    if (localObject3 != null) {
+      a((TreeMap)localObject1, "oauth_consumer_key", localObject3);
+    }
+    localObject3 = f;
+    if (localObject3 != null) {
+      a((TreeMap)localObject1, "oauth_nonce", localObject3);
+    }
+    if (localObject2 != null) {
+      a((TreeMap)localObject1, "oauth_signature_method", localObject2);
+    }
+    localObject2 = j;
+    if (localObject2 != null) {
+      a((TreeMap)localObject1, "oauth_timestamp", localObject2);
+    }
+    localObject2 = k;
+    if (localObject2 != null) {
+      a((TreeMap)localObject1, "oauth_token", localObject2);
+    }
+    localObject2 = l;
+    if (localObject2 != null) {
+      a((TreeMap)localObject1, "oauth_verifier", localObject2);
+    }
+    localObject2 = m;
+    if (localObject2 != null) {
+      a((TreeMap)localObject1, "oauth_version", localObject2);
+    }
+    localObject2 = paramK.entrySet().iterator();
+    while (((Iterator)localObject2).hasNext())
+    {
+      Object localObject4 = (Map.Entry)((Iterator)localObject2).next();
+      localObject3 = ((Map.Entry)localObject4).getValue();
+      if (localObject3 != null)
+      {
+        localObject4 = (String)((Map.Entry)localObject4).getKey();
+        if ((localObject3 instanceof Collection))
+        {
+          localObject3 = ((Collection)localObject3).iterator();
+          while (((Iterator)localObject3).hasNext()) {
+            a((TreeMap)localObject1, (String)localObject4, ((Iterator)localObject3).next());
+          }
+        }
+        else
+        {
+          a((TreeMap)localObject1, (String)localObject4, localObject3);
+        }
+      }
+    }
+    localObject2 = new StringBuilder();
+    int n = 1;
+    localObject1 = ((TreeMap)localObject1).entrySet().iterator();
+    while (((Iterator)localObject1).hasNext())
+    {
+      localObject3 = (Map.Entry)((Iterator)localObject1).next();
+      if (n != 0)
+      {
+        i1 = 0;
+      }
+      else
+      {
+        ((StringBuilder)localObject2).append('&');
+        i1 = n;
+      }
+      ((StringBuilder)localObject2).append((String)((Map.Entry)localObject3).getKey());
+      localObject3 = (String)((Map.Entry)localObject3).getValue();
+      n = i1;
+      if (localObject3 != null)
+      {
+        ((StringBuilder)localObject2).append('=');
+        ((StringBuilder)localObject2).append((String)localObject3);
+        n = i1;
+      }
+    }
+    localObject1 = ((StringBuilder)localObject2).toString();
+    localObject2 = new k();
+    localObject3 = paramK.o();
+    ((k)localObject2).h((String)localObject3);
+    ((k)localObject2).f(paramK.k());
+    ((k)localObject2).a(paramK.l());
+    int i1 = paramK.m();
+    if ((!"http".equals(localObject3)) || (i1 != 80))
+    {
+      n = i1;
+      if ("https".equals(localObject3))
+      {
+        n = i1;
+        if (i1 != 443) {}
+      }
+    }
+    else
+    {
+      n = -1;
+    }
+    ((k)localObject2).a(n);
+    paramK = ((k)localObject2).g();
+    localObject2 = new StringBuilder();
+    ((StringBuilder)localObject2).append(a(paramString));
+    ((StringBuilder)localObject2).append('&');
+    ((StringBuilder)localObject2).append(a(paramK));
+    ((StringBuilder)localObject2).append('&');
+    ((StringBuilder)localObject2).append(a((String)localObject1));
+    h = localJ.a(((StringBuilder)localObject2).toString());
+  }
+  
+  public void b()
+  {
+    j = Long.toString(System.currentTimeMillis() / 1000L);
+  }
+  
+  public void b(y paramY)
+    throws IOException
+  {
+    paramY.a(this);
+  }
+  
+  public String c()
+  {
+    StringBuilder localStringBuilder = new StringBuilder("OAuth");
+    a(localStringBuilder, "realm", g);
+    a(localStringBuilder, "oauth_callback", d);
+    a(localStringBuilder, "oauth_consumer_key", e);
+    a(localStringBuilder, "oauth_nonce", f);
+    a(localStringBuilder, "oauth_signature", h);
+    a(localStringBuilder, "oauth_signature_method", i);
+    a(localStringBuilder, "oauth_timestamp", j);
+    a(localStringBuilder, "oauth_token", k);
+    a(localStringBuilder, "oauth_verifier", l);
+    a(localStringBuilder, "oauth_version", m);
+    return localStringBuilder.substring(0, localStringBuilder.length() - 1);
+  }
+}

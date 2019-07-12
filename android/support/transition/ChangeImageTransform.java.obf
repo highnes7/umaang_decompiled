@@ -1,0 +1,175 @@
+package android.support.transition;
+
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.TypeEvaluator;
+import android.content.Context;
+import android.graphics.Matrix;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
+import android.util.Property;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import b.b.a.F;
+import b.b.v.G;
+import b.b.v.I;
+import b.b.v.ha.a;
+import b.b.v.ia;
+import b.b.v.m;
+import b.b.v.n;
+import java.util.Map;
+
+public class ChangeImageTransform
+  extends Transition
+{
+  public static final String a = "android:changeImageTransform:matrix";
+  public static final String b = "android:changeImageTransform:bounds";
+  public static final String[] c = { "android:changeImageTransform:matrix", "android:changeImageTransform:bounds" };
+  public static final TypeEvaluator<Matrix> d = new m();
+  public static final Property<ImageView, Matrix> e = new n(Matrix.class, "animatedTransform");
+  
+  public ChangeImageTransform() {}
+  
+  public ChangeImageTransform(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+  }
+  
+  private ObjectAnimator a(ImageView paramImageView, Matrix paramMatrix1, Matrix paramMatrix2)
+  {
+    return ObjectAnimator.ofObject(paramImageView, e, new ha.a(), new Matrix[] { paramMatrix1, paramMatrix2 });
+  }
+  
+  public static Matrix a(ImageView paramImageView)
+  {
+    Drawable localDrawable = paramImageView.getDrawable();
+    int i = localDrawable.getIntrinsicWidth();
+    float f1 = paramImageView.getWidth();
+    float f2 = i;
+    float f5 = f1 / f2;
+    i = localDrawable.getIntrinsicHeight();
+    float f3 = paramImageView.getHeight();
+    float f4 = i;
+    f5 = Math.max(f5, f3 / f4);
+    i = Math.round((f1 - f2 * f5) / 2.0F);
+    int j = Math.round((f3 - f4 * f5) / 2.0F);
+    paramImageView = new Matrix();
+    paramImageView.postScale(f5, f5);
+    paramImageView.postTranslate(i, j);
+    return paramImageView;
+  }
+  
+  public static Matrix b(ImageView paramImageView)
+  {
+    int i = b.b.v.o.a[paramImageView.getScaleType().ordinal()];
+    if (i != 1)
+    {
+      if (i != 2) {
+        return new Matrix(paramImageView.getImageMatrix());
+      }
+      return a(paramImageView);
+    }
+    return c(paramImageView);
+  }
+  
+  public static Matrix c(ImageView paramImageView)
+  {
+    Drawable localDrawable = paramImageView.getDrawable();
+    Matrix localMatrix = new Matrix();
+    localMatrix.postScale(paramImageView.getWidth() / localDrawable.getIntrinsicWidth(), paramImageView.getHeight() / localDrawable.getIntrinsicHeight());
+    return localMatrix;
+  }
+  
+  private void captureValues(ia paramIa)
+  {
+    View localView = b;
+    if ((localView instanceof ImageView))
+    {
+      if (localView.getVisibility() != 0) {
+        return;
+      }
+      ImageView localImageView = (ImageView)localView;
+      if (localImageView.getDrawable() == null) {
+        return;
+      }
+      paramIa = a;
+      paramIa.put("android:changeImageTransform:bounds", new Rect(localView.getLeft(), localView.getTop(), localView.getRight(), localView.getBottom()));
+      paramIa.put("android:changeImageTransform:matrix", b(localImageView));
+    }
+  }
+  
+  private ObjectAnimator d(ImageView paramImageView)
+  {
+    return ObjectAnimator.ofObject(paramImageView, e, d, new Matrix[] { null, null });
+  }
+  
+  public void captureEndValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  public void captureStartValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  public Animator createAnimator(@F ViewGroup paramViewGroup, ia paramIa1, ia paramIa2)
+  {
+    if (paramIa1 != null)
+    {
+      if (paramIa2 == null) {
+        return null;
+      }
+      paramViewGroup = (Rect)a.get("android:changeImageTransform:bounds");
+      Rect localRect = (Rect)a.get("android:changeImageTransform:bounds");
+      if (paramViewGroup != null)
+      {
+        if (localRect == null) {
+          return null;
+        }
+        paramIa1 = (Matrix)a.get("android:changeImageTransform:matrix");
+        Matrix localMatrix = (Matrix)a.get("android:changeImageTransform:matrix");
+        if (((paramIa1 == null) && (localMatrix == null)) || ((paramIa1 != null) && (paramIa1.equals(localMatrix)))) {
+          i = 1;
+        } else {
+          i = 0;
+        }
+        if ((paramViewGroup.equals(localRect)) && (i != 0)) {
+          return null;
+        }
+        paramIa2 = (ImageView)b;
+        paramViewGroup = paramIa2.getDrawable();
+        int i = paramViewGroup.getIntrinsicWidth();
+        int j = paramViewGroup.getIntrinsicHeight();
+        G.a(paramIa2);
+        if ((i != 0) && (j != 0))
+        {
+          paramViewGroup = paramIa1;
+          if (paramIa1 == null) {
+            paramViewGroup = I.a;
+          }
+          paramIa1 = localMatrix;
+          if (localMatrix == null) {
+            paramIa1 = I.a;
+          }
+          e.set(paramIa2, paramViewGroup);
+          paramViewGroup = a(paramIa2, paramViewGroup, paramIa1);
+        }
+        else
+        {
+          paramViewGroup = d(paramIa2);
+        }
+        G.a(paramIa2, paramViewGroup);
+        return paramViewGroup;
+      }
+    }
+    return null;
+  }
+  
+  public String[] getTransitionProperties()
+  {
+    return c;
+  }
+}

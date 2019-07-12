@@ -1,0 +1,44 @@
+package com.google.android.gms.internal;
+
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import b.b.a.X;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzccm
+{
+  public String mValue;
+  public final String zzbff;
+  public boolean zzirj;
+  public final String zzirp;
+  
+  public zzccm(zzcch paramZzcch, String paramString1, String paramString2)
+  {
+    zzbp.zzgg(paramString1);
+    zzbff = paramString1;
+    zzirp = null;
+  }
+  
+  @X
+  public final String zzayr()
+  {
+    if (!zzirj)
+    {
+      zzirj = true;
+      mValue = zzcch.zza(zzirk).getString(zzbff, null);
+    }
+    return mValue;
+  }
+  
+  @X
+  public final void zzjl(String paramString)
+  {
+    if (zzcfw.zzas(paramString, mValue)) {
+      return;
+    }
+    SharedPreferences.Editor localEditor = zzcch.zza(zzirk).edit();
+    localEditor.putString(zzbff, paramString);
+    localEditor.apply();
+    mValue = paramString;
+  }
+}

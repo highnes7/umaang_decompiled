@@ -1,0 +1,43 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.RemoteException;
+import com.google.android.gms.dynamic.zzn;
+
+public final class zzdcy
+  extends zzdcj<zzdco>
+{
+  public final zzdcz zzkjy;
+  
+  public zzdcy(Context paramContext, zzdcz paramZzdcz)
+  {
+    super(paramContext, "TextNativeHandle");
+    zzkjy = paramZzdcz;
+    zzbip();
+  }
+  
+  public final zzdcs[] zza(Bitmap paramBitmap, zzdck paramZzdck, zzdcu paramZzdcu)
+  {
+    if (!isOperational()) {
+      return new zzdcs[0];
+    }
+    try
+    {
+      paramBitmap = new zzn(paramBitmap);
+      paramBitmap = ((zzdco)zzbip()).zza(paramBitmap, paramZzdck, paramZzdcu);
+      return paramBitmap;
+    }
+    catch (RemoteException paramBitmap)
+    {
+      for (;;) {}
+    }
+    return new zzdcs[0];
+  }
+  
+  public final void zzbim()
+    throws RemoteException
+  {
+    ((zzdco)zzbip()).zzbiq();
+  }
+}

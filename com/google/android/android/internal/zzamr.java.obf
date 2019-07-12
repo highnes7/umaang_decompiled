@@ -1,0 +1,265 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.zzj;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+
+public class zzamr
+{
+  public final zzamu zzdod;
+  
+  public zzamr(zzamu paramZzamu)
+  {
+    zzbp.zzu(paramZzamu);
+    zzdod = paramZzamu;
+  }
+  
+  private final void zza(int paramInt, String paramString, Object paramObject1, Object paramObject2, Object paramObject3)
+  {
+    Object localObject = zzdod;
+    if (localObject != null) {
+      localObject = ((zzamu)localObject).zzwm();
+    } else {
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      String str = (String)zzaod.zzdrb.get();
+      if (Log.isLoggable(str, paramInt)) {
+        Log.println(paramInt, str, zzc(paramString, paramObject1, paramObject2, paramObject3));
+      }
+      if (paramInt >= 5) {
+        ((zzaon)localObject).zzb(paramInt, paramString, paramObject1, paramObject2, paramObject3);
+      }
+      return;
+    }
+    localObject = (String)zzaod.zzdrb.get();
+    if (Log.isLoggable((String)localObject, paramInt)) {
+      Log.println(paramInt, (String)localObject, zzc(paramString, paramObject1, paramObject2, paramObject3));
+    }
+  }
+  
+  public static String zzc(String paramString, Object paramObject1, Object paramObject2, Object paramObject3)
+  {
+    String str2 = "";
+    String str1 = paramString;
+    if (paramString == null) {
+      str1 = "";
+    }
+    String str3 = zzi(paramObject1);
+    paramObject2 = zzi(paramObject2);
+    paramObject3 = zzi(paramObject3);
+    StringBuilder localStringBuilder = new StringBuilder();
+    paramString = str2;
+    if (!TextUtils.isEmpty(str1))
+    {
+      localStringBuilder.append(str1);
+      paramString = ": ";
+    }
+    paramObject1 = paramString;
+    if (!TextUtils.isEmpty(str3))
+    {
+      localStringBuilder.append(paramString);
+      localStringBuilder.append(str3);
+      paramObject1 = ", ";
+    }
+    paramString = paramObject1;
+    if (!TextUtils.isEmpty(paramObject2))
+    {
+      localStringBuilder.append(paramObject1);
+      localStringBuilder.append(paramObject2);
+      paramString = ", ";
+    }
+    if (!TextUtils.isEmpty(paramObject3))
+    {
+      localStringBuilder.append(paramString);
+      localStringBuilder.append(paramObject3);
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public static String zzi(Object paramObject)
+  {
+    if (paramObject == null) {
+      return "";
+    }
+    if ((paramObject instanceof String)) {
+      return (String)paramObject;
+    }
+    if ((paramObject instanceof Boolean))
+    {
+      if (paramObject == Boolean.TRUE) {
+        return "true";
+      }
+      return "false";
+    }
+    if ((paramObject instanceof Throwable)) {
+      return ((Throwable)paramObject).toString();
+    }
+    return paramObject.toString();
+  }
+  
+  public static boolean zzqu()
+  {
+    return Log.isLoggable((String)zzaod.zzdrb.get(), 2);
+  }
+  
+  public final Context getContext()
+  {
+    return zzdod.getContext();
+  }
+  
+  public final void zza(String paramString, Object paramObject)
+  {
+    zza(2, paramString, paramObject, null, null);
+  }
+  
+  public final void zza(String paramString, Object paramObject1, Object paramObject2)
+  {
+    zza(2, paramString, paramObject1, paramObject2, null);
+  }
+  
+  public final void zza(String paramString, Object paramObject1, Object paramObject2, Object paramObject3)
+  {
+    zza(3, paramString, paramObject1, paramObject2, paramObject3);
+  }
+  
+  public final void zzb(String paramString, Object paramObject)
+  {
+    zza(3, paramString, paramObject, null, null);
+  }
+  
+  public final void zzb(String paramString, Object paramObject1, Object paramObject2)
+  {
+    zza(3, paramString, paramObject1, paramObject2, null);
+  }
+  
+  public final void zzb(String paramString, Object paramObject1, Object paramObject2, Object paramObject3)
+  {
+    zza(5, paramString, paramObject1, paramObject2, paramObject3);
+  }
+  
+  public final void zzc(String paramString, Object paramObject)
+  {
+    zza(4, paramString, paramObject, null, null);
+  }
+  
+  public final void zzc(String paramString, Object paramObject1, Object paramObject2)
+  {
+    zza(5, paramString, paramObject1, paramObject2, null);
+  }
+  
+  public final void zzd(String paramString, Object paramObject)
+  {
+    zza(5, paramString, paramObject, null, null);
+  }
+  
+  public final void zzd(String paramString, Object paramObject1, Object paramObject2)
+  {
+    zza(6, paramString, paramObject1, paramObject2, null);
+  }
+  
+  public final void zzdm(String paramString)
+  {
+    zza(2, paramString, null, null, null);
+  }
+  
+  public final void zzdn(String paramString)
+  {
+    zza(3, paramString, null, null, null);
+  }
+  
+  public final void zzdo(String paramString)
+  {
+    zza(4, paramString, null, null, null);
+  }
+  
+  public final void zzdp(String paramString)
+  {
+    zza(5, paramString, null, null, null);
+  }
+  
+  public final void zzdq(String paramString)
+  {
+    zza(6, paramString, null, null, null);
+  }
+  
+  public final void zze(String paramString, Object paramObject)
+  {
+    zza(6, paramString, paramObject, null, null);
+  }
+  
+  public final zzamu zzvw()
+  {
+    return zzdod;
+  }
+  
+  public final zzd zzvx()
+  {
+    return zzdod.zzvx();
+  }
+  
+  public final zzaon zzvy()
+  {
+    return zzdod.zzvy();
+  }
+  
+  public final zzanv zzvz()
+  {
+    return zzdod.zzvz();
+  }
+  
+  public final zzj zzwa()
+  {
+    return zzdod.zzwa();
+  }
+  
+  public final GoogleAnalytics zzwb()
+  {
+    return zzdod.zzwn();
+  }
+  
+  public final zzamj zzwc()
+  {
+    return zzdod.zzwc();
+  }
+  
+  public final zzaoa zzwd()
+  {
+    return zzdod.zzwd();
+  }
+  
+  public final zzape zzwe()
+  {
+    return zzdod.zzwe();
+  }
+  
+  public final zzaor zzwf()
+  {
+    return zzdod.zzwf();
+  }
+  
+  public final zzanm zzwg()
+  {
+    return zzdod.zzwq();
+  }
+  
+  public final zzami zzwh()
+  {
+    return zzdod.zzwp();
+  }
+  
+  public final zzanf zzwi()
+  {
+    return zzdod.zzwi();
+  }
+  
+  public final zzanz zzwj()
+  {
+    return zzdod.zzwj();
+  }
+}

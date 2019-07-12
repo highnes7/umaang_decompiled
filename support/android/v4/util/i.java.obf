@@ -1,0 +1,240 @@
+package b.b.x.n;
+
+public final class f<E>
+{
+  public E[] a;
+  public int b;
+  public int c;
+  public int d;
+  
+  public f()
+  {
+    this(8);
+  }
+  
+  public f(int paramInt)
+  {
+    if (paramInt >= 1)
+    {
+      if (paramInt <= 1073741824)
+      {
+        int i = paramInt;
+        if (Integer.bitCount(paramInt) != 1) {
+          i = Integer.highestOneBit(paramInt - 1) << 1;
+        }
+        d = (i - 1);
+        a = new Object[i];
+        return;
+      }
+      throw new IllegalArgumentException("capacity must be <= 2^30");
+    }
+    throw new IllegalArgumentException("capacity must be >= 1");
+  }
+  
+  private void h()
+  {
+    Object[] arrayOfObject1 = a;
+    int i = arrayOfObject1.length;
+    int j = b;
+    int k = i - j;
+    int m = i << 1;
+    if (m >= 0)
+    {
+      Object[] arrayOfObject2 = new Object[m];
+      System.arraycopy(arrayOfObject1, j, arrayOfObject2, 0, k);
+      System.arraycopy(a, 0, arrayOfObject2, k, b);
+      a = arrayOfObject2;
+      b = 0;
+      c = i;
+      d = (m - 1);
+      return;
+    }
+    throw new RuntimeException("Max array capacity exceeded");
+  }
+  
+  public E a(int paramInt)
+  {
+    if ((paramInt >= 0) && (paramInt < g()))
+    {
+      Object[] arrayOfObject = a;
+      int i = b;
+      return arrayOfObject[(d & i + paramInt)];
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public void a()
+  {
+    c(g());
+  }
+  
+  public void a(E paramE)
+  {
+    b = (b - 1 & d);
+    Object[] arrayOfObject = a;
+    int i = b;
+    arrayOfObject[i] = paramE;
+    if (i == c) {
+      h();
+    }
+  }
+  
+  public E b()
+  {
+    int i = b;
+    if (i != c) {
+      return a[i];
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public void b(int paramInt)
+  {
+    if (paramInt <= 0) {
+      return;
+    }
+    if (paramInt <= g())
+    {
+      int i = 0;
+      int j = c;
+      if (paramInt < j) {
+        i = j - paramInt;
+      }
+      j = i;
+      int k;
+      for (;;)
+      {
+        k = c;
+        if (j >= k) {
+          break;
+        }
+        a[j] = null;
+        j += 1;
+      }
+      i = k - i;
+      paramInt -= i;
+      c = (k - i);
+      if (paramInt > 0)
+      {
+        c = a.length;
+        i = c - paramInt;
+        paramInt = i;
+        while (paramInt < c)
+        {
+          a[paramInt] = null;
+          paramInt += 1;
+        }
+        c = i;
+      }
+      return;
+    }
+    ArrayIndexOutOfBoundsException localArrayIndexOutOfBoundsException = new ArrayIndexOutOfBoundsException();
+    for (;;)
+    {
+      throw localArrayIndexOutOfBoundsException;
+    }
+  }
+  
+  public void b(E paramE)
+  {
+    Object[] arrayOfObject = a;
+    int i = c;
+    arrayOfObject[i] = paramE;
+    c = (d & i + 1);
+    if (c == b) {
+      h();
+    }
+  }
+  
+  public E c()
+  {
+    int i = b;
+    int j = c;
+    if (i != j) {
+      return a[(j - 1 & d)];
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public void c(int paramInt)
+  {
+    if (paramInt <= 0) {
+      return;
+    }
+    if (paramInt <= g())
+    {
+      int j = a.length;
+      int k = b;
+      int i = j;
+      if (paramInt < j - k) {
+        i = k + paramInt;
+      }
+      j = b;
+      while (j < i)
+      {
+        a[j] = null;
+        j += 1;
+      }
+      j = b;
+      k = i - j;
+      i = paramInt - k;
+      b = (d & j + k);
+      if (i > 0)
+      {
+        paramInt = 0;
+        while (paramInt < i)
+        {
+          a[paramInt] = null;
+          paramInt += 1;
+        }
+        b = i;
+      }
+      return;
+    }
+    ArrayIndexOutOfBoundsException localArrayIndexOutOfBoundsException = new ArrayIndexOutOfBoundsException();
+    for (;;)
+    {
+      throw localArrayIndexOutOfBoundsException;
+    }
+  }
+  
+  public boolean d()
+  {
+    return b == c;
+  }
+  
+  public E e()
+  {
+    int i = b;
+    if (i != c)
+    {
+      Object[] arrayOfObject = a;
+      Object localObject = arrayOfObject[i];
+      arrayOfObject[i] = null;
+      b = (i + 1 & d);
+      return localObject;
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public E f()
+  {
+    int i = b;
+    int j = c;
+    if (i != j)
+    {
+      i = d & j - 1;
+      Object[] arrayOfObject = a;
+      Object localObject = arrayOfObject[i];
+      arrayOfObject[i] = null;
+      c = i;
+      return localObject;
+    }
+    throw new ArrayIndexOutOfBoundsException();
+  }
+  
+  public int g()
+  {
+    return c - b & d;
+  }
+}

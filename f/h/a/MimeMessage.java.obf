@@ -1,0 +1,72 @@
+package f.h.a;
+
+import com.coremedia.iso.boxes.FullBox;
+import f.b.a.h;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public abstract class c
+  extends a
+  implements FullBox
+{
+  public int flags;
+  public int version;
+  
+  static {}
+  
+  public c(String paramString)
+  {
+    super(paramString);
+  }
+  
+  public c(String paramString, byte[] paramArrayOfByte)
+  {
+    super(paramString, paramArrayOfByte);
+  }
+  
+  @f.h.a.a.a
+  public int getFlags()
+  {
+    if (!isParsed) {
+      parseDetails();
+    }
+    return flags;
+  }
+  
+  @f.h.a.a.a
+  public int getVersion()
+  {
+    if (!isParsed) {
+      parseDetails();
+    }
+    return version;
+  }
+  
+  public final long parseVersionAndFlags(ByteBuffer paramByteBuffer)
+  {
+    version = h.m(paramByteBuffer);
+    flags = h.i(paramByteBuffer);
+    return 4L;
+  }
+  
+  public void setFlags(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, new Integer(paramInt));
+    j.b().a(localJoinPoint);
+    flags = paramInt;
+  }
+  
+  public void setVersion(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this, new Integer(paramInt));
+    j.b().a(localJoinPoint);
+    version = paramInt;
+  }
+  
+  public final void writeVersionAndFlags(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.put((byte)(version & 0xFF));
+    f.b.a.j.c(paramByteBuffer, flags);
+  }
+}

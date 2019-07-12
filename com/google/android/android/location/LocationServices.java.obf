@@ -1,0 +1,91 @@
+package com.google.android.gms.location;
+
+import android.app.Activity;
+import android.content.Context;
+import b.b.a.F;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Api.ApiOptions.NoOptions;
+import com.google.android.gms.common.api.Api.zza;
+import com.google.android.gms.common.api.Api.zzf;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.internal.zzm;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzbym;
+import com.google.android.gms.internal.zzbzb;
+import com.google.android.gms.internal.zzbzu;
+import com.google.android.gms.internal.zzcaf;
+
+public class LocationServices
+{
+  public static final Api<Api.ApiOptions.NoOptions> API = new Api("LocationServices.API", zzdwq, zzdwp);
+  @Deprecated
+  public static final FusedLocationProviderApi FusedLocationApi = new zzbym();
+  @Deprecated
+  public static final GeofencingApi GeofencingApi = new zzbzb();
+  @Deprecated
+  public static final SettingsApi SettingsApi = new zzcaf();
+  public static final Api.zzf<zzbzu> zzdwp = new Api.zzf();
+  public static final Api.zza<zzbzu, Api.ApiOptions.NoOptions> zzdwq = new zzs();
+  
+  public LocationServices() {}
+  
+  public static FusedLocationProviderClient getFusedLocationProviderClient(@F Activity paramActivity)
+  {
+    return new FusedLocationProviderClient(paramActivity);
+  }
+  
+  public static FusedLocationProviderClient getFusedLocationProviderClient(@F Context paramContext)
+  {
+    return new FusedLocationProviderClient(paramContext);
+  }
+  
+  public static GeofencingClient getGeofencingClient(@F Activity paramActivity)
+  {
+    return new GeofencingClient(paramActivity);
+  }
+  
+  public static GeofencingClient getGeofencingClient(@F Context paramContext)
+  {
+    return new GeofencingClient(paramContext);
+  }
+  
+  public static SettingsClient getSettingsClient(@F Activity paramActivity)
+  {
+    return new SettingsClient(paramActivity);
+  }
+  
+  public static SettingsClient getSettingsClient(@F Context paramContext)
+  {
+    return new SettingsClient(paramContext);
+  }
+  
+  public static zzbzu zzg(GoogleApiClient paramGoogleApiClient)
+  {
+    boolean bool2 = true;
+    boolean bool1;
+    if (paramGoogleApiClient != null) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    zzbp.zzb(bool1, "GoogleApiClient parameter is required.");
+    paramGoogleApiClient = (zzbzu)paramGoogleApiClient.zza(zzdwp);
+    if (paramGoogleApiClient != null) {
+      bool1 = bool2;
+    } else {
+      bool1 = false;
+    }
+    zzbp.zza(bool1, "GoogleApiClient is not configured to use the LocationServices.API Api. Pass thisinto GoogleApiClient.Builder#addApi() to use this feature.");
+    return paramGoogleApiClient;
+  }
+  
+  public static abstract class zza<R extends Result>
+    extends zzm<R, zzbzu>
+  {
+    public zza(GoogleApiClient paramGoogleApiClient)
+    {
+      super(paramGoogleApiClient);
+    }
+  }
+}

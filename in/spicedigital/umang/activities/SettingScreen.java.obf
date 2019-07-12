@@ -1,0 +1,418 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import e.a.a.i;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import k.a.a.a.Uq;
+import k.a.a.a.Vq;
+import k.a.a.a.Wq;
+import k.a.a.a.Xq;
+import k.a.a.a.Yq;
+import k.a.a.a.Zq;
+import k.a.a.a._q;
+import k.a.a.a.ar;
+import k.a.a.a.cr;
+import k.a.a.a.dr;
+import k.a.a.a.er;
+import k.a.a.c.H;
+import k.a.a.c.n;
+import k.a.a.c.w;
+import k.a.a.l.o;
+import k.a.a.m.Ea;
+import k.a.a.m.V;
+import org.json.JSONObject;
+
+public class SettingScreen
+  extends BaseActivity
+{
+  public ArrayList<n> A;
+  public ArrayList<String> B;
+  public ArrayList<String> C;
+  public ArrayList<w> D;
+  public i E;
+  public String TAG = "SettingScreen";
+  public Toolbar b;
+  public View c;
+  public TextView d;
+  public ImageView e;
+  public LinearLayout f;
+  public LinearLayout g;
+  public LinearLayout h;
+  public LinearLayout i;
+  public LinearLayout j;
+  public LinearLayout k;
+  public LinearLayout l;
+  public TextView m;
+  public TextView n;
+  public TextView o;
+  public TextView p;
+  public TextView q;
+  public View r;
+  public View s;
+  public View t;
+  public View u;
+  public View v;
+  public V w;
+  public k.a.a.e.b x;
+  public ArrayList<H> y;
+  public ImageView z;
+  
+  public SettingScreen() {}
+  
+  private void e()
+  {
+    if (w.a(V.ma, "").isEmpty()) {
+      a.a(this, InfoHomeScreen.class);
+    } else {
+      a.a(this, MainActivity.class);
+    }
+    finish();
+  }
+  
+  private void f()
+  {
+    A = new ArrayList();
+    Object localObject2 = w.a(V.Ra, "");
+    i.setVisibility(8);
+    v.setVisibility(8);
+    if (!((String)localObject2).equalsIgnoreCase("")) {
+      try
+      {
+        Object localObject1 = w.a(V.t, "home");
+        Object localObject3 = TAG;
+        localObject3 = new StringBuilder();
+        ((StringBuilder)localObject3).append("defaultTab.....................");
+        ((StringBuilder)localObject3).append((String)localObject1);
+        ((StringBuilder)localObject3).toString();
+        localObject2 = ((String)localObject2).split(",");
+        int i1 = 0;
+        for (;;)
+        {
+          int i2 = localObject2.length;
+          if (i1 >= i2) {
+            break;
+          }
+          localObject3 = localObject2[i1].split("\\|");
+          n localN = new n();
+          localN.c(localObject3[0]);
+          localN.b(localObject3[1]);
+          if (localObject3.length > 2) {
+            localN.a(localObject3[2]);
+          } else {
+            localN.a("");
+          }
+          Object localObject4 = TAG;
+          localObject4 = new StringBuilder();
+          ((StringBuilder)localObject4).append("tab id..............");
+          ((StringBuilder)localObject4).append(localObject3[1]);
+          ((StringBuilder)localObject4).toString();
+          if (localObject3[1].equalsIgnoreCase((String)localObject1))
+          {
+            localObject4 = TAG;
+            localObject4 = new StringBuilder();
+            ((StringBuilder)localObject4).append("selected tab.....................");
+            ((StringBuilder)localObject4).append(localObject3[1]);
+            ((StringBuilder)localObject4).toString();
+            localN.a(true);
+            p.setText(localObject3[0]);
+          }
+          else
+          {
+            localN.a(false);
+          }
+          A.add(localN);
+          i1 += 1;
+        }
+        if (!p.getText().toString().trim().equalsIgnoreCase("")) {
+          return;
+        }
+        localObject1 = localObject2[0].split("\\|");
+        p.setText(localObject1[0]);
+        w.c(V.t, localObject1[1]);
+        ((n)A.get(0)).a(true);
+        return;
+      }
+      catch (Exception localException)
+      {
+        k.a.a.m.b.a(localException);
+        return;
+      }
+    }
+    String str = w.a(V.t, "home");
+    localObject2 = new n();
+    ((n)localObject2).c(getResources().getString(2131755815));
+    ((n)localObject2).b("home");
+    ((n)localObject2).a("");
+    if (str.equalsIgnoreCase("home"))
+    {
+      ((n)localObject2).a(true);
+      a.a(this, 2131755815, p);
+    }
+    else
+    {
+      ((n)localObject2).a(false);
+    }
+    A.add(localObject2);
+    localObject2 = new n();
+    ((n)localObject2).c(getResources().getString(2131755716));
+    ((n)localObject2).b("fav");
+    ((n)localObject2).a("");
+    if (str.equalsIgnoreCase("fav"))
+    {
+      ((n)localObject2).a(true);
+      a.a(this, 2131755716, p);
+    }
+    else
+    {
+      ((n)localObject2).a(false);
+    }
+    A.add(localObject2);
+    localObject2 = new n();
+    ((n)localObject2).c(getResources().getString(2131755260));
+    ((n)localObject2).b("allservices");
+    ((n)localObject2).a("");
+    if (str.equalsIgnoreCase("allservices"))
+    {
+      ((n)localObject2).a(true);
+      a.a(this, 2131755260, p);
+    }
+    else
+    {
+      ((n)localObject2).a(false);
+    }
+    A.add(localObject2);
+    if (p.getText().toString().trim().equalsIgnoreCase(""))
+    {
+      a.a(this, 2131755815, p);
+      w.c(V.t, "home");
+      ((n)A.get(0)).a(true);
+    }
+  }
+  
+  private void g()
+  {
+    w = new V(this);
+    x = k.a.a.e.b.a(this);
+    e = ((ImageView)findViewById(2131297761));
+    f = ((LinearLayout)findViewById(2131297199));
+    g = ((LinearLayout)findViewById(2131297573));
+    h = ((LinearLayout)findViewById(2131296958));
+    i = ((LinearLayout)findViewById(2131297389));
+    j = ((LinearLayout)findViewById(2131296601));
+    k = ((LinearLayout)findViewById(2131296814));
+    l = ((LinearLayout)findViewById(2131296296));
+    m = ((TextView)findViewById(2131297204));
+    n = ((TextView)findViewById(2131296960));
+    o = ((TextView)findViewById(2131297391));
+    p = ((TextView)findViewById(2131296602));
+    q = ((TextView)findViewById(2131296815));
+    v = findViewById(2131297390);
+    r = findViewById(2131298000);
+    s = findViewById(2131298001);
+    t = findViewById(2131298002);
+    u = findViewById(2131298003);
+    if (w.a(V.ma, "").isEmpty())
+    {
+      j.setVisibility(8);
+      g.setVisibility(8);
+      f.setVisibility(8);
+      l.setVisibility(8);
+      z.setVisibility(8);
+      r.setVisibility(8);
+      s.setVisibility(8);
+      t.setVisibility(8);
+      u.setVisibility(8);
+    }
+    D = new ArrayList();
+    B = Ea.n(this);
+    C = Ea.e();
+    Object localObject1 = w.a(V.c, "en");
+    int i1 = 0;
+    while (i1 < C.size())
+    {
+      localObject2 = new w();
+      ((w)localObject2).c((String)C.get(i1));
+      ((w)localObject2).a((String)B.get(i1));
+      if (((String)C.get(i1)).equalsIgnoreCase((String)localObject1))
+      {
+        ((w)localObject2).a(true);
+        n.setText((CharSequence)B.get(i1));
+      }
+      else
+      {
+        ((w)localObject2).a(false);
+      }
+      D.add(localObject2);
+      i1 += 1;
+    }
+    if (w.a(V.u, "normal").equalsIgnoreCase("small")) {
+      a.a(this, 2131756385, q);
+    } else if (w.a(V.u, "normal").equalsIgnoreCase("normal")) {
+      a.a(this, 2131756019, q);
+    } else {
+      a.a(this, 2131755857, q);
+    }
+    localObject1 = getResources().getStringArray(2130903065);
+    Object localObject2 = getResources().getStringArray(2130903064);
+    y = new ArrayList();
+    i1 = 0;
+    while (i1 < localObject1.length)
+    {
+      H localH = new H();
+      localH.a(localObject2[i1]);
+      localH.b(localObject1[i1]);
+      if (w.a(V.k, "").equalsIgnoreCase(localObject2[i1])) {
+        localH.b(true);
+      } else {
+        localH.b(false);
+      }
+      y.add(localH);
+      i1 += 1;
+    }
+    localObject1 = w.a(V.k, "");
+    if (!((String)localObject1).equalsIgnoreCase("")) {
+      o.setText(Ea.g(this, (String)localObject1));
+    } else {
+      a.a(this, 2131756018, o);
+    }
+    f();
+  }
+  
+  private void g(String paramString)
+  {
+    JSONObject localJSONObject2;
+    try
+    {
+      JSONObject localJSONObject1 = Ea.e(this);
+      localJSONObject1.remove("lang");
+      localJSONObject1.put("lang", paramString);
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localJSONObject2 = null;
+    }
+    if (localJSONObject2 != null)
+    {
+      new o(new Vq(this, paramString), localJSONObject2, this).execute(new Object[0]);
+      return;
+    }
+    paramString = TAG;
+  }
+  
+  private void h()
+  {
+    Dialog localDialog = new Dialog(this);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131493039);
+    localDialog.setCancelable(true);
+    ((ListView)localDialog.findViewById(2131297009)).setAdapter(new SettingScreen.a(this, y));
+    ((TextView)localDialog.findViewById(2131296672)).setOnClickListener(new er(this, localDialog));
+    localDialog.setOnCancelListener(new Uq(this));
+    localDialog.show();
+  }
+  
+  public void onBackPressed()
+  {
+    e();
+  }
+  
+  public void onCreate(Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    b = ((Toolbar)a.a(this, 2131493238, this, "Setting Screen", 2131297768));
+    a.a(this, b, true);
+    c = b.getRootView();
+    d = ((TextView)c.findViewById(2131297758));
+    a.a(this, 2131756363, d);
+    z = ((ImageView)c.findViewById(2131296872));
+    z.setOnClickListener(new Wq(this));
+    g();
+    if (w.a(V.f, "true").equalsIgnoreCase("true")) {
+      e.setImageResource(2131231477);
+    } else {
+      e.setImageResource(2131231475);
+    }
+    if ((getIntent().getStringExtra("showRegionDialog") != null) && (getIntent().getStringExtra("showRegionDialog").equalsIgnoreCase("true"))) {
+      h();
+    }
+    try
+    {
+      paramBundle = getIntent().getStringExtra("notifId");
+      if (paramBundle != null)
+      {
+        x.E(paramBundle);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      k.a.a.m.b.a(paramBundle);
+    }
+    e.setOnClickListener(new Xq(this));
+    f.setOnClickListener(new Yq(this));
+    h.setOnClickListener(new Zq(this));
+    i.setOnClickListener(new _q(this));
+    j.setOnClickListener(new ar(this));
+    k.setOnClickListener(new cr(this));
+    l.setOnClickListener(new dr(this));
+  }
+  
+  public void onNewIntent(Intent paramIntent)
+  {
+    super.onNewIntent(paramIntent);
+    setIntent(paramIntent);
+    try
+    {
+      paramIntent = getIntent().getStringExtra("notifId");
+      if (paramIntent != null)
+      {
+        x.E(paramIntent);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+        return;
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+  }
+  
+  public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+  {
+    if (paramMenuItem.getItemId() == 16908332)
+    {
+      e();
+      return true;
+    }
+    return super.onOptionsItemSelected(paramMenuItem);
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    if (w.a(V.d, "true").equalsIgnoreCase("true"))
+    {
+      a.a(this, 2131755649, m);
+      return;
+    }
+    a.a(this, 2131755588, m);
+  }
+}

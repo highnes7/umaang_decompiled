@@ -1,0 +1,1816 @@
+package b.b.m.a;
+
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Paint.Cap;
+import android.graphics.Paint.Join;
+import android.graphics.Paint.Style;
+import android.graphics.Path;
+import android.graphics.Path.FillType;
+import android.graphics.PathMeasure;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
+import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Drawable.ConstantState;
+import android.graphics.drawable.VectorDrawable;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.util.Xml;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.a.k;
+import b.b.a.p;
+import b.b.x.b.b.i;
+import b.b.x.b.b.j;
+import b.b.x.d.d;
+import b.b.x.d.d.b;
+import b.b.x.n.t;
+import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+public class n
+  extends l
+{
+  public static final String b = "VectorDrawableCompat";
+  public static final PorterDuff.Mode c = PorterDuff.Mode.SRC_IN;
+  public static final String d = "clip-path";
+  public static final String e = "group";
+  public static final String f = "path";
+  public static final String g = "vector";
+  public static final int h = 0;
+  public static final int i = 1;
+  public static final int j = 2;
+  public static final int k = 0;
+  public static final int l = 1;
+  public static final int m = 2;
+  public static final int n = 2048;
+  public static final boolean o = false;
+  public g p;
+  public PorterDuffColorFilter q;
+  public ColorFilter r;
+  public boolean s;
+  public boolean t = true;
+  public Drawable.ConstantState u;
+  public final float[] v = new float[9];
+  public final Matrix w = new Matrix();
+  public final Rect x = new Rect();
+  
+  public n()
+  {
+    p = new g();
+  }
+  
+  public n(@F g paramG)
+  {
+    p = paramG;
+    q = a(q, c, d);
+  }
+  
+  public static int a(int paramInt, float paramFloat)
+  {
+    return paramInt & 0xFFFFFF | (int)(Color.alpha(paramInt) * paramFloat) << 24;
+  }
+  
+  public static PorterDuff.Mode a(int paramInt, PorterDuff.Mode paramMode)
+  {
+    if (paramInt != 3)
+    {
+      if (paramInt != 5)
+      {
+        if (paramInt != 9)
+        {
+          switch (paramInt)
+          {
+          default: 
+            return paramMode;
+          case 16: 
+            return PorterDuff.Mode.ADD;
+          case 15: 
+            return PorterDuff.Mode.SCREEN;
+          }
+          return PorterDuff.Mode.MULTIPLY;
+        }
+        return PorterDuff.Mode.SRC_ATOP;
+      }
+      return PorterDuff.Mode.SRC_IN;
+    }
+    return PorterDuff.Mode.SRC_OVER;
+  }
+  
+  @G
+  public static n a(@F Resources paramResources, @p int paramInt, @G Resources.Theme paramTheme)
+  {
+    Object localObject;
+    if (Build.VERSION.SDK_INT >= 24)
+    {
+      localObject = new n();
+      a = i.c(paramResources, paramInt, paramTheme);
+      u = new h(a.getConstantState());
+      return localObject;
+    }
+    try
+    {
+      localObject = paramResources.getXml(paramInt);
+      AttributeSet localAttributeSet = Xml.asAttributeSet((XmlPullParser)localObject);
+      do
+      {
+        paramInt = ((XmlPullParser)localObject).next();
+      } while ((paramInt != 2) && (paramInt != 1));
+      if (paramInt == 2) {
+        return createFromXmlInner(paramResources, (XmlPullParser)localObject, localAttributeSet, paramTheme);
+      }
+      throw new XmlPullParserException("No start tag found");
+    }
+    catch (XmlPullParserException|IOException paramResources)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  private void a(Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, Resources.Theme paramTheme)
+    throws XmlPullParserException, IOException
+  {
+    g localG = p;
+    f localF = b;
+    ArrayDeque localArrayDeque = new ArrayDeque();
+    localArrayDeque.push(i);
+    int i3 = paramXmlPullParser.getEventType();
+    int i4 = paramXmlPullParser.getDepth();
+    int i2;
+    for (int i1 = 1; (i3 != 1) && ((paramXmlPullParser.getDepth() >= i4 + 1) || (i3 != 3)); i1 = i2)
+    {
+      if (i3 == 2)
+      {
+        Object localObject = paramXmlPullParser.getName();
+        c localC = (c)localArrayDeque.peek();
+        if ("path".equals(localObject))
+        {
+          localObject = new b();
+          ((b)localObject).a(paramResources, paramAttributeSet, paramTheme, paramXmlPullParser);
+          b.add(localObject);
+          if (((e)localObject).getPathName() != null) {
+            q.put(((e)localObject).getPathName(), localObject);
+          }
+          i2 = 0;
+          i1 = a;
+          a = (c | i1);
+        }
+        else if ("clip-path".equals(localObject))
+        {
+          localObject = new a();
+          ((a)localObject).a(paramResources, paramAttributeSet, paramTheme, paramXmlPullParser);
+          b.add(localObject);
+          if (((e)localObject).getPathName() != null) {
+            q.put(((e)localObject).getPathName(), localObject);
+          }
+          i2 = a;
+          a = (c | i2);
+          i2 = i1;
+        }
+        else
+        {
+          i2 = i1;
+          if ("group".equals(localObject))
+          {
+            localObject = new c();
+            ((c)localObject).a(paramResources, paramAttributeSet, paramTheme, paramXmlPullParser);
+            b.add(localObject);
+            localArrayDeque.push(localObject);
+            if (((c)localObject).getGroupName() != null) {
+              q.put(((c)localObject).getGroupName(), localObject);
+            }
+            i2 = a;
+            a = (k | i2);
+            i2 = i1;
+          }
+        }
+      }
+      else
+      {
+        i2 = i1;
+        if (i3 == 3)
+        {
+          i2 = i1;
+          if ("group".equals(paramXmlPullParser.getName()))
+          {
+            localArrayDeque.pop();
+            i2 = i1;
+          }
+        }
+      }
+      i3 = paramXmlPullParser.next();
+    }
+    if (i1 == 0) {
+      return;
+    }
+    paramResources = new XmlPullParserException("no path defined");
+    for (;;)
+    {
+      throw paramResources;
+    }
+  }
+  
+  private void a(TypedArray paramTypedArray, XmlPullParser paramXmlPullParser)
+    throws XmlPullParserException
+  {
+    g localG = p;
+    f localF = b;
+    d = a(j.b(paramTypedArray, paramXmlPullParser, "tintMode", 6, -1), PorterDuff.Mode.SRC_IN);
+    ColorStateList localColorStateList = paramTypedArray.getColorStateList(1);
+    if (localColorStateList != null) {
+      c = localColorStateList;
+    }
+    e = j.a(paramTypedArray, paramXmlPullParser, "autoMirrored", 5, e);
+    l = j.a(paramTypedArray, paramXmlPullParser, "viewportWidth", 7, l);
+    m = j.a(paramTypedArray, paramXmlPullParser, "viewportHeight", 8, m);
+    if (l > 0.0F)
+    {
+      if (m > 0.0F)
+      {
+        j = paramTypedArray.getDimension(3, j);
+        k = paramTypedArray.getDimension(2, k);
+        if (j > 0.0F)
+        {
+          if (k > 0.0F)
+          {
+            localF.setAlpha(j.a(paramTypedArray, paramXmlPullParser, "alpha", 4, localF.getAlpha()));
+            paramTypedArray = paramTypedArray.getString(0);
+            if (paramTypedArray != null)
+            {
+              o = paramTypedArray;
+              q.put(paramTypedArray, localF);
+            }
+            return;
+          }
+          paramXmlPullParser = new StringBuilder();
+          paramXmlPullParser.append(paramTypedArray.getPositionDescription());
+          paramXmlPullParser.append("<vector> tag requires height > 0");
+          throw new XmlPullParserException(paramXmlPullParser.toString());
+        }
+        paramXmlPullParser = new StringBuilder();
+        paramXmlPullParser.append(paramTypedArray.getPositionDescription());
+        paramXmlPullParser.append("<vector> tag requires width > 0");
+        throw new XmlPullParserException(paramXmlPullParser.toString());
+      }
+      paramXmlPullParser = new StringBuilder();
+      paramXmlPullParser.append(paramTypedArray.getPositionDescription());
+      paramXmlPullParser.append("<vector> tag requires viewportHeight > 0");
+      throw new XmlPullParserException(paramXmlPullParser.toString());
+    }
+    paramXmlPullParser = new StringBuilder();
+    paramXmlPullParser.append(paramTypedArray.getPositionDescription());
+    paramXmlPullParser.append("<vector> tag requires viewportWidth > 0");
+    throw new XmlPullParserException(paramXmlPullParser.toString());
+  }
+  
+  private void a(c paramC, int paramInt)
+  {
+    int i2 = 0;
+    Object localObject = "";
+    int i1 = 0;
+    while (i1 < paramInt)
+    {
+      localObject = f.a.a.a.a.c((String)localObject, "    ");
+      i1 += 1;
+    }
+    StringBuilder localStringBuilder = f.a.a.a.a.d((String)localObject, "current group is :");
+    localStringBuilder.append(paramC.getGroupName());
+    localStringBuilder.append(" rotation is ");
+    localStringBuilder.append(c);
+    localStringBuilder.toString();
+    localStringBuilder = new StringBuilder();
+    localStringBuilder.append((String)localObject);
+    localStringBuilder.append("matrix is :");
+    localStringBuilder.append(paramC.getLocalMatrix().toString());
+    localStringBuilder.toString();
+    i1 = i2;
+    while (i1 < b.size())
+    {
+      localObject = (d)b.get(i1);
+      if ((localObject instanceof c)) {
+        a((c)localObject, paramInt + 1);
+      } else {
+        ((e)localObject).a(paramInt + 1);
+      }
+      i1 += 1;
+    }
+  }
+  
+  private boolean b()
+  {
+    int i1 = Build.VERSION.SDK_INT;
+    return (isAutoMirrored()) && (b.b.x.d.a.a.e(this) == 1);
+  }
+  
+  public static n createFromXmlInner(Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, Resources.Theme paramTheme)
+    throws XmlPullParserException, IOException
+  {
+    n localN = new n();
+    localN.inflate(paramResources, paramXmlPullParser, paramAttributeSet, paramTheme);
+    return localN;
+  }
+  
+  @N({b.b.a.N.a.b})
+  public float a()
+  {
+    Object localObject = p;
+    if (localObject != null)
+    {
+      localObject = b;
+      if (localObject != null)
+      {
+        float f1 = j;
+        if (f1 != 0.0F)
+        {
+          float f2 = k;
+          if (f2 != 0.0F)
+          {
+            float f3 = m;
+            if (f3 != 0.0F)
+            {
+              float f4 = l;
+              if (f4 != 0.0F) {
+                return Math.min(f4 / f1, f3 / f2);
+              }
+            }
+          }
+        }
+      }
+    }
+    return 1.0F;
+  }
+  
+  public PorterDuffColorFilter a(PorterDuffColorFilter paramPorterDuffColorFilter, ColorStateList paramColorStateList, PorterDuff.Mode paramMode)
+  {
+    if ((paramColorStateList != null) && (paramMode != null)) {
+      return new PorterDuffColorFilter(paramColorStateList.getColorForState(getState(), 0), paramMode);
+    }
+    return null;
+  }
+  
+  public Object a(String paramString)
+  {
+    return p.b.q.get(paramString);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    t = paramBoolean;
+  }
+  
+  public void applyTheme(Resources.Theme paramTheme)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      b.b.x.d.a.a.a(localDrawable, paramTheme);
+    }
+  }
+  
+  public boolean canApplyTheme()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      b.b.x.d.a.a.a(localDrawable);
+    }
+    return false;
+  }
+  
+  public void draw(Canvas paramCanvas)
+  {
+    Object localObject1 = a;
+    if (localObject1 != null)
+    {
+      ((Drawable)localObject1).draw(paramCanvas);
+      return;
+    }
+    copyBounds(x);
+    if (x.width() > 0)
+    {
+      if (x.height() <= 0) {
+        return;
+      }
+      Object localObject2 = r;
+      localObject1 = localObject2;
+      if (localObject2 == null) {
+        localObject1 = q;
+      }
+      paramCanvas.getMatrix(w);
+      w.getValues(v);
+      float f1 = Math.abs(v[0]);
+      float f2 = Math.abs(v[4]);
+      float f4 = Math.abs(v[1]);
+      float f3 = Math.abs(v[3]);
+      if ((f4 != 0.0F) || (f3 != 0.0F))
+      {
+        f1 = 1.0F;
+        f2 = 1.0F;
+      }
+      int i1 = (int)(x.width() * f1);
+      int i2 = (int)(x.height() * f2);
+      i1 = Math.min(2048, i1);
+      i2 = Math.min(2048, i2);
+      if (i1 > 0)
+      {
+        if (i2 <= 0) {
+          return;
+        }
+        int i3 = paramCanvas.save();
+        localObject2 = x;
+        paramCanvas.translate(left, top);
+        if (b())
+        {
+          paramCanvas.translate(x.width(), 0.0F);
+          paramCanvas.scale(-1.0F, 1.0F);
+        }
+        x.offsetTo(0, 0);
+        p.b(i1, i2);
+        if (!t)
+        {
+          p.c(i1, i2);
+        }
+        else if (!p.a())
+        {
+          p.c(i1, i2);
+          p.d();
+        }
+        p.a(paramCanvas, (ColorFilter)localObject1, x);
+        paramCanvas.restoreToCount(i3);
+      }
+    }
+  }
+  
+  public int getAlpha()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return b.b.x.d.a.a.c(localDrawable);
+    }
+    return p.b.getRootAlpha();
+  }
+  
+  public int getChangingConfigurations()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.getChangingConfigurations();
+    }
+    return super.getChangingConfigurations() | p.getChangingConfigurations();
+  }
+  
+  public Drawable.ConstantState getConstantState()
+  {
+    Drawable localDrawable = a;
+    if ((localDrawable != null) && (Build.VERSION.SDK_INT >= 24)) {
+      return new h(localDrawable.getConstantState());
+    }
+    p.a = getChangingConfigurations();
+    return p;
+  }
+  
+  public int getIntrinsicHeight()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.getIntrinsicHeight();
+    }
+    return (int)p.b.k;
+  }
+  
+  public int getIntrinsicWidth()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.getIntrinsicWidth();
+    }
+    return (int)p.b.j;
+  }
+  
+  public int getOpacity()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.getOpacity();
+    }
+    return -3;
+  }
+  
+  public void inflate(Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet)
+    throws XmlPullParserException, IOException
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.inflate(paramResources, paramXmlPullParser, paramAttributeSet);
+      return;
+    }
+    inflate(paramResources, paramXmlPullParser, paramAttributeSet, null);
+  }
+  
+  public void inflate(Resources paramResources, XmlPullParser paramXmlPullParser, AttributeSet paramAttributeSet, Resources.Theme paramTheme)
+    throws XmlPullParserException, IOException
+  {
+    Object localObject = a;
+    if (localObject != null)
+    {
+      b.b.x.d.a.a.a((Drawable)localObject, paramResources, paramXmlPullParser, paramAttributeSet, paramTheme);
+      return;
+    }
+    localObject = p;
+    b = new f();
+    TypedArray localTypedArray = j.a(paramResources, paramTheme, paramAttributeSet, a.a);
+    a(localTypedArray, paramXmlPullParser);
+    localTypedArray.recycle();
+    a = getChangingConfigurations();
+    l = true;
+    a(paramResources, paramXmlPullParser, paramAttributeSet, paramTheme);
+    q = a(q, c, d);
+  }
+  
+  public void invalidateSelf()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.invalidateSelf();
+      return;
+    }
+    super.invalidateSelf();
+  }
+  
+  public boolean isAutoMirrored()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return b.b.x.d.a.a.f(localDrawable);
+    }
+    return p.e;
+  }
+  
+  public boolean isStateful()
+  {
+    Object localObject = a;
+    if (localObject != null) {
+      return ((Drawable)localObject).isStateful();
+    }
+    if (!super.isStateful())
+    {
+      localObject = p;
+      if (localObject != null)
+      {
+        if (!((g)localObject).c())
+        {
+          localObject = p.c;
+          if ((localObject != null) && (((ColorStateList)localObject).isStateful())) {}
+        }
+      }
+      else {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public Drawable mutate()
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.mutate();
+      return this;
+    }
+    if ((!s) && (super.mutate() == this))
+    {
+      p = new g(p);
+      s = true;
+    }
+    return this;
+  }
+  
+  public void onBoundsChange(Rect paramRect)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      localDrawable.setBounds(paramRect);
+    }
+  }
+  
+  public boolean onStateChange(int[] paramArrayOfInt)
+  {
+    Object localObject = a;
+    if (localObject != null) {
+      return ((Drawable)localObject).setState(paramArrayOfInt);
+    }
+    boolean bool2 = false;
+    localObject = p;
+    ColorStateList localColorStateList = c;
+    boolean bool1 = bool2;
+    if (localColorStateList != null)
+    {
+      PorterDuff.Mode localMode = d;
+      bool1 = bool2;
+      if (localMode != null)
+      {
+        q = a(q, localColorStateList, localMode);
+        invalidateSelf();
+        bool1 = true;
+      }
+    }
+    bool2 = bool1;
+    if (((g)localObject).c())
+    {
+      bool2 = bool1;
+      if (((g)localObject).a(paramArrayOfInt))
+      {
+        invalidateSelf();
+        bool2 = true;
+      }
+    }
+    return bool2;
+  }
+  
+  public void scheduleSelf(Runnable paramRunnable, long paramLong)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.scheduleSelf(paramRunnable, paramLong);
+      return;
+    }
+    super.scheduleSelf(paramRunnable, paramLong);
+  }
+  
+  public void setAlpha(int paramInt)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.setAlpha(paramInt);
+      return;
+    }
+    if (p.b.getRootAlpha() != paramInt)
+    {
+      p.b.setRootAlpha(paramInt);
+      invalidateSelf();
+    }
+  }
+  
+  public void setAutoMirrored(boolean paramBoolean)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      b.b.x.d.a.a.a(localDrawable, paramBoolean);
+      return;
+    }
+    p.e = paramBoolean;
+  }
+  
+  public void setColorFilter(ColorFilter paramColorFilter)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.setColorFilter(paramColorFilter);
+      return;
+    }
+    r = paramColorFilter;
+    invalidateSelf();
+  }
+  
+  public void setFilterBitmap(boolean paramBoolean)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      localDrawable.setFilterBitmap(paramBoolean);
+    }
+  }
+  
+  public void setHotspot(float paramFloat1, float paramFloat2)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      b.b.x.d.a.a.a(localDrawable, paramFloat1, paramFloat2);
+    }
+  }
+  
+  public void setHotspotBounds(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      b.b.x.d.a.a.a(localDrawable, paramInt1, paramInt2, paramInt3, paramInt4);
+    }
+  }
+  
+  public void setTint(int paramInt)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      b.b.x.d.a.a.b(localDrawable, paramInt);
+      return;
+    }
+    setTintList(ColorStateList.valueOf(paramInt));
+  }
+  
+  public void setTintList(ColorStateList paramColorStateList)
+  {
+    Object localObject = a;
+    if (localObject != null)
+    {
+      b.b.x.d.a.a.a((Drawable)localObject, paramColorStateList);
+      return;
+    }
+    localObject = p;
+    if (c != paramColorStateList)
+    {
+      c = paramColorStateList;
+      q = a(q, paramColorStateList, d);
+      invalidateSelf();
+    }
+  }
+  
+  public void setTintMode(PorterDuff.Mode paramMode)
+  {
+    Object localObject = a;
+    if (localObject != null)
+    {
+      b.b.x.d.a.a.a((Drawable)localObject, paramMode);
+      return;
+    }
+    localObject = p;
+    if (d != paramMode)
+    {
+      d = paramMode;
+      q = a(q, c, paramMode);
+      invalidateSelf();
+    }
+  }
+  
+  public boolean setVisible(boolean paramBoolean1, boolean paramBoolean2)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null) {
+      return localDrawable.setVisible(paramBoolean1, paramBoolean2);
+    }
+    return super.setVisible(paramBoolean1, paramBoolean2);
+  }
+  
+  public void unscheduleSelf(Runnable paramRunnable)
+  {
+    Drawable localDrawable = a;
+    if (localDrawable != null)
+    {
+      localDrawable.unscheduleSelf(paramRunnable);
+      return;
+    }
+    super.unscheduleSelf(paramRunnable);
+  }
+  
+  private static class a
+    extends n.e
+  {
+    public a() {}
+    
+    public a(a paramA)
+    {
+      super();
+    }
+    
+    private void a(TypedArray paramTypedArray)
+    {
+      String str = paramTypedArray.getString(0);
+      if (str != null) {
+        b = str;
+      }
+      paramTypedArray = paramTypedArray.getString(1);
+      if (paramTypedArray != null) {
+        a = d.a(paramTypedArray);
+      }
+    }
+    
+    public void a(Resources paramResources, AttributeSet paramAttributeSet, Resources.Theme paramTheme, XmlPullParser paramXmlPullParser)
+    {
+      if (!j.a(paramXmlPullParser, "pathData")) {
+        return;
+      }
+      paramResources = j.a(paramResources, paramTheme, paramAttributeSet, a.I);
+      a(paramResources);
+      paramResources.recycle();
+    }
+    
+    public boolean c()
+    {
+      return true;
+    }
+  }
+  
+  private static class b
+    extends n.e
+  {
+    public static final int d = 0;
+    public int[] e;
+    public b.b.x.b.b.b f;
+    public float g = 0.0F;
+    public b.b.x.b.b.b h;
+    public float i = 1.0F;
+    public int j = 0;
+    public float k = 1.0F;
+    public float l = 0.0F;
+    public float m = 1.0F;
+    public float n = 0.0F;
+    public Paint.Cap o = Paint.Cap.BUTT;
+    public Paint.Join p = Paint.Join.MITER;
+    public float q = 4.0F;
+    
+    public b() {}
+    
+    public b(b paramB)
+    {
+      super();
+      e = e;
+      f = f;
+      g = g;
+      i = i;
+      h = h;
+      j = j;
+      k = k;
+      l = l;
+      m = m;
+      n = n;
+      o = o;
+      p = p;
+      q = q;
+    }
+    
+    private Paint.Cap a(int paramInt, Paint.Cap paramCap)
+    {
+      if (paramInt != 0)
+      {
+        if (paramInt != 1)
+        {
+          if (paramInt != 2) {
+            return paramCap;
+          }
+          return Paint.Cap.SQUARE;
+        }
+        return Paint.Cap.ROUND;
+      }
+      return Paint.Cap.BUTT;
+    }
+    
+    private Paint.Join a(int paramInt, Paint.Join paramJoin)
+    {
+      if (paramInt != 0)
+      {
+        if (paramInt != 1)
+        {
+          if (paramInt != 2) {
+            return paramJoin;
+          }
+          return Paint.Join.BEVEL;
+        }
+        return Paint.Join.ROUND;
+      }
+      return Paint.Join.MITER;
+    }
+    
+    private void a(TypedArray paramTypedArray, XmlPullParser paramXmlPullParser, Resources.Theme paramTheme)
+    {
+      e = null;
+      if (!j.a(paramXmlPullParser, "pathData")) {
+        return;
+      }
+      String str = paramTypedArray.getString(0);
+      if (str != null) {
+        b = str;
+      }
+      str = paramTypedArray.getString(2);
+      if (str != null) {
+        a = d.a(str);
+      }
+      h = j.a(paramTypedArray, paramXmlPullParser, paramTheme, "fillColor", 1, 0);
+      k = j.a(paramTypedArray, paramXmlPullParser, "fillAlpha", 12, k);
+      o = a(j.b(paramTypedArray, paramXmlPullParser, "strokeLineCap", 8, -1), o);
+      p = a(j.b(paramTypedArray, paramXmlPullParser, "strokeLineJoin", 9, -1), p);
+      q = j.a(paramTypedArray, paramXmlPullParser, "strokeMiterLimit", 10, q);
+      f = j.a(paramTypedArray, paramXmlPullParser, paramTheme, "strokeColor", 3, 0);
+      i = j.a(paramTypedArray, paramXmlPullParser, "strokeAlpha", 11, i);
+      g = j.a(paramTypedArray, paramXmlPullParser, "strokeWidth", 4, g);
+      m = j.a(paramTypedArray, paramXmlPullParser, "trimPathEnd", 6, m);
+      n = j.a(paramTypedArray, paramXmlPullParser, "trimPathOffset", 7, n);
+      l = j.a(paramTypedArray, paramXmlPullParser, "trimPathStart", 5, l);
+      j = j.b(paramTypedArray, paramXmlPullParser, "fillType", 13, j);
+    }
+    
+    public void a(Resources.Theme paramTheme)
+    {
+      if (e == null) {}
+    }
+    
+    public void a(Resources paramResources, AttributeSet paramAttributeSet, Resources.Theme paramTheme, XmlPullParser paramXmlPullParser)
+    {
+      paramResources = j.a(paramResources, paramTheme, paramAttributeSet, a.t);
+      a(paramResources, paramXmlPullParser, paramTheme);
+      paramResources.recycle();
+    }
+    
+    public boolean a()
+    {
+      return (h.d()) || (f.d());
+    }
+    
+    public boolean a(int[] paramArrayOfInt)
+    {
+      boolean bool = h.a(paramArrayOfInt);
+      return f.a(paramArrayOfInt) | bool;
+    }
+    
+    public boolean b()
+    {
+      return e != null;
+    }
+    
+    public float getFillAlpha()
+    {
+      return k;
+    }
+    
+    @k
+    public int getFillColor()
+    {
+      return h.a();
+    }
+    
+    public float getStrokeAlpha()
+    {
+      return i;
+    }
+    
+    @k
+    public int getStrokeColor()
+    {
+      return f.a();
+    }
+    
+    public float getStrokeWidth()
+    {
+      return g;
+    }
+    
+    public float getTrimPathEnd()
+    {
+      return m;
+    }
+    
+    public float getTrimPathOffset()
+    {
+      return n;
+    }
+    
+    public float getTrimPathStart()
+    {
+      return l;
+    }
+    
+    public void setFillAlpha(float paramFloat)
+    {
+      k = paramFloat;
+    }
+    
+    public void setFillColor(int paramInt)
+    {
+      h.b(paramInt);
+    }
+    
+    public void setStrokeAlpha(float paramFloat)
+    {
+      i = paramFloat;
+    }
+    
+    public void setStrokeColor(int paramInt)
+    {
+      f.b(paramInt);
+    }
+    
+    public void setStrokeWidth(float paramFloat)
+    {
+      g = paramFloat;
+    }
+    
+    public void setTrimPathEnd(float paramFloat)
+    {
+      m = paramFloat;
+    }
+    
+    public void setTrimPathOffset(float paramFloat)
+    {
+      n = paramFloat;
+    }
+    
+    public void setTrimPathStart(float paramFloat)
+    {
+      l = paramFloat;
+    }
+  }
+  
+  private static class c
+    extends n.d
+  {
+    public final Matrix a = new Matrix();
+    public final ArrayList<n.d> b = new ArrayList();
+    public float c = 0.0F;
+    public float d = 0.0F;
+    public float e = 0.0F;
+    public float f = 1.0F;
+    public float g = 1.0F;
+    public float h = 0.0F;
+    public float i = 0.0F;
+    public final Matrix j = new Matrix();
+    public int k;
+    public int[] l;
+    public String m = null;
+    
+    public c()
+    {
+      super();
+    }
+    
+    public c(c paramC, b.b.x.n.b<String, Object> paramB)
+    {
+      super();
+      c = c;
+      d = d;
+      e = e;
+      f = f;
+      g = g;
+      h = h;
+      i = i;
+      l = l;
+      m = m;
+      k = k;
+      Object localObject = m;
+      if (localObject != null) {
+        paramB.put(localObject, this);
+      }
+      j.set(j);
+      localObject = b;
+      int n = 0;
+      while (n < ((ArrayList)localObject).size())
+      {
+        paramC = ((ArrayList)localObject).get(n);
+        if ((paramC instanceof c))
+        {
+          paramC = (c)paramC;
+          b.add(new c(paramC, paramB));
+        }
+        else
+        {
+          if ((paramC instanceof n.b))
+          {
+            paramC = new n.b((n.b)paramC);
+          }
+          else
+          {
+            if (!(paramC instanceof n.a)) {
+              break label320;
+            }
+            paramC = new n.a((n.a)paramC);
+          }
+          b.add(paramC);
+          String str = b;
+          if (str != null) {
+            paramB.put(str, paramC);
+          }
+        }
+        n += 1;
+        continue;
+        label320:
+        throw new IllegalStateException("Unknown object in the tree!");
+      }
+    }
+    
+    private void a(TypedArray paramTypedArray, XmlPullParser paramXmlPullParser)
+    {
+      l = null;
+      c = j.a(paramTypedArray, paramXmlPullParser, "rotation", 5, c);
+      d = paramTypedArray.getFloat(1, d);
+      e = paramTypedArray.getFloat(2, e);
+      f = j.a(paramTypedArray, paramXmlPullParser, "scaleX", 3, f);
+      g = j.a(paramTypedArray, paramXmlPullParser, "scaleY", 4, g);
+      h = j.a(paramTypedArray, paramXmlPullParser, "translateX", 6, h);
+      i = j.a(paramTypedArray, paramXmlPullParser, "translateY", 7, i);
+      paramTypedArray = paramTypedArray.getString(0);
+      if (paramTypedArray != null) {
+        m = paramTypedArray;
+      }
+      b();
+    }
+    
+    private void b()
+    {
+      j.reset();
+      j.postTranslate(-d, -e);
+      j.postScale(f, g);
+      j.postRotate(c, 0.0F, 0.0F);
+      j.postTranslate(h + d, i + e);
+    }
+    
+    public void a(Resources paramResources, AttributeSet paramAttributeSet, Resources.Theme paramTheme, XmlPullParser paramXmlPullParser)
+    {
+      paramResources = j.a(paramResources, paramTheme, paramAttributeSet, a.k);
+      a(paramResources, paramXmlPullParser);
+      paramResources.recycle();
+    }
+    
+    public boolean a()
+    {
+      int n = 0;
+      while (n < b.size())
+      {
+        if (((n.d)b.get(n)).a()) {
+          return true;
+        }
+        n += 1;
+      }
+      return false;
+    }
+    
+    public boolean a(int[] paramArrayOfInt)
+    {
+      int n = 0;
+      boolean bool = false;
+      while (n < b.size())
+      {
+        bool |= ((n.d)b.get(n)).a(paramArrayOfInt);
+        n += 1;
+      }
+      return bool;
+    }
+    
+    public String getGroupName()
+    {
+      return m;
+    }
+    
+    public Matrix getLocalMatrix()
+    {
+      return j;
+    }
+    
+    public float getPivotX()
+    {
+      return d;
+    }
+    
+    public float getPivotY()
+    {
+      return e;
+    }
+    
+    public float getRotation()
+    {
+      return c;
+    }
+    
+    public float getScaleX()
+    {
+      return f;
+    }
+    
+    public float getScaleY()
+    {
+      return g;
+    }
+    
+    public float getTranslateX()
+    {
+      return h;
+    }
+    
+    public float getTranslateY()
+    {
+      return i;
+    }
+    
+    public void setPivotX(float paramFloat)
+    {
+      if (paramFloat != d)
+      {
+        d = paramFloat;
+        b();
+      }
+    }
+    
+    public void setPivotY(float paramFloat)
+    {
+      if (paramFloat != e)
+      {
+        e = paramFloat;
+        b();
+      }
+    }
+    
+    public void setRotation(float paramFloat)
+    {
+      if (paramFloat != c)
+      {
+        c = paramFloat;
+        b();
+      }
+    }
+    
+    public void setScaleX(float paramFloat)
+    {
+      if (paramFloat != f)
+      {
+        f = paramFloat;
+        b();
+      }
+    }
+    
+    public void setScaleY(float paramFloat)
+    {
+      if (paramFloat != g)
+      {
+        g = paramFloat;
+        b();
+      }
+    }
+    
+    public void setTranslateX(float paramFloat)
+    {
+      if (paramFloat != h)
+      {
+        h = paramFloat;
+        b();
+      }
+    }
+    
+    public void setTranslateY(float paramFloat)
+    {
+      if (paramFloat != i)
+      {
+        i = paramFloat;
+        b();
+      }
+    }
+  }
+  
+  private static abstract class d
+  {
+    public d() {}
+    
+    public boolean a()
+    {
+      return false;
+    }
+    
+    public boolean a(int[] paramArrayOfInt)
+    {
+      return false;
+    }
+  }
+  
+  private static abstract class e
+    extends n.d
+  {
+    public d.b[] a = null;
+    public String b;
+    public int c;
+    
+    public e()
+    {
+      super();
+    }
+    
+    public e(e paramE)
+    {
+      super();
+      b = b;
+      c = c;
+      a = d.a(a);
+    }
+    
+    public String a(d.b[] paramArrayOfB)
+    {
+      Object localObject = " ";
+      int i = 0;
+      while (i < paramArrayOfB.length)
+      {
+        localObject = f.a.a.a.a.b((String)localObject);
+        ((StringBuilder)localObject).append(a);
+        ((StringBuilder)localObject).append(":");
+        localObject = ((StringBuilder)localObject).toString();
+        float[] arrayOfFloat = b;
+        int j = 0;
+        while (j < arrayOfFloat.length)
+        {
+          localObject = f.a.a.a.a.b((String)localObject);
+          ((StringBuilder)localObject).append(arrayOfFloat[j]);
+          ((StringBuilder)localObject).append(",");
+          localObject = ((StringBuilder)localObject).toString();
+          j += 1;
+        }
+        i += 1;
+      }
+      return localObject;
+    }
+    
+    public void a(int paramInt)
+    {
+      Object localObject = "";
+      int i = 0;
+      while (i < paramInt)
+      {
+        localObject = f.a.a.a.a.c((String)localObject, "    ");
+        i += 1;
+      }
+      localObject = f.a.a.a.a.d((String)localObject, "current path is :");
+      ((StringBuilder)localObject).append(b);
+      ((StringBuilder)localObject).append(" pathData is ");
+      ((StringBuilder)localObject).append(a(a));
+      ((StringBuilder)localObject).toString();
+    }
+    
+    public void a(Resources.Theme paramTheme) {}
+    
+    public void a(Path paramPath)
+    {
+      paramPath.reset();
+      d.b[] arrayOfB = a;
+      if (arrayOfB != null) {
+        d.b.a(arrayOfB, paramPath);
+      }
+    }
+    
+    public boolean b()
+    {
+      return false;
+    }
+    
+    public boolean c()
+    {
+      return false;
+    }
+    
+    public d.b[] getPathData()
+    {
+      return a;
+    }
+    
+    public String getPathName()
+    {
+      return b;
+    }
+    
+    public void setPathData(d.b[] paramArrayOfB)
+    {
+      if (!d.a(a, paramArrayOfB))
+      {
+        a = d.a(paramArrayOfB);
+        return;
+      }
+      d.b(a, paramArrayOfB);
+    }
+  }
+  
+  private static class f
+  {
+    public static final Matrix a = new Matrix();
+    public final Path b;
+    public final Path c;
+    public final Matrix d = new Matrix();
+    public Paint e;
+    public Paint f;
+    public PathMeasure g;
+    public int h;
+    public final n.c i;
+    public float j = 0.0F;
+    public float k = 0.0F;
+    public float l = 0.0F;
+    public float m = 0.0F;
+    public int n = 255;
+    public String o = null;
+    public Boolean p = null;
+    public final b.b.x.n.b<String, Object> q = new b.b.x.n.b();
+    
+    public f()
+    {
+      i = new n.c();
+      b = new Path();
+      c = new Path();
+    }
+    
+    public f(f paramF)
+    {
+      i = new n.c(i, q);
+      b = new Path(b);
+      c = new Path(c);
+      j = j;
+      k = k;
+      l = l;
+      m = m;
+      h = h;
+      n = n;
+      o = o;
+      String str = o;
+      if (str != null) {
+        q.put(str, this);
+      }
+      p = p;
+    }
+    
+    public static float a(float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4)
+    {
+      return paramFloat1 * paramFloat4 - paramFloat2 * paramFloat3;
+    }
+    
+    private float a(Matrix paramMatrix)
+    {
+      float[] arrayOfFloat = new float[4];
+      float[] tmp7_5 = arrayOfFloat;
+      tmp7_5[0] = 0.0F;
+      float[] tmp11_7 = tmp7_5;
+      tmp11_7[1] = 1.0F;
+      float[] tmp15_11 = tmp11_7;
+      tmp15_11[2] = 1.0F;
+      float[] tmp19_15 = tmp15_11;
+      tmp19_15[3] = 0.0F;
+      tmp19_15;
+      paramMatrix.mapVectors(arrayOfFloat);
+      float f1 = (float)Math.hypot(arrayOfFloat[0], arrayOfFloat[1]);
+      float f3 = (float)Math.hypot(arrayOfFloat[2], arrayOfFloat[3]);
+      float f2 = a(arrayOfFloat[0], arrayOfFloat[1], arrayOfFloat[2], arrayOfFloat[3]);
+      f3 = Math.max(f1, f3);
+      f1 = 0.0F;
+      if (f3 > 0.0F) {
+        f1 = Math.abs(f2) / f3;
+      }
+      return f1;
+    }
+    
+    private void a(n.c paramC, Matrix paramMatrix, Canvas paramCanvas, int paramInt1, int paramInt2, ColorFilter paramColorFilter)
+    {
+      a.set(paramMatrix);
+      a.preConcat(j);
+      paramCanvas.save();
+      int i1 = 0;
+      while (i1 < b.size())
+      {
+        paramMatrix = (n.d)b.get(i1);
+        if ((paramMatrix instanceof n.c)) {
+          a((n.c)paramMatrix, a, paramCanvas, paramInt1, paramInt2, paramColorFilter);
+        } else if ((paramMatrix instanceof n.e)) {
+          a(paramC, (n.e)paramMatrix, paramCanvas, paramInt1, paramInt2, paramColorFilter);
+        }
+        i1 += 1;
+      }
+      paramCanvas.restore();
+    }
+    
+    private void a(n.c paramC, n.e paramE, Canvas paramCanvas, int paramInt1, int paramInt2, ColorFilter paramColorFilter)
+    {
+      float f2 = paramInt1 / l;
+      float f3 = paramInt2 / m;
+      float f1 = Math.min(f2, f3);
+      paramC = a;
+      d.set(paramC);
+      d.postScale(f2, f3);
+      f2 = a(paramC);
+      if (f2 == 0.0F) {
+        return;
+      }
+      paramE.a(b);
+      paramC = b;
+      c.reset();
+      if (paramE.c())
+      {
+        c.addPath(paramC, d);
+        paramCanvas.clipPath(c);
+        return;
+      }
+      paramE = (n.b)paramE;
+      if ((l != 0.0F) || (m != 1.0F))
+      {
+        float f6 = l;
+        float f4 = n;
+        float f5 = m;
+        if (g == null) {
+          g = new PathMeasure();
+        }
+        g.setPath(b, false);
+        f3 = g.getLength();
+        f6 = (f6 + f4) % 1.0F * f3;
+        f4 = (f5 + f4) % 1.0F * f3;
+        paramC.reset();
+        if (f6 > f4)
+        {
+          g.getSegment(f6, f3, paramC, true);
+          g.getSegment(0.0F, f4, paramC, true);
+        }
+        else
+        {
+          g.getSegment(f6, f4, paramC, true);
+        }
+        paramC.rLineTo(0.0F, 0.0F);
+      }
+      c.addPath(paramC, d);
+      Object localObject1;
+      Object localObject2;
+      if (h.e())
+      {
+        paramC = h;
+        if (f == null)
+        {
+          f = new Paint(1);
+          f.setStyle(Paint.Style.FILL);
+        }
+        localObject1 = f;
+        if (paramC.c())
+        {
+          paramC = paramC.b();
+          paramC.setLocalMatrix(d);
+          ((Paint)localObject1).setShader(paramC);
+          ((Paint)localObject1).setAlpha(Math.round(k * 255.0F));
+        }
+        else
+        {
+          ((Paint)localObject1).setColor(n.a(paramC.a(), k));
+        }
+        ((Paint)localObject1).setColorFilter(paramColorFilter);
+        localObject2 = c;
+        if (j == 0) {
+          paramC = Path.FillType.WINDING;
+        } else {
+          paramC = Path.FillType.EVEN_ODD;
+        }
+        ((Path)localObject2).setFillType(paramC);
+        paramCanvas.drawPath(c, (Paint)localObject1);
+      }
+      if (f.e())
+      {
+        localObject1 = f;
+        if (e == null)
+        {
+          e = new Paint(1);
+          e.setStyle(Paint.Style.STROKE);
+        }
+        paramC = e;
+        localObject2 = p;
+        if (localObject2 != null) {
+          paramC.setStrokeJoin((Paint.Join)localObject2);
+        }
+        localObject2 = o;
+        if (localObject2 != null) {
+          paramC.setStrokeCap((Paint.Cap)localObject2);
+        }
+        paramC.setStrokeMiter(q);
+        if (((b.b.x.b.b.b)localObject1).c())
+        {
+          localObject1 = ((b.b.x.b.b.b)localObject1).b();
+          ((Shader)localObject1).setLocalMatrix(d);
+          paramC.setShader((Shader)localObject1);
+          paramC.setAlpha(Math.round(i * 255.0F));
+        }
+        else
+        {
+          paramC.setColor(n.a(((b.b.x.b.b.b)localObject1).a(), i));
+        }
+        paramC.setColorFilter(paramColorFilter);
+        paramC.setStrokeWidth(g * (f1 * f2));
+        paramCanvas.drawPath(c, paramC);
+      }
+    }
+    
+    public void a(Canvas paramCanvas, int paramInt1, int paramInt2, ColorFilter paramColorFilter)
+    {
+      a(i, a, paramCanvas, paramInt1, paramInt2, paramColorFilter);
+    }
+    
+    public boolean a()
+    {
+      if (p == null) {
+        p = Boolean.valueOf(i.a());
+      }
+      return p.booleanValue();
+    }
+    
+    public boolean a(int[] paramArrayOfInt)
+    {
+      return i.a(paramArrayOfInt);
+    }
+    
+    public float getAlpha()
+    {
+      return getRootAlpha() / 255.0F;
+    }
+    
+    public int getRootAlpha()
+    {
+      return n;
+    }
+    
+    public void setAlpha(float paramFloat)
+    {
+      setRootAlpha((int)(paramFloat * 255.0F));
+    }
+    
+    public void setRootAlpha(int paramInt)
+    {
+      n = paramInt;
+    }
+  }
+  
+  private static class g
+    extends Drawable.ConstantState
+  {
+    public int a;
+    public n.f b;
+    public ColorStateList c = null;
+    public PorterDuff.Mode d = n.c;
+    public boolean e;
+    public Bitmap f;
+    public int[] g;
+    public ColorStateList h;
+    public PorterDuff.Mode i;
+    public int j;
+    public boolean k;
+    public boolean l;
+    public Paint m;
+    
+    public g()
+    {
+      b = new n.f();
+    }
+    
+    public g(g paramG)
+    {
+      if (paramG != null)
+      {
+        a = a;
+        b = new n.f(b);
+        Paint localPaint = b.f;
+        if (localPaint != null) {
+          b.f = new Paint(localPaint);
+        }
+        localPaint = b.e;
+        if (localPaint != null) {
+          b.e = new Paint(localPaint);
+        }
+        c = c;
+        d = d;
+        e = e;
+      }
+    }
+    
+    public Paint a(ColorFilter paramColorFilter)
+    {
+      if ((!b()) && (paramColorFilter == null)) {
+        return null;
+      }
+      if (m == null)
+      {
+        m = new Paint();
+        m.setFilterBitmap(true);
+      }
+      m.setAlpha(b.getRootAlpha());
+      m.setColorFilter(paramColorFilter);
+      return m;
+    }
+    
+    public void a(Canvas paramCanvas, ColorFilter paramColorFilter, Rect paramRect)
+    {
+      paramColorFilter = a(paramColorFilter);
+      paramCanvas.drawBitmap(f, null, paramRect, paramColorFilter);
+    }
+    
+    public boolean a()
+    {
+      return (!l) && (h == c) && (i == d) && (k == e) && (j == b.getRootAlpha());
+    }
+    
+    public boolean a(int paramInt1, int paramInt2)
+    {
+      return (paramInt1 == f.getWidth()) && (paramInt2 == f.getHeight());
+    }
+    
+    public boolean a(int[] paramArrayOfInt)
+    {
+      boolean bool = b.a(paramArrayOfInt);
+      l |= bool;
+      return bool;
+    }
+    
+    public void b(int paramInt1, int paramInt2)
+    {
+      if ((f == null) || (!a(paramInt1, paramInt2)))
+      {
+        f = Bitmap.createBitmap(paramInt1, paramInt2, Bitmap.Config.ARGB_8888);
+        l = true;
+      }
+    }
+    
+    public boolean b()
+    {
+      return b.getRootAlpha() < 255;
+    }
+    
+    public void c(int paramInt1, int paramInt2)
+    {
+      f.eraseColor(0);
+      Canvas localCanvas = new Canvas(f);
+      b.a(localCanvas, paramInt1, paramInt2, null);
+    }
+    
+    public boolean c()
+    {
+      return b.a();
+    }
+    
+    public void d()
+    {
+      h = c;
+      i = d;
+      j = b.getRootAlpha();
+      k = e;
+      l = false;
+    }
+    
+    public int getChangingConfigurations()
+    {
+      return a;
+    }
+    
+    @F
+    public Drawable newDrawable()
+    {
+      return new n(this);
+    }
+    
+    @F
+    public Drawable newDrawable(Resources paramResources)
+    {
+      return new n(this);
+    }
+  }
+  
+  @K(24)
+  private static class h
+    extends Drawable.ConstantState
+  {
+    public final Drawable.ConstantState a;
+    
+    public h(Drawable.ConstantState paramConstantState)
+    {
+      a = paramConstantState;
+    }
+    
+    public boolean canApplyTheme()
+    {
+      return a.canApplyTheme();
+    }
+    
+    public int getChangingConfigurations()
+    {
+      return a.getChangingConfigurations();
+    }
+    
+    public Drawable newDrawable()
+    {
+      n localN = new n();
+      a = ((VectorDrawable)a.newDrawable());
+      return localN;
+    }
+    
+    public Drawable newDrawable(Resources paramResources)
+    {
+      n localN = new n();
+      a = ((VectorDrawable)a.newDrawable(paramResources));
+      return localN;
+    }
+    
+    public Drawable newDrawable(Resources paramResources, Resources.Theme paramTheme)
+    {
+      n localN = new n();
+      a = ((VectorDrawable)a.newDrawable(paramResources, paramTheme));
+      return localN;
+    }
+  }
+}

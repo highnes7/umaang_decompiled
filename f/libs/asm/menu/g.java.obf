@@ -1,0 +1,447 @@
+package f.c.a.c;
+
+import f.a.a.a.a;
+import java.io.File;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Ba
+{
+  public static final Charset a = Charset.forName("UTF-8");
+  public static final String b = "user";
+  public static final String c = "keys";
+  public static final String d = ".meta";
+  public static final String e = "userId";
+  public static final String f = "userName";
+  public static final String g = "userEmail";
+  public final File h;
+  
+  public Ba(File paramFile)
+  {
+    h = paramFile;
+  }
+  
+  public static String a(Ya paramYa)
+    throws JSONException
+  {
+    return new Aa(paramYa).toString();
+  }
+  
+  public static String a(Map<String, String> paramMap)
+    throws JSONException
+  {
+    return new JSONObject(paramMap).toString();
+  }
+  
+  public static String a(JSONObject paramJSONObject, String paramString)
+  {
+    boolean bool = paramJSONObject.isNull(paramString);
+    String str = null;
+    if (!bool) {
+      str = paramJSONObject.optString(paramString, null);
+    }
+    return str;
+  }
+  
+  public static Map<String, String> c(String paramString)
+    throws JSONException
+  {
+    JSONObject localJSONObject = new JSONObject(paramString);
+    HashMap localHashMap = new HashMap();
+    Iterator localIterator = localJSONObject.keys();
+    while (localIterator.hasNext())
+    {
+      String str = (String)localIterator.next();
+      boolean bool = localJSONObject.isNull(str);
+      paramString = null;
+      if (!bool) {
+        paramString = localJSONObject.optString(str, null);
+      }
+      localHashMap.put(str, paramString);
+    }
+    return localHashMap;
+  }
+  
+  public static Ya d(String paramString)
+    throws JSONException
+  {
+    JSONObject localJSONObject = new JSONObject(paramString);
+    boolean bool = localJSONObject.isNull("userId");
+    String str2 = null;
+    if (!bool) {
+      paramString = localJSONObject.optString("userId", null);
+    } else {
+      paramString = null;
+    }
+    String str1;
+    if (!localJSONObject.isNull("userName")) {
+      str1 = localJSONObject.optString("userName", null);
+    } else {
+      str1 = null;
+    }
+    if (!localJSONObject.isNull("userEmail")) {
+      str2 = localJSONObject.optString("userEmail", null);
+    }
+    return new Ya(paramString, str1, str2);
+  }
+  
+  public File a(String paramString)
+  {
+    return new File(h, a.a(paramString, "keys", ".meta"));
+  }
+  
+  /* Error */
+  public void a(String paramString, Ya paramYa)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: aload_1
+    //   2: invokevirtual 127	f/c/a/c/Ba:b	(Ljava/lang/String;)Ljava/io/File;
+    //   5: astore 5
+    //   7: aconst_null
+    //   8: astore 4
+    //   10: aconst_null
+    //   11: astore_3
+    //   12: aload_3
+    //   13: astore_1
+    //   14: aload_2
+    //   15: invokestatic 129	f/c/a/c/Ba:a	(Lf/c/a/c/Ya;)Ljava/lang/String;
+    //   18: astore 6
+    //   20: aload_3
+    //   21: astore_1
+    //   22: new 131	java/io/BufferedWriter
+    //   25: dup
+    //   26: new 133	java/io/OutputStreamWriter
+    //   29: dup
+    //   30: new 135	java/io/FileOutputStream
+    //   33: dup
+    //   34: aload 5
+    //   36: invokespecial 137	java/io/FileOutputStream:<init>	(Ljava/io/File;)V
+    //   39: getstatic 41	f/c/a/c/Ba:a	Ljava/nio/charset/Charset;
+    //   42: invokespecial 140	java/io/OutputStreamWriter:<init>	(Ljava/io/OutputStream;Ljava/nio/charset/Charset;)V
+    //   45: invokespecial 143	java/io/BufferedWriter:<init>	(Ljava/io/Writer;)V
+    //   48: astore_2
+    //   49: aload_2
+    //   50: aload 6
+    //   52: invokevirtual 148	java/io/Writer:write	(Ljava/lang/String;)V
+    //   55: aload_2
+    //   56: invokevirtual 151	java/io/BufferedWriter:flush	()V
+    //   59: aload_2
+    //   60: ldc -103
+    //   62: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   65: return
+    //   66: astore_3
+    //   67: aload_2
+    //   68: astore_1
+    //   69: aload_3
+    //   70: astore_2
+    //   71: goto +37 -> 108
+    //   74: astore_3
+    //   75: goto +11 -> 86
+    //   78: astore_2
+    //   79: goto +29 -> 108
+    //   82: astore_3
+    //   83: aload 4
+    //   85: astore_2
+    //   86: aload_2
+    //   87: astore_1
+    //   88: invokestatic 163	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   91: ldc -91
+    //   93: ldc -89
+    //   95: aload_3
+    //   96: invokeinterface 172 4 0
+    //   101: aload_2
+    //   102: ldc -103
+    //   104: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   107: return
+    //   108: aload_1
+    //   109: ldc -103
+    //   111: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   114: aload_2
+    //   115: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	116	0	this	Ba
+    //   0	116	1	paramString	String
+    //   0	116	2	paramYa	Ya
+    //   11	10	3	localObject1	Object
+    //   66	4	3	localObject2	Object
+    //   74	1	3	localException1	Exception
+    //   82	14	3	localException2	Exception
+    //   8	76	4	localObject3	Object
+    //   5	30	5	localFile	File
+    //   18	33	6	str	String
+    // Exception table:
+    //   from	to	target	type
+    //   49	59	66	finally
+    //   49	59	74	java/lang/Exception
+    //   14	20	78	finally
+    //   22	49	78	finally
+    //   88	101	78	finally
+    //   14	20	82	java/lang/Exception
+    //   22	49	82	java/lang/Exception
+  }
+  
+  /* Error */
+  public void a(String paramString, Map<String, String> paramMap)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: aload_1
+    //   2: invokevirtual 175	f/c/a/c/Ba:a	(Ljava/lang/String;)Ljava/io/File;
+    //   5: astore 5
+    //   7: aconst_null
+    //   8: astore 4
+    //   10: aconst_null
+    //   11: astore_3
+    //   12: aload_3
+    //   13: astore_1
+    //   14: aload_2
+    //   15: invokestatic 177	f/c/a/c/Ba:a	(Ljava/util/Map;)Ljava/lang/String;
+    //   18: astore 6
+    //   20: aload_3
+    //   21: astore_1
+    //   22: new 131	java/io/BufferedWriter
+    //   25: dup
+    //   26: new 133	java/io/OutputStreamWriter
+    //   29: dup
+    //   30: new 135	java/io/FileOutputStream
+    //   33: dup
+    //   34: aload 5
+    //   36: invokespecial 137	java/io/FileOutputStream:<init>	(Ljava/io/File;)V
+    //   39: getstatic 41	f/c/a/c/Ba:a	Ljava/nio/charset/Charset;
+    //   42: invokespecial 140	java/io/OutputStreamWriter:<init>	(Ljava/io/OutputStream;Ljava/nio/charset/Charset;)V
+    //   45: invokespecial 143	java/io/BufferedWriter:<init>	(Ljava/io/Writer;)V
+    //   48: astore_2
+    //   49: aload_2
+    //   50: aload 6
+    //   52: invokevirtual 148	java/io/Writer:write	(Ljava/lang/String;)V
+    //   55: aload_2
+    //   56: invokevirtual 151	java/io/BufferedWriter:flush	()V
+    //   59: aload_2
+    //   60: ldc -77
+    //   62: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   65: return
+    //   66: astore_3
+    //   67: aload_2
+    //   68: astore_1
+    //   69: aload_3
+    //   70: astore_2
+    //   71: goto +37 -> 108
+    //   74: astore_3
+    //   75: goto +11 -> 86
+    //   78: astore_2
+    //   79: goto +29 -> 108
+    //   82: astore_3
+    //   83: aload 4
+    //   85: astore_2
+    //   86: aload_2
+    //   87: astore_1
+    //   88: invokestatic 163	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   91: ldc -91
+    //   93: ldc -75
+    //   95: aload_3
+    //   96: invokeinterface 172 4 0
+    //   101: aload_2
+    //   102: ldc -77
+    //   104: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   107: return
+    //   108: aload_1
+    //   109: ldc -77
+    //   111: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   114: aload_2
+    //   115: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	116	0	this	Ba
+    //   0	116	1	paramString	String
+    //   0	116	2	paramMap	Map<String, String>
+    //   11	10	3	localObject1	Object
+    //   66	4	3	localObject2	Object
+    //   74	1	3	localException1	Exception
+    //   82	14	3	localException2	Exception
+    //   8	76	4	localObject3	Object
+    //   5	30	5	localFile	File
+    //   18	33	6	str	String
+    // Exception table:
+    //   from	to	target	type
+    //   49	59	66	finally
+    //   49	59	74	java/lang/Exception
+    //   14	20	78	finally
+    //   22	49	78	finally
+    //   88	101	78	finally
+    //   14	20	82	java/lang/Exception
+    //   22	49	82	java/lang/Exception
+  }
+  
+  public File b(String paramString)
+  {
+    return new File(h, a.a(paramString, "user", ".meta"));
+  }
+  
+  /* Error */
+  public Map<String, String> e(String paramString)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: aload_1
+    //   2: invokevirtual 175	f/c/a/c/Ba:a	(Ljava/lang/String;)Ljava/io/File;
+    //   5: astore_2
+    //   6: aload_2
+    //   7: invokevirtual 185	java/io/File:exists	()Z
+    //   10: ifne +7 -> 17
+    //   13: invokestatic 191	java/util/Collections:emptyMap	()Ljava/util/Map;
+    //   16: areturn
+    //   17: aconst_null
+    //   18: astore 4
+    //   20: aconst_null
+    //   21: astore_1
+    //   22: new 193	java/io/FileInputStream
+    //   25: dup
+    //   26: aload_2
+    //   27: invokespecial 194	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   30: astore_2
+    //   31: aload_2
+    //   32: invokestatic 197	l/a/a/a/a/b/l:b	(Ljava/io/InputStream;)Ljava/lang/String;
+    //   35: invokestatic 199	f/c/a/c/Ba:c	(Ljava/lang/String;)Ljava/util/Map;
+    //   38: astore_1
+    //   39: aload_2
+    //   40: ldc -103
+    //   42: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   45: aload_1
+    //   46: areturn
+    //   47: astore_3
+    //   48: aload_2
+    //   49: astore_1
+    //   50: aload_3
+    //   51: astore_2
+    //   52: goto +40 -> 92
+    //   55: astore_3
+    //   56: goto +11 -> 67
+    //   59: astore_2
+    //   60: goto +32 -> 92
+    //   63: astore_3
+    //   64: aload 4
+    //   66: astore_2
+    //   67: aload_2
+    //   68: astore_1
+    //   69: invokestatic 163	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   72: ldc -91
+    //   74: ldc -55
+    //   76: aload_3
+    //   77: invokeinterface 172 4 0
+    //   82: aload_2
+    //   83: ldc -103
+    //   85: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   88: invokestatic 191	java/util/Collections:emptyMap	()Ljava/util/Map;
+    //   91: areturn
+    //   92: aload_1
+    //   93: ldc -103
+    //   95: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   98: aload_2
+    //   99: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	100	0	this	Ba
+    //   0	100	1	paramString	String
+    //   5	47	2	localObject1	Object
+    //   59	1	2	localObject2	Object
+    //   66	33	2	localObject3	Object
+    //   47	4	3	localObject4	Object
+    //   55	1	3	localException1	Exception
+    //   63	14	3	localException2	Exception
+    //   18	47	4	localObject5	Object
+    // Exception table:
+    //   from	to	target	type
+    //   31	39	47	finally
+    //   31	39	55	java/lang/Exception
+    //   22	31	59	finally
+    //   69	82	59	finally
+    //   22	31	63	java/lang/Exception
+  }
+  
+  /* Error */
+  public Ya f(String paramString)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: aload_1
+    //   2: invokevirtual 127	f/c/a/c/Ba:b	(Ljava/lang/String;)Ljava/io/File;
+    //   5: astore_2
+    //   6: aload_2
+    //   7: invokevirtual 185	java/io/File:exists	()Z
+    //   10: ifne +7 -> 17
+    //   13: getstatic 204	f/c/a/c/Ya:a	Lf/c/a/c/Ya;
+    //   16: areturn
+    //   17: aconst_null
+    //   18: astore 4
+    //   20: aconst_null
+    //   21: astore_1
+    //   22: new 193	java/io/FileInputStream
+    //   25: dup
+    //   26: aload_2
+    //   27: invokespecial 194	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   30: astore_2
+    //   31: aload_2
+    //   32: invokestatic 197	l/a/a/a/a/b/l:b	(Ljava/io/InputStream;)Ljava/lang/String;
+    //   35: invokestatic 206	f/c/a/c/Ba:d	(Ljava/lang/String;)Lf/c/a/c/Ya;
+    //   38: astore_1
+    //   39: aload_2
+    //   40: ldc -103
+    //   42: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   45: aload_1
+    //   46: areturn
+    //   47: astore_3
+    //   48: aload_2
+    //   49: astore_1
+    //   50: aload_3
+    //   51: astore_2
+    //   52: goto +40 -> 92
+    //   55: astore_3
+    //   56: goto +11 -> 67
+    //   59: astore_2
+    //   60: goto +32 -> 92
+    //   63: astore_3
+    //   64: aload 4
+    //   66: astore_2
+    //   67: aload_2
+    //   68: astore_1
+    //   69: invokestatic 163	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   72: ldc -91
+    //   74: ldc -55
+    //   76: aload_3
+    //   77: invokeinterface 172 4 0
+    //   82: aload_2
+    //   83: ldc -103
+    //   85: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   88: getstatic 204	f/c/a/c/Ya:a	Lf/c/a/c/Ya;
+    //   91: areturn
+    //   92: aload_1
+    //   93: ldc -103
+    //   95: invokestatic 158	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   98: aload_2
+    //   99: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	100	0	this	Ba
+    //   0	100	1	paramString	String
+    //   5	47	2	localObject1	Object
+    //   59	1	2	localObject2	Object
+    //   66	33	2	localObject3	Object
+    //   47	4	3	localObject4	Object
+    //   55	1	3	localException1	Exception
+    //   63	14	3	localException2	Exception
+    //   18	47	4	localObject5	Object
+    // Exception table:
+    //   from	to	target	type
+    //   31	39	47	finally
+    //   31	39	55	java/lang/Exception
+    //   22	31	59	finally
+    //   69	82	59	finally
+    //   22	31	63	java/lang/Exception
+  }
+}

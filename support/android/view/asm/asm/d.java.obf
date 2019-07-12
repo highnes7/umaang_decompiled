@@ -1,0 +1,272 @@
+package b.b.d.a.a;
+
+import b.b.d.a.c;
+import java.util.ArrayList;
+
+public class n
+  extends f
+{
+  public ArrayList<f> Da = new ArrayList();
+  
+  public n() {}
+  
+  public n(int paramInt1, int paramInt2)
+  {
+    super(0, 0, paramInt1, paramInt2);
+  }
+  
+  public n(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    super(paramInt1, paramInt2, paramInt3, paramInt4);
+  }
+  
+  public static l a(ArrayList<f> paramArrayList)
+  {
+    l localL = new l();
+    if (paramArrayList.size() == 0) {
+      return localL;
+    }
+    int i5 = paramArrayList.size();
+    int i3 = Integer.MAX_VALUE;
+    int j = 0;
+    int n = Integer.MAX_VALUE;
+    int k = 0;
+    int i4;
+    for (int i = 0; j < i5; i = i4)
+    {
+      f localF = (f)paramArrayList.get(j);
+      int m = i3;
+      if (localF.S() < i3) {
+        m = localF.S();
+      }
+      int i1 = n;
+      if (localF.T() < n) {
+        i1 = localF.T();
+      }
+      int i2 = k;
+      if (localF.E() > k) {
+        i2 = localF.E();
+      }
+      i4 = i;
+      if (localF.d() > i) {
+        i4 = localF.d();
+      }
+      j += 1;
+      i3 = m;
+      n = i1;
+      k = i2;
+    }
+    localL.a(i3, n, k - i3, i - n);
+    return localL;
+  }
+  
+  public f a(float paramFloat1, float paramFloat2)
+  {
+    int i = n();
+    int j = o();
+    int k = P();
+    int m = p();
+    Object localObject1;
+    if ((paramFloat1 >= i) && (paramFloat1 <= k + i) && (paramFloat2 >= j) && (paramFloat2 <= m + j)) {
+      localObject1 = this;
+    } else {
+      localObject1 = null;
+    }
+    i = 0;
+    j = Da.size();
+    while (i < j)
+    {
+      f localF = (f)Da.get(i);
+      if ((localF instanceof n))
+      {
+        localF = ((n)localF).a(paramFloat1, paramFloat2);
+        localObject2 = localObject1;
+        if (localF == null) {
+          break label224;
+        }
+        localObject1 = localF;
+      }
+      else
+      {
+        k = localF.n();
+        m = localF.o();
+        int n = localF.P();
+        int i1 = localF.p();
+        localObject2 = localObject1;
+        if (paramFloat1 < k) {
+          break label224;
+        }
+        localObject2 = localObject1;
+        if (paramFloat1 > n + k) {
+          break label224;
+        }
+        localObject2 = localObject1;
+        if (paramFloat2 < m) {
+          break label224;
+        }
+        localObject2 = localObject1;
+        if (paramFloat2 > i1 + m) {
+          break label224;
+        }
+        localObject1 = localF;
+      }
+      Object localObject2 = localObject1;
+      label224:
+      i += 1;
+      localObject1 = localObject2;
+    }
+    return localObject1;
+  }
+  
+  public void a(c paramC)
+  {
+    super.a(paramC);
+    int j = Da.size();
+    int i = 0;
+    while (i < j)
+    {
+      ((f)Da.get(i)).a(paramC);
+      i += 1;
+    }
+  }
+  
+  public void aa()
+  {
+    Da.clear();
+    super.aa();
+  }
+  
+  public ArrayList<f> b(int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    ArrayList localArrayList = new ArrayList();
+    int i = Da.size();
+    paramInt3 = 0;
+    while (paramInt3 < i)
+    {
+      f localF = (f)Da.get(paramInt3);
+      paramInt4 = localF.n();
+      int j = localF.o();
+      int k = localF.P();
+      int m = localF.p();
+      if ((paramInt1 >= paramInt4) && (paramInt1 < paramInt4 + k) && (paramInt2 >= j) && (paramInt2 < j + m)) {
+        paramInt4 = 1;
+      } else {
+        paramInt4 = 0;
+      }
+      if (paramInt4 != 0) {
+        localArrayList.add(localF);
+      }
+      paramInt3 += 1;
+    }
+    return localArrayList;
+  }
+  
+  public void d(int paramInt1, int paramInt2)
+  {
+    V = paramInt1;
+    W = paramInt2;
+    paramInt2 = Da.size();
+    paramInt1 = 0;
+    while (paramInt1 < paramInt2)
+    {
+      ((f)Da.get(paramInt1)).d(G(), H());
+      paramInt1 += 1;
+    }
+  }
+  
+  public void da()
+  {
+    super.da();
+    int j = Da.size();
+    int i = 0;
+    while (i < j)
+    {
+      ((f)Da.get(i)).da();
+      i += 1;
+    }
+  }
+  
+  public void ea()
+  {
+    super.ea();
+    Object localObject = Da;
+    if (localObject == null) {
+      return;
+    }
+    int j = ((ArrayList)localObject).size();
+    int i = 0;
+    while (i < j)
+    {
+      localObject = (f)Da.get(i);
+      ((f)localObject).d(n(), o());
+      if (!(localObject instanceof h)) {
+        ((f)localObject).ea();
+      }
+      i += 1;
+    }
+  }
+  
+  public void f(f paramF)
+  {
+    Da.add(paramF);
+    if (paramF.D() != null) {
+      ((n)paramF.D()).g(paramF);
+    }
+    paramF.e(this);
+  }
+  
+  public ArrayList<f> fa()
+  {
+    return Da;
+  }
+  
+  public void g(f paramF)
+  {
+    Da.remove(paramF);
+    paramF.e(null);
+  }
+  
+  public h ga()
+  {
+    Object localObject = D();
+    h localH;
+    if ((this instanceof h)) {
+      localH = (h)this;
+    } else {
+      localH = null;
+    }
+    while (localObject != null)
+    {
+      f localF = ((f)localObject).D();
+      if ((localObject instanceof h)) {
+        localH = (h)localObject;
+      }
+      localObject = localF;
+    }
+    return localH;
+  }
+  
+  public void ha()
+  {
+    ea();
+    Object localObject = Da;
+    if (localObject == null) {
+      return;
+    }
+    int j = ((ArrayList)localObject).size();
+    int i = 0;
+    while (i < j)
+    {
+      localObject = (f)Da.get(i);
+      if ((localObject instanceof n)) {
+        ((n)localObject).ha();
+      }
+      i += 1;
+    }
+  }
+  
+  public void ia()
+  {
+    Da.clear();
+  }
+}

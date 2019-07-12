@@ -1,0 +1,170 @@
+package k.a.a.f;
+
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import b.b.a.G;
+import b.b.x.b.c;
+import in.spicedigital.umang.activities.WebActivity;
+import k.a.a.l.u;
+import k.a.a.m.Ea;
+import k.a.a.m.Ma;
+import k.a.a.m.V;
+import k.a.a.m.b;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class k
+  extends DialogFragment
+{
+  public final String a = "SetMPINDialogFragment";
+  public Context b;
+  public e.a.a.i c;
+  public String d;
+  
+  public k() {}
+  
+  public static k a(boolean paramBoolean, String paramString1, String paramString2)
+  {
+    Bundle localBundle = new Bundle();
+    localBundle.putBoolean("cancelable", paramBoolean);
+    localBundle.putString("from", paramString1);
+    localBundle.putString("dialogData", paramString2);
+    paramString1 = new k();
+    paramString1.setArguments(localBundle);
+    return paramString1;
+  }
+  
+  private void a(Context paramContext, String paramString, DialogFragment paramDialogFragment)
+  {
+    try
+    {
+      Ma localMa = new Ma();
+      JSONObject localJSONObject = Ea.e(paramContext);
+      localJSONObject.put("mpin", localMa.a(Ea.i(paramContext, paramString)));
+      paramString = localJSONObject;
+    }
+    catch (Exception paramString)
+    {
+      b.a(paramString);
+      paramString = null;
+    }
+    if (paramString != null) {
+      new u(new j(this, paramContext, paramDialogFragment), "https://app.umang.gov.in/umang/coreapi/ws2/smpinu2", paramString, paramContext).execute(new Object[0]);
+    }
+  }
+  
+  private void b()
+  {
+    try
+    {
+      V localV = new V(b);
+      if (d != null)
+      {
+        Object localObject = new StringBuilder();
+        ((StringBuilder)localObject).append("dialogData.............");
+        ((StringBuilder)localObject).append(d);
+        ((StringBuilder)localObject).toString();
+        if (!d.equalsIgnoreCase(""))
+        {
+          localObject = new JSONObject(d);
+          String str = ((JSONObject)localObject).getString("id");
+          if (!str.equalsIgnoreCase(localV.a(V.Pb, "")))
+          {
+            Ea.a(b, (JSONObject)localObject, true);
+            localV.c(V.Pb, str);
+            return;
+          }
+        }
+      }
+    }
+    catch (JSONException localJSONException)
+    {
+      b.a(localJSONException);
+    }
+  }
+  
+  public void onAttach(Context paramContext)
+  {
+    super.onAttach(paramContext);
+    b = paramContext;
+  }
+  
+  public void onCancel(DialogInterface paramDialogInterface)
+  {
+    if ((b instanceof WebActivity))
+    {
+      paramDialogInterface = new JSONObject();
+      try
+      {
+        paramDialogInterface.put("status", "false");
+        paramDialogInterface.put("message", "error: user_cancel");
+      }
+      catch (JSONException localJSONException)
+      {
+        b.a(localJSONException);
+      }
+      ((WebActivity)b).k(paramDialogInterface.toString());
+    }
+    b();
+  }
+  
+  @G
+  public View onCreateView(LayoutInflater paramLayoutInflater, @G ViewGroup paramViewGroup, @G Bundle paramBundle)
+  {
+    paramLayoutInflater = paramLayoutInflater.inflate(2131493046, paramViewGroup, false);
+    paramViewGroup = (EditText)paramLayoutInflater.findViewById(2131296743);
+    paramBundle = (EditText)paramLayoutInflater.findViewById(2131296741);
+    TextView localTextView1 = (TextView)paramLayoutInflater.findViewById(2131297176);
+    ImageView localImageView = (ImageView)paramLayoutInflater.findViewById(2131296540);
+    TextView localTextView2 = (TextView)paramLayoutInflater.findViewById(2131297715);
+    boolean bool = getArguments().getBoolean("cancelable");
+    String str = getArguments().getString("from");
+    d = getArguments().getString("dialogData");
+    if (bool) {
+      localImageView.setVisibility(0);
+    } else {
+      localImageView.setVisibility(8);
+    }
+    if ((!str.equalsIgnoreCase("account")) && (!str.equalsIgnoreCase("profile")))
+    {
+      if (str.equalsIgnoreCase("department"))
+      {
+        localTextView2.setVisibility(0);
+        localTextView2.setText(getResources().getString(2131756361));
+      }
+      else if (str.equalsIgnoreCase("nonMandatoryDialog"))
+      {
+        localTextView2.setVisibility(8);
+      }
+      else if (str.equalsIgnoreCase("mandatoryDialog"))
+      {
+        localTextView2.setVisibility(0);
+        localTextView2.setText(getResources().getString(2131756354));
+      }
+    }
+    else
+    {
+      localTextView2.setVisibility(0);
+      localTextView2.setText(getResources().getString(2131756362));
+    }
+    localImageView.setOnClickListener(new d(this));
+    paramLayoutInflater.findViewById(2131296934).setOnClickListener(new e(this, paramViewGroup));
+    paramLayoutInflater.findViewById(2131296933).setOnClickListener(new f(this, paramBundle));
+    localTextView1.setBackgroundColor(c.getColor(b, 2131099721));
+    paramViewGroup.addTextChangedListener(new g(this, paramViewGroup, paramBundle, localTextView1));
+    paramBundle.addTextChangedListener(new h(this, paramViewGroup, paramBundle, localTextView1));
+    localTextView1.setOnClickListener(new i(this, paramViewGroup, paramBundle));
+    return paramLayoutInflater;
+  }
+}

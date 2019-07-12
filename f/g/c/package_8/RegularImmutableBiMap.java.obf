@@ -1,0 +1,47 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+@b(emulated=true, serializable=true)
+public class Af<K, V>
+  extends nb<K, V>
+{
+  public final transient Ab<K, V> d;
+  public final transient nb<V, K> e;
+  
+  public Af(Ab<K, V> paramAb)
+  {
+    d = paramAb;
+    Ab.a localA = Ab.a();
+    paramAb = paramAb.entrySet().iterator();
+    while (paramAb.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramAb.next();
+      localA.a(localEntry.getValue(), localEntry.getKey());
+    }
+    e = new Af(localA.a(), this);
+  }
+  
+  public Af(Ab<K, V> paramAb, nb<V, K> paramNb)
+  {
+    d = paramAb;
+    e = paramNb;
+  }
+  
+  public boolean e()
+  {
+    return (d.e()) || (e.i().e());
+  }
+  
+  public nb<V, K> f()
+  {
+    return e;
+  }
+  
+  public Ab<K, V> i()
+  {
+    return d;
+  }
+}

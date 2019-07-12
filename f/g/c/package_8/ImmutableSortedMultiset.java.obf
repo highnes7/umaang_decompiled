@@ -1,0 +1,322 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.c;
+import f.g.c.b.ba;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Set;
+
+@a
+@c("hasn't been tested yet")
+public abstract class Ub<E>
+  extends Vb<E>
+  implements Ag<E>
+{
+  public static final Comparator<Comparable> d = ;
+  public static final Ub<Comparable> e = new Aa(d);
+  public transient Ub<E> f;
+  
+  public Ub() {}
+  
+  public static <E> Ub<E> a(Ag<E> paramAg)
+  {
+    return a(paramAg.comparator(), fd.b(paramAg.entrySet()));
+  }
+  
+  public static <E extends Comparable<? super E>> Ub<E> a(E paramE)
+  {
+    return new Nf((Of)Wb.a(paramE), new int[] { 1 }, new long[] { 0L, 1L }, 0, 1);
+  }
+  
+  public static <E extends Comparable<? super E>> Ub<E> a(E paramE1, E paramE2)
+  {
+    return a(mf.d(), Arrays.asList(new Comparable[] { paramE1, paramE2 }));
+  }
+  
+  public static <E extends Comparable<? super E>> Ub<E> a(E paramE1, E paramE2, E paramE3)
+  {
+    return a(mf.d(), Arrays.asList(new Comparable[] { paramE1, paramE2, paramE3 }));
+  }
+  
+  public static <E extends Comparable<? super E>> Ub<E> a(E paramE1, E paramE2, E paramE3, E paramE4)
+  {
+    return a(mf.d(), Arrays.asList(new Comparable[] { paramE1, paramE2, paramE3, paramE4 }));
+  }
+  
+  public static <E extends Comparable<? super E>> Ub<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5)
+  {
+    return a(mf.d(), Arrays.asList(new Comparable[] { paramE1, paramE2, paramE3, paramE4, paramE5 }));
+  }
+  
+  public static <E extends Comparable<? super E>> Ub<E> a(E paramE1, E paramE2, E paramE3, E paramE4, E paramE5, E paramE6, E... paramVarArgs)
+  {
+    ArrayList localArrayList = fd.b(paramVarArgs.length + 6);
+    Collections.addAll(localArrayList, new Comparable[] { paramE1, paramE2, paramE3, paramE4, paramE5, paramE6 });
+    Collections.addAll(localArrayList, paramVarArgs);
+    return a(mf.d(), localArrayList);
+  }
+  
+  public static <E> Ub<E> a(Iterable<? extends E> paramIterable)
+  {
+    return a(mf.d(), paramIterable);
+  }
+  
+  public static <E> Ub<E> a(Comparator<? super E> paramComparator)
+  {
+    if (d.equals(paramComparator)) {
+      return e;
+    }
+    return new Aa(paramComparator);
+  }
+  
+  public static <E> Ub<E> a(Comparator<? super E> paramComparator, Iterable<? extends E> paramIterable)
+  {
+    Object localObject;
+    if ((paramIterable instanceof Ub))
+    {
+      localObject = (Ub)paramIterable;
+      if (paramComparator.equals(((Ub)localObject).comparator()))
+      {
+        if (((rb)localObject).c()) {
+          return a(paramComparator, ((Mb)localObject).entrySet().a());
+        }
+        return localObject;
+      }
+    }
+    paramIterable = fd.b(paramIterable);
+    if (paramComparator != null)
+    {
+      localObject = sh.a(paramComparator);
+      rc.a((Collection)localObject, paramIterable);
+      return a(paramComparator, ((sh)localObject).entrySet());
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> Ub<E> a(Comparator<? super E> paramComparator, Collection<Ye.a<E>> paramCollection)
+  {
+    if (paramCollection.isEmpty()) {
+      return a(paramComparator);
+    }
+    vb.a localA = new vb.a(paramCollection.size());
+    int[] arrayOfInt = new int[paramCollection.size()];
+    long[] arrayOfLong = new long[paramCollection.size() + 1];
+    int i = 0;
+    Iterator localIterator = paramCollection.iterator();
+    while (localIterator.hasNext())
+    {
+      Ye.a localA1 = (Ye.a)localIterator.next();
+      localA.a(localA1.a());
+      arrayOfInt[i] = localA1.getCount();
+      int j = i + 1;
+      arrayOfLong[i] += arrayOfInt[i];
+      i = j;
+    }
+    return new Nf(new Of(localA.a(), paramComparator), arrayOfInt, arrayOfLong, 0, paramCollection.size());
+  }
+  
+  public static <E> Ub<E> a(Comparator<? super E> paramComparator, Iterator<? extends E> paramIterator)
+  {
+    if (paramComparator != null) {
+      return new a(paramComparator).a(paramIterator).a();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> Ub<E> a(Iterator<? extends E> paramIterator)
+  {
+    return a(mf.d(), paramIterator);
+  }
+  
+  public static <E extends Comparable<? super E>> Ub<E> a(E[] paramArrayOfE)
+  {
+    return a(mf.d(), Arrays.asList(paramArrayOfE));
+  }
+  
+  public static <E> a<E> b(Comparator<E> paramComparator)
+  {
+    return new a(paramComparator);
+  }
+  
+  public static <E> Ub<E> g()
+  {
+    return e;
+  }
+  
+  public static <E extends Comparable<E>> a<E> h()
+  {
+    return new a(mf.d());
+  }
+  
+  public static <E extends Comparable<E>> a<E> i()
+  {
+    return new a(mf.d().g());
+  }
+  
+  public abstract Ub<E> a(E paramE, O paramO);
+  
+  public Ub<E> a(E paramE1, O paramO1, E paramE2, O paramO2)
+  {
+    boolean bool;
+    if (comparator().compare(paramE1, paramE2) <= 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "Expected lowerBound <= upperBound but %s > %s", new Object[] { paramE1, paramE2 });
+    return b(paramE1, paramO1).a(paramE2, paramO2);
+  }
+  
+  public abstract Ub<E> b(E paramE, O paramO);
+  
+  public final Comparator<? super E> comparator()
+  {
+    return u().comparator();
+  }
+  
+  public Object d()
+  {
+    return new b(this);
+  }
+  
+  public final Ye.a<E> pollFirstEntry()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final Ye.a<E> pollLastEntry()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public abstract Wb<E> u();
+  
+  public Ub<E> v()
+  {
+    Ub localUb = f;
+    Object localObject = localUb;
+    if (localUb == null)
+    {
+      localObject = new na(this);
+      f = ((Ub)localObject);
+    }
+    return localObject;
+  }
+  
+  public static class a<E>
+    extends Mb.a<E>
+  {
+    public final Comparator<? super E> c;
+    
+    public a(Comparator<? super E> paramComparator)
+    {
+      super();
+      if (paramComparator != null)
+      {
+        c = paramComparator;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<E> a(Iterable<? extends E> paramIterable)
+    {
+      super.a(paramIterable);
+      return this;
+    }
+    
+    public a<E> a(E paramE)
+    {
+      Ye localYe = b;
+      if (paramE != null)
+      {
+        localYe.add(paramE);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<E> a(E paramE, int paramInt)
+    {
+      Ye localYe = b;
+      if (paramE != null)
+      {
+        localYe.c(paramE, paramInt);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a<E> a(Iterator<? extends E> paramIterator)
+    {
+      super.a(paramIterator);
+      return this;
+    }
+    
+    public a<E> a(E... paramVarArgs)
+    {
+      super.a(paramVarArgs);
+      return this;
+    }
+    
+    public Ub<E> a()
+    {
+      return Ub.a((Ag)b);
+    }
+    
+    public a<E> b(E paramE, int paramInt)
+    {
+      Ye localYe = b;
+      if (paramE != null)
+      {
+        localYe.a(paramE, paramInt);
+        return this;
+      }
+      throw new NullPointerException();
+    }
+  }
+  
+  private static final class b
+    implements Serializable
+  {
+    public Comparator a;
+    public Object[] b;
+    public int[] c;
+    
+    public b(Ag<?> paramAg)
+    {
+      a = paramAg.comparator();
+      int i = paramAg.entrySet().size();
+      b = new Object[i];
+      c = new int[i];
+      paramAg = paramAg.entrySet().iterator();
+      i = 0;
+      while (paramAg.hasNext())
+      {
+        Ye.a localA = (Ye.a)paramAg.next();
+        b[i] = localA.a();
+        c[i] = localA.getCount();
+        i += 1;
+      }
+    }
+    
+    public Object a()
+    {
+      int j = b.length;
+      Ub.a localA = Ub.b(a);
+      int i = 0;
+      while (i < j)
+      {
+        localA.a(b[i], c[i]);
+        i += 1;
+      }
+      return localA.a();
+    }
+  }
+}

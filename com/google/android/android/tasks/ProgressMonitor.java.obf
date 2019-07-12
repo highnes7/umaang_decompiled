@@ -1,0 +1,326 @@
+package com.google.android.gms.tasks;
+
+import android.app.Activity;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import com.google.android.gms.common.api.internal.LifecycleCallback;
+import com.google.android.gms.common.api.internal.zzcg;
+import com.google.android.gms.common.internal.zzbp;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.Executor;
+
+public final class zzn<TResult>
+  extends Task<TResult>
+{
+  public final Object mLock = new Object();
+  public final zzl<TResult> zzkgj = new zzl();
+  public boolean zzkgk;
+  public TResult zzkgl;
+  public Exception zzkgm;
+  
+  public zzn() {}
+  
+  private final void zzbie()
+  {
+    zzbp.zza(zzkgk, "Task is not yet complete");
+  }
+  
+  private final void zzbif()
+  {
+    zzbp.zza(zzkgk ^ true, "Task is already complete");
+  }
+  
+  private final void zzbig()
+  {
+    synchronized (mLock)
+    {
+      if (!zzkgk) {
+        return;
+      }
+      zzkgj.zzb(this);
+      return;
+    }
+  }
+  
+  @F
+  public final Task<TResult> addOnCompleteListener(@F Activity paramActivity, @F OnCompleteListener<TResult> paramOnCompleteListener)
+  {
+    paramOnCompleteListener = new zze(TaskExecutors.MAIN_THREAD, paramOnCompleteListener);
+    zzkgj.zza(paramOnCompleteListener);
+    zza.zzr(paramActivity).zzb(paramOnCompleteListener);
+    zzbig();
+    return this;
+  }
+  
+  @F
+  public final Task<TResult> addOnCompleteListener(@F OnCompleteListener<TResult> paramOnCompleteListener)
+  {
+    return addOnCompleteListener(TaskExecutors.MAIN_THREAD, paramOnCompleteListener);
+  }
+  
+  @F
+  public final Task<TResult> addOnCompleteListener(@F Executor paramExecutor, @F OnCompleteListener<TResult> paramOnCompleteListener)
+  {
+    zzkgj.zza(new zze(paramExecutor, paramOnCompleteListener));
+    zzbig();
+    return this;
+  }
+  
+  @F
+  public final Task<TResult> addOnFailureListener(@F Activity paramActivity, @F OnFailureListener paramOnFailureListener)
+  {
+    paramOnFailureListener = new zzg(TaskExecutors.MAIN_THREAD, paramOnFailureListener);
+    zzkgj.zza(paramOnFailureListener);
+    zza.zzr(paramActivity).zzb(paramOnFailureListener);
+    zzbig();
+    return this;
+  }
+  
+  @F
+  public final Task<TResult> addOnFailureListener(@F OnFailureListener paramOnFailureListener)
+  {
+    return addOnFailureListener(TaskExecutors.MAIN_THREAD, paramOnFailureListener);
+  }
+  
+  @F
+  public final Task<TResult> addOnFailureListener(@F Executor paramExecutor, @F OnFailureListener paramOnFailureListener)
+  {
+    zzkgj.zza(new zzg(paramExecutor, paramOnFailureListener));
+    zzbig();
+    return this;
+  }
+  
+  @F
+  public final Task<TResult> addOnSuccessListener(@F Activity paramActivity, @F OnSuccessListener<? super TResult> paramOnSuccessListener)
+  {
+    paramOnSuccessListener = new zzi(TaskExecutors.MAIN_THREAD, paramOnSuccessListener);
+    zzkgj.zza(paramOnSuccessListener);
+    zza.zzr(paramActivity).zzb(paramOnSuccessListener);
+    zzbig();
+    return this;
+  }
+  
+  @F
+  public final Task<TResult> addOnSuccessListener(@F OnSuccessListener<? super TResult> paramOnSuccessListener)
+  {
+    return addOnSuccessListener(TaskExecutors.MAIN_THREAD, paramOnSuccessListener);
+  }
+  
+  @F
+  public final Task<TResult> addOnSuccessListener(@F Executor paramExecutor, @F OnSuccessListener<? super TResult> paramOnSuccessListener)
+  {
+    zzkgj.zza(new zzi(paramExecutor, paramOnSuccessListener));
+    zzbig();
+    return this;
+  }
+  
+  @F
+  public final <TContinuationResult> Task<TContinuationResult> continueWith(@F Continuation<TResult, TContinuationResult> paramContinuation)
+  {
+    return continueWith(TaskExecutors.MAIN_THREAD, paramContinuation);
+  }
+  
+  @F
+  public final <TContinuationResult> Task<TContinuationResult> continueWith(@F Executor paramExecutor, @F Continuation<TResult, TContinuationResult> paramContinuation)
+  {
+    zzn localZzn = new zzn();
+    zzkgj.zza(new zza(paramExecutor, paramContinuation, localZzn));
+    zzbig();
+    return localZzn;
+  }
+  
+  @F
+  public final <TContinuationResult> Task<TContinuationResult> continueWithTask(@F Continuation<TResult, Task<TContinuationResult>> paramContinuation)
+  {
+    return continueWithTask(TaskExecutors.MAIN_THREAD, paramContinuation);
+  }
+  
+  @F
+  public final <TContinuationResult> Task<TContinuationResult> continueWithTask(@F Executor paramExecutor, @F Continuation<TResult, Task<TContinuationResult>> paramContinuation)
+  {
+    zzn localZzn = new zzn();
+    zzkgj.zza(new zzc(paramExecutor, paramContinuation, localZzn));
+    zzbig();
+    return localZzn;
+  }
+  
+  @G
+  public final Exception getException()
+  {
+    synchronized (mLock)
+    {
+      Exception localException = zzkgm;
+      return localException;
+    }
+  }
+  
+  public final TResult getResult()
+  {
+    synchronized (mLock)
+    {
+      zzbie();
+      if (zzkgm == null)
+      {
+        Object localObject2 = zzkgl;
+        return localObject2;
+      }
+      throw new RuntimeExecutionException(zzkgm);
+    }
+  }
+  
+  public final <X extends Throwable> TResult getResult(@F Class<X> paramClass)
+    throws Throwable
+  {
+    synchronized (mLock)
+    {
+      zzbie();
+      if (!paramClass.isInstance(zzkgm))
+      {
+        if (zzkgm == null)
+        {
+          paramClass = zzkgl;
+          return paramClass;
+        }
+        throw new RuntimeExecutionException(zzkgm);
+      }
+      throw ((Throwable)paramClass.cast(zzkgm));
+    }
+  }
+  
+  public final boolean isComplete()
+  {
+    synchronized (mLock)
+    {
+      boolean bool = zzkgk;
+      return bool;
+    }
+  }
+  
+  public final boolean isSuccessful()
+  {
+    for (;;)
+    {
+      synchronized (mLock)
+      {
+        if ((zzkgk) && (zzkgm == null))
+        {
+          bool = true;
+          return bool;
+        }
+      }
+      boolean bool = false;
+    }
+  }
+  
+  public final void setException(@F Exception paramException)
+  {
+    zzbp.zzb(paramException, "Exception must not be null");
+    synchronized (mLock)
+    {
+      zzbif();
+      zzkgk = true;
+      zzkgm = paramException;
+      zzkgj.zzb(this);
+      return;
+    }
+  }
+  
+  public final void setResult(TResult paramTResult)
+  {
+    synchronized (mLock)
+    {
+      zzbif();
+      zzkgk = true;
+      zzkgl = paramTResult;
+      zzkgj.zzb(this);
+      return;
+    }
+  }
+  
+  public final boolean trySetException(@F Exception paramException)
+  {
+    zzbp.zzb(paramException, "Exception must not be null");
+    synchronized (mLock)
+    {
+      if (zzkgk) {
+        return false;
+      }
+      zzkgk = true;
+      zzkgm = paramException;
+      zzkgj.zzb(this);
+      return true;
+    }
+  }
+  
+  public final boolean trySetResult(TResult paramTResult)
+  {
+    synchronized (mLock)
+    {
+      if (zzkgk) {
+        return false;
+      }
+      zzkgk = true;
+      zzkgl = paramTResult;
+      zzkgj.zzb(this);
+      return true;
+    }
+  }
+  
+  public static class zza
+    extends LifecycleCallback
+  {
+    public final List<WeakReference<zzk<?>>> mListeners = new ArrayList();
+    
+    public zza(zzcg paramZzcg)
+    {
+      super();
+      zzfoo.zza("TaskOnStopCallback", this);
+    }
+    
+    public static zza zzr(Activity paramActivity)
+    {
+      zzcg localZzcg = LifecycleCallback.zzn(paramActivity);
+      zza localZza = (zza)localZzcg.zza("TaskOnStopCallback", zza.class);
+      paramActivity = localZza;
+      if (localZza == null) {
+        paramActivity = new zza(localZzcg);
+      }
+      return paramActivity;
+    }
+    
+    @C
+    public final void onStop()
+    {
+      synchronized (mListeners)
+      {
+        Iterator localIterator = mListeners.iterator();
+        while (localIterator.hasNext())
+        {
+          zzk localZzk = (zzk)((WeakReference)localIterator.next()).get();
+          if (localZzk != null) {
+            localZzk.cancel();
+          }
+        }
+        mListeners.clear();
+        return;
+      }
+      for (;;)
+      {
+        throw localObject;
+      }
+    }
+    
+    public final <T> void zzb(zzk<T> paramZzk)
+    {
+      synchronized (mListeners)
+      {
+        mListeners.add(new WeakReference(paramZzk));
+        return;
+      }
+    }
+  }
+}

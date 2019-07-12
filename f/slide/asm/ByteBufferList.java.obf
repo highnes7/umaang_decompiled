@@ -1,0 +1,205 @@
+package f.b.a;
+
+import f.h.a.g.f;
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+
+public final class h
+{
+  public static f a = new f();
+  public static byte[] b = new byte[4];
+  
+  public h() {}
+  
+  public static int a(byte paramByte)
+  {
+    int i = paramByte;
+    if (paramByte < 0) {
+      i = paramByte + 256;
+    }
+    return i;
+  }
+  
+  public static String a(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.get(b);
+    paramByteBuffer = b;
+    int i = paramByteBuffer[0];
+    int j = paramByteBuffer[1];
+    int k = paramByteBuffer[2];
+    i = paramByteBuffer[3] & 0xFF | i << 24 & 0xFF000000 | j << 16 & 0xFF0000 | k << 8 & 0xFF00;
+    paramByteBuffer = (String)a.b(i);
+    if (paramByteBuffer != null) {
+      return paramByteBuffer;
+    }
+    try
+    {
+      paramByteBuffer = new String(b, "ISO-8859-1");
+      a.a(i, paramByteBuffer);
+      return paramByteBuffer;
+    }
+    catch (UnsupportedEncodingException paramByteBuffer)
+    {
+      throw new RuntimeException(paramByteBuffer);
+    }
+  }
+  
+  public static String a(ByteBuffer paramByteBuffer, int paramInt)
+  {
+    byte[] arrayOfByte = new byte[paramInt];
+    paramByteBuffer.get(arrayOfByte);
+    return m.a(arrayOfByte);
+  }
+  
+  public static double b(ByteBuffer paramByteBuffer)
+  {
+    byte[] arrayOfByte = new byte[4];
+    paramByteBuffer.get(arrayOfByte);
+    double d = 0x0 | arrayOfByte[0] << 24 & 0xFF000000 | arrayOfByte[1] << 16 & 0xFF0000 | arrayOfByte[2] << 8 & 0xFF00 | arrayOfByte[3] & 0xFF;
+    Double.isNaN(d);
+    return d / 1.073741824E9D;
+  }
+  
+  public static double c(ByteBuffer paramByteBuffer)
+  {
+    byte[] arrayOfByte = new byte[4];
+    paramByteBuffer.get(arrayOfByte);
+    double d = 0x0 | arrayOfByte[0] << 24 & 0xFF000000 | arrayOfByte[1] << 16 & 0xFF0000 | arrayOfByte[2] << 8 & 0xFF00 | arrayOfByte[3] & 0xFF;
+    Double.isNaN(d);
+    return d / 65536.0D;
+  }
+  
+  public static float d(ByteBuffer paramByteBuffer)
+  {
+    byte[] arrayOfByte = new byte[2];
+    paramByteBuffer.get(arrayOfByte);
+    return (short)((short)(0x0 | arrayOfByte[0] << 8 & 0xFF00) | arrayOfByte[1] & 0xFF) / 256.0F;
+  }
+  
+  public static String e(ByteBuffer paramByteBuffer)
+  {
+    int j = g(paramByteBuffer);
+    paramByteBuffer = new StringBuilder();
+    int i = 0;
+    for (;;)
+    {
+      if (i >= 3) {
+        return paramByteBuffer.toString();
+      }
+      paramByteBuffer.append((char)((j >> (2 - i) * 5 & 0x1F) + 96));
+      i += 1;
+    }
+  }
+  
+  public static String f(ByteBuffer paramByteBuffer)
+  {
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    for (;;)
+    {
+      int i = paramByteBuffer.get();
+      if (i == 0) {
+        return m.a(localByteArrayOutputStream.toByteArray());
+      }
+      localByteArrayOutputStream.write(i);
+    }
+  }
+  
+  public static int g(ByteBuffer paramByteBuffer)
+  {
+    int j = paramByteBuffer.get();
+    int i = j;
+    if (j < 0) {
+      i = j + 256;
+    }
+    int k = paramByteBuffer.get();
+    j = k;
+    if (k < 0) {
+      j = k + 256;
+    }
+    return (i << 8) + 0 + j;
+  }
+  
+  public static int h(ByteBuffer paramByteBuffer)
+  {
+    int j = paramByteBuffer.get();
+    int i = j;
+    if (j < 0) {
+      i = j + 256;
+    }
+    int k = paramByteBuffer.get();
+    j = k;
+    if (k < 0) {
+      j = k + 256;
+    }
+    return i + 0 + (j << 8);
+  }
+  
+  public static int i(ByteBuffer paramByteBuffer)
+  {
+    int k = g(paramByteBuffer);
+    int j = paramByteBuffer.get();
+    int i = j;
+    if (j < 0) {
+      i = j + 256;
+    }
+    return (k << 8) + 0 + i;
+  }
+  
+  public static long j(ByteBuffer paramByteBuffer)
+  {
+    long l2 = paramByteBuffer.getInt();
+    long l1 = l2;
+    if (l2 < 0L) {
+      l1 = l2 + 4294967296L;
+    }
+    return l1;
+  }
+  
+  public static long k(ByteBuffer paramByteBuffer)
+  {
+    int j = paramByteBuffer.get();
+    int i = j;
+    if (j < 0) {
+      i = j + 256;
+    }
+    long l1 = i;
+    j = paramByteBuffer.get();
+    i = j;
+    if (j < 0) {
+      i = j + 256;
+    }
+    long l2 = i;
+    j = paramByteBuffer.get();
+    i = j;
+    if (j < 0) {
+      i = j + 256;
+    }
+    long l3 = i;
+    j = paramByteBuffer.get();
+    i = j;
+    if (j < 0) {
+      i = j + 256;
+    }
+    return (i << 24) + (l3 << 16) + (l2 << 8) + (l1 << 0);
+  }
+  
+  public static long l(ByteBuffer paramByteBuffer)
+  {
+    long l = (j(paramByteBuffer) << 32) + 0L;
+    if (l >= 0L) {
+      return j(paramByteBuffer) + l;
+    }
+    throw new RuntimeException("I don't know how to deal with UInt64! long is not sufficient and I don't want to use BigInt");
+  }
+  
+  public static int m(ByteBuffer paramByteBuffer)
+  {
+    int j = paramByteBuffer.get();
+    int i = j;
+    if (j < 0) {
+      i = j + 256;
+    }
+    return i;
+  }
+}

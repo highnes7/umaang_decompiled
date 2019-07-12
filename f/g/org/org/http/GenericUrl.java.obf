@@ -1,0 +1,449 @@
+package f.g.b.a.c;
+
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.M;
+import f.g.b.a.g.a.a;
+import f.g.b.a.g.a.b;
+import f.g.b.a.g.a.c;
+import f.g.b.a.g.w;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class k
+  extends w
+{
+  public static final b c = new c("=&-_.!~*'()@:$,;/?:", false);
+  public String d;
+  public String e;
+  public String f;
+  public int g = -1;
+  public List<String> h;
+  public String i;
+  
+  public k() {}
+  
+  public k(String paramString)
+  {
+    this(d(paramString));
+  }
+  
+  public k(String paramString1, String paramString2, int paramInt, String paramString3, String paramString4, String paramString5, String paramString6)
+  {
+    d = paramString1.toLowerCase();
+    e = paramString2;
+    g = paramInt;
+    h = j(paramString3);
+    paramString2 = null;
+    if (paramString4 != null) {
+      paramString1 = a.a(paramString4);
+    } else {
+      paramString1 = null;
+    }
+    i = paramString1;
+    if (paramString5 != null) {
+      N.a(paramString5, this);
+    }
+    paramString1 = paramString2;
+    if (paramString6 != null) {
+      paramString1 = a.a(paramString6);
+    }
+    f = paramString1;
+  }
+  
+  public k(URI paramURI)
+  {
+    this(paramURI.getScheme(), paramURI.getHost(), paramURI.getPort(), paramURI.getRawPath(), paramURI.getRawFragment(), paramURI.getRawQuery(), paramURI.getRawUserInfo());
+  }
+  
+  public k(URL paramURL)
+  {
+    this(paramURL.getProtocol(), paramURL.getHost(), paramURL.getPort(), paramURL.getPath(), paramURL.getRef(), paramURL.getQuery(), paramURL.getUserInfo());
+  }
+  
+  private void a(StringBuilder paramStringBuilder)
+  {
+    int k = h.size();
+    int j = 0;
+    while (j < k)
+    {
+      String str = (String)h.get(j);
+      if (j != 0) {
+        paramStringBuilder.append('/');
+      }
+      if (str.length() != 0) {
+        paramStringBuilder.append(a.c(str));
+      }
+      j += 1;
+    }
+  }
+  
+  public static void a(Set<Map.Entry<String, Object>> paramSet, StringBuilder paramStringBuilder)
+  {
+    paramSet = paramSet.iterator();
+    boolean bool1 = true;
+    while (paramSet.hasNext())
+    {
+      Object localObject2 = (Map.Entry)paramSet.next();
+      Object localObject1 = ((Map.Entry)localObject2).getValue();
+      if (localObject1 != null)
+      {
+        localObject2 = a.e((String)((Map.Entry)localObject2).getKey());
+        if ((localObject1 instanceof Collection))
+        {
+          localObject1 = ((Collection)localObject1).iterator();
+          for (boolean bool2 = bool1;; bool2 = a(bool2, paramStringBuilder, (String)localObject2, ((Iterator)localObject1).next()))
+          {
+            bool1 = bool2;
+            if (!((Iterator)localObject1).hasNext()) {
+              break;
+            }
+          }
+        }
+        bool1 = a(bool1, paramStringBuilder, (String)localObject2, localObject1);
+      }
+    }
+  }
+  
+  public static boolean a(boolean paramBoolean, StringBuilder paramStringBuilder, String paramString, Object paramObject)
+  {
+    if (paramBoolean)
+    {
+      paramBoolean = false;
+      paramStringBuilder.append('?');
+    }
+    else
+    {
+      paramStringBuilder.append('&');
+    }
+    paramStringBuilder.append(paramString);
+    paramString = a.e(paramObject.toString());
+    if (paramString.length() != 0)
+    {
+      paramStringBuilder.append('=');
+      paramStringBuilder.append(paramString);
+    }
+    return paramBoolean;
+  }
+  
+  public static URL d(String paramString)
+  {
+    try
+    {
+      paramString = new URL(paramString);
+      return paramString;
+    }
+    catch (MalformedURLException paramString)
+    {
+      throw new IllegalArgumentException(paramString);
+    }
+  }
+  
+  public static List<String> j(String paramString)
+  {
+    if ((paramString != null) && (paramString.length() != 0))
+    {
+      ArrayList localArrayList = new ArrayList();
+      int j = 1;
+      int m;
+      for (int k = 0; j != 0; k = m + 1)
+      {
+        m = paramString.indexOf('/', k);
+        if (m != -1) {
+          j = 1;
+        } else {
+          j = 0;
+        }
+        String str;
+        if (j != 0) {
+          str = paramString.substring(k, m);
+        } else {
+          str = paramString.substring(k);
+        }
+        localArrayList.add(a.a(str));
+      }
+      return localArrayList;
+    }
+    return null;
+  }
+  
+  public static URI k(String paramString)
+  {
+    try
+    {
+      paramString = new URI(paramString);
+      return paramString;
+    }
+    catch (URISyntaxException paramString)
+    {
+      throw new IllegalArgumentException(paramString);
+    }
+  }
+  
+  public final void a(int paramInt)
+  {
+    boolean bool;
+    if (paramInt >= -1) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    g.a(bool, "expected port >= -1");
+    g = paramInt;
+  }
+  
+  public void a(String paramString)
+  {
+    if ((paramString != null) && (paramString.length() != 0))
+    {
+      List localList1 = j(paramString);
+      paramString = h;
+      if ((paramString != null) && (!paramString.isEmpty()))
+      {
+        int j = h.size();
+        List localList2 = h;
+        j -= 1;
+        paramString = String.valueOf((String)localList2.get(j));
+        String str = String.valueOf((String)localList1.get(0));
+        if (str.length() != 0) {
+          paramString = paramString.concat(str);
+        } else {
+          paramString = new String(paramString);
+        }
+        localList2.set(j, paramString);
+        h.addAll(localList1.subList(1, localList1.size()));
+        return;
+      }
+      h = localList1;
+    }
+  }
+  
+  public void a(List<String> paramList)
+  {
+    h = paramList;
+  }
+  
+  public k b(String paramString, Object paramObject)
+  {
+    super.b(paramString, paramObject);
+    return (k)this;
+  }
+  
+  public Collection<Object> b(String paramString)
+  {
+    paramString = get(paramString);
+    if (paramString == null) {
+      return Collections.emptySet();
+    }
+    if ((paramString instanceof Collection)) {
+      return Collections.unmodifiableCollection((Collection)paramString);
+    }
+    return Collections.singleton(paramString);
+  }
+  
+  public Object c(String paramString)
+  {
+    Object localObject = get(paramString);
+    paramString = localObject;
+    if ((localObject instanceof Collection))
+    {
+      paramString = ((Collection)localObject).iterator();
+      if (paramString.hasNext()) {
+        return paramString.next();
+      }
+      paramString = null;
+    }
+    return paramString;
+  }
+  
+  public k clone()
+  {
+    k localK = (k)super.clone();
+    List localList = h;
+    if (localList != null) {
+      h = new ArrayList(localList);
+    }
+    return localK;
+  }
+  
+  public final void e(String paramString)
+  {
+    i = paramString;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if ((super.equals(paramObject)) && ((paramObject instanceof k)))
+    {
+      paramObject = (k)paramObject;
+      return g().equals(paramObject.toString());
+    }
+    return false;
+  }
+  
+  public final void f(String paramString)
+  {
+    if (paramString != null)
+    {
+      e = paramString;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public final String g()
+  {
+    String str1 = String.valueOf(h());
+    String str2 = String.valueOf(i());
+    if (str2.length() != 0) {
+      return str1.concat(str2);
+    }
+    return new String(str1);
+  }
+  
+  public void g(String paramString)
+  {
+    h = j(paramString);
+  }
+  
+  public final String h()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    String str = d;
+    M.a(str);
+    localStringBuilder.append((String)str);
+    localStringBuilder.append("://");
+    str = f;
+    if (str != null)
+    {
+      localStringBuilder.append(a.f(str));
+      localStringBuilder.append('@');
+    }
+    str = e;
+    M.a(str);
+    localStringBuilder.append((String)str);
+    int j = g;
+    if (j != -1)
+    {
+      localStringBuilder.append(':');
+      localStringBuilder.append(j);
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public final void h(String paramString)
+  {
+    if (paramString != null)
+    {
+      d = paramString;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public int hashCode()
+  {
+    return g().hashCode();
+  }
+  
+  public final String i()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    if (h != null) {
+      a(localStringBuilder);
+    }
+    a(entrySet(), localStringBuilder);
+    String str = i;
+    if (str != null)
+    {
+      localStringBuilder.append('#');
+      localStringBuilder.append(c.a(str));
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public final void i(String paramString)
+  {
+    f = paramString;
+  }
+  
+  public String j()
+  {
+    return i;
+  }
+  
+  public String k()
+  {
+    return e;
+  }
+  
+  public final URL l(String paramString)
+  {
+    try
+    {
+      paramString = new URL(r(), paramString);
+      return paramString;
+    }
+    catch (MalformedURLException paramString)
+    {
+      throw new IllegalArgumentException(paramString);
+    }
+  }
+  
+  public List<String> l()
+  {
+    return h;
+  }
+  
+  public int m()
+  {
+    return g;
+  }
+  
+  public String n()
+  {
+    if (h == null) {
+      return null;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    a(localStringBuilder);
+    return localStringBuilder.toString();
+  }
+  
+  public final String o()
+  {
+    return d;
+  }
+  
+  public final String p()
+  {
+    return f;
+  }
+  
+  public final URI q()
+  {
+    return k(g());
+  }
+  
+  public final URL r()
+  {
+    return d(g());
+  }
+  
+  public String toString()
+  {
+    return g();
+  }
+}

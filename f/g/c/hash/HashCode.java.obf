@@ -1,0 +1,62 @@
+package f.g.c.f;
+
+import f.g.c.a.a;
+import f.g.c.b.ba;
+import f.g.c.j.g;
+import java.security.MessageDigest;
+
+@a
+public abstract class l
+{
+  public static final char[] a = "0123456789abcdef".toCharArray();
+  
+  public l() {}
+  
+  public int a(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    byte[] arrayOfByte = a();
+    paramInt2 = g.c(new int[] { paramInt2, arrayOfByte.length });
+    ba.b(paramInt1, paramInt1 + paramInt2, paramArrayOfByte.length);
+    System.arraycopy(arrayOfByte, 0, paramArrayOfByte, paramInt1, paramInt2);
+    return paramInt2;
+  }
+  
+  public abstract byte[] a();
+  
+  public abstract int b();
+  
+  public abstract long c();
+  
+  public abstract int d();
+  
+  public boolean equals(Object paramObject)
+  {
+    if ((paramObject instanceof l))
+    {
+      paramObject = (l)paramObject;
+      return MessageDigest.isEqual(a(), paramObject.a());
+    }
+    return false;
+  }
+  
+  public int hashCode()
+  {
+    return b();
+  }
+  
+  public String toString()
+  {
+    byte[] arrayOfByte = a();
+    StringBuilder localStringBuilder = new StringBuilder(arrayOfByte.length * 2);
+    int j = arrayOfByte.length;
+    int i = 0;
+    while (i < j)
+    {
+      int k = arrayOfByte[i];
+      localStringBuilder.append(a[(k >> 4 & 0xF)]);
+      localStringBuilder.append(a[(k & 0xF)]);
+      i += 1;
+    }
+    return localStringBuilder.toString();
+  }
+}

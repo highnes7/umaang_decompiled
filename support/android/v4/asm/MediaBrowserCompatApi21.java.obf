@@ -1,0 +1,158 @@
+package b.b.x.h;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.media.browse.MediaBrowser;
+import android.media.browse.MediaBrowser.ConnectionCallback;
+import android.media.browse.MediaBrowser.MediaItem;
+import android.media.browse.MediaBrowser.SubscriptionCallback;
+import android.os.Bundle;
+import b.b.a.F;
+import b.b.a.K;
+import java.util.List;
+
+@K(21)
+public class t
+{
+  public static final String a = "android.support.v4.media.MediaBrowserCompat.NULL_MEDIA_ITEM";
+  
+  public t() {}
+  
+  public static Object a(Context paramContext, ComponentName paramComponentName, Object paramObject, Bundle paramBundle)
+  {
+    return new MediaBrowser(paramContext, paramComponentName, (MediaBrowser.ConnectionCallback)paramObject, paramBundle);
+  }
+  
+  public static Object a(a paramA)
+  {
+    return new b(paramA);
+  }
+  
+  public static Object a(d paramD)
+  {
+    return new e(paramD);
+  }
+  
+  public static void a(Object paramObject)
+  {
+    ((MediaBrowser)paramObject).connect();
+  }
+  
+  public static void a(Object paramObject, String paramString)
+  {
+    ((MediaBrowser)paramObject).unsubscribe(paramString);
+  }
+  
+  public static void a(Object paramObject1, String paramString, Object paramObject2)
+  {
+    ((MediaBrowser)paramObject1).subscribe(paramString, (MediaBrowser.SubscriptionCallback)paramObject2);
+  }
+  
+  public static void b(Object paramObject)
+  {
+    ((MediaBrowser)paramObject).disconnect();
+  }
+  
+  public static Bundle c(Object paramObject)
+  {
+    return ((MediaBrowser)paramObject).getExtras();
+  }
+  
+  public static String d(Object paramObject)
+  {
+    return ((MediaBrowser)paramObject).getRoot();
+  }
+  
+  public static ComponentName e(Object paramObject)
+  {
+    return ((MediaBrowser)paramObject).getServiceComponent();
+  }
+  
+  public static Object f(Object paramObject)
+  {
+    return ((MediaBrowser)paramObject).getSessionToken();
+  }
+  
+  public static boolean g(Object paramObject)
+  {
+    return ((MediaBrowser)paramObject).isConnected();
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void b();
+    
+    public abstract void c();
+    
+    public abstract void onConnected();
+  }
+  
+  public static class b<T extends t.a>
+    extends MediaBrowser.ConnectionCallback
+  {
+    public final T a;
+    
+    public b(T paramT)
+    {
+      a = paramT;
+    }
+    
+    public void onConnected()
+    {
+      a.onConnected();
+    }
+    
+    public void onConnectionFailed()
+    {
+      a.b();
+    }
+    
+    public void onConnectionSuspended()
+    {
+      a.c();
+    }
+  }
+  
+  public static class c
+  {
+    public c() {}
+    
+    public static Object a(Object paramObject)
+    {
+      return ((MediaBrowser.MediaItem)paramObject).getDescription();
+    }
+    
+    public static int b(Object paramObject)
+    {
+      return ((MediaBrowser.MediaItem)paramObject).getFlags();
+    }
+  }
+  
+  public static abstract interface d
+  {
+    public abstract void a(@F String paramString);
+    
+    public abstract void a(@F String paramString, List<?> paramList);
+  }
+  
+  public static class e<T extends t.d>
+    extends MediaBrowser.SubscriptionCallback
+  {
+    public final T a;
+    
+    public e(T paramT)
+    {
+      a = paramT;
+    }
+    
+    public void onChildrenLoaded(@F String paramString, List<MediaBrowser.MediaItem> paramList)
+    {
+      a.a(paramString, paramList);
+    }
+    
+    public void onError(@F String paramString)
+    {
+      a.a(paramString);
+    }
+  }
+}

@@ -1,0 +1,116 @@
+package f.g.c.b;
+
+import f.g.c.a.b;
+import f.g.c.a.d;
+
+@b
+public final class S
+  extends w
+{
+  public static final int p = 1023;
+  public static final double q = 0.5D;
+  public final char[] r;
+  public final boolean s;
+  public final long t;
+  
+  public S(char[] paramArrayOfChar, long paramLong, boolean paramBoolean, String paramString)
+  {
+    super(paramString);
+    r = paramArrayOfChar;
+    t = paramLong;
+    s = paramBoolean;
+  }
+  
+  @d
+  public static int a(int paramInt)
+  {
+    if (paramInt == 1) {
+      return 2;
+    }
+    int i = Integer.highestOneBit(paramInt - 1) << 1;
+    for (;;)
+    {
+      double d = i;
+      Double.isNaN(d);
+      if (d * 0.5D >= paramInt) {
+        break;
+      }
+      i <<= 1;
+    }
+    return i;
+  }
+  
+  public static w a(char[] paramArrayOfChar, String paramString)
+  {
+    int m = paramArrayOfChar.length;
+    int k = 0;
+    boolean bool;
+    if (paramArrayOfChar[0] == 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    int n = paramArrayOfChar.length;
+    long l = 0L;
+    int j = 0;
+    while (j < n)
+    {
+      l |= 1L << paramArrayOfChar[j];
+      j += 1;
+    }
+    char[] arrayOfChar = new char[a(m)];
+    m = arrayOfChar.length - 1;
+    n = paramArrayOfChar.length;
+    j = k;
+    if (j < n)
+    {
+      int i = paramArrayOfChar[j];
+      for (k = i & m;; k = k + 1 & m) {
+        if (arrayOfChar[k] == 0)
+        {
+          arrayOfChar[k] = i;
+          j += 1;
+          break;
+        }
+      }
+    }
+    return new S(arrayOfChar, l, bool, paramString);
+  }
+  
+  private boolean b(int paramInt)
+  {
+    return 1L == (t >> paramInt & 1L);
+  }
+  
+  public w b()
+  {
+    return this;
+  }
+  
+  public boolean c(char paramChar)
+  {
+    if (paramChar == 0) {
+      return s;
+    }
+    if (!b(paramChar)) {
+      return false;
+    }
+    char c = r.length - 1;
+    int j = paramChar & c;
+    int i = j;
+    int k;
+    do
+    {
+      char[] arrayOfChar = r;
+      if (arrayOfChar[i] == 0) {
+        return false;
+      }
+      if (arrayOfChar[i] == paramChar) {
+        return true;
+      }
+      k = i + 1 & c;
+      i = k;
+    } while (k != j);
+    return false;
+  }
+}

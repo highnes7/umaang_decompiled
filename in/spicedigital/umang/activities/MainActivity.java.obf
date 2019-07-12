@@ -1,0 +1,1979 @@
+package in.spicedigital.umang.activities;
+
+import android.animation.Animator;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap.Config;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.design.widget.TabLayout.Tab;
+import android.support.design.widget.TabLayout.TabLayoutOnPageChangeListener;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import b.b.x.b.c;
+import com.github.clans.fab.FloatingActionMenu;
+import de.hdodenhof.circleimageview.CircleImageView;
+import f.e.a.g;
+import f.l.a.b.d.a;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import k.a.a.a.Ak;
+import k.a.a.a.Bk;
+import k.a.a.a.Ck;
+import k.a.a.a.Dk;
+import k.a.a.a.Ek;
+import k.a.a.a.Fk;
+import k.a.a.a.Gk;
+import k.a.a.a.Hk;
+import k.a.a.a.Ik;
+import k.a.a.a.Jk;
+import k.a.a.a.Kk;
+import k.a.a.a.Lk;
+import k.a.a.a.Mk;
+import k.a.a.a.Nk;
+import k.a.a.a.Ok;
+import k.a.a.a.Pk;
+import k.a.a.a.Qk;
+import k.a.a.a.Rk;
+import k.a.a.a.Sk;
+import k.a.a.a.Tk;
+import k.a.a.a.Uk;
+import k.a.a.a.Vk;
+import k.a.a.a.Wk;
+import k.a.a.a.Xk;
+import k.a.a.a.Yk;
+import k.a.a.a.Zk;
+import k.a.a.a._k;
+import k.a.a.a.al;
+import k.a.a.a.bl;
+import k.a.a.a.dl;
+import k.a.a.a.el;
+import k.a.a.a.fl;
+import k.a.a.a.gl;
+import k.a.a.a.hl;
+import k.a.a.a.il;
+import k.a.a.a.jl;
+import k.a.a.a.kk;
+import k.a.a.a.kl;
+import k.a.a.a.lk;
+import k.a.a.a.mk;
+import k.a.a.a.nk;
+import k.a.a.a.ok;
+import k.a.a.a.pk;
+import k.a.a.a.qk;
+import k.a.a.a.rk;
+import k.a.a.a.sk;
+import k.a.a.a.tk;
+import k.a.a.a.uk;
+import k.a.a.a.vk;
+import k.a.a.a.wk;
+import k.a.a.a.xk;
+import k.a.a.a.yk;
+import k.a.a.a.zk;
+import k.a.a.b.v;
+import k.a.a.c.W;
+import k.a.a.h.Ha;
+import k.a.a.h.Xb;
+import k.a.a.h.ma;
+import k.a.a.h.ua;
+import k.a.a.l.B;
+import k.a.a.l.j;
+import k.a.a.l.o;
+import k.a.a.l.x;
+import k.a.a.m.Ea;
+import k.a.a.m.Fa;
+import k.a.a.m.O;
+import k.a.a.m.V;
+import k.a.a.m.Wa;
+import org.json.JSONObject;
+import org.yaxim.androidclient.data.ChatProvider;
+
+public class MainActivity
+  extends BaseActivity
+  implements LoaderManager.LoaderCallbacks<Cursor>
+{
+  public static boolean b;
+  public static Handler c;
+  public static final int d = 0;
+  public static Handler e;
+  public LinearLayout A;
+  public LinearLayout B;
+  public v C;
+  public k.a.a.e.b D;
+  public V E;
+  public TextView F;
+  public android.support.design.widget.FloatingActionButton G;
+  public FloatingActionMenu H;
+  public com.github.clans.fab.FloatingActionButton I;
+  public com.github.clans.fab.FloatingActionButton J;
+  public ImageView K;
+  public LinearLayout L;
+  public final int M = 2;
+  public CircleImageView N;
+  public TextView O;
+  public TextView P;
+  public TextView Q;
+  public LinearLayout R;
+  public LinearLayout S;
+  public LinearLayout T;
+  public String TAG = "MainActivity";
+  public ImageView U;
+  public CoordinatorLayout V;
+  public LinearLayout W;
+  public View X;
+  public View Y;
+  public TextView Z;
+  public CircleImageView aa;
+  public LinearLayout ba;
+  public LinearLayout ca;
+  public LinearLayout da;
+  public RelativeLayout ea;
+  public Toolbar f;
+  public boolean fa = false;
+  public View g;
+  public f.l.a.b.f ga;
+  public ImageView h;
+  public f.l.a.b.d ha;
+  public RelativeLayout i;
+  public String ia = "true";
+  public TextView j;
+  public View ja;
+  public TextView k;
+  public e.a.a.i ka;
+  public TextView l;
+  public LinearLayout la;
+  public ImageView m;
+  public RelativeLayout ma;
+  public ImageView n;
+  public boolean na;
+  public ViewPager o;
+  public JSONObject oa;
+  public DrawerLayout p;
+  public String pa;
+  public TabLayout q;
+  public int qa = -1;
+  public LinearLayout r;
+  public boolean ra;
+  public LinearLayout s;
+  public boolean sa = false;
+  public LinearLayout t;
+  public Snackbar ta;
+  public LinearLayout u;
+  public String ua;
+  public LinearLayout v;
+  public Snackbar va = null;
+  public LinearLayout w;
+  public BroadcastReceiver wa;
+  public LinearLayout x;
+  public List<k.a.a.c.y> xa;
+  public LinearLayout y;
+  public f.l.a.b.f.a ya = new Xk(this);
+  public LinearLayout z;
+  
+  public MainActivity() {}
+  
+  private void a(Context paramContext)
+  {
+    Dialog localDialog = new Dialog(paramContext);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131493196);
+    localDialog.setCancelable(true);
+    RatingBar localRatingBar = (RatingBar)localDialog.findViewById(2131297352);
+    ImageView localImageView = (ImageView)localDialog.findViewById(2131297586);
+    TextView localTextView = (TextView)localDialog.findViewById(2131297657);
+    if (qa == -1) {
+      qa = 5;
+    }
+    a(localImageView, qa);
+    localRatingBar.setRating(qa);
+    localRatingBar.setOnRatingBarChangeListener(new Gk(this, localImageView));
+    localTextView.setOnClickListener(new Hk(this, localRatingBar, paramContext, localDialog));
+    localDialog.show();
+  }
+  
+  private void a(Context paramContext, String paramString1, String paramString2)
+  {
+    E.c(V.Hb, "false");
+    paramContext = new Dialog(paramContext);
+    paramContext.getWindow();
+    paramContext.requestWindowFeature(1);
+    paramContext.setContentView(2131493032);
+    paramContext.setCancelable(true);
+    paramContext.setCanceledOnTouchOutside(false);
+    paramContext.show();
+    ((TextView)paramContext.findViewById(2131296633)).setText(paramString1);
+    ((TextView)paramContext.findViewById(2131296634)).setText(Html.fromHtml(paramString2));
+    ((TextView)paramContext.findViewById(2131297214)).setOnClickListener(new Zk(this, paramContext));
+    paramContext.setOnCancelListener(new _k(this));
+  }
+  
+  private void a(Bundle paramBundle)
+  {
+    fa = false;
+    pa = "all";
+    D = k.a.a.e.b.a(this);
+    E = new V(this);
+    E.c(V.xa, "");
+    b = false;
+    ea = ((RelativeLayout)findViewById(2131297263));
+    R = ((LinearLayout)findViewById(2131297979));
+    S = ((LinearLayout)findViewById(2131297179));
+    T = ((LinearLayout)findViewById(2131296690));
+    U = ((ImageView)findViewById(2131297180));
+    U.setOnClickListener(new kl(this));
+    p = ((DrawerLayout)findViewById(2131296686));
+    V = ((CoordinatorLayout)findViewById(2131296576));
+    q = ((TabLayout)findViewById(2131297667));
+    String str1 = E.a(V.Ra, "");
+    Object localObject1 = TAG;
+    localObject1 = new StringBuilder();
+    ((StringBuilder)localObject1).append("dynamicTabsData......................");
+    ((StringBuilder)localObject1).append(str1);
+    ((StringBuilder)localObject1).toString();
+    int i1;
+    if (!str1.equalsIgnoreCase(""))
+    {
+      localObject1 = str1.split(",");
+      i1 = 0;
+      while (i1 < localObject1.length)
+      {
+        localObject3 = localObject1[i1].split("\\|");
+        localObject2 = localObject3[0];
+        if (localObject3[1].equalsIgnoreCase("state"))
+        {
+          if (!E.a(V.m, "").equalsIgnoreCase(""))
+          {
+            localObject2 = q;
+            ((TabLayout)localObject2).addTab(((TabLayout)localObject2).newTab().setText(E.a(V.m, "")));
+          }
+          else
+          {
+            localObject3 = q;
+            ((TabLayout)localObject3).addTab(((TabLayout)localObject3).newTab().setText((CharSequence)localObject2));
+          }
+        }
+        else
+        {
+          localObject3 = q;
+          ((TabLayout)localObject3).addTab(((TabLayout)localObject3).newTab().setText((CharSequence)localObject2));
+        }
+        i1 += 1;
+      }
+      i1 = 0;
+      while (i1 < localObject1.length)
+      {
+        localObject2 = (TextView)LayoutInflater.from(this).inflate(2131492991, null);
+        q.getTabAt(i1).setCustomView((View)localObject2);
+        i1 += 1;
+      }
+    }
+    localObject1 = q;
+    ((TabLayout)localObject1).addTab(((TabLayout)localObject1).newTab().setText(getResources().getString(2131755815)));
+    localObject1 = q;
+    ((TabLayout)localObject1).addTab(((TabLayout)localObject1).newTab().setText(getResources().getString(2131755716)));
+    localObject1 = q;
+    ((TabLayout)localObject1).addTab(((TabLayout)localObject1).newTab().setText(getResources().getString(2131755260)));
+    localObject1 = (TextView)LayoutInflater.from(this).inflate(2131492991, null);
+    Object localObject2 = (TextView)LayoutInflater.from(this).inflate(2131492991, null);
+    Object localObject3 = (TextView)LayoutInflater.from(this).inflate(2131492991, null);
+    q.getTabAt(0).setCustomView((View)localObject1);
+    q.getTabAt(1).setCustomView((View)localObject2);
+    q.getTabAt(2).setCustomView((View)localObject3);
+    q.setTabGravity(0);
+    ((TextView)q.getTabAt(0).getCustomView()).setTextColor(c.getColor(this, 2131099898));
+    o = ((ViewPager)findViewById(2131297258));
+    C = new v(getSupportFragmentManager(), q.getTabCount(), str1);
+    o.setAdapter(C);
+    r = ((LinearLayout)findViewById(2131296984));
+    s = ((LinearLayout)findViewById(2131296978));
+    t = ((LinearLayout)findViewById(2131296973));
+    u = ((LinearLayout)findViewById(2131296968));
+    v = ((LinearLayout)findViewById(2131296977));
+    x = ((LinearLayout)findViewById(2131296970));
+    w = ((LinearLayout)findViewById(2131296980));
+    y = ((LinearLayout)findViewById(2131296985));
+    z = ((LinearLayout)findViewById(2131296972));
+    A = ((LinearLayout)findViewById(2131296983));
+    if (E.a(V.z, "no").equalsIgnoreCase("yes")) {
+      A.setVisibility(0);
+    } else {
+      A.setVisibility(8);
+    }
+    B = ((LinearLayout)findViewById(2131296986));
+    t.setOnClickListener(new kk(this));
+    u.setOnClickListener(new lk(this));
+    v.setOnClickListener(new mk(this));
+    x.setOnClickListener(new nk(this));
+    w.setOnClickListener(new ok(this));
+    y.setOnClickListener(new pk(this));
+    z.setOnClickListener(new qk(this));
+    A.setOnClickListener(new rk(this));
+    B.setOnClickListener(new sk(this));
+    K = ((ImageView)findViewById(2131296585));
+    W = ((LinearLayout)findViewById(2131297299));
+    ca = ((LinearLayout)findViewById(2131296413));
+    L = ((LinearLayout)findViewById(2131296408));
+    L.setVisibility(8);
+    Z = ((TextView)findViewById(2131297326));
+    Y = findViewById(2131297311);
+    X = findViewById(2131297310);
+    aa = ((CircleImageView)findViewById(2131297987));
+    ba = ((LinearLayout)findViewById(2131296411));
+    ba.setVisibility(8);
+    da = ((LinearLayout)findViewById(2131296410));
+    da.setVisibility(8);
+    ja = findViewById(2131296712);
+    G = ((android.support.design.widget.FloatingActionButton)findViewById(2131296755));
+    H = ((FloatingActionMenu)findViewById(2131296765));
+    I = ((com.github.clans.fab.FloatingActionButton)findViewById(2131296758));
+    J = ((com.github.clans.fab.FloatingActionButton)findViewById(2131296760));
+    H.setClosedOnTouchOutside(true);
+    G.setOnClickListener(new tk(this));
+    J.setOnClickListener(new vk(this));
+    findViewById(2131296492).setOnClickListener(new wk(this));
+    findViewById(2131296976).setOnClickListener(new xk(this));
+    if (!E.a(V.q, "").equalsIgnoreCase("true"))
+    {
+      na = false;
+      E.c(V.q, "true");
+      t();
+    }
+    else
+    {
+      na = true;
+    }
+    L.setOnClickListener(new yk(this));
+    s.setOnClickListener(new zk(this));
+    try
+    {
+      str1 = getIntent().getStringExtra("notifId");
+      if (str1 != null)
+      {
+        D.E(str1);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+      }
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+    }
+    try
+    {
+      localObject1 = getIntent().getStringExtra("dialogMsg");
+      String str2 = getIntent().getStringExtra("showRating");
+      localObject2 = getIntent().getStringExtra("share");
+      if (paramBundle == null)
+      {
+        paramBundle = TAG;
+        if (localObject1 != null)
+        {
+          str2 = getIntent().getStringExtra("title");
+          paramBundle = str2;
+          if (str2.equalsIgnoreCase("")) {
+            paramBundle = getResources().getString(2131755289);
+          }
+          a(this, paramBundle, (String)localObject1);
+        }
+        else if (str2 != null)
+        {
+          a(this);
+        }
+        else if (localObject2 != null)
+        {
+          s();
+        }
+      }
+      else
+      {
+        paramBundle = TAG;
+        if (localObject1 != null)
+        {
+          paramBundle = TAG;
+          paramBundle = new StringBuilder();
+          paramBundle.append("PREF_NOTIF_DIALOG_CANCELLED...........................");
+          paramBundle.append(E.a(V.Hb, "false"));
+          paramBundle.toString();
+          if (E.a(V.Hb, "false").equalsIgnoreCase("false"))
+          {
+            str2 = getIntent().getStringExtra("title");
+            paramBundle = str2;
+            if (str2.equalsIgnoreCase("")) {
+              paramBundle = getResources().getString(2131755289);
+            }
+            a(this, paramBundle, (String)localObject1);
+          }
+        }
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      k.a.a.m.b.a(paramBundle);
+    }
+    N = ((CircleImageView)findViewById(2131297986));
+    P = ((TextView)findViewById(2131297982));
+    Q = ((TextView)findViewById(2131297983));
+    O = ((TextView)findViewById(2131297985));
+    N.setOnClickListener(new Ak(this));
+    try
+    {
+      i1 = Integer.parseInt(E.a(V.H, Ea.c(this)));
+      int i2 = Integer.parseInt(Ea.c(this));
+      paramBundle = TAG;
+      paramBundle = new StringBuilder();
+      paramBundle.append("appVersion : ");
+      paramBundle.append(i2);
+      paramBundle.toString();
+      paramBundle = TAG;
+      paramBundle = new StringBuilder();
+      paramBundle.append("newVersion : ");
+      paramBundle.append(i1);
+      paramBundle.toString();
+      if (i1 > i2)
+      {
+        if (E.a(V.J, "true").equalsIgnoreCase("true"))
+        {
+          a(false);
+          return;
+        }
+        a(true);
+        return;
+      }
+    }
+    catch (Exception paramBundle)
+    {
+      k.a.a.m.b.a(paramBundle);
+    }
+  }
+  
+  private void a(View paramView)
+  {
+    int i1 = ma.getLeft();
+    int i2 = ma.getRight();
+    int i3 = ma.getTop();
+    int i4 = ma.getBottom();
+    int i5 = Math.max(ma.getWidth(), ma.getHeight());
+    if (Build.VERSION.SDK_INT >= 22)
+    {
+      Animator localAnimator = ViewAnimationUtils.createCircularReveal(paramView, i2 + i1, i4 + i3, 0.0F, i5);
+      paramView.setVisibility(0);
+      localAnimator.setDuration(getResources().getInteger(2131361796));
+      localAnimator.setInterpolator(new AccelerateInterpolator());
+      localAnimator.start();
+      localAnimator.addListener(new dl(this, paramView));
+      return;
+    }
+    i();
+  }
+  
+  private void a(ImageView paramImageView, float paramFloat)
+  {
+    if (paramFloat <= 1.0F)
+    {
+      qa = 1;
+      paramImageView.setImageResource(2131231493);
+      return;
+    }
+    if (paramFloat == 2.0F)
+    {
+      qa = 2;
+      paramImageView.setImageResource(2131231494);
+      return;
+    }
+    if (paramFloat == 3.0F)
+    {
+      qa = 3;
+      paramImageView.setImageResource(2131231495);
+      return;
+    }
+    if (paramFloat == 4.0F)
+    {
+      qa = 4;
+      paramImageView.setImageResource(2131231496);
+      return;
+    }
+    if (paramFloat == 5.0F)
+    {
+      qa = 5;
+      paramImageView.setImageResource(2131231497);
+    }
+  }
+  
+  private void a(String paramString, boolean paramBoolean)
+  {
+    if (paramBoolean)
+    {
+      L.setVisibility(8);
+      da.setVisibility(8);
+      ta.dismiss();
+      ba.setVisibility(0);
+      paramString = (Button)findViewById(2131297161);
+      paramString.setVisibility(8);
+      paramString.setOnClickListener(new Mk(this));
+      return;
+    }
+    ba.setVisibility(8);
+  }
+  
+  private void a(k.a.a.c.y paramY)
+  {
+    Ea.a(this, null, "Message Board", "clicked", "On Home Tab Screen");
+    Object localObject = paramY.b();
+    paramY = paramY.c();
+    if (((String)localObject).equalsIgnoreCase("youtube"))
+    {
+      paramY = new Intent("android.intent.action.VIEW", Uri.parse(paramY));
+    }
+    else if (((String)localObject).equalsIgnoreCase("openAppWithDialog"))
+    {
+      paramY = f.a.a.a.a.a(this, MainActivity.class, "dialogMsg", paramY);
+      f.a.a.a.a.a(this, 2131755834, paramY, "title");
+    }
+    else if (((String)localObject).equalsIgnoreCase("playstore"))
+    {
+      paramY = new Intent("android.intent.action.VIEW", Uri.parse(paramY));
+    }
+    else if (((String)localObject).equalsIgnoreCase("browser"))
+    {
+      paramY = new Intent("android.intent.action.VIEW", Uri.parse(paramY));
+    }
+    else
+    {
+      if (((String)localObject).equalsIgnoreCase("webview"))
+      {
+        paramY = paramY.split("\\|");
+        localObject = paramY[0];
+        paramY = f.a.a.a.a.a(this, BrowserScreen.class, "title", paramY[1]);
+        paramY.putExtra("url", (String)localObject);
+      }
+      for (;;)
+      {
+        break;
+        if (((String)localObject).equalsIgnoreCase("rating"))
+        {
+          paramY = f.a.a.a.a.a(this, MainActivity.class, "showRating", "showRating");
+        }
+        else if (((String)localObject).equalsIgnoreCase("share"))
+        {
+          paramY = f.a.a.a.a.a(this, MainActivity.class, "share", "share");
+        }
+        else if (((String)localObject).equalsIgnoreCase("openAppWithTab"))
+        {
+          paramY = f.a.a.a.a.a(this, MainActivity.class, "openAppWithTab", paramY);
+        }
+        else if (((String)localObject).equalsIgnoreCase("openAppWithScreen"))
+        {
+          if (paramY.equalsIgnoreCase("settings")) {
+            paramY = new Intent(this, SettingScreen.class);
+          } else if (paramY.equalsIgnoreCase("help")) {
+            paramY = new Intent(this, HelpScreen.class);
+          } else if (paramY.equalsIgnoreCase("social")) {
+            paramY = new Intent(this, SocialMediaAccountScreen.class);
+          } else if (paramY.equalsIgnoreCase("aadhaar")) {
+            paramY = new Intent(this, AadhaarProfileScreen.class);
+          } else if (paramY.equalsIgnoreCase("feedback")) {
+            paramY = new Intent(this, FeedbackScreen.class);
+          } else if (paramY.equalsIgnoreCase("accountsettings")) {
+            paramY = new Intent(this, AccountSettingScreen.class);
+          } else if (paramY.equalsIgnoreCase("myprofile")) {
+            paramY = new Intent(this, MyProfileScreen.class);
+          } else if (paramY.equalsIgnoreCase("myprofilegeneral")) {
+            paramY = new Intent(this, MyProfileGeneral.class);
+          } else {
+            paramY = new Intent(this, MainActivity.class);
+          }
+        }
+        else if (((String)localObject).equalsIgnoreCase("service"))
+        {
+          paramY = paramY.split("\\|");
+          String str1 = paramY[0];
+          localObject = paramY[1];
+          String str2 = paramY[2];
+          if (str2 != null)
+          {
+            if (!str2.equalsIgnoreCase(""))
+            {
+              paramY = D.u(str2);
+              if (paramY != null)
+              {
+                paramY.l();
+                paramY = paramY.p();
+              }
+              else
+              {
+                paramY = getResources().getString(2131755289);
+              }
+              if ((localObject != null) && (!((String)localObject).equalsIgnoreCase(""))) {
+                paramY = (k.a.a.c.y)localObject;
+              }
+              localObject = f.a.a.a.a.a(this, WebActivity.class, "fromNotif", "fromNotif");
+              ((Intent)localObject).putExtra("service_name", paramY);
+              ((Intent)localObject).putExtra("service_url", str1);
+              ((Intent)localObject).putExtra("service_id", str2);
+              paramY = (k.a.a.c.y)localObject;
+            }
+            else
+            {
+              paramY = new Intent(this, MainActivity.class);
+            }
+          }
+          else {
+            paramY = new Intent(this, MainActivity.class);
+          }
+        }
+        else
+        {
+          paramY = new Intent(this, MainActivity.class);
+        }
+      }
+    }
+    startActivity(paramY);
+    da.setVisibility(8);
+  }
+  
+  private void a(boolean paramBoolean)
+  {
+    Dialog localDialog = f.a.a.a.a.a(this, 1, 2131493081, paramBoolean);
+    TextView localTextView1 = (TextView)localDialog.findViewById(2131297186);
+    TextView localTextView2 = (TextView)localDialog.findViewById(2131297550);
+    localDialog.findViewById(2131298000);
+    if (E.a(V.J, "true").equalsIgnoreCase("true")) {
+      f.a.a.a.a.a(this, 2131755188, localTextView2);
+    } else {
+      f.a.a.a.a.a(this, 2131755755, localTextView2);
+    }
+    localTextView1.setOnClickListener(new Pk(this, localDialog, paramBoolean));
+    ((TextView)localDialog.findViewById(2131298035)).setOnClickListener(new Rk(this));
+  }
+  
+  private void b(Context paramContext)
+  {
+    if (E.a(V.pa, "").equalsIgnoreCase("true"))
+    {
+      try
+      {
+        paramContext = Ea.e(paramContext);
+        paramContext.put("mno", E.a(V.da, ""));
+        paramContext.put("gcmid", E.a(V.wa, ""));
+      }
+      catch (Exception paramContext)
+      {
+        k.a.a.m.b.a(paramContext);
+        paramContext = null;
+      }
+      if (paramContext != null)
+      {
+        new B(new Ik(this), paramContext, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+        return;
+      }
+      paramContext = TAG;
+    }
+  }
+  
+  private void b(k.a.a.c.y paramY)
+  {
+    if (ba.getVisibility() == 8)
+    {
+      if (L.getVisibility() == 0) {
+        L.setVisibility(8);
+      }
+      da.setVisibility(0);
+      da.setBackgroundColor(Color.parseColor(paramY.d()));
+      ImageView localImageView1 = (ImageView)findViewById(2131297111);
+      TextView localTextView1 = (TextView)findViewById(2131297110);
+      TextView localTextView2 = (TextView)findViewById(2131297112);
+      ImageView localImageView2 = (ImageView)findViewById(2131296586);
+      f.l.a.b.d localD = f.a.a.a.a.a(true, true).a(Bitmap.Config.RGB_565).a();
+      ga.a(paramY.a(), localImageView1, localD);
+      localTextView1.setText(Html.fromHtml(paramY.i()));
+      localTextView2.setText(Html.fromHtml(paramY.e()));
+      localImageView2.setOnClickListener(new Nk(this));
+      da.setOnClickListener(new Ok(this, paramY));
+    }
+  }
+  
+  private int c(int paramInt)
+  {
+    return (int)(getResourcesgetDisplayMetricsdensity * 14.0F + 0.5F);
+  }
+  
+  private void h()
+  {
+    ta = Snackbar.make(o, getResources().getString(2131755983), -2);
+    try
+    {
+      int i1 = Integer.parseInt(E.a(V.K, Ea.c(this)));
+      int i2 = Integer.parseInt(Ea.c(this));
+      Object localObject1 = TAG;
+      localObject1 = new StringBuilder();
+      ((StringBuilder)localObject1).append("appVersion : ");
+      ((StringBuilder)localObject1).append(i2);
+      ((StringBuilder)localObject1).toString();
+      localObject1 = TAG;
+      localObject1 = new StringBuilder();
+      ((StringBuilder)localObject1).append("newVersion : ");
+      ((StringBuilder)localObject1).append(i1);
+      ((StringBuilder)localObject1).toString();
+      if (i1 > i2)
+      {
+        localObject1 = E.a(V.L, "");
+        Object localObject2 = new StringBuilder();
+        ((StringBuilder)localObject2).append("");
+        ((StringBuilder)localObject2).append(i1);
+        if (!((String)localObject1).equalsIgnoreCase(((StringBuilder)localObject2).toString()))
+        {
+          localObject1 = E;
+          localObject2 = V.L;
+          StringBuilder localStringBuilder = new StringBuilder();
+          localStringBuilder.append("");
+          localStringBuilder.append(i1);
+          ((V)localObject1).c((String)localObject2, localStringBuilder.toString());
+          ta.setAction(getResources().getString(2131756589), new fl(this));
+          ta.setActionTextColor(c.getColor(this, 2131099893));
+          ta.show();
+          return;
+        }
+      }
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+    }
+  }
+  
+  private void i()
+  {
+    Intent localIntent = new Intent(this, FilterScreen.class);
+    localIntent.setFlags(65536);
+    Object localObject1 = E;
+    Object localObject2 = V.Ra;
+    String str = "";
+    localObject1 = ((V)localObject1).a((String)localObject2, "");
+    if (!((String)localObject1).equalsIgnoreCase(""))
+    {
+      localObject1 = ((String)localObject1).split(",");
+      int i1 = 0;
+      while (i1 < localObject1.length)
+      {
+        localObject2 = localObject1[i1].split("\\|");
+        if (o.getCurrentItem() == i1) {
+          str = localObject2[1];
+        }
+        i1 += 1;
+      }
+      if (str.equalsIgnoreCase("home"))
+      {
+        localIntent.putExtra("from", "allServices");
+      }
+      else if (str.equalsIgnoreCase("fav"))
+      {
+        localIntent.putExtra("from", "fav");
+      }
+      else if (str.equalsIgnoreCase("state"))
+      {
+        localIntent.putExtra("from", "state");
+      }
+      else if (str.equalsIgnoreCase("flagship"))
+      {
+        localIntent.putExtra("from", "flagship");
+      }
+      else
+      {
+        localIntent.putExtra("from", "allServices");
+        localIntent.putExtra("allServicesSelectedTab", pa);
+      }
+    }
+    else if (o.getCurrentItem() == 0)
+    {
+      localIntent.putExtra("from", "allServices");
+    }
+    else if (o.getCurrentItem() == 1)
+    {
+      localIntent.putExtra("from", "fav");
+    }
+    else
+    {
+      localIntent.putExtra("from", "allServices");
+      localIntent.putExtra("allServicesSelectedTab", pa);
+    }
+    startActivity(localIntent);
+  }
+  
+  private void i(String paramString)
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("mno", E.a(V.da, ""));
+      localJSONObject.put("cate", "appfd");
+      localJSONObject.put("feedback", "");
+      localJSONObject.put("catetype", "feedback");
+      localJSONObject.put("sid", "");
+      localJSONObject.put("serviceID", "");
+      localJSONObject.put("pic", "");
+      localJSONObject.put("rating", paramString);
+      paramString = localJSONObject;
+    }
+    catch (Exception paramString)
+    {
+      k.a.a.m.b.a(paramString);
+      paramString = null;
+    }
+    if (paramString != null)
+    {
+      new x(new el(this), paramString, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+      return;
+    }
+    paramString = TAG;
+  }
+  
+  private void j()
+  {
+    try
+    {
+      boolean bool = E.a(V.qa, "true").equalsIgnoreCase("false");
+      if (bool)
+      {
+        if (E.a(V.ra, "false").equalsIgnoreCase("true"))
+        {
+          bool = Boolean.parseBoolean(E.a(V.sa, "true")) ^ true;
+          if (bool)
+          {
+            Ea.a(this, bool, "nonMandatoryDialog", "");
+            return;
+          }
+          Ea.a(this, bool, "mandatoryDialog", "");
+        }
+      }
+      else if (E.a(V.Z, "false").equalsIgnoreCase("false"))
+      {
+        String str = getIntent().getStringExtra("fromLogin");
+        if ((str != null) && (str.equalsIgnoreCase("true")))
+        {
+          Ea.a(this, true, "");
+          return;
+        }
+      }
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+    }
+  }
+  
+  private void k()
+  {
+    try
+    {
+      new Handler().postDelayed(new Wk(this), Integer.parseInt(E.a(V.xb, "14400000")));
+      return;
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+    }
+  }
+  
+  private boolean l()
+  {
+    try
+    {
+      if (E.a(V.Z, "false").equalsIgnoreCase("false"))
+      {
+        Object localObject1 = getIntent().getStringExtra("fromLogin");
+        if ((localObject1 != null) && (((String)localObject1).equalsIgnoreCase("true"))) {
+          return true;
+        }
+        int i1 = E.a(V.ba, 0);
+        localObject1 = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar localCalendar = Calendar.getInstance();
+        localCalendar.setTime(new Date());
+        Object localObject2 = E;
+        Object localObject3 = V.aa;
+        Object localObject4 = new StringBuilder();
+        ((StringBuilder)localObject4).append("");
+        ((StringBuilder)localObject4).append(((SimpleDateFormat)localObject1).format(localCalendar.getTime()));
+        localObject2 = ((SimpleDateFormat)localObject1).parse(((V)localObject2).a((String)localObject3, ((StringBuilder)localObject4).toString()));
+        boolean bool = E.a(V.qa, "true").equalsIgnoreCase("false");
+        int i2;
+        int i3;
+        Object localObject5;
+        Object localObject6;
+        if (bool)
+        {
+          i2 = Integer.parseInt(E.a(V.W, "0"));
+          i3 = Integer.parseInt(E.a(V.Y, "0"));
+          localObject3 = Calendar.getInstance();
+          ((Calendar)localObject3).setTime((Date)localObject2);
+          ((Calendar)localObject3).add(5, i3);
+          localObject5 = ((SimpleDateFormat)localObject1).format(((Calendar)localObject3).getTime());
+          localObject2 = ((SimpleDateFormat)localObject1).format(localCalendar.getTime());
+          localObject3 = ((SimpleDateFormat)localObject1).parse((String)localObject5);
+          localObject4 = ((SimpleDateFormat)localObject1).parse((String)localObject2);
+          localObject6 = TAG;
+          localObject6 = new StringBuilder();
+          ((StringBuilder)localObject6).append("nextDateStr.............");
+          ((StringBuilder)localObject6).append((String)localObject5);
+          ((StringBuilder)localObject6).toString();
+          localObject5 = TAG;
+          localObject5 = new StringBuilder();
+          ((StringBuilder)localObject5).append("currentDateStr.............");
+          ((StringBuilder)localObject5).append((String)localObject2);
+          ((StringBuilder)localObject5).toString();
+          if ((i1 >= i2) || (((Date)localObject4).equals(localObject3)) || (((Date)localObject4).after((Date)localObject3)))
+          {
+            if (E.a(V.qa, "true").equalsIgnoreCase("false")) {
+              Ea.a(this, true, "nonMandatoryDialog", ua);
+            } else {
+              Ea.a(this, true, ua);
+            }
+            E.b(V.ba, 0);
+            E.c(V.aa, ((SimpleDateFormat)localObject1).format(localCalendar.getTime()));
+            return true;
+          }
+        }
+        else
+        {
+          i2 = Integer.parseInt(E.a(V.V, "0"));
+          i3 = Integer.parseInt(E.a(V.X, "0"));
+          localObject3 = Calendar.getInstance();
+          ((Calendar)localObject3).setTime((Date)localObject2);
+          ((Calendar)localObject3).add(5, i3);
+          localObject5 = ((SimpleDateFormat)localObject1).format(((Calendar)localObject3).getTime());
+          localObject2 = ((SimpleDateFormat)localObject1).format(localCalendar.getTime());
+          localObject3 = ((SimpleDateFormat)localObject1).parse((String)localObject5);
+          localObject4 = ((SimpleDateFormat)localObject1).parse((String)localObject2);
+          localObject6 = TAG;
+          localObject6 = new StringBuilder();
+          ((StringBuilder)localObject6).append("nextDateStr.............");
+          ((StringBuilder)localObject6).append((String)localObject5);
+          ((StringBuilder)localObject6).toString();
+          localObject5 = TAG;
+          localObject5 = new StringBuilder();
+          ((StringBuilder)localObject5).append("currentDateStr.............");
+          ((StringBuilder)localObject5).append((String)localObject2);
+          ((StringBuilder)localObject5).toString();
+          if ((i1 >= i2) || (((Date)localObject4).equals(localObject3)) || (((Date)localObject4).after((Date)localObject3)))
+          {
+            if (E.a(V.qa, "true").equalsIgnoreCase("false")) {
+              Ea.a(this, true, "nonMandatoryDialog", ua);
+            } else {
+              Ea.a(this, true, ua);
+            }
+            E.b(V.ba, 0);
+            E.c(V.aa, ((SimpleDateFormat)localObject1).format(localCalendar.getTime()));
+            return true;
+          }
+        }
+      }
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+    }
+    return false;
+  }
+  
+  private void m()
+  {
+    Dialog localDialog = f.a.a.a.a.a(this, 1, 2131493140, false);
+    ((TextView)localDialog.findViewById(2131297186)).setOnClickListener(new Sk(this, localDialog));
+    ((TextView)localDialog.findViewById(2131298035)).setOnClickListener(new Tk(this, localDialog));
+  }
+  
+  private void n()
+  {
+    sa = true;
+    Dialog localDialog = f.a.a.a.a.a(this, 1, 2131493195, false);
+    TextView localTextView1 = (TextView)localDialog.findViewById(2131297186);
+    TextView localTextView2 = (TextView)localDialog.findViewById(2131298035);
+    localTextView1.setOnClickListener(new Uk(this, localDialog));
+    localTextView2.setOnClickListener(new Vk(this, localDialog));
+  }
+  
+  private void o()
+  {
+    Object localObject = TAG;
+    b = true;
+    try
+    {
+      localObject = Ha.a.obtainMessage();
+      what = 100;
+      obj = "refreshBanner";
+      Ha.a.sendMessage((Message)localObject);
+    }
+    catch (Exception localException1)
+    {
+      k.a.a.m.b.a(localException1);
+    }
+    try
+    {
+      Message localMessage1 = ma.a.obtainMessage();
+      what = 100;
+      ma.a.sendMessage(localMessage1);
+    }
+    catch (Exception localException2)
+    {
+      k.a.a.m.b.a(localException2);
+    }
+    try
+    {
+      localMessage2 = Xb.a.obtainMessage();
+      what = 100;
+      obj = "refreshBanner";
+      Xb.a.sendMessage(localMessage2);
+    }
+    catch (Exception localException4)
+    {
+      try
+      {
+        localMessage2 = k.a.a.h.y.a.obtainMessage();
+        what = 100;
+        k.a.a.h.y.a.sendMessage(localMessage2);
+      }
+      catch (Exception localException4)
+      {
+        try
+        {
+          for (;;)
+          {
+            Message localMessage2 = ua.a.obtainMessage();
+            what = 100;
+            ua.a.sendMessage(localMessage2);
+            q();
+            new Handler().postDelayed(new Ck(this), 3000L);
+            return;
+            localException3 = localException3;
+            continue;
+            localException4 = localException4;
+          }
+        }
+        catch (Exception localException5)
+        {
+          for (;;) {}
+        }
+      }
+    }
+  }
+  
+  private void p()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new o(new bl(this), (JSONObject)localObject, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private void q()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("type", "fetch");
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new k.a.a.l.u(new Jk(this), "https://app.umang.gov.in/umang/coreapi/ws2/ftal", (JSONObject)localObject, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private void r()
+  {
+    Object localObject1 = getResourcesgetConfigurationlocale.toString();
+    Object localObject2 = TAG;
+    f.a.a.a.a.f("system language : ", (String)localObject1);
+    Object localObject3 = E.a(V.c, (String)localObject1);
+    boolean bool = ((String)localObject3).contains("en");
+    localObject2 = "hi";
+    if (bool) {
+      localObject1 = "en";
+    } else if (((String)localObject3).contains("hi")) {
+      localObject1 = localObject2;
+    } else if (((String)localObject3).contains("as")) {
+      localObject1 = "as";
+    } else if (((String)localObject3).contains("bn")) {
+      localObject1 = "bn";
+    } else if (((String)localObject3).contains("gu")) {
+      localObject1 = "gu";
+    } else if (((String)localObject3).contains("kn")) {
+      localObject1 = "kn";
+    } else if (((String)localObject3).contains("ml")) {
+      localObject1 = "ml";
+    } else if (((String)localObject3).contains("mr")) {
+      localObject1 = "mr";
+    } else if (((String)localObject3).contains("or")) {
+      localObject1 = "or";
+    } else if (((String)localObject3).contains("pa")) {
+      localObject1 = "pa";
+    } else if (((String)localObject3).contains("ta")) {
+      localObject1 = "ta";
+    } else if (((String)localObject3).contains("te")) {
+      localObject1 = "te";
+    } else if (((String)localObject3).contains("ur")) {
+      localObject1 = "ur";
+    }
+    localObject2 = TAG;
+    localObject2 = new StringBuilder();
+    ((StringBuilder)localObject2).append("selected language : ");
+    ((StringBuilder)localObject2).append((String)localObject1);
+    ((StringBuilder)localObject2).toString();
+    localObject2 = new Locale((String)localObject1);
+    Locale.setDefault((Locale)localObject2);
+    localObject3 = new Configuration();
+    locale = ((Locale)localObject2);
+    if (E.a(V.u, "normal").equalsIgnoreCase("small")) {
+      fontScale = 0.85F;
+    } else if (E.a(V.u, "normal").equalsIgnoreCase("normal")) {
+      fontScale = 1.0F;
+    } else {
+      fontScale = 1.15F;
+    }
+    O.d(this, (String)localObject1);
+  }
+  
+  private void registerNetworkReceiver()
+  {
+    Fa localFa = new Fa(new Lk(this), this);
+    IntentFilter localIntentFilter = new IntentFilter();
+    localIntentFilter.addAction("android.net.wifi.STATE_CHANGE");
+    localIntentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+    wa = localFa.c();
+    registerReceiver(wa, localIntentFilter);
+  }
+  
+  private void s()
+  {
+    Intent localIntent = new Intent();
+    localIntent.setAction("android.intent.action.SEND");
+    localIntent.putExtra("android.intent.extra.TEXT", E.a(V.Ia, getResources().getString(2131755527)));
+    localIntent.setType("text/plain");
+    try
+    {
+      startActivity(localIntent);
+      return;
+    }
+    catch (ActivityNotFoundException localActivityNotFoundException)
+    {
+      k.a.a.m.b.a(localActivityNotFoundException);
+      Toast.makeText(this, getResources().getString(2131755998), 1).show();
+    }
+  }
+  
+  private void t()
+  {
+    Object localObject = Typeface.create("sans-serif-", 0);
+    localObject = new f.e.a.i(this).a(new g[] { g.a(findViewById(2131296856), getResources().getString(2131755813)).b((Typeface)localObject), g.a(findViewById(2131296755), getResources().getString(2131755814)).d(true).b((Typeface)localObject).j(17170443), g.a(findViewById(2131297206), getResources().getString(2131755812)).b((Typeface)localObject), g.a(findViewById(2131297101), getResources().getString(2131755811)).b((Typeface)localObject) });
+    ((f.e.a.i)localObject).a(true);
+    ((f.e.a.i)localObject).b(true);
+    ((f.e.a.i)localObject).a(new Dk(this));
+    ((f.e.a.i)localObject).c();
+  }
+  
+  public void a(List<k.a.a.c.y> paramList)
+  {
+    xa = paramList;
+    paramList = TAG;
+    paramList = f.a.a.a.a.b("Message Board Array Length == ");
+    paramList.append(xa.size());
+    paramList.toString();
+    if (xa.size() > 0) {
+      try
+      {
+        paramList = (k.a.a.c.y)xa.get(0);
+        return;
+      }
+      catch (Exception paramList)
+      {
+        k.a.a.m.b.a(paramList);
+      }
+    }
+  }
+  
+  public void d()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new k.a.a.l.u(new Yk(this), "https://app.umang.gov.in/umang/coreapi/ws2/fstqu", (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  public void e()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("mno", E.a(V.da, ""));
+      boolean bool = E.a(V.ta, "false").equalsIgnoreCase("true");
+      if (bool)
+      {
+        localJSONObject.put("ldate", "NR");
+        E.c(V.ta, "false");
+      }
+      else
+      {
+        if (E.a(V.ga, "false").equalsIgnoreCase("false")) {
+          E.c(V.ea, "");
+        }
+        if (E.a(V.ha, "false").equalsIgnoreCase("false"))
+        {
+          E.c(V.ea, "");
+          E.c(V.la, "");
+        }
+        if (E.a(V.ia, "false").equalsIgnoreCase("false")) {
+          E.c(V.ea, "");
+        }
+        if (E.a(V.ja, "false").equalsIgnoreCase("false")) {
+          E.c(V.ea, "");
+        }
+        localJSONObject.put("ldate", E.a(V.ea, ""));
+      }
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new j(new Bk(this), (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  public void f()
+  {
+    Object localObject1 = new V(this);
+    ia = E.a(V.Ya, "true");
+    int i1;
+    try
+    {
+      i1 = Integer.parseInt(((V)localObject1).a(V.Xa, "101"));
+    }
+    catch (Exception localException4)
+    {
+      k.a.a.m.b.a(localException4);
+      i1 = 0;
+    }
+    Object localObject3 = TAG;
+    localObject3 = f.a.a.a.a.b("isProfileBottomBarUserClosed : ");
+    ((StringBuilder)localObject3).append(ia);
+    ((StringBuilder)localObject3).toString();
+    if ((ia.equalsIgnoreCase("true")) && (i1 >= 0) && (i1 < 100))
+    {
+      if ((ba.getVisibility() == 8) && (da.getVisibility() == 8))
+      {
+        localObject3 = TAG;
+        localObject3 = f.a.a.a.a.b("PC VALUE ===>> ");
+        ((StringBuilder)localObject3).append(((V)localObject1).a(V.Xa, "101"));
+        ((StringBuilder)localObject3).toString();
+        if (((V)localObject1).a(V.Xa, "101").length() > 0) {
+          localObject1 = ((V)localObject1).a(V.Xa, "101");
+        } else {
+          localObject1 = "0";
+        }
+        localObject3 = Z;
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append((String)localObject1);
+        localStringBuilder.append(" %");
+        ((TextView)localObject3).setText(localStringBuilder.toString());
+        localObject3 = new LinearLayout.LayoutParams(-1, c(20));
+        weight = 1.0F;
+        ((LinearLayout.LayoutParams)localObject3).setMargins(18, 0, 18, 0);
+        W.setLayoutParams((ViewGroup.LayoutParams)localObject3);
+        try
+        {
+          i1 = Integer.parseInt((String)localObject1);
+        }
+        catch (Exception localException1)
+        {
+          k.a.a.m.b.a(localException1);
+          i1 = 0;
+        }
+        float f1 = i1 / 100.0F;
+        float f2 = (100 - i1) / 100.0F;
+        Object localObject2 = new LinearLayout.LayoutParams(0, -1);
+        weight = f1;
+        X.setLayoutParams((ViewGroup.LayoutParams)localObject2);
+        localObject2 = new LinearLayout.LayoutParams(0, -1);
+        weight = f2;
+        Y.setLayoutParams((ViewGroup.LayoutParams)localObject2);
+        try
+        {
+          localObject2 = new Wa(this);
+          ((Wa)localObject2).f();
+          boolean bool = ((Wa)localObject2).f().equalsIgnoreCase("M");
+          if (bool) {
+            aa.setImageResource(2131231235);
+          } else if (((Wa)localObject2).f().equalsIgnoreCase("F")) {
+            aa.setImageResource(2131231042);
+          } else if (((Wa)localObject2).f().equalsIgnoreCase("T")) {
+            aa.setImageResource(2131231690);
+          }
+          if (((Wa)localObject2).j().length() > 0) {
+            ga.a(((Wa)localObject2).j(), aa, ha, ya);
+          } else {
+            try
+            {
+              if (((Wa)localObject2).f().equalsIgnoreCase("M")) {
+                aa.setImageResource(2131231235);
+              } else if (((Wa)localObject2).f().equalsIgnoreCase("F")) {
+                aa.setImageResource(2131231042);
+              } else if (((Wa)localObject2).f().equalsIgnoreCase("T")) {
+                aa.setImageResource(2131231690);
+              } else {
+                aa.setImageResource(2131231690);
+              }
+            }
+            catch (Exception localException2)
+            {
+              k.a.a.m.b.a(localException2);
+              aa.setImageResource(2131231690);
+            }
+          }
+          if (i1 > 70) {
+            break label677;
+          }
+        }
+        catch (Exception localException3)
+        {
+          aa.setImageResource(2131231690);
+          k.a.a.m.b.a(localException3);
+        }
+        String str = TAG;
+        if (!ta.isShown())
+        {
+          L.setVisibility(0);
+          k();
+          return;
+          label677:
+          L.setVisibility(8);
+        }
+      }
+    }
+    else {
+      L.setVisibility(8);
+    }
+  }
+  
+  public void g()
+  {
+    try
+    {
+      W localW = new Wa(this).i();
+      R.setVisibility(0);
+      S.setVisibility(8);
+      T.setOnClickListener(new Kk(this));
+      int i1 = localW.u().length();
+      if (i1 > 0)
+      {
+        O.setText(localW.u());
+        O.setVisibility(0);
+        P.setVisibility(0);
+      }
+      else
+      {
+        O.setText("");
+      }
+      N.setVisibility(8);
+      if (localW.s().equalsIgnoreCase("M"))
+      {
+        N.setVisibility(0);
+        N.setImageResource(2131231235);
+      }
+      else if (localW.s().equalsIgnoreCase("F"))
+      {
+        N.setVisibility(0);
+        N.setImageResource(2131231042);
+      }
+      else if (localW.s().equalsIgnoreCase("T"))
+      {
+        N.setVisibility(0);
+        N.setImageResource(2131231690);
+      }
+      else
+      {
+        N.setVisibility(0);
+        N.setImageResource(2131231690);
+      }
+      if (localW.v().length() > 0)
+      {
+        N.setVisibility(0);
+        ga.a(localW.v(), N, ha, ya);
+      }
+      if (!localW.g().trim().equalsIgnoreCase("")) {
+        Q.setText(localW.g());
+      } else {
+        Q.setText("");
+      }
+      P.setVisibility(0);
+      if ((localW.p().length() > 0) && (localW.r().length() > 0))
+      {
+        TextView localTextView = P;
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append(Ea.a(localW.p()));
+        localStringBuilder.append(", ");
+        localStringBuilder.append(localW.r());
+        localTextView.setText(localStringBuilder.toString());
+        return;
+      }
+      if (localW.r().length() > 0)
+      {
+        P.setText(localW.r());
+        return;
+      }
+      if (localW.p().length() > 0)
+      {
+        P.setText(Ea.a(localW.p()));
+        return;
+      }
+      P.setText("");
+      return;
+    }
+    catch (Exception localException)
+    {
+      R.setVisibility(8);
+      S.setVisibility(0);
+      k.a.a.m.b.a(localException);
+    }
+  }
+  
+  public void g(String paramString)
+  {
+    try
+    {
+      Object localObject1 = E.a(V.Ra, "");
+      Object localObject2 = TAG;
+      localObject2 = new StringBuilder();
+      ((StringBuilder)localObject2).append("dynamicTabsData......................");
+      ((StringBuilder)localObject2).append((String)localObject1);
+      ((StringBuilder)localObject2).toString();
+      if (!((String)localObject1).equalsIgnoreCase(""))
+      {
+        localObject1 = ((String)localObject1).split(",");
+        int i1 = 0;
+        while (i1 < localObject1.length)
+        {
+          localObject2 = localObject1[i1].split("\\|");
+          TextView localTextView = localObject2[0];
+          if ((localObject2[1].equalsIgnoreCase("state")) && (!E.a(V.m, "").equalsIgnoreCase("")))
+          {
+            localObject2 = q.getTabAt(i1);
+            localTextView = (TextView)((TabLayout.Tab)localObject2).getCustomView();
+            ((TabLayout.Tab)localObject2).setText(paramString);
+            localTextView.setLayoutParams(new LinearLayout.LayoutParams(-2, -2));
+          }
+          i1 += 1;
+        }
+      }
+      return;
+    }
+    catch (Exception paramString)
+    {
+      k.a.a.m.b.a(paramString);
+    }
+  }
+  
+  public void h(String paramString)
+  {
+    pa = paramString;
+  }
+  
+  public void onBackPressed()
+  {
+    try
+    {
+      if (p.f(8388611))
+      {
+        p.a(8388611);
+        fa = false;
+        return;
+      }
+      if (fa)
+      {
+        super.onBackPressed();
+        return;
+      }
+      fa = true;
+      Toast.makeText(this, getResources().getString(2131756161), 0).show();
+      new Handler().postDelayed(new Ek(this), 2000L);
+      return;
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+    }
+  }
+  
+  public void onConfigurationChanged(Configuration paramConfiguration)
+  {
+    super.onConfigurationChanged(paramConfiguration);
+    if (qa >= 0) {
+      ra = true;
+    } else {
+      ra = false;
+    }
+    if (orientation == 2)
+    {
+      paramConfiguration = TAG;
+      return;
+    }
+    paramConfiguration = TAG;
+  }
+  
+  public void onCreate(Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131492912);
+    if (Build.VERSION.SDK_INT >= 21) {
+      getResources().getDrawable(2131231561, null);
+    } else {
+      getResources().getDrawable(2131231561);
+    }
+    if (Build.VERSION.SDK_INT >= 21) {
+      getResources().getDrawable(2131230852, null);
+    } else {
+      getResources().getDrawable(2131230852);
+    }
+    f = ((Toolbar)findViewById(2131297768));
+    f.a.a.a.a.a(this, f, false);
+    g = f.getRootView();
+    m = ((ImageView)g.findViewById(2131297101));
+    n = ((ImageView)g.findViewById(2131296675));
+    h = ((ImageView)g.findViewById(2131297206));
+    i = ((RelativeLayout)g.findViewById(2131297199));
+    j = ((TextView)g.findViewById(2131297195));
+    k = ((TextView)g.findViewById(2131296490));
+    l = ((TextView)g.findViewById(2131296491));
+    k.setVisibility(8);
+    l.setVisibility(8);
+    n.setVisibility(8);
+    na = false;
+    ua = "";
+    la = ((LinearLayout)findViewById(2131297438));
+    ma = ((RelativeLayout)findViewById(2131297260));
+    F = ((TextView)g.findViewById(2131296856));
+    findViewById(2131296857).setOnClickListener(new uk(this));
+    m.setOnClickListener(new Fk(this));
+    i.setOnClickListener(new Qk(this));
+    ga = f.l.a.b.f.g();
+    ha = f.a.a.a.a.a(true, true).a(Bitmap.Config.RGB_565).a();
+    a(paramBundle);
+    r();
+    j();
+    try
+    {
+      c = new al(this);
+    }
+    catch (Exception localException1)
+    {
+      k.a.a.m.b.a(localException1);
+    }
+    o.a(new TabLayout.TabLayoutOnPageChangeListener(q));
+    q.setOnTabSelectedListener(new gl(this));
+    Object localObject2;
+    try
+    {
+      Object localObject1 = getResources().getStringArray(2130903064);
+      localObject2 = E;
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(V.Wb);
+      localStringBuilder.append(localObject1[0]);
+      if ((((V)localObject2).b(localStringBuilder.toString(), "").equalsIgnoreCase("")) && (!E.a(V.ea, "").equalsIgnoreCase("")))
+      {
+        localObject1 = TAG;
+        new MainActivity.b(this, null).execute(new Void[0]);
+      }
+    }
+    catch (Exception localException2)
+    {
+      k.a.a.m.b.a(localException2);
+    }
+    if (paramBundle == null)
+    {
+      paramBundle = TAG;
+      if (getIntent().getStringExtra("notifId") != null)
+      {
+        paramBundle = getIntent().getStringExtra("loadHome");
+        if (paramBundle != null)
+        {
+          if ("true".equalsIgnoreCase(paramBundle))
+          {
+            e();
+            d();
+          }
+          else
+          {
+            b = true;
+          }
+        }
+        else
+        {
+          e();
+          d();
+        }
+      }
+      else
+      {
+        e();
+        d();
+      }
+    }
+    else if (paramBundle.containsKey("homeApi"))
+    {
+      b = paramBundle.getBoolean("homeApi", false);
+    }
+    paramBundle = E.a(V.Ra, "");
+    if (!paramBundle.equalsIgnoreCase("")) {
+      try
+      {
+        String str = E.a(V.t, "home");
+        localObject2 = paramBundle.split(",");
+        int i1 = 0;
+        while (i1 < localObject2.length)
+        {
+          if (localObject2[i1].split("\\|")[1].equalsIgnoreCase(str))
+          {
+            o.setCurrentItem(i1);
+            break;
+          }
+          i1 += 1;
+        }
+        if (!E.a(V.t, "home").equalsIgnoreCase("home")) {
+          break label954;
+        }
+      }
+      catch (Exception localException3)
+      {
+        localObject2 = new StringBuilder();
+        ((StringBuilder)localObject2).append("Dynamic tab pref value:");
+        ((StringBuilder)localObject2).append(paramBundle);
+        f.c.a.b.a(((StringBuilder)localObject2).toString());
+        k.a.a.m.b.a(localException3);
+        if (E.a(V.t, "home").equalsIgnoreCase("home")) {
+          o.setCurrentItem(0);
+        } else if (E.a(V.t, "home").equalsIgnoreCase("fav")) {
+          o.setCurrentItem(1);
+        } else if (E.a(V.t, "home").equalsIgnoreCase("allservices")) {
+          o.setCurrentItem(2);
+        } else {
+          o.setCurrentItem(0);
+        }
+      }
+    }
+    o.setCurrentItem(0);
+    break label1028;
+    label954:
+    if (E.a(V.t, "home").equalsIgnoreCase("fav")) {
+      o.setCurrentItem(1);
+    } else if (E.a(V.t, "home").equalsIgnoreCase("allservices")) {
+      o.setCurrentItem(2);
+    } else {
+      o.setCurrentItem(0);
+    }
+    label1028:
+    paramBundle = getIntent().getStringExtra("openAppWithTab");
+    if (paramBundle != null) {
+      if (paramBundle.equalsIgnoreCase("home")) {
+        o.setCurrentItem(0);
+      } else if (paramBundle.equalsIgnoreCase("fav")) {
+        o.setCurrentItem(1);
+      } else if (paramBundle.equalsIgnoreCase("allservices")) {
+        o.setCurrentItem(2);
+      } else {
+        o.setCurrentItem(0);
+      }
+    }
+    r.setOnClickListener(new hl(this));
+    K.setOnClickListener(new il(this));
+    e = new jl(this);
+    getSupportLoaderManager().initLoader(0, null, this);
+    if (ra) {
+      a(this);
+    }
+    h();
+  }
+  
+  public b.b.x.b.f<Cursor> onCreateLoader(int paramInt, Bundle paramBundle)
+  {
+    paramBundle = TAG;
+    if (paramInt == 0)
+    {
+      paramBundle = new StringBuilder();
+      paramBundle.append("SELECTION STR ");
+      paramBundle.append("jid = 'bot@reporting.umang.gov.in' AND read = 0 AND from_me = 0");
+      paramBundle.toString();
+      return new b.b.x.b.d(this, ChatProvider.CONTENT_URI, new String[] { "jid", "read", "from_me" }, "jid = 'bot@reporting.umang.gov.in' AND read = 0 AND from_me = 0", null, null);
+    }
+    f.a.a.a.a.b("Unknown loader id returned in LoaderCallbacks.onCreateLoader: ", paramInt);
+    return null;
+  }
+  
+  public void onLoadFinished(b.b.x.b.f<Cursor> paramF, Cursor paramCursor)
+  {
+    try
+    {
+      paramF = TAG;
+      paramF = new StringBuilder();
+      paramF.append("onLoadFinished === called ===");
+      paramF.append(paramCursor.getCount());
+      paramF.toString();
+      if (paramCursor.getCount() > 0)
+      {
+        k.setVisibility(0);
+        l.setVisibility(0);
+        n.setVisibility(0);
+        paramF = k;
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append("");
+        localStringBuilder.append(paramCursor.getCount());
+        paramF.setText(localStringBuilder.toString());
+        paramF = l;
+        localStringBuilder = new StringBuilder();
+        localStringBuilder.append("");
+        localStringBuilder.append(paramCursor.getCount());
+        paramF.setText(localStringBuilder.toString());
+        return;
+      }
+      k.setVisibility(8);
+      l.setVisibility(8);
+      n.setVisibility(8);
+      return;
+    }
+    catch (Exception paramF)
+    {
+      k.a.a.m.b.a(paramF);
+    }
+  }
+  
+  public void onLoaderReset(b.b.x.b.f<Cursor> paramF) {}
+  
+  public void onNewIntent(Intent paramIntent)
+  {
+    super.onNewIntent(paramIntent);
+    setIntent(paramIntent);
+    paramIntent = TAG;
+    try
+    {
+      paramIntent = getIntent().getStringExtra("notifId");
+      if (paramIntent != null)
+      {
+        D.E(paramIntent);
+        Ea.a(this, getIntent().getStringExtra("campaignId"), "Notification Clicked", "clicked", "Notification");
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+    try
+    {
+      String str2 = getIntent().getStringExtra("dialogMsg");
+      paramIntent = getIntent().getStringExtra("showRating");
+      String str1 = getIntent().getStringExtra("share");
+      String str3 = getIntent().getStringExtra("openAppWithTab");
+      if (str2 != null)
+      {
+        str1 = getIntent().getStringExtra("title");
+        paramIntent = str1;
+        if (str1.equalsIgnoreCase("")) {
+          paramIntent = getResources().getString(2131755289);
+        }
+        a(this, paramIntent, str2);
+        return;
+      }
+      if (paramIntent != null)
+      {
+        a(this);
+        return;
+      }
+      if (str1 != null)
+      {
+        s();
+        return;
+      }
+      if (str3 != null)
+      {
+        if (str3.equalsIgnoreCase("home"))
+        {
+          o.setCurrentItem(0);
+          return;
+        }
+        if (str3.equalsIgnoreCase("fav"))
+        {
+          o.setCurrentItem(1);
+          return;
+        }
+        if (str3.equalsIgnoreCase("state"))
+        {
+          o.setCurrentItem(2);
+          return;
+        }
+        if (str3.equalsIgnoreCase("allservices"))
+        {
+          o.setCurrentItem(3);
+          return;
+        }
+        o.setCurrentItem(0);
+        return;
+      }
+    }
+    catch (Exception paramIntent)
+    {
+      k.a.a.m.b.a(paramIntent);
+    }
+  }
+  
+  public void onPause()
+  {
+    super.onPause();
+    try
+    {
+      unregisterReceiver(wa);
+      return;
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+    }
+  }
+  
+  public void onRestoreInstanceState(Bundle paramBundle)
+  {
+    super.onRestoreInstanceState(paramBundle);
+    if ((paramBundle != null) && (paramBundle.containsKey("rating_saved_instance")))
+    {
+      qa = paramBundle.getInt("rating_saved_instance", -1);
+      if (qa >= 0) {
+        a(this);
+      }
+    }
+    if ((paramBundle != null) && (paramBundle.containsKey("rating_playstore")))
+    {
+      sa = paramBundle.getBoolean("rating_playstore", false);
+      if (sa) {
+        n();
+      }
+    }
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    String str1 = TAG;
+    la.setVisibility(8);
+    g();
+    registerNetworkReceiver();
+    f();
+    if (!Ea.A(this)) {
+      a("", true);
+    } else {
+      a("", false);
+    }
+    try
+    {
+      str1 = new Wa(this).g();
+    }
+    catch (Exception localException)
+    {
+      k.a.a.m.b.a(localException);
+      str2 = "";
+    }
+    Object localObject = str2;
+    if (str2 == null) {
+      localObject = "";
+    }
+    String str2 = D.p((String)localObject);
+    localObject = TAG;
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("notifUnreadCount : ");
+    ((StringBuilder)localObject).append(str2);
+    ((StringBuilder)localObject).toString();
+    if ((!str2.equalsIgnoreCase("")) && (!str2.equalsIgnoreCase("0")))
+    {
+      j.setVisibility(0);
+      j.setText(str2);
+      return;
+    }
+    j.setVisibility(8);
+  }
+  
+  public void onSaveInstanceState(Bundle paramBundle)
+  {
+    super.onSaveInstanceState(paramBundle);
+    paramBundle.putInt("rating_saved_instance", qa);
+    paramBundle.putBoolean("rating_playstore", sa);
+    paramBundle.putBoolean("homeApi", b);
+  }
+}

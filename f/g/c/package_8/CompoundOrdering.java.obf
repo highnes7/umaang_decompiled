@@ -1,0 +1,65 @@
+package f.g.c.d;
+
+import f.a.a.a.a;
+import f.g.c.a.b;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+
+@b(serializable=true)
+public final class Z<T>
+  extends mf<T>
+  implements Serializable
+{
+  public static final long c = 0L;
+  public final vb<Comparator<? super T>> d;
+  
+  public Z(Iterable<? extends Comparator<? super T>> paramIterable)
+  {
+    d = vb.a(paramIterable);
+  }
+  
+  public Z(Comparator<? super T> paramComparator1, Comparator<? super T> paramComparator2)
+  {
+    d = vb.a(paramComparator1, paramComparator2);
+  }
+  
+  public int compare(T paramT1, T paramT2)
+  {
+    int j = d.size();
+    int i = 0;
+    while (i < j)
+    {
+      int k = ((Comparator)d.get(i)).compare(paramT1, paramT2);
+      if (k != 0) {
+        return k;
+      }
+      i += 1;
+    }
+    return 0;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof Z))
+    {
+      paramObject = (Z)paramObject;
+      return d.equals(d);
+    }
+    return false;
+  }
+  
+  public int hashCode()
+  {
+    return d.hashCode();
+  }
+  
+  public String toString()
+  {
+    return a.a(a.b("Ordering.compound("), d, ")");
+  }
+}

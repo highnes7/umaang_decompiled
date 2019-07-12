@@ -1,0 +1,213 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.zzj;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzd;
+import com.google.android.gms.common.util.zzh;
+import f.a.a.a.a;
+
+public class zzamu
+{
+  public static volatile zzamu zzdog;
+  public final Context mContext;
+  public final zzd zzasc;
+  public final Context zzdoh;
+  public final zzanv zzdoi;
+  public final zzaon zzdoj;
+  public final zzj zzdok;
+  public final zzamj zzdol;
+  public final zzaoa zzdom;
+  public final zzape zzdon;
+  public final zzaor zzdoo;
+  public final GoogleAnalytics zzdop;
+  public final zzanm zzdoq;
+  public final zzami zzdor;
+  public final zzanf zzdos;
+  public final zzanz zzdot;
+  
+  public zzamu(zzamw paramZzamw)
+  {
+    Object localObject1 = paramZzamw.getApplicationContext();
+    zzbp.zzb(localObject1, "Application context can't be null");
+    Object localObject2 = paramZzamw.zzwl();
+    zzbp.zzu(localObject2);
+    mContext = ((Context)localObject1);
+    zzdoh = ((Context)localObject2);
+    zzasc = zzh.zzfyr;
+    zzdoi = new zzanv(this);
+    localObject2 = new zzaon(this);
+    ((zzams)localObject2).initialize();
+    zzdoj = ((zzaon)localObject2);
+    localObject2 = zzvy();
+    Object localObject3 = zzamt.VERSION;
+    Object localObject4 = new StringBuilder(a.a(localObject3, 134));
+    ((StringBuilder)localObject4).append("Google Analytics ");
+    ((StringBuilder)localObject4).append((String)localObject3);
+    ((StringBuilder)localObject4).append(" is starting up. To enable debug logging on a device run:\n  adb shell setprop log.tag.GAv4 DEBUG\n  adb logcat -s GAv4");
+    ((zzamr)localObject2).zzdo(((StringBuilder)localObject4).toString());
+    localObject2 = new zzaor(this);
+    ((zzams)localObject2).initialize();
+    zzdoo = ((zzaor)localObject2);
+    localObject2 = new zzape(this);
+    ((zzams)localObject2).initialize();
+    zzdon = ((zzape)localObject2);
+    paramZzamw = new zzamj(this, paramZzamw);
+    localObject2 = new zzanm(this);
+    localObject3 = new zzami(this);
+    localObject4 = new zzanf(this);
+    zzanz localZzanz = new zzanz(this);
+    localObject1 = zzj.zzbf((Context)localObject1);
+    ((zzj)localObject1).zza(new zzamv(this));
+    zzdok = ((zzj)localObject1);
+    localObject1 = new GoogleAnalytics(this);
+    ((zzams)localObject2).initialize();
+    zzdoq = ((zzanm)localObject2);
+    ((zzams)localObject3).initialize();
+    zzdor = ((zzami)localObject3);
+    ((zzams)localObject4).initialize();
+    zzdos = ((zzanf)localObject4);
+    localZzanz.initialize();
+    zzdot = localZzanz;
+    localObject2 = new zzaoa(this);
+    ((zzams)localObject2).initialize();
+    zzdom = ((zzaoa)localObject2);
+    paramZzamw.initialize();
+    zzdol = paramZzamw;
+    ((GoogleAnalytics)localObject1).initialize();
+    zzdop = ((GoogleAnalytics)localObject1);
+    paramZzamw.start();
+  }
+  
+  public static void zza(zzams paramZzams)
+  {
+    zzbp.zzb(paramZzams, "Analytics service not created/initialized");
+    zzbp.zzb(paramZzams.isInitialized(), "Analytics service not initialized");
+  }
+  
+  public static zzamu zzbg(Context paramContext)
+  {
+    zzbp.zzu(paramContext);
+    if (zzdog == null) {
+      try
+      {
+        if (zzdog == null)
+        {
+          zzh localZzh = zzh.zzfyr;
+          long l1 = localZzh.elapsedRealtime();
+          paramContext = new zzamu(new zzamw(paramContext));
+          zzdog = paramContext;
+          GoogleAnalytics.zztw();
+          l1 = localZzh.elapsedRealtime() - l1;
+          long l2 = ((Long)zzaod.zzdsp.get()).longValue();
+          if (l1 > l2) {
+            paramContext.zzvy().zzc("Slow initialization (ms)", Long.valueOf(l1), Long.valueOf(l2));
+          }
+        }
+      }
+      finally {}
+    }
+    return zzdog;
+  }
+  
+  public final Context getContext()
+  {
+    return mContext;
+  }
+  
+  public final zzd zzvx()
+  {
+    return zzasc;
+  }
+  
+  public final zzaon zzvy()
+  {
+    zza(zzdoj);
+    return zzdoj;
+  }
+  
+  public final zzanv zzvz()
+  {
+    return zzdoi;
+  }
+  
+  public final zzj zzwa()
+  {
+    zzbp.zzu(zzdok);
+    return zzdok;
+  }
+  
+  public final zzamj zzwc()
+  {
+    zza(zzdol);
+    return zzdol;
+  }
+  
+  public final zzaoa zzwd()
+  {
+    zza(zzdom);
+    return zzdom;
+  }
+  
+  public final zzape zzwe()
+  {
+    zza(zzdon);
+    return zzdon;
+  }
+  
+  public final zzaor zzwf()
+  {
+    zza(zzdoo);
+    return zzdoo;
+  }
+  
+  public final zzanf zzwi()
+  {
+    zza(zzdos);
+    return zzdos;
+  }
+  
+  public final zzanz zzwj()
+  {
+    return zzdot;
+  }
+  
+  public final Context zzwl()
+  {
+    return zzdoh;
+  }
+  
+  public final zzaon zzwm()
+  {
+    return zzdoj;
+  }
+  
+  public final GoogleAnalytics zzwn()
+  {
+    zzbp.zzu(zzdop);
+    zzbp.zzb(zzdop.isInitialized(), "Analytics instance not initialized");
+    return zzdop;
+  }
+  
+  public final zzaor zzwo()
+  {
+    zzaor localZzaor = zzdoo;
+    if ((localZzaor != null) && (localZzaor.isInitialized())) {
+      return zzdoo;
+    }
+    return null;
+  }
+  
+  public final zzami zzwp()
+  {
+    zza(zzdor);
+    return zzdor;
+  }
+  
+  public final zzanm zzwq()
+  {
+    zza(zzdoq);
+    return zzdoq;
+  }
+}

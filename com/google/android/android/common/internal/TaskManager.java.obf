@@ -1,0 +1,653 @@
+package com.google.android.gms.common.internal;
+
+import android.accounts.Account;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.DeadObjectException;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Looper;
+import android.os.RemoteException;
+import android.text.TextUtils;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.X;
+import b.b.a.i;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.zzc;
+import com.google.android.gms.common.zze;
+import f.a.a.a.a;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public abstract class zzd<T extends IInterface>
+{
+  public static String[] zzftj = { "service_esmobile", "service_googleme" };
+  public final Context mContext;
+  public final Handler mHandler;
+  public final Object mLock = new Object();
+  public final Looper zzakg;
+  public final zze zzfko;
+  public int zzfso;
+  public long zzfsp;
+  public long zzfsq;
+  public int zzfsr;
+  public long zzfss;
+  public zzal zzfst;
+  public final zzaf zzfsu;
+  public final Object zzfsv = new Object();
+  public zzax zzfsw;
+  public zzj zzfsx;
+  public T zzfsy;
+  public final ArrayList<zzi<?>> zzfsz = new ArrayList();
+  public zzl zzfta;
+  public int zzftb = 1;
+  public final zzf zzftc;
+  public final zzg zzftd;
+  public final int zzfte;
+  public final String zzftf;
+  public ConnectionResult zzftg = null;
+  public boolean zzfth = false;
+  public AtomicInteger zzfti = new AtomicInteger(0);
+  
+  public zzd(Context paramContext, Looper paramLooper, int paramInt, zzf paramZzf, zzg paramZzg, String paramString)
+  {
+    this(paramContext, paramLooper, paramString, localZze, paramInt, paramZzf, (zzg)paramZzg, null);
+  }
+  
+  public zzd(Context paramContext, Looper paramLooper, zzaf paramZzaf, zze paramZze, int paramInt, zzf paramZzf, zzg paramZzg, String paramString)
+  {
+    zzbp.zzb(paramContext, "Context must not be null");
+    mContext = ((Context)paramContext);
+    zzbp.zzb(paramLooper, "Looper must not be null");
+    zzakg = ((Looper)paramLooper);
+    zzbp.zzb(paramZzaf, "Supervisor must not be null");
+    zzfsu = ((zzaf)paramZzaf);
+    zzbp.zzb(paramZze, "API availability must not be null");
+    zzfko = ((zze)paramZze);
+    mHandler = new zzh(this, paramLooper);
+    zzfte = paramInt;
+    zzftc = paramZzf;
+    zzftd = paramZzg;
+    zzftf = paramString;
+  }
+  
+  private final void zza(int paramInt, T paramT)
+  {
+    int i;
+    if (paramInt == 4) {
+      i = 1;
+    } else {
+      i = 0;
+    }
+    int j;
+    if (paramT != null) {
+      j = 1;
+    } else {
+      j = 0;
+    }
+    boolean bool;
+    if (i == j) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    zzbp.zzbh(bool);
+    synchronized (mLock)
+    {
+      zzftb = paramInt;
+      zzfsy = paramT;
+      if (paramInt != 1)
+      {
+        if ((paramInt != 2) && (paramInt != 3))
+        {
+          if (paramInt == 4) {
+            zza(paramT);
+          }
+        }
+        else
+        {
+          if ((zzfta != null) && (zzfst != null))
+          {
+            paramT = zzfst.zzakk();
+            str1 = zzfst.getPackageName();
+            localObject2 = new StringBuilder(String.valueOf(paramT).length() + 70 + String.valueOf(str1).length());
+            ((StringBuilder)localObject2).append("Calling connect() while still connected, missing disconnect() for ");
+            ((StringBuilder)localObject2).append(paramT);
+            ((StringBuilder)localObject2).append(" on ");
+            ((StringBuilder)localObject2).append(str1);
+            ((StringBuilder)localObject2).toString();
+            zzfsu.zza(zzfst.zzakk(), zzfst.getPackageName(), zzfst.zzakg(), zzfta, zzaje());
+            zzfti.incrementAndGet();
+          }
+          zzfta = new zzl(this, zzfti.get());
+          zzfst = new zzal(zzajd(), zzhc(), false, 129);
+          paramT = zzfsu;
+          String str1 = zzfst.zzakk();
+          Object localObject2 = zzfst.getPackageName();
+          paramInt = zzfst.zzakg();
+          zzl localZzl = zzfta;
+          String str2 = zzaje();
+          if (!paramT.zza(new zzag(str1, (String)localObject2, paramInt), localZzl, str2))
+          {
+            paramT = zzfst.zzakk();
+            str1 = zzfst.getPackageName();
+            localObject2 = new StringBuilder(String.valueOf(paramT).length() + 34 + String.valueOf(str1).length());
+            ((StringBuilder)localObject2).append("unable to connect to service: ");
+            ((StringBuilder)localObject2).append(paramT);
+            ((StringBuilder)localObject2).append(" on ");
+            ((StringBuilder)localObject2).append(str1);
+            ((StringBuilder)localObject2).toString();
+            zza(16, null, zzfti.get());
+          }
+        }
+      }
+      else if (zzfta != null)
+      {
+        zzfsu.zza(zzhc(), zzajd(), 129, zzfta, zzaje());
+        zzfta = null;
+      }
+      return;
+    }
+  }
+  
+  private final boolean zza(int paramInt1, int paramInt2, T paramT)
+  {
+    synchronized (mLock)
+    {
+      if (zzftb != paramInt1) {
+        return false;
+      }
+      zza(paramInt2, paramT);
+      return true;
+    }
+  }
+  
+  @G
+  private final String zzaje()
+  {
+    String str2 = zzftf;
+    String str1 = str2;
+    if (str2 == null) {
+      str1 = mContext.getClass().getName();
+    }
+    return str1;
+  }
+  
+  private final boolean zzajg()
+  {
+    for (;;)
+    {
+      synchronized (mLock)
+      {
+        if (zzftb == 3)
+        {
+          bool = true;
+          return bool;
+        }
+      }
+      boolean bool = false;
+    }
+  }
+  
+  private final boolean zzajm()
+  {
+    if (zzfth) {
+      return false;
+    }
+    if (TextUtils.isEmpty(zzhd())) {
+      return false;
+    }
+    if (TextUtils.isEmpty(null)) {
+      return false;
+    }
+    try
+    {
+      Class.forName(zzhd());
+      return true;
+    }
+    catch (ClassNotFoundException localClassNotFoundException) {}
+    return false;
+  }
+  
+  private final void zzcd(int paramInt)
+  {
+    if (zzajg())
+    {
+      paramInt = 5;
+      zzfth = true;
+    }
+    else
+    {
+      paramInt = 4;
+    }
+    Handler localHandler = mHandler;
+    localHandler.sendMessage(localHandler.obtainMessage(paramInt, zzfti.get(), 16));
+  }
+  
+  public void disconnect()
+  {
+    zzfti.incrementAndGet();
+    synchronized (zzfsz)
+    {
+      int j = zzfsz.size();
+      int i = 0;
+      while (i < j)
+      {
+        ((zzi)zzfsz.get(i)).removeListener();
+        i += 1;
+      }
+      zzfsz.clear();
+      synchronized (zzfsv)
+      {
+        zzfsw = null;
+        zza(1, null);
+        return;
+      }
+    }
+    for (;;)
+    {
+      throw localObject3;
+    }
+  }
+  
+  public final void dump(String paramString, FileDescriptor arg2, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+  {
+    synchronized (mLock)
+    {
+      int i = zzftb;
+      paramArrayOfString = zzfsy;
+      synchronized (zzfsv)
+      {
+        Object localObject = zzfsw;
+        paramPrintWriter.append(paramString).append("mConnectState=");
+        if (i != 1)
+        {
+          if (i != 2)
+          {
+            if (i != 3)
+            {
+              if (i != 4)
+              {
+                if (i != 5) {
+                  ??? = "UNKNOWN";
+                } else {
+                  ??? = "DISCONNECTING";
+                }
+              }
+              else {
+                ??? = "CONNECTED";
+              }
+            }
+            else {
+              ??? = "LOCAL_CONNECTING";
+            }
+          }
+          else {
+            ??? = "REMOTE_CONNECTING";
+          }
+        }
+        else {
+          ??? = "DISCONNECTED";
+        }
+        paramPrintWriter.print(???);
+        paramPrintWriter.append(" mService=");
+        if (paramArrayOfString == null) {
+          paramPrintWriter.append("null");
+        } else {
+          paramPrintWriter.append(zzhd()).append("@").append(Integer.toHexString(System.identityHashCode(paramArrayOfString.asBinder())));
+        }
+        paramPrintWriter.append(" mServiceBroker=");
+        if (localObject == null) {
+          paramPrintWriter.println("null");
+        } else {
+          paramPrintWriter.append("IGmsServiceBroker@").println(Integer.toHexString(System.identityHashCode(((IInterface)localObject).asBinder())));
+        }
+        paramArrayOfString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);
+        long l;
+        StringBuilder localStringBuilder;
+        if (zzfsq > 0L)
+        {
+          ??? = paramPrintWriter.append(paramString).append("lastConnectedTime=");
+          l = zzfsq;
+          localObject = paramArrayOfString.format(new Date(l));
+          localStringBuilder = new StringBuilder(a.a(localObject, 21));
+          localStringBuilder.append(l);
+          localStringBuilder.append(" ");
+          localStringBuilder.append((String)localObject);
+          ???.println(localStringBuilder.toString());
+        }
+        if (zzfsp > 0L)
+        {
+          paramPrintWriter.append(paramString).append("lastSuspendedCause=");
+          i = zzfso;
+          if (i != 1)
+          {
+            if (i != 2) {
+              ??? = String.valueOf(i);
+            } else {
+              ??? = "CAUSE_NETWORK_LOST";
+            }
+          }
+          else {
+            ??? = "CAUSE_SERVICE_DISCONNECTED";
+          }
+          paramPrintWriter.append(???);
+          ??? = paramPrintWriter.append(" lastSuspendedTime=");
+          l = zzfsp;
+          localObject = paramArrayOfString.format(new Date(l));
+          localStringBuilder = new StringBuilder(a.a(localObject, 21));
+          localStringBuilder.append(l);
+          localStringBuilder.append(" ");
+          localStringBuilder.append((String)localObject);
+          ???.println(localStringBuilder.toString());
+        }
+        if (zzfss > 0L)
+        {
+          paramPrintWriter.append(paramString).append("lastFailedStatus=").append(CommonStatusCodes.getStatusCodeString(zzfsr));
+          paramString = paramPrintWriter.append(" lastFailedTime=");
+          l = zzfss;
+          ??? = paramArrayOfString.format(new Date(l));
+          paramPrintWriter = new StringBuilder(a.a(???, 21));
+          paramPrintWriter.append(l);
+          paramPrintWriter.append(" ");
+          paramPrintWriter.append(???);
+          paramString.println(paramPrintWriter.toString());
+        }
+        return;
+      }
+    }
+  }
+  
+  public Account getAccount()
+  {
+    return null;
+  }
+  
+  public final Context getContext()
+  {
+    return mContext;
+  }
+  
+  public final Looper getLooper()
+  {
+    return zzakg;
+  }
+  
+  public final boolean isConnected()
+  {
+    for (;;)
+    {
+      synchronized (mLock)
+      {
+        if (zzftb == 4)
+        {
+          bool = true;
+          return bool;
+        }
+      }
+      boolean bool = false;
+    }
+  }
+  
+  public final boolean isConnecting()
+  {
+    for (;;)
+    {
+      synchronized (mLock)
+      {
+        if (zzftb == 2) {
+          break label40;
+        }
+        if (zzftb == 3)
+        {
+          break label40;
+          return bool;
+        }
+      }
+      boolean bool = false;
+      continue;
+      label40:
+      bool = true;
+    }
+  }
+  
+  @i
+  public void onConnectionFailed(ConnectionResult paramConnectionResult)
+  {
+    zzfsr = paramConnectionResult.getErrorCode();
+    zzfss = System.currentTimeMillis();
+  }
+  
+  @i
+  public final void onConnectionSuspended(int paramInt)
+  {
+    zzfso = paramInt;
+    zzfsp = System.currentTimeMillis();
+  }
+  
+  public final void zza(int paramInt1, @G Bundle paramBundle, int paramInt2)
+  {
+    paramBundle = mHandler;
+    paramBundle.sendMessage(paramBundle.obtainMessage(7, paramInt2, -1, new zzo(this, paramInt1, null)));
+  }
+  
+  public void zza(int paramInt1, IBinder paramIBinder, Bundle paramBundle, int paramInt2)
+  {
+    Handler localHandler = mHandler;
+    localHandler.sendMessage(localHandler.obtainMessage(1, paramInt2, -1, new zzn(this, paramInt1, paramIBinder, paramBundle)));
+  }
+  
+  @i
+  public void zza(@F T paramT)
+  {
+    zzfsq = System.currentTimeMillis();
+  }
+  
+  @X
+  public final void zza(zzam arg1, Set<Scope> paramSet)
+  {
+    Bundle localBundle = zzzu();
+    zzy localZzy = new zzy(zzfte);
+    zzfue = mContext.getPackageName();
+    zzfuh = localBundle;
+    if (paramSet != null) {
+      zzfug = ((Scope[])paramSet.toArray(new Scope[paramSet.size()]));
+    }
+    if (zzaac())
+    {
+      if (getAccount() != null) {
+        paramSet = getAccount();
+      } else {
+        paramSet = new Account("<<default account>>", "com.google");
+      }
+      zzfui = paramSet;
+      if (??? != null) {
+        zzfuf = ???.asBinder();
+      }
+    }
+    else if (zzajk())
+    {
+      zzfui = getAccount();
+    }
+    zzfuj = zzajh();
+    try
+    {
+      synchronized (zzfsv)
+      {
+        if (zzfsw != null) {
+          zzfsw.zza(new zzk(this, zzfti.get()), localZzy);
+        }
+        return;
+      }
+    }
+    catch (SecurityException ???)
+    {
+      throw ???;
+      zzcc(1);
+      return;
+    }
+    catch (DeadObjectException ???)
+    {
+      for (;;) {}
+    }
+    catch (RemoteException|RuntimeException ???)
+    {
+      for (;;) {}
+    }
+    zza(8, null, null, zzfti.get());
+  }
+  
+  public void zza(@F zzj paramZzj)
+  {
+    zzbp.zzb(paramZzj, "Connection progress callbacks cannot be null.");
+    zzfsx = ((zzj)paramZzj);
+    zza(2, null);
+  }
+  
+  public final void zza(@F zzj paramZzj, int paramInt, @G PendingIntent paramPendingIntent)
+  {
+    zzbp.zzb(paramZzj, "Connection progress callbacks cannot be null.");
+    zzfsx = ((zzj)paramZzj);
+    paramZzj = mHandler;
+    paramZzj.sendMessage(paramZzj.obtainMessage(3, zzfti.get(), paramInt, paramPendingIntent));
+  }
+  
+  public boolean zzaac()
+  {
+    return false;
+  }
+  
+  public boolean zzaal()
+  {
+    return false;
+  }
+  
+  public Intent zzaam()
+  {
+    throw new UnsupportedOperationException("Not a sign in API");
+  }
+  
+  public Bundle zzaeh()
+  {
+    return null;
+  }
+  
+  public boolean zzaff()
+  {
+    return true;
+  }
+  
+  @G
+  public final IBinder zzafg()
+  {
+    synchronized (zzfsv)
+    {
+      if (zzfsw == null) {
+        return null;
+      }
+      IBinder localIBinder = zzfsw.asBinder();
+      return localIBinder;
+    }
+  }
+  
+  public String zzajd()
+  {
+    return "com.google.android.gms";
+  }
+  
+  public final void zzajf()
+  {
+    int i = zzfko.isGooglePlayServicesAvailable(mContext);
+    if (i != 0)
+    {
+      zza(1, null);
+      zza(new zzm(this), i, null);
+      return;
+    }
+    zza(new zzm(this));
+  }
+  
+  public zzc[] zzajh()
+  {
+    return new zzc[0];
+  }
+  
+  public final void zzaji()
+  {
+    if (isConnected()) {
+      return;
+    }
+    throw new IllegalStateException("Not connected. Call connect() and wait for onConnected() to be called.");
+  }
+  
+  public final T zzajj()
+    throws DeadObjectException
+  {
+    for (;;)
+    {
+      synchronized (mLock)
+      {
+        if (zzftb != 5)
+        {
+          zzaji();
+          if (zzfsy != null)
+          {
+            bool = true;
+            zzbp.zza(bool, "Client is connected but service is null");
+            IInterface localIInterface = zzfsy;
+            return localIInterface;
+          }
+        }
+        else
+        {
+          throw new DeadObjectException();
+        }
+      }
+      boolean bool = false;
+    }
+  }
+  
+  public boolean zzajk()
+  {
+    return false;
+  }
+  
+  public Set<Scope> zzajl()
+  {
+    return Collections.EMPTY_SET;
+  }
+  
+  public final void zzcc(int paramInt)
+  {
+    Handler localHandler = mHandler;
+    localHandler.sendMessage(localHandler.obtainMessage(6, zzfti.get(), paramInt));
+  }
+  
+  @G
+  public abstract T zzd(IBinder paramIBinder);
+  
+  @F
+  public abstract String zzhc();
+  
+  @F
+  public abstract String zzhd();
+  
+  public Bundle zzzu()
+  {
+    return new Bundle();
+  }
+}

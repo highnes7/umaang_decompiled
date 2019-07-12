@@ -1,0 +1,96 @@
+package b.b.v;
+
+import android.view.View;
+import b.b.a.F;
+import b.b.a.K;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@K(19)
+public class ya
+  extends Ba
+{
+  public static final String b = "ViewUtilsApi19";
+  public static Method c;
+  public static boolean d;
+  public static Method e;
+  public static boolean f;
+  
+  public ya() {}
+  
+  private void a()
+  {
+    if (!f) {}
+    try
+    {
+      e = View.class.getDeclaredMethod("getTransitionAlpha", new Class[0]);
+      e.setAccessible(true);
+      f = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  private void b()
+  {
+    if (!d) {}
+    try
+    {
+      c = View.class.getDeclaredMethod("setTransitionAlpha", new Class[] { Float.TYPE });
+      c.setAccessible(true);
+      d = true;
+      return;
+    }
+    catch (NoSuchMethodException localNoSuchMethodException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void a(@F View paramView) {}
+  
+  public void a(@F View paramView, float paramFloat)
+  {
+    b();
+    Method localMethod = c;
+    if (localMethod != null) {}
+    try
+    {
+      localMethod.invoke(paramView, new Object[] { Float.valueOf(paramFloat) });
+      return;
+    }
+    catch (InvocationTargetException paramView)
+    {
+      throw new RuntimeException(paramView.getCause());
+      paramView.setAlpha(paramFloat);
+      return;
+    }
+    catch (IllegalAccessException paramView) {}
+  }
+  
+  public float b(@F View paramView)
+  {
+    a();
+    Method localMethod = e;
+    if (localMethod != null) {}
+    try
+    {
+      float f1 = ((Float)localMethod.invoke(paramView, new Object[0])).floatValue();
+      return f1;
+    }
+    catch (InvocationTargetException paramView)
+    {
+      throw new RuntimeException(paramView.getCause());
+      return super.b(paramView);
+    }
+    catch (IllegalAccessException localIllegalAccessException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void c(@F View paramView) {}
+}

@@ -1,0 +1,210 @@
+package com.google.android.gms.internal;
+
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
+import f.a.a.a.a;
+import java.util.Collections;
+import java.util.Map;
+
+public abstract class zzp<T>
+  implements Comparable<zzp<T>>
+{
+  public final zzab.zza zzab;
+  public final int zzac;
+  public final String zzad;
+  public final int zzae;
+  public final zzu zzaf;
+  public Integer zzag;
+  public zzs zzah;
+  public boolean zzai;
+  public boolean zzaj;
+  public boolean zzak;
+  public boolean zzal;
+  public zzx zzam;
+  public zzc zzan;
+  
+  public zzp(int paramInt, String paramString, zzu paramZzu)
+  {
+    zzab.zza localZza;
+    if (zzab.zza.zzbi) {
+      localZza = new zzab.zza();
+    } else {
+      localZza = null;
+    }
+    zzab = localZza;
+    zzai = true;
+    int i = 0;
+    zzaj = false;
+    zzak = false;
+    zzal = false;
+    zzan = null;
+    zzac = paramInt;
+    zzad = paramString;
+    zzaf = paramZzu;
+    zzam = new zzg();
+    paramInt = i;
+    if (!TextUtils.isEmpty(paramString))
+    {
+      paramString = Uri.parse(paramString);
+      paramInt = i;
+      if (paramString != null)
+      {
+        paramString = paramString.getHost();
+        paramInt = i;
+        if (paramString != null) {
+          paramInt = paramString.hashCode();
+        }
+      }
+    }
+    zzae = paramInt;
+  }
+  
+  public static String zzf()
+  {
+    if ("UTF-8".length() != 0) {
+      return "application/x-www-form-urlencoded; charset=".concat("UTF-8");
+    }
+    return new String("application/x-www-form-urlencoded; charset=");
+  }
+  
+  public Map<String, String> getHeaders()
+    throws zza
+  {
+    return Collections.emptyMap();
+  }
+  
+  public final int getMethod()
+  {
+    return zzac;
+  }
+  
+  public final String getUrl()
+  {
+    return zzad;
+  }
+  
+  public String toString()
+  {
+    String str1 = String.valueOf(Integer.toHexString(zzae));
+    if (str1.length() != 0) {
+      str1 = "0x".concat(str1);
+    } else {
+      str1 = new String("0x");
+    }
+    String str2 = zzad;
+    String str3 = String.valueOf(zzr.zzas);
+    String str4 = String.valueOf(zzag);
+    int i = a.a(str1, a.a(str2, "[ ] ".length() + 3));
+    int j = str3.length();
+    StringBuilder localStringBuilder = new StringBuilder(str4.length() + (j + i));
+    localStringBuilder.append("[ ] ");
+    localStringBuilder.append(str2);
+    localStringBuilder.append(" ");
+    localStringBuilder.append(str1);
+    return a.a(localStringBuilder, " ", str3, " ", str4);
+  }
+  
+  public final zzp<?> zza(int paramInt)
+  {
+    zzag = Integer.valueOf(paramInt);
+    return this;
+  }
+  
+  public final zzp<?> zza(zzc paramZzc)
+  {
+    zzan = paramZzc;
+    return this;
+  }
+  
+  public final zzp<?> zza(zzs paramZzs)
+  {
+    zzah = paramZzs;
+    return this;
+  }
+  
+  public abstract zzt<T> zza(zzn paramZzn);
+  
+  public abstract void zza(T paramT);
+  
+  public final void zzb(zzaa paramZzaa)
+  {
+    zzu localZzu = zzaf;
+    if (localZzu != null) {
+      localZzu.zzd(paramZzaa);
+    }
+  }
+  
+  public final void zzb(String paramString)
+  {
+    if (zzab.zza.zzbi) {
+      zzab.zza(paramString, Thread.currentThread().getId());
+    }
+  }
+  
+  public final int zzc()
+  {
+    return zzae;
+  }
+  
+  public final void zzc(String paramString)
+  {
+    zzs localZzs = zzah;
+    if (localZzs != null) {
+      localZzs.zzd(this);
+    }
+    if (zzab.zza.zzbi)
+    {
+      long l = Thread.currentThread().getId();
+      if (Looper.myLooper() != Looper.getMainLooper())
+      {
+        new Handler(Looper.getMainLooper()).post(new zzq(this, paramString, l));
+        return;
+      }
+      zzab.zza(paramString, l);
+      zzab.zzc(toString());
+    }
+  }
+  
+  public final String zzd()
+  {
+    return zzad;
+  }
+  
+  public final zzc zze()
+  {
+    return zzan;
+  }
+  
+  public byte[] zzg()
+    throws zza
+  {
+    return null;
+  }
+  
+  public final boolean zzh()
+  {
+    return zzai;
+  }
+  
+  public final int zzi()
+  {
+    return zzam.zza();
+  }
+  
+  public final zzx zzj()
+  {
+    return zzam;
+  }
+  
+  public final void zzk()
+  {
+    zzak = true;
+  }
+  
+  public final boolean zzl()
+  {
+    return zzak;
+  }
+}

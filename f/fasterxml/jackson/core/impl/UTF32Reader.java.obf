@@ -1,0 +1,222 @@
+package f.d.a.a.c;
+
+import java.io.CharConversionException;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class m
+  extends a
+{
+  public final boolean j;
+  public char k;
+  public int l;
+  public int m;
+  public final boolean n;
+  
+  public m(d paramD, InputStream paramInputStream, byte[] paramArrayOfByte, int paramInt1, int paramInt2, boolean paramBoolean)
+  {
+    super(paramD, paramInputStream, paramArrayOfByte, paramInt1, paramInt2);
+    boolean bool = false;
+    k = '\000';
+    l = 0;
+    m = 0;
+    j = paramBoolean;
+    paramBoolean = bool;
+    if (paramInputStream != null) {
+      paramBoolean = true;
+    }
+    n = paramBoolean;
+  }
+  
+  private void a(int paramInt1, int paramInt2)
+    throws IOException
+  {
+    int i = m;
+    int i1 = l;
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Unexpected EOF in the middle of a 4-byte UTF-32 char: got ");
+    localStringBuilder.append(paramInt1);
+    localStringBuilder.append(", needed ");
+    localStringBuilder.append(paramInt2);
+    localStringBuilder.append(", at char #");
+    localStringBuilder.append(i1);
+    localStringBuilder.append(", byte #");
+    localStringBuilder.append(i + paramInt1);
+    localStringBuilder.append(")");
+    throw new CharConversionException(localStringBuilder.toString());
+  }
+  
+  private void a(int paramInt1, int paramInt2, String paramString)
+    throws IOException
+  {
+    int i = m;
+    int i1 = g;
+    int i2 = l;
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Invalid UTF-32 character 0x");
+    localStringBuilder.append(Integer.toHexString(paramInt1));
+    localStringBuilder.append(paramString);
+    localStringBuilder.append(" at char #");
+    localStringBuilder.append(i2 + paramInt2);
+    localStringBuilder.append(", byte #");
+    throw new CharConversionException(f.a.a.a.a.a(localStringBuilder, i + i1 - 1, ")"));
+  }
+  
+  private boolean d(int paramInt)
+    throws IOException
+  {
+    int i = m;
+    m = (h - paramInt + i);
+    Object localObject;
+    if (paramInt > 0)
+    {
+      if (g > 0)
+      {
+        i = 0;
+        while (i < paramInt)
+        {
+          localObject = f;
+          localObject[i] = localObject[(g + i)];
+          i += 1;
+        }
+        g = 0;
+      }
+      h = paramInt;
+    }
+    else
+    {
+      g = 0;
+      localObject = e;
+      if (localObject == null) {
+        paramInt = -1;
+      } else {
+        paramInt = ((InputStream)localObject).read(f);
+      }
+      if (paramInt < 1)
+      {
+        h = 0;
+        if (paramInt < 0)
+        {
+          if (n) {
+            u();
+          }
+          return false;
+        }
+        v();
+      }
+    }
+    for (h = paramInt;; h += paramInt)
+    {
+      paramInt = h;
+      if (paramInt >= 4) {
+        break;
+      }
+      localObject = e;
+      if (localObject == null)
+      {
+        paramInt = -1;
+      }
+      else
+      {
+        byte[] arrayOfByte = f;
+        paramInt = ((InputStream)localObject).read(arrayOfByte, paramInt, arrayOfByte.length - paramInt);
+      }
+      if (paramInt < 1)
+      {
+        if (paramInt < 0)
+        {
+          if (n) {
+            u();
+          }
+          a(h, 4);
+          throw null;
+        }
+        v();
+      }
+    }
+    return true;
+  }
+  
+  public int read(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    if (f == null) {
+      return -1;
+    }
+    if (paramInt2 < 1) {
+      return paramInt2;
+    }
+    if ((paramInt1 < 0) || (paramInt1 + paramInt2 > paramArrayOfChar.length)) {
+      a(paramArrayOfChar, paramInt1, paramInt2);
+    }
+    int i4 = paramInt2 + paramInt1;
+    int i = k;
+    if (i != 0)
+    {
+      paramInt2 = paramInt1 + 1;
+      paramArrayOfChar[paramInt1] = i;
+      k = '\000';
+    }
+    else
+    {
+      paramInt2 = h - g;
+      if ((paramInt2 < 4) && (!d(paramInt2))) {
+        return -1;
+      }
+      paramInt2 = paramInt1;
+    }
+    while (paramInt2 < i4)
+    {
+      int i1 = g;
+      byte[] arrayOfByte;
+      if (j)
+      {
+        arrayOfByte = f;
+        i2 = arrayOfByte[i1] << 24 | (arrayOfByte[(i1 + 1)] & 0xFF) << 16 | (arrayOfByte[(i1 + 2)] & 0xFF) << 8;
+        i1 = arrayOfByte[(i1 + 3)] & 0xFF;
+      }
+      else
+      {
+        arrayOfByte = f;
+        i2 = arrayOfByte[i1] & 0xFF | (arrayOfByte[(i1 + 1)] & 0xFF) << 8 | (arrayOfByte[(i1 + 2)] & 0xFF) << 16;
+        i1 = arrayOfByte[(i1 + 3)] << 24;
+      }
+      int i3 = i1 | i2;
+      g += 4;
+      i1 = i3;
+      int i2 = paramInt2;
+      if (i3 > 65535) {
+        if (i3 <= 1114111)
+        {
+          i2 = i3 - 65536;
+          i1 = paramInt2 + 1;
+          paramArrayOfChar[paramInt2] = ((char)((i2 >> 10) + 55296));
+          paramInt2 = i2 & 0x3FF | 0xDC00;
+          if (i1 >= i4)
+          {
+            k = ((char)paramInt2);
+            paramInt2 = i1;
+            break;
+          }
+          i2 = i1;
+          i1 = paramInt2;
+        }
+        else
+        {
+          paramArrayOfChar = f.a.a.a.a.b("(above ");
+          paramArrayOfChar.append(Integer.toHexString(1114111));
+          paramArrayOfChar.append(") ");
+          a(i3, paramInt2 - paramInt1, paramArrayOfChar.toString());
+          throw null;
+        }
+      }
+      paramInt2 = i2 + 1;
+      paramArrayOfChar[i2] = ((char)i1);
+      if (g >= h) {
+        break;
+      }
+    }
+    paramInt1 = paramInt2 - paramInt1;
+    l += paramInt1;
+    return paramInt1;
+  }
+}

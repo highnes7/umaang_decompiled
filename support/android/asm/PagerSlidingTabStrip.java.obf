@@ -1,0 +1,143 @@
+package b.b.v;
+
+import android.annotation.SuppressLint;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.widget.FrameLayout;
+import b.b.a.F;
+
+@SuppressLint({"ViewConstructor"})
+public class B
+  extends View
+  implements D
+{
+  public final View a;
+  public ViewGroup b;
+  public View c;
+  public int d;
+  public int e;
+  public int f;
+  public Matrix g;
+  public final Matrix h = new Matrix();
+  public final ViewTreeObserver.OnPreDrawListener i = new A(this);
+  
+  public B(View paramView)
+  {
+    super(paramView.getContext());
+    a = paramView;
+    setLayerType(2, null);
+  }
+  
+  public static FrameLayout a(ViewGroup paramViewGroup)
+  {
+    while (!(paramViewGroup instanceof FrameLayout))
+    {
+      paramViewGroup = paramViewGroup.getParent();
+      if (!(paramViewGroup instanceof ViewGroup)) {
+        return null;
+      }
+      paramViewGroup = (ViewGroup)paramViewGroup;
+    }
+    return (FrameLayout)paramViewGroup;
+  }
+  
+  public static B a(@F View paramView)
+  {
+    return (B)paramView.getTag(M.e.ghost_view);
+  }
+  
+  public static D a(View paramView, ViewGroup paramViewGroup)
+  {
+    B localB2 = a(paramView);
+    B localB1 = localB2;
+    if (localB2 == null)
+    {
+      paramViewGroup = a(paramViewGroup);
+      if (paramViewGroup == null) {
+        return null;
+      }
+      localB1 = new B(paramView);
+      paramViewGroup.addView(localB1);
+    }
+    d += 1;
+    return localB1;
+  }
+  
+  public static void a(@F View paramView, B paramB)
+  {
+    paramView.setTag(M.e.ghost_view, paramB);
+  }
+  
+  public static void b(View paramView)
+  {
+    paramView = a(paramView);
+    if (paramView != null)
+    {
+      d -= 1;
+      if (d <= 0)
+      {
+        Object localObject = paramView.getParent();
+        if ((localObject instanceof ViewGroup))
+        {
+          localObject = (ViewGroup)localObject;
+          ((ViewGroup)localObject).endViewTransition(paramView);
+          ((ViewGroup)localObject).removeView(paramView);
+        }
+      }
+    }
+  }
+  
+  public void a(ViewGroup paramViewGroup, View paramView)
+  {
+    b = paramViewGroup;
+    c = paramView;
+  }
+  
+  public void onAttachedToWindow()
+  {
+    super.onAttachedToWindow();
+    a.setTag(M.e.ghost_view, this);
+    int[] arrayOfInt1 = new int[2];
+    int[] arrayOfInt2 = new int[2];
+    getLocationOnScreen(arrayOfInt1);
+    a.getLocationOnScreen(arrayOfInt2);
+    arrayOfInt2[0] = ((int)(arrayOfInt2[0] - a.getTranslationX()));
+    arrayOfInt2[1] = ((int)(arrayOfInt2[1] - a.getTranslationY()));
+    e = (arrayOfInt2[0] - arrayOfInt1[0]);
+    f = (arrayOfInt2[1] - arrayOfInt1[1]);
+    a.getViewTreeObserver().addOnPreDrawListener(i);
+    a.setVisibility(4);
+  }
+  
+  public void onDetachedFromWindow()
+  {
+    a.getViewTreeObserver().removeOnPreDrawListener(i);
+    a.setVisibility(0);
+    a.setTag(M.e.ghost_view, null);
+    super.onDetachedFromWindow();
+  }
+  
+  public void onDraw(Canvas paramCanvas)
+  {
+    h.set(g);
+    h.postTranslate(e, f);
+    paramCanvas.setMatrix(h);
+    a.draw(paramCanvas);
+  }
+  
+  public void setVisibility(int paramInt)
+  {
+    super.setVisibility(paramInt);
+    View localView = a;
+    if (paramInt == 0) {
+      paramInt = 4;
+    } else {
+      paramInt = 0;
+    }
+    localView.setVisibility(paramInt);
+  }
+}

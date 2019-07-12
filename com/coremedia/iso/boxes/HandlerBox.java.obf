@@ -1,0 +1,151 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.g;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class HandlerBox
+  extends c
+{
+  public static final String TYPE = "hdlr";
+  public static final Map<String, String> readableTypes;
+  public long a;
+  public long b;
+  public long c;
+  public String handlerType;
+  public String name = null;
+  public long shouldBeZeroButAppleWritesHereSomeValue;
+  public boolean zeroTerm = true;
+  
+  static
+  {
+    ajc$preClinit();
+    HashMap localHashMap = new HashMap();
+    localHashMap.put("odsm", "ObjectDescriptorStream - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
+    localHashMap.put("crsm", "ClockReferenceStream - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
+    localHashMap.put("sdsm", "SceneDescriptionStream - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
+    localHashMap.put("m7sm", "MPEG7Stream - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
+    localHashMap.put("ocsm", "ObjectContentInfoStream - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
+    localHashMap.put("ipsm", "IPMP Stream - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
+    localHashMap.put("mjsm", "MPEG-J Stream - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
+    localHashMap.put("mdir", "Apple Meta Data iTunes Reader");
+    localHashMap.put("mp7b", "MPEG-7 binary XML");
+    localHashMap.put("mp7t", "MPEG-7 XML");
+    localHashMap.put("vide", "Video Track");
+    localHashMap.put("soun", "Sound Track");
+    localHashMap.put("hint", "Hint Track");
+    localHashMap.put("appl", "Apple specific");
+    localHashMap.put("meta", "Timed Metadata track - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
+    readableTypes = Collections.unmodifiableMap(localHashMap);
+  }
+  
+  public HandlerBox()
+  {
+    super("hdlr");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    shouldBeZeroButAppleWritesHereSomeValue = h.j(paramByteBuffer);
+    handlerType = h.a(paramByteBuffer);
+    a = h.j(paramByteBuffer);
+    b = h.j(paramByteBuffer);
+    c = h.j(paramByteBuffer);
+    if (paramByteBuffer.remaining() > 0)
+    {
+      name = h.a(paramByteBuffer, paramByteBuffer.remaining());
+      if (name.endsWith("\000"))
+      {
+        name = a.c(name, 1, 0);
+        zeroTerm = true;
+        return;
+      }
+      zeroTerm = false;
+      return;
+    }
+    zeroTerm = false;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.putInt((int)shouldBeZeroButAppleWritesHereSomeValue);
+    paramByteBuffer.put(g.b(handlerType));
+    paramByteBuffer.putInt((int)a);
+    paramByteBuffer.putInt((int)b);
+    paramByteBuffer.putInt((int)c);
+    String str = name;
+    if (str != null) {
+      paramByteBuffer.put(m.a(str));
+    }
+    if (zeroTerm) {
+      paramByteBuffer.put((byte)0);
+    }
+  }
+  
+  public long getContentSize()
+  {
+    if (zeroTerm) {}
+    for (int i = m.b(name) + 25;; i = m.b(name) + 24) {
+      return i;
+    }
+  }
+  
+  public String getHandlerType()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return handlerType;
+  }
+  
+  public String getHumanReadableTrackType()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this);
+    j.b().a(localJoinPoint);
+    if (readableTypes.get(handlerType) != null) {
+      return (String)readableTypes.get(handlerType);
+    }
+    return "Unknown Handler Type";
+  }
+  
+  public String getName()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this);
+    j.b().a(localJoinPoint);
+    return name;
+  }
+  
+  public void setHandlerType(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this, paramString);
+    j.b().a(localJoinPoint);
+    handlerType = paramString;
+  }
+  
+  public void setName(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramString);
+    j.b().a(localJoinPoint);
+    name = paramString;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_5, this, this), "HandlerBox[handlerType=");
+    localStringBuilder.append(getHandlerType());
+    localStringBuilder.append(";name=");
+    localStringBuilder.append(getName());
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+}

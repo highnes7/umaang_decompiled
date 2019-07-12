@@ -1,0 +1,397 @@
+package b.b.x.d.a;
+
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Rect;
+import android.graphics.Region;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Drawable.Callback;
+import android.graphics.drawable.Drawable.ConstantState;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+
+public class g
+  extends Drawable
+  implements Drawable.Callback, f, e
+{
+  public static final PorterDuff.Mode a = PorterDuff.Mode.SRC_IN;
+  public int b;
+  public PorterDuff.Mode c;
+  public boolean d;
+  public a e;
+  public boolean f;
+  public Drawable g;
+  
+  public g(@G Drawable paramDrawable)
+  {
+    e = c();
+    a(paramDrawable);
+  }
+  
+  public g(@F a paramA, @G Resources paramResources)
+  {
+    e = paramA;
+    a(paramResources);
+  }
+  
+  private void a(@G Resources paramResources)
+  {
+    Object localObject = e;
+    if (localObject != null)
+    {
+      localObject = b;
+      if (localObject != null) {
+        a(((Drawable.ConstantState)localObject).newDrawable(paramResources));
+      }
+    }
+  }
+  
+  private boolean a(int[] paramArrayOfInt)
+  {
+    if (!b()) {
+      return false;
+    }
+    Object localObject = e;
+    ColorStateList localColorStateList = c;
+    localObject = d;
+    if ((localColorStateList != null) && (localObject != null))
+    {
+      int i = localColorStateList.getColorForState(paramArrayOfInt, localColorStateList.getDefaultColor());
+      if ((!d) || (i != b) || (localObject != c))
+      {
+        setColorFilter(i, (PorterDuff.Mode)localObject);
+        b = i;
+        c = ((PorterDuff.Mode)localObject);
+        d = true;
+        return true;
+      }
+    }
+    else
+    {
+      d = false;
+      clearColorFilter();
+    }
+    return false;
+  }
+  
+  public final Drawable a()
+  {
+    return g;
+  }
+  
+  public final void a(Drawable paramDrawable)
+  {
+    Object localObject = g;
+    if (localObject != null) {
+      ((Drawable)localObject).setCallback(null);
+    }
+    g = paramDrawable;
+    if (paramDrawable != null)
+    {
+      paramDrawable.setCallback(this);
+      setVisible(paramDrawable.isVisible(), true);
+      setState(paramDrawable.getState());
+      setLevel(paramDrawable.getLevel());
+      setBounds(paramDrawable.getBounds());
+      localObject = e;
+      if (localObject != null) {
+        b = paramDrawable.getConstantState();
+      }
+    }
+    invalidateSelf();
+  }
+  
+  public boolean b()
+  {
+    return true;
+  }
+  
+  @F
+  public a c()
+  {
+    return new b(e, null);
+  }
+  
+  public void draw(@F Canvas paramCanvas)
+  {
+    g.draw(paramCanvas);
+  }
+  
+  public int getChangingConfigurations()
+  {
+    int j = super.getChangingConfigurations();
+    a localA = e;
+    int i;
+    if (localA != null) {
+      i = localA.getChangingConfigurations();
+    } else {
+      i = 0;
+    }
+    return j | i | g.getChangingConfigurations();
+  }
+  
+  @G
+  public Drawable.ConstantState getConstantState()
+  {
+    a localA = e;
+    if ((localA != null) && (localA.a()))
+    {
+      e.a = getChangingConfigurations();
+      return e;
+    }
+    return null;
+  }
+  
+  @F
+  public Drawable getCurrent()
+  {
+    return g.getCurrent();
+  }
+  
+  public int getIntrinsicHeight()
+  {
+    return g.getIntrinsicHeight();
+  }
+  
+  public int getIntrinsicWidth()
+  {
+    return g.getIntrinsicWidth();
+  }
+  
+  public int getMinimumHeight()
+  {
+    return g.getMinimumHeight();
+  }
+  
+  public int getMinimumWidth()
+  {
+    return g.getMinimumWidth();
+  }
+  
+  public int getOpacity()
+  {
+    return g.getOpacity();
+  }
+  
+  public boolean getPadding(@F Rect paramRect)
+  {
+    return g.getPadding(paramRect);
+  }
+  
+  @F
+  public int[] getState()
+  {
+    return g.getState();
+  }
+  
+  public Region getTransparentRegion()
+  {
+    return g.getTransparentRegion();
+  }
+  
+  public void invalidateDrawable(@F Drawable paramDrawable)
+  {
+    invalidateSelf();
+  }
+  
+  @K(19)
+  public boolean isAutoMirrored()
+  {
+    return g.isAutoMirrored();
+  }
+  
+  public boolean isStateful()
+  {
+    if (b())
+    {
+      localObject = e;
+      if (localObject != null)
+      {
+        localObject = c;
+        break label26;
+      }
+    }
+    Object localObject = null;
+    label26:
+    return ((localObject != null) && (((ColorStateList)localObject).isStateful())) || (g.isStateful());
+  }
+  
+  public void jumpToCurrentState()
+  {
+    g.jumpToCurrentState();
+  }
+  
+  @F
+  public Drawable mutate()
+  {
+    if ((!f) && (super.mutate() == this))
+    {
+      e = c();
+      Object localObject = g;
+      if (localObject != null) {
+        ((Drawable)localObject).mutate();
+      }
+      a localA = e;
+      if (localA != null)
+      {
+        localObject = g;
+        if (localObject != null) {
+          localObject = ((Drawable)localObject).getConstantState();
+        } else {
+          localObject = null;
+        }
+        b = ((Drawable.ConstantState)localObject);
+      }
+      f = true;
+    }
+    return this;
+  }
+  
+  public void onBoundsChange(Rect paramRect)
+  {
+    Drawable localDrawable = g;
+    if (localDrawable != null) {
+      localDrawable.setBounds(paramRect);
+    }
+  }
+  
+  public boolean onLevelChange(int paramInt)
+  {
+    return g.setLevel(paramInt);
+  }
+  
+  public void scheduleDrawable(@F Drawable paramDrawable, @F Runnable paramRunnable, long paramLong)
+  {
+    scheduleSelf(paramRunnable, paramLong);
+  }
+  
+  public void setAlpha(int paramInt)
+  {
+    g.setAlpha(paramInt);
+  }
+  
+  @K(19)
+  public void setAutoMirrored(boolean paramBoolean)
+  {
+    g.setAutoMirrored(paramBoolean);
+  }
+  
+  public void setChangingConfigurations(int paramInt)
+  {
+    g.setChangingConfigurations(paramInt);
+  }
+  
+  public void setColorFilter(ColorFilter paramColorFilter)
+  {
+    g.setColorFilter(paramColorFilter);
+  }
+  
+  public void setDither(boolean paramBoolean)
+  {
+    g.setDither(paramBoolean);
+  }
+  
+  public void setFilterBitmap(boolean paramBoolean)
+  {
+    g.setFilterBitmap(paramBoolean);
+  }
+  
+  public boolean setState(@F int[] paramArrayOfInt)
+  {
+    boolean bool = g.setState(paramArrayOfInt);
+    return (a(paramArrayOfInt)) || (bool);
+  }
+  
+  public void setTint(int paramInt)
+  {
+    setTintList(ColorStateList.valueOf(paramInt));
+  }
+  
+  public void setTintList(ColorStateList paramColorStateList)
+  {
+    e.c = paramColorStateList;
+    a(getState());
+  }
+  
+  public void setTintMode(@F PorterDuff.Mode paramMode)
+  {
+    e.d = paramMode;
+    a(getState());
+  }
+  
+  public boolean setVisible(boolean paramBoolean1, boolean paramBoolean2)
+  {
+    return (super.setVisible(paramBoolean1, paramBoolean2)) || (g.setVisible(paramBoolean1, paramBoolean2));
+  }
+  
+  public void unscheduleDrawable(@F Drawable paramDrawable, @F Runnable paramRunnable)
+  {
+    unscheduleSelf(paramRunnable);
+  }
+  
+  protected static abstract class a
+    extends Drawable.ConstantState
+  {
+    public int a;
+    public Drawable.ConstantState b;
+    public ColorStateList c = null;
+    public PorterDuff.Mode d = g.a;
+    
+    public a(@G a paramA, @G Resources paramResources)
+    {
+      if (paramA != null)
+      {
+        a = a;
+        b = b;
+        c = c;
+        d = d;
+      }
+    }
+    
+    public boolean a()
+    {
+      return b != null;
+    }
+    
+    public int getChangingConfigurations()
+    {
+      int j = a;
+      Drawable.ConstantState localConstantState = b;
+      int i;
+      if (localConstantState != null) {
+        i = localConstantState.getChangingConfigurations();
+      } else {
+        i = 0;
+      }
+      return j | i;
+    }
+    
+    @F
+    public Drawable newDrawable()
+    {
+      return newDrawable(null);
+    }
+    
+    @F
+    public abstract Drawable newDrawable(@G Resources paramResources);
+  }
+  
+  private static class b
+    extends g.a
+  {
+    public b(@G g.a paramA, @G Resources paramResources)
+    {
+      super(paramResources);
+    }
+    
+    @F
+    public Drawable newDrawable(@G Resources paramResources)
+    {
+      return new g(this, paramResources);
+    }
+  }
+}

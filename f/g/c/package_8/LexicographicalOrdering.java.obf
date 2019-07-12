@@ -1,0 +1,64 @@
+package f.g.c.d;
+
+import f.a.a.a.a;
+import f.g.c.a.b;
+import java.io.Serializable;
+import java.util.Iterator;
+import m.a.h;
+
+@b(serializable=true)
+public final class Kc<T>
+  extends mf<Iterable<T>>
+  implements Serializable
+{
+  public static final long c = 0L;
+  public final mf<? super T> d;
+  
+  public Kc(mf<? super T> paramMf)
+  {
+    d = paramMf;
+  }
+  
+  public int a(Iterable<T> paramIterable1, Iterable<T> paramIterable2)
+  {
+    paramIterable1 = paramIterable1.iterator();
+    paramIterable2 = paramIterable2.iterator();
+    while (paramIterable1.hasNext())
+    {
+      if (!paramIterable2.hasNext()) {
+        return 1;
+      }
+      int i = d.compare(paramIterable1.next(), paramIterable2.next());
+      if (i != 0) {
+        return i;
+      }
+    }
+    if (paramIterable2.hasNext()) {
+      return -1;
+    }
+    return 0;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof Kc))
+    {
+      paramObject = (Kc)paramObject;
+      return d.equals(d);
+    }
+    return false;
+  }
+  
+  public int hashCode()
+  {
+    return d.hashCode() ^ 0x7BB78CF5;
+  }
+  
+  public String toString()
+  {
+    return a.a(new StringBuilder(), d, ".lexicographical()");
+  }
+}

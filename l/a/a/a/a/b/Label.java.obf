@@ -1,0 +1,121 @@
+package l.a.a.a.a.b;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class o
+{
+  public static final String a = "firebase_crashlytics_collection_enabled";
+  public static final String b = "com.google.firebase.crashlytics.prefs";
+  public static o c;
+  public static Object d = new Object();
+  public final SharedPreferences e;
+  public volatile boolean f;
+  public volatile boolean g;
+  public final v h;
+  public boolean i;
+  
+  public o(Context paramContext)
+  {
+    boolean bool3 = false;
+    i = false;
+    if (paramContext != null)
+    {
+      e = paramContext.getSharedPreferences("com.google.firebase.crashlytics.prefs", 0);
+      h = w.a(paramContext);
+      if (e.contains("firebase_crashlytics_collection_enabled")) {
+        bool1 = e.getBoolean("firebase_crashlytics_collection_enabled", true);
+      }
+      boolean bool2;
+      for (;;)
+      {
+        bool2 = true;
+        break;
+        try
+        {
+          Object localObject = paramContext.getPackageManager();
+          if (localObject != null)
+          {
+            localObject = ((PackageManager)localObject).getApplicationInfo(paramContext.getPackageName(), 128);
+            if ((localObject != null) && (metaData != null) && (metaData.containsKey("firebase_crashlytics_collection_enabled"))) {
+              bool1 = metaData.getBoolean("firebase_crashlytics_collection_enabled");
+            }
+          }
+        }
+        catch (PackageManager.NameNotFoundException localNameNotFoundException)
+        {
+          g.h().a("Fabric", "Unable to get PackageManager. Falling through", localNameNotFoundException);
+          bool1 = true;
+          bool2 = false;
+        }
+      }
+      g = bool1;
+      f = bool2;
+      boolean bool1 = bool3;
+      if (l.p(paramContext) != null) {
+        bool1 = true;
+      }
+      i = bool1;
+      return;
+    }
+    paramContext = new RuntimeException("null context");
+    for (;;)
+    {
+      throw paramContext;
+    }
+  }
+  
+  public static o a(Context paramContext)
+  {
+    synchronized (d)
+    {
+      if (c == null) {
+        c = new o(paramContext);
+      }
+      paramContext = c;
+      return paramContext;
+    }
+  }
+  
+  public static void b(Context paramContext)
+  {
+    synchronized (d)
+    {
+      c = new o(paramContext);
+      return;
+    }
+  }
+  
+  @SuppressLint({"CommitPrefEdits", "ApplySharedPref"})
+  public void a(boolean paramBoolean)
+  {
+    g = paramBoolean;
+    f = true;
+    e.edit().putBoolean("firebase_crashlytics_collection_enabled", paramBoolean).commit();
+  }
+  
+  public boolean a()
+  {
+    if ((i) && (f)) {
+      return g;
+    }
+    v localV = h;
+    if (localV != null) {
+      return localV.a();
+    }
+    return true;
+  }
+  
+  public boolean b()
+  {
+    return g;
+  }
+}

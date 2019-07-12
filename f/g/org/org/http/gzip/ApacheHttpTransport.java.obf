@@ -1,0 +1,209 @@
+package f.g.b.a.c.a;
+
+import f.g.b.a.c.F;
+import f.g.b.a.g.N;
+import f.g.b.a.g.U;
+import f.g.b.a.g.h;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ProxySelector;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import javax.net.ssl.SSLContext;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
+import org.apache.http.client.methods.HttpOptions;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpTrace;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.params.ConnManagerParams;
+import org.apache.http.conn.params.ConnPerRouteBean;
+import org.apache.http.conn.params.ConnRouteParams;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
+import org.apache.http.impl.conn.ProxySelectorRoutePlanner;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+
+public final class c
+  extends F
+{
+  public final HttpClient c;
+  
+  public c()
+  {
+    this(e());
+  }
+  
+  public c(HttpClient paramHttpClient)
+  {
+    c = paramHttpClient;
+    paramHttpClient = paramHttpClient.getParams();
+    HttpProtocolParams.setVersion(paramHttpClient, HttpVersion.HTTP_1_1);
+    paramHttpClient.setBooleanParameter("http.protocol.handle-redirects", false);
+  }
+  
+  public static DefaultHttpClient a(SSLSocketFactory paramSSLSocketFactory, HttpParams paramHttpParams, ProxySelector paramProxySelector)
+  {
+    SchemeRegistry localSchemeRegistry = new SchemeRegistry();
+    localSchemeRegistry.register(new Scheme("http", new PlainSocketFactory(), 80));
+    localSchemeRegistry.register(new Scheme("https", paramSSLSocketFactory, 443));
+    paramSSLSocketFactory = new DefaultHttpClient(new ThreadSafeClientConnManager(paramHttpParams, localSchemeRegistry), paramHttpParams);
+    paramSSLSocketFactory.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
+    if (paramProxySelector != null) {
+      paramSSLSocketFactory.setRoutePlanner(new ProxySelectorRoutePlanner(localSchemeRegistry, paramProxySelector));
+    }
+    return paramSSLSocketFactory;
+  }
+  
+  public static DefaultHttpClient e()
+  {
+    return a(SSLSocketFactory.getSocketFactory(), f(), ProxySelector.getDefault());
+  }
+  
+  public static HttpParams f()
+  {
+    BasicHttpParams localBasicHttpParams = new BasicHttpParams();
+    HttpConnectionParams.setStaleCheckingEnabled(localBasicHttpParams, false);
+    HttpConnectionParams.setSocketBufferSize(localBasicHttpParams, 8192);
+    ConnManagerParams.setMaxTotalConnections(localBasicHttpParams, 200);
+    ConnManagerParams.setMaxConnectionsPerRoute(localBasicHttpParams, new ConnPerRouteBean(20));
+    return localBasicHttpParams;
+  }
+  
+  public a a(String paramString1, String paramString2)
+  {
+    if (paramString1.equals("DELETE")) {
+      paramString1 = new HttpDelete(paramString2);
+    } else if (paramString1.equals("GET")) {
+      paramString1 = new HttpGet(paramString2);
+    } else if (paramString1.equals("HEAD")) {
+      paramString1 = new HttpHead(paramString2);
+    } else if (paramString1.equals("POST")) {
+      paramString1 = new HttpPost(paramString2);
+    } else if (paramString1.equals("PUT")) {
+      paramString1 = new HttpPut(paramString2);
+    } else if (paramString1.equals("TRACE")) {
+      paramString1 = new HttpTrace(paramString2);
+    } else if (paramString1.equals("OPTIONS")) {
+      paramString1 = new HttpOptions(paramString2);
+    } else {
+      paramString1 = new e(paramString1, paramString2);
+    }
+    return new a(c, paramString1);
+  }
+  
+  public boolean a(String paramString)
+  {
+    return true;
+  }
+  
+  public void c()
+  {
+    c.getConnectionManager().shutdown();
+  }
+  
+  public HttpClient d()
+  {
+    return c;
+  }
+  
+  public static final class a
+  {
+    public SSLSocketFactory a = SSLSocketFactory.getSocketFactory();
+    public HttpParams b = c.f();
+    public ProxySelector c = ProxySelector.getDefault();
+    
+    public a() {}
+    
+    public a a(InputStream paramInputStream)
+      throws GeneralSecurityException, IOException
+    {
+      KeyStore localKeyStore = N.b();
+      localKeyStore.load(null, null);
+      N.a(localKeyStore, N.g(), paramInputStream);
+      return a(localKeyStore);
+    }
+    
+    public a a(InputStream paramInputStream, String paramString)
+      throws GeneralSecurityException, IOException
+    {
+      KeyStore localKeyStore = N.b();
+      N.a(localKeyStore, paramInputStream, paramString);
+      return a(localKeyStore);
+    }
+    
+    public a a(ProxySelector paramProxySelector)
+    {
+      c = paramProxySelector;
+      if (paramProxySelector != null) {
+        ConnRouteParams.setDefaultProxy(b, null);
+      }
+      return this;
+    }
+    
+    public a a(KeyStore paramKeyStore)
+      throws GeneralSecurityException
+    {
+      SSLContext localSSLContext = U.f();
+      U.a(localSSLContext, paramKeyStore, U.d());
+      return a(new f(localSSLContext));
+    }
+    
+    public a a(HttpHost paramHttpHost)
+    {
+      ConnRouteParams.setDefaultProxy(b, paramHttpHost);
+      if (paramHttpHost != null) {
+        c = null;
+      }
+      return this;
+    }
+    
+    public a a(SSLSocketFactory paramSSLSocketFactory)
+    {
+      if (paramSSLSocketFactory != null)
+      {
+        a = paramSSLSocketFactory;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public c a()
+    {
+      return new c(c.a(a, b, c));
+    }
+    
+    @h
+    public a b()
+      throws GeneralSecurityException
+    {
+      a = new f(U.h());
+      a.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+      return this;
+    }
+    
+    public HttpParams c()
+    {
+      return b;
+    }
+    
+    public SSLSocketFactory d()
+    {
+      return a;
+    }
+  }
+}

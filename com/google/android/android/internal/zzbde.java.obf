@@ -1,0 +1,116 @@
+package com.google.android.gms.internal;
+
+import android.util.Log;
+import b.b.a.G;
+import com.google.android.gms.common.internal.zzak;
+
+public final class zzbde
+{
+  public final String mTag;
+  public final int zzdqr;
+  public final String zzfvl;
+  public final zzak zzfwj;
+  
+  public zzbde(String paramString1, String paramString2)
+  {
+    zzfvl = paramString2;
+    mTag = paramString1;
+    zzfwj = new zzak(paramString1, null);
+    zzdqr = getLogLevel();
+  }
+  
+  public zzbde(String paramString, String... paramVarArgs)
+  {
+    this(paramString, zzb(paramVarArgs));
+  }
+  
+  private final String format(String paramString, @G Object... paramVarArgs)
+  {
+    String str = paramString;
+    if (paramVarArgs != null)
+    {
+      str = paramString;
+      if (paramVarArgs.length > 0) {
+        str = String.format(paramString, paramVarArgs);
+      }
+    }
+    return zzfvl.concat(str);
+  }
+  
+  private final int getLogLevel()
+  {
+    int i = 2;
+    while ((7 >= i) && (!Log.isLoggable(mTag, i))) {
+      i += 1;
+    }
+    return i;
+  }
+  
+  private final boolean zzad(int paramInt)
+  {
+    return zzdqr <= paramInt;
+  }
+  
+  public static String zzb(String... paramVarArgs)
+  {
+    if (paramVarArgs.length == 0) {
+      return "";
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append('[');
+    int j = paramVarArgs.length;
+    int i = 0;
+    while (i < j)
+    {
+      String str = paramVarArgs[i];
+      if (localStringBuilder.length() > 1) {
+        localStringBuilder.append(",");
+      }
+      localStringBuilder.append(str);
+      i += 1;
+    }
+    localStringBuilder.append(']');
+    localStringBuilder.append(' ');
+    return localStringBuilder.toString();
+  }
+  
+  public final void zza(String paramString, Throwable paramThrowable, @G Object... paramVarArgs)
+  {
+    Log.wtf(mTag, format(paramString, paramVarArgs), paramThrowable);
+  }
+  
+  public final void zza(String paramString, @G Object... paramVarArgs)
+  {
+    if (zzad(2))
+    {
+      String str = mTag;
+      format(paramString, paramVarArgs);
+    }
+  }
+  
+  public final void zzb(String paramString, @G Object... paramVarArgs)
+  {
+    if (zzad(3))
+    {
+      String str = mTag;
+      format(paramString, paramVarArgs);
+    }
+  }
+  
+  public final void zzc(Throwable paramThrowable)
+  {
+    Log.wtf(mTag, paramThrowable);
+  }
+  
+  public final void zze(String paramString, @G Object... paramVarArgs)
+  {
+    String str = mTag;
+    format(paramString, paramVarArgs);
+  }
+  
+  public final void zzf(String paramString, @G Object... paramVarArgs)
+  {
+    String str = mTag;
+    format(paramString, paramVarArgs);
+  }
+}

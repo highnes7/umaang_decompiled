@@ -1,0 +1,64 @@
+package com.google.android.gms.common.api.internal;
+
+import b.b.x.n.b;
+import b.b.x.n.t;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.AvailabilityException;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import java.util.Iterator;
+import java.util.Set;
+
+public final class zzj
+{
+  public final b<zzh<?>, ConnectionResult> zzfgj = new b();
+  public final TaskCompletionSource<Void> zzfip = new TaskCompletionSource();
+  public int zzfiq;
+  public boolean zzfir = false;
+  
+  public zzj(Iterable<? extends GoogleApi<?>> paramIterable)
+  {
+    paramIterable = paramIterable.iterator();
+    while (paramIterable.hasNext())
+    {
+      GoogleApi localGoogleApi = (GoogleApi)paramIterable.next();
+      zzfgj.put(localGoogleApi.zzafk(), null);
+    }
+    zzfiq = zzfgj.keySet().size();
+  }
+  
+  public final Task<Void> getTask()
+  {
+    return zzfip.getTask();
+  }
+  
+  public final void zza(zzh<?> paramZzh, ConnectionResult paramConnectionResult)
+  {
+    zzfgj.put(paramZzh, paramConnectionResult);
+    zzfiq -= 1;
+    if (!paramConnectionResult.isSuccess()) {
+      zzfir = true;
+    }
+    if (zzfiq == 0)
+    {
+      if (zzfir)
+      {
+        paramZzh = new AvailabilityException(zzfgj);
+        zzfip.setException(paramZzh);
+        return;
+      }
+      zzfip.setResult(null);
+    }
+  }
+  
+  public final Set<zzh<?>> zzafx()
+  {
+    return zzfgj.keySet();
+  }
+  
+  public final void zzafy()
+  {
+    zzfip.setResult(null);
+  }
+}

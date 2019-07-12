@@ -1,0 +1,200 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.J;
+import f.g.c.b.X;
+import f.g.c.b.ca;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.SortedSet;
+import m.a.h;
+
+@f.g.c.a.a
+@b(emulated=true)
+public abstract class Ia<E>
+  implements Iterable<E>
+{
+  public final Iterable<E> a;
+  
+  public Ia()
+  {
+    a = this;
+  }
+  
+  public Ia(Iterable<E> paramIterable)
+  {
+    if (paramIterable != null)
+    {
+      a = paramIterable;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  @Deprecated
+  public static <E> Ia<E> a(Ia<E> paramIa)
+  {
+    if (paramIa != null) {
+      return paramIa;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <E> Ia<E> a(Iterable<E> paramIterable)
+  {
+    if ((paramIterable instanceof Ia)) {
+      return (Ia)paramIterable;
+    }
+    return new Ha(paramIterable, paramIterable);
+  }
+  
+  public final Ia<E> a()
+  {
+    return a(rc.d(a));
+  }
+  
+  public final Ia<E> a(int paramInt)
+  {
+    return a(rc.b(a, paramInt));
+  }
+  
+  public final <T> Ia<T> a(J<? super E, T> paramJ)
+  {
+    return a(rc.a(a, paramJ));
+  }
+  
+  @c("Class.isInstance")
+  public final <T> Ia<T> a(Class<T> paramClass)
+  {
+    return a(rc.a(a, paramClass));
+  }
+  
+  public final Wb<E> a(Comparator<? super E> paramComparator)
+  {
+    return Wb.a(paramComparator, a);
+  }
+  
+  public final boolean a(ca<? super E> paramCa)
+  {
+    return rc.a(a, paramCa);
+  }
+  
+  public final Ia<E> b(int paramInt)
+  {
+    return a(rc.e(a, paramInt));
+  }
+  
+  public <T> Ia<T> b(J<? super E, ? extends Iterable<T>> paramJ)
+  {
+    return a(rc.b(a(paramJ)));
+  }
+  
+  public final vb<E> b()
+  {
+    return vb.a(a);
+  }
+  
+  public final vb<E> b(Comparator<? super E> paramComparator)
+  {
+    return mf.b(paramComparator).b(a);
+  }
+  
+  public final boolean b(ca<? super E> paramCa)
+  {
+    return rc.b(a, paramCa);
+  }
+  
+  @c("Array.newArray(Class, int)")
+  public final E[] b(Class<E> paramClass)
+  {
+    return rc.b(a, paramClass);
+  }
+  
+  public final Ia<E> c(ca<? super E> paramCa)
+  {
+    return a(rc.c(a, paramCa));
+  }
+  
+  public final Nb<E> c()
+  {
+    return Nb.a(a);
+  }
+  
+  public final boolean contains(@h Object paramObject)
+  {
+    return rc.a(a, paramObject);
+  }
+  
+  public final X<E> d(ca<? super E> paramCa)
+  {
+    return rc.g(a, paramCa);
+  }
+  
+  public final X<E> first()
+  {
+    Iterator localIterator = a.iterator();
+    if (localIterator.hasNext()) {
+      return X.b(localIterator.next());
+    }
+    return f.g.c.b.a.b;
+  }
+  
+  public final E get(int paramInt)
+  {
+    return rc.a(a, paramInt);
+  }
+  
+  public final boolean isEmpty()
+  {
+    return a.iterator().hasNext() ^ true;
+  }
+  
+  public final X<E> last()
+  {
+    Object localObject1 = a;
+    if ((localObject1 instanceof List))
+    {
+      localObject1 = (List)localObject1;
+      if (((List)localObject1).isEmpty()) {
+        return f.g.c.b.a.b;
+      }
+      return X.b(((List)localObject1).get(((List)localObject1).size() - 1));
+    }
+    localObject1 = ((Iterable)localObject1).iterator();
+    if (!((Iterator)localObject1).hasNext()) {
+      return f.g.c.b.a.b;
+    }
+    Object localObject2 = a;
+    if ((localObject2 instanceof SortedSet)) {
+      return X.b(((SortedSet)localObject2).last());
+    }
+    do
+    {
+      localObject2 = ((Iterator)localObject1).next();
+    } while (((Iterator)localObject1).hasNext());
+    return X.b(localObject2);
+  }
+  
+  public final int size()
+  {
+    return rc.i(a);
+  }
+  
+  public String toString()
+  {
+    return rc.l(a);
+  }
+  
+  private static class a<E>
+    implements J<Iterable<E>, Ia<E>>
+  {
+    public a() {}
+    
+    public Ia<E> b(Iterable<E> paramIterable)
+    {
+      return Ia.a(paramIterable);
+    }
+  }
+}

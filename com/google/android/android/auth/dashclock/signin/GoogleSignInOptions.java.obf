@@ -1,0 +1,385 @@
+package com.google.android.gms.auth.api.signin;
+
+import android.accounts.Account;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.text.TextUtils;
+import b.b.a.F;
+import b.b.a.G;
+import com.google.android.gms.auth.api.signin.internal.zzn;
+import com.google.android.gms.auth.api.signin.internal.zzo;
+import com.google.android.gms.common.api.Api.ApiOptions.Optional;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.internal.ReflectedParcelable;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class GoogleSignInOptions
+  extends zzbck
+  implements Api.ApiOptions.Optional, ReflectedParcelable
+{
+  public static final Parcelable.Creator<GoogleSignInOptions> CREATOR = new zzd();
+  public static final GoogleSignInOptions DEFAULT_GAMES_SIGN_IN;
+  public static final GoogleSignInOptions DEFAULT_SIGN_IN;
+  public static Scope SCOPE_GAMES;
+  public static Comparator<Scope> zzecc = new zzc();
+  public static final Scope zzecd = new Scope(1, "profile");
+  public static final Scope zzece = new Scope(1, "email");
+  public static final Scope zzecf = new Scope(1, "openid");
+  public int versionCode;
+  public Account zzduz;
+  public boolean zzeap;
+  public String zzeaq;
+  public final ArrayList<Scope> zzecg;
+  public final boolean zzech;
+  public final boolean zzeci;
+  public String zzecj;
+  public ArrayList<zzn> zzeck;
+  public Map<Integer, zzn> zzecl;
+  
+  static
+  {
+    SCOPE_GAMES = new Scope(1, "https://www.googleapis.com/auth/games");
+    DEFAULT_SIGN_IN = new Builder().requestId().requestProfile().build();
+    DEFAULT_GAMES_SIGN_IN = new Builder().requestScopes(SCOPE_GAMES, new Scope[0]).build();
+  }
+  
+  public GoogleSignInOptions(int paramInt, ArrayList<Scope> paramArrayList, Account paramAccount, boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3, String paramString1, String paramString2, ArrayList<zzn> paramArrayList1)
+  {
+    this(paramInt, paramArrayList, paramAccount, paramBoolean1, paramBoolean2, paramBoolean3, paramString1, paramString2, zzu(paramArrayList1));
+  }
+  
+  public GoogleSignInOptions(int paramInt, ArrayList<Scope> paramArrayList, Account paramAccount, boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3, String paramString1, String paramString2, Map<Integer, zzn> paramMap)
+  {
+    versionCode = paramInt;
+    zzecg = paramArrayList;
+    zzduz = paramAccount;
+    zzeap = paramBoolean1;
+    zzech = paramBoolean2;
+    zzeci = paramBoolean3;
+    zzeaq = paramString1;
+    zzecj = paramString2;
+    zzeck = new ArrayList(paramMap.values());
+    zzecl = paramMap;
+  }
+  
+  private final JSONObject toJsonObject()
+  {
+    JSONObject localJSONObject = new JSONObject();
+    RuntimeException localRuntimeException;
+    try
+    {
+      JSONArray localJSONArray = new JSONArray();
+      Collections.sort(zzecg, zzecc);
+      ArrayList localArrayList = zzecg;
+      int j = localArrayList.size();
+      int i = 0;
+      while (i < j)
+      {
+        Object localObject = localArrayList.get(i);
+        i += 1;
+        localJSONArray.put(((Scope)localObject).zzaft());
+      }
+      localJSONObject.put("scopes", localJSONArray);
+      if (zzduz != null) {
+        localJSONObject.put("accountName", zzduz.name);
+      }
+      localJSONObject.put("idTokenRequested", zzeap);
+      localJSONObject.put("forceCodeForRefreshToken", zzeci);
+      localJSONObject.put("serverAuthRequested", zzech);
+      if (!TextUtils.isEmpty(zzeaq)) {
+        localJSONObject.put("serverClientId", zzeaq);
+      }
+      if (!TextUtils.isEmpty(zzecj)) {
+        localJSONObject.put("hostedDomain", zzecj);
+      }
+      return localJSONObject;
+    }
+    catch (JSONException localJSONException)
+    {
+      localRuntimeException = new RuntimeException(localJSONException);
+    }
+    for (;;)
+    {
+      throw localRuntimeException;
+    }
+  }
+  
+  @G
+  public static GoogleSignInOptions zzen(@G String paramString)
+    throws JSONException
+  {
+    if (TextUtils.isEmpty(paramString)) {
+      return null;
+    }
+    JSONObject localJSONObject = new JSONObject(paramString);
+    HashSet localHashSet = new HashSet();
+    paramString = localJSONObject.getJSONArray("scopes");
+    int j = paramString.length();
+    int i = 0;
+    while (i < j)
+    {
+      localHashSet.add(new Scope(1, paramString.getString(i)));
+      i += 1;
+    }
+    paramString = localJSONObject.optString("accountName", null);
+    if (!TextUtils.isEmpty(paramString)) {
+      paramString = new Account(paramString, "com.google");
+    } else {
+      paramString = null;
+    }
+    return new GoogleSignInOptions(3, new ArrayList(localHashSet), paramString, localJSONObject.getBoolean("idTokenRequested"), localJSONObject.getBoolean("serverAuthRequested"), localJSONObject.getBoolean("forceCodeForRefreshToken"), localJSONObject.optString("serverClientId", null), localJSONObject.optString("hostedDomain", null), new HashMap());
+  }
+  
+  public static Map<Integer, zzn> zzu(@G List<zzn> paramList)
+  {
+    HashMap localHashMap = new HashMap();
+    if (paramList == null) {
+      return localHashMap;
+    }
+    paramList = paramList.iterator();
+    while (paramList.hasNext())
+    {
+      zzn localZzn = (zzn)paramList.next();
+      localHashMap.put(Integer.valueOf(localZzn.getType()), localZzn);
+    }
+    return localHashMap;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    try
+    {
+      paramObject = (GoogleSignInOptions)paramObject;
+      if (zzeck.size() <= 0)
+      {
+        if (zzeck.size() > 0) {
+          return false;
+        }
+        if (zzecg.size() == paramObject.zzaag().size())
+        {
+          if (!zzecg.containsAll(paramObject.zzaag())) {
+            return false;
+          }
+          if ((zzduz == null ? zzduz == null : zzduz.equals(zzduz)) && (TextUtils.isEmpty(zzeaq) ? TextUtils.isEmpty(zzeaq) : zzeaq.equals(zzeaq)) && (zzeci == zzeci) && (zzeap == zzeap))
+          {
+            boolean bool1 = zzech;
+            boolean bool2 = zzech;
+            if (bool1 == bool2) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+    catch (ClassCastException paramObject) {}
+    return false;
+  }
+  
+  public final Account getAccount()
+  {
+    return zzduz;
+  }
+  
+  public Scope[] getScopeArray()
+  {
+    ArrayList localArrayList = zzecg;
+    return (Scope[])localArrayList.toArray(new Scope[localArrayList.size()]);
+  }
+  
+  public final String getServerClientId()
+  {
+    return zzeaq;
+  }
+  
+  public int hashCode()
+  {
+    ArrayList localArrayList1 = new ArrayList();
+    ArrayList localArrayList2 = zzecg;
+    int j = localArrayList2.size();
+    int i = 0;
+    while (i < j)
+    {
+      Object localObject = localArrayList2.get(i);
+      i += 1;
+      localArrayList1.add(((Scope)localObject).zzaft());
+    }
+    Collections.sort(localArrayList1);
+    return new zzo().zzo(localArrayList1).zzo(zzduz).zzo(zzeaq).zzaq(zzeci).zzaq(zzeap).zzaq(zzech).zzaao();
+  }
+  
+  public final boolean isIdTokenRequested()
+  {
+    return zzeap;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, versionCode);
+    zzbcn.zzc(paramParcel, 2, zzaag(), false);
+    zzbcn.zza(paramParcel, 3, zzduz, paramInt, false);
+    zzbcn.zza(paramParcel, 4, zzeap);
+    zzbcn.zza(paramParcel, 5, zzech);
+    zzbcn.zza(paramParcel, 6, zzeci);
+    zzbcn.zza(paramParcel, 7, zzeaq, false);
+    zzbcn.zza(paramParcel, 8, zzecj, false);
+    zzbcn.zzc(paramParcel, 9, zzeck, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public final ArrayList<Scope> zzaag()
+  {
+    return new ArrayList(zzecg);
+  }
+  
+  public final boolean zzaah()
+  {
+    return zzech;
+  }
+  
+  public final String zzaai()
+  {
+    return toJsonObject().toString();
+  }
+  
+  public static final class Builder
+  {
+    public Account zzduz;
+    public boolean zzeap;
+    public String zzeaq;
+    public boolean zzech;
+    public boolean zzeci;
+    public String zzecj;
+    public Set<Scope> zzecm = new HashSet();
+    public Map<Integer, zzn> zzecn = new HashMap();
+    
+    public Builder() {}
+    
+    public Builder(@F GoogleSignInOptions paramGoogleSignInOptions)
+    {
+      zzbp.zzu(paramGoogleSignInOptions);
+      zzecm = new HashSet(GoogleSignInOptions.zza(paramGoogleSignInOptions));
+      zzech = GoogleSignInOptions.zzb(paramGoogleSignInOptions);
+      zzeci = GoogleSignInOptions.zzc(paramGoogleSignInOptions);
+      zzeap = GoogleSignInOptions.zzd(paramGoogleSignInOptions);
+      zzeaq = GoogleSignInOptions.zze(paramGoogleSignInOptions);
+      zzduz = GoogleSignInOptions.zzf(paramGoogleSignInOptions);
+      zzecj = GoogleSignInOptions.zzg(paramGoogleSignInOptions);
+      zzecn = GoogleSignInOptions.zzu(GoogleSignInOptions.zzh(paramGoogleSignInOptions));
+    }
+    
+    private final String zzeo(String paramString)
+    {
+      zzbp.zzgg(paramString);
+      String str = zzeaq;
+      boolean bool;
+      if ((str != null) && (!str.equals(paramString))) {
+        bool = false;
+      } else {
+        bool = true;
+      }
+      zzbp.zzb(bool, "two different server client ids provided");
+      return paramString;
+    }
+    
+    public final Builder addExtension(GoogleSignInOptionsExtension paramGoogleSignInOptionsExtension)
+    {
+      Map localMap = zzecn;
+      Integer localInteger = Integer.valueOf(1);
+      if (!localMap.containsKey(localInteger))
+      {
+        zzecn.put(localInteger, new zzn(paramGoogleSignInOptionsExtension));
+        return this;
+      }
+      throw new IllegalStateException("Only one extension per type may be added");
+    }
+    
+    public final GoogleSignInOptions build()
+    {
+      if ((zzeap) && ((zzduz == null) || (!zzecm.isEmpty()))) {
+        requestId();
+      }
+      return new GoogleSignInOptions(3, new ArrayList(zzecm), zzduz, zzeap, zzech, zzeci, zzeaq, zzecj, zzecn, null);
+    }
+    
+    public final Builder requestEmail()
+    {
+      zzecm.add(GoogleSignInOptions.zzece);
+      return this;
+    }
+    
+    public final Builder requestId()
+    {
+      zzecm.add(GoogleSignInOptions.zzecf);
+      return this;
+    }
+    
+    public final Builder requestIdToken(String paramString)
+    {
+      zzeap = true;
+      zzeo(paramString);
+      zzeaq = paramString;
+      return this;
+    }
+    
+    public final Builder requestProfile()
+    {
+      zzecm.add(GoogleSignInOptions.zzecd);
+      return this;
+    }
+    
+    public final Builder requestScopes(Scope paramScope, Scope... paramVarArgs)
+    {
+      zzecm.add(paramScope);
+      zzecm.addAll(Arrays.asList(paramVarArgs));
+      return this;
+    }
+    
+    public final Builder requestServerAuthCode(String paramString)
+    {
+      return requestServerAuthCode(paramString, false);
+    }
+    
+    public final Builder requestServerAuthCode(String paramString, boolean paramBoolean)
+    {
+      zzech = true;
+      zzeo(paramString);
+      zzeaq = paramString;
+      zzeci = paramBoolean;
+      return this;
+    }
+    
+    public final Builder setAccountName(String paramString)
+    {
+      zzbp.zzgg(paramString);
+      zzduz = new Account(paramString, "com.google");
+      return this;
+    }
+    
+    public final Builder setHostedDomain(String paramString)
+    {
+      zzbp.zzgg(paramString);
+      zzecj = paramString;
+      return this;
+    }
+  }
+}

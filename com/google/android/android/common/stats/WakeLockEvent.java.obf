@@ -1,0 +1,139 @@
+package com.google.android.gms.common.stats;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import android.text.TextUtils;
+import com.google.android.gms.internal.zzbcn;
+import f.a.a.a.a;
+import java.util.List;
+
+public final class WakeLockEvent
+  extends StatsEvent
+{
+  public static final Parcelable.Creator<WakeLockEvent> CREATOR = new zzd();
+  public final long mTimeout;
+  public int zzdxs;
+  public final long zzfxx;
+  public int zzfxy;
+  public final String zzfxz;
+  public final String zzfya;
+  public final String zzfyb;
+  public final int zzfyc;
+  public final List<String> zzfyd;
+  public final String zzfye;
+  public final long zzfyf;
+  public int zzfyg;
+  public final String zzfyh;
+  public final float zzfyi;
+  public long zzfyj;
+  
+  public WakeLockEvent(int paramInt1, long paramLong1, int paramInt2, String paramString1, int paramInt3, List<String> paramList, String paramString2, long paramLong2, int paramInt4, String paramString3, String paramString4, float paramFloat, long paramLong3, String paramString5)
+  {
+    zzdxs = paramInt1;
+    zzfxx = paramLong1;
+    zzfxy = paramInt2;
+    zzfxz = paramString1;
+    zzfya = paramString3;
+    zzfyb = paramString5;
+    zzfyc = paramInt3;
+    zzfyj = -1L;
+    zzfyd = paramList;
+    zzfye = paramString2;
+    zzfyf = paramLong2;
+    zzfyg = paramInt4;
+    zzfyh = paramString4;
+    zzfyi = paramFloat;
+    mTimeout = paramLong3;
+  }
+  
+  public WakeLockEvent(long paramLong1, int paramInt1, String paramString1, int paramInt2, List<String> paramList, String paramString2, long paramLong2, int paramInt3, String paramString3, String paramString4, float paramFloat, long paramLong3, String paramString5)
+  {
+    this(2, paramLong1, paramInt1, paramString1, paramInt2, paramList, paramString2, paramLong2, paramInt3, paramString3, paramString4, paramFloat, paramLong3, paramString5);
+  }
+  
+  public final int getEventType()
+  {
+    return zzfxy;
+  }
+  
+  public final long getTimeMillis()
+  {
+    return zzfxx;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    zzbcn.zza(paramParcel, 2, getTimeMillis());
+    zzbcn.zza(paramParcel, 4, zzfxz, false);
+    zzbcn.zzc(paramParcel, 5, zzfyc);
+    zzbcn.zzb(paramParcel, 6, zzfyd, false);
+    zzbcn.zza(paramParcel, 8, zzfyf);
+    zzbcn.zza(paramParcel, 10, zzfya, false);
+    zzbcn.zzc(paramParcel, 11, getEventType());
+    zzbcn.zza(paramParcel, 12, zzfye, false);
+    zzbcn.zza(paramParcel, 13, zzfyh, false);
+    zzbcn.zzc(paramParcel, 14, zzfyg);
+    zzbcn.zza(paramParcel, 15, zzfyi);
+    zzbcn.zza(paramParcel, 16, mTimeout);
+    zzbcn.zza(paramParcel, 17, zzfyb, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+  
+  public final long zzakz()
+  {
+    return zzfyj;
+  }
+  
+  public final String zzala()
+  {
+    String str = zzfxz;
+    int i = zzfyc;
+    Object localObject1 = zzfyd;
+    Object localObject4 = "";
+    if (localObject1 == null) {
+      localObject1 = "";
+    } else {
+      localObject1 = TextUtils.join(",", (Iterable)localObject1);
+    }
+    int j = zzfyg;
+    Object localObject3 = zzfya;
+    Object localObject2 = localObject3;
+    if (localObject3 == null) {
+      localObject2 = "";
+    }
+    Object localObject5 = zzfyh;
+    localObject3 = localObject5;
+    if (localObject5 == null) {
+      localObject3 = "";
+    }
+    float f = zzfyi;
+    localObject5 = zzfyb;
+    if (localObject5 != null) {
+      localObject4 = localObject5;
+    }
+    int k = a.a(str, "\t".length() + 37);
+    int m = "\t".length();
+    k = a.a(localObject1, "\t".length() + (m + k));
+    m = "\t".length();
+    k = a.a(localObject2, "\t".length() + (m + k));
+    k = a.a(localObject3, "\t".length() + k);
+    m = "\t".length();
+    localObject5 = new StringBuilder(a.a(localObject4, "\t".length() + (m + k)));
+    ((StringBuilder)localObject5).append("\t");
+    ((StringBuilder)localObject5).append(str);
+    ((StringBuilder)localObject5).append("\t");
+    ((StringBuilder)localObject5).append(i);
+    ((StringBuilder)localObject5).append("\t");
+    ((StringBuilder)localObject5).append((String)localObject1);
+    ((StringBuilder)localObject5).append("\t");
+    ((StringBuilder)localObject5).append(j);
+    a.b((StringBuilder)localObject5, "\t", (String)localObject2, "\t", (String)localObject3);
+    ((StringBuilder)localObject5).append("\t");
+    ((StringBuilder)localObject5).append(f);
+    ((StringBuilder)localObject5).append("\t");
+    ((StringBuilder)localObject5).append((String)localObject4);
+    return ((StringBuilder)localObject5).toString();
+  }
+}

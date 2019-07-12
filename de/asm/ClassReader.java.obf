@@ -1,0 +1,38 @@
+package c.b;
+
+import android.os.Parcelable;
+import androidx.versionedparcelable.ParcelImpl;
+import b.b.a.N;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+@N({b.b.a.N.a.b})
+public class d
+{
+  public d() {}
+  
+  public static Parcelable a(j paramJ)
+  {
+    return new ParcelImpl(paramJ);
+  }
+  
+  public static <T extends j> T a(Parcelable paramParcelable)
+  {
+    if ((paramParcelable instanceof ParcelImpl)) {
+      return ((ParcelImpl)paramParcelable).a();
+    }
+    throw new IllegalArgumentException("Invalid parcel");
+  }
+  
+  public static <T extends j> T a(InputStream paramInputStream)
+  {
+    return new i(paramInputStream, null).t();
+  }
+  
+  public static void a(j paramJ, OutputStream paramOutputStream)
+  {
+    paramOutputStream = new i(null, paramOutputStream);
+    paramOutputStream.b(paramJ);
+    paramOutputStream.a();
+  }
+}

@@ -1,0 +1,311 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public abstract class Ab<K, V>
+  implements Map<K, V>, Serializable
+{
+  public transient Nb<Map.Entry<K, V>> a;
+  public transient Nb<K> b;
+  public transient rb<V> c;
+  
+  public Ab() {}
+  
+  public static <K, V> a<K, V> a()
+  {
+    return new a();
+  }
+  
+  public static <K, V> Ab<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2)
+  {
+    return new Df(new Map.Entry[] { b(paramK1, paramV1), b(paramK2, paramV2) });
+  }
+  
+  public static <K, V> Ab<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3)
+  {
+    return new Df(new Map.Entry[] { b(paramK1, paramV1), b(paramK2, paramV2), b(paramK3, paramV3) });
+  }
+  
+  public static <K, V> Ab<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3, K paramK4, V paramV4)
+  {
+    return new Df(new Map.Entry[] { b(paramK1, paramV1), b(paramK2, paramV2), b(paramK3, paramV3), b(paramK4, paramV4) });
+  }
+  
+  public static <K, V> Ab<K, V> a(K paramK1, V paramV1, K paramK2, V paramV2, K paramK3, V paramV3, K paramK4, V paramV4, K paramK5, V paramV5)
+  {
+    return new Df(new Map.Entry[] { b(paramK1, paramV1), b(paramK2, paramV2), b(paramK3, paramV3), b(paramK4, paramV4), b(paramK5, paramV5) });
+  }
+  
+  public static <K, V> Ab<K, V> a(Map<? extends K, ? extends V> paramMap)
+  {
+    if (((paramMap instanceof Ab)) && (!(paramMap instanceof Sb)))
+    {
+      Ab localAb = (Ab)paramMap;
+      if (!localAb.e()) {
+        return localAb;
+      }
+    }
+    paramMap = paramMap.entrySet();
+    int i = 0;
+    paramMap = (Map.Entry[])paramMap.toArray(new Map.Entry[0]);
+    int j = paramMap.length;
+    if (j != 0)
+    {
+      if (j != 1)
+      {
+        while (i < paramMap.length)
+        {
+          paramMap[i] = b(paramMap[i].getKey(), paramMap[i].getValue());
+          i += 1;
+        }
+        return new Df(paramMap);
+      }
+      return new kg(b(paramMap[0].getKey(), paramMap[0].getValue()));
+    }
+    return va.d;
+  }
+  
+  public static <K, V> Map.Entry<K, V> b(K paramK, V paramV)
+  {
+    ba.a(paramK, "null key in entry: null=%s", new Object[] { paramV });
+    ba.a(paramV, "null value in entry: %s=null", new Object[] { paramK });
+    return fe.a(paramK, paramV);
+  }
+  
+  public static <K, V> Ab<K, V> c(K paramK, V paramV)
+  {
+    if (paramK != null)
+    {
+      if (paramV != null) {
+        return new kg(paramK, paramV);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <K, V> Ab<K, V> g()
+  {
+    return va.d;
+  }
+  
+  public abstract Nb<Map.Entry<K, V>> b();
+  
+  public Nb<K> c()
+  {
+    return new yb(this, entrySet());
+  }
+  
+  public final void clear()
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public boolean containsKey(@h Object paramObject)
+  {
+    return get(paramObject) != null;
+  }
+  
+  public boolean containsValue(@h Object paramObject)
+  {
+    return (paramObject != null) && (fe.b(this, paramObject));
+  }
+  
+  public rb<V> d()
+  {
+    return new zb(this);
+  }
+  
+  public abstract boolean e();
+  
+  public Nb<Map.Entry<K, V>> entrySet()
+  {
+    Nb localNb2 = a;
+    Nb localNb1 = localNb2;
+    if (localNb2 == null)
+    {
+      localNb1 = b();
+      a = localNb1;
+    }
+    return localNb1;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    return fe.c(this, paramObject);
+  }
+  
+  public abstract V get(@h Object paramObject);
+  
+  public Object h()
+  {
+    return new b(this);
+  }
+  
+  public int hashCode()
+  {
+    return entrySet().hashCode();
+  }
+  
+  public boolean isEmpty()
+  {
+    return size() == 0;
+  }
+  
+  public Nb<K> keySet()
+  {
+    Nb localNb2 = b;
+    Nb localNb1 = localNb2;
+    if (localNb2 == null)
+    {
+      localNb1 = c();
+      b = localNb1;
+    }
+    return localNb1;
+  }
+  
+  public final V put(K paramK, V paramV)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final void putAll(Map<? extends K, ? extends V> paramMap)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public final V remove(Object paramObject)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public String toString()
+  {
+    return fe.e(this);
+  }
+  
+  public rb<V> values()
+  {
+    rb localRb2 = c;
+    rb localRb1 = localRb2;
+    if (localRb2 == null)
+    {
+      localRb1 = d();
+      c = localRb1;
+    }
+    return localRb1;
+  }
+  
+  public static class a<K, V>
+  {
+    public final ArrayList<Map.Entry<K, V>> a = new ArrayList();
+    
+    public a() {}
+    
+    public static <K, V> Ab<K, V> a(List<Map.Entry<K, V>> paramList)
+    {
+      int i = paramList.size();
+      if (i != 0)
+      {
+        if (i != 1) {
+          return new Df((Map.Entry[])paramList.toArray(new Map.Entry[paramList.size()]));
+        }
+        return new kg((Map.Entry)Jc.g(paramList.iterator()));
+      }
+      return Ab.g();
+    }
+    
+    public a<K, V> a(K paramK, V paramV)
+    {
+      a.add(Ab.b(paramK, paramV));
+      return this;
+    }
+    
+    public a<K, V> a(Map.Entry<? extends K, ? extends V> paramEntry)
+    {
+      Object localObject1 = paramEntry.getKey();
+      Object localObject2 = paramEntry.getValue();
+      if ((paramEntry instanceof sb))
+      {
+        ba.a(localObject1);
+        ba.a(localObject2);
+        a.add(paramEntry);
+        return this;
+      }
+      a.add(Ab.b(localObject1, localObject2));
+      return this;
+    }
+    
+    public a<K, V> a(Map<? extends K, ? extends V> paramMap)
+    {
+      Object localObject = a;
+      int i = ((ArrayList)localObject).size();
+      ((ArrayList)localObject).ensureCapacity(paramMap.size() + i);
+      paramMap = paramMap.entrySet().iterator();
+      while (paramMap.hasNext())
+      {
+        localObject = (Map.Entry)paramMap.next();
+        a(((Map.Entry)localObject).getKey(), ((Map.Entry)localObject).getValue());
+      }
+      return this;
+    }
+    
+    public Ab<K, V> a()
+    {
+      return a(a);
+    }
+  }
+  
+  public static class b
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final Object[] b;
+    public final Object[] c;
+    
+    public b(Ab<?, ?> paramAb)
+    {
+      b = new Object[paramAb.size()];
+      c = new Object[paramAb.size()];
+      paramAb = paramAb.entrySet().iterator();
+      int i = 0;
+      while (paramAb.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)paramAb.next();
+        b[i] = localEntry.getKey();
+        c[i] = localEntry.getValue();
+        i += 1;
+      }
+    }
+    
+    public Object a()
+    {
+      return a(new Ab.a());
+    }
+    
+    public Object a(Ab.a<Object, Object> paramA)
+    {
+      int i = 0;
+      for (;;)
+      {
+        Object[] arrayOfObject = b;
+        if (i >= arrayOfObject.length) {
+          break;
+        }
+        paramA.a(arrayOfObject[i], c[i]);
+        i += 1;
+      }
+      return paramA.a();
+    }
+  }
+}

@@ -1,0 +1,503 @@
+package f.g.c.c;
+
+import f.g.c.a.a;
+import f.g.c.a.d;
+import f.g.c.b.U;
+import f.g.c.b.U.a;
+import f.g.c.b.ba;
+import f.g.c.b.ua;
+import f.g.c.d.Ab;
+import f.g.c.d.Ab.a;
+import f.g.c.d.vb;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import m.a.h;
+
+@a
+public final class i
+{
+  public static final ua a = ua.a(',').b();
+  public static final ua b = ua.a('=').b();
+  public static final Ab<String, k> c = Ab.a().a("initialCapacity", new d()).a("maximumSize", new h()).a("maximumWeight", new i()).a("concurrencyLevel", new b()).a("weakKeys", new f(q.r.c)).a("softValues", new l(q.r.b)).a("weakValues", new l(q.r.c)).a("expireAfterAccess", new a()).a("expireAfterWrite", new m()).a("refreshAfterWrite", new j()).a("refreshInterval", new j()).a();
+  @d
+  public Integer d;
+  @d
+  public Long e;
+  @d
+  public Long f;
+  @d
+  public Integer g;
+  @d
+  public q.r h;
+  @d
+  public q.r i;
+  @d
+  public long j;
+  @d
+  public TimeUnit k;
+  @d
+  public long l;
+  @d
+  public TimeUnit m;
+  @d
+  public long n;
+  @d
+  public TimeUnit o;
+  public final String p;
+  
+  public i(String paramString)
+  {
+    p = paramString;
+  }
+  
+  public static i a()
+  {
+    return a("maximumSize=0");
+  }
+  
+  public static i a(String paramString)
+  {
+    i localI = new i(paramString);
+    if (paramString.length() > 0)
+    {
+      Iterator localIterator = a.a(paramString).iterator();
+      while (localIterator.hasNext())
+      {
+        String str = (String)localIterator.next();
+        paramString = vb.a(b.a(str));
+        ba.a(paramString.isEmpty() ^ true, "blank key-value pair");
+        boolean bool;
+        if (paramString.size() <= 2) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool, "key-value pair %s with more than one equals sign", new Object[] { str });
+        str = (String)paramString.get(0);
+        k localK = (k)c.get(str);
+        if (localK != null) {
+          bool = true;
+        } else {
+          bool = false;
+        }
+        ba.a(bool, "unknown key %s", new Object[] { str });
+        if (paramString.size() == 1) {
+          paramString = null;
+        } else {
+          paramString = (String)paramString.get(1);
+        }
+        localK.a(localI, str, paramString);
+      }
+    }
+    return localI;
+  }
+  
+  @h
+  public static Long a(long paramLong, @h TimeUnit paramTimeUnit)
+  {
+    if (paramTimeUnit == null) {
+      return null;
+    }
+    return Long.valueOf(paramTimeUnit.toNanos(paramLong));
+  }
+  
+  public g<Object, Object> b()
+  {
+    g localG = new g();
+    Object localObject = d;
+    if (localObject != null) {
+      localG.b(((Integer)localObject).intValue());
+    }
+    localObject = e;
+    if (localObject != null) {
+      localG.a(((Long)localObject).longValue());
+    }
+    localObject = f;
+    if (localObject != null) {
+      localG.b(((Long)localObject).longValue());
+    }
+    localObject = g;
+    if (localObject != null) {
+      localG.a(((Integer)localObject).intValue());
+    }
+    localObject = h;
+    if (localObject != null) {
+      if (((Enum)localObject).ordinal() == 2) {
+        localG.u();
+      } else {
+        throw new AssertionError();
+      }
+    }
+    localObject = i;
+    if (localObject != null)
+    {
+      int i1 = ((Enum)localObject).ordinal();
+      if (i1 != 1)
+      {
+        if (i1 == 2) {
+          localG.v();
+        } else {
+          throw new AssertionError();
+        }
+      }
+      else {
+        localG.r();
+      }
+    }
+    localObject = k;
+    if (localObject != null) {
+      localG.b(j, (TimeUnit)localObject);
+    }
+    localObject = m;
+    if (localObject != null) {
+      localG.a(l, (TimeUnit)localObject);
+    }
+    localObject = o;
+    if (localObject != null) {
+      localG.c(n, (TimeUnit)localObject);
+    }
+    return localG;
+  }
+  
+  public String c()
+  {
+    return p;
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (!(paramObject instanceof i)) {
+      return false;
+    }
+    paramObject = (i)paramObject;
+    return (U.a(d, d)) && (U.a(e, e)) && (U.a(f, f)) && (U.a(g, g)) && (U.a(h, h)) && (U.a(i, i)) && (U.a(a(j, k), a(j, k))) && (U.a(a(l, m), a(l, m))) && (U.a(a(n, o), a(n, o)));
+  }
+  
+  public int hashCode()
+  {
+    return Arrays.hashCode(new Object[] { d, e, f, g, h, i, a(j, k), a(l, m), a(n, o) });
+  }
+  
+  public String toString()
+  {
+    return U.a(this).a(c()).toString();
+  }
+  
+  public static class a
+    extends i.c
+  {
+    public a() {}
+    
+    public void a(i paramI, long paramLong, TimeUnit paramTimeUnit)
+    {
+      boolean bool;
+      if (m == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "expireAfterAccess already set");
+      l = paramLong;
+      m = paramTimeUnit;
+    }
+  }
+  
+  public static class b
+    extends i.e
+  {
+    public b() {}
+    
+    public void a(i paramI, int paramInt)
+    {
+      boolean bool;
+      if (g == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "concurrency level was already set to ", new Object[] { g });
+      g = Integer.valueOf(paramInt);
+    }
+  }
+  
+  public static abstract class c
+    implements i.k
+  {
+    public c() {}
+    
+    public abstract void a(i paramI, long paramLong, TimeUnit paramTimeUnit);
+    
+    public void a(i paramI, String paramString1, String paramString2)
+    {
+      boolean bool;
+      if ((paramString2 != null) && (paramString2.length() > 0)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "value of key %s omitted", new Object[] { paramString1 });
+      try
+      {
+        int i = paramString2.charAt(paramString2.length() - 1);
+        l1 = 1L;
+        if (i == 100) {
+          break label173;
+        }
+        l2 = l1;
+        if (i == 104) {
+          break label178;
+        }
+        l2 = l1;
+        if (i == 109) {
+          break label186;
+        }
+        if (i != 115) {
+          throw new IllegalArgumentException(String.format("key %s invalid format.  was %s, must end with one of [dDhHmMsS]", new Object[] { paramString1, paramString2 }));
+        }
+      }
+      catch (NumberFormatException paramI)
+      {
+        for (;;)
+        {
+          TimeUnit localTimeUnit;
+          continue;
+          long l2 = 24L;
+          l2 *= 60L;
+          long l1 = l2 * 60L;
+        }
+      }
+      localTimeUnit = TimeUnit.SECONDS;
+      a(paramI, l1 * Long.parseLong(paramString2.substring(0, paramString2.length() - 1)), localTimeUnit);
+      return;
+      throw new IllegalArgumentException(String.format("key %s value set to %s, must be integer", new Object[] { paramString1, paramString2 }));
+    }
+  }
+  
+  public static class d
+    extends i.e
+  {
+    public d() {}
+    
+    public void a(i paramI, int paramInt)
+    {
+      boolean bool;
+      if (d == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "initial capacity was already set to ", new Object[] { d });
+      d = Integer.valueOf(paramInt);
+    }
+  }
+  
+  public static abstract class e
+    implements i.k
+  {
+    public e() {}
+    
+    public abstract void a(i paramI, int paramInt);
+    
+    public void a(i paramI, String paramString1, String paramString2)
+    {
+      boolean bool;
+      if ((paramString2 != null) && (paramString2.length() > 0)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "value of key %s omitted", new Object[] { paramString1 });
+      try
+      {
+        a(paramI, Integer.parseInt(paramString2));
+        return;
+      }
+      catch (NumberFormatException paramI)
+      {
+        throw new IllegalArgumentException(String.format("key %s value set to %s, must be integer", new Object[] { paramString1, paramString2 }), paramI);
+      }
+    }
+  }
+  
+  public static class f
+    implements i.k
+  {
+    public final q.r a;
+    
+    public f(q.r paramR)
+    {
+      a = paramR;
+    }
+    
+    public void a(i paramI, String paramString1, @h String paramString2)
+    {
+      boolean bool;
+      if (paramString2 == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "key %s does not take values", new Object[] { paramString1 });
+      if (h == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "%s was already set to %s", new Object[] { paramString1, h });
+      h = a;
+    }
+  }
+  
+  public static abstract class g
+    implements i.k
+  {
+    public g() {}
+    
+    public abstract void a(i paramI, long paramLong);
+    
+    public void a(i paramI, String paramString1, String paramString2)
+    {
+      boolean bool;
+      if ((paramString2 != null) && (paramString2.length() > 0)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "value of key %s omitted", new Object[] { paramString1 });
+      try
+      {
+        a(paramI, Long.parseLong(paramString2));
+        return;
+      }
+      catch (NumberFormatException paramI)
+      {
+        throw new IllegalArgumentException(String.format("key %s value set to %s, must be integer", new Object[] { paramString1, paramString2 }), paramI);
+      }
+    }
+  }
+  
+  public static class h
+    extends i.g
+  {
+    public h() {}
+    
+    public void a(i paramI, long paramLong)
+    {
+      boolean bool;
+      if (e == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "maximum size was already set to ", new Object[] { e });
+      if (f == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "maximum weight was already set to ", new Object[] { f });
+      e = Long.valueOf(paramLong);
+    }
+  }
+  
+  public static class i
+    extends i.g
+  {
+    public i() {}
+    
+    public void a(i paramI, long paramLong)
+    {
+      boolean bool;
+      if (f == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "maximum weight was already set to ", new Object[] { f });
+      if (e == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "maximum size was already set to ", new Object[] { e });
+      f = Long.valueOf(paramLong);
+    }
+  }
+  
+  public static class j
+    extends i.c
+  {
+    public j() {}
+    
+    public void a(i paramI, long paramLong, TimeUnit paramTimeUnit)
+    {
+      boolean bool;
+      if (o == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "refreshAfterWrite already set");
+      n = paramLong;
+      o = paramTimeUnit;
+    }
+  }
+  
+  private static abstract interface k
+  {
+    public abstract void a(i paramI, String paramString1, @h String paramString2);
+  }
+  
+  public static class l
+    implements i.k
+  {
+    public final q.r a;
+    
+    public l(q.r paramR)
+    {
+      a = paramR;
+    }
+    
+    public void a(i paramI, String paramString1, @h String paramString2)
+    {
+      boolean bool;
+      if (paramString2 == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "key %s does not take values", new Object[] { paramString1 });
+      if (i == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "%s was already set to %s", new Object[] { paramString1, i });
+      i = a;
+    }
+  }
+  
+  public static class m
+    extends i.c
+  {
+    public m() {}
+    
+    public void a(i paramI, long paramLong, TimeUnit paramTimeUnit)
+    {
+      boolean bool;
+      if (k == null) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      ba.a(bool, "expireAfterWrite already set");
+      j = paramLong;
+      k = paramTimeUnit;
+    }
+  }
+}

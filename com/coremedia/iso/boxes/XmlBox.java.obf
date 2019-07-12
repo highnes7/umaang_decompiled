@@ -1,0 +1,64 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class XmlBox
+  extends c
+{
+  public static final String TYPE = "xml ";
+  public String xml = "";
+  
+  static {}
+  
+  public XmlBox()
+  {
+    super("xml ");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    xml = h.a(paramByteBuffer, paramByteBuffer.remaining());
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.put(m.a(xml));
+  }
+  
+  public long getContentSize()
+  {
+    return m.b(xml) + 4;
+  }
+  
+  public String getXml()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return xml;
+  }
+  
+  public void setXml(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, paramString);
+    j.b().a(localJoinPoint);
+    xml = paramString;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_2, this, this), "XmlBox{xml='");
+    localStringBuilder.append(xml);
+    localStringBuilder.append('\'');
+    localStringBuilder.append('}');
+    return localStringBuilder.toString();
+  }
+}

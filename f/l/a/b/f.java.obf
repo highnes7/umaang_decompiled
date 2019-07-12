@@ -1,0 +1,385 @@
+package f.l.a.b;
+
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
+import android.widget.ImageView;
+import f.l.a.b.a.i;
+import f.l.a.c.g;
+
+public class f
+{
+  public static final String a = "f";
+  public static final String b = "Initialize ImageLoader with configuration";
+  public static final String c = "Destroy ImageLoader";
+  public static final String d = "Load image from memory cache [%s]";
+  public static final String e = "Try to initialize ImageLoader which had already been initialized before. To re-init ImageLoader with new configuration call ImageLoader.destroy() at first.";
+  public static final String f = "Wrong arguments were passed to displayImage() method (ImageView reference must not be null)";
+  public static final String g = "ImageLoader must be init with configuration before using";
+  public static final String h = "ImageLoader configuration can not be initialized with null";
+  public static volatile f i;
+  public h j;
+  public j k;
+  public f.l.a.b.f.a l = new f.l.a.b.f.d();
+  
+  public f() {}
+  
+  public static Handler a(d paramD)
+  {
+    Handler localHandler = paramD.f();
+    if (paramD.n()) {
+      return null;
+    }
+    paramD = localHandler;
+    if (localHandler == null)
+    {
+      paramD = localHandler;
+      if (Looper.myLooper() == Looper.getMainLooper()) {
+        paramD = new Handler();
+      }
+    }
+    return paramD;
+  }
+  
+  public static f g()
+  {
+    if (i == null) {
+      try
+      {
+        if (i == null) {
+          i = new f();
+        }
+      }
+      finally {}
+    }
+    return i;
+  }
+  
+  private void m()
+  {
+    if (j != null) {
+      return;
+    }
+    throw new IllegalStateException("ImageLoader must be init with configuration before using");
+  }
+  
+  public Bitmap a(String paramString)
+  {
+    return a(paramString, null, null);
+  }
+  
+  public Bitmap a(String paramString, f.l.a.b.a.e paramE)
+  {
+    return a(paramString, paramE, null);
+  }
+  
+  public Bitmap a(String paramString, f.l.a.b.a.e paramE, d paramD)
+  {
+    Object localObject = paramD;
+    if (paramD == null) {
+      localObject = j.r;
+    }
+    paramD = new d.a().a((d)localObject).f(true).a();
+    localObject = new f.a(null);
+    a(paramString, paramE, paramD, (f.l.a.b.f.a)localObject);
+    return ((f.a)localObject).a();
+  }
+  
+  public Bitmap a(String paramString, d paramD)
+  {
+    return a(paramString, null, paramD);
+  }
+  
+  @Deprecated
+  public void a()
+  {
+    b();
+  }
+  
+  public void a(ImageView paramImageView)
+  {
+    k.a(new f.l.a.b.e.b(paramImageView));
+  }
+  
+  public void a(f.l.a.b.e.a paramA)
+  {
+    k.a(paramA);
+  }
+  
+  public void a(f.l.a.b.f.a paramA)
+  {
+    Object localObject = paramA;
+    if (paramA == null) {
+      localObject = new f.l.a.b.f.d();
+    }
+    l = ((f.l.a.b.f.a)localObject);
+  }
+  
+  public void a(h paramH)
+  {
+    if (paramH != null) {
+      try
+      {
+        if (j == null)
+        {
+          f.l.a.c.e.a("Initialize ImageLoader with configuration", new Object[0]);
+          k = new j(paramH);
+          j = paramH;
+        }
+        else
+        {
+          f.l.a.c.e.d("Try to initialize ImageLoader which had already been initialized before. To re-init ImageLoader with new configuration call ImageLoader.destroy() at first.", new Object[0]);
+        }
+        return;
+      }
+      finally
+      {
+        break label68;
+      }
+    }
+    throw new IllegalArgumentException("ImageLoader configuration can not be initialized with null");
+    label68:
+    throw paramH;
+  }
+  
+  public void a(String paramString, ImageView paramImageView)
+  {
+    a(paramString, new f.l.a.b.e.b(paramImageView), null, null, null);
+  }
+  
+  public void a(String paramString, ImageView paramImageView, f.l.a.b.a.e paramE)
+  {
+    a(paramString, new f.l.a.b.e.b(paramImageView), null, paramE, null, null);
+  }
+  
+  public void a(String paramString, ImageView paramImageView, d paramD)
+  {
+    a(paramString, new f.l.a.b.e.b(paramImageView), paramD, null, null);
+  }
+  
+  public void a(String paramString, ImageView paramImageView, d paramD, f.l.a.b.f.a paramA)
+  {
+    a(paramString, paramImageView, paramD, paramA, null);
+  }
+  
+  public void a(String paramString, ImageView paramImageView, d paramD, f.l.a.b.f.a paramA, f.l.a.b.f.b paramB)
+  {
+    a(paramString, new f.l.a.b.e.b(paramImageView), paramD, paramA, paramB);
+  }
+  
+  public void a(String paramString, ImageView paramImageView, f.l.a.b.f.a paramA)
+  {
+    a(paramString, new f.l.a.b.e.b(paramImageView), null, paramA, null);
+  }
+  
+  public void a(String paramString, f.l.a.b.a.e paramE, d paramD, f.l.a.b.f.a paramA)
+  {
+    a(paramString, paramE, paramD, paramA, null);
+  }
+  
+  public void a(String paramString, f.l.a.b.a.e paramE, d paramD, f.l.a.b.f.a paramA, f.l.a.b.f.b paramB)
+  {
+    m();
+    f.l.a.b.a.e localE = paramE;
+    if (paramE == null) {
+      localE = j.a();
+    }
+    paramE = paramD;
+    if (paramD == null) {
+      paramE = j.r;
+    }
+    a(paramString, new f.l.a.b.e.c(paramString, localE, i.b), paramE, paramA, paramB);
+  }
+  
+  public void a(String paramString, f.l.a.b.a.e paramE, f.l.a.b.f.a paramA)
+  {
+    a(paramString, paramE, null, paramA, null);
+  }
+  
+  public void a(String paramString, d paramD, f.l.a.b.f.a paramA)
+  {
+    a(paramString, null, paramD, paramA, null);
+  }
+  
+  public void a(String paramString, f.l.a.b.e.a paramA)
+  {
+    a(paramString, paramA, null, null, null);
+  }
+  
+  public void a(String paramString, f.l.a.b.e.a paramA, d paramD)
+  {
+    a(paramString, paramA, paramD, null, null);
+  }
+  
+  public void a(String paramString, f.l.a.b.e.a paramA, d paramD, f.l.a.b.a.e paramE, f.l.a.b.f.a paramA1, f.l.a.b.f.b paramB)
+  {
+    m();
+    if (paramA != null)
+    {
+      f.l.a.b.f.a localA = paramA1;
+      if (paramA1 == null) {
+        localA = l;
+      }
+      paramA1 = paramD;
+      if (paramD == null) {
+        paramA1 = j.r;
+      }
+      if (TextUtils.isEmpty(paramString))
+      {
+        k.a(paramA);
+        localA.onLoadingStarted(paramString, paramA.a());
+        if (paramA1.r()) {
+          paramA.a(paramA1.a(j.a));
+        } else {
+          paramA.a(null);
+        }
+        localA.onLoadingComplete(paramString, paramA.a(), null);
+        return;
+      }
+      paramD = paramE;
+      if (paramE == null) {
+        paramD = f.l.a.c.c.a(paramA, j.a());
+      }
+      String str = g.a(paramString, paramD);
+      k.a(paramA, str);
+      localA.onLoadingStarted(paramString, paramA.a());
+      paramE = j.n.get(str);
+      if ((paramE != null) && (!paramE.isRecycled()))
+      {
+        f.l.a.c.e.a("Load image from memory cache [%s]", new Object[] { str });
+        if (paramA1.p())
+        {
+          paramString = new k(paramString, paramA, paramD, str, paramA1, localA, paramB, k.a(paramString));
+          paramString = new p(k, paramE, paramString, a(paramA1));
+          if (paramA1.n())
+          {
+            paramString.run();
+            return;
+          }
+          k.a(paramString);
+          return;
+        }
+        paramA1.d().a(paramE, paramA, f.l.a.b.a.f.c);
+        localA.onLoadingComplete(paramString, paramA.a(), paramE);
+        return;
+      }
+      if (paramA1.t()) {
+        paramA.a(paramA1.c(j.a));
+      } else if (paramA1.m()) {
+        paramA.a(null);
+      }
+      paramString = new k(paramString, paramA, paramD, str, paramA1, localA, paramB, k.a(paramString));
+      paramString = new o(k, paramString, a(paramA1));
+      if (paramA1.n())
+      {
+        paramString.run();
+        return;
+      }
+      k.a(paramString);
+      return;
+    }
+    throw new IllegalArgumentException("Wrong arguments were passed to displayImage() method (ImageView reference must not be null)");
+  }
+  
+  public void a(String paramString, f.l.a.b.e.a paramA, d paramD, f.l.a.b.f.a paramA1)
+  {
+    a(paramString, paramA, paramD, paramA1, null);
+  }
+  
+  public void a(String paramString, f.l.a.b.e.a paramA, d paramD, f.l.a.b.f.a paramA1, f.l.a.b.f.b paramB)
+  {
+    a(paramString, paramA, paramD, null, paramA1, paramB);
+  }
+  
+  public void a(String paramString, f.l.a.b.e.a paramA, f.l.a.b.f.a paramA1)
+  {
+    a(paramString, paramA, null, paramA1, null);
+  }
+  
+  public void a(String paramString, f.l.a.b.f.a paramA)
+  {
+    a(paramString, null, null, paramA, null);
+  }
+  
+  public void a(boolean paramBoolean)
+  {
+    k.a(paramBoolean);
+  }
+  
+  public String b(ImageView paramImageView)
+  {
+    return k.b(new f.l.a.b.e.b(paramImageView));
+  }
+  
+  public String b(f.l.a.b.e.a paramA)
+  {
+    return k.b(paramA);
+  }
+  
+  public void b()
+  {
+    m();
+    j.o.clear();
+  }
+  
+  public void b(boolean paramBoolean)
+  {
+    k.b(paramBoolean);
+  }
+  
+  public void c()
+  {
+    m();
+    j.n.clear();
+  }
+  
+  public void d()
+  {
+    if (j != null) {
+      f.l.a.c.e.a("Destroy ImageLoader", new Object[0]);
+    }
+    l();
+    j.o.close();
+    k = null;
+    j = null;
+  }
+  
+  @Deprecated
+  public f.l.a.a.a.a e()
+  {
+    return f();
+  }
+  
+  public f.l.a.a.a.a f()
+  {
+    m();
+    return j.o;
+  }
+  
+  public f.l.a.a.b.c h()
+  {
+    m();
+    return j.n;
+  }
+  
+  public boolean i()
+  {
+    return j != null;
+  }
+  
+  public void j()
+  {
+    k.e();
+  }
+  
+  public void k()
+  {
+    k.f();
+  }
+  
+  public void l()
+  {
+    k.g();
+  }
+}

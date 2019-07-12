@@ -1,0 +1,76 @@
+package com.google.android.gms.common.api;
+
+import com.google.android.gms.common.api.internal.zzs;
+import java.util.ArrayList;
+import java.util.List;
+
+public final class Batch
+  extends zzs<BatchResult>
+{
+  public final Object mLock = new Object();
+  public int zzfgk;
+  public boolean zzfgl;
+  public boolean zzfgm;
+  public final PendingResult<?>[] zzfgn;
+  
+  public Batch(List<PendingResult<?>> paramList, GoogleApiClient paramGoogleApiClient)
+  {
+    super(paramGoogleApiClient);
+    zzfgk = paramList.size();
+    zzfgn = new PendingResult[zzfgk];
+    if (paramList.isEmpty())
+    {
+      setResult(new BatchResult(Status.zzfhv, zzfgn));
+      return;
+    }
+    int i = 0;
+    while (i < paramList.size())
+    {
+      paramGoogleApiClient = (PendingResult)paramList.get(i);
+      zzfgn[i] = paramGoogleApiClient;
+      paramGoogleApiClient.zza(new zza(this));
+      i += 1;
+    }
+  }
+  
+  public final void cancel()
+  {
+    super.cancel();
+    PendingResult[] arrayOfPendingResult = zzfgn;
+    int j = arrayOfPendingResult.length;
+    int i = 0;
+    while (i < j)
+    {
+      arrayOfPendingResult[i].cancel();
+      i += 1;
+    }
+  }
+  
+  public final BatchResult createFailedResult(Status paramStatus)
+  {
+    return new BatchResult(paramStatus, zzfgn);
+  }
+  
+  public static final class Builder
+  {
+    public GoogleApiClient zzepb;
+    public List<PendingResult<?>> zzfgp = new ArrayList();
+    
+    public Builder(GoogleApiClient paramGoogleApiClient)
+    {
+      zzepb = paramGoogleApiClient;
+    }
+    
+    public final <R extends Result> BatchResultToken<R> add(PendingResult<R> paramPendingResult)
+    {
+      BatchResultToken localBatchResultToken = new BatchResultToken(zzfgp.size());
+      zzfgp.add(paramPendingResult);
+      return localBatchResultToken;
+    }
+    
+    public final Batch build()
+    {
+      return new Batch(zzfgp, zzepb);
+    }
+  }
+}

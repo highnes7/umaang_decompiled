@@ -1,0 +1,45 @@
+package com.coremedia.iso.boxes;
+
+import f.h.a.b;
+import f.h.a.e;
+import java.util.Iterator;
+import java.util.List;
+
+public class MediaInformationBox
+  extends b
+{
+  public static final String TYPE = "minf";
+  
+  public MediaInformationBox()
+  {
+    super("minf");
+  }
+  
+  public AbstractMediaHeaderBox getMediaHeaderBox()
+  {
+    Iterator localIterator = getBoxes().iterator();
+    Box localBox;
+    do
+    {
+      if (!localIterator.hasNext()) {
+        return null;
+      }
+      localBox = (Box)localIterator.next();
+    } while (!(localBox instanceof AbstractMediaHeaderBox));
+    return (AbstractMediaHeaderBox)localBox;
+  }
+  
+  public SampleTableBox getSampleTableBox()
+  {
+    Iterator localIterator = getBoxes().iterator();
+    Box localBox;
+    do
+    {
+      if (!localIterator.hasNext()) {
+        return null;
+      }
+      localBox = (Box)localIterator.next();
+    } while (!(localBox instanceof SampleTableBox));
+    return (SampleTableBox)localBox;
+  }
+}

@@ -1,0 +1,246 @@
+package f.g.c.g;
+
+import f.g.c.a.a;
+import f.g.c.a.d;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+@a
+public final class t
+  extends OutputStream
+{
+  public final int a;
+  public final boolean b;
+  public final y<InputStream> c;
+  public OutputStream d;
+  public a e;
+  public File f;
+  
+  public t(int paramInt)
+  {
+    this(paramInt, false);
+  }
+  
+  public t(int paramInt, boolean paramBoolean)
+  {
+    a = paramInt;
+    b = paramBoolean;
+    e = new a(null);
+    d = e;
+    if (paramBoolean)
+    {
+      c = new r(this);
+      return;
+    }
+    c = new s(this);
+  }
+  
+  private void d(int paramInt)
+    throws IOException
+  {
+    if ((f == null) && (e.getCount() + paramInt > a))
+    {
+      File localFile = File.createTempFile("FileBackedOutputStream", null);
+      if (b) {
+        localFile.deleteOnExit();
+      }
+      FileOutputStream localFileOutputStream = new FileOutputStream(localFile);
+      localFileOutputStream.write(e.u(), 0, e.getCount());
+      localFileOutputStream.flush();
+      d = localFileOutputStream;
+      f = localFile;
+      e = null;
+    }
+  }
+  
+  private InputStream x()
+    throws IOException
+  {
+    try
+    {
+      if (f != null)
+      {
+        localObject1 = new FileInputStream(f);
+        return localObject1;
+      }
+      Object localObject1 = new ByteArrayInputStream(e.u(), 0, e.getCount());
+      return localObject1;
+    }
+    finally {}
+  }
+  
+  public void close()
+    throws IOException
+  {
+    try
+    {
+      d.close();
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public void flush()
+    throws IOException
+  {
+    try
+    {
+      d.flush();
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  @d
+  public File u()
+  {
+    try
+    {
+      File localFile = f;
+      return localFile;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public y<InputStream> v()
+  {
+    return c;
+  }
+  
+  public void w()
+    throws IOException
+  {
+    File localFile2;
+    StringBuilder localStringBuilder2;
+    try
+    {
+      close();
+      try
+      {
+        if (e == null) {
+          e = new a(null);
+        } else {
+          e.reset();
+        }
+        d = e;
+        if (f != null)
+        {
+          File localFile1 = f;
+          f = null;
+          if (!localFile1.delete())
+          {
+            StringBuilder localStringBuilder1 = new StringBuilder();
+            localStringBuilder1.append("Could not delete: ");
+            localStringBuilder1.append(localFile1);
+            throw new IOException(localStringBuilder1.toString());
+          }
+        }
+        return;
+      }
+      finally {}
+    }
+    finally
+    {
+      if (e == null) {
+        e = new a(null);
+      } else {
+        e.reset();
+      }
+      d = e;
+      if (f != null)
+      {
+        localFile2 = f;
+        f = null;
+        if (!localFile2.delete())
+        {
+          localStringBuilder2 = new StringBuilder();
+          localStringBuilder2.append("Could not delete: ");
+          localStringBuilder2.append(localFile2);
+          throw new IOException(localStringBuilder2.toString());
+        }
+      }
+    }
+    throw localFile2;
+  }
+  
+  public void write(int paramInt)
+    throws IOException
+  {
+    try
+    {
+      d(1);
+      d.write(paramInt);
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public void write(byte[] paramArrayOfByte)
+    throws IOException
+  {
+    try
+    {
+      write(paramArrayOfByte, 0, paramArrayOfByte.length);
+      return;
+    }
+    finally
+    {
+      paramArrayOfByte = finally;
+      throw paramArrayOfByte;
+    }
+  }
+  
+  public void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    try
+    {
+      d(paramInt2);
+      d.write(paramArrayOfByte, paramInt1, paramInt2);
+      return;
+    }
+    finally
+    {
+      paramArrayOfByte = finally;
+      throw paramArrayOfByte;
+    }
+  }
+  
+  private static class a
+    extends ByteArrayOutputStream
+  {
+    public a() {}
+    
+    public int getCount()
+    {
+      return count;
+    }
+    
+    public byte[] u()
+    {
+      return buf;
+    }
+  }
+}

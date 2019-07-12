@@ -1,0 +1,13 @@
+package m.a;
+
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import m.a.b.d;
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@d({java.lang.annotation.ElementType.PARAMETER})
+@g
+public @interface DeferUntilPostDiet {}

@@ -1,0 +1,569 @@
+package android.support.v4.app;
+
+import android.arch.lifecycle.LiveData;
+import android.os.Bundle;
+import android.os.Looper;
+import b.a.b.A;
+import b.a.b.B;
+import b.a.b.B.b;
+import b.a.b.r;
+import b.a.b.s;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.x.b.f;
+import b.b.x.b.f.c;
+import b.b.x.n.u;
+import f.a.a.a.a;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.lang.reflect.Modifier;
+
+public class LoaderManagerImpl
+  extends LoaderManager
+{
+  public static boolean DEBUG = false;
+  public static final String TAG = "LoaderManager";
+  @F
+  public final b.a.b.j mLifecycleOwner;
+  @F
+  public final LoaderViewModel mLoaderViewModel;
+  
+  public LoaderManagerImpl(@F b.a.b.j paramJ, @F b.a.b.C paramC)
+  {
+    mLifecycleOwner = paramJ;
+    mLoaderViewModel = LoaderViewModel.getInstance(paramC);
+  }
+  
+  @b.b.a.C
+  @F
+  private <D> f<D> createAndInstallLoader(int paramInt, @G Bundle paramBundle, @F LoaderManager.LoaderCallbacks<D> paramLoaderCallbacks, @G f<D> paramF)
+  {
+    try
+    {
+      mLoaderViewModel.startCreatingLoader();
+      f localF = paramLoaderCallbacks.onCreateLoader(paramInt, paramBundle);
+      if (localF != null)
+      {
+        if ((localF.getClass().isMemberClass()) && (!Modifier.isStatic(localF.getClass().getModifiers())))
+        {
+          paramBundle = new StringBuilder();
+          paramBundle.append("Object returned from onCreateLoader must not be a non-static inner member class: ");
+          paramBundle.append(localF);
+          throw new IllegalArgumentException(paramBundle.toString());
+        }
+        paramBundle = new LoaderInfo(paramInt, paramBundle, localF, paramF);
+        if (DEBUG)
+        {
+          paramF = new StringBuilder();
+          paramF.append("  Created new loader ");
+          paramF.append(paramBundle);
+          paramF.toString();
+        }
+        mLoaderViewModel.putLoader(paramInt, paramBundle);
+        return paramBundle.setCallback(mLifecycleOwner, paramLoaderCallbacks);
+      }
+      throw new IllegalArgumentException("Object returned from onCreateLoader must not be null");
+    }
+    finally
+    {
+      mLoaderViewModel.finishCreatingLoader();
+    }
+  }
+  
+  @b.b.a.C
+  public void destroyLoader(int paramInt)
+  {
+    if (!mLoaderViewModel.isCreatingLoader())
+    {
+      if (Looper.getMainLooper() == Looper.myLooper())
+      {
+        if (DEBUG)
+        {
+          localObject = new StringBuilder();
+          ((StringBuilder)localObject).append("destroyLoader in ");
+          ((StringBuilder)localObject).append(this);
+          ((StringBuilder)localObject).append(" of ");
+          ((StringBuilder)localObject).append(paramInt);
+          ((StringBuilder)localObject).toString();
+        }
+        Object localObject = mLoaderViewModel.getLoader(paramInt);
+        if (localObject != null)
+        {
+          ((LoaderInfo)localObject).destroy(true);
+          mLoaderViewModel.removeLoader(paramInt);
+        }
+        return;
+      }
+      throw new IllegalStateException("destroyLoader must be called on the main thread");
+    }
+    throw new IllegalStateException("Called while creating a loader");
+  }
+  
+  @Deprecated
+  public void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+  {
+    mLoaderViewModel.dump(paramString, paramFileDescriptor, paramPrintWriter, paramArrayOfString);
+  }
+  
+  @G
+  public <D> f<D> getLoader(int paramInt)
+  {
+    if (!mLoaderViewModel.isCreatingLoader())
+    {
+      LoaderInfo localLoaderInfo = mLoaderViewModel.getLoader(paramInt);
+      if (localLoaderInfo != null) {
+        return localLoaderInfo.getLoader();
+      }
+      return null;
+    }
+    throw new IllegalStateException("Called while creating a loader");
+  }
+  
+  public boolean hasRunningLoaders()
+  {
+    return mLoaderViewModel.hasRunningLoaders();
+  }
+  
+  @b.b.a.C
+  @F
+  public <D> f<D> initLoader(int paramInt, @G Bundle paramBundle, @F LoaderManager.LoaderCallbacks<D> paramLoaderCallbacks)
+  {
+    if (!mLoaderViewModel.isCreatingLoader())
+    {
+      if (Looper.getMainLooper() == Looper.myLooper())
+      {
+        LoaderInfo localLoaderInfo = mLoaderViewModel.getLoader(paramInt);
+        if (DEBUG)
+        {
+          StringBuilder localStringBuilder = new StringBuilder();
+          localStringBuilder.append("initLoader in ");
+          localStringBuilder.append(this);
+          localStringBuilder.append(": args=");
+          localStringBuilder.append(paramBundle);
+          localStringBuilder.toString();
+        }
+        if (localLoaderInfo == null) {
+          return createAndInstallLoader(paramInt, paramBundle, paramLoaderCallbacks, null);
+        }
+        if (DEBUG) {
+          a.b("  Re-using existing loader ", localLoaderInfo);
+        }
+        return localLoaderInfo.setCallback(mLifecycleOwner, paramLoaderCallbacks);
+      }
+      throw new IllegalStateException("initLoader must be called on the main thread");
+    }
+    throw new IllegalStateException("Called while creating a loader");
+  }
+  
+  public void markForRedelivery()
+  {
+    mLoaderViewModel.markForRedelivery();
+  }
+  
+  @b.b.a.C
+  @F
+  public <D> f<D> restartLoader(int paramInt, @G Bundle paramBundle, @F LoaderManager.LoaderCallbacks<D> paramLoaderCallbacks)
+  {
+    if (!mLoaderViewModel.isCreatingLoader())
+    {
+      if (Looper.getMainLooper() == Looper.myLooper())
+      {
+        if (DEBUG)
+        {
+          localObject = new StringBuilder();
+          ((StringBuilder)localObject).append("restartLoader in ");
+          ((StringBuilder)localObject).append(this);
+          ((StringBuilder)localObject).append(": args=");
+          ((StringBuilder)localObject).append(paramBundle);
+          ((StringBuilder)localObject).toString();
+        }
+        LoaderInfo localLoaderInfo = mLoaderViewModel.getLoader(paramInt);
+        Object localObject = null;
+        if (localLoaderInfo != null) {
+          localObject = localLoaderInfo.destroy(false);
+        }
+        return createAndInstallLoader(paramInt, paramBundle, paramLoaderCallbacks, (f)localObject);
+      }
+      throw new IllegalStateException("restartLoader must be called on the main thread");
+    }
+    throw new IllegalStateException("Called while creating a loader");
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder(128);
+    localStringBuilder.append("LoaderManager{");
+    localStringBuilder.append(Integer.toHexString(System.identityHashCode(this)));
+    localStringBuilder.append(" in ");
+    b.b.x.n.j.a(mLifecycleOwner, localStringBuilder);
+    localStringBuilder.append("}}");
+    return localStringBuilder.toString();
+  }
+  
+  public static class LoaderInfo<D>
+    extends r<D>
+    implements f.c<D>
+  {
+    @G
+    public final Bundle mArgs;
+    public final int mId;
+    public b.a.b.j mLifecycleOwner;
+    @F
+    public final f<D> mLoader;
+    public LoaderManagerImpl.LoaderObserver<D> mObserver;
+    public f<D> mPriorLoader;
+    
+    public LoaderInfo(int paramInt, @G Bundle paramBundle, @F f<D> paramF1, @G f<D> paramF2)
+    {
+      mId = paramInt;
+      mArgs = paramBundle;
+      mLoader = paramF1;
+      mPriorLoader = paramF2;
+      mLoader.registerListener(paramInt, this);
+    }
+    
+    @b.b.a.C
+    public f<D> destroy(boolean paramBoolean)
+    {
+      if (LoaderManagerImpl.DEBUG) {
+        a.b("  Destroying: ", this);
+      }
+      mLoader.cancelLoad();
+      mLoader.abandon();
+      LoaderManagerImpl.LoaderObserver localLoaderObserver = mObserver;
+      if (localLoaderObserver != null)
+      {
+        removeObserver(localLoaderObserver);
+        if (paramBoolean) {
+          localLoaderObserver.reset();
+        }
+      }
+      mLoader.unregisterListener(this);
+      if (((localLoaderObserver != null) && (!localLoaderObserver.hasDeliveredData())) || (paramBoolean))
+      {
+        mLoader.reset();
+        return mPriorLoader;
+      }
+      return mLoader;
+    }
+    
+    public void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+    {
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mId=");
+      paramPrintWriter.print(mId);
+      paramPrintWriter.print(" mArgs=");
+      paramPrintWriter.println(mArgs);
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mLoader=");
+      paramPrintWriter.println(mLoader);
+      mLoader.dump(a.c(paramString, "  "), paramFileDescriptor, paramPrintWriter, paramArrayOfString);
+      if (mObserver != null)
+      {
+        paramPrintWriter.print(paramString);
+        paramPrintWriter.print("mCallbacks=");
+        paramPrintWriter.println(mObserver);
+        paramFileDescriptor = mObserver;
+        paramArrayOfString = new StringBuilder();
+        paramArrayOfString.append(paramString);
+        paramArrayOfString.append("  ");
+        paramFileDescriptor.dump(paramArrayOfString.toString(), paramPrintWriter);
+      }
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mData=");
+      paramPrintWriter.println(getLoader().dataToString(getValue()));
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mStarted=");
+      paramPrintWriter.println(hasActiveObservers());
+    }
+    
+    @F
+    public f<D> getLoader()
+    {
+      return mLoader;
+    }
+    
+    public boolean isCallbackWaitingForData()
+    {
+      boolean bool1 = hasActiveObservers();
+      boolean bool2 = false;
+      if (!bool1) {
+        return false;
+      }
+      LoaderManagerImpl.LoaderObserver localLoaderObserver = mObserver;
+      bool1 = bool2;
+      if (localLoaderObserver != null)
+      {
+        bool1 = bool2;
+        if (!localLoaderObserver.hasDeliveredData()) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    
+    public void markForRedelivery()
+    {
+      b.a.b.j localJ = mLifecycleOwner;
+      LoaderManagerImpl.LoaderObserver localLoaderObserver = mObserver;
+      if ((localJ != null) && (localLoaderObserver != null))
+      {
+        super.removeObserver(localLoaderObserver);
+        observe(localJ, localLoaderObserver);
+      }
+    }
+    
+    public void onActive()
+    {
+      if (LoaderManagerImpl.DEBUG) {
+        a.b("  Starting: ", this);
+      }
+      mLoader.startLoading();
+    }
+    
+    public void onInactive()
+    {
+      if (LoaderManagerImpl.DEBUG) {
+        a.b("  Stopping: ", this);
+      }
+      mLoader.stopLoading();
+    }
+    
+    public void onLoadComplete(@F f<D> paramF, @G D paramD)
+    {
+      if (LoaderManagerImpl.DEBUG) {
+        a.b("onLoadComplete: ", this);
+      }
+      if (Looper.myLooper() == Looper.getMainLooper())
+      {
+        setValue(paramD);
+        return;
+      }
+      boolean bool = LoaderManagerImpl.DEBUG;
+      postValue(paramD);
+    }
+    
+    public void removeObserver(@F s<? super D> paramS)
+    {
+      super.removeObserver(paramS);
+      mLifecycleOwner = null;
+      mObserver = null;
+    }
+    
+    @b.b.a.C
+    @F
+    public f<D> setCallback(@F b.a.b.j paramJ, @F LoaderManager.LoaderCallbacks<D> paramLoaderCallbacks)
+    {
+      paramLoaderCallbacks = new LoaderManagerImpl.LoaderObserver(mLoader, paramLoaderCallbacks);
+      observe(paramJ, paramLoaderCallbacks);
+      LoaderManagerImpl.LoaderObserver localLoaderObserver = mObserver;
+      if (localLoaderObserver != null) {
+        removeObserver(localLoaderObserver);
+      }
+      mLifecycleOwner = paramJ;
+      mObserver = paramLoaderCallbacks;
+      return mLoader;
+    }
+    
+    public void setValue(D paramD)
+    {
+      super.setValue(paramD);
+      paramD = mPriorLoader;
+      if (paramD != null)
+      {
+        paramD.reset();
+        mPriorLoader = null;
+      }
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder(64);
+      localStringBuilder.append("LoaderInfo{");
+      localStringBuilder.append(Integer.toHexString(System.identityHashCode(this)));
+      localStringBuilder.append(" #");
+      localStringBuilder.append(mId);
+      localStringBuilder.append(" : ");
+      b.b.x.n.j.a(mLoader, localStringBuilder);
+      localStringBuilder.append("}}");
+      return localStringBuilder.toString();
+    }
+  }
+  
+  public static class LoaderObserver<D>
+    implements s<D>
+  {
+    @F
+    public final LoaderManager.LoaderCallbacks<D> mCallback;
+    public boolean mDeliveredData = false;
+    @F
+    public final f<D> mLoader;
+    
+    public LoaderObserver(@F f<D> paramF, @F LoaderManager.LoaderCallbacks<D> paramLoaderCallbacks)
+    {
+      mLoader = paramF;
+      mCallback = paramLoaderCallbacks;
+    }
+    
+    public void dump(String paramString, PrintWriter paramPrintWriter)
+    {
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mDeliveredData=");
+      paramPrintWriter.println(mDeliveredData);
+    }
+    
+    public boolean hasDeliveredData()
+    {
+      return mDeliveredData;
+    }
+    
+    public void onChanged(@G D paramD)
+    {
+      if (LoaderManagerImpl.DEBUG)
+      {
+        StringBuilder localStringBuilder = a.b("  onLoadFinished in ");
+        localStringBuilder.append(mLoader);
+        localStringBuilder.append(": ");
+        localStringBuilder.append(mLoader.dataToString(paramD));
+        localStringBuilder.toString();
+      }
+      mCallback.onLoadFinished(mLoader, paramD);
+      mDeliveredData = true;
+    }
+    
+    @b.b.a.C
+    public void reset()
+    {
+      if (mDeliveredData)
+      {
+        if (LoaderManagerImpl.DEBUG)
+        {
+          StringBuilder localStringBuilder = a.b("  Resetting: ");
+          localStringBuilder.append(mLoader);
+          localStringBuilder.toString();
+        }
+        mCallback.onLoaderReset(mLoader);
+      }
+    }
+    
+    public String toString()
+    {
+      return mCallback.toString();
+    }
+  }
+  
+  public static class LoaderViewModel
+    extends A
+  {
+    public static final B.b FACTORY = new B.b()
+    {
+      @F
+      public <T extends A> T create(@F Class<T> paramAnonymousClass)
+      {
+        return new LoaderManagerImpl.LoaderViewModel();
+      }
+    };
+    public boolean mCreatingLoader = false;
+    public u<LoaderManagerImpl.LoaderInfo> mLoaders = new u(10);
+    
+    public LoaderViewModel() {}
+    
+    @F
+    public static LoaderViewModel getInstance(b.a.b.C paramC)
+    {
+      return (LoaderViewModel)new B(paramC, FACTORY).a(LoaderViewModel.class);
+    }
+    
+    public void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+    {
+      if (mLoaders.f() > 0)
+      {
+        paramPrintWriter.print(paramString);
+        paramPrintWriter.println("Loaders:");
+        Object localObject = new StringBuilder();
+        ((StringBuilder)localObject).append(paramString);
+        ((StringBuilder)localObject).append("    ");
+        localObject = ((StringBuilder)localObject).toString();
+        int i = 0;
+        while (i < mLoaders.f())
+        {
+          LoaderManagerImpl.LoaderInfo localLoaderInfo = (LoaderManagerImpl.LoaderInfo)mLoaders.h(i);
+          paramPrintWriter.print(paramString);
+          paramPrintWriter.print("  #");
+          paramPrintWriter.print(mLoaders.e(i));
+          paramPrintWriter.print(": ");
+          paramPrintWriter.println(localLoaderInfo.toString());
+          localLoaderInfo.dump((String)localObject, paramFileDescriptor, paramPrintWriter, paramArrayOfString);
+          i += 1;
+        }
+      }
+    }
+    
+    public void finishCreatingLoader()
+    {
+      mCreatingLoader = false;
+    }
+    
+    public <D> LoaderManagerImpl.LoaderInfo<D> getLoader(int paramInt)
+    {
+      return (LoaderManagerImpl.LoaderInfo)mLoaders.c(paramInt);
+    }
+    
+    public boolean hasRunningLoaders()
+    {
+      int j = mLoaders.f();
+      int i = 0;
+      while (i < j)
+      {
+        if (((LoaderManagerImpl.LoaderInfo)mLoaders.h(i)).isCallbackWaitingForData()) {
+          return true;
+        }
+        i += 1;
+      }
+      return false;
+    }
+    
+    public boolean isCreatingLoader()
+    {
+      return mCreatingLoader;
+    }
+    
+    public void markForRedelivery()
+    {
+      int j = mLoaders.f();
+      int i = 0;
+      while (i < j)
+      {
+        ((LoaderManagerImpl.LoaderInfo)mLoaders.h(i)).markForRedelivery();
+        i += 1;
+      }
+    }
+    
+    public void onCleared()
+    {
+      int j = mLoaders.f();
+      int i = 0;
+      while (i < j)
+      {
+        ((LoaderManagerImpl.LoaderInfo)mLoaders.h(i)).destroy(true);
+        i += 1;
+      }
+      mLoaders.b();
+    }
+    
+    public void putLoader(int paramInt, @F LoaderManagerImpl.LoaderInfo paramLoaderInfo)
+    {
+      mLoaders.c(paramInt, paramLoaderInfo);
+    }
+    
+    public void removeLoader(int paramInt)
+    {
+      mLoaders.f(paramInt);
+    }
+    
+    public void startCreatingLoader()
+    {
+      mCreatingLoader = true;
+    }
+  }
+}

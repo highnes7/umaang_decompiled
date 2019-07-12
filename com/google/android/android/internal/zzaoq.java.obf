@@ -1,0 +1,65 @@
+package com.google.android.gms.internal;
+
+import com.google.android.gms.common.internal.zzbp;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public final class zzaoq
+{
+  public int zzdtn;
+  public ByteArrayOutputStream zzdto = new ByteArrayOutputStream();
+  
+  public zzaoq(zzaop paramZzaop) {}
+  
+  public final byte[] getPayload()
+  {
+    return zzdto.toByteArray();
+  }
+  
+  public final boolean zze(zzaoi paramZzaoi)
+  {
+    zzbp.zzu(paramZzaoi);
+    if (zzdtn + 1 > zzanv.zzya()) {
+      return false;
+    }
+    Object localObject = zzdtp.zza(paramZzaoi, false);
+    if (localObject == null)
+    {
+      zzdtp.zzvy().zza(paramZzaoi, "Error formatting hit");
+      return true;
+    }
+    localObject = ((String)localObject).getBytes();
+    int j = localObject.length;
+    if (j > zzanv.zzxw())
+    {
+      zzdtp.zzvy().zza(paramZzaoi, "Hit size exceeds the maximum size limit");
+      return true;
+    }
+    int i = j;
+    if (zzdto.size() > 0) {
+      i = j + 1;
+    }
+    if (zzdto.size() + i > ((Integer)zzaod.zzdrz.get()).intValue()) {
+      return false;
+    }
+    try
+    {
+      if (zzdto.size() > 0) {
+        zzdto.write(zzaop.zzdtm);
+      }
+      zzdto.write((byte[])localObject);
+      zzdtn += 1;
+      return true;
+    }
+    catch (IOException paramZzaoi)
+    {
+      zzdtp.zze("Failed to write payload when batching hits", paramZzaoi);
+    }
+    return true;
+  }
+  
+  public final int zzza()
+  {
+    return zzdtn;
+  }
+}

@@ -1,0 +1,61 @@
+package f.g.b.a.b.b.b;
+
+import f.g.b.a.c.B;
+import f.g.b.a.c.F;
+import f.g.b.a.c.k;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.c.z;
+import f.g.b.a.g.w;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.Iterator;
+
+public class n
+{
+  public static final Charset a = Charset.forName("UTF-8");
+  public static final String b = "http://metadata.google.internal";
+  
+  public n() {}
+  
+  public static <T extends Throwable> T a(T paramT, Throwable paramThrowable)
+  {
+    paramT.initCause(paramThrowable);
+    return paramT;
+  }
+  
+  public static boolean a(F paramF)
+  {
+    try
+    {
+      k localK = new k("http://metadata.google.internal");
+      boolean bool = a(paramF.b().b(localK).a().g(), "Metadata-Flavor", "Google");
+      if (bool) {
+        return true;
+      }
+    }
+    catch (IOException paramF)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  public static boolean a(t paramT, String paramString1, String paramString2)
+  {
+    paramT = paramT.get(paramString1);
+    if ((paramT instanceof Collection))
+    {
+      paramT = ((Collection)paramT).iterator();
+      while (paramT.hasNext())
+      {
+        paramString1 = paramT.next();
+        if (((paramString1 instanceof String)) && (((String)paramString1).equals(paramString2))) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+}

@@ -1,0 +1,261 @@
+package f.g.c.i;
+
+import f.g.c.a.b;
+import f.g.c.b.Q;
+import f.g.c.b.U;
+import f.g.c.b.U.a;
+import f.g.c.b.ba;
+import f.g.c.b.d;
+import f.g.c.b.ua;
+import f.g.c.b.w;
+import f.g.c.d.rb;
+import f.g.c.d.vb;
+import java.util.Collection;
+import java.util.List;
+import m.a.h;
+
+@f.g.c.a.a
+@b(emulated=true)
+public final class e
+{
+  public static final w a = w.a(".???");
+  public static final ua b = ua.a('.');
+  public static final Q c = Q.a('.');
+  public static final int d = -1;
+  public static final String e = "\\.";
+  public static final int f = 127;
+  public static final int g = 253;
+  public static final int h = 63;
+  public static final w i = w.a("-_");
+  public static final w j = w.f.b(i);
+  public final String k;
+  public final vb<String> l;
+  public final int m;
+  
+  public e(String paramString)
+  {
+    String str = d.a(a.b(paramString, '.'));
+    paramString = str;
+    if (str.endsWith(".")) {
+      paramString = f.a.a.a.a.c(str, 1, 0);
+    }
+    boolean bool;
+    if (paramString.length() <= 253) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "Domain name too long: '%s':", new Object[] { paramString });
+    k = paramString;
+    l = vb.a(b.a(paramString));
+    if (l.size() <= 127) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "Domain has too many parts: '%s'", new Object[] { paramString });
+    ba.a(a(l), "Not a valid domain name: '%s'", new Object[] { paramString });
+    m = k();
+  }
+  
+  private e a(int paramInt)
+  {
+    Q localQ = c;
+    vb localVb = l;
+    return b(localQ.a(localVb.subList(paramInt, localVb.size())));
+  }
+  
+  public static boolean a(String paramString, boolean paramBoolean)
+  {
+    if (paramString.length() >= 1)
+    {
+      if (paramString.length() > 63) {
+        return false;
+      }
+      String str = w.b.j(paramString);
+      if (!j.e(str)) {
+        return false;
+      }
+      if (!i.c(paramString.charAt(0)))
+      {
+        if (i.c(paramString.charAt(paramString.length() - 1))) {
+          return false;
+        }
+        return (!paramBoolean) || (!w.c.c(paramString.charAt(0)));
+      }
+    }
+    return false;
+  }
+  
+  public static boolean a(List<String> paramList)
+  {
+    int i1 = paramList.size() - 1;
+    if (!a((String)paramList.get(i1), true)) {
+      return false;
+    }
+    int n = 0;
+    while (n < i1)
+    {
+      if (!a((String)paramList.get(n), false)) {
+        return false;
+      }
+      n += 1;
+    }
+    return true;
+  }
+  
+  public static e b(String paramString)
+  {
+    if (paramString != null) {
+      return new e(paramString);
+    }
+    throw new NullPointerException();
+  }
+  
+  @Deprecated
+  public static e c(String paramString)
+  {
+    return b(paramString);
+  }
+  
+  public static boolean d(String paramString)
+  {
+    try
+    {
+      b(paramString);
+      return true;
+    }
+    catch (IllegalArgumentException paramString)
+    {
+      for (;;) {}
+    }
+    return false;
+  }
+  
+  @Deprecated
+  public static boolean e(String paramString)
+  {
+    return d(paramString);
+  }
+  
+  public static boolean f(String paramString)
+  {
+    paramString = paramString.split("\\.", 2);
+    return (paramString.length == 2) && (i.b.contains(paramString[1]));
+  }
+  
+  private int k()
+  {
+    int i1 = l.size();
+    int n = 0;
+    while (n < i1)
+    {
+      String str = c.a(l.subList(n, i1));
+      if (i.a.contains(str)) {
+        return n;
+      }
+      if (i.c.contains(str)) {
+        return n + 1;
+      }
+      if (f(str)) {
+        return n;
+      }
+      n += 1;
+    }
+    return -1;
+  }
+  
+  public e a(String paramString)
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    if (paramString != null)
+    {
+      localStringBuilder.append(paramString);
+      localStringBuilder.append(".");
+      localStringBuilder.append(k);
+      return b(localStringBuilder.toString());
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean a()
+  {
+    return l.size() > 1;
+  }
+  
+  public boolean b()
+  {
+    return m != -1;
+  }
+  
+  public boolean c()
+  {
+    return m == 0;
+  }
+  
+  public boolean d()
+  {
+    return m == 1;
+  }
+  
+  public boolean e()
+  {
+    return m > 0;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof e))
+    {
+      paramObject = (e)paramObject;
+      return k.equals(k);
+    }
+    return false;
+  }
+  
+  public String f()
+  {
+    return k;
+  }
+  
+  public e g()
+  {
+    ba.b(a(), "Domain '%s' has no parent", new Object[] { k });
+    return a(1);
+  }
+  
+  public vb<String> h()
+  {
+    return l;
+  }
+  
+  public int hashCode()
+  {
+    return k.hashCode();
+  }
+  
+  public e i()
+  {
+    if (b()) {
+      return a(m);
+    }
+    return null;
+  }
+  
+  public e j()
+  {
+    if (d()) {
+      return this;
+    }
+    ba.b(e(), "Not under a public suffix: %s", new Object[] { k });
+    return a(m - 1);
+  }
+  
+  public String toString()
+  {
+    return U.a(this).a("name", k).toString();
+  }
+}

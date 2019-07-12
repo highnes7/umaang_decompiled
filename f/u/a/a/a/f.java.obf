@@ -1,0 +1,261 @@
+package f.u.a.a.a;
+
+import android.app.Activity;
+import android.content.Context;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.internal.oauth.OAuth2Service;
+import f.u.a.a.a.a.l;
+import f.u.a.a.a.b.a;
+import f.u.a.a.a.b.f;
+import f.u.a.a.a.b.h;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.net.ssl.SSLSocketFactory;
+import l.a.a.a.a.e.p;
+import l.a.a.a.q;
+
+public class u
+  extends l.a.a.a.n<Boolean>
+{
+  public static final String g = "Twitter";
+  public static final String h = "active_twittersession";
+  public static final String i = "twittersession";
+  public static final String j = "active_guestsession";
+  public static final String k = "guestsession";
+  public static final String l = "session_store";
+  public n<y> m;
+  public n<e> n;
+  public f.u.a.a.a.b.d<y> o;
+  public final TwitterAuthConfig p;
+  public final ConcurrentHashMap<m, o> q;
+  public volatile o r;
+  public volatile g s;
+  public volatile SSLSocketFactory t;
+  
+  public u(TwitterAuthConfig paramTwitterAuthConfig)
+  {
+    p = paramTwitterAuthConfig;
+    q = localConcurrentHashMap;
+    r = null;
+  }
+  
+  public u(TwitterAuthConfig paramTwitterAuthConfig, ConcurrentHashMap<m, o> paramConcurrentHashMap, o paramO)
+  {
+    p = paramTwitterAuthConfig;
+    q = paramConcurrentHashMap;
+    r = paramO;
+  }
+  
+  private void b(o paramO)
+  {
+    try
+    {
+      if (r == null) {
+        r = paramO;
+      }
+      return;
+    }
+    finally
+    {
+      paramO = finally;
+      throw paramO;
+    }
+  }
+  
+  public static void n()
+  {
+    if (l.a.a.a.g.a(u.class) != null) {
+      return;
+    }
+    throw new IllegalStateException("Must start Twitter Kit with Fabric.with() first");
+  }
+  
+  public static u s()
+  {
+    n();
+    return (u)l.a.a.a.g.a(u.class);
+  }
+  
+  private void w()
+  {
+    try
+    {
+      if (r == null) {
+        r = new o();
+      }
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  private void x()
+  {
+    try
+    {
+      if (s == null) {
+        s = new g(new OAuth2Service(this, t(), new f()), n);
+      }
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  private void y()
+  {
+    try
+    {
+      SSLSocketFactory localSSLSocketFactory = t;
+      if (localSSLSocketFactory == null) {
+        try
+        {
+          t = p.a(new w(d()));
+          l.a.a.a.g.h().d("Twitter", "Custom SSL pinning enabled");
+        }
+        catch (Exception localException)
+        {
+          l.a.a.a.g.h().c("Twitter", "Exception setting up custom SSL pinning", localException);
+        }
+      }
+      return;
+    }
+    finally {}
+  }
+  
+  private void z()
+  {
+    f.u.a.a.a.b.c.o.a(this, u(), r(), g());
+  }
+  
+  public o a(y paramY)
+  {
+    
+    if (!q.containsKey(paramY)) {
+      q.putIfAbsent(paramY, new o(paramY));
+    }
+    return (o)q.get(paramY);
+  }
+  
+  public void a(Activity paramActivity, d<y> paramD)
+  {
+    n();
+    new l().a(paramActivity, paramD);
+  }
+  
+  public void a(o paramO)
+  {
+    
+    if (r == null) {
+      b(paramO);
+    }
+  }
+  
+  public void a(y paramY, o paramO)
+  {
+    
+    if (!q.containsKey(paramY)) {
+      q.putIfAbsent(paramY, paramO);
+    }
+  }
+  
+  public Boolean c()
+  {
+    m.c();
+    n.c();
+    t();
+    r();
+    z();
+    o.a(f().a());
+    return Boolean.valueOf(true);
+  }
+  
+  public String h()
+  {
+    return "com.twitter.sdk.android:twitter-core";
+  }
+  
+  public String j()
+  {
+    return "2.3.0.163";
+  }
+  
+  public boolean m()
+  {
+    a localA = new a();
+    Context localContext = d();
+    String str = h();
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(h());
+    localStringBuilder.append(":");
+    localStringBuilder.append("session_store");
+    localStringBuilder.append(".xml");
+    localA.a(localContext, str, localStringBuilder.toString());
+    m = new j(new l.a.a.a.a.f.e(d(), "session_store"), new y.a(), "active_twittersession", "twittersession");
+    n = new j(new l.a.a.a.a.f.e(d(), "session_store"), new e.a(), "active_guestsession", "guestsession");
+    o = new f.u.a.a.a.b.d(m, f().e(), new h());
+    return true;
+  }
+  
+  public o o()
+  {
+    n();
+    y localY = (y)m.c();
+    if (localY == null) {
+      return q();
+    }
+    return a(localY);
+  }
+  
+  public TwitterAuthConfig p()
+  {
+    return p;
+  }
+  
+  public o q()
+  {
+    
+    if (r == null) {
+      w();
+    }
+    return r;
+  }
+  
+  public g r()
+  {
+    
+    if (s == null) {
+      x();
+    }
+    return s;
+  }
+  
+  public SSLSocketFactory t()
+  {
+    
+    if (t == null) {
+      y();
+    }
+    return t;
+  }
+  
+  public n<y> u()
+  {
+    n();
+    return m;
+  }
+  
+  public void v()
+  {
+    n();
+    n localN = u();
+    if (localN != null) {
+      localN.a();
+    }
+  }
+}

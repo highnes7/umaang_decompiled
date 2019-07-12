@@ -1,0 +1,409 @@
+package e.a.a;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import cn.pedant.SweetAlert.SuccessTickView;
+import com.pnikosis.materialishprogress.ProgressWheel;
+import java.util.List;
+
+public class i
+  extends Dialog
+  implements View.OnClickListener
+{
+  public static final int a = 0;
+  public static final int b = 1;
+  public static final int c = 2;
+  public static final int d = 3;
+  public static final int e = 4;
+  public static final int f = 5;
+  public SuccessTickView A;
+  public ImageView B;
+  public View C;
+  public View D;
+  public Drawable E;
+  public ImageView F;
+  public Button G;
+  public Button H;
+  public c I;
+  public FrameLayout J;
+  public a K;
+  public a L;
+  public boolean M;
+  public View g;
+  public AnimationSet h;
+  public AnimationSet i;
+  public Animation j;
+  public Animation k;
+  public AnimationSet l;
+  public AnimationSet m;
+  public Animation n;
+  public TextView o;
+  public TextView p;
+  public String q;
+  public String r;
+  public boolean s;
+  public boolean t;
+  public String u;
+  public String v;
+  public int w;
+  public FrameLayout x;
+  public FrameLayout y;
+  public FrameLayout z;
+  
+  public i(Context paramContext)
+  {
+    this(paramContext, 0);
+  }
+  
+  public i(Context paramContext, int paramInt)
+  {
+    super(paramContext, d.j.alert_dialog);
+    setCancelable(true);
+    setCanceledOnTouchOutside(false);
+    I = new c(paramContext);
+    w = paramInt;
+    k = b.a(getContext(), d.a.error_frame_in);
+    l = ((AnimationSet)b.a(getContext(), d.a.error_x_in));
+    paramInt = Build.VERSION.SDK_INT;
+    n = b.a(getContext(), d.a.success_bow_roate);
+    m = ((AnimationSet)b.a(getContext(), d.a.success_mask_layout));
+    h = ((AnimationSet)b.a(getContext(), d.a.modal_in));
+    i = ((AnimationSet)b.a(getContext(), d.a.modal_out));
+    i.setAnimationListener(new g(this));
+    j = new h(this);
+    j.setDuration(120L);
+  }
+  
+  private void a(int paramInt, boolean paramBoolean)
+  {
+    w = paramInt;
+    if (g != null)
+    {
+      if (!paramBoolean) {
+        k();
+      }
+      paramInt = w;
+      if (paramInt != 1)
+      {
+        if (paramInt != 2)
+        {
+          if (paramInt != 3)
+          {
+            if (paramInt != 4)
+            {
+              if (paramInt == 5)
+              {
+                z.setVisibility(0);
+                G.setVisibility(8);
+              }
+            }
+            else {
+              a(E);
+            }
+          }
+          else
+          {
+            G.setBackgroundResource(d.f.red_button_background);
+            J.setVisibility(0);
+          }
+        }
+        else
+        {
+          y.setVisibility(0);
+          C.startAnimation((Animation)m.getAnimations().get(0));
+          D.startAnimation((Animation)m.getAnimations().get(1));
+        }
+      }
+      else {
+        x.setVisibility(0);
+      }
+      if (!paramBoolean) {
+        j();
+      }
+    }
+  }
+  
+  private void c(boolean paramBoolean)
+  {
+    M = paramBoolean;
+    G.startAnimation(j);
+    g.startAnimation(i);
+  }
+  
+  private void j()
+  {
+    int i1 = w;
+    if (i1 == 1)
+    {
+      x.startAnimation(k);
+      B.startAnimation(l);
+      return;
+    }
+    if (i1 == 2)
+    {
+      A.a();
+      D.startAnimation(n);
+    }
+  }
+  
+  private void k()
+  {
+    F.setVisibility(8);
+    x.setVisibility(8);
+    y.setVisibility(8);
+    J.setVisibility(8);
+    z.setVisibility(8);
+    G.setVisibility(0);
+    G.setBackgroundResource(d.f.blue_button_background);
+    x.clearAnimation();
+    B.clearAnimation();
+    A.clearAnimation();
+    C.clearAnimation();
+    D.clearAnimation();
+  }
+  
+  public i a(Drawable paramDrawable)
+  {
+    E = paramDrawable;
+    paramDrawable = F;
+    if ((paramDrawable != null) && (E != null))
+    {
+      paramDrawable.setVisibility(0);
+      F.setImageDrawable(E);
+    }
+    return this;
+  }
+  
+  public i a(a paramA)
+  {
+    K = paramA;
+    return this;
+  }
+  
+  public i a(String paramString)
+  {
+    u = paramString;
+    if ((H != null) && (u != null))
+    {
+      a(true);
+      H.setText(u);
+    }
+    return this;
+  }
+  
+  public i a(boolean paramBoolean)
+  {
+    s = paramBoolean;
+    Button localButton = H;
+    if (localButton != null)
+    {
+      int i1;
+      if (s) {
+        i1 = 0;
+      } else {
+        i1 = 8;
+      }
+      localButton.setVisibility(i1);
+    }
+    return this;
+  }
+  
+  public void a()
+  {
+    c(false);
+  }
+  
+  public void a(int paramInt)
+  {
+    a(paramInt, false);
+  }
+  
+  public int b()
+  {
+    return w;
+  }
+  
+  public i b(int paramInt)
+  {
+    return a(getContext().getResources().getDrawable(paramInt));
+  }
+  
+  public i b(a paramA)
+  {
+    L = paramA;
+    return this;
+  }
+  
+  public i b(String paramString)
+  {
+    v = paramString;
+    paramString = G;
+    if (paramString != null)
+    {
+      String str = v;
+      if (str != null) {
+        paramString.setText(str);
+      }
+    }
+    return this;
+  }
+  
+  public i b(boolean paramBoolean)
+  {
+    t = paramBoolean;
+    TextView localTextView = p;
+    if (localTextView != null)
+    {
+      int i1;
+      if (t) {
+        i1 = 0;
+      } else {
+        i1 = 8;
+      }
+      localTextView.setVisibility(i1);
+    }
+    return this;
+  }
+  
+  public i c(String paramString)
+  {
+    r = paramString;
+    if ((p != null) && (r != null))
+    {
+      b(true);
+      p.setText(r);
+    }
+    return this;
+  }
+  
+  public String c()
+  {
+    return u;
+  }
+  
+  public void cancel()
+  {
+    c(true);
+  }
+  
+  public i d(String paramString)
+  {
+    q = paramString;
+    paramString = o;
+    if (paramString != null)
+    {
+      String str = q;
+      if (str != null) {
+        paramString.setText(str);
+      }
+    }
+    return this;
+  }
+  
+  public String d()
+  {
+    return v;
+  }
+  
+  public String e()
+  {
+    return r;
+  }
+  
+  public c f()
+  {
+    return I;
+  }
+  
+  public String g()
+  {
+    return q;
+  }
+  
+  public boolean h()
+  {
+    return s;
+  }
+  
+  public boolean i()
+  {
+    return t;
+  }
+  
+  public void onClick(View paramView)
+  {
+    if (paramView.getId() == d.g.cancel_button)
+    {
+      paramView = K;
+      if (paramView != null)
+      {
+        paramView.a(this);
+        return;
+      }
+      a();
+      return;
+    }
+    if (paramView.getId() == d.g.confirm_button)
+    {
+      paramView = L;
+      if (paramView != null)
+      {
+        paramView.a(this);
+        return;
+      }
+      a();
+    }
+  }
+  
+  public void onCreate(Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(d.h.alert_dialog);
+    g = getWindow().getDecorView().findViewById(16908290);
+    o = ((TextView)findViewById(d.g.title_text));
+    p = ((TextView)findViewById(d.g.content_text));
+    x = ((FrameLayout)findViewById(d.g.error_frame));
+    B = ((ImageView)x.findViewById(d.g.error_x));
+    y = ((FrameLayout)findViewById(d.g.success_frame));
+    z = ((FrameLayout)findViewById(d.g.progress_dialog));
+    A = ((SuccessTickView)y.findViewById(d.g.success_tick));
+    C = y.findViewById(d.g.mask_left);
+    D = y.findViewById(d.g.mask_right);
+    F = ((ImageView)findViewById(d.g.custom_image));
+    J = ((FrameLayout)findViewById(d.g.warning_frame));
+    G = ((Button)findViewById(d.g.confirm_button));
+    H = ((Button)findViewById(d.g.cancel_button));
+    I.a((ProgressWheel)findViewById(d.g.progressWheel));
+    G.setOnClickListener(this);
+    H.setOnClickListener(this);
+    d(q);
+    c(r);
+    a(u);
+    b(v);
+    a(w, true);
+  }
+  
+  public void onStart()
+  {
+    g.startAnimation(h);
+    j();
+  }
+  
+  public static abstract interface a
+  {
+    public abstract void a(i paramI);
+  }
+}

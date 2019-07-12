@@ -1,0 +1,351 @@
+package b.b.x.b;
+
+import android.accessibilityservice.AccessibilityService;
+import android.accounts.AccountManager;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.AppOpsManager;
+import android.app.DownloadManager;
+import android.app.KeyguardManager;
+import android.app.NotificationManager;
+import android.app.SearchManager;
+import android.app.UiModeManager;
+import android.app.WallpaperManager;
+import android.app.admin.DevicePolicyManager;
+import android.app.job.JobScheduler;
+import android.app.usage.UsageStatsManager;
+import android.appwidget.AppWidgetManager;
+import android.bluetooth.BluetoothManager;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.RestrictionsManager;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.LauncherApps;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.hardware.ConsumerIrManager;
+import android.hardware.SensorManager;
+import android.hardware.camera2.CameraManager;
+import android.hardware.display.DisplayManager;
+import android.hardware.input.InputManager;
+import android.hardware.usb.UsbManager;
+import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.MediaRouter;
+import android.media.projection.MediaProjectionManager;
+import android.media.session.MediaSessionManager;
+import android.media.tv.TvInputManager;
+import android.net.ConnectivityManager;
+import android.net.nsd.NsdManager;
+import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pManager;
+import android.nfc.NfcManager;
+import android.os.BatteryManager;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.DropBoxManager;
+import android.os.PowerManager;
+import android.os.Process;
+import android.os.UserManager;
+import android.os.Vibrator;
+import android.os.storage.StorageManager;
+import android.print.PrintManager;
+import android.telecom.TelecomManager;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.WindowManager;
+import android.view.accessibility.CaptioningManager;
+import android.view.inputmethod.InputMethodManager;
+import android.view.textservice.TextServicesManager;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.k;
+import b.b.a.m;
+import b.b.a.p;
+import java.io.File;
+import java.util.HashMap;
+
+public class c
+{
+  public static final String TAG = "ContextCompat";
+  public static final Object sLock = new Object();
+  public static TypedValue sTempValue;
+  
+  public c() {}
+  
+  public static File buildPath(File paramFile, String... paramVarArgs)
+  {
+    int j = paramVarArgs.length;
+    int i = 0;
+    for (File localFile = paramFile; i < j; localFile = paramFile)
+    {
+      String str = paramVarArgs[i];
+      if (localFile == null)
+      {
+        paramFile = new File(str);
+      }
+      else
+      {
+        paramFile = localFile;
+        if (str != null) {
+          paramFile = new File(localFile, str);
+        }
+      }
+      i += 1;
+    }
+    return localFile;
+  }
+  
+  public static int checkSelfPermission(@F Context paramContext, @F String paramString)
+  {
+    if (paramString != null) {
+      return paramContext.checkPermission(paramString, Process.myPid(), Process.myUid());
+    }
+    throw new IllegalArgumentException("permission is null");
+  }
+  
+  @G
+  public static Context createDeviceProtectedStorageContext(@F Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      return paramContext.createDeviceProtectedStorageContext();
+    }
+    return null;
+  }
+  
+  public static File createFilesDir(File paramFile)
+  {
+    try
+    {
+      if ((!paramFile.exists()) && (!paramFile.mkdirs()))
+      {
+        boolean bool = paramFile.exists();
+        if (bool) {
+          return paramFile;
+        }
+        StringBuilder localStringBuilder = new StringBuilder();
+        localStringBuilder.append("Unable to create files subdir ");
+        localStringBuilder.append(paramFile.getPath());
+        localStringBuilder.toString();
+        return null;
+      }
+      return paramFile;
+    }
+    finally {}
+  }
+  
+  public static File getCodeCacheDir(@F Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramContext.getCodeCacheDir();
+    }
+    return createFilesDir(new File(getApplicationInfodataDir, "code_cache"));
+  }
+  
+  @k
+  public static int getColor(@F Context paramContext, @m int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramContext.getColor(paramInt);
+    }
+    return paramContext.getResources().getColor(paramInt);
+  }
+  
+  @G
+  public static ColorStateList getColorStateList(@F Context paramContext, @m int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramContext.getColorStateList(paramInt);
+    }
+    return paramContext.getResources().getColorStateList(paramInt);
+  }
+  
+  @G
+  public static File getDataDir(@F Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      return paramContext.getDataDir();
+    }
+    paramContext = getApplicationInfodataDir;
+    if (paramContext != null) {
+      return new File(paramContext);
+    }
+    return null;
+  }
+  
+  @G
+  public static Drawable getDrawable(@F Context paramContext, @p int paramInt)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramContext.getDrawable(paramInt);
+    }
+    return paramContext.getResources().getDrawable(paramInt);
+  }
+  
+  @F
+  public static File[] getExternalCacheDirs(@F Context paramContext)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return paramContext.getExternalCacheDirs();
+  }
+  
+  @F
+  public static File[] getExternalFilesDirs(@F Context paramContext, @G String paramString)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return paramContext.getExternalFilesDirs(paramString);
+  }
+  
+  @G
+  public static File getNoBackupFilesDir(@F Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      return paramContext.getNoBackupFilesDir();
+    }
+    return createFilesDir(new File(getApplicationInfodataDir, "no_backup"));
+  }
+  
+  @F
+  public static File[] getObbDirs(@F Context paramContext)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return paramContext.getObbDirs();
+  }
+  
+  @G
+  public static <T> T getSystemService(@F Context paramContext, @F Class<T> paramClass)
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramContext.getSystemService(paramClass);
+    }
+    paramClass = getSystemServiceName(paramContext, paramClass);
+    if (paramClass != null) {
+      return paramContext.getSystemService(paramClass);
+    }
+    return null;
+  }
+  
+  @G
+  public static String getSystemServiceName(@F Context paramContext, @F Class<?> paramClass)
+  {
+    if (Build.VERSION.SDK_INT >= 23) {
+      return paramContext.getSystemServiceName(paramClass);
+    }
+    return (String)a.a.get(paramClass);
+  }
+  
+  public static boolean isDeviceProtectedStorage(@F Context paramContext)
+  {
+    if (Build.VERSION.SDK_INT >= 24) {
+      return paramContext.isDeviceProtectedStorage();
+    }
+    return false;
+  }
+  
+  public static boolean startActivities(@F Context paramContext, @F Intent[] paramArrayOfIntent)
+  {
+    startActivities(paramContext, paramArrayOfIntent, null);
+    return true;
+  }
+  
+  public static boolean startActivities(@F Context paramContext, @F Intent[] paramArrayOfIntent, @G Bundle paramBundle)
+  {
+    int i = Build.VERSION.SDK_INT;
+    paramContext.startActivities(paramArrayOfIntent, paramBundle);
+    return true;
+  }
+  
+  public static void startActivity(@F Context paramContext, @F Intent paramIntent, @G Bundle paramBundle)
+  {
+    int i = Build.VERSION.SDK_INT;
+    paramContext.startActivity(paramIntent, paramBundle);
+  }
+  
+  public static void startForegroundService(@F Context paramContext, @F Intent paramIntent)
+  {
+    if (Build.VERSION.SDK_INT >= 26)
+    {
+      paramContext.startForegroundService(paramIntent);
+      return;
+    }
+    paramContext.startService(paramIntent);
+  }
+  
+  private static final class a
+  {
+    public static final HashMap<Class<?>, String> a = new HashMap();
+    
+    static
+    {
+      if (Build.VERSION.SDK_INT > 22)
+      {
+        a.put(SubscriptionManager.class, "telephony_subscription_service");
+        a.put(UsageStatsManager.class, "usagestats");
+      }
+      if (Build.VERSION.SDK_INT > 21)
+      {
+        a.put(AppWidgetManager.class, "appwidget");
+        a.put(BatteryManager.class, "batterymanager");
+        a.put(CameraManager.class, "camera");
+        a.put(JobScheduler.class, "jobscheduler");
+        a.put(LauncherApps.class, "launcherapps");
+        a.put(MediaProjectionManager.class, "media_projection");
+        a.put(MediaSessionManager.class, "media_session");
+        a.put(RestrictionsManager.class, "restrictions");
+        a.put(TelecomManager.class, "telecom");
+        a.put(TvInputManager.class, "tv_input");
+      }
+      if (Build.VERSION.SDK_INT > 19)
+      {
+        a.put(AppOpsManager.class, "appops");
+        a.put(CaptioningManager.class, "captioning");
+        a.put(ConsumerIrManager.class, "consumer_ir");
+        a.put(PrintManager.class, "print");
+      }
+      int i = Build.VERSION.SDK_INT;
+      a.put(BluetoothManager.class, "bluetooth");
+      i = Build.VERSION.SDK_INT;
+      a.put(DisplayManager.class, "display");
+      a.put(UserManager.class, "user");
+      i = Build.VERSION.SDK_INT;
+      a.put(InputManager.class, "input");
+      a.put(MediaRouter.class, "media_router");
+      a.put(NsdManager.class, "servicediscovery");
+      a.put(AccessibilityService.class, "accessibility");
+      a.put(AccountManager.class, "account");
+      a.put(ActivityManager.class, "activity");
+      a.put(AlarmManager.class, "alarm");
+      a.put(AudioManager.class, "audio");
+      a.put(ClipboardManager.class, "clipboard");
+      a.put(ConnectivityManager.class, "connectivity");
+      a.put(DevicePolicyManager.class, "device_policy");
+      a.put(DownloadManager.class, "download");
+      a.put(DropBoxManager.class, "dropbox");
+      a.put(InputMethodManager.class, "input_method");
+      a.put(KeyguardManager.class, "keyguard");
+      a.put(LayoutInflater.class, "layout_inflater");
+      a.put(LocationManager.class, "location");
+      a.put(NfcManager.class, "nfc");
+      a.put(NotificationManager.class, "notification");
+      a.put(PowerManager.class, "power");
+      a.put(SearchManager.class, "search");
+      a.put(SensorManager.class, "sensor");
+      a.put(StorageManager.class, "storage");
+      a.put(TelephonyManager.class, "phone");
+      a.put(TextServicesManager.class, "textservices");
+      a.put(UiModeManager.class, "uimode");
+      a.put(UsbManager.class, "usb");
+      a.put(Vibrator.class, "vibrator");
+      a.put(WallpaperManager.class, "wallpaper");
+      a.put(WifiP2pManager.class, "wifip2p");
+      a.put(WifiManager.class, "wifi");
+      a.put(WindowManager.class, "window");
+    }
+    
+    public a() {}
+  }
+}

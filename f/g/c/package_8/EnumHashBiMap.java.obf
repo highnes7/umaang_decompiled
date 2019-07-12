@@ -1,0 +1,90 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+import m.a.h;
+
+@b(emulated=true)
+public final class Ea<K extends Enum<K>, V>
+  extends d<K, V>
+{
+  @c("only needed in emulated source.")
+  public static final long g = 0L;
+  public transient Class<K> h;
+  
+  public Ea(Class<K> paramClass)
+  {
+    super(new zh(new EnumMap(paramClass)), fe.b(((Enum[])paramClass.getEnumConstants()).length));
+    h = paramClass;
+  }
+  
+  @c("java.io.ObjectInputStream")
+  private void a(ObjectInputStream paramObjectInputStream)
+    throws IOException, ClassNotFoundException
+  {
+    paramObjectInputStream.defaultReadObject();
+    h = ((Class)paramObjectInputStream.readObject());
+    a(new zh(new EnumMap(h)), new HashMap(((Enum[])h.getEnumConstants()).length * 3 / 2));
+    ag.a(this, paramObjectInputStream, paramObjectInputStream.readInt());
+  }
+  
+  @c("java.io.ObjectOutputStream")
+  private void a(ObjectOutputStream paramObjectOutputStream)
+    throws IOException
+  {
+    paramObjectOutputStream.defaultWriteObject();
+    paramObjectOutputStream.writeObject(h);
+    ag.a(this, paramObjectOutputStream);
+  }
+  
+  public static <K extends Enum<K>, V> Ea<K, V> b(Class<K> paramClass)
+  {
+    return new Ea(paramClass);
+  }
+  
+  public static <K extends Enum<K>, V> Ea<K, V> b(Map<K, ? extends V> paramMap)
+  {
+    Ea localEa = new Ea(Da.c(paramMap));
+    localEa.putAll(paramMap);
+    return localEa;
+  }
+  
+  public K a(K paramK)
+  {
+    if (paramK != null) {
+      return paramK;
+    }
+    throw new NullPointerException();
+  }
+  
+  public V a(K paramK, @h V paramV)
+  {
+    return super.a(paramK, paramV);
+  }
+  
+  public V b(K paramK, @h V paramV)
+  {
+    return super.put(paramK, paramV);
+  }
+  
+  public boolean containsValue(Object paramObject)
+  {
+    return c.containsKey(paramObject);
+  }
+  
+  public L f()
+  {
+    return c;
+  }
+  
+  public Class<K> x()
+  {
+    return h;
+  }
+}

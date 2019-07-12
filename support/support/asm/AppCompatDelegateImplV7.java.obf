@@ -1,0 +1,47 @@
+package b.a.b;
+
+import android.arch.lifecycle.LiveData;
+import b.b.a.F;
+import b.b.a.N;
+import b.b.a.W;
+import b.b.a.X;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+@N({b.b.a.N.a.b})
+public abstract class e<T>
+{
+  public final Executor a;
+  public final LiveData<T> b;
+  public AtomicBoolean c = new AtomicBoolean(true);
+  public AtomicBoolean d = new AtomicBoolean(false);
+  @W
+  public final Runnable e = new c(this);
+  @W
+  public final Runnable f = new d(this);
+  
+  public e()
+  {
+    this(b.a.a.a.c.c);
+  }
+  
+  public e(@F Executor paramExecutor)
+  {
+    a = paramExecutor;
+    b = new b(this);
+  }
+  
+  @X
+  public abstract T a();
+  
+  @F
+  public LiveData<T> b()
+  {
+    return b;
+  }
+  
+  public void c()
+  {
+    b.a.a.a.c.c().b(f);
+  }
+}

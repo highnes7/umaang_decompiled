@@ -1,0 +1,1790 @@
+package l.a.a.a.a.e;
+
+import f.a.a.a.a;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.Proxy.Type;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.CharsetEncoder;
+import java.security.AccessController;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.zip.GZIPInputStream;
+
+public class m
+{
+  public static final String A = "POST";
+  public static final String B = "PUT";
+  public static final String C = "TRACE";
+  public static final String D = "charset";
+  public static final String E = "00content0boundary00";
+  public static final String F = "multipart/form-data; boundary=00content0boundary00";
+  public static final String G = "\r\n";
+  public static final String[] H = new String[0];
+  public static m.c I = m.c.a;
+  public static final String a = "UTF-8";
+  public static final String b = "application/x-www-form-urlencoded";
+  public static final String c = "application/json";
+  public static final String d = "gzip";
+  public static final String e = "Accept";
+  public static final String f = "Accept-Charset";
+  public static final String g = "Accept-Encoding";
+  public static final String h = "Authorization";
+  public static final String i = "Cache-Control";
+  public static final String j = "Content-Encoding";
+  public static final String k = "Content-Length";
+  public static final String l = "Content-Type";
+  public static final String m = "Date";
+  public static final String n = "ETag";
+  public static final String o = "Expires";
+  public static final String p = "If-None-Match";
+  public static final String q = "Last-Modified";
+  public static final String r = "Location";
+  public static final String s = "Proxy-Authorization";
+  public static final String t = "Referer";
+  public static final String u = "Server";
+  public static final String v = "User-Agent";
+  public static final String w = "DELETE";
+  public static final String x = "GET";
+  public static final String y = "HEAD";
+  public static final String z = "OPTIONS";
+  public HttpURLConnection J = null;
+  public final URL K;
+  public final String L;
+  public m.g M;
+  public boolean N;
+  public boolean O;
+  public boolean P = true;
+  public boolean Q = false;
+  public int R = 8192;
+  public String S;
+  public int T;
+  
+  public m(CharSequence paramCharSequence, String paramString)
+    throws m.e
+  {
+    try
+    {
+      K = new URL(paramCharSequence.toString());
+      L = paramString;
+      return;
+    }
+    catch (MalformedURLException paramCharSequence)
+    {
+      throw new m.e(paramCharSequence);
+    }
+  }
+  
+  public m(URL paramURL, String paramString)
+    throws m.e
+  {
+    K = paramURL;
+    L = paramString;
+  }
+  
+  private HttpURLConnection R()
+  {
+    try
+    {
+      HttpURLConnection localHttpURLConnection;
+      if (S != null) {
+        localHttpURLConnection = I.a(K, S());
+      } else {
+        localHttpURLConnection = I.a(K);
+      }
+      localHttpURLConnection.setRequestMethod(L);
+      return localHttpURLConnection;
+    }
+    catch (IOException localIOException)
+    {
+      throw new m.e(localIOException);
+    }
+  }
+  
+  private Proxy S()
+  {
+    return new Proxy(Proxy.Type.HTTP, new InetSocketAddress(S, T));
+  }
+  
+  public static String a(CharSequence paramCharSequence, Map<?, ?> paramMap)
+  {
+    Object localObject = paramCharSequence.toString();
+    paramCharSequence = (CharSequence)localObject;
+    if (paramMap != null)
+    {
+      if (paramMap.isEmpty()) {
+        return localObject;
+      }
+      paramCharSequence = new StringBuilder((String)localObject);
+      b((String)localObject, paramCharSequence);
+      a((String)localObject, paramCharSequence);
+      paramMap = paramMap.entrySet().iterator();
+      localObject = (Map.Entry)paramMap.next();
+      paramCharSequence.append(((Map.Entry)localObject).getKey().toString());
+      paramCharSequence.append('=');
+      localObject = ((Map.Entry)localObject).getValue();
+      if (localObject != null) {
+        paramCharSequence.append(localObject);
+      }
+      while (paramMap.hasNext())
+      {
+        paramCharSequence.append('&');
+        localObject = (Map.Entry)paramMap.next();
+        paramCharSequence.append(((Map.Entry)localObject).getKey().toString());
+        paramCharSequence.append('=');
+        localObject = ((Map.Entry)localObject).getValue();
+        if (localObject != null) {
+          paramCharSequence.append(localObject);
+        }
+      }
+      paramCharSequence = paramCharSequence.toString();
+    }
+    return paramCharSequence;
+  }
+  
+  public static String a(CharSequence paramCharSequence, Object... paramVarArgs)
+  {
+    Object localObject = paramCharSequence.toString();
+    if (paramVarArgs != null)
+    {
+      if (paramVarArgs.length == 0) {
+        return localObject;
+      }
+      int i1 = paramVarArgs.length;
+      int i2 = 2;
+      if (i1 % 2 == 0)
+      {
+        paramCharSequence = new StringBuilder((String)localObject);
+        b((String)localObject, paramCharSequence);
+        a((String)localObject, paramCharSequence);
+        paramCharSequence.append(paramVarArgs[0]);
+        paramCharSequence.append('=');
+        localObject = paramVarArgs[1];
+        i1 = i2;
+        if (localObject != null)
+        {
+          paramCharSequence.append(localObject);
+          i1 = i2;
+        }
+        while (i1 < paramVarArgs.length)
+        {
+          paramCharSequence.append('&');
+          paramCharSequence.append(paramVarArgs[i1]);
+          paramCharSequence.append('=');
+          localObject = paramVarArgs[(i1 + 1)];
+          if (localObject != null) {
+            paramCharSequence.append(localObject);
+          }
+          i1 += 2;
+        }
+        return paramCharSequence.toString();
+      }
+      throw new IllegalArgumentException("Must specify an even number of parameter names/values");
+    }
+    return localObject;
+  }
+  
+  public static StringBuilder a(String paramString, StringBuilder paramStringBuilder)
+  {
+    int i1 = paramString.indexOf('?');
+    int i2 = paramStringBuilder.length() - 1;
+    if (i1 == -1)
+    {
+      paramStringBuilder.append('?');
+      return paramStringBuilder;
+    }
+    if ((i1 < i2) && (paramString.charAt(i2) != '&')) {
+      paramStringBuilder.append('&');
+    }
+    return paramStringBuilder;
+  }
+  
+  public static m a(CharSequence paramCharSequence)
+    throws m.e
+  {
+    return new m(paramCharSequence, "DELETE");
+  }
+  
+  public static m a(CharSequence paramCharSequence, Map<?, ?> paramMap, boolean paramBoolean)
+  {
+    paramMap = a(paramCharSequence, paramMap);
+    paramCharSequence = paramMap;
+    if (paramBoolean) {
+      paramCharSequence = b(paramMap);
+    }
+    return a(paramCharSequence);
+  }
+  
+  public static m a(CharSequence paramCharSequence, boolean paramBoolean, Object... paramVarArgs)
+  {
+    paramVarArgs = a(paramCharSequence, paramVarArgs);
+    paramCharSequence = paramVarArgs;
+    if (paramBoolean) {
+      paramCharSequence = b(paramVarArgs);
+    }
+    return a(paramCharSequence);
+  }
+  
+  public static m a(URL paramURL)
+    throws m.e
+  {
+    return new m(paramURL, "DELETE");
+  }
+  
+  public static void a(m.c paramC)
+  {
+    if (paramC == null)
+    {
+      I = m.c.a;
+      return;
+    }
+    I = paramC;
+  }
+  
+  public static void a(String... paramVarArgs)
+  {
+    if ((paramVarArgs != null) && (paramVarArgs.length > 0))
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      int i2 = paramVarArgs.length - 1;
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        localStringBuilder.append(paramVarArgs[i1]);
+        localStringBuilder.append('|');
+        i1 += 1;
+      }
+      localStringBuilder.append(paramVarArgs[i2]);
+      i("http.nonProxyHosts", localStringBuilder.toString());
+      return;
+    }
+    i("http.nonProxyHosts", null);
+  }
+  
+  /* Error */
+  public static String b(CharSequence paramCharSequence)
+    throws m.e
+  {
+    // Byte code:
+    //   0: new 164	java/net/URL
+    //   3: dup
+    //   4: aload_0
+    //   5: invokeinterface 170 1 0
+    //   10: invokespecial 173	java/net/URL:<init>	(Ljava/lang/String;)V
+    //   13: astore_3
+    //   14: aload_3
+    //   15: invokevirtual 325	java/net/URL:getHost	()Ljava/lang/String;
+    //   18: astore_2
+    //   19: aload_3
+    //   20: invokevirtual 328	java/net/URL:getPort	()I
+    //   23: istore_1
+    //   24: aload_2
+    //   25: astore_0
+    //   26: iload_1
+    //   27: iconst_m1
+    //   28: if_icmpeq +38 -> 66
+    //   31: new 229	java/lang/StringBuilder
+    //   34: dup
+    //   35: invokespecial 315	java/lang/StringBuilder:<init>	()V
+    //   38: astore_0
+    //   39: aload_0
+    //   40: aload_2
+    //   41: invokevirtual 261	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   44: pop
+    //   45: aload_0
+    //   46: bipush 58
+    //   48: invokevirtual 264	java/lang/StringBuilder:append	(C)Ljava/lang/StringBuilder;
+    //   51: pop
+    //   52: aload_0
+    //   53: iload_1
+    //   54: invokestatic 333	java/lang/Integer:toString	(I)Ljava/lang/String;
+    //   57: invokevirtual 261	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   60: pop
+    //   61: aload_0
+    //   62: invokevirtual 274	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   65: astore_0
+    //   66: new 335	java/net/URI
+    //   69: dup
+    //   70: aload_3
+    //   71: invokevirtual 338	java/net/URL:getProtocol	()Ljava/lang/String;
+    //   74: aload_0
+    //   75: aload_3
+    //   76: invokevirtual 341	java/net/URL:getPath	()Ljava/lang/String;
+    //   79: aload_3
+    //   80: invokevirtual 344	java/net/URL:getQuery	()Ljava/lang/String;
+    //   83: aload_3
+    //   84: invokevirtual 347	java/net/URL:getRef	()Ljava/lang/String;
+    //   87: invokespecial 350	java/net/URI:<init>	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+    //   90: invokevirtual 353	java/net/URI:toASCIIString	()Ljava/lang/String;
+    //   93: astore_2
+    //   94: aload_2
+    //   95: bipush 63
+    //   97: invokevirtual 286	java/lang/String:indexOf	(I)I
+    //   100: istore_1
+    //   101: aload_2
+    //   102: astore_0
+    //   103: iload_1
+    //   104: ifle +69 -> 173
+    //   107: iload_1
+    //   108: iconst_1
+    //   109: iadd
+    //   110: istore_1
+    //   111: aload_2
+    //   112: astore_0
+    //   113: iload_1
+    //   114: aload_2
+    //   115: invokevirtual 354	java/lang/String:length	()I
+    //   118: if_icmpge +55 -> 173
+    //   121: new 229	java/lang/StringBuilder
+    //   124: dup
+    //   125: invokespecial 315	java/lang/StringBuilder:<init>	()V
+    //   128: astore_0
+    //   129: aload_0
+    //   130: aload_2
+    //   131: iconst_0
+    //   132: iload_1
+    //   133: invokevirtual 358	java/lang/String:substring	(II)Ljava/lang/String;
+    //   136: invokevirtual 261	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   139: pop
+    //   140: aload_0
+    //   141: aload_2
+    //   142: iload_1
+    //   143: invokevirtual 360	java/lang/String:substring	(I)Ljava/lang/String;
+    //   146: ldc_w 362
+    //   149: ldc_w 364
+    //   152: invokevirtual 368	java/lang/String:replace	(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+    //   155: ldc_w 370
+    //   158: ldc_w 372
+    //   161: invokevirtual 368	java/lang/String:replace	(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+    //   164: invokevirtual 261	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   167: pop
+    //   168: aload_0
+    //   169: invokevirtual 274	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   172: astore_0
+    //   173: aload_0
+    //   174: areturn
+    //   175: astore_0
+    //   176: new 185	java/io/IOException
+    //   179: dup
+    //   180: ldc_w 374
+    //   183: invokespecial 375	java/io/IOException:<init>	(Ljava/lang/String;)V
+    //   186: astore_2
+    //   187: aload_2
+    //   188: aload_0
+    //   189: invokevirtual 379	java/io/IOException:initCause	(Ljava/lang/Throwable;)Ljava/lang/Throwable;
+    //   192: pop
+    //   193: new 14	l/a/a/a/a/e/m$e
+    //   196: dup
+    //   197: aload_2
+    //   198: invokespecial 180	l/a/a/a/a/e/m$e:<init>	(Ljava/io/IOException;)V
+    //   201: athrow
+    //   202: astore_0
+    //   203: new 14	l/a/a/a/a/e/m$e
+    //   206: dup
+    //   207: aload_0
+    //   208: invokespecial 180	l/a/a/a/a/e/m$e:<init>	(Ljava/io/IOException;)V
+    //   211: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	212	0	paramCharSequence	CharSequence
+    //   23	120	1	i1	int
+    //   18	180	2	localObject	Object
+    //   13	71	3	localURL	URL
+    // Exception table:
+    //   from	to	target	type
+    //   66	101	175	java/net/URISyntaxException
+    //   113	173	175	java/net/URISyntaxException
+    //   0	14	202	java/io/IOException
+  }
+  
+  public static StringBuilder b(String paramString, StringBuilder paramStringBuilder)
+  {
+    if (paramString.indexOf(':') + 2 == paramString.lastIndexOf('/')) {
+      paramStringBuilder.append('/');
+    }
+    return paramStringBuilder;
+  }
+  
+  public static m b(CharSequence paramCharSequence, Map<?, ?> paramMap, boolean paramBoolean)
+  {
+    paramMap = a(paramCharSequence, paramMap);
+    paramCharSequence = paramMap;
+    if (paramBoolean) {
+      paramCharSequence = b(paramMap);
+    }
+    return c(paramCharSequence);
+  }
+  
+  public static m b(CharSequence paramCharSequence, boolean paramBoolean, Object... paramVarArgs)
+  {
+    paramVarArgs = a(paramCharSequence, paramVarArgs);
+    paramCharSequence = paramVarArgs;
+    if (paramBoolean) {
+      paramCharSequence = b(paramVarArgs);
+    }
+    return c(paramCharSequence);
+  }
+  
+  public static m b(URL paramURL)
+    throws m.e
+  {
+    return new m(paramURL, "GET");
+  }
+  
+  public static m c(CharSequence paramCharSequence)
+    throws m.e
+  {
+    return new m(paramCharSequence, "GET");
+  }
+  
+  public static m c(CharSequence paramCharSequence, Map<?, ?> paramMap, boolean paramBoolean)
+  {
+    paramMap = a(paramCharSequence, paramMap);
+    paramCharSequence = paramMap;
+    if (paramBoolean) {
+      paramCharSequence = b(paramMap);
+    }
+    return d(paramCharSequence);
+  }
+  
+  public static m c(CharSequence paramCharSequence, boolean paramBoolean, Object... paramVarArgs)
+  {
+    paramVarArgs = a(paramCharSequence, paramVarArgs);
+    paramCharSequence = paramVarArgs;
+    if (paramBoolean) {
+      paramCharSequence = b(paramVarArgs);
+    }
+    return d(paramCharSequence);
+  }
+  
+  public static m c(URL paramURL)
+    throws m.e
+  {
+    return new m(paramURL, "HEAD");
+  }
+  
+  public static void c(boolean paramBoolean)
+  {
+    i("http.keepAlive", Boolean.toString(paramBoolean));
+  }
+  
+  public static m d(CharSequence paramCharSequence)
+    throws m.e
+  {
+    return new m(paramCharSequence, "HEAD");
+  }
+  
+  public static m d(CharSequence paramCharSequence, Map<?, ?> paramMap, boolean paramBoolean)
+  {
+    paramMap = a(paramCharSequence, paramMap);
+    paramCharSequence = paramMap;
+    if (paramBoolean) {
+      paramCharSequence = b(paramMap);
+    }
+    return f(paramCharSequence);
+  }
+  
+  public static m d(CharSequence paramCharSequence, boolean paramBoolean, Object... paramVarArgs)
+  {
+    paramVarArgs = a(paramCharSequence, paramVarArgs);
+    paramCharSequence = paramVarArgs;
+    if (paramBoolean) {
+      paramCharSequence = b(paramVarArgs);
+    }
+    return f(paramCharSequence);
+  }
+  
+  public static m d(URL paramURL)
+    throws m.e
+  {
+    return new m(paramURL, "OPTIONS");
+  }
+  
+  public static m e(CharSequence paramCharSequence)
+    throws m.e
+  {
+    return new m(paramCharSequence, "OPTIONS");
+  }
+  
+  public static m e(CharSequence paramCharSequence, Map<?, ?> paramMap, boolean paramBoolean)
+  {
+    paramMap = a(paramCharSequence, paramMap);
+    paramCharSequence = paramMap;
+    if (paramBoolean) {
+      paramCharSequence = b(paramMap);
+    }
+    return g(paramCharSequence);
+  }
+  
+  public static m e(CharSequence paramCharSequence, boolean paramBoolean, Object... paramVarArgs)
+  {
+    paramVarArgs = a(paramCharSequence, paramVarArgs);
+    paramCharSequence = paramVarArgs;
+    if (paramBoolean) {
+      paramCharSequence = b(paramVarArgs);
+    }
+    return g(paramCharSequence);
+  }
+  
+  public static m e(URL paramURL)
+    throws m.e
+  {
+    return new m(paramURL, "POST");
+  }
+  
+  public static void e(int paramInt)
+  {
+    String str = Integer.toString(paramInt);
+    i("http.proxyPort", str);
+    i("https.proxyPort", str);
+  }
+  
+  public static m f(CharSequence paramCharSequence)
+    throws m.e
+  {
+    return new m(paramCharSequence, "POST");
+  }
+  
+  public static m f(URL paramURL)
+    throws m.e
+  {
+    return new m(paramURL, "PUT");
+  }
+  
+  public static m g(CharSequence paramCharSequence)
+    throws m.e
+  {
+    return new m(paramCharSequence, "PUT");
+  }
+  
+  public static m g(URL paramURL)
+    throws m.e
+  {
+    return new m(paramURL, "TRACE");
+  }
+  
+  public static String i(String paramString1, String paramString2)
+  {
+    if (paramString2 != null) {
+      paramString1 = new e(paramString1, paramString2);
+    } else {
+      paramString1 = new f(paramString1);
+    }
+    return (String)AccessController.doPrivileged(paramString1);
+  }
+  
+  public static m i(CharSequence paramCharSequence)
+    throws m.e
+  {
+    return new m(paramCharSequence, "TRACE");
+  }
+  
+  public static String l(String paramString)
+  {
+    if ((paramString != null) && (paramString.length() > 0)) {
+      return paramString;
+    }
+    return "UTF-8";
+  }
+  
+  public static void s(String paramString)
+  {
+    i("http.proxyHost", paramString);
+    i("https.proxyHost", paramString);
+  }
+  
+  public long A()
+  {
+    return j("Last-Modified");
+  }
+  
+  public String B()
+  {
+    return m("Location");
+  }
+  
+  public String C()
+    throws m.e
+  {
+    try
+    {
+      l();
+      String str = w().getResponseMessage();
+      return str;
+    }
+    catch (IOException localIOException)
+    {
+      throw new m.e(localIOException);
+    }
+  }
+  
+  public String D()
+  {
+    return w().getRequestMethod();
+  }
+  
+  public boolean E()
+    throws m.e
+  {
+    return 404 == n();
+  }
+  
+  public boolean F()
+    throws m.e
+  {
+    return 304 == n();
+  }
+  
+  public boolean G()
+    throws m.e
+  {
+    return 200 == n();
+  }
+  
+  public m H()
+    throws IOException
+  {
+    if (M != null) {
+      return this;
+    }
+    w().setDoOutput(true);
+    String str = c(w().getRequestProperty("Content-Type"), "charset");
+    M = new m.g(w().getOutputStream(), str, R);
+    return this;
+  }
+  
+  public InputStreamReader I()
+    throws m.e
+  {
+    return t(k());
+  }
+  
+  public String J()
+  {
+    return m("Server");
+  }
+  
+  public boolean K()
+    throws m.e
+  {
+    return 500 == n();
+  }
+  
+  public m L()
+    throws IOException
+  {
+    if (!N)
+    {
+      N = true;
+      i("multipart/form-data; boundary=00content0boundary00").H();
+      M.b("--00content0boundary00\r\n");
+      return this;
+    }
+    M.b("\r\n--00content0boundary00\r\n");
+    return this;
+  }
+  
+  public InputStream M()
+    throws m.e
+  {
+    if (n() < 400)
+    {
+      try
+      {
+        InputStream localInputStream1 = w().getInputStream();
+      }
+      catch (IOException localIOException1)
+      {
+        throw new m.e(localIOException1);
+      }
+    }
+    else
+    {
+      InputStream localInputStream2 = w().getErrorStream();
+      Object localObject = localInputStream2;
+      if (localInputStream2 == null) {
+        try
+        {
+          localObject = w().getInputStream();
+        }
+        catch (IOException localIOException2)
+        {
+          throw new m.e(localIOException2);
+        }
+      }
+    }
+    if (Q)
+    {
+      if (!"gzip".equals(o())) {
+        return localIOException2;
+      }
+      try
+      {
+        GZIPInputStream localGZIPInputStream = new GZIPInputStream(localIOException2);
+        return localGZIPInputStream;
+      }
+      catch (IOException localIOException3)
+      {
+        throw new m.e(localIOException3);
+      }
+    }
+    return localIOException3;
+  }
+  
+  public m N()
+    throws m.e
+  {
+    return this;
+  }
+  
+  public m O()
+  {
+    return this;
+  }
+  
+  public URL P()
+  {
+    return w().getURL();
+  }
+  
+  public OutputStreamWriter Q()
+    throws m.e
+  {
+    try
+    {
+      H();
+      OutputStreamWriter localOutputStreamWriter = new OutputStreamWriter(M, m.g.a(M).charset());
+      return localOutputStreamWriter;
+    }
+    catch (IOException localIOException)
+    {
+      throw new m.e(localIOException);
+    }
+  }
+  
+  public int a(String paramString, int paramInt)
+    throws m.e
+  {
+    m();
+    return w().getHeaderFieldInt(paramString, paramInt);
+  }
+  
+  public long a(String paramString, long paramLong)
+    throws m.e
+  {
+    m();
+    return w().getHeaderFieldDate(paramString, paramLong);
+  }
+  
+  public m a()
+  {
+    return c("gzip");
+  }
+  
+  public m a(int paramInt)
+  {
+    if (paramInt >= 1)
+    {
+      R = paramInt;
+      return this;
+    }
+    throw new IllegalArgumentException("Size must be greater than zero");
+  }
+  
+  public m a(long paramLong)
+  {
+    w().setIfModifiedSince(paramLong);
+    return this;
+  }
+  
+  public m a(File paramFile)
+    throws m.e
+  {
+    try
+    {
+      paramFile = new BufferedOutputStream(new FileOutputStream(paramFile), R);
+      return (m)new g(this, paramFile, P, paramFile).call();
+    }
+    catch (FileNotFoundException paramFile)
+    {
+      throw new m.e(paramFile);
+    }
+  }
+  
+  public m a(InputStream paramInputStream)
+    throws m.e
+  {
+    try
+    {
+      H();
+      a(paramInputStream, M);
+      return this;
+    }
+    catch (IOException paramInputStream)
+    {
+      throw new m.e(paramInputStream);
+    }
+  }
+  
+  public m a(InputStream paramInputStream, OutputStream paramOutputStream)
+    throws IOException
+  {
+    return (m)new j(this, paramInputStream, P, paramInputStream, paramOutputStream).call();
+  }
+  
+  public m a(OutputStream paramOutputStream)
+    throws m.e
+  {
+    try
+    {
+      paramOutputStream = a(e(), paramOutputStream);
+      return paramOutputStream;
+    }
+    catch (IOException paramOutputStream)
+    {
+      throw new m.e(paramOutputStream);
+    }
+  }
+  
+  public m a(PrintStream paramPrintStream)
+    throws m.e
+  {
+    return a(paramPrintStream);
+  }
+  
+  public m a(Reader paramReader)
+    throws m.e
+  {
+    try
+    {
+      H();
+      Object localObject = M;
+      localObject = new OutputStreamWriter((OutputStream)localObject, m.g.a((m.g)localObject).charset());
+      return (m)new l(this, (Flushable)localObject, paramReader, (Writer)localObject).call();
+    }
+    catch (IOException paramReader)
+    {
+      throw new m.e(paramReader);
+    }
+  }
+  
+  public m a(Reader paramReader, Writer paramWriter)
+    throws IOException
+  {
+    return (m)new k(this, paramReader, P, paramReader, paramWriter).call();
+  }
+  
+  public m a(Writer paramWriter)
+    throws m.e
+  {
+    BufferedReader localBufferedReader = g();
+    return (m)new i(this, localBufferedReader, P, localBufferedReader, paramWriter).call();
+  }
+  
+  public m a(Appendable paramAppendable)
+    throws m.e
+  {
+    BufferedReader localBufferedReader = g();
+    return (m)new h(this, localBufferedReader, P, localBufferedReader, paramAppendable).call();
+  }
+  
+  public m a(Object paramObject1, Object paramObject2)
+    throws m.e
+  {
+    return a(paramObject1, paramObject2, "UTF-8");
+  }
+  
+  public m a(Object paramObject1, Object paramObject2, String paramString)
+    throws m.e
+  {
+    boolean bool = O ^ true;
+    if (bool)
+    {
+      b("application/x-www-form-urlencoded", paramString);
+      O = true;
+    }
+    paramString = l(paramString);
+    try
+    {
+      H();
+      if (!bool) {
+        M.write(38);
+      }
+      M.b(URLEncoder.encode(paramObject1.toString(), paramString));
+      M.write(61);
+      if (paramObject2 != null) {
+        M.b(URLEncoder.encode(paramObject2.toString(), paramString));
+      }
+      return this;
+    }
+    catch (IOException paramObject1)
+    {
+      throw new m.e(paramObject1);
+    }
+  }
+  
+  public m a(String paramString)
+  {
+    return d("Accept", paramString);
+  }
+  
+  public m a(String paramString, File paramFile)
+    throws m.e
+  {
+    return a(paramString, null, paramFile);
+  }
+  
+  public m a(String paramString, InputStream paramInputStream)
+    throws m.e
+  {
+    return a(paramString, null, null, paramInputStream);
+  }
+  
+  public m a(String paramString, Number paramNumber)
+  {
+    if (paramNumber != null) {
+      paramNumber = paramNumber.toString();
+    } else {
+      paramNumber = null;
+    }
+    return d(paramString, paramNumber);
+  }
+  
+  public m a(String paramString1, String paramString2)
+  {
+    StringBuilder localStringBuilder1 = a.b("Basic ");
+    StringBuilder localStringBuilder2 = new StringBuilder();
+    localStringBuilder2.append(paramString1);
+    localStringBuilder2.append(':');
+    localStringBuilder2.append(paramString2);
+    localStringBuilder1.append(m.a.a(localStringBuilder2.toString()));
+    return e(localStringBuilder1.toString());
+  }
+  
+  public m a(String paramString1, String paramString2, File paramFile)
+    throws m.e
+  {
+    return a(paramString1, paramString2, null, paramFile);
+  }
+  
+  public m a(String paramString1, String paramString2, Number paramNumber)
+    throws m.e
+  {
+    if (paramNumber != null) {
+      paramNumber = paramNumber.toString();
+    } else {
+      paramNumber = null;
+    }
+    return a(paramString1, paramString2, paramNumber);
+  }
+  
+  public m a(String paramString1, String paramString2, String paramString3)
+    throws m.e
+  {
+    return a(paramString1, paramString2, null, paramString3);
+  }
+  
+  /* Error */
+  public m a(String paramString1, String paramString2, String paramString3, File paramFile)
+    throws m.e
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 6
+    //   3: aconst_null
+    //   4: astore 5
+    //   6: new 650	java/io/BufferedInputStream
+    //   9: dup
+    //   10: new 652	java/io/FileInputStream
+    //   13: dup
+    //   14: aload 4
+    //   16: invokespecial 653	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   19: invokespecial 654	java/io/BufferedInputStream:<init>	(Ljava/io/InputStream;)V
+    //   22: astore 4
+    //   24: aload_0
+    //   25: aload_1
+    //   26: aload_2
+    //   27: aload_3
+    //   28: aload 4
+    //   30: invokevirtual 627	l/a/a/a/a/e/m:a	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/io/InputStream;)Ll/a/a/a/a/e/m;
+    //   33: astore_1
+    //   34: aload 4
+    //   36: invokevirtual 657	java/io/BufferedInputStream:close	()V
+    //   39: aload_1
+    //   40: areturn
+    //   41: astore_1
+    //   42: aload 4
+    //   44: astore 5
+    //   46: goto +29 -> 75
+    //   49: astore_1
+    //   50: aload 4
+    //   52: astore 5
+    //   54: goto +12 -> 66
+    //   57: astore_1
+    //   58: goto +17 -> 75
+    //   61: astore_1
+    //   62: aload 6
+    //   64: astore 5
+    //   66: new 14	l/a/a/a/a/e/m$e
+    //   69: dup
+    //   70: aload_1
+    //   71: invokespecial 180	l/a/a/a/a/e/m$e:<init>	(Ljava/io/IOException;)V
+    //   74: athrow
+    //   75: aload 5
+    //   77: ifnull +8 -> 85
+    //   80: aload 5
+    //   82: invokevirtual 657	java/io/BufferedInputStream:close	()V
+    //   85: aload_1
+    //   86: athrow
+    //   87: astore_2
+    //   88: aload_1
+    //   89: areturn
+    //   90: astore_2
+    //   91: goto -6 -> 85
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	94	0	this	m
+    //   0	94	1	paramString1	String
+    //   0	94	2	paramString2	String
+    //   0	94	3	paramString3	String
+    //   0	94	4	paramFile	File
+    //   4	77	5	localObject1	Object
+    //   1	62	6	localObject2	Object
+    // Exception table:
+    //   from	to	target	type
+    //   24	34	41	finally
+    //   24	34	49	java/io/IOException
+    //   6	24	57	finally
+    //   66	75	57	finally
+    //   6	24	61	java/io/IOException
+    //   34	39	87	java/io/IOException
+    //   80	85	90	java/io/IOException
+  }
+  
+  public m a(String paramString1, String paramString2, String paramString3, InputStream paramInputStream)
+    throws m.e
+  {
+    try
+    {
+      L();
+      b(paramString1, paramString2, paramString3);
+      a(paramInputStream, M);
+      return this;
+    }
+    catch (IOException paramString1)
+    {
+      throw new m.e(paramString1);
+    }
+  }
+  
+  public m a(String paramString1, String paramString2, String paramString3, String paramString4)
+    throws m.e
+  {
+    try
+    {
+      L();
+      b(paramString1, paramString2, paramString3);
+      M.b(paramString4);
+      return this;
+    }
+    catch (IOException paramString1)
+    {
+      throw new m.e(paramString1);
+    }
+  }
+  
+  public m a(Map.Entry<?, ?> paramEntry)
+    throws m.e
+  {
+    return a(paramEntry, "UTF-8");
+  }
+  
+  public m a(Map.Entry<?, ?> paramEntry, String paramString)
+    throws m.e
+  {
+    return a(paramEntry.getKey(), paramEntry.getValue(), paramString);
+  }
+  
+  public m a(Map<?, ?> paramMap)
+    throws m.e
+  {
+    return a(paramMap, "UTF-8");
+  }
+  
+  public m a(Map<?, ?> paramMap, String paramString)
+    throws m.e
+  {
+    if (!paramMap.isEmpty())
+    {
+      paramMap = paramMap.entrySet().iterator();
+      while (paramMap.hasNext()) {
+        a((Map.Entry)paramMap.next(), paramString);
+      }
+    }
+    return this;
+  }
+  
+  public m a(AtomicInteger paramAtomicInteger)
+    throws m.e
+  {
+    paramAtomicInteger.set(n());
+    return this;
+  }
+  
+  public m a(AtomicReference<String> paramAtomicReference)
+    throws m.e
+  {
+    paramAtomicReference.set(d());
+    return this;
+  }
+  
+  public m a(AtomicReference<String> paramAtomicReference, String paramString)
+    throws m.e
+  {
+    paramAtomicReference.set(f(paramString));
+    return this;
+  }
+  
+  public m a(boolean paramBoolean)
+  {
+    w().setInstanceFollowRedirects(paramBoolean);
+    return this;
+  }
+  
+  public m a(byte[] paramArrayOfByte)
+    throws m.e
+  {
+    return a(new ByteArrayInputStream(paramArrayOfByte));
+  }
+  
+  public m b()
+  {
+    return a("application/json");
+  }
+  
+  public m b(int paramInt)
+  {
+    w().setChunkedStreamingMode(paramInt);
+    return this;
+  }
+  
+  public m b(File paramFile)
+    throws m.e
+  {
+    try
+    {
+      paramFile = new BufferedInputStream(new FileInputStream(paramFile));
+      return a(paramFile);
+    }
+    catch (FileNotFoundException paramFile)
+    {
+      throw new m.e(paramFile);
+    }
+  }
+  
+  public m b(String paramString)
+  {
+    return d("Accept-Charset", paramString);
+  }
+  
+  public m b(String paramString, int paramInt)
+  {
+    if (J == null)
+    {
+      S = paramString;
+      T = paramInt;
+      return this;
+    }
+    throw new IllegalStateException("The connection has already been created. This method must be called before reading or writing to the request.");
+  }
+  
+  public m b(String paramString, Number paramNumber)
+    throws m.e
+  {
+    return a(paramString, null, paramNumber);
+  }
+  
+  public m b(String paramString1, String paramString2)
+  {
+    if ((paramString2 != null) && (paramString2.length() > 0))
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(paramString1);
+      localStringBuilder.append("; charset=");
+      localStringBuilder.append(paramString2);
+      return d("Content-Type", localStringBuilder.toString());
+    }
+    return d("Content-Type", paramString1);
+  }
+  
+  public m b(String paramString1, String paramString2, String paramString3)
+    throws IOException
+  {
+    paramString1 = a.d("form-data; name=\"", paramString1);
+    if (paramString2 != null)
+    {
+      paramString1.append("\"; filename=\"");
+      paramString1.append(paramString2);
+    }
+    paramString1.append('"');
+    g("Content-Disposition", paramString1.toString());
+    if (paramString3 != null) {
+      g("Content-Type", paramString3);
+    }
+    return h("\r\n");
+  }
+  
+  public m b(Map.Entry<String, String> paramEntry)
+  {
+    return d((String)paramEntry.getKey(), (String)paramEntry.getValue());
+  }
+  
+  public m b(Map<String, String> paramMap)
+  {
+    if (!paramMap.isEmpty())
+    {
+      paramMap = paramMap.entrySet().iterator();
+      while (paramMap.hasNext()) {
+        b((Map.Entry)paramMap.next());
+      }
+    }
+    return this;
+  }
+  
+  public m b(boolean paramBoolean)
+  {
+    P = paramBoolean;
+    return this;
+  }
+  
+  public String c(String paramString1, String paramString2)
+  {
+    if (paramString1 != null)
+    {
+      if (paramString1.length() == 0) {
+        return null;
+      }
+      int i4 = paramString1.length();
+      int i3 = paramString1.indexOf(';') + 1;
+      if (i3 != 0)
+      {
+        if (i3 == i4) {
+          return null;
+        }
+        int i5 = paramString1.indexOf(';', i3);
+        int i2 = i3;
+        int i1 = i5;
+        if (i5 == -1) {}
+        for (i2 = i3;; i2 = i3)
+        {
+          i1 = i4;
+          do
+          {
+            if (i2 >= i1) {
+              break;
+            }
+            i3 = paramString1.indexOf('=', i2);
+            if ((i3 != -1) && (i3 < i1) && (paramString2.equals(paramString1.substring(i2, i3).trim())))
+            {
+              String str = paramString1.substring(i3 + 1, i1).trim();
+              i2 = str.length();
+              if (i2 != 0)
+              {
+                if ((i2 > 2) && ('"' == str.charAt(0)))
+                {
+                  i1 = i2 - 1;
+                  if ('"' == str.charAt(i1)) {
+                    return str.substring(1, i1);
+                  }
+                }
+                return str;
+              }
+            }
+            i3 = i1 + 1;
+            i5 = paramString1.indexOf(';', i3);
+            i2 = i3;
+            i1 = i5;
+          } while (i5 != -1);
+        }
+      }
+    }
+    return null;
+  }
+  
+  public m c(int paramInt)
+  {
+    w().setConnectTimeout(paramInt);
+    return this;
+  }
+  
+  public m c(String paramString)
+  {
+    return d("Accept-Encoding", paramString);
+  }
+  
+  public boolean c()
+    throws m.e
+  {
+    return 400 == n();
+  }
+  
+  public String d()
+    throws m.e
+  {
+    return f(k());
+  }
+  
+  public m d(int paramInt)
+  {
+    w().setFixedLengthStreamingMode(paramInt);
+    return this;
+  }
+  
+  public m d(String paramString1, String paramString2)
+  {
+    w().setRequestProperty(paramString1, paramString2);
+    return this;
+  }
+  
+  public m d(boolean paramBoolean)
+  {
+    Q = paramBoolean;
+    return this;
+  }
+  
+  public BufferedInputStream e()
+    throws m.e
+  {
+    return new BufferedInputStream(M(), R);
+  }
+  
+  public String e(String paramString1, String paramString2)
+  {
+    return c(m(paramString1), paramString2);
+  }
+  
+  public m e(String paramString)
+  {
+    return d("Authorization", paramString);
+  }
+  
+  public m e(boolean paramBoolean)
+  {
+    w().setUseCaches(paramBoolean);
+    return this;
+  }
+  
+  public int f()
+  {
+    return R;
+  }
+  
+  public String f(String paramString)
+    throws m.e
+  {
+    ByteArrayOutputStream localByteArrayOutputStream = h();
+    try
+    {
+      a(e(), localByteArrayOutputStream);
+      paramString = localByteArrayOutputStream.toString(l(paramString));
+      return paramString;
+    }
+    catch (IOException paramString)
+    {
+      throw new m.e(paramString);
+    }
+  }
+  
+  public m f(int paramInt)
+  {
+    w().setReadTimeout(paramInt);
+    return this;
+  }
+  
+  public m f(String paramString1, String paramString2)
+  {
+    return a(paramString1, null, paramString2);
+  }
+  
+  public BufferedReader g()
+    throws m.e
+  {
+    return g(k());
+  }
+  
+  public BufferedReader g(String paramString)
+    throws m.e
+  {
+    return new BufferedReader(t(paramString), R);
+  }
+  
+  public m g(String paramString1, String paramString2)
+    throws m.e
+  {
+    return h(paramString1).h(": ").h(paramString2).h("\r\n");
+  }
+  
+  public ByteArrayOutputStream h()
+  {
+    int i1 = p();
+    if (i1 > 0) {
+      return new ByteArrayOutputStream(i1);
+    }
+    return new ByteArrayOutputStream();
+  }
+  
+  public m h(CharSequence paramCharSequence)
+    throws m.e
+  {
+    try
+    {
+      H();
+      M.b(paramCharSequence.toString());
+      return this;
+    }
+    catch (IOException paramCharSequence)
+    {
+      throw new m.e(paramCharSequence);
+    }
+  }
+  
+  public m h(String paramString)
+  {
+    return d(Integer.parseInt(paramString));
+  }
+  
+  public m h(String paramString1, String paramString2)
+  {
+    StringBuilder localStringBuilder1 = a.b("Basic ");
+    StringBuilder localStringBuilder2 = new StringBuilder();
+    localStringBuilder2.append(paramString1);
+    localStringBuilder2.append(':');
+    localStringBuilder2.append(paramString2);
+    localStringBuilder1.append(m.a.a(localStringBuilder2.toString()));
+    return r(localStringBuilder1.toString());
+  }
+  
+  public m i(String paramString)
+  {
+    return b(paramString, null);
+  }
+  
+  public byte[] i()
+    throws m.e
+  {
+    ByteArrayOutputStream localByteArrayOutputStream = h();
+    try
+    {
+      a(e(), localByteArrayOutputStream);
+      return localByteArrayOutputStream.toByteArray();
+    }
+    catch (IOException localIOException)
+    {
+      throw new m.e(localIOException);
+    }
+  }
+  
+  public long j(String paramString)
+    throws m.e
+  {
+    return a(paramString, -1L);
+  }
+  
+  public String j()
+  {
+    return m("Cache-Control");
+  }
+  
+  public m j(String paramString1, String paramString2)
+    throws IOException
+  {
+    return b(paramString1, paramString2, null);
+  }
+  
+  public String k()
+  {
+    return e("Content-Type", "charset");
+  }
+  
+  public Map<String, String> k(String paramString)
+  {
+    if ((paramString != null) && (paramString.length() != 0))
+    {
+      int i2 = paramString.length();
+      int i3 = paramString.indexOf(';') + 1;
+      if ((i3 != 0) && (i3 != i2))
+      {
+        int i4 = paramString.indexOf(';', i3);
+        int i1 = i4;
+        if (i4 == -1) {
+          i1 = i2;
+        }
+        LinkedHashMap localLinkedHashMap = new LinkedHashMap();
+        while (i3 < i1)
+        {
+          i4 = paramString.indexOf('=', i3);
+          if ((i4 != -1) && (i4 < i1))
+          {
+            String str1 = paramString.substring(i3, i4).trim();
+            if (str1.length() > 0)
+            {
+              String str2 = paramString.substring(i4 + 1, i1).trim();
+              i3 = str2.length();
+              if (i3 != 0)
+              {
+                if ((i3 > 2) && ('"' == str2.charAt(0)))
+                {
+                  i3 -= 1;
+                  if ('"' == str2.charAt(i3))
+                  {
+                    localLinkedHashMap.put(str1, str2.substring(1, i3));
+                    break label216;
+                  }
+                }
+                localLinkedHashMap.put(str1, str2);
+              }
+            }
+          }
+          label216:
+          i4 = i1 + 1;
+          int i5 = paramString.indexOf(';', i4);
+          i3 = i4;
+          i1 = i5;
+          if (i5 == -1)
+          {
+            i1 = i2;
+            i3 = i4;
+          }
+        }
+        return localLinkedHashMap;
+      }
+      return Collections.emptyMap();
+    }
+    return Collections.emptyMap();
+  }
+  
+  public m l()
+    throws IOException
+  {
+    m.g localG = M;
+    if (localG == null) {
+      return this;
+    }
+    if (N) {
+      localG.b("\r\n--00content0boundary00--\r\n");
+    }
+    if (P) {}
+    try
+    {
+      M.close();
+    }
+    catch (IOException localIOException)
+    {
+      for (;;) {}
+    }
+    M.close();
+    M = null;
+    return this;
+  }
+  
+  public String m(String paramString)
+    throws m.e
+  {
+    m();
+    return w().getHeaderField(paramString);
+  }
+  
+  public m m()
+    throws m.e
+  {
+    try
+    {
+      m localM = l();
+      return localM;
+    }
+    catch (IOException localIOException)
+    {
+      throw new m.e(localIOException);
+    }
+  }
+  
+  public int n()
+    throws m.e
+  {
+    try
+    {
+      l();
+      int i1 = w().getResponseCode();
+      return i1;
+    }
+    catch (IOException localIOException)
+    {
+      throw new m.e(localIOException);
+    }
+  }
+  
+  public String[] n(String paramString)
+  {
+    Map localMap = x();
+    if ((localMap != null) && (!localMap.isEmpty()))
+    {
+      paramString = (List)localMap.get(paramString);
+      if ((paramString != null) && (!paramString.isEmpty())) {
+        return (String[])paramString.toArray(new String[paramString.size()]);
+      }
+      return H;
+    }
+    return H;
+  }
+  
+  public String o()
+  {
+    return m("Content-Encoding");
+  }
+  
+  public m o(String paramString)
+  {
+    return d("If-None-Match", paramString);
+  }
+  
+  public int p()
+  {
+    return p("Content-Length");
+  }
+  
+  public int p(String paramString)
+    throws m.e
+  {
+    return a(paramString, -1);
+  }
+  
+  public String q()
+  {
+    return m("Content-Type");
+  }
+  
+  public Map<String, String> q(String paramString)
+  {
+    return k(m(paramString));
+  }
+  
+  public m r(String paramString)
+  {
+    return d("Proxy-Authorization", paramString);
+  }
+  
+  public boolean r()
+    throws m.e
+  {
+    return 201 == n();
+  }
+  
+  public long s()
+  {
+    return j("Date");
+  }
+  
+  public InputStreamReader t(String paramString)
+    throws m.e
+  {
+    try
+    {
+      paramString = new InputStreamReader(M(), l(paramString));
+      return paramString;
+    }
+    catch (UnsupportedEncodingException paramString)
+    {
+      throw new m.e(paramString);
+    }
+  }
+  
+  public m t()
+  {
+    w().disconnect();
+    return this;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(D());
+    localStringBuilder.append(' ');
+    localStringBuilder.append(P());
+    return localStringBuilder.toString();
+  }
+  
+  public String u()
+  {
+    return m("ETag");
+  }
+  
+  public m u(String paramString)
+  {
+    return d("Referer", paramString);
+  }
+  
+  public long v()
+  {
+    return j("Expires");
+  }
+  
+  public m v(String paramString)
+  {
+    return d("User-Agent", paramString);
+  }
+  
+  public HttpURLConnection w()
+  {
+    if (J == null) {
+      J = R();
+    }
+    return J;
+  }
+  
+  public Map<String, List<String>> x()
+    throws m.e
+  {
+    m();
+    return w().getHeaderFields();
+  }
+  
+  public boolean y()
+  {
+    return P;
+  }
+  
+  public boolean z()
+    throws m.e
+  {
+    return p() == 0;
+  }
+}

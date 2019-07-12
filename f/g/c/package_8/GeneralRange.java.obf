@@ -1,0 +1,431 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.U;
+import f.g.c.b.ba;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Comparator;
+import m.a.h;
+
+@b(serializable=true)
+public final class eb<T>
+  implements Serializable
+{
+  public final Comparator<? super T> a;
+  public final boolean b;
+  @h
+  public final T c;
+  public final O d;
+  public final boolean e;
+  @h
+  public final T f;
+  public final O g;
+  public transient eb<T> h;
+  
+  public eb(Comparator<? super T> paramComparator, boolean paramBoolean1, @h T paramT1, O paramO1, boolean paramBoolean2, @h T paramT2, O paramO2)
+  {
+    if (paramComparator != null)
+    {
+      a = paramComparator;
+      b = paramBoolean1;
+      e = paramBoolean2;
+      c = paramT1;
+      if (paramO1 != null)
+      {
+        d = paramO1;
+        f = paramT2;
+        if (paramO2 != null)
+        {
+          g = paramO2;
+          if (paramBoolean1) {
+            paramComparator.compare(paramT1, paramT1);
+          }
+          if (paramBoolean2) {
+            paramComparator.compare(paramT2, paramT2);
+          }
+          if ((paramBoolean1) && (paramBoolean2))
+          {
+            int i = paramComparator.compare(paramT1, paramT2);
+            int j = 1;
+            if (i <= 0) {
+              paramBoolean1 = true;
+            } else {
+              paramBoolean1 = false;
+            }
+            ba.a(paramBoolean1, "lowerEndpoint (%s) > upperEndpoint (%s)", new Object[] { paramT1, paramT2 });
+            if (i == 0)
+            {
+              if (paramO1 != O.a) {
+                i = 1;
+              } else {
+                i = 0;
+              }
+              if (paramO2 == O.a) {
+                j = 0;
+              }
+              ba.a(i | j);
+            }
+          }
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T extends Comparable> eb<T> a(qf<T> paramQf)
+  {
+    boolean bool = paramQf.a();
+    Comparable localComparable2 = null;
+    Comparable localComparable1;
+    if (bool) {
+      localComparable1 = paramQf.e();
+    } else {
+      localComparable1 = null;
+    }
+    O localO1;
+    if (paramQf.a()) {
+      localO1 = paramQf.d();
+    } else {
+      localO1 = O.a;
+    }
+    if (paramQf.b()) {
+      localComparable2 = paramQf.g();
+    }
+    O localO2;
+    if (paramQf.b()) {
+      localO2 = paramQf.f();
+    } else {
+      localO2 = O.a;
+    }
+    return new eb(mf.d(), paramQf.a(), localComparable1, localO1, paramQf.b(), localComparable2, localO2);
+  }
+  
+  public static <T> eb<T> a(Comparator<? super T> paramComparator)
+  {
+    O localO = O.a;
+    return new eb(paramComparator, false, null, localO, false, null, localO);
+  }
+  
+  public static <T> eb<T> a(Comparator<? super T> paramComparator, @h T paramT, O paramO)
+  {
+    return new eb(paramComparator, true, paramT, paramO, false, null, O.a);
+  }
+  
+  public static <T> eb<T> a(Comparator<? super T> paramComparator, @h T paramT1, O paramO1, @h T paramT2, O paramO2)
+  {
+    return new eb(paramComparator, true, paramT1, paramO1, true, paramT2, paramO2);
+  }
+  
+  public static <T> eb<T> b(Comparator<? super T> paramComparator, @h T paramT, O paramO)
+  {
+    return new eb(paramComparator, false, null, O.a, true, paramT, paramO);
+  }
+  
+  public eb<T> a(eb<T> paramEb)
+  {
+    if (paramEb != null)
+    {
+      ba.a(a.equals(a));
+      boolean bool2 = b;
+      Object localObject1 = c();
+      Object localObject4 = b();
+      boolean bool1;
+      Object localObject2;
+      int i;
+      if (!f())
+      {
+        bool1 = b;
+        localObject2 = paramEb.c();
+        localObject3 = paramEb.b();
+      }
+      else
+      {
+        bool1 = bool2;
+        localObject2 = localObject1;
+        localObject3 = localObject4;
+        if (paramEb.f())
+        {
+          i = a.compare(c(), paramEb.c());
+          if (i >= 0)
+          {
+            bool1 = bool2;
+            localObject2 = localObject1;
+            localObject3 = localObject4;
+            if (i == 0)
+            {
+              bool1 = bool2;
+              localObject2 = localObject1;
+              localObject3 = localObject4;
+              if (paramEb.b() != O.a) {}
+            }
+          }
+          else
+          {
+            localObject2 = paramEb.c();
+            localObject3 = paramEb.b();
+            bool1 = bool2;
+          }
+        }
+      }
+      boolean bool3 = e;
+      Object localObject5 = e();
+      O localO = d();
+      if (!g())
+      {
+        bool2 = e;
+        localObject1 = paramEb.e();
+        localObject4 = paramEb.d();
+      }
+      else
+      {
+        bool2 = bool3;
+        localObject1 = localObject5;
+        localObject4 = localO;
+        if (paramEb.g())
+        {
+          i = a.compare(e(), paramEb.e());
+          if (i <= 0)
+          {
+            bool2 = bool3;
+            localObject1 = localObject5;
+            localObject4 = localO;
+            if (i == 0)
+            {
+              bool2 = bool3;
+              localObject1 = localObject5;
+              localObject4 = localO;
+              if (paramEb.d() != O.a) {}
+            }
+          }
+          else
+          {
+            localObject1 = paramEb.e();
+            localObject4 = paramEb.d();
+            bool2 = bool3;
+          }
+        }
+      }
+      if ((bool1) && (bool2))
+      {
+        i = a.compare(localObject2, localObject1);
+        if (i <= 0)
+        {
+          if (i == 0)
+          {
+            paramEb = O.a;
+            if ((localObject3 != paramEb) || (localObject4 != paramEb)) {}
+          }
+        }
+        else
+        {
+          paramEb = O.a;
+          localObject2 = O.b;
+          localObject3 = localObject1;
+          localObject4 = localObject2;
+          break label369;
+        }
+      }
+      paramEb = (eb<T>)localObject3;
+      Object localObject3 = localObject2;
+      label369:
+      return new eb(a, bool1, localObject3, paramEb, bool2, localObject1, (O)localObject4);
+    }
+    throw new NullPointerException();
+  }
+  
+  public Comparator<? super T> a()
+  {
+    return a;
+  }
+  
+  public boolean a(@h T paramT)
+  {
+    return (!c(paramT)) && (!b(paramT));
+  }
+  
+  public O b()
+  {
+    return d;
+  }
+  
+  public boolean b(@h T paramT)
+  {
+    if (!g()) {
+      return false;
+    }
+    Object localObject = e();
+    int j = a.compare(paramT, localObject);
+    int k = 1;
+    int i;
+    if (j > 0) {
+      i = 1;
+    } else {
+      i = 0;
+    }
+    if (j == 0) {
+      j = 1;
+    } else {
+      j = 0;
+    }
+    if (d() != O.a) {
+      k = 0;
+    }
+    return j & k | i;
+  }
+  
+  public T c()
+  {
+    return c;
+  }
+  
+  public boolean c(@h T paramT)
+  {
+    if (!f()) {
+      return false;
+    }
+    Object localObject = c();
+    int j = a.compare(paramT, localObject);
+    int k = 1;
+    int i;
+    if (j < 0) {
+      i = 1;
+    } else {
+      i = 0;
+    }
+    if (j == 0) {
+      j = 1;
+    } else {
+      j = 0;
+    }
+    if (b() != O.a) {
+      k = 0;
+    }
+    return j & k | i;
+  }
+  
+  public O d()
+  {
+    return g;
+  }
+  
+  public T e()
+  {
+    return f;
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    boolean bool3 = paramObject instanceof eb;
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (bool3)
+    {
+      paramObject = (eb)paramObject;
+      bool1 = bool2;
+      if (a.equals(a))
+      {
+        bool1 = bool2;
+        if (b == b)
+        {
+          bool1 = bool2;
+          if (e == e)
+          {
+            bool1 = bool2;
+            if (b().equals(paramObject.b()))
+            {
+              bool1 = bool2;
+              if (d().equals(paramObject.d()))
+              {
+                bool1 = bool2;
+                if (U.a(c(), paramObject.c()))
+                {
+                  bool1 = bool2;
+                  if (U.a(e(), paramObject.e())) {
+                    bool1 = true;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return bool1;
+  }
+  
+  public boolean f()
+  {
+    return b;
+  }
+  
+  public boolean g()
+  {
+    return e;
+  }
+  
+  public boolean h()
+  {
+    return ((g()) && (c(e()))) || ((f()) && (b(c())));
+  }
+  
+  public int hashCode()
+  {
+    return Arrays.hashCode(new Object[] { a, c(), b(), e(), d() });
+  }
+  
+  public eb<T> i()
+  {
+    eb localEb2 = h;
+    eb localEb1 = localEb2;
+    if (localEb2 == null)
+    {
+      localEb1 = new eb(mf.b(a).g(), e, e(), d(), b, c(), b());
+      h = this;
+      h = localEb1;
+    }
+    return localEb1;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    localStringBuilder.append(a);
+    localStringBuilder.append(":");
+    int i = b().ordinal();
+    if (i != 0)
+    {
+      if (i == 1) {
+        localStringBuilder.append('[');
+      }
+    }
+    else {
+      localStringBuilder.append('(');
+    }
+    if (f()) {
+      localStringBuilder.append(c());
+    } else {
+      localStringBuilder.append("-?");
+    }
+    localStringBuilder.append(',');
+    if (g()) {
+      localStringBuilder.append(e());
+    } else {
+      localStringBuilder.append("?");
+    }
+    i = d().ordinal();
+    if (i != 0)
+    {
+      if (i == 1) {
+        localStringBuilder.append(']');
+      }
+    }
+    else {
+      localStringBuilder.append(')');
+    }
+    return localStringBuilder.toString();
+  }
+}

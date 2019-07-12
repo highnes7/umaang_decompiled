@@ -1,0 +1,138 @@
+package b.b.x.o;
+
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.AccessibilityDelegate;
+import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.accessibility.AccessibilityNodeProvider;
+import b.b.a.K;
+import b.b.x.o.a.c;
+import b.b.x.o.a.d;
+
+public class b
+{
+  public static final View.AccessibilityDelegate DEFAULT_DELEGATE = new View.AccessibilityDelegate();
+  public final View.AccessibilityDelegate mBridge = new a(this);
+  
+  public b() {}
+  
+  public boolean dispatchPopulateAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+  {
+    return DEFAULT_DELEGATE.dispatchPopulateAccessibilityEvent(paramView, paramAccessibilityEvent);
+  }
+  
+  public d getAccessibilityNodeProvider(View paramView)
+  {
+    int i = Build.VERSION.SDK_INT;
+    paramView = DEFAULT_DELEGATE.getAccessibilityNodeProvider(paramView);
+    if (paramView != null) {
+      return new d(paramView);
+    }
+    return null;
+  }
+  
+  public View.AccessibilityDelegate getBridge()
+  {
+    return mBridge;
+  }
+  
+  public void onInitializeAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+  {
+    DEFAULT_DELEGATE.onInitializeAccessibilityEvent(paramView, paramAccessibilityEvent);
+  }
+  
+  public void onInitializeAccessibilityNodeInfo(View paramView, c paramC)
+  {
+    DEFAULT_DELEGATE.onInitializeAccessibilityNodeInfo(paramView, paramC.fa());
+  }
+  
+  public void onPopulateAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+  {
+    DEFAULT_DELEGATE.onPopulateAccessibilityEvent(paramView, paramAccessibilityEvent);
+  }
+  
+  public boolean onRequestSendAccessibilityEvent(ViewGroup paramViewGroup, View paramView, AccessibilityEvent paramAccessibilityEvent)
+  {
+    return DEFAULT_DELEGATE.onRequestSendAccessibilityEvent(paramViewGroup, paramView, paramAccessibilityEvent);
+  }
+  
+  public boolean performAccessibilityAction(View paramView, int paramInt, Bundle paramBundle)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return DEFAULT_DELEGATE.performAccessibilityAction(paramView, paramInt, paramBundle);
+  }
+  
+  public void sendAccessibilityEvent(View paramView, int paramInt)
+  {
+    DEFAULT_DELEGATE.sendAccessibilityEvent(paramView, paramInt);
+  }
+  
+  public void sendAccessibilityEventUnchecked(View paramView, AccessibilityEvent paramAccessibilityEvent)
+  {
+    DEFAULT_DELEGATE.sendAccessibilityEventUnchecked(paramView, paramAccessibilityEvent);
+  }
+  
+  private static final class a
+    extends View.AccessibilityDelegate
+  {
+    public final b a;
+    
+    public a(b paramB)
+    {
+      a = paramB;
+    }
+    
+    public boolean dispatchPopulateAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      return a.dispatchPopulateAccessibilityEvent(paramView, paramAccessibilityEvent);
+    }
+    
+    @K(16)
+    public AccessibilityNodeProvider getAccessibilityNodeProvider(View paramView)
+    {
+      paramView = a.getAccessibilityNodeProvider(paramView);
+      if (paramView != null) {
+        return (AccessibilityNodeProvider)paramView.a();
+      }
+      return null;
+    }
+    
+    public void onInitializeAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      a.onInitializeAccessibilityEvent(paramView, paramAccessibilityEvent);
+    }
+    
+    public void onInitializeAccessibilityNodeInfo(View paramView, AccessibilityNodeInfo paramAccessibilityNodeInfo)
+    {
+      a.onInitializeAccessibilityNodeInfo(paramView, new c(paramAccessibilityNodeInfo));
+    }
+    
+    public void onPopulateAccessibilityEvent(View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      a.onPopulateAccessibilityEvent(paramView, paramAccessibilityEvent);
+    }
+    
+    public boolean onRequestSendAccessibilityEvent(ViewGroup paramViewGroup, View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      return a.onRequestSendAccessibilityEvent(paramViewGroup, paramView, paramAccessibilityEvent);
+    }
+    
+    public boolean performAccessibilityAction(View paramView, int paramInt, Bundle paramBundle)
+    {
+      return a.performAccessibilityAction(paramView, paramInt, paramBundle);
+    }
+    
+    public void sendAccessibilityEvent(View paramView, int paramInt)
+    {
+      a.sendAccessibilityEvent(paramView, paramInt);
+    }
+    
+    public void sendAccessibilityEventUnchecked(View paramView, AccessibilityEvent paramAccessibilityEvent)
+    {
+      a.sendAccessibilityEventUnchecked(paramView, paramAccessibilityEvent);
+    }
+  }
+}

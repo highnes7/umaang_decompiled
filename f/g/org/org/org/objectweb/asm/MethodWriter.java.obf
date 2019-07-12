@@ -1,0 +1,471 @@
+package f.g.b.a.b.b.b;
+
+import f.g.b.a.a.b.j;
+import f.g.b.a.a.b.v;
+import f.g.b.a.c.B;
+import f.g.b.a.c.F;
+import f.g.b.a.c.k;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.c.z;
+import f.g.b.a.d.d;
+import f.g.b.a.d.f;
+import f.g.b.a.g.J;
+import f.g.b.a.g.h;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Locale;
+
+@h
+public class a
+{
+  public static final String a = "GOOGLE_APPLICATION_CREDENTIALS";
+  public static final String b = "application_default_credentials.json";
+  public static final String c = "gcloud";
+  public static final String d = "https://developers.google.com/accounts/docs/application-default-credentials";
+  public static final String e = "com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential$AppEngineCredentialWrapper";
+  public g f = null;
+  public boolean g = false;
+  public boolean h = false;
+  
+  public a() {}
+  
+  private final File a()
+  {
+    File localFile;
+    if (a("os.name", "").toLowerCase(Locale.US).indexOf("windows") >= 0) {
+      localFile = new File(new File(b("APPDATA")), "gcloud");
+    } else {
+      localFile = new File(new File(a("user.home", ""), ".config"), "gcloud");
+    }
+    return new File(localFile, "application_default_credentials.json");
+  }
+  
+  /* Error */
+  private final g b(F paramF, d paramD)
+    throws IOException
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: ldc 11
+    //   3: invokevirtual 72	f/g/b/a/b/b/b/a:b	(Ljava/lang/String;)Ljava/lang/String;
+    //   6: astore 9
+    //   8: aconst_null
+    //   9: astore 7
+    //   11: aconst_null
+    //   12: astore 6
+    //   14: aconst_null
+    //   15: astore 8
+    //   17: aconst_null
+    //   18: astore 5
+    //   20: aload 9
+    //   22: ifnull +207 -> 229
+    //   25: aload 9
+    //   27: invokevirtual 94	java/lang/String:length	()I
+    //   30: ifle +199 -> 229
+    //   33: aload 5
+    //   35: astore 4
+    //   37: new 67	java/io/File
+    //   40: dup
+    //   41: aload 9
+    //   43: invokespecial 75	java/io/File:<init>	(Ljava/lang/String;)V
+    //   46: astore 10
+    //   48: aload 5
+    //   50: astore 4
+    //   52: aload 10
+    //   54: invokevirtual 98	java/io/File:exists	()Z
+    //   57: ifeq +65 -> 122
+    //   60: aload 5
+    //   62: astore 4
+    //   64: aload 10
+    //   66: invokevirtual 101	java/io/File:isDirectory	()Z
+    //   69: ifne +53 -> 122
+    //   72: aload 5
+    //   74: astore 4
+    //   76: new 103	java/io/FileInputStream
+    //   79: dup
+    //   80: aload 10
+    //   82: invokespecial 106	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   85: astore 5
+    //   87: aload 5
+    //   89: aload_1
+    //   90: aload_2
+    //   91: invokestatic 111	f/g/b/a/b/b/b/g:a	(Ljava/io/InputStream;Lf/g/b/a/c/F;Lf/g/b/a/d/d;)Lf/g/b/a/b/b/b/g;
+    //   94: astore 4
+    //   96: aload 5
+    //   98: invokevirtual 114	java/io/FileInputStream:close	()V
+    //   101: goto +131 -> 232
+    //   104: astore_1
+    //   105: aload 5
+    //   107: astore 4
+    //   109: goto +108 -> 217
+    //   112: goto +31 -> 143
+    //   115: astore_2
+    //   116: aload 5
+    //   118: astore_1
+    //   119: goto +41 -> 160
+    //   122: aload 5
+    //   124: astore 4
+    //   126: new 88	java/io/IOException
+    //   129: dup
+    //   130: ldc 116
+    //   132: invokespecial 117	java/io/IOException:<init>	(Ljava/lang/String;)V
+    //   135: athrow
+    //   136: astore_1
+    //   137: goto +80 -> 217
+    //   140: aconst_null
+    //   141: astore 5
+    //   143: aload 5
+    //   145: ifnull +84 -> 229
+    //   148: aload 5
+    //   150: invokevirtual 114	java/io/FileInputStream:close	()V
+    //   153: goto +76 -> 229
+    //   156: astore_2
+    //   157: aload 7
+    //   159: astore_1
+    //   160: aload_1
+    //   161: astore 4
+    //   163: new 88	java/io/IOException
+    //   166: dup
+    //   167: ldc 119
+    //   169: iconst_3
+    //   170: anewarray 4	java/lang/Object
+    //   173: dup
+    //   174: iconst_0
+    //   175: ldc 11
+    //   177: aastore
+    //   178: dup
+    //   179: iconst_1
+    //   180: aload 9
+    //   182: aastore
+    //   183: dup
+    //   184: iconst_2
+    //   185: aload_2
+    //   186: invokevirtual 123	java/io/IOException:getMessage	()Ljava/lang/String;
+    //   189: aastore
+    //   190: invokestatic 127	java/lang/String:format	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    //   193: invokespecial 117	java/io/IOException:<init>	(Ljava/lang/String;)V
+    //   196: astore 5
+    //   198: aload_1
+    //   199: astore 4
+    //   201: aload 5
+    //   203: aload_2
+    //   204: invokestatic 132	f/g/b/a/b/b/b/n:a	(Ljava/lang/Throwable;Ljava/lang/Throwable;)Ljava/lang/Throwable;
+    //   207: pop
+    //   208: aload_1
+    //   209: astore 4
+    //   211: aload 5
+    //   213: checkcast 88	java/io/IOException
+    //   216: athrow
+    //   217: aload 4
+    //   219: ifnull +8 -> 227
+    //   222: aload 4
+    //   224: invokevirtual 114	java/io/FileInputStream:close	()V
+    //   227: aload_1
+    //   228: athrow
+    //   229: aconst_null
+    //   230: astore 4
+    //   232: aload 4
+    //   234: astore 5
+    //   236: aload 4
+    //   238: ifnonnull +160 -> 398
+    //   241: aload_0
+    //   242: invokespecial 134	f/g/b/a/b/b/b/a:a	()Ljava/io/File;
+    //   245: astore 9
+    //   247: aload 4
+    //   249: astore 5
+    //   251: aload_0
+    //   252: aload 9
+    //   254: invokevirtual 137	f/g/b/a/b/b/b/a:a	(Ljava/io/File;)Z
+    //   257: istore_3
+    //   258: aload 4
+    //   260: astore 5
+    //   262: iload_3
+    //   263: ifeq +135 -> 398
+    //   266: aload 6
+    //   268: astore 5
+    //   270: new 103	java/io/FileInputStream
+    //   273: dup
+    //   274: aload 9
+    //   276: invokespecial 106	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   279: astore 6
+    //   281: aload 6
+    //   283: aload_1
+    //   284: aload_2
+    //   285: invokestatic 111	f/g/b/a/b/b/b/g:a	(Ljava/io/InputStream;Lf/g/b/a/c/F;Lf/g/b/a/d/d;)Lf/g/b/a/b/b/b/g;
+    //   288: astore 7
+    //   290: aload 7
+    //   292: astore 5
+    //   294: aload 6
+    //   296: invokevirtual 114	java/io/FileInputStream:close	()V
+    //   299: aload 7
+    //   301: astore 5
+    //   303: goto +95 -> 398
+    //   306: astore 7
+    //   308: aload 6
+    //   310: astore 5
+    //   312: aload 7
+    //   314: astore 6
+    //   316: aload 5
+    //   318: astore 7
+    //   320: goto +57 -> 377
+    //   323: astore 7
+    //   325: aload 6
+    //   327: astore 5
+    //   329: goto +18 -> 347
+    //   332: astore 6
+    //   334: aload 5
+    //   336: astore 7
+    //   338: goto +39 -> 377
+    //   341: astore 7
+    //   343: aload 8
+    //   345: astore 5
+    //   347: new 88	java/io/IOException
+    //   350: dup
+    //   351: ldc -117
+    //   353: iconst_2
+    //   354: anewarray 4	java/lang/Object
+    //   357: dup
+    //   358: iconst_0
+    //   359: aload 9
+    //   361: aastore
+    //   362: dup
+    //   363: iconst_1
+    //   364: aload 7
+    //   366: invokevirtual 123	java/io/IOException:getMessage	()Ljava/lang/String;
+    //   369: aastore
+    //   370: invokestatic 127	java/lang/String:format	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    //   373: invokespecial 117	java/io/IOException:<init>	(Ljava/lang/String;)V
+    //   376: athrow
+    //   377: aload 7
+    //   379: ifnull +12 -> 391
+    //   382: aload 4
+    //   384: astore 5
+    //   386: aload 7
+    //   388: invokevirtual 114	java/io/FileInputStream:close	()V
+    //   391: aload 4
+    //   393: astore 5
+    //   395: aload 6
+    //   397: athrow
+    //   398: aload 5
+    //   400: astore 4
+    //   402: aload 5
+    //   404: ifnonnull +11 -> 415
+    //   407: aload_0
+    //   408: aload_1
+    //   409: aload_2
+    //   410: invokespecial 141	f/g/b/a/b/b/b/a:c	(Lf/g/b/a/c/F;Lf/g/b/a/d/d;)Lf/g/b/a/b/b/b/g;
+    //   413: astore 4
+    //   415: aload 4
+    //   417: astore 5
+    //   419: aload 4
+    //   421: ifnonnull +11 -> 432
+    //   424: aload_0
+    //   425: aload_1
+    //   426: aload_2
+    //   427: invokespecial 143	f/g/b/a/b/b/b/a:d	(Lf/g/b/a/c/F;Lf/g/b/a/d/d;)Lf/g/b/a/b/b/b/g;
+    //   430: astore 5
+    //   432: aload 5
+    //   434: areturn
+    //   435: astore 4
+    //   437: goto -297 -> 140
+    //   440: astore 4
+    //   442: goto -330 -> 112
+    //   445: astore 4
+    //   447: goto -49 -> 398
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	450	0	this	a
+    //   0	450	1	paramF	F
+    //   0	450	2	paramD	d
+    //   257	6	3	bool	boolean
+    //   35	385	4	localObject1	Object
+    //   435	1	4	localAccessControlException1	java.security.AccessControlException
+    //   440	1	4	localAccessControlException2	java.security.AccessControlException
+    //   445	1	4	localAccessControlException3	java.security.AccessControlException
+    //   18	415	5	localObject2	Object
+    //   12	314	6	localObject3	Object
+    //   332	64	6	localObject4	Object
+    //   9	291	7	localG	g
+    //   306	7	7	localObject5	Object
+    //   318	1	7	localObject6	Object
+    //   323	1	7	localIOException1	IOException
+    //   336	1	7	localObject7	Object
+    //   341	46	7	localIOException2	IOException
+    //   15	329	8	localObject8	Object
+    //   6	354	9	localObject9	Object
+    //   46	35	10	localFile	File
+    // Exception table:
+    //   from	to	target	type
+    //   87	96	104	finally
+    //   87	96	115	java/io/IOException
+    //   37	48	136	finally
+    //   52	60	136	finally
+    //   64	72	136	finally
+    //   76	87	136	finally
+    //   126	136	136	finally
+    //   163	198	136	finally
+    //   201	208	136	finally
+    //   211	217	136	finally
+    //   37	48	156	java/io/IOException
+    //   52	60	156	java/io/IOException
+    //   64	72	156	java/io/IOException
+    //   76	87	156	java/io/IOException
+    //   126	136	156	java/io/IOException
+    //   281	290	306	finally
+    //   281	290	323	java/io/IOException
+    //   270	281	332	finally
+    //   347	377	332	finally
+    //   270	281	341	java/io/IOException
+    //   37	48	435	java/security/AccessControlException
+    //   52	60	435	java/security/AccessControlException
+    //   64	72	435	java/security/AccessControlException
+    //   76	87	435	java/security/AccessControlException
+    //   126	136	435	java/security/AccessControlException
+    //   87	96	440	java/security/AccessControlException
+    //   251	258	445	java/security/AccessControlException
+    //   294	299	445	java/security/AccessControlException
+    //   386	391	445	java/security/AccessControlException
+    //   395	398	445	java/security/AccessControlException
+  }
+  
+  private boolean b()
+  {
+    boolean bool = false;
+    try
+    {
+      Object localObject1 = a("com.google.appengine.api.utils.SystemProperty");
+      try
+      {
+        localObject1 = ((Class)localObject1).getField("environment");
+        localObject2 = ((Field)localObject1).get(null);
+        localObject1 = ((Field)localObject1).getType().getMethod("value", new Class[0]).invoke(localObject2, new Object[0]);
+        if (localObject1 != null) {
+          bool = true;
+        }
+        return bool;
+      }
+      catch (InvocationTargetException localInvocationTargetException) {}catch (NoSuchMethodException localNoSuchMethodException) {}catch (IllegalAccessException localIllegalAccessException) {}catch (IllegalArgumentException localIllegalArgumentException) {}catch (SecurityException localSecurityException) {}catch (NoSuchFieldException localNoSuchFieldException) {}
+      Object localObject2 = new RuntimeException(String.format("Unexpcted error trying to determine if runnning on Google App Engine: %s", new Object[] { localNoSuchFieldException.getMessage() }));
+      n.a((Throwable)localObject2, localNoSuchFieldException);
+      throw ((RuntimeException)localObject2);
+    }
+    catch (ClassNotFoundException localClassNotFoundException) {}
+    return false;
+  }
+  
+  private final g c(F paramF, d paramD)
+    throws IOException
+  {
+    if (g) {
+      return null;
+    }
+    boolean bool = b();
+    g = true;
+    if (!bool) {
+      return null;
+    }
+    try
+    {
+      paramF = (g)a("com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential$AppEngineCredentialWrapper").getConstructor(new Class[] { F.class, d.class }).newInstance(new Object[] { paramF, paramD });
+      return paramF;
+    }
+    catch (InvocationTargetException paramF) {}catch (IllegalAccessException paramF) {}catch (InstantiationException paramF) {}catch (NoSuchMethodException paramF) {}catch (ClassNotFoundException paramF) {}
+    paramD = new IOException(String.format("Application Default Credentials failed to create the Google App Engine service account credentials class %s. Check that the component 'google-api-client-appengine' is deployed.", new Object[] { "com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential$AppEngineCredentialWrapper" }));
+    n.a(paramD, paramF);
+    throw ((IOException)paramD);
+  }
+  
+  private final g d(F paramF, d paramD)
+  {
+    if (h) {
+      return null;
+    }
+    boolean bool = n.a(paramF);
+    h = true;
+    if (bool) {
+      return new a(paramF, paramD);
+    }
+    return null;
+  }
+  
+  public final g a(F paramF, d paramD)
+    throws IOException
+  {
+    try
+    {
+      if (f == null) {
+        f = b(paramF, paramD);
+      }
+      if (f != null)
+      {
+        paramF = f;
+        return paramF;
+      }
+      throw new IOException(String.format("The Application Default Credentials are not available. They are available if running in Google Compute Engine. Otherwise, the environment variable %s must be defined pointing to a file defining the credentials. See %s for more information.", new Object[] { "GOOGLE_APPLICATION_CREDENTIALS", "https://developers.google.com/accounts/docs/application-default-credentials" }));
+    }
+    finally {}
+  }
+  
+  public Class<?> a(String paramString)
+    throws ClassNotFoundException
+  {
+    return Class.forName(paramString);
+  }
+  
+  public String a(String paramString1, String paramString2)
+  {
+    return System.getProperty(paramString1, paramString2);
+  }
+  
+  public boolean a(File paramFile)
+  {
+    return (paramFile.exists()) && (!paramFile.isDirectory());
+  }
+  
+  public String b(String paramString)
+  {
+    return System.getenv(paramString);
+  }
+  
+  private static class a
+    extends g
+  {
+    public static final String v = "http://metadata/computeMetadata/v1/instance/service-accounts/default/token";
+    
+    public a(F paramF, d paramD)
+    {
+      super();
+    }
+    
+    public v a()
+      throws IOException
+    {
+      Object localObject1 = new k(l());
+      Object localObject2 = m().b().b((k)localObject1);
+      localObject1 = new f(g());
+      ((y)localObject2).a((J)localObject1);
+      ((y)localObject2).i().b("X-Google-Metadata-Request", Boolean.valueOf(true));
+      ((y)localObject2).f(false);
+      localObject2 = ((y)localObject2).a();
+      int i = ((B)localObject2).j();
+      if (i == 200)
+      {
+        InputStream localInputStream = ((B)localObject2).b();
+        if (localInputStream != null) {
+          return (v)((f)localObject1).a(localInputStream, ((B)localObject2).c(), v.class);
+        }
+        throw new IOException("Empty content from metadata token server request.");
+      }
+      if (i == 404) {
+        throw new IOException(String.format("Error code %s trying to get security access token from Compute Engine metadata for the default service account. This may be because the virtual machine instance does not have permission scopes specified.", new Object[] { Integer.valueOf(i) }));
+      }
+      throw new IOException(String.format("Unexpected Error code %s trying to get security access token from Compute Engine metadata for the default service account: %s", new Object[] { Integer.valueOf(i), ((B)localObject2).p() }));
+    }
+  }
+}

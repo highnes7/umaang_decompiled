@@ -1,0 +1,128 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.h;
+import f.b.a.m;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class KeywordsBox
+  extends c
+{
+  public static final String TYPE = "kywd";
+  public String[] keywords;
+  public String language;
+  
+  static {}
+  
+  public KeywordsBox()
+  {
+    super("kywd");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    language = h.e(paramByteBuffer);
+    int j = h.m(paramByteBuffer);
+    keywords = new String[j];
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return;
+      }
+      h.m(paramByteBuffer);
+      keywords[i] = h.f(paramByteBuffer);
+      i += 1;
+    }
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    f.b.a.j.a(paramByteBuffer, language);
+    paramByteBuffer.put((byte)(keywords.length & 0xFF));
+    String[] arrayOfString = keywords;
+    int j = arrayOfString.length;
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return;
+      }
+      String str = arrayOfString[i];
+      paramByteBuffer.put((byte)(m.b(str) + 1 & 0xFF));
+      paramByteBuffer.put(m.a(str));
+      i += 1;
+    }
+  }
+  
+  public long getContentSize()
+  {
+    String[] arrayOfString = keywords;
+    int j = arrayOfString.length;
+    long l = 7L;
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return l;
+      }
+      l += m.b(arrayOfString[i]) + 1 + 1;
+      i += 1;
+    }
+  }
+  
+  public String[] getKeywords()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return keywords;
+  }
+  
+  public String getLanguage()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return language;
+  }
+  
+  public void setKeywords(String[] paramArrayOfString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, paramArrayOfString);
+    f.h.a.j.b().a(localJoinPoint);
+    keywords = paramArrayOfString;
+  }
+  
+  public void setLanguage(String paramString)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this, paramString);
+    f.h.a.j.b().a(localJoinPoint);
+    language = paramString;
+  }
+  
+  public String toString()
+  {
+    Object localObject = Factory.makeJP(ajc$tjp_4, this, this);
+    f.h.a.j.b().a((JoinPoint)localObject);
+    localObject = new StringBuffer();
+    ((StringBuffer)localObject).append("KeywordsBox[language=");
+    ((StringBuffer)localObject).append(getLanguage());
+    int i = 0;
+    for (;;)
+    {
+      if (i >= keywords.length)
+      {
+        ((StringBuffer)localObject).append("]");
+        return ((StringBuffer)localObject).toString();
+      }
+      ((StringBuffer)localObject).append(";keyword");
+      ((StringBuffer)localObject).append(i);
+      ((StringBuffer)localObject).append("=");
+      ((StringBuffer)localObject).append(keywords[i]);
+      i += 1;
+    }
+  }
+}

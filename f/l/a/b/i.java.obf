@@ -1,0 +1,371 @@
+package f.l.a.b;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import java.util.concurrent.Executor;
+
+public final class h
+{
+  public final Resources a;
+  public final int b;
+  public final int c;
+  public final int d;
+  public final int e;
+  public final f.l.a.b.g.a f;
+  public final Executor g;
+  public final Executor h;
+  public final boolean i;
+  public final boolean j;
+  public final int k;
+  public final int l;
+  public final f.l.a.b.a.g m;
+  public final f.l.a.a.b.c n;
+  public final f.l.a.a.a.a o;
+  public final f.l.a.b.d.c p;
+  public final f.l.a.b.b.b q;
+  public final d r;
+  public final f.l.a.b.d.c s;
+  public final f.l.a.b.d.c t;
+  
+  public h(a paramA)
+  {
+    a = a.a(paramA).getResources();
+    b = a.b(paramA);
+    c = a.l(paramA);
+    d = a.m(paramA);
+    e = a.n(paramA);
+    f = a.o(paramA);
+    g = a.p(paramA);
+    h = a.q(paramA);
+    k = a.r(paramA);
+    l = a.s(paramA);
+    m = a.c(paramA);
+    o = a.d(paramA);
+    n = a.e(paramA);
+    r = a.f(paramA);
+    p = a.g(paramA);
+    q = a.h(paramA);
+    i = a.i(paramA);
+    j = a.j(paramA);
+    s = new h.b(p);
+    t = new h.c(p);
+    f.l.a.c.e.b = a.k(paramA);
+  }
+  
+  public static h a(Context paramContext)
+  {
+    return new a(paramContext).a();
+  }
+  
+  public f.l.a.b.a.e a()
+  {
+    DisplayMetrics localDisplayMetrics = a.getDisplayMetrics();
+    int i2 = b;
+    int i1 = i2;
+    if (i2 <= 0) {
+      i1 = widthPixels;
+    }
+    int i3 = c;
+    i2 = i3;
+    if (i3 <= 0) {
+      i2 = heightPixels;
+    }
+    return new f.l.a.b.a.e(i1, i2);
+  }
+  
+  public static class a
+  {
+    public static final String a = "diskCache(), diskCacheSize() and diskCacheFileCount calls overlap each other";
+    public static final String b = "diskCache() and diskCacheFileNameGenerator() calls overlap each other";
+    public static final String c = "memoryCache() and memoryCacheSize() calls overlap each other";
+    public static final String d = "threadPoolSize(), threadPriority() and tasksProcessingOrder() calls can overlap taskExecutor() and taskExecutorForCachedImages() calls.";
+    public static final int e = 3;
+    public static final int f = 3;
+    public static final f.l.a.b.a.g g = f.l.a.b.a.g.a;
+    public f.l.a.a.a.b.a A = null;
+    public f.l.a.b.d.c B = null;
+    public f.l.a.b.b.b C;
+    public d D = null;
+    public boolean E = false;
+    public Context h;
+    public int i = 0;
+    public int j = 0;
+    public int k = 0;
+    public int l = 0;
+    public f.l.a.b.g.a m = null;
+    public Executor n = null;
+    public Executor o = null;
+    public boolean p = false;
+    public boolean q = false;
+    public int r = 3;
+    public int s = 3;
+    public boolean t = false;
+    public f.l.a.b.a.g u = g;
+    public int v = 0;
+    public long w = 0L;
+    public int x = 0;
+    public f.l.a.a.b.c y = null;
+    public f.l.a.a.a.a z = null;
+    
+    public a(Context paramContext)
+    {
+      h = paramContext.getApplicationContext();
+    }
+    
+    private void d()
+    {
+      if (n == null) {
+        n = a.a(r, s, u);
+      } else {
+        p = true;
+      }
+      if (o == null) {
+        o = a.a(r, s, u);
+      } else {
+        q = true;
+      }
+      if (z == null)
+      {
+        if (A == null) {
+          A = new f.l.a.a.a.b.b();
+        }
+        z = a.a(h, A, w, x);
+      }
+      if (y == null) {
+        y = a.a(h, v);
+      }
+      if (t) {
+        y = new f.l.a.a.b.a.b(y, f.l.a.c.g.a());
+      }
+      if (B == null) {
+        B = new f.l.a.b.d.b(h);
+      }
+      if (C == null) {
+        C = new f.l.a.b.b.a(E);
+      }
+      if (D == null) {
+        D = d.a();
+      }
+    }
+    
+    @Deprecated
+    public a a(int paramInt)
+    {
+      return c(paramInt);
+    }
+    
+    public a a(int paramInt1, int paramInt2)
+    {
+      i = paramInt1;
+      j = paramInt2;
+      return this;
+    }
+    
+    @Deprecated
+    public a a(int paramInt1, int paramInt2, f.l.a.b.g.a paramA)
+    {
+      return b(paramInt1, paramInt2, paramA);
+    }
+    
+    @Deprecated
+    public a a(f.l.a.a.a.a paramA)
+    {
+      return b(paramA);
+    }
+    
+    @Deprecated
+    public a a(f.l.a.a.a.b.a paramA)
+    {
+      return b(paramA);
+    }
+    
+    public a a(f.l.a.a.b.c paramC)
+    {
+      if (v != 0) {
+        f.l.a.c.e.d("memoryCache() and memoryCacheSize() calls overlap each other", new Object[0]);
+      }
+      y = paramC;
+      return this;
+    }
+    
+    public a a(f.l.a.b.a.g paramG)
+    {
+      if ((n != null) || (o != null)) {
+        f.l.a.c.e.d("threadPoolSize(), threadPriority() and tasksProcessingOrder() calls can overlap taskExecutor() and taskExecutorForCachedImages() calls.", new Object[0]);
+      }
+      u = paramG;
+      return this;
+    }
+    
+    public a a(f.l.a.b.b.b paramB)
+    {
+      C = paramB;
+      return this;
+    }
+    
+    public a a(f.l.a.b.d.c paramC)
+    {
+      B = paramC;
+      return this;
+    }
+    
+    public a a(d paramD)
+    {
+      D = paramD;
+      return this;
+    }
+    
+    public a a(Executor paramExecutor)
+    {
+      if ((r != 3) || (s != 3) || (u != g)) {
+        f.l.a.c.e.d("threadPoolSize(), threadPriority() and tasksProcessingOrder() calls can overlap taskExecutor() and taskExecutorForCachedImages() calls.", new Object[0]);
+      }
+      n = paramExecutor;
+      return this;
+    }
+    
+    public h a()
+    {
+      d();
+      return new h(this);
+    }
+    
+    public a b()
+    {
+      t = true;
+      return this;
+    }
+    
+    @Deprecated
+    public a b(int paramInt)
+    {
+      return d(paramInt);
+    }
+    
+    public a b(int paramInt1, int paramInt2, f.l.a.b.g.a paramA)
+    {
+      k = paramInt1;
+      l = paramInt2;
+      m = paramA;
+      return this;
+    }
+    
+    public a b(f.l.a.a.a.a paramA)
+    {
+      if ((w > 0L) || (x > 0)) {
+        f.l.a.c.e.d("diskCache(), diskCacheSize() and diskCacheFileCount calls overlap each other", new Object[0]);
+      }
+      if (A != null) {
+        f.l.a.c.e.d("diskCache() and diskCacheFileNameGenerator() calls overlap each other", new Object[0]);
+      }
+      z = paramA;
+      return this;
+    }
+    
+    public a b(f.l.a.a.a.b.a paramA)
+    {
+      if (z != null) {
+        f.l.a.c.e.d("diskCache() and diskCacheFileNameGenerator() calls overlap each other", new Object[0]);
+      }
+      A = paramA;
+      return this;
+    }
+    
+    public a b(Executor paramExecutor)
+    {
+      if ((r != 3) || (s != 3) || (u != g)) {
+        f.l.a.c.e.d("threadPoolSize(), threadPriority() and tasksProcessingOrder() calls can overlap taskExecutor() and taskExecutorForCachedImages() calls.", new Object[0]);
+      }
+      o = paramExecutor;
+      return this;
+    }
+    
+    public a c()
+    {
+      E = true;
+      return this;
+    }
+    
+    public a c(int paramInt)
+    {
+      if (paramInt > 0)
+      {
+        if (z != null) {
+          f.l.a.c.e.d("diskCache(), diskCacheSize() and diskCacheFileCount calls overlap each other", new Object[0]);
+        }
+        x = paramInt;
+        return this;
+      }
+      throw new IllegalArgumentException("maxFileCount must be a positive number");
+    }
+    
+    public a d(int paramInt)
+    {
+      if (paramInt > 0)
+      {
+        if (z != null) {
+          f.l.a.c.e.d("diskCache(), diskCacheSize() and diskCacheFileCount calls overlap each other", new Object[0]);
+        }
+        w = paramInt;
+        return this;
+      }
+      throw new IllegalArgumentException("maxCacheSize must be a positive number");
+    }
+    
+    public a e(int paramInt)
+    {
+      if (paramInt > 0)
+      {
+        if (y != null) {
+          f.l.a.c.e.d("memoryCache() and memoryCacheSize() calls overlap each other", new Object[0]);
+        }
+        v = paramInt;
+        return this;
+      }
+      throw new IllegalArgumentException("memoryCacheSize must be a positive number");
+    }
+    
+    public a f(int paramInt)
+    {
+      if ((paramInt > 0) && (paramInt < 100))
+      {
+        if (y != null) {
+          f.l.a.c.e.d("memoryCache() and memoryCacheSize() calls overlap each other", new Object[0]);
+        }
+        float f1 = (float)Runtime.getRuntime().maxMemory();
+        v = ((int)(paramInt / 100.0F * f1));
+        return this;
+      }
+      throw new IllegalArgumentException("availableMemoryPercent must be in range (0 < % < 100)");
+    }
+    
+    public a g(int paramInt)
+    {
+      if ((n != null) || (o != null)) {
+        f.l.a.c.e.d("threadPoolSize(), threadPriority() and tasksProcessingOrder() calls can overlap taskExecutor() and taskExecutorForCachedImages() calls.", new Object[0]);
+      }
+      r = paramInt;
+      return this;
+    }
+    
+    public a h(int paramInt)
+    {
+      if ((n != null) || (o != null)) {
+        f.l.a.c.e.d("threadPoolSize(), threadPriority() and tasksProcessingOrder() calls can overlap taskExecutor() and taskExecutorForCachedImages() calls.", new Object[0]);
+      }
+      if (paramInt < 1)
+      {
+        s = 1;
+        return this;
+      }
+      if (paramInt > 10)
+      {
+        s = 10;
+        return this;
+      }
+      s = paramInt;
+      return this;
+    }
+  }
+}

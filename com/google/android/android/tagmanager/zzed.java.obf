@@ -1,0 +1,45 @@
+package com.google.android.gms.tagmanager;
+
+import com.google.android.gms.common.util.zzd;
+
+public final class zzed
+  implements zzfx
+{
+  public zzed(zzec paramZzec) {}
+  
+  public final void zza(zzbx paramZzbx)
+  {
+    zzec.zza(zzjtd, paramZzbx.zzbdr());
+  }
+  
+  public final void zzb(zzbx paramZzbx)
+  {
+    zzec.zza(zzjtd, paramZzbx.zzbdr());
+    long l = paramZzbx.zzbdr();
+    paramZzbx = new StringBuilder(57);
+    paramZzbx.append("Permanent failure dispatching hitId: ");
+    paramZzbx.append(l);
+    paramZzbx = paramZzbx.toString();
+    zzdj.zzjss.v(paramZzbx);
+  }
+  
+  public final void zzc(zzbx paramZzbx)
+  {
+    long l = paramZzbx.zzbds();
+    if (l == 0L)
+    {
+      zzec.zza(zzjtd, paramZzbx.zzbdr(), zzec.zza(zzjtd).currentTimeMillis());
+      return;
+    }
+    if (l + 14400000L < zzec.zza(zzjtd).currentTimeMillis())
+    {
+      zzec.zza(zzjtd, paramZzbx.zzbdr());
+      l = paramZzbx.zzbdr();
+      paramZzbx = new StringBuilder(47);
+      paramZzbx.append("Giving up on failed hitId: ");
+      paramZzbx.append(l);
+      paramZzbx = paramZzbx.toString();
+      zzdj.zzjss.v(paramZzbx);
+    }
+  }
+}

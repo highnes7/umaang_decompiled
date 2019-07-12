@@ -1,0 +1,209 @@
+package f.g.b.a.c;
+
+import f.g.b.a.g.V;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+
+public class K
+  extends a
+{
+  public static final String c = "\r\n";
+  public static final String d = "--";
+  public ArrayList<a> e = new ArrayList();
+  
+  public K()
+  {
+    super(new v("multipart/related").b("boundary", "__END_OF_PART__"));
+  }
+  
+  public K a(a paramA)
+  {
+    ArrayList localArrayList = e;
+    if (paramA != null)
+    {
+      localArrayList.add(paramA);
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public K a(v paramV)
+  {
+    a = paramV;
+    return this;
+  }
+  
+  public K a(String paramString)
+  {
+    v localV = d();
+    if (paramString != null)
+    {
+      localV.b("boundary", paramString);
+      return this;
+    }
+    throw new NullPointerException();
+  }
+  
+  public K a(Collection<? extends p> paramCollection)
+  {
+    e = new ArrayList(paramCollection.size());
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext()) {
+      a(new a(null, (p)paramCollection.next()));
+    }
+    return this;
+  }
+  
+  public boolean a()
+  {
+    Iterator localIterator = e.iterator();
+    while (localIterator.hasNext()) {
+      if (!nexta.a()) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public K b(Collection<a> paramCollection)
+  {
+    e = new ArrayList(paramCollection);
+    return this;
+  }
+  
+  public final String e()
+  {
+    return d().a("boundary");
+  }
+  
+  public final Collection<a> f()
+  {
+    return Collections.unmodifiableCollection(e);
+  }
+  
+  public void writeTo(OutputStream paramOutputStream)
+    throws IOException
+  {
+    OutputStreamWriter localOutputStreamWriter = new OutputStreamWriter(paramOutputStream, c());
+    String str = e();
+    Iterator localIterator = e.iterator();
+    while (localIterator.hasNext())
+    {
+      Object localObject2 = (a)localIterator.next();
+      t localT = new t().d(null);
+      Object localObject1 = b;
+      if (localObject1 != null) {
+        localT.a((t)localObject1);
+      }
+      localT.h(null).z(null).k(null).b(null).b("Content-Transfer-Encoding", null);
+      localObject1 = a;
+      if (localObject1 != null)
+      {
+        localT.b("Content-Transfer-Encoding", Arrays.asList(new String[] { "binary" }));
+        localT.k(((p)localObject1).getType());
+        localObject2 = c;
+        long l;
+        if (localObject2 == null)
+        {
+          l = ((p)localObject1).getLength();
+        }
+        else
+        {
+          localT.h(((q)localObject2).getName());
+          localObject2 = new r((V)localObject1, (q)localObject2);
+          l = a.a((p)localObject1);
+          localObject1 = localObject2;
+        }
+        localObject2 = localObject1;
+        if (l != -1L)
+        {
+          localT.b(Long.valueOf(l));
+          localObject2 = localObject1;
+        }
+      }
+      else
+      {
+        localObject2 = null;
+      }
+      localOutputStreamWriter.write("--");
+      localOutputStreamWriter.write(str);
+      localOutputStreamWriter.write("\r\n");
+      t.a(localT, null, null, localOutputStreamWriter);
+      if (localObject2 != null)
+      {
+        localOutputStreamWriter.write("\r\n");
+        localOutputStreamWriter.flush();
+        ((V)localObject2).writeTo(paramOutputStream);
+        localOutputStreamWriter.write("\r\n");
+      }
+    }
+    localOutputStreamWriter.write("--");
+    localOutputStreamWriter.write(str);
+    localOutputStreamWriter.write("--");
+    localOutputStreamWriter.write("\r\n");
+    localOutputStreamWriter.flush();
+  }
+  
+  public static final class a
+  {
+    public p a;
+    public t b;
+    public q c;
+    
+    public a()
+    {
+      this(null, null);
+    }
+    
+    public a(p paramP)
+    {
+      this(null, paramP);
+    }
+    
+    public a(t paramT, p paramP)
+    {
+      a(paramT);
+      a(paramP);
+    }
+    
+    public a a(p paramP)
+    {
+      a = paramP;
+      return this;
+    }
+    
+    public a a(q paramQ)
+    {
+      c = paramQ;
+      return this;
+    }
+    
+    public a a(t paramT)
+    {
+      b = paramT;
+      return this;
+    }
+    
+    public p a()
+    {
+      return a;
+    }
+    
+    public q b()
+    {
+      return c;
+    }
+    
+    public t c()
+    {
+      return b;
+    }
+  }
+}

@@ -1,0 +1,527 @@
+package com.google.android.gms.vision.barcode;
+
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+public class Barcode
+  extends zzbck
+{
+  public static final int ALL_FORMATS = 0;
+  public static final int AZTEC = 4096;
+  public static final int CALENDAR_EVENT = 11;
+  public static final int CODABAR = 8;
+  public static final int CODE_128 = 1;
+  public static final int CODE_39 = 2;
+  public static final int CODE_93 = 4;
+  public static final int CONTACT_INFO = 1;
+  public static final Parcelable.Creator<Barcode> CREATOR = new zzb();
+  public static final int DATA_MATRIX = 16;
+  public static final int DRIVER_LICENSE = 12;
+  public static final int EAN_13 = 32;
+  public static final int EAN_8 = 64;
+  public static final int EMAIL = 2;
+  public static final int GEO = 10;
+  public static final int ISBN = 3;
+  public static final int ITF = 128;
+  public static final int PDF417 = 2048;
+  public static final int PHONE = 4;
+  public static final int PRODUCT = 5;
+  public static final int QR_CODE = 256;
+  public static final int SMS = 6;
+  public static final int TEXT = 7;
+  public static final int UPC_A = 512;
+  public static final int UPC_E = 1024;
+  public static final int URL = 8;
+  public static final int WIFI = 9;
+  public CalendarEvent calendarEvent;
+  public ContactInfo contactInfo;
+  public Point[] cornerPoints;
+  public String displayValue;
+  public DriverLicense driverLicense;
+  public Email email;
+  public int format;
+  public GeoPoint geoPoint;
+  public Phone phone;
+  public String rawValue;
+  public Sms sms;
+  public UrlBookmark url;
+  public int valueFormat;
+  public WiFi wifi;
+  
+  public Barcode() {}
+  
+  public Barcode(int paramInt1, String paramString1, String paramString2, int paramInt2, Point[] paramArrayOfPoint, Email paramEmail, Phone paramPhone, Sms paramSms, WiFi paramWiFi, UrlBookmark paramUrlBookmark, GeoPoint paramGeoPoint, CalendarEvent paramCalendarEvent, ContactInfo paramContactInfo, DriverLicense paramDriverLicense)
+  {
+    format = paramInt1;
+    rawValue = paramString1;
+    displayValue = paramString2;
+    valueFormat = paramInt2;
+    cornerPoints = paramArrayOfPoint;
+    email = paramEmail;
+    phone = paramPhone;
+    sms = paramSms;
+    wifi = paramWiFi;
+    url = paramUrlBookmark;
+    geoPoint = paramGeoPoint;
+    calendarEvent = paramCalendarEvent;
+    contactInfo = paramContactInfo;
+    driverLicense = paramDriverLicense;
+  }
+  
+  public Rect getBoundingBox()
+  {
+    int n = Integer.MAX_VALUE;
+    int j = 0;
+    int m = Integer.MAX_VALUE;
+    int k = Integer.MIN_VALUE;
+    int i = Integer.MIN_VALUE;
+    for (;;)
+    {
+      Object localObject = cornerPoints;
+      if (j >= localObject.length) {
+        break;
+      }
+      localObject = localObject[j];
+      n = Math.min(n, x);
+      k = Math.max(k, x);
+      m = Math.min(m, y);
+      i = Math.max(i, y);
+      j += 1;
+    }
+    return new Rect(n, m, k, i);
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 2, format);
+    zzbcn.zza(paramParcel, 3, rawValue, false);
+    zzbcn.zza(paramParcel, 4, displayValue, false);
+    zzbcn.zzc(paramParcel, 5, valueFormat);
+    zzbcn.zza(paramParcel, 6, cornerPoints, paramInt, false);
+    zzbcn.zza(paramParcel, 7, email, paramInt, false);
+    zzbcn.zza(paramParcel, 8, phone, paramInt, false);
+    zzbcn.zza(paramParcel, 9, sms, paramInt, false);
+    zzbcn.zza(paramParcel, 10, wifi, paramInt, false);
+    zzbcn.zza(paramParcel, 11, url, paramInt, false);
+    zzbcn.zza(paramParcel, 12, geoPoint, paramInt, false);
+    zzbcn.zza(paramParcel, 13, calendarEvent, paramInt, false);
+    zzbcn.zza(paramParcel, 14, contactInfo, paramInt, false);
+    zzbcn.zza(paramParcel, 15, driverLicense, paramInt, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public static class Address
+    extends zzbck
+  {
+    public static final Parcelable.Creator<Address> CREATOR = new zza();
+    public static final int HOME = 2;
+    public static final int UNKNOWN = 0;
+    public static final int WORK = 1;
+    public String[] addressLines;
+    public int type;
+    
+    public Address() {}
+    
+    public Address(int paramInt, String[] paramArrayOfString)
+    {
+      type = paramInt;
+      addressLines = paramArrayOfString;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zzc(paramParcel, 2, type);
+      zzbcn.zza(paramParcel, 3, addressLines, false);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class CalendarDateTime
+    extends zzbck
+  {
+    public static final Parcelable.Creator<CalendarDateTime> CREATOR = new zzd();
+    public int day;
+    public int hours;
+    public boolean isUtc;
+    public int minutes;
+    public int month;
+    public String rawValue;
+    public int seconds;
+    public int year;
+    
+    public CalendarDateTime() {}
+    
+    public CalendarDateTime(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, boolean paramBoolean, String paramString)
+    {
+      year = paramInt1;
+      month = paramInt2;
+      day = paramInt3;
+      hours = paramInt4;
+      minutes = paramInt5;
+      seconds = paramInt6;
+      isUtc = paramBoolean;
+      rawValue = paramString;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zzc(paramParcel, 2, year);
+      zzbcn.zzc(paramParcel, 3, month);
+      zzbcn.zzc(paramParcel, 4, day);
+      zzbcn.zzc(paramParcel, 5, hours);
+      zzbcn.zzc(paramParcel, 6, minutes);
+      zzbcn.zzc(paramParcel, 7, seconds);
+      zzbcn.zza(paramParcel, 8, isUtc);
+      zzbcn.zza(paramParcel, 9, rawValue, false);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class CalendarEvent
+    extends zzbck
+  {
+    public static final Parcelable.Creator<CalendarEvent> CREATOR = new zze();
+    public String description;
+    public Barcode.CalendarDateTime end;
+    public String location;
+    public String organizer;
+    public Barcode.CalendarDateTime start;
+    public String status;
+    public String summary;
+    
+    public CalendarEvent() {}
+    
+    public CalendarEvent(String paramString1, String paramString2, String paramString3, String paramString4, String paramString5, Barcode.CalendarDateTime paramCalendarDateTime1, Barcode.CalendarDateTime paramCalendarDateTime2)
+    {
+      summary = paramString1;
+      description = paramString2;
+      location = paramString3;
+      organizer = paramString4;
+      status = paramString5;
+      start = paramCalendarDateTime1;
+      end = paramCalendarDateTime2;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      int i = zzbcn.zze(paramParcel);
+      zzbcn.zza(paramParcel, 2, summary, false);
+      zzbcn.zza(paramParcel, 3, description, false);
+      zzbcn.zza(paramParcel, 4, location, false);
+      zzbcn.zza(paramParcel, 5, organizer, false);
+      zzbcn.zza(paramParcel, 6, status, false);
+      zzbcn.zza(paramParcel, 7, start, paramInt, false);
+      zzbcn.zza(paramParcel, 8, end, paramInt, false);
+      zzbcn.zzah(paramParcel, i);
+    }
+  }
+  
+  public static class ContactInfo
+    extends zzbck
+  {
+    public static final Parcelable.Creator<ContactInfo> CREATOR = new zzf();
+    public Barcode.Address[] addresses;
+    public Barcode.Email[] emails;
+    public Barcode.PersonName name;
+    public String organization;
+    public Barcode.Phone[] phones;
+    public String title;
+    public String[] urls;
+    
+    public ContactInfo() {}
+    
+    public ContactInfo(Barcode.PersonName paramPersonName, String paramString1, String paramString2, Barcode.Phone[] paramArrayOfPhone, Barcode.Email[] paramArrayOfEmail, String[] paramArrayOfString, Barcode.Address[] paramArrayOfAddress)
+    {
+      name = paramPersonName;
+      organization = paramString1;
+      title = paramString2;
+      phones = paramArrayOfPhone;
+      emails = paramArrayOfEmail;
+      urls = paramArrayOfString;
+      addresses = paramArrayOfAddress;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      int i = zzbcn.zze(paramParcel);
+      zzbcn.zza(paramParcel, 2, name, paramInt, false);
+      zzbcn.zza(paramParcel, 3, organization, false);
+      zzbcn.zza(paramParcel, 4, title, false);
+      zzbcn.zza(paramParcel, 5, phones, paramInt, false);
+      zzbcn.zza(paramParcel, 6, emails, paramInt, false);
+      zzbcn.zza(paramParcel, 7, urls, false);
+      zzbcn.zza(paramParcel, 8, addresses, paramInt, false);
+      zzbcn.zzah(paramParcel, i);
+    }
+  }
+  
+  public static class DriverLicense
+    extends zzbck
+  {
+    public static final Parcelable.Creator<DriverLicense> CREATOR = new zzg();
+    public String addressCity;
+    public String addressState;
+    public String addressStreet;
+    public String addressZip;
+    public String birthDate;
+    public String documentType;
+    public String expiryDate;
+    public String firstName;
+    public String gender;
+    public String issueDate;
+    public String issuingCountry;
+    public String lastName;
+    public String licenseNumber;
+    public String middleName;
+    
+    public DriverLicense() {}
+    
+    public DriverLicense(String paramString1, String paramString2, String paramString3, String paramString4, String paramString5, String paramString6, String paramString7, String paramString8, String paramString9, String paramString10, String paramString11, String paramString12, String paramString13, String paramString14)
+    {
+      documentType = paramString1;
+      firstName = paramString2;
+      middleName = paramString3;
+      lastName = paramString4;
+      gender = paramString5;
+      addressStreet = paramString6;
+      addressCity = paramString7;
+      addressState = paramString8;
+      addressZip = paramString9;
+      licenseNumber = paramString10;
+      issueDate = paramString11;
+      expiryDate = paramString12;
+      birthDate = paramString13;
+      issuingCountry = paramString14;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zza(paramParcel, 2, documentType, false);
+      zzbcn.zza(paramParcel, 3, firstName, false);
+      zzbcn.zza(paramParcel, 4, middleName, false);
+      zzbcn.zza(paramParcel, 5, lastName, false);
+      zzbcn.zza(paramParcel, 6, gender, false);
+      zzbcn.zza(paramParcel, 7, addressStreet, false);
+      zzbcn.zza(paramParcel, 8, addressCity, false);
+      zzbcn.zza(paramParcel, 9, addressState, false);
+      zzbcn.zza(paramParcel, 10, addressZip, false);
+      zzbcn.zza(paramParcel, 11, licenseNumber, false);
+      zzbcn.zza(paramParcel, 12, issueDate, false);
+      zzbcn.zza(paramParcel, 13, expiryDate, false);
+      zzbcn.zza(paramParcel, 14, birthDate, false);
+      zzbcn.zza(paramParcel, 15, issuingCountry, false);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class Email
+    extends zzbck
+  {
+    public static final Parcelable.Creator<Email> CREATOR = new zzh();
+    public static final int HOME = 2;
+    public static final int UNKNOWN = 0;
+    public static final int WORK = 1;
+    public String address;
+    public String body;
+    public String subject;
+    public int type;
+    
+    public Email() {}
+    
+    public Email(int paramInt, String paramString1, String paramString2, String paramString3)
+    {
+      type = paramInt;
+      address = paramString1;
+      subject = paramString2;
+      body = paramString3;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zzc(paramParcel, 2, type);
+      zzbcn.zza(paramParcel, 3, address, false);
+      zzbcn.zza(paramParcel, 4, subject, false);
+      zzbcn.zza(paramParcel, 5, body, false);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class GeoPoint
+    extends zzbck
+  {
+    public static final Parcelable.Creator<GeoPoint> CREATOR = new zzi();
+    public double lat;
+    public double lng;
+    
+    public GeoPoint() {}
+    
+    public GeoPoint(double paramDouble1, double paramDouble2)
+    {
+      lat = paramDouble1;
+      lng = paramDouble2;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zza(paramParcel, 2, lat);
+      zzbcn.zza(paramParcel, 3, lng);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class PersonName
+    extends zzbck
+  {
+    public static final Parcelable.Creator<PersonName> CREATOR = new zzj();
+    public String first;
+    public String formattedName;
+    public String last;
+    public String middle;
+    public String prefix;
+    public String pronunciation;
+    public String suffix;
+    
+    public PersonName() {}
+    
+    public PersonName(String paramString1, String paramString2, String paramString3, String paramString4, String paramString5, String paramString6, String paramString7)
+    {
+      formattedName = paramString1;
+      pronunciation = paramString2;
+      prefix = paramString3;
+      first = paramString4;
+      middle = paramString5;
+      last = paramString6;
+      suffix = paramString7;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zza(paramParcel, 2, formattedName, false);
+      zzbcn.zza(paramParcel, 3, pronunciation, false);
+      zzbcn.zza(paramParcel, 4, prefix, false);
+      zzbcn.zza(paramParcel, 5, first, false);
+      zzbcn.zza(paramParcel, 6, middle, false);
+      zzbcn.zza(paramParcel, 7, last, false);
+      zzbcn.zza(paramParcel, 8, suffix, false);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class Phone
+    extends zzbck
+  {
+    public static final Parcelable.Creator<Phone> CREATOR = new zzk();
+    public static final int FAX = 3;
+    public static final int HOME = 2;
+    public static final int MOBILE = 4;
+    public static final int UNKNOWN = 0;
+    public static final int WORK = 1;
+    public String number;
+    public int type;
+    
+    public Phone() {}
+    
+    public Phone(int paramInt, String paramString)
+    {
+      type = paramInt;
+      number = paramString;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zzc(paramParcel, 2, type);
+      zzbcn.zza(paramParcel, 3, number, false);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class Sms
+    extends zzbck
+  {
+    public static final Parcelable.Creator<Sms> CREATOR = new zzl();
+    public String message;
+    public String phoneNumber;
+    
+    public Sms() {}
+    
+    public Sms(String paramString1, String paramString2)
+    {
+      message = paramString1;
+      phoneNumber = paramString2;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zza(paramParcel, 2, message, false);
+      zzbcn.zza(paramParcel, 3, phoneNumber, false);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class UrlBookmark
+    extends zzbck
+  {
+    public static final Parcelable.Creator<UrlBookmark> CREATOR = new zzm();
+    public String title;
+    public String url;
+    
+    public UrlBookmark() {}
+    
+    public UrlBookmark(String paramString1, String paramString2)
+    {
+      title = paramString1;
+      url = paramString2;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zza(paramParcel, 2, title, false);
+      zzbcn.zza(paramParcel, 3, url, false);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+  
+  public static class WiFi
+    extends zzbck
+  {
+    public static final Parcelable.Creator<WiFi> CREATOR = new zzn();
+    public static final int OPEN = 1;
+    public static final int WEP = 3;
+    public static final int WPA = 2;
+    public int encryptionType;
+    public String password;
+    public String ssid;
+    
+    public WiFi() {}
+    
+    public WiFi(String paramString1, String paramString2, int paramInt)
+    {
+      ssid = paramString1;
+      password = paramString2;
+      encryptionType = paramInt;
+    }
+    
+    public void writeToParcel(Parcel paramParcel, int paramInt)
+    {
+      paramInt = zzbcn.zze(paramParcel);
+      zzbcn.zza(paramParcel, 2, ssid, false);
+      zzbcn.zza(paramParcel, 3, password, false);
+      zzbcn.zzc(paramParcel, 4, encryptionType);
+      zzbcn.zzah(paramParcel, paramInt);
+    }
+  }
+}

@@ -1,0 +1,38 @@
+package b.b.x.b;
+
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.CancellationSignal;
+import android.os.OperationCanceledException;
+import b.b.x.j.k;
+
+public final class b
+{
+  public b() {}
+  
+  public static Cursor a(ContentResolver paramContentResolver, Uri paramUri, String[] paramArrayOfString1, String paramString1, String[] paramArrayOfString2, String paramString2, b.b.x.j.b paramB)
+  {
+    int i = Build.VERSION.SDK_INT;
+    if (paramB != null) {}
+    for (;;)
+    {
+      try
+      {
+        paramB = paramB.b();
+        paramContentResolver = paramContentResolver.query(paramUri, paramArrayOfString1, paramString1, paramArrayOfString2, paramString2, (CancellationSignal)paramB);
+        return paramContentResolver;
+      }
+      catch (Exception paramContentResolver)
+      {
+        continue;
+      }
+      if ((paramContentResolver instanceof OperationCanceledException)) {
+        throw new k(null);
+      }
+      throw paramContentResolver;
+      paramB = null;
+    }
+  }
+}

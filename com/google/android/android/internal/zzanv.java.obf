@@ -1,0 +1,151 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.text.TextUtils;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzr;
+import java.util.HashSet;
+import java.util.Set;
+
+public final class zzanv
+{
+  public final zzamu zzdjj;
+  public volatile Boolean zzdqo;
+  public String zzdqp;
+  public Set<Integer> zzdqq;
+  
+  public zzanv(zzamu paramZzamu)
+  {
+    zzbp.zzu(paramZzamu);
+    zzdjj = paramZzamu;
+  }
+  
+  public static boolean zzxv()
+  {
+    return ((Boolean)zzaod.zzdra.get()).booleanValue();
+  }
+  
+  public static int zzxw()
+  {
+    return ((Integer)zzaod.zzdrx.get()).intValue();
+  }
+  
+  public static long zzxx()
+  {
+    return ((Long)zzaod.zzdri.get()).longValue();
+  }
+  
+  public static long zzxy()
+  {
+    return ((Long)zzaod.zzdrl.get()).longValue();
+  }
+  
+  public static int zzxz()
+  {
+    return ((Integer)zzaod.zzdrn.get()).intValue();
+  }
+  
+  public static int zzya()
+  {
+    return ((Integer)zzaod.zzdro.get()).intValue();
+  }
+  
+  public static String zzyb()
+  {
+    return (String)zzaod.zzdrq.get();
+  }
+  
+  public static String zzyc()
+  {
+    return (String)zzaod.zzdrp.get();
+  }
+  
+  public static String zzyd()
+  {
+    return (String)zzaod.zzdrr.get();
+  }
+  
+  public static long zzyf()
+  {
+    return ((Long)zzaod.zzdsf.get()).longValue();
+  }
+  
+  public final boolean zzxu()
+  {
+    if (zzdqo == null) {}
+    for (;;)
+    {
+      try
+      {
+        if (zzdqo == null)
+        {
+          Object localObject2 = zzdjj.getContext().getApplicationInfo();
+          String str = zzr.zzalk();
+          if (localObject2 != null)
+          {
+            localObject2 = processName;
+            if ((localObject2 == null) || (!((String)localObject2).equals(str))) {
+              break label142;
+            }
+            bool = true;
+            zzdqo = Boolean.valueOf(bool);
+          }
+          if (((zzdqo == null) || (!zzdqo.booleanValue())) && ("com.google.android.gms.analytics".equals(str))) {
+            zzdqo = Boolean.TRUE;
+          }
+          if (zzdqo == null)
+          {
+            zzdqo = Boolean.TRUE;
+            zzdjj.zzvy().zzdq("My process not in the list of running processes");
+          }
+        }
+      }
+      finally {}
+      return zzdqo.booleanValue();
+      label142:
+      boolean bool = false;
+    }
+  }
+  
+  public final Set<Integer> zzye()
+  {
+    String str1 = (String)zzaod.zzdsa.get();
+    Object localObject;
+    HashSet localHashSet;
+    int j;
+    int i;
+    if (zzdqq != null)
+    {
+      localObject = zzdqp;
+      if ((localObject != null) && (((String)localObject).equals(str1))) {}
+    }
+    else
+    {
+      localObject = TextUtils.split(str1, ",");
+      localHashSet = new HashSet();
+      j = localObject.length;
+      i = 0;
+    }
+    for (;;)
+    {
+      String str2;
+      if (i < j) {
+        str2 = localObject[i];
+      }
+      try
+      {
+        localHashSet.add(Integer.valueOf(Integer.parseInt(str2)));
+        i += 1;
+        continue;
+        zzdqp = str1;
+        zzdqq = localHashSet;
+        return zzdqq;
+      }
+      catch (NumberFormatException localNumberFormatException)
+      {
+        for (;;) {}
+      }
+    }
+  }
+}

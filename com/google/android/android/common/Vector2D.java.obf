@@ -1,0 +1,103 @@
+package com.google.android.gms.common;
+
+import android.os.RemoteException;
+import android.util.Log;
+import com.google.android.gms.common.internal.zzas;
+import com.google.android.gms.common.internal.zzat;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.common.util.zzl;
+import com.google.android.gms.dynamic.IObjectWrapper;
+import com.google.android.gms.dynamic.zzn;
+import f.a.a.a.a;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+
+public abstract class zzg
+  extends zzat
+{
+  public int zzffo;
+  
+  public zzg(byte[] paramArrayOfByte)
+  {
+    Object localObject = paramArrayOfByte;
+    if (paramArrayOfByte.length != 25)
+    {
+      int i = paramArrayOfByte.length;
+      int j = paramArrayOfByte.length;
+      boolean bool = false;
+      localObject = zzl.zza(paramArrayOfByte, 0, j, false);
+      StringBuilder localStringBuilder = new StringBuilder(a.a(localObject, 51));
+      localStringBuilder.append("Cert hash data has incorrect length (");
+      localStringBuilder.append(i);
+      localStringBuilder.append("):\n");
+      localStringBuilder.append((String)localObject);
+      Log.wtf("GoogleCertificates", localStringBuilder.toString(), new Exception());
+      localObject = Arrays.copyOfRange(paramArrayOfByte, 0, 25);
+      if (localObject.length == 25) {
+        bool = true;
+      }
+      i = localObject.length;
+      paramArrayOfByte = new StringBuilder(55);
+      paramArrayOfByte.append("cert hash data has incorrect length. length=");
+      paramArrayOfByte.append(i);
+      zzbp.zzb(bool, paramArrayOfByte.toString());
+    }
+    zzffo = Arrays.hashCode((byte[])localObject);
+  }
+  
+  public static byte[] zzfr(String paramString)
+  {
+    try
+    {
+      paramString = paramString.getBytes("ISO-8859-1");
+      return paramString;
+    }
+    catch (UnsupportedEncodingException paramString)
+    {
+      throw new AssertionError(paramString);
+    }
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (paramObject != null) {
+      if (!(paramObject instanceof zzas)) {
+        return false;
+      }
+    }
+    try
+    {
+      paramObject = (zzas)paramObject;
+      if (paramObject.zzafa() != hashCode()) {
+        return false;
+      }
+      paramObject = paramObject.zzaez();
+      if (paramObject == null) {
+        return false;
+      }
+      paramObject = (byte[])zzn.zzx(paramObject);
+      boolean bool = Arrays.equals(getBytes(), paramObject);
+      return bool;
+    }
+    catch (RemoteException paramObject) {}
+    return false;
+    return false;
+  }
+  
+  public abstract byte[] getBytes();
+  
+  public int hashCode()
+  {
+    return zzffo;
+  }
+  
+  public final IObjectWrapper zzaez()
+  {
+    return new zzn(getBytes());
+  }
+  
+  public final int zzafa()
+  {
+    return hashCode();
+  }
+}

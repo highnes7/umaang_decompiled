@@ -1,0 +1,71 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.util.NoSuchElementException;
+
+@b
+public abstract class e<E>
+  extends uh<E>
+{
+  public final int a;
+  public int b;
+  
+  public e(int paramInt)
+  {
+    ba.d(0, paramInt, "index");
+    a = paramInt;
+    b = 0;
+  }
+  
+  public e(int paramInt1, int paramInt2)
+  {
+    ba.d(paramInt2, paramInt1, "index");
+    a = paramInt1;
+    b = paramInt2;
+  }
+  
+  public abstract E a(int paramInt);
+  
+  public final boolean hasNext()
+  {
+    return b < a;
+  }
+  
+  public final boolean hasPrevious()
+  {
+    return b > 0;
+  }
+  
+  public final E next()
+  {
+    if (hasNext())
+    {
+      int i = b;
+      b = (i + 1);
+      return a(i);
+    }
+    throw new NoSuchElementException();
+  }
+  
+  public final int nextIndex()
+  {
+    return b;
+  }
+  
+  public final E previous()
+  {
+    if (hasPrevious())
+    {
+      int i = b - 1;
+      b = i;
+      return a(i);
+    }
+    throw new NoSuchElementException();
+  }
+  
+  public final int previousIndex()
+  {
+    return b - 1;
+  }
+}

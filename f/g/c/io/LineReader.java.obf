@@ -1,0 +1,62 @@
+package f.g.c.g;
+
+import f.g.c.a.a;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.CharBuffer;
+import java.util.LinkedList;
+import java.util.Queue;
+
+@a
+public final class D
+{
+  public final Readable a;
+  public final Reader b;
+  public final char[] c = new char['?'];
+  public final CharBuffer d = CharBuffer.wrap(c);
+  public final Queue<String> e = new LinkedList();
+  public final A f = new C(this);
+  
+  public D(Readable paramReadable)
+  {
+    if (paramReadable != null)
+    {
+      a = paramReadable;
+      if ((paramReadable instanceof Reader)) {
+        paramReadable = (Reader)paramReadable;
+      } else {
+        paramReadable = null;
+      }
+      b = paramReadable;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public String a()
+    throws IOException
+  {
+    while (e.peek() == null)
+    {
+      d.clear();
+      Reader localReader = b;
+      int i;
+      if (localReader != null)
+      {
+        char[] arrayOfChar = c;
+        i = localReader.read(arrayOfChar, 0, arrayOfChar.length);
+      }
+      else
+      {
+        i = a.read(d);
+      }
+      if (i == -1)
+      {
+        f.a();
+        break;
+      }
+      f.a(c, 0, i);
+    }
+    return (String)e.poll();
+  }
+}

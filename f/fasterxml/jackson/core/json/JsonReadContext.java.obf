@@ -1,0 +1,133 @@
+package f.d.a.a.d;
+
+import f.d.a.a.c.b;
+import f.d.a.a.h;
+import f.d.a.a.m;
+
+public final class e
+  extends m
+{
+  public final e f;
+  public int g;
+  public int h;
+  public String i;
+  public e j = null;
+  
+  public e(e paramE, int paramInt1, int paramInt2, int paramInt3)
+  {
+    d = paramInt1;
+    f = paramE;
+    g = paramInt2;
+    h = paramInt3;
+    e = -1;
+  }
+  
+  public static e c(int paramInt1, int paramInt2)
+  {
+    return new e(null, 0, paramInt1, paramInt2);
+  }
+  
+  public static e i()
+  {
+    return new e(null, 0, 1, 0);
+  }
+  
+  public e a(int paramInt1, int paramInt2)
+  {
+    e localE = j;
+    if (localE == null)
+    {
+      localE = new e(this, 1, paramInt1, paramInt2);
+      j = localE;
+      return localE;
+    }
+    localE.a(1, paramInt1, paramInt2);
+    return localE;
+  }
+  
+  public h a(Object paramObject)
+  {
+    return new h(paramObject, -1L, g, h);
+  }
+  
+  public void a(int paramInt1, int paramInt2, int paramInt3)
+  {
+    d = paramInt1;
+    e = -1;
+    g = paramInt2;
+    h = paramInt3;
+    i = null;
+  }
+  
+  public void a(String paramString)
+  {
+    i = paramString;
+  }
+  
+  public e b(int paramInt1, int paramInt2)
+  {
+    e localE = j;
+    if (localE == null)
+    {
+      localE = new e(this, 2, paramInt1, paramInt2);
+      j = localE;
+      return localE;
+    }
+    localE.a(2, paramInt1, paramInt2);
+    return localE;
+  }
+  
+  public String b()
+  {
+    return i;
+  }
+  
+  public e d()
+  {
+    return f;
+  }
+  
+  public boolean j()
+  {
+    int k = e + 1;
+    e = k;
+    return (d != 0) && (k > 0);
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder(64);
+    int k = d;
+    if (k != 0)
+    {
+      if (k != 1)
+      {
+        if (k == 2)
+        {
+          localStringBuilder.append('{');
+          if (i != null)
+          {
+            localStringBuilder.append('"');
+            b.a(localStringBuilder, i);
+            localStringBuilder.append('"');
+          }
+          else
+          {
+            localStringBuilder.append('?');
+          }
+          localStringBuilder.append('}');
+        }
+      }
+      else
+      {
+        localStringBuilder.append('[');
+        localStringBuilder.append(a());
+        localStringBuilder.append(']');
+      }
+    }
+    else {
+      localStringBuilder.append("/");
+    }
+    return localStringBuilder.toString();
+  }
+}

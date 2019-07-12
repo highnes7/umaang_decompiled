@@ -1,0 +1,134 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.b.ba;
+import java.util.List;
+import m.a.h;
+
+@b(emulated=true, serializable=true)
+public final class jg<E>
+  extends vb<E>
+{
+  public final transient E c;
+  
+  public jg(E paramE)
+  {
+    if (paramE != null)
+    {
+      c = paramE;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean c()
+  {
+    return false;
+  }
+  
+  public boolean contains(@h Object paramObject)
+  {
+    return c.equals(paramObject);
+  }
+  
+  public boolean equals(Object paramObject)
+  {
+    if (paramObject == this) {
+      return true;
+    }
+    if ((paramObject instanceof List))
+    {
+      paramObject = (List)paramObject;
+      return (paramObject.size() == 1) && (c.equals(paramObject.get(0)));
+    }
+    return false;
+  }
+  
+  public vb<E> g()
+  {
+    return this;
+  }
+  
+  public E get(int paramInt)
+  {
+    ba.c(paramInt, 1, "index");
+    return c;
+  }
+  
+  public int hashCode()
+  {
+    return c.hashCode() + 31;
+  }
+  
+  public int indexOf(@h Object paramObject)
+  {
+    if (c.equals(paramObject)) {
+      return 0;
+    }
+    return -1;
+  }
+  
+  public boolean isEmpty()
+  {
+    return false;
+  }
+  
+  public th<E> iterator()
+  {
+    return Jc.a(c);
+  }
+  
+  public int lastIndexOf(@h Object paramObject)
+  {
+    return indexOf(paramObject);
+  }
+  
+  public int size()
+  {
+    return 1;
+  }
+  
+  public vb<E> subList(int paramInt1, int paramInt2)
+  {
+    ba.b(paramInt1, paramInt2, 1);
+    if (paramInt1 == paramInt2) {
+      return vb.f();
+    }
+    return this;
+  }
+  
+  public Object[] toArray()
+  {
+    return new Object[] { c };
+  }
+  
+  public <T> T[] toArray(T[] paramArrayOfT)
+  {
+    Object localObject;
+    if (paramArrayOfT.length == 0)
+    {
+      localObject = kf.b(paramArrayOfT, 1);
+    }
+    else
+    {
+      localObject = paramArrayOfT;
+      if (paramArrayOfT.length > 1)
+      {
+        paramArrayOfT[1] = null;
+        localObject = paramArrayOfT;
+      }
+    }
+    localObject[0] = c;
+    return localObject;
+  }
+  
+  public String toString()
+  {
+    String str = c.toString();
+    StringBuilder localStringBuilder = new StringBuilder(str.length() + 2);
+    localStringBuilder.append('[');
+    localStringBuilder.append(str);
+    localStringBuilder.append(']');
+    return localStringBuilder.toString();
+  }
+}

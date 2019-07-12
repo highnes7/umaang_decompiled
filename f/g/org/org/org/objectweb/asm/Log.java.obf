@@ -1,0 +1,249 @@
+package f.g.b.a.b.b.b;
+
+import f.g.b.a.c.B;
+import f.g.b.a.c.F;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.c.z;
+import f.g.b.a.d.d;
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.N;
+import f.g.b.a.g.W;
+import f.g.b.a.g.p;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.PublicKey;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@f.g.b.a.g.h
+public class k
+{
+  public static final long a = 300000L;
+  public static final Pattern b = Pattern.compile("\\s*max-age\\s*=\\s*(\\d+)\\s*");
+  public final d c;
+  public List<PublicKey> d;
+  public long e;
+  public final F f;
+  public final Lock g = new ReentrantLock();
+  public final p h;
+  public final String i;
+  
+  public k(a paramA)
+  {
+    f = b;
+    c = c;
+    h = a;
+    i = d;
+  }
+  
+  public k(F paramF, d paramD)
+  {
+    this(new a(paramF, paramD));
+  }
+  
+  public long a(t paramT)
+  {
+    if (paramT.n() != null)
+    {
+      String[] arrayOfString = paramT.n().split(",");
+      int k = arrayOfString.length;
+      int j = 0;
+      while (j < k)
+      {
+        Object localObject = arrayOfString[j];
+        localObject = b.matcher((CharSequence)localObject);
+        if (((Matcher)localObject).matches())
+        {
+          l1 = Long.valueOf(((Matcher)localObject).group(1)).longValue();
+          break label80;
+        }
+        j += 1;
+      }
+    }
+    long l1 = 0L;
+    label80:
+    long l2 = l1;
+    if (paramT.i() != null) {
+      l2 = l1 - paramT.i().longValue();
+    }
+    return Math.max(0L, l2);
+  }
+  
+  public final p a()
+  {
+    return h;
+  }
+  
+  public final long b()
+  {
+    return e;
+  }
+  
+  public final d c()
+  {
+    return c;
+  }
+  
+  public final String d()
+  {
+    return i;
+  }
+  
+  public final List<PublicKey> e()
+    throws GeneralSecurityException, IOException
+  {
+    g.lock();
+    try
+    {
+      if ((d == null) || (h.currentTimeMillis() + 300000L > e)) {
+        g();
+      }
+      List localList = d;
+      return localList;
+    }
+    finally
+    {
+      g.unlock();
+    }
+  }
+  
+  public final F f()
+  {
+    return f;
+  }
+  
+  public k g()
+    throws GeneralSecurityException, IOException
+  {
+    g.lock();
+    try
+    {
+      d = new ArrayList();
+      localCertificateFactory = N.g();
+      localObject1 = f.b().b(new f.g.b.a.c.k(i)).a();
+      long l = h.currentTimeMillis();
+      e = (a(((B)localObject1).g()) * 1000L + l);
+      localH = c.a(((B)localObject1).b());
+      f.g.b.a.d.k localK = localH.e();
+      localObject1 = localK;
+      if (localK == null) {
+        localObject1 = localH.n();
+      }
+      if (localObject1 != f.g.b.a.d.k.c) {
+        break label251;
+      }
+      bool = true;
+    }
+    finally
+    {
+      for (;;)
+      {
+        CertificateFactory localCertificateFactory;
+        Object localObject1;
+        f.g.b.a.d.h localH;
+        g.unlock();
+        for (;;)
+        {
+          throw localObject3;
+        }
+        boolean bool = false;
+      }
+    }
+    g.a(bool);
+    try
+    {
+      while (localH.n() != f.g.b.a.d.k.d)
+      {
+        localH.n();
+        localObject1 = (X509Certificate)localCertificateFactory.generateCertificate(new ByteArrayInputStream(W.a(localH.m())));
+        d.add(((X509Certificate)localObject1).getPublicKey());
+      }
+      d = Collections.unmodifiableList(d);
+      localH.a();
+      g.unlock();
+      return this;
+    }
+    finally
+    {
+      localH.a();
+    }
+  }
+  
+  @f.g.b.a.g.h
+  public static class a
+  {
+    public p a = p.a;
+    public final F b;
+    public final d c;
+    public String d = "https://www.googleapis.com/oauth2/v1/certs";
+    
+    public a(F paramF, d paramD)
+    {
+      if (paramF != null)
+      {
+        b = paramF;
+        if (paramD != null)
+        {
+          c = paramD;
+          return;
+        }
+        throw new NullPointerException();
+      }
+      throw new NullPointerException();
+    }
+    
+    public a a(p paramP)
+    {
+      if (paramP != null)
+      {
+        a = paramP;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public a a(String paramString)
+    {
+      if (paramString != null)
+      {
+        d = paramString;
+        return this;
+      }
+      throw new NullPointerException();
+    }
+    
+    public k a()
+    {
+      return new k(this);
+    }
+    
+    public final p b()
+    {
+      return a;
+    }
+    
+    public final d c()
+    {
+      return c;
+    }
+    
+    public final String d()
+    {
+      return d;
+    }
+    
+    public final F e()
+    {
+      return b;
+    }
+  }
+}

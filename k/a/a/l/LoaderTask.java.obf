@@ -1,0 +1,55 @@
+package k.a.a.l;
+
+import android.os.AsyncTask;
+import org.json.JSONObject;
+
+public class c
+  extends AsyncTask<Object, Object, Object>
+{
+  public String a = "ChatInitTask";
+  public k.a.a.i.a b = null;
+  public JSONObject c;
+  
+  public c(k.a.a.i.a paramA, JSONObject paramJSONObject)
+  {
+    b = paramA;
+    c = paramJSONObject;
+  }
+  
+  public Object doInBackground(Object... paramVarArgs)
+  {
+    paramVarArgs = a;
+    return k.a.a.m.a.a("https://reporting.umang.gov.in/AgentCallDistribution/customer/chat", c.toString());
+  }
+  
+  public void onPostExecute(Object paramObject)
+  {
+    if (paramObject != null)
+    {
+      String str = (String)paramObject;
+      if (str.equalsIgnoreCase("90001"))
+      {
+        b.forceLogout();
+        return;
+      }
+      if (str.equalsIgnoreCase("90003"))
+      {
+        b.underMaintenance();
+        return;
+      }
+      if (str.equalsIgnoreCase("90002"))
+      {
+        b.showNetworkError();
+        return;
+      }
+      b.processFinish(paramObject);
+      return;
+    }
+    b.processFinish(paramObject);
+  }
+  
+  public void onPreExecute()
+  {
+    b.processStart();
+  }
+}

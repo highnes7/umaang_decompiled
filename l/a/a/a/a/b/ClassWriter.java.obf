@@ -1,0 +1,1047 @@
+package l.a.a.a.a.b;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
+import android.hardware.SensorManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Debug;
+import android.os.StatFs;
+import android.provider.Settings.Secure;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import f.a.a.a.a;
+import java.io.Closeable;
+import java.io.File;
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Scanner;
+import javax.crypto.Cipher;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class l
+{
+  public static final int A = 4;
+  public static final int B = 8;
+  public static final int C = 16;
+  public static final int D = 32;
+  public static final Comparator<File> E = new k();
+  public static final String a = "A";
+  public static final String b = "D";
+  public static final String c = "E";
+  public static final String d = "I";
+  public static final String e = "V";
+  public static final String f = "W";
+  public static final String g = "?";
+  public static final String h = "SHA-1";
+  public static final String i = "SHA-256";
+  public static final String j = "google_sdk";
+  public static final String k = "sdk";
+  public static final String l = "com.crashlytics.prefs";
+  public static final String m = "com.crashlytics.Trace";
+  public static final boolean n = false;
+  public static Boolean o;
+  public static final char[] p = { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102 };
+  public static final String q = "io.fabric.android.build_id";
+  public static final String r = "com.crashlytics.android.build_id";
+  public static final String s = "com.google.firebase.crashlytics.unity_version";
+  public static final long t = -1L;
+  public static final int u = 1073741824;
+  public static final int v = 1048576;
+  public static final int w = 1024;
+  public static long x = -1L;
+  public static final int y = 1;
+  public static final int z = 2;
+  
+  public l() {}
+  
+  public static int a()
+  {
+    return a.a().ordinal();
+  }
+  
+  public static int a(Context paramContext, String paramString1, String paramString2)
+  {
+    return paramContext.getResources().getIdentifier(paramString1, paramString2, h(paramContext));
+  }
+  
+  public static int a(Context paramContext, boolean paramBoolean)
+  {
+    paramContext = e(paramContext);
+    if ((paramBoolean) && (paramContext != null))
+    {
+      if (paramContext.floatValue() >= 99.0D) {
+        return 3;
+      }
+      if (paramContext.floatValue() < 99.0D) {
+        return 2;
+      }
+      return 0;
+    }
+    return 1;
+  }
+  
+  public static long a(Context paramContext)
+  {
+    ActivityManager.MemoryInfo localMemoryInfo = new ActivityManager.MemoryInfo();
+    ((ActivityManager)paramContext.getSystemService("activity")).getMemoryInfo(localMemoryInfo);
+    return availMem;
+  }
+  
+  public static long a(String paramString)
+  {
+    paramString = new StatFs(paramString);
+    long l1 = paramString.getBlockSize();
+    return paramString.getBlockCount() * l1 - l1 * paramString.getAvailableBlocks();
+  }
+  
+  public static long a(String paramString1, String paramString2, int paramInt)
+  {
+    return Long.parseLong(paramString1.split(paramString2)[0].trim()) * paramInt;
+  }
+  
+  public static ActivityManager.RunningAppProcessInfo a(String paramString, Context paramContext)
+  {
+    paramContext = ((ActivityManager)paramContext.getSystemService("activity")).getRunningAppProcesses();
+    if (paramContext != null)
+    {
+      paramContext = paramContext.iterator();
+      while (paramContext.hasNext())
+      {
+        ActivityManager.RunningAppProcessInfo localRunningAppProcessInfo = (ActivityManager.RunningAppProcessInfo)paramContext.next();
+        if (processName.equals(paramString)) {
+          return localRunningAppProcessInfo;
+        }
+      }
+    }
+    return null;
+  }
+  
+  public static String a(int paramInt)
+  {
+    switch (paramInt)
+    {
+    default: 
+      return "?";
+    case 7: 
+      return "A";
+    case 6: 
+      return "E";
+    case 5: 
+      return "W";
+    case 4: 
+      return "I";
+    case 3: 
+      return "D";
+    }
+    return "V";
+  }
+  
+  /* Error */
+  public static String a(File paramFile, String paramString)
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: invokevirtual 244	java/io/File:exists	()Z
+    //   4: istore_2
+    //   5: aconst_null
+    //   6: astore 6
+    //   8: iload_2
+    //   9: ifeq +201 -> 210
+    //   12: new 246	java/io/BufferedReader
+    //   15: dup
+    //   16: new 248	java/io/FileReader
+    //   19: dup
+    //   20: aload_0
+    //   21: invokespecial 251	java/io/FileReader:<init>	(Ljava/io/File;)V
+    //   24: sipush 1024
+    //   27: invokespecial 254	java/io/BufferedReader:<init>	(Ljava/io/Reader;I)V
+    //   30: astore 4
+    //   32: aload 4
+    //   34: astore_3
+    //   35: aload 4
+    //   37: invokevirtual 257	java/io/BufferedReader:readLine	()Ljava/lang/String;
+    //   40: astore 7
+    //   42: aload 4
+    //   44: astore_3
+    //   45: aload 6
+    //   47: astore 5
+    //   49: aload 7
+    //   51: ifnull +53 -> 104
+    //   54: aload 4
+    //   56: astore_3
+    //   57: ldc_w 259
+    //   60: invokestatic 265	java/util/regex/Pattern:compile	(Ljava/lang/String;)Ljava/util/regex/Pattern;
+    //   63: aload 7
+    //   65: iconst_2
+    //   66: invokevirtual 268	java/util/regex/Pattern:split	(Ljava/lang/CharSequence;I)[Ljava/lang/String;
+    //   69: astore 5
+    //   71: aload 4
+    //   73: astore_3
+    //   74: aload 5
+    //   76: arraylength
+    //   77: iconst_1
+    //   78: if_icmple -46 -> 32
+    //   81: aload 4
+    //   83: astore_3
+    //   84: aload 5
+    //   86: iconst_0
+    //   87: aaload
+    //   88: aload_1
+    //   89: invokevirtual 235	java/lang/String:equals	(Ljava/lang/Object;)Z
+    //   92: ifeq -60 -> 32
+    //   95: aload 5
+    //   97: iconst_1
+    //   98: aaload
+    //   99: astore 5
+    //   101: aload 4
+    //   103: astore_3
+    //   104: aload_3
+    //   105: ldc_w 270
+    //   108: invokestatic 273	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   111: aload 5
+    //   113: areturn
+    //   114: astore_3
+    //   115: aload 4
+    //   117: astore_1
+    //   118: aload_3
+    //   119: astore 4
+    //   121: goto +13 -> 134
+    //   124: astore_0
+    //   125: aconst_null
+    //   126: astore_3
+    //   127: goto +74 -> 201
+    //   130: astore 4
+    //   132: aconst_null
+    //   133: astore_1
+    //   134: aload_1
+    //   135: astore_3
+    //   136: invokestatic 278	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   139: astore 5
+    //   141: aload_1
+    //   142: astore_3
+    //   143: new 280	java/lang/StringBuilder
+    //   146: dup
+    //   147: invokespecial 281	java/lang/StringBuilder:<init>	()V
+    //   150: astore 7
+    //   152: aload_1
+    //   153: astore_3
+    //   154: aload 7
+    //   156: ldc_w 283
+    //   159: invokevirtual 287	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   162: pop
+    //   163: aload_1
+    //   164: astore_3
+    //   165: aload 7
+    //   167: aload_0
+    //   168: invokevirtual 290	java/lang/StringBuilder:append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    //   171: pop
+    //   172: aload_1
+    //   173: astore_3
+    //   174: aload 5
+    //   176: ldc_w 292
+    //   179: aload 7
+    //   181: invokevirtual 295	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   184: aload 4
+    //   186: invokeinterface 300 4 0
+    //   191: aload_1
+    //   192: astore_3
+    //   193: aload 6
+    //   195: astore 5
+    //   197: goto -93 -> 104
+    //   200: astore_0
+    //   201: aload_3
+    //   202: ldc_w 270
+    //   205: invokestatic 273	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   208: aload_0
+    //   209: athrow
+    //   210: aconst_null
+    //   211: areturn
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	212	0	paramFile	File
+    //   0	212	1	paramString	String
+    //   4	5	2	bool	boolean
+    //   34	71	3	localObject1	Object
+    //   114	5	3	localException1	Exception
+    //   126	76	3	str	String
+    //   30	90	4	localObject2	Object
+    //   130	55	4	localException2	Exception
+    //   47	149	5	localObject3	Object
+    //   6	188	6	localObject4	Object
+    //   40	140	7	localObject5	Object
+    // Exception table:
+    //   from	to	target	type
+    //   35	42	114	java/lang/Exception
+    //   57	71	114	java/lang/Exception
+    //   74	81	114	java/lang/Exception
+    //   84	95	114	java/lang/Exception
+    //   12	32	124	finally
+    //   12	32	130	java/lang/Exception
+    //   35	42	200	finally
+    //   57	71	200	finally
+    //   74	81	200	finally
+    //   84	95	200	finally
+    //   136	141	200	finally
+    //   143	152	200	finally
+    //   154	163	200	finally
+    //   165	172	200	finally
+    //   174	191	200	finally
+  }
+  
+  public static String a(InputStream paramInputStream)
+  {
+    return a(paramInputStream, "SHA-1");
+  }
+  
+  public static String a(InputStream paramInputStream, String paramString)
+  {
+    try
+    {
+      paramString = MessageDigest.getInstance(paramString);
+      byte[] arrayOfByte = new byte['?'];
+      for (;;)
+      {
+        int i1 = paramInputStream.read(arrayOfByte);
+        if (i1 == -1) {
+          break;
+        }
+        paramString.update(arrayOfByte, 0, i1);
+      }
+      paramInputStream = a(paramString.digest());
+      return paramInputStream;
+    }
+    catch (Exception paramInputStream)
+    {
+      g.h().c("Fabric", "Could not calculate hash for app icon.", paramInputStream);
+    }
+    return "";
+  }
+  
+  public static String a(String paramString1, String paramString2)
+  {
+    return a(paramString1.getBytes(), paramString2);
+  }
+  
+  public static String a(byte[] paramArrayOfByte)
+  {
+    char[] arrayOfChar1 = new char[paramArrayOfByte.length * 2];
+    int i1 = 0;
+    while (i1 < paramArrayOfByte.length)
+    {
+      int i2 = paramArrayOfByte[i1] & 0xFF;
+      int i3 = i1 * 2;
+      char[] arrayOfChar2 = p;
+      arrayOfChar1[i3] = arrayOfChar2[(i2 >>> 4)];
+      arrayOfChar1[(i3 + 1)] = arrayOfChar2[(i2 & 0xF)];
+      i1 += 1;
+    }
+    return new String(arrayOfChar1);
+  }
+  
+  public static String a(byte[] paramArrayOfByte, String paramString)
+  {
+    try
+    {
+      MessageDigest localMessageDigest = MessageDigest.getInstance(paramString);
+      localMessageDigest.update(paramArrayOfByte);
+      return a(localMessageDigest.digest());
+    }
+    catch (NoSuchAlgorithmException paramArrayOfByte)
+    {
+      g.h().c("Fabric", a.a("Could not create hashing algorithm: ", paramString, ", returning empty string."), paramArrayOfByte);
+    }
+    return "";
+  }
+  
+  public static String a(String... paramVarArgs)
+  {
+    Object localObject2 = null;
+    Object localObject1 = localObject2;
+    if (paramVarArgs != null)
+    {
+      if (paramVarArgs.length == 0) {
+        return null;
+      }
+      localObject1 = new ArrayList();
+      int i2 = paramVarArgs.length;
+      int i1 = 0;
+      while (i1 < i2)
+      {
+        String str = paramVarArgs[i1];
+        if (str != null) {
+          ((List)localObject1).add(str.replace("-", "").toLowerCase(Locale.US));
+        }
+        i1 += 1;
+      }
+      Collections.sort((List)localObject1);
+      paramVarArgs = new StringBuilder();
+      localObject1 = ((List)localObject1).iterator();
+      while (((Iterator)localObject1).hasNext()) {
+        paramVarArgs.append((String)((Iterator)localObject1).next());
+      }
+      paramVarArgs = paramVarArgs.toString();
+      localObject1 = localObject2;
+      if (paramVarArgs.length() > 0) {
+        localObject1 = a(paramVarArgs.getBytes(), "SHA-1");
+      }
+    }
+    return localObject1;
+  }
+  
+  @Deprecated
+  public static Cipher a(int paramInt, String paramString)
+    throws InvalidKeyException
+  {
+    throw new InvalidKeyException("This method is deprecated");
+  }
+  
+  @TargetApi(16)
+  public static void a(Activity paramActivity, int paramInt)
+  {
+    if (paramActivity == null) {
+      return;
+    }
+    paramInt = Build.VERSION.SDK_INT;
+    paramActivity.finishAffinity();
+  }
+  
+  @TargetApi(16)
+  public static void a(Context paramContext, int paramInt)
+  {
+    if ((paramContext instanceof Activity)) {
+      a((Activity)paramContext, paramInt);
+    }
+  }
+  
+  public static void a(Context paramContext, int paramInt, String paramString1, String paramString2)
+  {
+    if (k(paramContext)) {
+      g.h().a(paramInt, "Fabric", paramString2);
+    }
+  }
+  
+  public static void a(Context paramContext, View paramView)
+  {
+    paramContext = (InputMethodManager)paramContext.getSystemService("input_method");
+    if (paramContext != null) {
+      paramContext.hideSoftInputFromWindow(paramView.getWindowToken(), 0);
+    }
+  }
+  
+  public static void a(Context paramContext, String paramString, Throwable paramThrowable)
+  {
+    if (k(paramContext)) {
+      g.h().b("Fabric", paramString);
+    }
+  }
+  
+  public static void a(Closeable paramCloseable)
+  {
+    if (paramCloseable != null) {}
+    try
+    {
+      paramCloseable.close();
+      return;
+    }
+    catch (RuntimeException paramCloseable)
+    {
+      throw paramCloseable;
+      return;
+    }
+    catch (Exception paramCloseable) {}
+  }
+  
+  public static void a(Closeable paramCloseable, String paramString)
+  {
+    if (paramCloseable != null) {
+      try
+      {
+        paramCloseable.close();
+        return;
+      }
+      catch (IOException paramCloseable)
+      {
+        g.h().c("Fabric", paramString, paramCloseable);
+      }
+    }
+  }
+  
+  public static void a(Flushable paramFlushable, String paramString)
+  {
+    if (paramFlushable != null) {
+      try
+      {
+        paramFlushable.flush();
+        return;
+      }
+      catch (IOException paramFlushable)
+      {
+        g.h().c("Fabric", paramString, paramFlushable);
+      }
+    }
+  }
+  
+  public static void a(InputStream paramInputStream, OutputStream paramOutputStream, byte[] paramArrayOfByte)
+    throws IOException
+  {
+    for (;;)
+    {
+      int i1 = paramInputStream.read(paramArrayOfByte);
+      if (i1 == -1) {
+        break;
+      }
+      paramOutputStream.write(paramArrayOfByte, 0, i1);
+    }
+  }
+  
+  public static boolean a(Context paramContext, String paramString)
+  {
+    return paramContext.checkCallingOrSelfPermission(paramString) == 0;
+  }
+  
+  public static boolean a(Context paramContext, String paramString, boolean paramBoolean)
+  {
+    if (paramContext != null)
+    {
+      Resources localResources = paramContext.getResources();
+      if (localResources != null)
+      {
+        int i1 = paramContext.getResources().getIdentifier(paramString, "bool", h(paramContext));
+        if (i1 > 0) {
+          return localResources.getBoolean(i1);
+        }
+        i1 = paramContext.getResources().getIdentifier(paramString, "string", h(paramContext));
+        if (i1 > 0) {
+          return Boolean.parseBoolean(paramContext.getString(i1));
+        }
+      }
+    }
+    return paramBoolean;
+  }
+  
+  public static long b()
+  {
+    try
+    {
+      if (x == -1L)
+      {
+        long l2 = 0L;
+        String str = a(new File("/proc/meminfo"), "MemTotal");
+        l1 = l2;
+        if (!TextUtils.isEmpty(str))
+        {
+          str = str.toUpperCase(Locale.US);
+          try
+          {
+            if (str.endsWith("KB"))
+            {
+              l1 = a(str, "KB", 1024);
+            }
+            else if (str.endsWith("MB"))
+            {
+              l1 = a(str, "MB", 1048576);
+            }
+            else if (str.endsWith("GB"))
+            {
+              l1 = a(str, "GB", 1073741824);
+            }
+            else
+            {
+              q localQ = g.h();
+              localObject2 = new StringBuilder();
+              ((StringBuilder)localObject2).append("Unexpected meminfo format while computing RAM: ");
+              ((StringBuilder)localObject2).append(str);
+              localQ.d("Fabric", ((StringBuilder)localObject2).toString());
+              l1 = l2;
+            }
+          }
+          catch (NumberFormatException localNumberFormatException)
+          {
+            Object localObject2 = g.h();
+            StringBuilder localStringBuilder = new StringBuilder();
+            localStringBuilder.append("Unexpected meminfo format while computing RAM: ");
+            localStringBuilder.append(str);
+            ((q)localObject2).c("Fabric", localStringBuilder.toString(), localNumberFormatException);
+            l1 = l2;
+          }
+        }
+        x = l1;
+      }
+      long l1 = x;
+      return l1;
+    }
+    finally {}
+  }
+  
+  public static String b(int paramInt)
+  {
+    if (paramInt >= 0) {
+      return String.format(Locale.US, "%1$10s", new Object[] { Integer.valueOf(paramInt) }).replace(' ', '0');
+    }
+    throw new IllegalArgumentException("value must be zero or greater");
+  }
+  
+  public static String b(Context paramContext, String paramString)
+  {
+    int i1 = paramContext.getResources().getIdentifier(paramString, "string", h(paramContext));
+    if (i1 > 0) {
+      return paramContext.getString(i1);
+    }
+    return "";
+  }
+  
+  public static String b(InputStream paramInputStream)
+    throws IOException
+  {
+    paramInputStream = new Scanner(paramInputStream).useDelimiter("\\A");
+    if (paramInputStream.hasNext()) {
+      return paramInputStream.next();
+    }
+    return "";
+  }
+  
+  public static void b(Context paramContext, View paramView)
+  {
+    paramContext = (InputMethodManager)paramContext.getSystemService("input_method");
+    if (paramContext != null) {
+      paramContext.showSoftInputFromInputMethod(paramView.getWindowToken(), 0);
+    }
+  }
+  
+  public static void b(String paramString1, String paramString2)
+  {
+    if (!g.k())
+    {
+      g.h().a(paramString1, paramString2);
+      return;
+    }
+    throw new IllegalArgumentException(paramString2);
+  }
+  
+  @SuppressLint({"MissingPermission"})
+  public static boolean b(Context paramContext)
+  {
+    int i1 = paramContext.checkCallingOrSelfPermission("android.permission.ACCESS_NETWORK_STATE");
+    boolean bool2 = false;
+    if (i1 == 0) {
+      i1 = 1;
+    } else {
+      i1 = 0;
+    }
+    if (i1 != 0)
+    {
+      paramContext = ((ConnectivityManager)paramContext.getSystemService("connectivity")).getActiveNetworkInfo();
+      boolean bool1 = bool2;
+      if (paramContext != null)
+      {
+        bool1 = bool2;
+        if (paramContext.isConnectedOrConnecting()) {
+          bool1 = true;
+        }
+      }
+      return bool1;
+    }
+    return true;
+  }
+  
+  public static byte[] b(String paramString)
+  {
+    int i2 = paramString.length();
+    byte[] arrayOfByte = new byte[i2 / 2];
+    int i1 = 0;
+    while (i1 < i2)
+    {
+      int i3 = i1 / 2;
+      int i4 = Character.digit(paramString.charAt(i1), 16);
+      arrayOfByte[i3] = ((byte)(Character.digit(paramString.charAt(i1 + 1), 16) + (i4 << 4)));
+      i1 += 2;
+    }
+    return arrayOfByte;
+  }
+  
+  /* Error */
+  public static String c(Context paramContext)
+  {
+    // Byte code:
+    //   0: aconst_null
+    //   1: astore 4
+    //   3: aload_0
+    //   4: invokevirtual 134	android/content/Context:getResources	()Landroid/content/res/Resources;
+    //   7: astore_3
+    //   8: aload_0
+    //   9: invokevirtual 593	android/content/Context:getApplicationContext	()Landroid/content/Context;
+    //   12: invokevirtual 597	android/content/Context:getApplicationInfo	()Landroid/content/pm/ApplicationInfo;
+    //   15: getfield 602	android/content/pm/ApplicationInfo:icon	I
+    //   18: istore_1
+    //   19: aload_3
+    //   20: iload_1
+    //   21: invokevirtual 606	android/content/res/Resources:openRawResource	(I)Ljava/io/InputStream;
+    //   24: astore_3
+    //   25: aload_3
+    //   26: astore_0
+    //   27: aload_3
+    //   28: invokestatic 608	l/a/a/a/a/b/l:a	(Ljava/io/InputStream;)Ljava/lang/String;
+    //   31: astore 5
+    //   33: aload_3
+    //   34: astore_0
+    //   35: aload 5
+    //   37: invokestatic 610	l/a/a/a/a/b/l:c	(Ljava/lang/String;)Z
+    //   40: istore_2
+    //   41: iload_2
+    //   42: ifeq +9 -> 51
+    //   45: aload 4
+    //   47: astore_0
+    //   48: goto +6 -> 54
+    //   51: aload 5
+    //   53: astore_0
+    //   54: aload_3
+    //   55: ldc_w 612
+    //   58: invokestatic 273	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   61: aload_0
+    //   62: areturn
+    //   63: astore 4
+    //   65: goto +22 -> 87
+    //   68: goto +14 -> 82
+    //   71: astore_0
+    //   72: goto -4 -> 68
+    //   75: astore_0
+    //   76: aconst_null
+    //   77: astore_3
+    //   78: goto +84 -> 162
+    //   81: astore_0
+    //   82: aconst_null
+    //   83: astore_3
+    //   84: aload_0
+    //   85: astore 4
+    //   87: aload_3
+    //   88: astore_0
+    //   89: invokestatic 278	l/a/a/a/g:h	()Ll/a/a/a/q;
+    //   92: astore 5
+    //   94: aload_3
+    //   95: astore_0
+    //   96: new 280	java/lang/StringBuilder
+    //   99: dup
+    //   100: invokespecial 281	java/lang/StringBuilder:<init>	()V
+    //   103: astore 6
+    //   105: aload_3
+    //   106: astore_0
+    //   107: aload 6
+    //   109: ldc_w 614
+    //   112: invokevirtual 287	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   115: pop
+    //   116: aload_3
+    //   117: astore_0
+    //   118: aload 6
+    //   120: aload 4
+    //   122: invokevirtual 617	java/lang/Exception:getMessage	()Ljava/lang/String;
+    //   125: invokevirtual 287	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   128: pop
+    //   129: aload_3
+    //   130: astore_0
+    //   131: aload 5
+    //   133: ldc_w 292
+    //   136: aload 6
+    //   138: invokevirtual 295	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   141: invokeinterface 561 3 0
+    //   146: aload_3
+    //   147: ldc_w 612
+    //   150: invokestatic 273	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   153: aconst_null
+    //   154: areturn
+    //   155: astore 4
+    //   157: aload_0
+    //   158: astore_3
+    //   159: aload 4
+    //   161: astore_0
+    //   162: aload_3
+    //   163: ldc_w 612
+    //   166: invokestatic 273	l/a/a/a/a/b/l:a	(Ljava/io/Closeable;Ljava/lang/String;)V
+    //   169: goto +5 -> 174
+    //   172: aload_0
+    //   173: athrow
+    //   174: goto -2 -> 172
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	177	0	paramContext	Context
+    //   18	3	1	i1	int
+    //   40	2	2	bool	boolean
+    //   7	156	3	localObject1	Object
+    //   1	45	4	localObject2	Object
+    //   63	1	4	localException	Exception
+    //   85	36	4	localContext	Context
+    //   155	5	4	localObject3	Object
+    //   31	101	5	localObject4	Object
+    //   103	34	6	localStringBuilder	StringBuilder
+    // Exception table:
+    //   from	to	target	type
+    //   27	33	63	java/lang/Exception
+    //   35	41	63	java/lang/Exception
+    //   8	19	71	java/lang/Exception
+    //   3	8	75	finally
+    //   8	19	75	finally
+    //   19	25	75	finally
+    //   3	8	81	java/lang/Exception
+    //   19	25	81	java/lang/Exception
+    //   27	33	155	finally
+    //   35	41	155	finally
+    //   89	94	155	finally
+    //   96	105	155	finally
+    //   107	116	155	finally
+    //   118	129	155	finally
+    //   131	146	155	finally
+  }
+  
+  public static void c(Context paramContext, String paramString)
+  {
+    if (k(paramContext)) {
+      g.h().d("Fabric", paramString);
+    }
+  }
+  
+  public static void c(String paramString1, String paramString2)
+  {
+    if (!g.k())
+    {
+      g.h().a(paramString1, paramString2);
+      return;
+    }
+    throw new IllegalStateException(paramString2);
+  }
+  
+  public static boolean c()
+  {
+    return (Debug.isDebuggerConnected()) || (Debug.waitingForDebugger());
+  }
+  
+  public static boolean c(String paramString)
+  {
+    return (paramString == null) || (paramString.length() == 0);
+  }
+  
+  public static int d(Context paramContext)
+  {
+    return getApplicationContextgetApplicationInfoicon;
+  }
+  
+  public static String d(String paramString)
+  {
+    return a(paramString.getBytes(), "SHA-1");
+  }
+  
+  public static boolean d(String paramString1, String paramString2)
+  {
+    if (paramString1 == paramString2) {
+      return true;
+    }
+    if (paramString1 != null) {
+      return paramString1.equals(paramString2);
+    }
+    return false;
+  }
+  
+  public static Float e(Context paramContext)
+  {
+    paramContext = paramContext.registerReceiver(null, new IntentFilter("android.intent.action.BATTERY_CHANGED"));
+    if (paramContext == null) {
+      return null;
+    }
+    int i1 = paramContext.getIntExtra("level", -1);
+    int i2 = paramContext.getIntExtra("scale", -1);
+    return Float.valueOf(i1 / i2);
+  }
+  
+  public static String e(String paramString)
+  {
+    return a(paramString.getBytes(), "SHA-256");
+  }
+  
+  public static int f(Context paramContext)
+  {
+    if (l(paramContext)) {
+      i2 = 1;
+    } else {
+      i2 = 0;
+    }
+    int i1 = i2;
+    if (n(paramContext)) {
+      i1 = i2 | 0x2;
+    }
+    int i2 = i1;
+    if (c()) {
+      i2 = i1 | 0x4;
+    }
+    return i2;
+  }
+  
+  public static boolean g(Context paramContext)
+  {
+    boolean bool2 = l(paramContext);
+    boolean bool1 = false;
+    if (bool2) {
+      return false;
+    }
+    if (((SensorManager)paramContext.getSystemService("sensor")).getDefaultSensor(8) != null) {
+      bool1 = true;
+    }
+    return bool1;
+  }
+  
+  public static String h(Context paramContext)
+  {
+    int i1 = getApplicationContextgetApplicationInfoicon;
+    if (i1 > 0) {}
+    try
+    {
+      String str = paramContext.getResources().getResourcePackageName(i1);
+      return str;
+    }
+    catch (Resources.NotFoundException localNotFoundException)
+    {
+      for (;;) {}
+    }
+    return paramContext.getPackageName();
+    return paramContext.getPackageName();
+  }
+  
+  public static SharedPreferences i(Context paramContext)
+  {
+    return paramContext.getSharedPreferences("com.crashlytics.prefs", 0);
+  }
+  
+  public static boolean j(Context paramContext)
+  {
+    return (getApplicationInfoflags & 0x2) != 0;
+  }
+  
+  public static boolean k(Context paramContext)
+  {
+    if (o == null) {
+      o = Boolean.valueOf(a(paramContext, "com.crashlytics.Trace", false));
+    }
+    return o.booleanValue();
+  }
+  
+  public static boolean l(Context paramContext)
+  {
+    paramContext = Settings.Secure.getString(paramContext.getContentResolver(), "android_id");
+    return ("sdk".equals(Build.PRODUCT)) || ("google_sdk".equals(Build.PRODUCT)) || (paramContext == null);
+  }
+  
+  @Deprecated
+  public static boolean m(Context paramContext)
+  {
+    return false;
+  }
+  
+  public static boolean n(Context paramContext)
+  {
+    boolean bool = l(paramContext);
+    paramContext = Build.TAGS;
+    if ((!bool) && (paramContext != null) && (paramContext.contains("test-keys"))) {
+      return true;
+    }
+    if (new File("/system/app/Superuser.apk").exists()) {
+      return true;
+    }
+    paramContext = new File("/system/xbin/su");
+    return (!bool) && (paramContext.exists());
+  }
+  
+  public static String o(Context paramContext)
+  {
+    int i2 = paramContext.getResources().getIdentifier("io.fabric.android.build_id", "string", h(paramContext));
+    int i1 = i2;
+    if (i2 == 0) {
+      i1 = paramContext.getResources().getIdentifier("com.crashlytics.android.build_id", "string", h(paramContext));
+    }
+    if (i1 != 0)
+    {
+      paramContext = paramContext.getResources().getString(i1);
+      q localQ = g.h();
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Build ID is: ");
+      localStringBuilder.append(paramContext);
+      localQ.d("Fabric", localStringBuilder.toString());
+      return paramContext;
+    }
+    return null;
+  }
+  
+  public static String p(Context paramContext)
+  {
+    int i1 = paramContext.getResources().getIdentifier("com.google.firebase.crashlytics.unity_version", "string", h(paramContext));
+    if (i1 != 0)
+    {
+      paramContext = paramContext.getResources().getString(i1);
+      q localQ = g.h();
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append("Unity Editor version is: ");
+      localStringBuilder.append(paramContext);
+      localQ.d("Fabric", localStringBuilder.toString());
+      return paramContext;
+    }
+    return null;
+  }
+  
+  public static enum a
+  {
+    public static final Map<String, a> k;
+    
+    static
+    {
+      k = new HashMap(4);
+      k.put("armeabi-v7a", g);
+      k.put("armeabi", f);
+      k.put("arm64-v8a", j);
+      k.put("x86", a);
+    }
+    
+    public a() {}
+    
+    public static a a()
+    {
+      Object localObject = Build.CPU_ABI;
+      if (TextUtils.isEmpty((CharSequence)localObject))
+      {
+        g.h().d("Fabric", "Architecture#getValue()::Build.CPU_ABI returned null or empty");
+        return h;
+      }
+      localObject = ((String)localObject).toLowerCase(Locale.US);
+      a localA = (a)k.get(localObject);
+      localObject = localA;
+      if (localA == null) {
+        localObject = h;
+      }
+      return localObject;
+    }
+  }
+}

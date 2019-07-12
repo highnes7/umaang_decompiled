@@ -1,0 +1,215 @@
+package a;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.nio.ByteBuffer;
+
+public abstract class f
+{
+  public PrintStream a;
+  
+  public f() {}
+  
+  private byte[] c(ByteBuffer paramByteBuffer)
+  {
+    if (paramByteBuffer.hasArray())
+    {
+      arrayOfByte1 = paramByteBuffer.array();
+      if ((arrayOfByte1.length == paramByteBuffer.capacity()) && (arrayOfByte1.length == paramByteBuffer.remaining()))
+      {
+        paramByteBuffer.position(paramByteBuffer.limit());
+        break label44;
+      }
+    }
+    byte[] arrayOfByte1 = null;
+    label44:
+    byte[] arrayOfByte2 = arrayOfByte1;
+    if (arrayOfByte1 == null)
+    {
+      arrayOfByte2 = new byte[paramByteBuffer.remaining()];
+      paramByteBuffer.get(arrayOfByte2);
+    }
+    return arrayOfByte2;
+  }
+  
+  public abstract int a();
+  
+  public int a(InputStream paramInputStream, byte[] paramArrayOfByte)
+    throws IOException
+  {
+    int i = 0;
+    for (;;)
+    {
+      if (i >= paramArrayOfByte.length) {
+        return paramArrayOfByte.length;
+      }
+      int j = paramInputStream.read();
+      if (j == -1) {
+        return i;
+      }
+      paramArrayOfByte[i] = ((byte)j);
+      i += 1;
+    }
+  }
+  
+  public String a(ByteBuffer paramByteBuffer)
+  {
+    return a(c(paramByteBuffer));
+  }
+  
+  public String a(byte[] paramArrayOfByte)
+  {
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    paramArrayOfByte = new ByteArrayInputStream(paramArrayOfByte);
+    try
+    {
+      a(paramArrayOfByte, localByteArrayOutputStream);
+      paramArrayOfByte = localByteArrayOutputStream.toString("8859_1");
+      return paramArrayOfByte;
+    }
+    catch (Exception paramArrayOfByte)
+    {
+      for (;;) {}
+    }
+    throw new Error("CharacterEncoder.encode internal error");
+  }
+  
+  public void a(InputStream paramInputStream, OutputStream paramOutputStream)
+    throws IOException
+  {
+    byte[] arrayOfByte = new byte[b()];
+    a(paramOutputStream);
+    int j = a(paramInputStream, arrayOfByte);
+    int i;
+    if (j != 0)
+    {
+      a(paramOutputStream, j);
+      i = 0;
+    }
+    for (;;)
+    {
+      if (i >= j)
+      {
+        if (j < b())
+        {
+          b(paramOutputStream);
+          return;
+        }
+        c(paramOutputStream);
+        break;
+      }
+      if (a() + i <= j) {
+        a(paramOutputStream, arrayOfByte, i, a());
+      } else {
+        a(paramOutputStream, arrayOfByte, i, j - i);
+      }
+      i += a();
+    }
+  }
+  
+  public void a(OutputStream paramOutputStream)
+    throws IOException
+  {
+    a = new PrintStream(paramOutputStream);
+  }
+  
+  public void a(OutputStream paramOutputStream, int paramInt)
+    throws IOException
+  {}
+  
+  public abstract void a(OutputStream paramOutputStream, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException;
+  
+  public void a(ByteBuffer paramByteBuffer, OutputStream paramOutputStream)
+    throws IOException
+  {
+    a(c(paramByteBuffer), paramOutputStream);
+  }
+  
+  public void a(byte[] paramArrayOfByte, OutputStream paramOutputStream)
+    throws IOException
+  {
+    a(new ByteArrayInputStream(paramArrayOfByte), paramOutputStream);
+  }
+  
+  public abstract int b();
+  
+  public String b(ByteBuffer paramByteBuffer)
+  {
+    return b(c(paramByteBuffer));
+  }
+  
+  public String b(byte[] paramArrayOfByte)
+  {
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    paramArrayOfByte = new ByteArrayInputStream(paramArrayOfByte);
+    try
+    {
+      b(paramArrayOfByte, localByteArrayOutputStream);
+      return localByteArrayOutputStream.toString();
+    }
+    catch (Exception paramArrayOfByte)
+    {
+      for (;;) {}
+    }
+    throw new Error("CharacterEncoder.encodeBuffer internal error");
+  }
+  
+  public void b(InputStream paramInputStream, OutputStream paramOutputStream)
+    throws IOException
+  {
+    byte[] arrayOfByte = new byte[b()];
+    a(paramOutputStream);
+    int j = a(paramInputStream, arrayOfByte);
+    int i;
+    if (j != 0)
+    {
+      a(paramOutputStream, j);
+      i = 0;
+    }
+    for (;;)
+    {
+      if (i >= j)
+      {
+        c(paramOutputStream);
+        if (j >= b()) {
+          break;
+        }
+        b(paramOutputStream);
+        return;
+      }
+      if (a() + i <= j) {
+        a(paramOutputStream, arrayOfByte, i, a());
+      } else {
+        a(paramOutputStream, arrayOfByte, i, j - i);
+      }
+      i += a();
+    }
+  }
+  
+  public void b(OutputStream paramOutputStream)
+    throws IOException
+  {}
+  
+  public void b(ByteBuffer paramByteBuffer, OutputStream paramOutputStream)
+    throws IOException
+  {
+    b(c(paramByteBuffer), paramOutputStream);
+  }
+  
+  public void b(byte[] paramArrayOfByte, OutputStream paramOutputStream)
+    throws IOException
+  {
+    b(new ByteArrayInputStream(paramArrayOfByte), paramOutputStream);
+  }
+  
+  public void c(OutputStream paramOutputStream)
+    throws IOException
+  {
+    a.println();
+  }
+}

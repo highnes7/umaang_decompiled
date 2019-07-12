@@ -1,0 +1,127 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.SortedSet;
+import m.a.h;
+
+@b
+public abstract class y<E>
+  extends t<E>
+  implements Ag<E>
+{
+  @gb
+  public final Comparator<? super E> c;
+  public transient Ag<E> d;
+  
+  public y()
+  {
+    this(mf.d());
+  }
+  
+  public y(Comparator<? super E> paramComparator)
+  {
+    if (paramComparator != null)
+    {
+      c = paramComparator;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public Ag<E> a(@h E paramE1, O paramO1, @h E paramE2, O paramO2)
+  {
+    if (paramO1 != null)
+    {
+      if (paramO2 != null) {
+        return b(paramE1, paramO1).a(paramE2, paramO2);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public SortedSet<E> a()
+  {
+    return new w(this);
+  }
+  
+  public Comparator<? super E> comparator()
+  {
+    return c;
+  }
+  
+  public Iterator<E> descendingIterator()
+  {
+    return bf.b(v());
+  }
+  
+  public Ag<E> e()
+  {
+    return new x(this);
+  }
+  
+  public abstract Iterator<Ye.a<E>> f();
+  
+  public Ye.a<E> firstEntry()
+  {
+    Iterator localIterator = d();
+    if (localIterator.hasNext()) {
+      return (Ye.a)localIterator.next();
+    }
+    return null;
+  }
+  
+  public Ye.a<E> lastEntry()
+  {
+    Iterator localIterator = f();
+    if (localIterator.hasNext()) {
+      return (Ye.a)localIterator.next();
+    }
+    return null;
+  }
+  
+  public Ye.a<E> pollFirstEntry()
+  {
+    Iterator localIterator = d();
+    if (localIterator.hasNext())
+    {
+      Ye.a localA = (Ye.a)localIterator.next();
+      localA = bf.a(localA.a(), localA.getCount());
+      localIterator.remove();
+      return localA;
+    }
+    return null;
+  }
+  
+  public Ye.a<E> pollLastEntry()
+  {
+    Iterator localIterator = f();
+    if (localIterator.hasNext())
+    {
+      Ye.a localA = (Ye.a)localIterator.next();
+      localA = bf.a(localA.a(), localA.getCount());
+      localIterator.remove();
+      return localA;
+    }
+    return null;
+  }
+  
+  public SortedSet<E> u()
+  {
+    return (SortedSet)super.u();
+  }
+  
+  public Ag<E> v()
+  {
+    Ag localAg2 = d;
+    Ag localAg1 = localAg2;
+    if (localAg2 == null)
+    {
+      localAg1 = e();
+      d = localAg1;
+    }
+    return localAg1;
+  }
+}

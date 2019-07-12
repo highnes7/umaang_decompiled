@@ -1,0 +1,98 @@
+package b.b.x.m;
+
+import android.os.Build.VERSION;
+import b.b.a.G;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Locale;
+
+public final class c
+{
+  public static final String a = "ICUCompat";
+  public static Method b = null;
+  public static Method c = null;
+  
+  static
+  {
+    if (Build.VERSION.SDK_INT >= 21) {
+      try
+      {
+        c = Class.forName("libcore.icu.ICU").getMethod("addLikelySubtags", new Class[] { Locale.class });
+        return;
+      }
+      catch (Exception localException1)
+      {
+        throw new IllegalStateException(localException1);
+      }
+    }
+    try
+    {
+      Class localClass = Class.forName("libcore.icu.ICU");
+      if (localClass == null) {
+        break label96;
+      }
+      b = localClass.getMethod("getScript", new Class[] { String.class });
+      c = localClass.getMethod("addLikelySubtags", new Class[] { String.class });
+      return;
+    }
+    catch (Exception localException2)
+    {
+      for (;;) {}
+    }
+    label96:
+  }
+  
+  public c() {}
+  
+  public static String a(String paramString)
+  {
+    try
+    {
+      if (b != null)
+      {
+        paramString = (String)b.invoke(null, new Object[] { paramString });
+        return paramString;
+      }
+      return null;
+    }
+    catch (IllegalAccessException|InvocationTargetException paramString) {}
+    return null;
+  }
+  
+  public static String a(Locale paramLocale)
+  {
+    paramLocale = paramLocale.toString();
+    try
+    {
+      if (c != null)
+      {
+        String str = (String)c.invoke(null, new Object[] { paramLocale });
+        return str;
+      }
+      return paramLocale;
+    }
+    catch (IllegalAccessException|InvocationTargetException localIllegalAccessException) {}
+    return paramLocale;
+  }
+  
+  @G
+  public static String b(Locale paramLocale)
+  {
+    if (Build.VERSION.SDK_INT >= 21) {}
+    try
+    {
+      String str = ((Locale)c.invoke(null, new Object[] { paramLocale })).getScript();
+      return str;
+    }
+    catch (InvocationTargetException|IllegalAccessException localInvocationTargetException)
+    {
+      for (;;) {}
+    }
+    return paramLocale.getScript();
+    paramLocale = a(paramLocale);
+    if (paramLocale != null) {
+      return a(paramLocale);
+    }
+    return null;
+  }
+}

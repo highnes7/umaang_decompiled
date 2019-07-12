@@ -1,0 +1,475 @@
+package d;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class F<TResult>
+{
+  public static final ExecutorService a;
+  public static final Executor b;
+  public static final Executor c = af;
+  public final Object d = new Object();
+  public boolean e;
+  public boolean f;
+  public TResult g;
+  public Exception h;
+  public List<o<TResult, Void>> i = new ArrayList();
+  
+  static
+  {
+    k localK = k.a;
+    a = b;
+    b = d;
+  }
+  
+  public F() {}
+  
+  public static <TResult> F<TResult> a()
+  {
+    a localA = c();
+    localA.b();
+    return localA.a();
+  }
+  
+  public static F<Void> a(long paramLong)
+  {
+    return a(paramLong, ac);
+  }
+  
+  public static F<Void> a(long paramLong, ScheduledExecutorService paramScheduledExecutorService)
+  {
+    if (paramLong <= 0L) {
+      return a(null);
+    }
+    a localA = c();
+    paramScheduledExecutorService.schedule(new w(localA), paramLong, TimeUnit.MILLISECONDS);
+    return localA.a();
+  }
+  
+  public static <TResult> F<TResult> a(Exception paramException)
+  {
+    a localA = c();
+    localA.a(paramException);
+    return localA.a();
+  }
+  
+  public static <TResult> F<TResult> a(TResult paramTResult)
+  {
+    a localA = c();
+    localA.a(paramTResult);
+    return localA.a();
+  }
+  
+  public static F<Void> a(Collection<? extends F<?>> paramCollection)
+  {
+    if (paramCollection.size() == 0) {
+      return a(null);
+    }
+    a localA = c();
+    ArrayList localArrayList = new ArrayList();
+    Object localObject = new Object();
+    AtomicInteger localAtomicInteger = new AtomicInteger(paramCollection.size());
+    AtomicBoolean localAtomicBoolean = new AtomicBoolean(false);
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext()) {
+      ((F)paramCollection.next()).a(new C(localObject, localArrayList, localAtomicBoolean, localAtomicInteger, localA));
+    }
+    return localA.a();
+  }
+  
+  public static <TResult> F<TResult> a(Callable<TResult> paramCallable)
+  {
+    return a(paramCallable, b, null);
+  }
+  
+  public static <TResult> F<TResult> a(Callable<TResult> paramCallable, l paramL)
+  {
+    return a(paramCallable, b, paramL);
+  }
+  
+  public static <TResult> F<TResult> a(Callable<TResult> paramCallable, Executor paramExecutor)
+  {
+    return a(paramCallable, paramExecutor, null);
+  }
+  
+  public static <TResult> F<TResult> a(Callable<TResult> paramCallable, Executor paramExecutor, l paramL)
+  {
+    a localA = c();
+    paramExecutor.execute(new y(paramL, localA, paramCallable));
+    return localA.a();
+  }
+  
+  public static <TResult> F<List<TResult>> b(Collection<? extends F<TResult>> paramCollection)
+  {
+    return a(paramCollection).c(new B(paramCollection));
+  }
+  
+  public static <TResult> F<TResult> b(Callable<TResult> paramCallable)
+  {
+    return a(paramCallable, a, null);
+  }
+  
+  public static <TResult> F<TResult> b(Callable<TResult> paramCallable, l paramL)
+  {
+    return a(paramCallable, a, paramL);
+  }
+  
+  public static <TResult> F<TResult>.a c()
+  {
+    return new a(new F(), null);
+  }
+  
+  public static F<F<?>> c(Collection<? extends F<?>> paramCollection)
+  {
+    if (paramCollection.size() == 0) {
+      return a(null);
+    }
+    a localA = c();
+    AtomicBoolean localAtomicBoolean = new AtomicBoolean(false);
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext()) {
+      ((F)paramCollection.next()).a(new A(localAtomicBoolean, localA));
+    }
+    return localA.a();
+  }
+  
+  public static <TContinuationResult, TResult> void c(F<TContinuationResult>.a paramF, o<TResult, F<TContinuationResult>> paramO, F<TResult> paramF1, Executor paramExecutor, l paramL)
+  {
+    paramExecutor.execute(new v(paramL, paramF, paramO, paramF1));
+  }
+  
+  public static <TResult> F<F<TResult>> d(Collection<? extends F<TResult>> paramCollection)
+  {
+    if (paramCollection.size() == 0) {
+      return a(null);
+    }
+    a localA = c();
+    AtomicBoolean localAtomicBoolean = new AtomicBoolean(false);
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext()) {
+      ((F)paramCollection.next()).a(new z(localAtomicBoolean, localA));
+    }
+    return localA.a();
+  }
+  
+  public static <TContinuationResult, TResult> void d(F<TContinuationResult>.a paramF, o<TResult, TContinuationResult> paramO, F<TResult> paramF1, Executor paramExecutor, l paramL)
+  {
+    paramExecutor.execute(new t(paramL, paramF, paramO, paramF1));
+  }
+  
+  private void k()
+  {
+    synchronized (d)
+    {
+      Iterator localIterator = i.iterator();
+      while (localIterator.hasNext())
+      {
+        o localO = (o)localIterator.next();
+        try
+        {
+          localO.then(this);
+        }
+        catch (Exception localException)
+        {
+          throw new RuntimeException(localException);
+        }
+        catch (RuntimeException localRuntimeException)
+        {
+          throw localRuntimeException;
+        }
+      }
+      i = null;
+      return;
+    }
+    for (;;)
+    {
+      throw localObject2;
+    }
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> a(o<TResult, TContinuationResult> paramO)
+  {
+    return a(paramO, b, null);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> a(o<TResult, TContinuationResult> paramO, l paramL)
+  {
+    return a(paramO, b, paramL);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> a(o<TResult, TContinuationResult> paramO, Executor paramExecutor)
+  {
+    return a(paramO, paramExecutor, null);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> a(o<TResult, TContinuationResult> paramO, Executor paramExecutor, l paramL)
+  {
+    a localA = c();
+    synchronized (d)
+    {
+      boolean bool = g();
+      if (!bool) {
+        i.add(new E(this, localA, paramO, paramExecutor, paramL));
+      }
+      if (bool) {
+        d(localA, paramO, this, paramExecutor, paramL);
+      }
+      return localA.a();
+    }
+  }
+  
+  public F<Void> a(Callable<Boolean> paramCallable, o<Void, F<Void>> paramO)
+  {
+    return a(paramCallable, paramO, b, null);
+  }
+  
+  public F<Void> a(Callable<Boolean> paramCallable, o<Void, F<Void>> paramO, l paramL)
+  {
+    return a(paramCallable, paramO, b, paramL);
+  }
+  
+  public F<Void> a(Callable<Boolean> paramCallable, o<Void, F<Void>> paramO, Executor paramExecutor)
+  {
+    return a(paramCallable, paramO, paramExecutor, null);
+  }
+  
+  public F<Void> a(Callable<Boolean> paramCallable, o<Void, F<Void>> paramO, Executor paramExecutor, l paramL)
+  {
+    n localN = new n();
+    localN.a(new D(this, paramL, paramCallable, paramO, paramExecutor, localN));
+    return i().b((o)localN.a(), paramExecutor);
+  }
+  
+  public <TOut> F<TOut> b()
+  {
+    return this;
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> b(o<TResult, F<TContinuationResult>> paramO)
+  {
+    return b(paramO, b, null);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> b(o<TResult, F<TContinuationResult>> paramO, l paramL)
+  {
+    return b(paramO, b, paramL);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> b(o<TResult, F<TContinuationResult>> paramO, Executor paramExecutor)
+  {
+    return b(paramO, paramExecutor, null);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> b(o<TResult, F<TContinuationResult>> paramO, Executor paramExecutor, l paramL)
+  {
+    a localA = c();
+    synchronized (d)
+    {
+      boolean bool = g();
+      if (!bool) {
+        i.add(new q(this, localA, paramO, paramExecutor, paramL));
+      }
+      if (bool) {
+        c(localA, paramO, this, paramExecutor, paramL);
+      }
+      return localA.a();
+    }
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> c(o<TResult, TContinuationResult> paramO)
+  {
+    return c(paramO, b, null);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> c(o<TResult, TContinuationResult> paramO, l paramL)
+  {
+    return c(paramO, b, paramL);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> c(o<TResult, TContinuationResult> paramO, Executor paramExecutor)
+  {
+    return c(paramO, paramExecutor, null);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> c(o<TResult, TContinuationResult> paramO, Executor paramExecutor, l paramL)
+  {
+    return b(new r(this, paramL, paramO), paramExecutor);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> d(o<TResult, F<TContinuationResult>> paramO)
+  {
+    return d(paramO, b);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> d(o<TResult, F<TContinuationResult>> paramO, l paramL)
+  {
+    return d(paramO, b, paramL);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> d(o<TResult, F<TContinuationResult>> paramO, Executor paramExecutor)
+  {
+    return d(paramO, paramExecutor, null);
+  }
+  
+  public <TContinuationResult> F<TContinuationResult> d(o<TResult, F<TContinuationResult>> paramO, Executor paramExecutor, l paramL)
+  {
+    return b(new s(this, paramL, paramO), paramExecutor);
+  }
+  
+  public Exception d()
+  {
+    synchronized (d)
+    {
+      Exception localException = h;
+      return localException;
+    }
+  }
+  
+  public TResult e()
+  {
+    synchronized (d)
+    {
+      Object localObject2 = g;
+      return localObject2;
+    }
+  }
+  
+  public boolean f()
+  {
+    synchronized (d)
+    {
+      boolean bool = f;
+      return bool;
+    }
+  }
+  
+  public boolean g()
+  {
+    synchronized (d)
+    {
+      boolean bool = e;
+      return bool;
+    }
+  }
+  
+  public boolean h()
+  {
+    for (;;)
+    {
+      synchronized (d)
+      {
+        if (h != null)
+        {
+          bool = true;
+          return bool;
+        }
+      }
+      boolean bool = false;
+    }
+  }
+  
+  public F<Void> i()
+  {
+    return b(new x(this));
+  }
+  
+  public void j()
+    throws InterruptedException
+  {
+    synchronized (d)
+    {
+      if (!g()) {
+        d.wait();
+      }
+      return;
+    }
+  }
+  
+  public class a
+  {
+    public a() {}
+    
+    public F<TResult> a()
+    {
+      return F.this;
+    }
+    
+    public void a(Exception paramException)
+    {
+      if (b(paramException)) {
+        return;
+      }
+      throw new IllegalStateException("Cannot set the error on a completed task.");
+    }
+    
+    public void a(TResult paramTResult)
+    {
+      if (b(paramTResult)) {
+        return;
+      }
+      throw new IllegalStateException("Cannot set the result of a completed task.");
+    }
+    
+    public void b()
+    {
+      if (c()) {
+        return;
+      }
+      throw new IllegalStateException("Cannot cancel a completed task.");
+    }
+    
+    public boolean b(Exception paramException)
+    {
+      synchronized (F.a(F.this))
+      {
+        if (F.b(F.this)) {
+          return false;
+        }
+        F.a(F.this, true);
+        F.a(F.this, paramException);
+        F.a(F.this).notifyAll();
+        F.c(F.this);
+        return true;
+      }
+    }
+    
+    public boolean b(TResult paramTResult)
+    {
+      synchronized (F.a(F.this))
+      {
+        if (F.b(F.this)) {
+          return false;
+        }
+        F.a(F.this, true);
+        F.a(F.this, paramTResult);
+        F.a(F.this).notifyAll();
+        F.c(F.this);
+        return true;
+      }
+    }
+    
+    public boolean c()
+    {
+      synchronized (F.a(F.this))
+      {
+        if (F.b(F.this)) {
+          return false;
+        }
+        F.a(F.this, true);
+        F.b(F.this, true);
+        F.a(F.this).notifyAll();
+        F.c(F.this);
+        return true;
+      }
+    }
+  }
+}

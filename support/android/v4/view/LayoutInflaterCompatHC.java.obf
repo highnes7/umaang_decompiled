@@ -1,0 +1,139 @@
+package b.b.x.o;
+
+import android.content.Context;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.LayoutInflater.Factory;
+import android.view.LayoutInflater.Factory2;
+import android.view.View;
+import b.b.a.F;
+import f.a.a.a.a;
+import java.lang.reflect.Field;
+
+public final class k
+{
+  public static final String a = "LayoutInflaterCompatHC";
+  public static Field b;
+  public static boolean c;
+  
+  public k() {}
+  
+  @Deprecated
+  public static l a(LayoutInflater paramLayoutInflater)
+  {
+    paramLayoutInflater = paramLayoutInflater.getFactory();
+    if ((paramLayoutInflater instanceof a)) {
+      return a;
+    }
+    return null;
+  }
+  
+  public static void a(LayoutInflater paramLayoutInflater, LayoutInflater.Factory2 paramFactory2)
+  {
+    if (!c) {}
+    try
+    {
+      b = LayoutInflater.class.getDeclaredField("mFactory2");
+      b.setAccessible(true);
+    }
+    catch (NoSuchFieldException localNoSuchFieldException)
+    {
+      Object localObject;
+      for (;;) {}
+    }
+    localObject = a.b("forceSetFactory2 Could not find field 'mFactory2' on class ");
+    ((StringBuilder)localObject).append(LayoutInflater.class.getName());
+    ((StringBuilder)localObject).append("; inflation may have unexpected results.");
+    ((StringBuilder)localObject).toString();
+    c = true;
+    localObject = b;
+    if (localObject != null) {}
+    try
+    {
+      ((Field)localObject).set(paramLayoutInflater, paramFactory2);
+      return;
+    }
+    catch (IllegalAccessException paramFactory2)
+    {
+      for (;;) {}
+    }
+    paramFactory2 = new StringBuilder();
+    paramFactory2.append("forceSetFactory2 could not set the Factory2 on LayoutInflater ");
+    paramFactory2.append(paramLayoutInflater);
+    paramFactory2.append("; inflation may have unexpected results.");
+    paramFactory2.toString();
+  }
+  
+  @Deprecated
+  public static void a(@F LayoutInflater paramLayoutInflater, @F l paramL)
+  {
+    int i = Build.VERSION.SDK_INT;
+    Object localObject2 = null;
+    Object localObject1 = null;
+    if (i >= 21)
+    {
+      if (paramL != null) {
+        localObject1 = new a(paramL);
+      }
+      paramLayoutInflater.setFactory2((LayoutInflater.Factory2)localObject1);
+      return;
+    }
+    localObject1 = localObject2;
+    if (paramL != null) {
+      localObject1 = new a(paramL);
+    }
+    paramLayoutInflater.setFactory2((LayoutInflater.Factory2)localObject1);
+    paramL = paramLayoutInflater.getFactory();
+    if ((paramL instanceof LayoutInflater.Factory2))
+    {
+      a(paramLayoutInflater, (LayoutInflater.Factory2)paramL);
+      return;
+    }
+    a(paramLayoutInflater, (LayoutInflater.Factory2)localObject1);
+  }
+  
+  public static void b(@F LayoutInflater paramLayoutInflater, @F LayoutInflater.Factory2 paramFactory2)
+  {
+    paramLayoutInflater.setFactory2(paramFactory2);
+    if (Build.VERSION.SDK_INT < 21)
+    {
+      LayoutInflater.Factory localFactory = paramLayoutInflater.getFactory();
+      if ((localFactory instanceof LayoutInflater.Factory2))
+      {
+        a(paramLayoutInflater, (LayoutInflater.Factory2)localFactory);
+        return;
+      }
+      a(paramLayoutInflater, paramFactory2);
+    }
+  }
+  
+  public static class a
+    implements LayoutInflater.Factory2
+  {
+    public final l a;
+    
+    public a(l paramL)
+    {
+      a = paramL;
+    }
+    
+    public View onCreateView(View paramView, String paramString, Context paramContext, AttributeSet paramAttributeSet)
+    {
+      return a.onCreateView(paramView, paramString, paramContext, paramAttributeSet);
+    }
+    
+    public View onCreateView(String paramString, Context paramContext, AttributeSet paramAttributeSet)
+    {
+      return a.onCreateView(null, paramString, paramContext, paramAttributeSet);
+    }
+    
+    public String toString()
+    {
+      StringBuilder localStringBuilder = new StringBuilder();
+      localStringBuilder.append(a.class.getName());
+      localStringBuilder.append("{");
+      return a.a(localStringBuilder, a, "}");
+    }
+  }
+}

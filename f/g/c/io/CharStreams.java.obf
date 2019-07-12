@@ -1,0 +1,333 @@
+package f.g.c.g;
+
+import java.io.Closeable;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@f.g.c.a.a
+public final class n
+{
+  public static final int a = 2048;
+  
+  public n() {}
+  
+  /* Error */
+  public static <R extends Readable,  extends Closeable, W extends Appendable,  extends Closeable> long a(y<R> paramY, J<W> paramJ)
+    throws IOException
+  {
+    // Byte code:
+    //   0: aload_0
+    //   1: invokeinterface 29 1 0
+    //   6: checkcast 31	java/lang/Readable
+    //   9: astore 6
+    //   11: iconst_1
+    //   12: istore_3
+    //   13: aload_1
+    //   14: invokeinterface 34 1 0
+    //   19: checkcast 36	java/lang/Appendable
+    //   22: astore_0
+    //   23: aload 6
+    //   25: aload_0
+    //   26: invokestatic 39	f/g/c/g/n:a	(Ljava/lang/Readable;Ljava/lang/Appendable;)J
+    //   29: lstore 4
+    //   31: aload_0
+    //   32: checkcast 41	java/io/Closeable
+    //   35: iconst_0
+    //   36: invokestatic 46	f/g/c/g/o:a	(Ljava/io/Closeable;Z)V
+    //   39: aload 6
+    //   41: checkcast 41	java/io/Closeable
+    //   44: iconst_0
+    //   45: invokestatic 46	f/g/c/g/o:a	(Ljava/io/Closeable;Z)V
+    //   48: lload 4
+    //   50: lreturn
+    //   51: astore_0
+    //   52: iconst_1
+    //   53: istore_2
+    //   54: goto +17 -> 71
+    //   57: astore_1
+    //   58: aload_0
+    //   59: checkcast 41	java/io/Closeable
+    //   62: iconst_1
+    //   63: invokestatic 46	f/g/c/g/o:a	(Ljava/io/Closeable;Z)V
+    //   66: aload_1
+    //   67: athrow
+    //   68: astore_0
+    //   69: iconst_0
+    //   70: istore_2
+    //   71: aload 6
+    //   73: checkcast 41	java/io/Closeable
+    //   76: astore_1
+    //   77: iload_2
+    //   78: iconst_2
+    //   79: if_icmpge +6 -> 85
+    //   82: goto +5 -> 87
+    //   85: iconst_0
+    //   86: istore_3
+    //   87: aload_1
+    //   88: iload_3
+    //   89: invokestatic 46	f/g/c/g/o:a	(Ljava/io/Closeable;Z)V
+    //   92: aload_0
+    //   93: athrow
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	94	0	paramY	y<R>
+    //   0	94	1	paramJ	J<W>
+    //   53	27	2	i	int
+    //   12	77	3	bool	boolean
+    //   29	20	4	l	long
+    //   9	63	6	localReadable	Readable
+    // Exception table:
+    //   from	to	target	type
+    //   31	39	51	finally
+    //   66	68	51	finally
+    //   23	31	57	finally
+    //   13	23	68	finally
+    //   58	66	68	finally
+  }
+  
+  public static <R extends Readable,  extends Closeable> long a(y<R> paramY, Appendable paramAppendable)
+    throws IOException
+  {
+    paramY = (Readable)paramY.a();
+    try
+    {
+      long l = a(paramY, paramAppendable);
+      o.a((Closeable)paramY, false);
+      return l;
+    }
+    finally
+    {
+      o.a((Closeable)paramY, true);
+    }
+  }
+  
+  public static long a(Readable paramReadable, Appendable paramAppendable)
+    throws IOException
+  {
+    CharBuffer localCharBuffer = CharBuffer.allocate(2048);
+    long l = 0L;
+    while (paramReadable.read(localCharBuffer) != -1)
+    {
+      localCharBuffer.flip();
+      paramAppendable.append(localCharBuffer);
+      l += localCharBuffer.remaining();
+      localCharBuffer.clear();
+    }
+    return l;
+  }
+  
+  public static J<OutputStreamWriter> a(J<? extends OutputStream> paramJ, Charset paramCharset)
+  {
+    if (paramJ != null)
+    {
+      if (paramCharset != null) {
+        return new l(paramJ, paramCharset);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static y<InputStreamReader> a(y<? extends InputStream> paramY, Charset paramCharset)
+  {
+    if (paramY != null)
+    {
+      if (paramCharset != null) {
+        return new k(paramY, paramCharset);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static y<Reader> a(Iterable<? extends y<? extends Reader>> paramIterable)
+  {
+    return new m(paramIterable);
+  }
+  
+  public static y<StringReader> a(String paramString)
+  {
+    if (paramString != null) {
+      return new j(paramString);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static y<Reader> a(y<? extends Reader>... paramVarArgs)
+  {
+    return new m(Arrays.asList(paramVarArgs));
+  }
+  
+  public static Writer a(Appendable paramAppendable)
+  {
+    if ((paramAppendable instanceof Writer)) {
+      return (Writer)paramAppendable;
+    }
+    return new a(paramAppendable);
+  }
+  
+  public static <R extends Readable,  extends Closeable, T> T a(y<R> paramY, B<T> paramB)
+    throws IOException
+  {
+    paramY = (Readable)paramY.a();
+    try
+    {
+      D localD = new D(paramY);
+      boolean bool;
+      do
+      {
+        String str = localD.a();
+        if (str == null) {
+          break;
+        }
+        bool = paramB.a(str);
+      } while (bool);
+      o.a((Closeable)paramY, false);
+      return paramB.getResult();
+    }
+    finally
+    {
+      o.a((Closeable)paramY, true);
+    }
+    for (;;)
+    {
+      throw paramB;
+    }
+  }
+  
+  public static <R extends Readable,  extends Closeable> String a(y<R> paramY)
+    throws IOException
+  {
+    paramY = (Readable)paramY.a();
+    try
+    {
+      String str = new D(paramY).a();
+      o.a((Closeable)paramY, false);
+      return str;
+    }
+    finally
+    {
+      o.a((Closeable)paramY, true);
+    }
+  }
+  
+  public static List<String> a(Readable paramReadable)
+    throws IOException
+  {
+    ArrayList localArrayList = new ArrayList();
+    paramReadable = new D(paramReadable);
+    for (;;)
+    {
+      String str = paramReadable.a();
+      if (str == null) {
+        break;
+      }
+      localArrayList.add(str);
+    }
+    return localArrayList;
+  }
+  
+  public static void a(Reader paramReader, long paramLong)
+    throws IOException
+  {
+    while (paramLong > 0L)
+    {
+      long l = paramReader.skip(paramLong);
+      if (l == 0L)
+      {
+        if (paramReader.read() != -1) {
+          paramLong -= 1L;
+        } else {
+          throw new EOFException();
+        }
+      }
+      else {
+        paramLong -= l;
+      }
+    }
+  }
+  
+  public static <W extends Appendable,  extends Closeable> void a(CharSequence paramCharSequence, J<W> paramJ)
+    throws IOException
+  {
+    if (paramCharSequence != null)
+    {
+      paramJ = (Appendable)paramJ.a();
+      try
+      {
+        paramJ.append(paramCharSequence);
+        o.a((Closeable)paramJ, false);
+        return;
+      }
+      finally
+      {
+        o.a((Closeable)paramJ, true);
+      }
+    }
+    throw new NullPointerException();
+  }
+  
+  public static String b(Readable paramReadable)
+    throws IOException
+  {
+    return c(paramReadable).toString();
+  }
+  
+  public static <R extends Readable,  extends Closeable> List<String> b(y<R> paramY)
+    throws IOException
+  {
+    paramY = (Readable)paramY.a();
+    try
+    {
+      List localList = a(paramY);
+      o.a((Closeable)paramY, false);
+      return localList;
+    }
+    finally
+    {
+      o.a((Closeable)paramY, true);
+    }
+  }
+  
+  public static <R extends Readable,  extends Closeable> String c(y<R> paramY)
+    throws IOException
+  {
+    return d(paramY).toString();
+  }
+  
+  public static StringBuilder c(Readable paramReadable)
+    throws IOException
+  {
+    StringBuilder localStringBuilder = new StringBuilder();
+    a(paramReadable, localStringBuilder);
+    return localStringBuilder;
+  }
+  
+  public static <R extends Readable,  extends Closeable> StringBuilder d(y<R> paramY)
+    throws IOException
+  {
+    paramY = (Readable)paramY.a();
+    try
+    {
+      StringBuilder localStringBuilder = c(paramY);
+      o.a((Closeable)paramY, false);
+      return localStringBuilder;
+    }
+    finally
+    {
+      o.a((Closeable)paramY, true);
+    }
+  }
+}

@@ -1,0 +1,155 @@
+package android.support.design.widget;
+
+import android.content.Context;
+import android.graphics.Rect;
+import android.os.Build.VERSION;
+import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import b.b.x.g.a;
+import b.b.x.o.H;
+import b.b.x.o.Y;
+import java.util.List;
+
+public abstract class HeaderScrollingViewBehavior
+  extends ViewOffsetBehavior<View>
+{
+  public int overlayTop;
+  public final Rect tempRect1 = new Rect();
+  public final Rect tempRect2 = new Rect();
+  public int verticalLayoutGap = 0;
+  
+  public HeaderScrollingViewBehavior() {}
+  
+  public HeaderScrollingViewBehavior(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+  }
+  
+  public static int resolveGravity(int paramInt)
+  {
+    int i = paramInt;
+    if (paramInt == 0) {
+      i = 8388659;
+    }
+    return i;
+  }
+  
+  public abstract View findFirstDependency(List<View> paramList);
+  
+  public final int getOverlapPixelsForOffset(View paramView)
+  {
+    if (overlayTop == 0) {
+      return 0;
+    }
+    float f = getOverlapRatioForOffset(paramView);
+    int i = overlayTop;
+    return a.a((int)(f * i), 0, i);
+  }
+  
+  public float getOverlapRatioForOffset(View paramView)
+  {
+    return 1.0F;
+  }
+  
+  public final int getOverlayTop()
+  {
+    return overlayTop;
+  }
+  
+  public int getScrollRange(View paramView)
+  {
+    return paramView.getMeasuredHeight();
+  }
+  
+  public final int getVerticalLayoutGap()
+  {
+    return verticalLayoutGap;
+  }
+  
+  public void layoutChild(CoordinatorLayout paramCoordinatorLayout, View paramView, int paramInt)
+  {
+    View localView = findFirstDependency(paramCoordinatorLayout.getDependencies(paramView));
+    if (localView != null)
+    {
+      CoordinatorLayout.LayoutParams localLayoutParams = (CoordinatorLayout.LayoutParams)paramView.getLayoutParams();
+      Rect localRect = tempRect1;
+      int i = paramCoordinatorLayout.getPaddingLeft();
+      int j = leftMargin;
+      int k = localView.getBottom();
+      int m = topMargin;
+      int n = paramCoordinatorLayout.getWidth();
+      int i1 = paramCoordinatorLayout.getPaddingRight();
+      int i2 = rightMargin;
+      int i3 = paramCoordinatorLayout.getHeight();
+      localRect.set(i + j, k + m, n - i1 - i2, localView.getBottom() + i3 - paramCoordinatorLayout.getPaddingBottom() - bottomMargin);
+      Y localY = paramCoordinatorLayout.getLastWindowInsets();
+      if ((localY != null) && (H.m(paramCoordinatorLayout)) && (!H.m(paramView)))
+      {
+        i = left;
+        left = (localY.j() + i);
+        right -= localY.k();
+      }
+      paramCoordinatorLayout = tempRect2;
+      i = gravity;
+      if (i == 0) {
+        i = 8388659;
+      }
+      j = paramView.getMeasuredWidth();
+      k = paramView.getMeasuredHeight();
+      m = Build.VERSION.SDK_INT;
+      Gravity.apply(i, j, k, localRect, paramCoordinatorLayout, paramInt);
+      paramInt = getOverlapPixelsForOffset(localView);
+      paramView.layout(left, top - paramInt, right, bottom - paramInt);
+      verticalLayoutGap = (top - localView.getBottom());
+      return;
+    }
+    paramCoordinatorLayout.onLayoutChild(paramView, paramInt);
+    verticalLayoutGap = 0;
+  }
+  
+  public boolean onMeasureChild(CoordinatorLayout paramCoordinatorLayout, View paramView, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
+  {
+    int j = getLayoutParamsheight;
+    if ((j == -1) || (j == -2))
+    {
+      View localView = findFirstDependency(paramCoordinatorLayout.getDependencies(paramView));
+      if (localView != null)
+      {
+        if ((H.m(localView)) && (!H.m(paramView)))
+        {
+          H.b(paramView, true);
+          if (H.m(paramView))
+          {
+            paramView.requestLayout();
+            return true;
+          }
+        }
+        int i = View.MeasureSpec.getSize(paramInt3);
+        paramInt3 = i;
+        if (i == 0) {
+          paramInt3 = paramCoordinatorLayout.getHeight();
+        }
+        int k = localView.getMeasuredHeight();
+        int m = getScrollRange(localView);
+        if (j == -1) {
+          i = 1073741824;
+        } else {
+          i = Integer.MIN_VALUE;
+        }
+        paramCoordinatorLayout.onMeasureChild(paramView, paramInt1, paramInt2, View.MeasureSpec.makeMeasureSpec(m + (paramInt3 - k), i), paramInt4);
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public final void setOverlayTop(int paramInt)
+  {
+    overlayTop = paramInt;
+  }
+}

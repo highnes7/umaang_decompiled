@@ -1,0 +1,81 @@
+package b.b.x.h.b;
+
+import android.media.session.MediaSession;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.media.session.MediaSessionCompat;
+import b.b.a.K;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@K(24)
+public class s
+{
+  public static final String a = "MediaSessionCompatApi24";
+  
+  public s() {}
+  
+  public static Object a(a paramA)
+  {
+    return new b(paramA);
+  }
+  
+  public static String a(Object paramObject)
+  {
+    paramObject = (MediaSession)paramObject;
+    try
+    {
+      paramObject = (String)paramObject.getClass().getMethod("getCallingPackage", new Class[0]).invoke(paramObject, new Object[0]);
+      return paramObject;
+    }
+    catch (NoSuchMethodException|InvocationTargetException|IllegalAccessException paramObject)
+    {
+      for (;;) {}
+    }
+    return null;
+  }
+  
+  public static abstract interface a
+    extends r.a
+  {
+    public abstract void a(String paramString, Bundle paramBundle);
+    
+    public abstract void b(Uri paramUri, Bundle paramBundle);
+    
+    public abstract void c();
+    
+    public abstract void d(String paramString, Bundle paramBundle);
+  }
+  
+  public static class b<T extends s.a>
+    extends r.b<T>
+  {
+    public b(T paramT)
+    {
+      super();
+    }
+    
+    public void onPrepare()
+    {
+      ((s.a)a).c();
+    }
+    
+    public void onPrepareFromMediaId(String paramString, Bundle paramBundle)
+    {
+      MediaSessionCompat.a(paramBundle);
+      ((s.a)a).a(paramString, paramBundle);
+    }
+    
+    public void onPrepareFromSearch(String paramString, Bundle paramBundle)
+    {
+      MediaSessionCompat.a(paramBundle);
+      ((s.a)a).d(paramString, paramBundle);
+    }
+    
+    public void onPrepareFromUri(Uri paramUri, Bundle paramBundle)
+    {
+      MediaSessionCompat.a(paramBundle);
+      ((s.a)a).b(paramUri, paramBundle);
+    }
+  }
+}

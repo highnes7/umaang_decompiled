@@ -1,0 +1,71 @@
+package f.g.b.a.c;
+
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.g.W;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
+public final class e
+  extends b
+{
+  public final byte[] c;
+  public final int d;
+  public final int e;
+  
+  public e(String paramString, byte[] paramArrayOfByte)
+  {
+    this(paramString, paramArrayOfByte, 0, paramArrayOfByte.length);
+  }
+  
+  public e(String paramString, byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+  {
+    super(paramString);
+    if (paramArrayOfByte != null)
+    {
+      c = paramArrayOfByte;
+      boolean bool;
+      if ((paramInt1 >= 0) && (paramInt2 >= 0) && (paramInt1 + paramInt2 <= paramArrayOfByte.length)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      g.a(bool, "offset %s, length %s, array length %s", new Object[] { Integer.valueOf(paramInt1), Integer.valueOf(paramInt2), Integer.valueOf(paramArrayOfByte.length) });
+      d = paramInt1;
+      e = paramInt2;
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static e a(String paramString1, String paramString2)
+  {
+    return new e(paramString1, W.a(paramString2));
+  }
+  
+  public e a(String paramString)
+  {
+    a = paramString;
+    return this;
+  }
+  
+  public e a(boolean paramBoolean)
+  {
+    b = paramBoolean;
+    return this;
+  }
+  
+  public boolean a()
+  {
+    return true;
+  }
+  
+  public InputStream c()
+  {
+    return new ByteArrayInputStream(c, d, e);
+  }
+  
+  public long getLength()
+  {
+    return e;
+  }
+}

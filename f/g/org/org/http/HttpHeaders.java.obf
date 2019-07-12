@@ -1,0 +1,712 @@
+package f.g.b.a.c;
+
+import f.g.b.a.e.a.a.a.b.g;
+import f.g.b.a.e.a.a.a.b.i;
+import f.g.b.a.g.W;
+import f.g.b.a.g.b;
+import f.g.b.a.g.ba;
+import f.g.b.a.g.n;
+import f.g.b.a.g.r;
+import f.g.b.a.g.v;
+import f.g.b.a.g.w;
+import f.g.b.a.g.w.c;
+import f.g.b.a.g.z;
+import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.Type;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class t
+  extends w
+{
+  @z("Accept")
+  public List<String> accept;
+  @z("Accept-Encoding")
+  public List<String> acceptEncoding = new ArrayList(Collections.singleton("gzip"));
+  @z("Age")
+  public List<Long> age;
+  @z("WWW-Authenticate")
+  public List<String> authenticate;
+  @z("Authorization")
+  public List<String> authorization;
+  @z("Cache-Control")
+  public List<String> cacheControl;
+  @z("Content-Encoding")
+  public List<String> contentEncoding;
+  @z("Content-Length")
+  public List<Long> contentLength;
+  @z("Content-MD5")
+  public List<String> contentMD5;
+  @z("Content-Range")
+  public List<String> contentRange;
+  @z("Content-Type")
+  public List<String> contentType;
+  @z("Cookie")
+  public List<String> cookie;
+  @z("Date")
+  public List<String> date;
+  @z("ETag")
+  public List<String> etag;
+  @z("Expires")
+  public List<String> expires;
+  @z("If-Match")
+  public List<String> ifMatch;
+  @z("If-Modified-Since")
+  public List<String> ifModifiedSince;
+  @z("If-None-Match")
+  public List<String> ifNoneMatch;
+  @z("If-Range")
+  public List<String> ifRange;
+  @z("If-Unmodified-Since")
+  public List<String> ifUnmodifiedSince;
+  @z("Last-Modified")
+  public List<String> lastModified;
+  @z("Location")
+  public List<String> location;
+  @z("MIME-Version")
+  public List<String> mimeVersion;
+  @z("Range")
+  public List<String> range;
+  @z("Retry-After")
+  public List<String> retryAfter;
+  @z("User-Agent")
+  public List<String> userAgent;
+  
+  public t()
+  {
+    super(EnumSet.of(w.c.a));
+  }
+  
+  public static Object a(Type paramType, List<Type> paramList, String paramString)
+  {
+    return r.a(r.a(paramList, paramType), paramString);
+  }
+  
+  public static String a(Object paramObject)
+  {
+    if ((paramObject instanceof Enum)) {
+      return v.a((Enum)paramObject).e();
+    }
+    return paramObject.toString();
+  }
+  
+  public static void a(t paramT, StringBuilder paramStringBuilder1, StringBuilder paramStringBuilder2, Logger paramLogger, I paramI)
+    throws IOException
+  {
+    a(paramT, paramStringBuilder1, paramStringBuilder2, paramLogger, paramI, null);
+  }
+  
+  public static void a(t paramT, StringBuilder paramStringBuilder1, StringBuilder paramStringBuilder2, Logger paramLogger, I paramI, Writer paramWriter)
+    throws IOException
+  {
+    HashSet localHashSet = new HashSet();
+    Iterator localIterator = paramT.entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Object localObject1 = (Map.Entry)localIterator.next();
+      String str = (String)((Map.Entry)localObject1).getKey();
+      g.a(localHashSet.add(str), "multiple headers of the same name (headers are case insensitive): %s", new Object[] { str });
+      localObject1 = ((Map.Entry)localObject1).getValue();
+      if (localObject1 != null)
+      {
+        Object localObject2 = paramT.b().b(str);
+        if (localObject2 != null) {
+          str = ((v)localObject2).e();
+        }
+        localObject2 = localObject1.getClass();
+        if ((!(localObject1 instanceof Iterable)) && (!((Class)localObject2).isArray()))
+        {
+          a(paramLogger, paramStringBuilder1, paramStringBuilder2, paramI, str, localObject1, paramWriter);
+        }
+        else
+        {
+          localObject1 = ba.a(localObject1).iterator();
+          while (((Iterator)localObject1).hasNext()) {
+            a(paramLogger, paramStringBuilder1, paramStringBuilder2, paramI, str, ((Iterator)localObject1).next(), paramWriter);
+          }
+        }
+      }
+    }
+    if (paramWriter != null) {
+      paramWriter.flush();
+    }
+  }
+  
+  public static void a(t paramT, StringBuilder paramStringBuilder, Logger paramLogger, Writer paramWriter)
+    throws IOException
+  {
+    a(paramT, paramStringBuilder, null, paramLogger, null, paramWriter);
+  }
+  
+  public static void a(Logger paramLogger, StringBuilder paramStringBuilder1, StringBuilder paramStringBuilder2, I paramI, String paramString, Object paramObject, Writer paramWriter)
+    throws IOException
+  {
+    if (paramObject != null)
+    {
+      if (r.b(paramObject)) {
+        return;
+      }
+      paramObject = a(paramObject);
+      if (((!"Authorization".equalsIgnoreCase(paramString)) && (!"Cookie".equalsIgnoreCase(paramString))) || ((paramLogger != null) && (paramLogger.isLoggable(Level.ALL)))) {
+        paramLogger = paramObject;
+      } else {
+        paramLogger = "<Not Logged>";
+      }
+      if (paramStringBuilder1 != null)
+      {
+        f.a.a.a.a.b(paramStringBuilder1, paramString, ": ", paramLogger);
+        paramStringBuilder1.append(W.a);
+      }
+      if (paramStringBuilder2 != null)
+      {
+        f.a.a.a.a.b(paramStringBuilder2, " -H '", paramString, ": ", paramLogger);
+        paramStringBuilder2.append("'");
+      }
+      if (paramI != null) {
+        paramI.a(paramString, paramObject);
+      }
+      if (paramWriter != null)
+      {
+        paramWriter.write(paramString);
+        paramWriter.write(": ");
+        paramWriter.write(paramObject);
+        paramWriter.write("\r\n");
+      }
+    }
+  }
+  
+  private <T> T b(List<T> paramList)
+  {
+    if (paramList == null) {
+      return null;
+    }
+    return paramList.get(0);
+  }
+  
+  private <T> List<T> b(T paramT)
+  {
+    if (paramT == null) {
+      return null;
+    }
+    return f.a.a.a.a.a(paramT);
+  }
+  
+  public final String A()
+  {
+    return (String)b(ifRange);
+  }
+  
+  public final String B()
+  {
+    return (String)b(ifUnmodifiedSince);
+  }
+  
+  public final String C()
+  {
+    return (String)b(lastModified);
+  }
+  
+  public final String D()
+  {
+    return (String)b(location);
+  }
+  
+  public final String E()
+  {
+    return (String)b(mimeVersion);
+  }
+  
+  public final String F()
+  {
+    return (String)b(range);
+  }
+  
+  public final String G()
+  {
+    return (String)b(retryAfter);
+  }
+  
+  public final String H()
+  {
+    return (String)b(userAgent);
+  }
+  
+  public t a(Long paramLong)
+  {
+    age = b(paramLong);
+    return this;
+  }
+  
+  public t a(String paramString1, String paramString2)
+  {
+    if (paramString1 != null)
+    {
+      if (paramString2 != null)
+      {
+        int i = paramString1.length();
+        StringBuilder localStringBuilder = new StringBuilder(paramString2.length() + (i + 1));
+        localStringBuilder.append(paramString1);
+        localStringBuilder.append(":");
+        localStringBuilder.append(paramString2);
+        paramString1 = String.valueOf(f.g.b.a.e.b.a.a.a.a.a.i(W.a(localStringBuilder.toString())));
+        if (paramString1.length() != 0) {
+          paramString1 = "Basic ".concat(paramString1);
+        } else {
+          paramString1 = new String("Basic ");
+        }
+        return f(paramString1);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public t a(List<String> paramList)
+  {
+    authorization = paramList;
+    return this;
+  }
+  
+  public String a(String paramString)
+  {
+    paramString = get(paramString.toLowerCase());
+    if (paramString == null) {
+      return null;
+    }
+    Object localObject = paramString.getClass();
+    if (((paramString instanceof Iterable)) || (((Class)localObject).isArray()))
+    {
+      localObject = ba.a(paramString).iterator();
+      if (((Iterator)localObject).hasNext()) {
+        return a(((Iterator)localObject).next());
+      }
+    }
+    return a(paramString);
+  }
+  
+  public final void a(J paramJ, StringBuilder paramStringBuilder)
+    throws IOException
+  {
+    clear();
+    paramStringBuilder = new b(this, paramStringBuilder);
+    int j = paramJ.f();
+    int i = 0;
+    while (i < j)
+    {
+      a(paramJ.a(i), paramJ.b(i), paramStringBuilder);
+      i += 1;
+    }
+    paramStringBuilder.a();
+  }
+  
+  public final void a(t paramT)
+  {
+    try
+    {
+      b localB = new b(this, null);
+      a(paramT, null, null, null, new a(this, localB));
+      localB.a();
+      return;
+    }
+    catch (IOException paramT)
+    {
+      i.d(paramT);
+      throw null;
+    }
+  }
+  
+  public void a(String paramString1, String paramString2, b paramB)
+  {
+    Object localObject1 = d;
+    Object localObject2 = c;
+    b localB = a;
+    paramB = b;
+    Object localObject3;
+    if (paramB != null)
+    {
+      localObject3 = String.valueOf(paramString1);
+      String str = String.valueOf(paramString2);
+      int i = ((String)localObject3).length();
+      StringBuilder localStringBuilder = new StringBuilder(str.length() + (i + 2));
+      localStringBuilder.append((String)localObject3);
+      localStringBuilder.append(": ");
+      localStringBuilder.append(str);
+      paramB.append(localStringBuilder.toString());
+      paramB.append(W.a);
+    }
+    localObject2 = ((n)localObject2).b(paramString1);
+    if (localObject2 != null)
+    {
+      localObject3 = r.a((List)localObject1, ((v)localObject2).d());
+      if (ba.d((Type)localObject3))
+      {
+        paramString1 = ba.a((List)localObject1, ba.a((Type)localObject3));
+        localB.a(((v)localObject2).c(), paramString1, a(paramString1, (List)localObject1, paramString2));
+        return;
+      }
+      if (ba.a(ba.a((List)localObject1, (Type)localObject3), Iterable.class))
+      {
+        paramB = (Collection)((v)localObject2).a(this);
+        paramString1 = paramB;
+        if (paramB == null)
+        {
+          paramString1 = r.b((Type)localObject3);
+          ((v)localObject2).a(this, paramString1);
+        }
+        if (localObject3 == Object.class) {
+          paramB = null;
+        } else {
+          paramB = ba.b((Type)localObject3);
+        }
+        paramString1.add(a(paramB, (List)localObject1, paramString2));
+        return;
+      }
+      ((v)localObject2).a(this, a((Type)localObject3, (List)localObject1, paramString2));
+      return;
+    }
+    localObject1 = (ArrayList)get(paramString1);
+    paramB = (b)localObject1;
+    if (localObject1 == null)
+    {
+      paramB = new ArrayList();
+      b(paramString1, paramB);
+    }
+    paramB.add(paramString2);
+  }
+  
+  public t b(Long paramLong)
+  {
+    contentLength = b(paramLong);
+    return this;
+  }
+  
+  public t b(String paramString, Object paramObject)
+  {
+    super.b(paramString, paramObject);
+    return (t)this;
+  }
+  
+  public List<String> b(String paramString)
+  {
+    paramString = get(paramString.toLowerCase());
+    if (paramString == null) {
+      return Collections.emptyList();
+    }
+    Object localObject = paramString.getClass();
+    if ((!(paramString instanceof Iterable)) && (!((Class)localObject).isArray())) {
+      return Collections.singletonList(a(paramString));
+    }
+    localObject = new ArrayList();
+    paramString = ba.a(paramString).iterator();
+    while (paramString.hasNext()) {
+      ((List)localObject).add(a(paramString.next()));
+    }
+    return Collections.unmodifiableList((List)localObject);
+  }
+  
+  public t c(String paramString)
+  {
+    accept = b(paramString);
+    return this;
+  }
+  
+  public t clone()
+  {
+    return (t)super.clone();
+  }
+  
+  public t d(String paramString)
+  {
+    acceptEncoding = b(paramString);
+    return this;
+  }
+  
+  public t e(String paramString)
+  {
+    authenticate = b(paramString);
+    return this;
+  }
+  
+  public t f(String paramString)
+  {
+    return a(b(paramString));
+  }
+  
+  public t g(String paramString)
+  {
+    cacheControl = b(paramString);
+    return this;
+  }
+  
+  public final String g()
+  {
+    return (String)b(accept);
+  }
+  
+  public t h(String paramString)
+  {
+    contentEncoding = b(paramString);
+    return this;
+  }
+  
+  public final String h()
+  {
+    return (String)b(acceptEncoding);
+  }
+  
+  public t i(String paramString)
+  {
+    contentMD5 = b(paramString);
+    return this;
+  }
+  
+  public final Long i()
+  {
+    return (Long)b(age);
+  }
+  
+  public t j(String paramString)
+  {
+    contentRange = b(paramString);
+    return this;
+  }
+  
+  public final String j()
+  {
+    return (String)b(authenticate);
+  }
+  
+  public t k(String paramString)
+  {
+    contentType = b(paramString);
+    return this;
+  }
+  
+  public final List<String> k()
+  {
+    return authenticate;
+  }
+  
+  public t l(String paramString)
+  {
+    cookie = b(paramString);
+    return this;
+  }
+  
+  public final String l()
+  {
+    return (String)b(authorization);
+  }
+  
+  public t m(String paramString)
+  {
+    date = b(paramString);
+    return this;
+  }
+  
+  public final List<String> m()
+  {
+    return authorization;
+  }
+  
+  public t n(String paramString)
+  {
+    etag = b(paramString);
+    return this;
+  }
+  
+  public final String n()
+  {
+    return (String)b(cacheControl);
+  }
+  
+  public t o(String paramString)
+  {
+    expires = b(paramString);
+    return this;
+  }
+  
+  public final String o()
+  {
+    return (String)b(contentEncoding);
+  }
+  
+  public t p(String paramString)
+  {
+    ifMatch = b(paramString);
+    return this;
+  }
+  
+  public final Long p()
+  {
+    return (Long)b(contentLength);
+  }
+  
+  public t q(String paramString)
+  {
+    ifModifiedSince = b(paramString);
+    return this;
+  }
+  
+  public final String q()
+  {
+    return (String)b(contentMD5);
+  }
+  
+  public t r(String paramString)
+  {
+    ifNoneMatch = b(paramString);
+    return this;
+  }
+  
+  public final String r()
+  {
+    return (String)b(contentRange);
+  }
+  
+  public t s(String paramString)
+  {
+    ifRange = b(paramString);
+    return this;
+  }
+  
+  public final String s()
+  {
+    return (String)b(contentType);
+  }
+  
+  public t t(String paramString)
+  {
+    ifUnmodifiedSince = b(paramString);
+    return this;
+  }
+  
+  public final String t()
+  {
+    return (String)b(cookie);
+  }
+  
+  public t u(String paramString)
+  {
+    lastModified = b(paramString);
+    return this;
+  }
+  
+  public final String u()
+  {
+    return (String)b(date);
+  }
+  
+  public t v(String paramString)
+  {
+    location = b(paramString);
+    return this;
+  }
+  
+  public final String v()
+  {
+    return (String)b(etag);
+  }
+  
+  public t w(String paramString)
+  {
+    mimeVersion = b(paramString);
+    return this;
+  }
+  
+  public final String w()
+  {
+    return (String)b(expires);
+  }
+  
+  public t x(String paramString)
+  {
+    range = b(paramString);
+    return this;
+  }
+  
+  public final String x()
+  {
+    return (String)b(ifMatch);
+  }
+  
+  public t y(String paramString)
+  {
+    retryAfter = b(paramString);
+    return this;
+  }
+  
+  public final String y()
+  {
+    return (String)b(ifModifiedSince);
+  }
+  
+  public t z(String paramString)
+  {
+    userAgent = b(paramString);
+    return this;
+  }
+  
+  public final String z()
+  {
+    return (String)b(ifNoneMatch);
+  }
+  
+  private static class a
+    extends I
+  {
+    public final t e;
+    public final t.b f;
+    
+    public a(t paramT, t.b paramB)
+    {
+      e = paramT;
+      f = paramB;
+    }
+    
+    public J a()
+      throws IOException
+    {
+      throw new UnsupportedOperationException();
+    }
+    
+    public void a(String paramString1, String paramString2)
+    {
+      e.a(paramString1, paramString2, f);
+    }
+  }
+  
+  private static final class b
+  {
+    public final b a;
+    public final StringBuilder b;
+    public final n c;
+    public final List<Type> d;
+    
+    public b(t paramT, StringBuilder paramStringBuilder)
+    {
+      Class localClass = paramT.getClass();
+      d = Arrays.asList(new Type[] { localClass });
+      c = n.a(localClass, true);
+      b = paramStringBuilder;
+      a = new b(paramT);
+    }
+    
+    public void a()
+    {
+      a.a();
+    }
+  }
+}

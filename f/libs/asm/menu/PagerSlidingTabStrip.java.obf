@@ -1,0 +1,94 @@
+package f.c.a.c;
+
+import java.io.File;
+import l.a.a.a.a.b.D;
+import l.a.a.a.a.e.d;
+import l.a.a.a.a.e.m;
+import l.a.a.a.a.e.o;
+import l.a.a.a.g;
+import l.a.a.a.n;
+import l.a.a.a.q;
+
+public class Ea
+  extends l.a.a.a.a.b.a
+  implements na
+{
+  public static final String A = "os_meta_file";
+  public static final String B = "user_meta_file";
+  public static final String C = "logs_file";
+  public static final String D = "keys_file";
+  public static final String s = "application/octet-stream";
+  public static final String t = "report_id";
+  public static final String u = "minidump_file";
+  public static final String v = "crash_meta_file";
+  public static final String w = "binary_images_file";
+  public static final String x = "session_meta_file";
+  public static final String y = "app_meta_file";
+  public static final String z = "device_meta_file";
+  
+  public Ea(n paramN, String paramString1, String paramString2, o paramO)
+  {
+    super(paramN, paramString1, paramString2, paramO, d.b);
+  }
+  
+  private m a(m paramM, Pa paramPa)
+  {
+    paramM.f("report_id", paramPa.b());
+    paramPa = paramPa.d();
+    int j = paramPa.length;
+    int i = 0;
+    while (i < j)
+    {
+      File localFile = paramPa[i];
+      if (localFile.getName().equals("minidump")) {
+        paramM.a("minidump_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("metadata")) {
+        paramM.a("crash_meta_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("binaryImages")) {
+        paramM.a("binary_images_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("session")) {
+        paramM.a("session_meta_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("app")) {
+        paramM.a("app_meta_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("device")) {
+        paramM.a("device_meta_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("os")) {
+        paramM.a("os_meta_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("user")) {
+        paramM.a("user_meta_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("logs")) {
+        paramM.a("logs_file", localFile.getName(), "application/octet-stream", localFile);
+      } else if (localFile.getName().equals("keys")) {
+        paramM.a("keys_file", localFile.getName(), "application/octet-stream", localFile);
+      }
+      i += 1;
+    }
+    return paramM;
+  }
+  
+  private m a(m paramM, String paramString)
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Crashlytics Android SDK/");
+    localStringBuilder.append(r.j());
+    paramM.d("User-Agent", localStringBuilder.toString()).d("X-CRASHLYTICS-API-CLIENT-TYPE", "android").d("X-CRASHLYTICS-API-CLIENT-VERSION", r.j()).d("X-CRASHLYTICS-API-KEY", paramString);
+    return paramM;
+  }
+  
+  public boolean a(ma paramMa)
+  {
+    Object localObject = a();
+    a((m)localObject, a);
+    a((m)localObject, b);
+    paramMa = g.h();
+    StringBuilder localStringBuilder = f.a.a.a.a.b("Sending report to: ");
+    localStringBuilder.append(b());
+    paramMa.d("CrashlyticsCore", localStringBuilder.toString());
+    int i = ((m)localObject).n();
+    paramMa = g.h();
+    localObject = new StringBuilder();
+    ((StringBuilder)localObject).append("Result was: ");
+    ((StringBuilder)localObject).append(i);
+    paramMa.d("CrashlyticsCore", ((StringBuilder)localObject).toString());
+    return D.a(i) == 0;
+  }
+}

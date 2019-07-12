@@ -1,0 +1,314 @@
+package b.b.v;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import b.b.a.F;
+import b.b.a.N;
+import b.b.x.o.H;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+public class sa
+  implements ua
+{
+  public a a;
+  
+  public sa() {}
+  
+  public sa(Context paramContext, ViewGroup paramViewGroup, View paramView)
+  {
+    a = new a(paramContext, paramViewGroup, paramView, this);
+  }
+  
+  public static sa c(View paramView)
+  {
+    ViewGroup localViewGroup = d(paramView);
+    if (localViewGroup != null)
+    {
+      int j = localViewGroup.getChildCount();
+      int i = 0;
+      while (i < j)
+      {
+        View localView = localViewGroup.getChildAt(i);
+        if ((localView instanceof a)) {
+          return e;
+        }
+        i += 1;
+      }
+      return new la(localViewGroup.getContext(), localViewGroup, paramView);
+    }
+    return null;
+  }
+  
+  public static ViewGroup d(View paramView)
+  {
+    while (paramView != null)
+    {
+      if ((paramView.getId() == 16908290) && ((paramView instanceof ViewGroup))) {
+        return (ViewGroup)paramView;
+      }
+      if ((paramView.getParent() instanceof ViewGroup)) {
+        paramView = (ViewGroup)paramView.getParent();
+      }
+    }
+    return null;
+  }
+  
+  public ViewGroup a()
+  {
+    return a;
+  }
+  
+  public void a(@F Drawable paramDrawable)
+  {
+    a.a(paramDrawable);
+  }
+  
+  public void b(@F Drawable paramDrawable)
+  {
+    a.b(paramDrawable);
+  }
+  
+  public boolean b()
+  {
+    return a.b();
+  }
+  
+  public void clear()
+  {
+    a.a();
+  }
+  
+  public static class a
+    extends ViewGroup
+  {
+    public static Method a;
+    public ViewGroup b;
+    public View c;
+    public ArrayList<Drawable> d = null;
+    public sa e;
+    
+    static
+    {
+      try
+      {
+        a = ViewGroup.class.getDeclaredMethod("invalidateChildInParentFast", new Class[] { Integer.TYPE, Integer.TYPE, Rect.class });
+        return;
+      }
+      catch (NoSuchMethodException localNoSuchMethodException) {}
+    }
+    
+    public a(Context paramContext, ViewGroup paramViewGroup, View paramView, sa paramSa)
+    {
+      super();
+      b = paramViewGroup;
+      c = paramView;
+      setRight(paramViewGroup.getWidth());
+      setBottom(paramViewGroup.getHeight());
+      paramViewGroup.addView(this);
+      e = paramSa;
+    }
+    
+    private void a(int[] paramArrayOfInt)
+    {
+      int[] arrayOfInt1 = new int[2];
+      int[] arrayOfInt2 = new int[2];
+      b.getLocationOnScreen(arrayOfInt1);
+      c.getLocationOnScreen(arrayOfInt2);
+      arrayOfInt2[0] -= arrayOfInt1[0];
+      arrayOfInt2[1] -= arrayOfInt1[1];
+    }
+    
+    @N({b.b.a.N.a.b})
+    public ViewParent a(int paramInt1, int paramInt2, Rect paramRect)
+    {
+      if (((b instanceof ViewGroup)) && (a != null)) {
+        try
+        {
+          a(new int[2]);
+          a.invoke(b, new Object[] { Integer.valueOf(paramInt1), Integer.valueOf(paramInt2), paramRect });
+        }
+        catch (InvocationTargetException paramRect)
+        {
+          paramRect.printStackTrace();
+        }
+        catch (IllegalAccessException paramRect)
+        {
+          paramRect.printStackTrace();
+        }
+      }
+      return null;
+    }
+    
+    public void a()
+    {
+      removeAllViews();
+      ArrayList localArrayList = d;
+      if (localArrayList != null) {
+        localArrayList.clear();
+      }
+    }
+    
+    public void a(Drawable paramDrawable)
+    {
+      if (d == null) {
+        d = new ArrayList();
+      }
+      if (!d.contains(paramDrawable))
+      {
+        d.add(paramDrawable);
+        invalidate(paramDrawable.getBounds());
+        paramDrawable.setCallback(this);
+      }
+    }
+    
+    public void a(View paramView)
+    {
+      if ((paramView.getParent() instanceof ViewGroup))
+      {
+        ViewGroup localViewGroup = (ViewGroup)paramView.getParent();
+        if ((localViewGroup != b) && (localViewGroup.getParent() != null) && (H.Z(localViewGroup)))
+        {
+          int[] arrayOfInt1 = new int[2];
+          int[] arrayOfInt2 = new int[2];
+          localViewGroup.getLocationOnScreen(arrayOfInt1);
+          b.getLocationOnScreen(arrayOfInt2);
+          H.f(paramView, arrayOfInt1[0] - arrayOfInt2[0]);
+          H.g(paramView, arrayOfInt1[1] - arrayOfInt2[1]);
+        }
+        localViewGroup.removeView(paramView);
+        if (paramView.getParent() != null) {
+          localViewGroup.removeView(paramView);
+        }
+      }
+      super.addView(paramView, getChildCount() - 1);
+    }
+    
+    public void a(View paramView, Rect paramRect)
+    {
+      if (b != null)
+      {
+        int i = paramView.getLeft();
+        int j = paramView.getTop();
+        paramView = new int[2];
+        a(paramView);
+        paramRect.offset(i + paramView[0], j + paramView[1]);
+        b.invalidate(paramRect);
+      }
+    }
+    
+    public void b(Drawable paramDrawable)
+    {
+      ArrayList localArrayList = d;
+      if (localArrayList != null)
+      {
+        localArrayList.remove(paramDrawable);
+        invalidate(paramDrawable.getBounds());
+        paramDrawable.setCallback(null);
+      }
+    }
+    
+    public void b(View paramView)
+    {
+      super.removeView(paramView);
+      if (b()) {
+        b.removeView(this);
+      }
+    }
+    
+    public boolean b()
+    {
+      if (getChildCount() == 0)
+      {
+        ArrayList localArrayList = d;
+        if ((localArrayList == null) || (localArrayList.size() == 0)) {
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    public void dispatchDraw(Canvas paramCanvas)
+    {
+      Object localObject = new int[2];
+      int[] arrayOfInt = new int[2];
+      b.getLocationOnScreen((int[])localObject);
+      c.getLocationOnScreen(arrayOfInt);
+      int j = 0;
+      paramCanvas.translate(arrayOfInt[0] - localObject[0], arrayOfInt[1] - localObject[1]);
+      paramCanvas.clipRect(new Rect(0, 0, c.getWidth(), c.getHeight()));
+      super.dispatchDraw(paramCanvas);
+      localObject = d;
+      int i;
+      if (localObject == null) {
+        i = 0;
+      } else {
+        i = ((ArrayList)localObject).size();
+      }
+      while (j < i)
+      {
+        ((Drawable)d.get(j)).draw(paramCanvas);
+        j += 1;
+      }
+    }
+    
+    public boolean dispatchTouchEvent(MotionEvent paramMotionEvent)
+    {
+      return false;
+    }
+    
+    public ViewParent invalidateChildInParent(int[] paramArrayOfInt, Rect paramRect)
+    {
+      if (b != null)
+      {
+        paramRect.offset(paramArrayOfInt[0], paramArrayOfInt[1]);
+        if ((b instanceof ViewGroup))
+        {
+          paramArrayOfInt[0] = 0;
+          paramArrayOfInt[1] = 0;
+          int[] arrayOfInt = new int[2];
+          a(arrayOfInt);
+          paramRect.offset(arrayOfInt[0], arrayOfInt[1]);
+          return super.invalidateChildInParent(paramArrayOfInt, paramRect);
+        }
+        invalidate(paramRect);
+      }
+      return null;
+    }
+    
+    public void invalidateDrawable(@F Drawable paramDrawable)
+    {
+      invalidate(paramDrawable.getBounds());
+    }
+    
+    public void onLayout(boolean paramBoolean, int paramInt1, int paramInt2, int paramInt3, int paramInt4) {}
+    
+    public boolean verifyDrawable(@F Drawable paramDrawable)
+    {
+      if (!super.verifyDrawable(paramDrawable))
+      {
+        ArrayList localArrayList = d;
+        if ((localArrayList == null) || (!localArrayList.contains(paramDrawable))) {
+          return false;
+        }
+      }
+      return true;
+    }
+    
+    public static class a
+      extends View
+    {
+      public a(Context paramContext)
+      {
+        super();
+      }
+    }
+  }
+}

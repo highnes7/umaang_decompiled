@@ -1,0 +1,291 @@
+package f.g.c.b;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@b(emulated=true)
+public final class ua
+{
+  public final w a;
+  public final boolean b;
+  public final c c;
+  public final int d;
+  
+  public ua(c paramC)
+  {
+    c = paramC;
+    b = false;
+    a = localW;
+    d = Integer.MAX_VALUE;
+  }
+  
+  public ua(c paramC, boolean paramBoolean, w paramW, int paramInt)
+  {
+    c = paramC;
+    b = paramBoolean;
+    a = paramW;
+    d = paramInt;
+  }
+  
+  public static ua a(char paramChar)
+  {
+    return a(w.a(paramChar));
+  }
+  
+  public static ua a(int paramInt)
+  {
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "The length may not be less than 1");
+    return new ua(new sa(paramInt));
+  }
+  
+  public static ua a(w paramW)
+  {
+    if (paramW != null) {
+      return new ua(new ma(paramW));
+    }
+    throw new NullPointerException();
+  }
+  
+  public static ua a(String paramString)
+  {
+    boolean bool;
+    if (paramString.length() != 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "The separator may not be the empty string.");
+    return new ua(new oa(paramString));
+  }
+  
+  @f.g.c.a.c("java.util.regex")
+  public static ua a(Pattern paramPattern)
+  {
+    if (paramPattern != null)
+    {
+      ba.a(paramPattern.matcher("").matches() ^ true, "The pattern may not match the empty string: %s", new Object[] { paramPattern });
+      return new ua(new qa(paramPattern));
+    }
+    throw new NullPointerException();
+  }
+  
+  @f.g.c.a.c("java.util.regex")
+  public static ua b(String paramString)
+  {
+    return a(Pattern.compile(paramString));
+  }
+  
+  private Iterator<String> b(CharSequence paramCharSequence)
+  {
+    return c.a(this, paramCharSequence);
+  }
+  
+  @m.a.c
+  public ua a()
+  {
+    return new ua(c, true, a, d);
+  }
+  
+  public Iterable<String> a(CharSequence paramCharSequence)
+  {
+    if (paramCharSequence != null) {
+      return new ta(this, paramCharSequence);
+    }
+    throw new NullPointerException();
+  }
+  
+  @m.a.c
+  public ua b()
+  {
+    return b(w.n);
+  }
+  
+  @m.a.c
+  public ua b(int paramInt)
+  {
+    boolean bool;
+    if (paramInt > 0) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool, "must be greater than zero: %s", new Object[] { Integer.valueOf(paramInt) });
+    return new ua(c, b, a, paramInt);
+  }
+  
+  @m.a.c
+  public ua b(w paramW)
+  {
+    if (paramW != null) {
+      return new ua(c, b, paramW, d);
+    }
+    throw new NullPointerException();
+  }
+  
+  @m.a.c
+  @a
+  public a c(String paramString)
+  {
+    return d(a(paramString));
+  }
+  
+  @m.a.c
+  @a
+  public a d(ua paramUa)
+  {
+    return new a(this, paramUa);
+  }
+  
+  @a
+  public static final class a
+  {
+    public static final String a = "Chunk [%s] is not a valid entry";
+    public final ua b;
+    public final ua c;
+    
+    public a(ua paramUa1, ua paramUa2)
+    {
+      b = paramUa1;
+      if (paramUa2 != null)
+      {
+        c = paramUa2;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public Map<String, String> a(CharSequence paramCharSequence)
+    {
+      LinkedHashMap localLinkedHashMap = new LinkedHashMap();
+      paramCharSequence = b.a(paramCharSequence).iterator();
+      while (paramCharSequence.hasNext())
+      {
+        String str1 = (String)paramCharSequence.next();
+        Iterator localIterator = ua.a(c, str1);
+        ba.a(localIterator.hasNext(), "Chunk [%s] is not a valid entry", new Object[] { str1 });
+        String str2 = (String)localIterator.next();
+        ba.a(localLinkedHashMap.containsKey(str2) ^ true, "Duplicate key [%s] found.", new Object[] { str2 });
+        ba.a(localIterator.hasNext(), "Chunk [%s] is not a valid entry", new Object[] { str1 });
+        localLinkedHashMap.put(str2, (String)localIterator.next());
+        ba.a(localIterator.hasNext() ^ true, "Chunk [%s] is not a valid entry", new Object[] { str1 });
+      }
+      return Collections.unmodifiableMap(localLinkedHashMap);
+    }
+  }
+  
+  private static abstract class b
+    extends c<String>
+  {
+    public final CharSequence c;
+    public final w d;
+    public final boolean e;
+    public int f = 0;
+    public int g;
+    
+    public b(ua paramUa, CharSequence paramCharSequence)
+    {
+      d = a;
+      e = b;
+      g = d;
+      c = paramCharSequence;
+    }
+    
+    public abstract int a(int paramInt);
+    
+    public String a()
+    {
+      int i = f;
+      int k;
+      for (;;)
+      {
+        j = f;
+        if (j == -1) {
+          break label276;
+        }
+        j = b(j);
+        if (j == -1)
+        {
+          j = c.length();
+          f = -1;
+        }
+        else
+        {
+          f = a(j);
+        }
+        int m = f;
+        k = i;
+        if (m == i)
+        {
+          f = (m + 1);
+          if (f >= c.length()) {
+            f = -1;
+          }
+        }
+        else
+        {
+          for (;;)
+          {
+            i = j;
+            if (k >= j) {
+              break;
+            }
+            i = j;
+            if (!d.c(c.charAt(k))) {
+              break;
+            }
+            k += 1;
+          }
+          while ((i > k) && (d.c(c.charAt(i - 1)))) {
+            i -= 1;
+          }
+          if ((!e) || (k != i)) {
+            break;
+          }
+          i = f;
+        }
+      }
+      int j = g;
+      if (j == 1)
+      {
+        i = c.length();
+        f = -1;
+        for (;;)
+        {
+          j = i;
+          if (i <= k) {
+            break;
+          }
+          j = i;
+          if (!d.c(c.charAt(i - 1))) {
+            break;
+          }
+          i -= 1;
+        }
+      }
+      g = (j - 1);
+      j = i;
+      return c.subSequence(k, j).toString();
+      label276:
+      return (String)b();
+    }
+    
+    public abstract int b(int paramInt);
+  }
+  
+  private static abstract interface c
+  {
+    public abstract Iterator<String> a(ua paramUa, CharSequence paramCharSequence);
+  }
+}

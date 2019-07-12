@@ -1,0 +1,60 @@
+package com.coremedia.iso.boxes;
+
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class UserBox
+  extends f.h.a.a
+{
+  public static final String TYPE = "uuid";
+  public byte[] data;
+  
+  static {}
+  
+  public UserBox(byte[] paramArrayOfByte)
+  {
+    super("uuid", paramArrayOfByte);
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    data = new byte[paramByteBuffer.remaining()];
+    paramByteBuffer.get(data);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.put(data);
+  }
+  
+  public long getContentSize()
+  {
+    return data.length;
+  }
+  
+  public byte[] getData()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    j.b().a(localJoinPoint);
+    return data;
+  }
+  
+  public void setData(byte[] paramArrayOfByte)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this, paramArrayOfByte);
+    j.b().a(localJoinPoint);
+    data = paramArrayOfByte;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.a(Factory.makeJP(ajc$tjp_0, this, this), "UserBox[type=");
+    localStringBuilder.append(getType());
+    localStringBuilder.append(";userType=");
+    localStringBuilder.append(new String(getUserType()));
+    localStringBuilder.append(";contentLength=");
+    return f.a.a.a.a.a(localStringBuilder, data.length, "]");
+  }
+}

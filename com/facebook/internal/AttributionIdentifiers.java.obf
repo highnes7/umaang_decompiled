@@ -1,0 +1,539 @@
+package com.facebook.internal;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Looper;
+import android.os.Parcel;
+import android.os.RemoteException;
+import b.b.a.G;
+import com.facebook.FacebookException;
+import java.lang.reflect.Method;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class AttributionIdentifiers
+{
+  public static final String ANDROID_ID_COLUMN_NAME = "androidid";
+  public static final String ATTRIBUTION_ID_COLUMN_NAME = "aid";
+  public static final String ATTRIBUTION_ID_CONTENT_PROVIDER = "com.facebook.katana.provider.AttributionIdProvider";
+  public static final String ATTRIBUTION_ID_CONTENT_PROVIDER_WAKIZASHI = "com.facebook.wakizashi.provider.AttributionIdProvider";
+  public static final int CONNECTION_RESULT_SUCCESS = 0;
+  public static final long IDENTIFIER_REFRESH_INTERVAL_MILLIS = 3600000L;
+  public static final String LIMIT_TRACKING_COLUMN_NAME = "limit_tracking";
+  public static final String TAG = "com.facebook.internal.AttributionIdentifiers";
+  public static AttributionIdentifiers recentlyFetchedIdentifiers;
+  public String androidAdvertiserId;
+  public String androidInstallerPackage;
+  public String attributionId;
+  public long fetchTime;
+  public boolean limitTracking;
+  
+  public AttributionIdentifiers() {}
+  
+  public static AttributionIdentifiers cacheAndReturnIdentifiers(AttributionIdentifiers paramAttributionIdentifiers)
+  {
+    fetchTime = System.currentTimeMillis();
+    recentlyFetchedIdentifiers = paramAttributionIdentifiers;
+    return paramAttributionIdentifiers;
+  }
+  
+  public static AttributionIdentifiers getAndroidId(Context paramContext)
+  {
+    AttributionIdentifiers localAttributionIdentifiers = getAndroidIdViaReflection(paramContext);
+    Object localObject = localAttributionIdentifiers;
+    if (localAttributionIdentifiers == null)
+    {
+      paramContext = getAndroidIdViaService(paramContext);
+      localObject = paramContext;
+      if (paramContext == null) {
+        localObject = new AttributionIdentifiers();
+      }
+    }
+    return localObject;
+  }
+  
+  public static AttributionIdentifiers getAndroidIdViaReflection(Context paramContext)
+  {
+    try
+    {
+      if (Looper.myLooper() != Looper.getMainLooper())
+      {
+        Object localObject = Utility.getMethodQuietly("com.google.android.gms.common.GooglePlayServicesUtil", "isGooglePlayServicesAvailable", new Class[] { Context.class });
+        if (localObject == null) {
+          return null;
+        }
+        localObject = Utility.invokeMethodQuietly(null, (Method)localObject, new Object[] { paramContext });
+        if ((localObject instanceof Integer))
+        {
+          if (((Integer)localObject).intValue() != 0) {
+            return null;
+          }
+          localObject = Utility.getMethodQuietly("com.google.android.gms.ads.identifier.AdvertisingIdClient", "getAdvertisingIdInfo", new Class[] { Context.class });
+          if (localObject == null) {
+            return null;
+          }
+          paramContext = Utility.invokeMethodQuietly(null, (Method)localObject, new Object[] { paramContext });
+          if (paramContext == null) {
+            return null;
+          }
+          localObject = Utility.getMethodQuietly(paramContext.getClass(), "getId", new Class[0]);
+          Method localMethod = Utility.getMethodQuietly(paramContext.getClass(), "isLimitAdTrackingEnabled", new Class[0]);
+          if (localObject != null)
+          {
+            if (localMethod == null) {
+              return null;
+            }
+            AttributionIdentifiers localAttributionIdentifiers = new AttributionIdentifiers();
+            androidAdvertiserId = ((String)Utility.invokeMethodQuietly(paramContext, (Method)localObject, new Object[0]));
+            limitTracking = ((Boolean)Utility.invokeMethodQuietly(paramContext, localMethod, new Object[0])).booleanValue();
+            return localAttributionIdentifiers;
+          }
+        }
+      }
+      else
+      {
+        throw new FacebookException("getAndroidId cannot be called on the main thread.");
+      }
+    }
+    catch (Exception paramContext)
+    {
+      Utility.logd("android_id", paramContext);
+      return null;
+    }
+    return null;
+  }
+  
+  /* Error */
+  public static AttributionIdentifiers getAndroidIdViaService(Context paramContext)
+  {
+    // Byte code:
+    //   0: new 11	com/facebook/internal/AttributionIdentifiers$GoogleAdServiceConnection
+    //   3: dup
+    //   4: invokespecial 149	com/facebook/internal/AttributionIdentifiers$GoogleAdServiceConnection:<init>	()V
+    //   7: astore_1
+    //   8: new 151	android/content/Intent
+    //   11: dup
+    //   12: ldc -103
+    //   14: invokespecial 154	android/content/Intent:<init>	(Ljava/lang/String;)V
+    //   17: astore_2
+    //   18: aload_2
+    //   19: ldc -100
+    //   21: invokevirtual 160	android/content/Intent:setPackage	(Ljava/lang/String;)Landroid/content/Intent;
+    //   24: pop
+    //   25: aload_0
+    //   26: aload_2
+    //   27: aload_1
+    //   28: iconst_1
+    //   29: invokevirtual 164	android/content/Context:bindService	(Landroid/content/Intent;Landroid/content/ServiceConnection;I)Z
+    //   32: ifeq +72 -> 104
+    //   35: new 8	com/facebook/internal/AttributionIdentifiers$GoogleAdInfo
+    //   38: dup
+    //   39: aload_1
+    //   40: invokevirtual 168	com/facebook/internal/AttributionIdentifiers$GoogleAdServiceConnection:getBinder	()Landroid/os/IBinder;
+    //   43: invokespecial 171	com/facebook/internal/AttributionIdentifiers$GoogleAdInfo:<init>	(Landroid/os/IBinder;)V
+    //   46: astore_2
+    //   47: new 2	com/facebook/internal/AttributionIdentifiers
+    //   50: dup
+    //   51: invokespecial 73	com/facebook/internal/AttributionIdentifiers:<init>	()V
+    //   54: astore_3
+    //   55: aload_3
+    //   56: aload_2
+    //   57: invokevirtual 175	com/facebook/internal/AttributionIdentifiers$GoogleAdInfo:getAdvertiserId	()Ljava/lang/String;
+    //   60: putfield 127	com/facebook/internal/AttributionIdentifiers:androidAdvertiserId	Ljava/lang/String;
+    //   63: aload_3
+    //   64: aload_2
+    //   65: invokevirtual 178	com/facebook/internal/AttributionIdentifiers$GoogleAdInfo:isTrackingLimited	()Z
+    //   68: putfield 135	com/facebook/internal/AttributionIdentifiers:limitTracking	Z
+    //   71: aload_0
+    //   72: aload_1
+    //   73: invokevirtual 182	android/content/Context:unbindService	(Landroid/content/ServiceConnection;)V
+    //   76: aload_3
+    //   77: areturn
+    //   78: astore_2
+    //   79: goto +18 -> 97
+    //   82: astore_2
+    //   83: ldc -112
+    //   85: aload_2
+    //   86: invokestatic 148	com/facebook/internal/Utility:logd	(Ljava/lang/String;Ljava/lang/Exception;)V
+    //   89: aload_0
+    //   90: aload_1
+    //   91: invokevirtual 182	android/content/Context:unbindService	(Landroid/content/ServiceConnection;)V
+    //   94: goto +10 -> 104
+    //   97: aload_0
+    //   98: aload_1
+    //   99: invokevirtual 182	android/content/Context:unbindService	(Landroid/content/ServiceConnection;)V
+    //   102: aload_2
+    //   103: athrow
+    //   104: aconst_null
+    //   105: areturn
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	106	0	paramContext	Context
+    //   7	92	1	localGoogleAdServiceConnection	GoogleAdServiceConnection
+    //   17	48	2	localObject1	Object
+    //   78	1	2	localObject2	Object
+    //   82	21	2	localException	Exception
+    //   54	23	3	localAttributionIdentifiers	AttributionIdentifiers
+    // Exception table:
+    //   from	to	target	type
+    //   35	71	78	finally
+    //   83	89	78	finally
+    //   35	71	82	java/lang/Exception
+  }
+  
+  /* Error */
+  public static AttributionIdentifiers getAttributionIdentifiers(Context paramContext)
+  {
+    // Byte code:
+    //   0: getstatic 64	com/facebook/internal/AttributionIdentifiers:recentlyFetchedIdentifiers	Lcom/facebook/internal/AttributionIdentifiers;
+    //   3: ifnull +31 -> 34
+    //   6: invokestatic 60	java/lang/System:currentTimeMillis	()J
+    //   9: lstore 4
+    //   11: getstatic 64	com/facebook/internal/AttributionIdentifiers:recentlyFetchedIdentifiers	Lcom/facebook/internal/AttributionIdentifiers;
+    //   14: astore 6
+    //   16: lload 4
+    //   18: aload 6
+    //   20: getfield 62	com/facebook/internal/AttributionIdentifiers:fetchTime	J
+    //   23: lsub
+    //   24: ldc2_w 31
+    //   27: lcmp
+    //   28: ifge +6 -> 34
+    //   31: aload 6
+    //   33: areturn
+    //   34: aload_0
+    //   35: invokestatic 185	com/facebook/internal/AttributionIdentifiers:getAndroidId	(Landroid/content/Context;)Lcom/facebook/internal/AttributionIdentifiers;
+    //   38: astore 8
+    //   40: aconst_null
+    //   41: astore 7
+    //   43: aload_0
+    //   44: invokevirtual 189	android/content/Context:getPackageManager	()Landroid/content/pm/PackageManager;
+    //   47: ldc 22
+    //   49: iconst_0
+    //   50: invokevirtual 195	android/content/pm/PackageManager:resolveContentProvider	(Ljava/lang/String;I)Landroid/content/pm/ProviderInfo;
+    //   53: ifnull +13 -> 66
+    //   56: ldc -59
+    //   58: invokestatic 203	android/net/Uri:parse	(Ljava/lang/String;)Landroid/net/Uri;
+    //   61: astore 6
+    //   63: goto +316 -> 379
+    //   66: aload_0
+    //   67: invokevirtual 189	android/content/Context:getPackageManager	()Landroid/content/pm/PackageManager;
+    //   70: ldc 25
+    //   72: iconst_0
+    //   73: invokevirtual 195	android/content/pm/PackageManager:resolveContentProvider	(Ljava/lang/String;I)Landroid/content/pm/ProviderInfo;
+    //   76: ifnull +306 -> 382
+    //   79: ldc -51
+    //   81: invokestatic 203	android/net/Uri:parse	(Ljava/lang/String;)Landroid/net/Uri;
+    //   84: astore 6
+    //   86: goto +293 -> 379
+    //   89: aload_0
+    //   90: invokestatic 209	com/facebook/internal/AttributionIdentifiers:getInstallerPackageName	(Landroid/content/Context;)Ljava/lang/String;
+    //   93: astore 9
+    //   95: aload 9
+    //   97: ifnull +10 -> 107
+    //   100: aload 8
+    //   102: aload 9
+    //   104: putfield 211	com/facebook/internal/AttributionIdentifiers:androidInstallerPackage	Ljava/lang/String;
+    //   107: aload 6
+    //   109: ifnonnull +12 -> 121
+    //   112: aload 8
+    //   114: invokestatic 213	com/facebook/internal/AttributionIdentifiers:cacheAndReturnIdentifiers	(Lcom/facebook/internal/AttributionIdentifiers;)Lcom/facebook/internal/AttributionIdentifiers;
+    //   117: pop
+    //   118: aload 8
+    //   120: areturn
+    //   121: aload_0
+    //   122: invokevirtual 217	android/content/Context:getContentResolver	()Landroid/content/ContentResolver;
+    //   125: aload 6
+    //   127: iconst_3
+    //   128: anewarray 125	java/lang/String
+    //   131: dup
+    //   132: iconst_0
+    //   133: ldc 19
+    //   135: aastore
+    //   136: dup
+    //   137: iconst_1
+    //   138: ldc 16
+    //   140: aastore
+    //   141: dup
+    //   142: iconst_2
+    //   143: ldc 35
+    //   145: aastore
+    //   146: aconst_null
+    //   147: aconst_null
+    //   148: aconst_null
+    //   149: invokevirtual 223	android/content/ContentResolver:query	(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+    //   152: astore_0
+    //   153: aload_0
+    //   154: ifnull +112 -> 266
+    //   157: aload_0
+    //   158: invokeinterface 228 1 0
+    //   163: ifne +6 -> 169
+    //   166: goto +100 -> 266
+    //   169: aload_0
+    //   170: ldc 19
+    //   172: invokeinterface 232 2 0
+    //   177: istore_1
+    //   178: aload_0
+    //   179: ldc 16
+    //   181: invokeinterface 232 2 0
+    //   186: istore_2
+    //   187: aload_0
+    //   188: ldc 35
+    //   190: invokeinterface 232 2 0
+    //   195: istore_3
+    //   196: aload 8
+    //   198: aload_0
+    //   199: iload_1
+    //   200: invokeinterface 236 2 0
+    //   205: putfield 238	com/facebook/internal/AttributionIdentifiers:attributionId	Ljava/lang/String;
+    //   208: iload_2
+    //   209: ifle +42 -> 251
+    //   212: iload_3
+    //   213: ifle +38 -> 251
+    //   216: aload 8
+    //   218: invokevirtual 241	com/facebook/internal/AttributionIdentifiers:getAndroidAdvertiserId	()Ljava/lang/String;
+    //   221: ifnonnull +30 -> 251
+    //   224: aload 8
+    //   226: aload_0
+    //   227: iload_2
+    //   228: invokeinterface 236 2 0
+    //   233: putfield 127	com/facebook/internal/AttributionIdentifiers:androidAdvertiserId	Ljava/lang/String;
+    //   236: aload 8
+    //   238: aload_0
+    //   239: iload_3
+    //   240: invokeinterface 236 2 0
+    //   245: invokestatic 245	java/lang/Boolean:parseBoolean	(Ljava/lang/String;)Z
+    //   248: putfield 135	com/facebook/internal/AttributionIdentifiers:limitTracking	Z
+    //   251: aload_0
+    //   252: invokeinterface 248 1 0
+    //   257: aload 8
+    //   259: invokestatic 213	com/facebook/internal/AttributionIdentifiers:cacheAndReturnIdentifiers	(Lcom/facebook/internal/AttributionIdentifiers;)Lcom/facebook/internal/AttributionIdentifiers;
+    //   262: pop
+    //   263: aload 8
+    //   265: areturn
+    //   266: aload 8
+    //   268: invokestatic 213	com/facebook/internal/AttributionIdentifiers:cacheAndReturnIdentifiers	(Lcom/facebook/internal/AttributionIdentifiers;)Lcom/facebook/internal/AttributionIdentifiers;
+    //   271: pop
+    //   272: aload_0
+    //   273: ifnull +9 -> 282
+    //   276: aload_0
+    //   277: invokeinterface 248 1 0
+    //   282: aload 8
+    //   284: areturn
+    //   285: astore 6
+    //   287: goto +73 -> 360
+    //   290: astore 6
+    //   292: goto +15 -> 307
+    //   295: astore 6
+    //   297: aload 7
+    //   299: astore_0
+    //   300: goto +60 -> 360
+    //   303: astore 6
+    //   305: aconst_null
+    //   306: astore_0
+    //   307: getstatic 250	com/facebook/internal/AttributionIdentifiers:TAG	Ljava/lang/String;
+    //   310: astore 7
+    //   312: new 252	java/lang/StringBuilder
+    //   315: dup
+    //   316: invokespecial 253	java/lang/StringBuilder:<init>	()V
+    //   319: astore 7
+    //   321: aload 7
+    //   323: ldc -1
+    //   325: invokevirtual 259	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   328: pop
+    //   329: aload 7
+    //   331: aload 6
+    //   333: invokevirtual 262	java/lang/Exception:toString	()Ljava/lang/String;
+    //   336: invokevirtual 259	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   339: pop
+    //   340: aload 7
+    //   342: invokevirtual 263	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   345: pop
+    //   346: aload_0
+    //   347: ifnull +9 -> 356
+    //   350: aload_0
+    //   351: invokeinterface 248 1 0
+    //   356: aconst_null
+    //   357: areturn
+    //   358: astore 6
+    //   360: aload_0
+    //   361: ifnull +9 -> 370
+    //   364: aload_0
+    //   365: invokeinterface 248 1 0
+    //   370: goto +6 -> 376
+    //   373: aload 6
+    //   375: athrow
+    //   376: goto -3 -> 373
+    //   379: goto -290 -> 89
+    //   382: aconst_null
+    //   383: astore 6
+    //   385: goto -296 -> 89
+    // Local variable table:
+    //   start	length	slot	name	signature
+    //   0	388	0	paramContext	Context
+    //   177	23	1	i	int
+    //   186	42	2	j	int
+    //   195	45	3	k	int
+    //   9	8	4	l	long
+    //   14	112	6	localObject1	Object
+    //   285	1	6	localObject2	Object
+    //   290	1	6	localException1	Exception
+    //   295	1	6	localObject3	Object
+    //   303	29	6	localException2	Exception
+    //   358	16	6	localObject4	Object
+    //   383	1	6	localObject5	Object
+    //   41	300	7	localObject6	Object
+    //   38	245	8	localAttributionIdentifiers	AttributionIdentifiers
+    //   93	10	9	str	String
+    // Exception table:
+    //   from	to	target	type
+    //   157	166	285	finally
+    //   169	208	285	finally
+    //   216	251	285	finally
+    //   266	272	285	finally
+    //   157	166	290	java/lang/Exception
+    //   169	208	290	java/lang/Exception
+    //   216	251	290	java/lang/Exception
+    //   266	272	290	java/lang/Exception
+    //   43	63	295	finally
+    //   66	86	295	finally
+    //   89	95	295	finally
+    //   100	107	295	finally
+    //   112	118	295	finally
+    //   121	153	295	finally
+    //   43	63	303	java/lang/Exception
+    //   66	86	303	java/lang/Exception
+    //   89	95	303	java/lang/Exception
+    //   100	107	303	java/lang/Exception
+    //   112	118	303	java/lang/Exception
+    //   121	153	303	java/lang/Exception
+    //   307	346	358	finally
+  }
+  
+  @G
+  public static String getInstallerPackageName(Context paramContext)
+  {
+    PackageManager localPackageManager = paramContext.getPackageManager();
+    if (localPackageManager != null) {
+      return localPackageManager.getInstallerPackageName(paramContext.getPackageName());
+    }
+    return null;
+  }
+  
+  public String getAndroidAdvertiserId()
+  {
+    return androidAdvertiserId;
+  }
+  
+  public String getAndroidInstallerPackage()
+  {
+    return androidInstallerPackage;
+  }
+  
+  public String getAttributionId()
+  {
+    return attributionId;
+  }
+  
+  public boolean isTrackingLimited()
+  {
+    return limitTracking;
+  }
+  
+  private static final class GoogleAdInfo
+    implements IInterface
+  {
+    public static final int FIRST_TRANSACTION_CODE = 1;
+    public static final int SECOND_TRANSACTION_CODE = 2;
+    public IBinder binder;
+    
+    public GoogleAdInfo(IBinder paramIBinder)
+    {
+      binder = paramIBinder;
+    }
+    
+    public IBinder asBinder()
+    {
+      return binder;
+    }
+    
+    public String getAdvertiserId()
+      throws RemoteException
+    {
+      Parcel localParcel1 = Parcel.obtain();
+      Parcel localParcel2 = Parcel.obtain();
+      try
+      {
+        localParcel1.writeInterfaceToken("com.google.android.gms.ads.identifier.internal.IAdvertisingIdService");
+        binder.transact(1, localParcel1, localParcel2, 0);
+        localParcel2.readException();
+        String str = localParcel2.readString();
+        return str;
+      }
+      finally
+      {
+        localParcel2.recycle();
+        localParcel1.recycle();
+      }
+    }
+    
+    public boolean isTrackingLimited()
+      throws RemoteException
+    {
+      Parcel localParcel1 = Parcel.obtain();
+      Parcel localParcel2 = Parcel.obtain();
+      try
+      {
+        localParcel1.writeInterfaceToken("com.google.android.gms.ads.identifier.internal.IAdvertisingIdService");
+        boolean bool = true;
+        localParcel1.writeInt(1);
+        binder.transact(2, localParcel1, localParcel2, 0);
+        localParcel2.readException();
+        int i = localParcel2.readInt();
+        if (i == 0) {
+          bool = false;
+        }
+        return bool;
+      }
+      finally
+      {
+        localParcel2.recycle();
+        localParcel1.recycle();
+      }
+    }
+  }
+  
+  private static final class GoogleAdServiceConnection
+    implements ServiceConnection
+  {
+    public AtomicBoolean consumed = new AtomicBoolean(false);
+    public final BlockingQueue<IBinder> queue = new LinkedBlockingDeque();
+    
+    public GoogleAdServiceConnection() {}
+    
+    public IBinder getBinder()
+      throws InterruptedException
+    {
+      if (!consumed.compareAndSet(true, true)) {
+        return (IBinder)queue.take();
+      }
+      throw new IllegalStateException("Binder already consumed");
+    }
+    
+    public void onServiceConnected(ComponentName paramComponentName, IBinder paramIBinder)
+    {
+      try
+      {
+        queue.put(paramIBinder);
+        return;
+      }
+      catch (InterruptedException paramComponentName) {}
+    }
+    
+    public void onServiceDisconnected(ComponentName paramComponentName) {}
+  }
+}

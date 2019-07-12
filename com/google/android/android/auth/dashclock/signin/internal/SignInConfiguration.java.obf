@@ -1,0 +1,75 @@
+package com.google.android.gms.auth.api.signin.internal;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.internal.ReflectedParcelable;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+public final class SignInConfiguration
+  extends zzbck
+  implements ReflectedParcelable
+{
+  public static final Parcelable.Creator<SignInConfiguration> CREATOR = new zzw();
+  public final String zzedc;
+  public GoogleSignInOptions zzedd;
+  
+  public SignInConfiguration(String paramString, GoogleSignInOptions paramGoogleSignInOptions)
+  {
+    zzbp.zzgg(paramString);
+    zzedc = paramString;
+    zzedd = paramGoogleSignInOptions;
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (paramObject == null) {
+      return false;
+    }
+    try
+    {
+      paramObject = (SignInConfiguration)paramObject;
+      if (zzedc.equals(zzedc))
+      {
+        if (zzedd == null)
+        {
+          if (zzedd != null) {
+            break label60;
+          }
+        }
+        else
+        {
+          boolean bool = zzedd.equals(zzedd);
+          if (!bool) {
+            break label60;
+          }
+        }
+        return true;
+      }
+      label60:
+      return false;
+    }
+    catch (ClassCastException paramObject) {}
+    return false;
+  }
+  
+  public final int hashCode()
+  {
+    return new zzo().zzo(zzedc).zzo(zzedd).zzaao();
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zza(paramParcel, 2, zzedc, false);
+    zzbcn.zza(paramParcel, 5, zzedd, paramInt, false);
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public final GoogleSignInOptions zzaaq()
+  {
+    return zzedd;
+  }
+}

@@ -1,0 +1,97 @@
+package f.g.b.a.b;
+
+import f.g.b.a.c.A;
+import f.g.b.a.c.F;
+import f.g.b.a.c.M;
+import f.g.b.a.c.f;
+import f.g.b.a.c.k;
+import f.g.b.a.c.s;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import java.io.IOException;
+import java.util.AbstractMap;
+
+public final class b
+  implements s, A
+{
+  public static final String a = "X-HTTP-Method-Override";
+  public static final int b = 2048;
+  public final boolean c;
+  
+  public b()
+  {
+    c = false;
+  }
+  
+  public b(boolean paramBoolean)
+  {
+    c = paramBoolean;
+  }
+  
+  private boolean c(y paramY)
+    throws IOException
+  {
+    String str = paramY.o();
+    if (str.equals("POST")) {
+      return false;
+    }
+    if (str.equals("GET"))
+    {
+      if (paramY.x().g().length() > 2048) {
+        return true;
+      }
+    }
+    else if (c) {
+      return true;
+    }
+    return paramY.v().a(str) ^ true;
+  }
+  
+  public void a(y paramY)
+    throws IOException
+  {
+    if (c(paramY))
+    {
+      String str = paramY.o();
+      paramY.a("POST");
+      paramY.i().b("X-HTTP-Method-Override", str);
+      if (str.equals("GET"))
+      {
+        paramY.a(new M(paramY.x().clone()));
+        paramY.x().clear();
+        return;
+      }
+      if (paramY.e() == null) {
+        paramY.a(new f());
+      }
+    }
+  }
+  
+  public void b(y paramY)
+  {
+    paramY.a(this);
+  }
+  
+  public static final class a
+  {
+    public boolean a;
+    
+    public a() {}
+    
+    public a a(boolean paramBoolean)
+    {
+      a = paramBoolean;
+      return this;
+    }
+    
+    public b a()
+    {
+      return new b(a);
+    }
+    
+    public boolean b()
+    {
+      return a;
+    }
+  }
+}

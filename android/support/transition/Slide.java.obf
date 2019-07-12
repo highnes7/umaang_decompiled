@@ -1,0 +1,191 @@
+package android.support.transition;
+
+import android.animation.Animator;
+import android.animation.TimeInterpolator;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import b.b.a.F;
+import b.b.a.N;
+import b.b.v.P;
+import b.b.v.Q;
+import b.b.v.S;
+import b.b.v.T;
+import b.b.v.U;
+import b.b.v.V;
+import b.b.v.W;
+import b.b.v.X;
+import b.b.v.ia;
+import b.b.v.ka;
+import b.b.x.b.b.j;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.Map;
+import org.xmlpull.v1.XmlPullParser;
+
+public class Slide
+  extends Visibility
+{
+  public static final TimeInterpolator h = new DecelerateInterpolator();
+  public static final TimeInterpolator i = new AccelerateInterpolator();
+  public static final String j = "android:slide:screenPosition";
+  public static final a k = new Q();
+  public static final a l = new S();
+  public static final a m = new T();
+  public static final a n = new U();
+  public static final a o = new V();
+  public static final a p = new W();
+  public a q = p;
+  public int r = 80;
+  
+  public Slide()
+  {
+    b(80);
+  }
+  
+  public Slide(int paramInt)
+  {
+    b(paramInt);
+  }
+  
+  public Slide(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+    paramContext = paramContext.obtainStyledAttributes(paramAttributeSet, X.h);
+    int i1 = j.b(paramContext, (XmlPullParser)paramAttributeSet, "slideEdge", 0, 80);
+    paramContext.recycle();
+    b(i1);
+  }
+  
+  private void captureValues(ia paramIa)
+  {
+    View localView = b;
+    int[] arrayOfInt = new int[2];
+    localView.getLocationOnScreen(arrayOfInt);
+    a.put("android:slide:screenPosition", arrayOfInt);
+  }
+  
+  public Animator a(ViewGroup paramViewGroup, View paramView, ia paramIa1, ia paramIa2)
+  {
+    if (paramIa2 == null) {
+      return null;
+    }
+    paramIa1 = (int[])a.get("android:slide:screenPosition");
+    float f1 = paramView.getTranslationX();
+    float f2 = paramView.getTranslationY();
+    float f3 = q.b(paramViewGroup, paramView);
+    float f4 = q.a(paramViewGroup, paramView);
+    return ka.a(paramView, paramIa2, paramIa1[0], paramIa1[1], f3, f4, f1, f2, h);
+  }
+  
+  public Animator b(ViewGroup paramViewGroup, View paramView, ia paramIa1, ia paramIa2)
+  {
+    if (paramIa1 == null) {
+      return null;
+    }
+    paramIa2 = (int[])a.get("android:slide:screenPosition");
+    float f1 = paramView.getTranslationX();
+    float f2 = paramView.getTranslationY();
+    float f3 = q.b(paramViewGroup, paramView);
+    float f4 = q.a(paramViewGroup, paramView);
+    return ka.a(paramView, paramIa1, paramIa2[0], paramIa2[1], f1, f2, f3, f4, i);
+  }
+  
+  public void b(int paramInt)
+  {
+    if (paramInt != 3)
+    {
+      if (paramInt != 5)
+      {
+        if (paramInt != 48)
+        {
+          if (paramInt != 80)
+          {
+            if (paramInt != 8388611)
+            {
+              if (paramInt == 8388613) {
+                q = o;
+              } else {
+                throw new IllegalArgumentException("Invalid slide direction");
+              }
+            }
+            else {
+              q = l;
+            }
+          }
+          else {
+            q = p;
+          }
+        }
+        else {
+          q = m;
+        }
+      }
+      else {
+        q = n;
+      }
+    }
+    else {
+      q = k;
+    }
+    r = paramInt;
+    P localP = new P();
+    localP.a(paramInt);
+    setPropagation(localP);
+  }
+  
+  public int c()
+  {
+    return r;
+  }
+  
+  public void captureEndValues(@F ia paramIa)
+  {
+    super.captureEndValues(paramIa);
+    captureValues(paramIa);
+  }
+  
+  public void captureStartValues(@F ia paramIa)
+  {
+    super.captureStartValues(paramIa);
+    captureValues(paramIa);
+  }
+  
+  private static abstract interface a
+  {
+    public abstract float a(ViewGroup paramViewGroup, View paramView);
+    
+    public abstract float b(ViewGroup paramViewGroup, View paramView);
+  }
+  
+  private static abstract class b
+    implements Slide.a
+  {
+    public b() {}
+    
+    public float a(ViewGroup paramViewGroup, View paramView)
+    {
+      return paramView.getTranslationY();
+    }
+  }
+  
+  private static abstract class c
+    implements Slide.a
+  {
+    public c() {}
+    
+    public float b(ViewGroup paramViewGroup, View paramView)
+    {
+      return paramView.getTranslationX();
+    }
+  }
+  
+  @Retention(RetentionPolicy.SOURCE)
+  @N({b.b.a.N.a.b})
+  public static @interface d {}
+}

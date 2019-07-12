@@ -1,0 +1,80 @@
+package com.facebook.internal;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import b.b.x.b.h;
+import com.facebook.appevents.AppEventsLogger;
+import f.a.a.a.a;
+import java.util.Iterator;
+import java.util.Set;
+
+public class BoltsMeasurementEventListener
+  extends BroadcastReceiver
+{
+  public static final String BOLTS_MEASUREMENT_EVENT_PREFIX = "bf_";
+  public static final String MEASUREMENT_EVENT_ARGS_KEY = "event_args";
+  public static final String MEASUREMENT_EVENT_NAME_KEY = "event_name";
+  public static final String MEASUREMENT_EVENT_NOTIFICATION_NAME = "com.parse.bolts.measurement_event";
+  public static BoltsMeasurementEventListener _instance;
+  public Context applicationContext;
+  
+  public BoltsMeasurementEventListener(Context paramContext)
+  {
+    applicationContext = paramContext.getApplicationContext();
+  }
+  
+  private void close()
+  {
+    h.a(applicationContext).a(this);
+  }
+  
+  public static BoltsMeasurementEventListener getInstance(Context paramContext)
+  {
+    BoltsMeasurementEventListener localBoltsMeasurementEventListener = _instance;
+    if (localBoltsMeasurementEventListener != null) {
+      return localBoltsMeasurementEventListener;
+    }
+    _instance = new BoltsMeasurementEventListener(paramContext);
+    _instance.open();
+    return _instance;
+  }
+  
+  private void open()
+  {
+    h.a(applicationContext).a(this, new IntentFilter("com.parse.bolts.measurement_event"));
+  }
+  
+  public void finalize()
+    throws Throwable
+  {
+    try
+    {
+      close();
+      return;
+    }
+    finally
+    {
+      super.finalize();
+    }
+  }
+  
+  public void onReceive(Context paramContext, Intent paramIntent)
+  {
+    paramContext = AppEventsLogger.newLogger(paramContext);
+    Object localObject = a.b("bf_");
+    ((StringBuilder)localObject).append(paramIntent.getStringExtra("event_name"));
+    localObject = ((StringBuilder)localObject).toString();
+    paramIntent = paramIntent.getBundleExtra("event_args");
+    Bundle localBundle = new Bundle();
+    Iterator localIterator = paramIntent.keySet().iterator();
+    while (localIterator.hasNext())
+    {
+      String str = (String)localIterator.next();
+      localBundle.putString(str.replaceAll("[^0-9a-zA-Z _-]", "-").replaceAll("^[ -]*", "").replaceAll("[ -]*$", ""), (String)paramIntent.get(str));
+    }
+    paramContext.logEvent((String)localObject, localBundle);
+  }
+}

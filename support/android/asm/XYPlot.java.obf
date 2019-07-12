@@ -1,0 +1,75 @@
+package b.b.v;
+
+import android.view.View;
+import java.util.Map;
+
+public abstract class Da
+  extends fa
+{
+  public static final String a = "android:visibilityPropagation:visibility";
+  public static final String b = "android:visibilityPropagation:center";
+  public static final String[] c = { "android:visibilityPropagation:visibility", "android:visibilityPropagation:center" };
+  
+  public Da() {}
+  
+  public static int a(ia paramIa, int paramInt)
+  {
+    if (paramIa == null) {
+      return -1;
+    }
+    paramIa = (int[])a.get("android:visibilityPropagation:center");
+    if (paramIa == null) {
+      return -1;
+    }
+    return paramIa[paramInt];
+  }
+  
+  public void a(ia paramIa)
+  {
+    View localView = b;
+    Integer localInteger = (Integer)a.get("android:visibility:visibility");
+    Object localObject = localInteger;
+    if (localInteger == null) {
+      localObject = Integer.valueOf(localView.getVisibility());
+    }
+    a.put("android:visibilityPropagation:visibility", localObject);
+    localObject = new int[2];
+    localView.getLocationOnScreen((int[])localObject);
+    int i = localObject[0];
+    localObject[0] = (Math.round(localView.getTranslationX()) + i);
+    i = localObject[0];
+    localObject[0] = (localView.getWidth() / 2 + i);
+    i = localObject[1];
+    localObject[1] = (Math.round(localView.getTranslationY()) + i);
+    i = localObject[1];
+    localObject[1] = (localView.getHeight() / 2 + i);
+    a.put("android:visibilityPropagation:center", localObject);
+  }
+  
+  public String[] a()
+  {
+    return c;
+  }
+  
+  public int b(ia paramIa)
+  {
+    if (paramIa == null) {
+      return 8;
+    }
+    paramIa = (Integer)a.get("android:visibilityPropagation:visibility");
+    if (paramIa == null) {
+      return 8;
+    }
+    return paramIa.intValue();
+  }
+  
+  public int c(ia paramIa)
+  {
+    return a(paramIa, 0);
+  }
+  
+  public int d(ia paramIa)
+  {
+    return a(paramIa, 1);
+  }
+}

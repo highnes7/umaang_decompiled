@@ -1,0 +1,754 @@
+package in.spicedigital.umang.activities;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+import b.b.a.G;
+import b.b.x.b.c;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.internal.CallbackManagerImpl;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.Builder;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.PendingResult;
+import f.a.a.a.a;
+import f.e.a.A;
+import f.e.a.g;
+import f.u.a.a.a.a.l;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import k.a.a.a.Aj;
+import k.a.a.a.Bj;
+import k.a.a.a.Dj;
+import k.a.a.a.Ej;
+import k.a.a.a.Fj;
+import k.a.a.a.Gj;
+import k.a.a.a.Hj;
+import k.a.a.a.Nj;
+import k.a.a.a.Oj;
+import k.a.a.a.Pj;
+import k.a.a.a.Qj;
+import k.a.a.a.Rj;
+import k.a.a.a.Sj;
+import k.a.a.a.Tj;
+import k.a.a.a.Uj;
+import k.a.a.a.Vj;
+import k.a.a.a.Xj;
+import k.a.a.a.Yj;
+import k.a.a.a._j;
+import k.a.a.a.ak;
+import k.a.a.a.bk;
+import k.a.a.a.ck;
+import k.a.a.a.dk;
+import k.a.a.a.ek;
+import k.a.a.a.fk;
+import k.a.a.a.gk;
+import k.a.a.a.nj;
+import k.a.a.a.oj;
+import k.a.a.a.pj;
+import k.a.a.a.qj;
+import k.a.a.a.rj;
+import k.a.a.a.tj;
+import k.a.a.a.uj;
+import k.a.a.a.vj;
+import k.a.a.a.wj;
+import k.a.a.a.xj;
+import k.a.a.a.yj;
+import k.a.a.a.zj;
+import k.a.a.c.w;
+import k.a.a.l.m;
+import k.a.a.l.o;
+import k.a.a.l.q;
+import k.a.a.l.u;
+import k.a.a.m.Ea;
+import k.a.a.m.Ma;
+import k.a.a.m.V;
+import k.a.a.m.b;
+import org.json.JSONObject;
+
+public class LoginScreen
+  extends BaseActivity
+  implements GoogleApiClient.OnConnectionFailedListener
+{
+  public static final int b = 9001;
+  public static final int c = 140;
+  public e.a.a.i A;
+  public String B = "fb";
+  public String C = "google";
+  public String D = "twitter";
+  public ImageView E;
+  public ImageView F;
+  public ImageView G;
+  public l H;
+  public RadioButton I;
+  public RadioButton J;
+  public ArrayList<w> K;
+  public ArrayList<String> L;
+  public ArrayList<String> M;
+  public RadioGroup N;
+  public RadioButton O;
+  public RadioButton P;
+  public ImageView Q;
+  public boolean R;
+  public LinearLayout S;
+  public String T;
+  public String TAG = "LoginScreen";
+  public TextWatcher U = new Uj(this);
+  public final int V = 123;
+  public Button d;
+  public TextView e;
+  public EditText f;
+  public EditText g;
+  public EditText h;
+  public ImageView i;
+  public V j;
+  public LinearLayout k;
+  public LinearLayout l;
+  public LinearLayout m;
+  public LinearLayout n;
+  public LinearLayout o;
+  public ImageView p;
+  public ImageView q;
+  public TextView r;
+  public ImageView s;
+  public ImageView t;
+  public ImageView u;
+  public CallbackManager v;
+  public TextView w;
+  public TextView x;
+  public GoogleSignInOptions y;
+  public GoogleApiClient z;
+  
+  public LoginScreen() {}
+  
+  private String a(String paramString1, String paramString2, int paramInt)
+  {
+    String str2 = T;
+    String str1 = paramString2;
+    if (str2 != null)
+    {
+      str1 = paramString2;
+      if (str2.length() > 1)
+      {
+        int i1 = k(T);
+        int i2 = k(paramString1);
+        paramString1 = TAG;
+        paramString1 = new StringBuilder();
+        paramString1.append(i1);
+        paramString1.append(" =//= ");
+        paramString1.append(i2);
+        paramString1.append(" ==//==");
+        paramString1.append(paramInt);
+        paramString1.toString();
+        str1 = paramString2;
+        if (i2 < i1)
+        {
+          paramString1 = new StringBuilder();
+          paramString1.append(paramString2.substring(0, paramInt));
+          paramString1.append(paramString2.substring(paramInt));
+          str1 = h(g(paramString1.toString()));
+        }
+      }
+    }
+    return str1;
+  }
+  
+  private void a(GoogleSignInResult paramGoogleSignInResult)
+  {
+    if (paramGoogleSignInResult != null) {
+      if (paramGoogleSignInResult.isSuccess())
+      {
+        paramGoogleSignInResult = paramGoogleSignInResult.getSignInAccount();
+        Object localObject = TAG;
+        localObject = a.b("Google ID = ");
+        ((StringBuilder)localObject).append(paramGoogleSignInResult.getId());
+        ((StringBuilder)localObject).append(" == Name == ");
+        ((StringBuilder)localObject).append(paramGoogleSignInResult.getDisplayName());
+        ((StringBuilder)localObject).toString();
+        b("SOC", C, paramGoogleSignInResult.getId());
+        return;
+      }
+    }
+    for (;;)
+    {
+      try
+      {
+        Auth.GoogleSignInApi.signOut(z).setResultCallback(new Gj(this));
+        return;
+      }
+      catch (Exception paramGoogleSignInResult) {}
+      try
+      {
+        Auth.GoogleSignInApi.signOut(z).setResultCallback(new Hj(this));
+        return;
+      }
+      catch (Exception paramGoogleSignInResult)
+      {
+        b.a(paramGoogleSignInResult);
+        return;
+      }
+    }
+  }
+  
+  private boolean a(List<String> paramList, String paramString)
+  {
+    if (c.checkSelfPermission(this, paramString) != 0)
+    {
+      paramList.add(paramString);
+      if (!ActivityCompat.shouldShowRequestPermissionRationale(this, paramString)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  private void b(String paramString1, String paramString2, String paramString3)
+  {
+    Object localObject = TAG;
+    a.f("Requesting Login for == ", paramString1);
+    j.c(V.ma, "");
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      if (paramString1.equalsIgnoreCase("OTP"))
+      {
+        localObject = localJSONObject;
+      }
+      else
+      {
+        boolean bool = paramString1.equalsIgnoreCase("MOB");
+        if (bool)
+        {
+          paramString1 = new Ma();
+          localJSONObject.put("mno", f.getText().toString());
+          localJSONObject.put("type", "mobm");
+          localJSONObject.put("lid", paramString1.a(Ea.i(this, g.getText().toString().trim())));
+          localObject = localJSONObject;
+        }
+        else
+        {
+          localObject = localJSONObject;
+          if (paramString1.equalsIgnoreCase("SOC"))
+          {
+            localJSONObject.put("type", "soc");
+            localJSONObject.put("lid", paramString3);
+            localJSONObject.put("stype", paramString2);
+            localObject = localJSONObject;
+          }
+        }
+      }
+    }
+    catch (Exception paramString1)
+    {
+      b.a(paramString1);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new q(new Nj(this, paramString2), (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    paramString1 = TAG;
+  }
+  
+  private void e()
+  {
+    H = new l();
+    H.a(this, new Fj(this));
+  }
+  
+  private void f()
+  {
+    ArrayList localArrayList1 = new ArrayList();
+    ArrayList localArrayList2 = new ArrayList();
+    if (!a(localArrayList2, "android.permission.ACCESS_FINE_LOCATION")) {
+      localArrayList1.add("GPS");
+    }
+    if (!a(localArrayList2, "android.permission.READ_PHONE_STATE")) {
+      localArrayList1.add("Read Phone State");
+    }
+    if (localArrayList2.size() > 0)
+    {
+      if (localArrayList1.size() > 0)
+      {
+        j.c(V.zb, "true");
+        ActivityCompat.requestPermissions(this, (String[])localArrayList2.toArray(new String[localArrayList2.size()]), 123);
+        return;
+      }
+      ActivityCompat.requestPermissions(this, (String[])localArrayList2.toArray(new String[localArrayList2.size()]), 123);
+    }
+  }
+  
+  private String g(String paramString)
+  {
+    return paramString.toString().replaceAll("[^0-9]", "");
+  }
+  
+  private boolean g()
+  {
+    if (R)
+    {
+      if (h.getText().toString().length() < 12)
+      {
+        j(getResources().getString(2131755664));
+        return false;
+      }
+      if (!Ea.x(h.getText().toString()))
+      {
+        j(getResources().getString(2131755666));
+        return false;
+      }
+    }
+    else
+    {
+      if (h.getText().toString().length() < 16)
+      {
+        j(getResources().getString(2131755665));
+        return false;
+      }
+      if (!Ea.y(h.getText().toString()))
+      {
+        j(getResources().getString(2131755667));
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  private String h(String paramString)
+  {
+    Object localObject1 = "";
+    int i2 = 0;
+    int i1 = 0;
+    while (i2 < paramString.length())
+    {
+      localObject1 = a.b((String)localObject1);
+      ((StringBuilder)localObject1).append(paramString.charAt(i2));
+      localObject2 = ((StringBuilder)localObject1).toString();
+      int i3 = i1 + 1;
+      localObject1 = localObject2;
+      i1 = i3;
+      if (i3 == 4)
+      {
+        localObject1 = a.c((String)localObject2, " ");
+        i1 = 0;
+      }
+      i2 += 1;
+    }
+    Object localObject2 = localObject1;
+    if (paramString.length() == 12) {
+      localObject2 = a.b((String)localObject1, -1, 0);
+    }
+    return localObject2;
+  }
+  
+  private boolean h()
+  {
+    if (f.getText().toString().trim().isEmpty())
+    {
+      j(getResources().getString(2131755929));
+      return false;
+    }
+    if (f.getText().toString().length() < 10)
+    {
+      j(getResources().getString(2131755671));
+      return false;
+    }
+    if (!"6789".contains(f.getText().toString().substring(0, 1)))
+    {
+      j(getResources().getString(2131756113));
+      return false;
+    }
+    if ((g.getText().toString().length() != 0) && (g.getText().toString().length() >= 4)) {
+      return true;
+    }
+    j(getResources().getString(2131755674));
+    return false;
+  }
+  
+  private void i(String paramString)
+  {
+    JSONObject localJSONObject2;
+    try
+    {
+      JSONObject localJSONObject1 = Ea.e(this);
+      localJSONObject1.remove("lang");
+      localJSONObject1.put("lang", paramString);
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localJSONObject2 = null;
+    }
+    if (localJSONObject2 != null)
+    {
+      new o(new Yj(this, paramString), localJSONObject2, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[0]);
+      return;
+    }
+    paramString = TAG;
+  }
+  
+  private boolean i()
+  {
+    if (f.getText().toString().trim().isEmpty())
+    {
+      j(getResources().getString(2131755929));
+      return false;
+    }
+    if (f.getText().toString().length() < 10)
+    {
+      j(getResources().getString(2131755671));
+      return false;
+    }
+    if (!"6789".contains(f.getText().toString().substring(0, 1)))
+    {
+      j(getResources().getString(2131756113));
+      return false;
+    }
+    return true;
+  }
+  
+  private void j()
+  {
+    g.setEnabled(false);
+    g.setFocusable(false);
+    d.setText(getResources().getString(2131755339));
+    I.setChecked(true);
+    J.setChecked(false);
+  }
+  
+  private void j(String paramString)
+  {
+    Toast.makeText(this, paramString, 1).show();
+  }
+  
+  private int k(String paramString)
+  {
+    return paramString.replaceAll(" ", "").length();
+  }
+  
+  private void k()
+  {
+    g.setEnabled(true);
+    g.setFocusable(true);
+    g.setFocusableInTouchMode(true);
+    g.requestFocus();
+    d.setText(getResources().getString(2131755891));
+    I.setChecked(false);
+    J.setChecked(true);
+  }
+  
+  private void l()
+  {
+    startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(z), 9001);
+  }
+  
+  private void m()
+  {
+    j.c(V.ma, "");
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("aadhr", h.getText().toString());
+      localJSONObject.put("ort", "loginadhr");
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new u(new Oj(this), "https://app.umang.gov.in/umang/coreapi/ws2/initaadhv1", (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private void n()
+  {
+    try
+    {
+      JSONObject localJSONObject = Ea.e(this);
+      localJSONObject.put("mno", f.getText().toString());
+      localJSONObject.put("ort", "loginmob");
+    }
+    catch (Exception localException)
+    {
+      b.a(localException);
+      localObject = null;
+    }
+    if (localObject != null)
+    {
+      new m(new _j(this), (JSONObject)localObject, this).execute(new Object[0]);
+      return;
+    }
+    Object localObject = TAG;
+  }
+  
+  private void o()
+  {
+    Dialog localDialog = a.a(this, 1, 2131492944, true);
+    ((TextView)localDialog.findViewById(2131297215)).setOnClickListener(new Qj(this, localDialog));
+    ((ImageView)localDialog.findViewById(2131296402)).setOnClickListener(new Rj(this, localDialog));
+    ((ImageView)localDialog.findViewById(2131296403)).setOnClickListener(new Sj(this, localDialog));
+    ((ImageView)localDialog.findViewById(2131296404)).setOnClickListener(new Tj(this, localDialog));
+  }
+  
+  private void p()
+  {
+    getWindow().setSoftInputMode(3);
+    ((InputMethodManager)getSystemService("input_method")).toggleSoftInput(1, 0);
+  }
+  
+  private void q()
+  {
+    if (j.a(V.ua, "false").equalsIgnoreCase("true"))
+    {
+      Object localObject = Typeface.create("sans-serif-", 0);
+      localObject = new f.e.a.i(this).a(new g[] { new A(w, getResources().getString(2131755897), getResources().getString(2131755898)).b((Typeface)localObject) });
+      ((f.e.a.i)localObject).a(true);
+      ((f.e.a.i)localObject).b(true);
+      ((f.e.a.i)localObject).c();
+      j.c(V.ua, "false");
+    }
+  }
+  
+  private void r()
+  {
+    Dialog localDialog = new Dialog(this);
+    localDialog.getWindow();
+    localDialog.requestWindowFeature(1);
+    localDialog.setContentView(2131492931);
+    localDialog.setCancelable(false);
+    TextView localTextView1 = (TextView)localDialog.findViewById(2131296574);
+    TextView localTextView2 = (TextView)localDialog.findViewById(2131297122);
+    localTextView1.setOnClickListener(new Vj(this, localDialog));
+    localTextView2.setOnClickListener(new Xj(this));
+    localDialog.show();
+  }
+  
+  public void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
+  {
+    super.onActivityResult(paramInt1, paramInt2, paramIntent);
+    try
+    {
+      Object localObject = TAG;
+      localObject = new StringBuilder();
+      ((StringBuilder)localObject).append("calling onActivityResult ");
+      ((StringBuilder)localObject).append(paramInt1);
+      ((StringBuilder)localObject).toString();
+      if (paramInt1 == 9001)
+      {
+        a(Auth.GoogleSignInApi.getSignInResultFromIntent(paramIntent));
+        return;
+      }
+      if (paramInt1 == 140)
+      {
+        H.a(paramInt1, paramInt2, paramIntent);
+        return;
+      }
+      v.onActivityResult(paramInt1, paramInt2, paramIntent);
+      return;
+    }
+    catch (Exception paramIntent)
+    {
+      b.a(paramIntent);
+    }
+  }
+  
+  public void onConnectionFailed(ConnectionResult paramConnectionResult)
+  {
+    paramConnectionResult = TAG;
+  }
+  
+  public void onCreate(@G Bundle paramBundle)
+  {
+    super.onCreate(paramBundle);
+    setContentView(2131493139);
+    Ea.a(this, "Login Screen");
+    try
+    {
+      Ea.a(this, findViewById(2131297260));
+      FacebookSdk.sdkInitialize(getApplicationContext());
+      AppEventsLogger.activateApp(this);
+      Ea.l(this);
+      v = new CallbackManagerImpl();
+      y = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile().build();
+      z = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, y).build();
+      j = new V(this);
+      try
+      {
+        j.c(V.pa, "false");
+      }
+      catch (Exception paramBundle)
+      {
+        b.a(paramBundle);
+      }
+      p();
+      S = ((LinearLayout)findViewById(2131297057));
+      f = ((EditText)findViewById(2131297119));
+      g = ((EditText)findViewById(2131297139));
+      i = ((ImageView)findViewById(2131297101));
+      k = ((LinearLayout)findViewById(2131297120));
+      l = ((LinearLayout)findViewById(2131296287));
+      k.setBackgroundResource(2131231220);
+      l.setBackgroundResource(2131231221);
+      k.setBackgroundResource(2131231222);
+      h = ((EditText)findViewById(2131296283));
+      o = ((LinearLayout)findViewById(2131296479));
+      p = ((ImageView)findViewById(2131296484));
+      q = ((ImageView)findViewById(2131296769));
+      r = ((TextView)findViewById(2131296960));
+      w = ((TextView)findViewById(2131297934));
+      x = ((TextView)findViewById(2131297931));
+      E = ((ImageView)findViewById(2131296532));
+      E.setOnClickListener(new yj(this));
+      F = ((ImageView)findViewById(2131296536));
+      F.setOnClickListener(new Pj(this));
+      G = ((ImageView)findViewById(2131296529));
+      G.setOnClickListener(new ak(this));
+      I = ((RadioButton)findViewById(2131297363));
+      J = ((RadioButton)findViewById(2131297362));
+      I.setOnClickListener(new bk(this));
+      J.setOnClickListener(new ck(this));
+      if (j.a(V.P, "remove").equalsIgnoreCase("remove")) {
+        S.setVisibility(8);
+      } else {
+        S.setVisibility(0);
+      }
+      f.addTextChangedListener(new dk(this));
+      g.addTextChangedListener(new ek(this));
+      h.addTextChangedListener(U);
+      m = ((LinearLayout)findViewById(2131297065));
+      n = ((LinearLayout)findViewById(2131297064));
+      N = ((RadioGroup)findViewById(2131297347));
+      O = ((RadioButton)findViewById(2131296280));
+      P = ((RadioButton)findViewById(2131297995));
+      Q = ((ImageView)findViewById(2131296926));
+      m.setVisibility(0);
+      n.setVisibility(8);
+      d = ((Button)findViewById(2131297061));
+      d.setText(getResources().getString(2131755891));
+      O.setChecked(true);
+      P.setChecked(false);
+      R = true;
+      N.setOnCheckedChangeListener(new fk(this));
+      d.setOnClickListener(new gk(this));
+      e = ((TextView)findViewById(2131297399));
+      e.setOnClickListener(new nj(this));
+      findViewById(2131297725).setOnClickListener(new oj(this));
+      k.setOnClickListener(new pj(this));
+      l.setOnClickListener(new qj(this));
+      s = ((ImageView)findViewById(2131296780));
+      paramBundle = Arrays.asList(new String[] { "email", "public_profile" });
+      s.setOnClickListener(new rj(this, paramBundle));
+      LoginManager.getInstance().registerCallback(v, new tj(this));
+      t = ((ImageView)findViewById(2131296842));
+      t.setOnClickListener(new uj(this));
+      u = ((ImageView)findViewById(2131297916));
+      u.setOnClickListener(new vj(this));
+      x.setOnClickListener(new wj(this));
+      w.setOnClickListener(new xj(this));
+      if ((Build.VERSION.SDK_INT > 22) && (j.a(V.zb, "false").equalsIgnoreCase("false"))) {
+        f();
+      }
+      L = Ea.n(this);
+      M = Ea.e();
+      K = new ArrayList();
+      paramBundle = j.a(V.c, "en");
+      int i1 = 0;
+      while (i1 < M.size())
+      {
+        w localW = new w();
+        localW.c((String)M.get(i1));
+        localW.a((String)L.get(i1));
+        if (((String)M.get(i1)).equalsIgnoreCase(paramBundle))
+        {
+          localW.a(true);
+          r.setText(((String)L.get(i1)).toUpperCase());
+        }
+        else
+        {
+          localW.a(false);
+        }
+        K.add(localW);
+        i1 += 1;
+      }
+      o.setOnClickListener(new zj(this));
+      p.setOnClickListener(new Aj(this));
+      q.setOnClickListener(new Bj(this));
+      i.setOnClickListener(new Dj(this));
+      Q.setOnClickListener(new Ej(this));
+      q();
+      if (m.getVisibility() == 0)
+      {
+        if (I.isChecked())
+        {
+          d.setText(getResources().getString(2131755339));
+          return;
+        }
+        d.setText(getResources().getString(2131755891));
+        return;
+      }
+      d.setText(getResources().getString(2131755339));
+      return;
+    }
+    catch (Exception paramBundle)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public void onDestroy()
+  {
+    super.onDestroy();
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    if (m.getVisibility() == 0)
+    {
+      if (I.isChecked())
+      {
+        d.setText(getResources().getString(2131755339));
+        return;
+      }
+      d.setText(getResources().getString(2131755891));
+      return;
+    }
+    d.setText(getResources().getString(2131755339));
+  }
+}

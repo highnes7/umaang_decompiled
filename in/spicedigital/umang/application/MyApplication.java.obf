@@ -1,0 +1,157 @@
+package in.spicedigital.umang.application;
+
+import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.preference.PreferenceManager;
+import android.support.multidex.MultiDexApplication;
+import android.support.v7.app.AppCompatDelegate;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import f.c.a.b;
+import f.l.a.b.f;
+import f.l.a.b.h.a;
+import f.l.a.c.e;
+import f.u.a.a.a.u;
+import g.a.a.d;
+import java.util.ArrayList;
+import k.a.a.c.Y;
+import k.a.a.m.O;
+import k.a.a.m.T;
+import l.a.a.a.n;
+import org.yaxim.androidclient.data.YaximConfiguration;
+
+public class MyApplication
+  extends MultiDexApplication
+{
+  public static final String A = "phone";
+  public static boolean B = false;
+  public static boolean C = false;
+  public static GoogleAnalytics D;
+  public static Tracker E;
+  public static boolean F = false;
+  public static ArrayList<Y> a = new ArrayList();
+  public static ArrayList<Y> b = new ArrayList();
+  public static ArrayList<Y> c = new ArrayList();
+  public static ArrayList<Y> d = new ArrayList();
+  public static ArrayList<Y> e = new ArrayList();
+  public static ArrayList<Y> f = new ArrayList();
+  public static ArrayList<Y> g = new ArrayList();
+  public static ArrayList<Y> h = new ArrayList();
+  public static ArrayList<Y> i = new ArrayList();
+  public static ArrayList<Y> j = new ArrayList();
+  public static ArrayList<Y> k = new ArrayList();
+  public static ArrayList<Y> l = new ArrayList();
+  public static ArrayList<Y> m = new ArrayList();
+  public static final String n = "umang_al_n";
+  public static String o = "";
+  public static String p = "";
+  public static String q = "";
+  public static String r = "";
+  public static String s = "";
+  public static String t = "";
+  public static String u = "";
+  public static String v = "";
+  public static String w = "";
+  public static String x = "";
+  public static String y = "";
+  public static final String z = "yaxim";
+  public final String G = "MyApplication";
+  public d H;
+  public YaximConfiguration I;
+  public T J;
+  
+  static
+  {
+    B = true;
+    C = false;
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+  }
+  
+  public MyApplication() {}
+  
+  public static MyApplication a(Context paramContext)
+  {
+    return (MyApplication)paramContext.getApplicationContext();
+  }
+  
+  public static YaximConfiguration b(Context paramContext)
+  {
+    return getApplicationContextI;
+  }
+  
+  public static boolean b()
+  {
+    return F;
+  }
+  
+  public static void c()
+  {
+    F = false;
+  }
+  
+  public static void c(Context paramContext)
+  {
+    paramContext = new h.a(paramContext);
+    paramContext.h(3);
+    paramContext.b();
+    paramContext.b(new f.l.a.a.a.b.c());
+    paramContext.d(52428800);
+    paramContext.a(f.l.a.b.a.g.b);
+    e.b(false);
+    f.g().a(paramContext.a());
+  }
+  
+  public static void d()
+  {
+    F = true;
+  }
+  
+  public Tracker a()
+  {
+    try
+    {
+      if (E == null)
+      {
+        E = D.newTracker(2131951618);
+        E.enableAdvertisingIdCollection(true);
+      }
+      Tracker localTracker = E;
+      return localTracker;
+    }
+    finally {}
+  }
+  
+  public void attachBaseContext(Context paramContext)
+  {
+    super.attachBaseContext(O.b(paramContext, "en"));
+  }
+  
+  public void onConfigurationChanged(Configuration paramConfiguration)
+  {
+    super.onConfigurationChanged(paramConfiguration);
+  }
+  
+  public void onCreate()
+  {
+    super.onCreate();
+    TwitterAuthConfig localTwitterAuthConfig = new TwitterAuthConfig("9ZrCPrFhft2URsplNqQM6kceh", "yMxZOPyakNtUMkHRG2s1acA84lZkp5l8sE6kNIrJCDgcZRYmub");
+    H = new d(this);
+    I = new YaximConfiguration(PreferenceManager.getDefaultSharedPreferences(this));
+    l.a.a.a.g.a(this, new n[] { new b(), new u(localTwitterAuthConfig), new f.u.a.a.c(localTwitterAuthConfig) });
+    c(getApplicationContext());
+    try
+    {
+      Class.forName("android.os.AsyncTask");
+      J = new T();
+      registerComponentCallbacks(J);
+      D = GoogleAnalytics.getInstance(this);
+      return;
+    }
+    catch (Throwable localThrowable)
+    {
+      for (;;) {}
+    }
+  }
+}

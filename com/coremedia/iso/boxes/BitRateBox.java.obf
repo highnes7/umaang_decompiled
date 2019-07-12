@@ -1,0 +1,85 @@
+package com.coremedia.iso.boxes;
+
+import f.b.a.h;
+import f.h.a.a;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public final class BitRateBox
+  extends a
+{
+  public static final String TYPE = "btrt";
+  public long avgBitrate;
+  public long bufferSizeDb;
+  public long maxBitrate;
+  
+  static {}
+  
+  public BitRateBox()
+  {
+    super("btrt");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    bufferSizeDb = h.j(paramByteBuffer);
+    maxBitrate = h.j(paramByteBuffer);
+    avgBitrate = h.j(paramByteBuffer);
+  }
+  
+  public long getAvgBitrate()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this);
+    j.b().a(localJoinPoint);
+    return avgBitrate;
+  }
+  
+  public long getBufferSizeDb()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return bufferSizeDb;
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    paramByteBuffer.putInt((int)bufferSizeDb);
+    paramByteBuffer.putInt((int)maxBitrate);
+    paramByteBuffer.putInt((int)avgBitrate);
+  }
+  
+  public long getContentSize()
+  {
+    return 12L;
+  }
+  
+  public long getMaxBitrate()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_2, this, this);
+    j.b().a(localJoinPoint);
+    return maxBitrate;
+  }
+  
+  public void setAvgBitrate(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_5, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    avgBitrate = paramLong;
+  }
+  
+  public void setBufferSizeDb(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    bufferSizeDb = paramLong;
+  }
+  
+  public void setMaxBitrate(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    maxBitrate = paramLong;
+  }
+}

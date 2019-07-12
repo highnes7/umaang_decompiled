@@ -1,0 +1,298 @@
+package com.github.mikephil.charting.listener;
+
+import android.annotation.SuppressLint;
+import android.graphics.PointF;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import com.github.mikephil.charting.animation.ChartAnimator;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.PieRadarChartBase;
+import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.utils.Utils;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PieRadarChartTouchListener
+  extends ChartTouchListener<PieRadarChartBase<?>>
+{
+  public ArrayList<AngularVelocitySample> _velocitySamples = new ArrayList();
+  public float mDecelerationAngularVelocity = 0.0F;
+  public long mDecelerationLastTime = 0L;
+  public float mStartAngle = 0.0F;
+  public PointF mTouchStartPoint = new PointF();
+  
+  public PieRadarChartTouchListener(PieRadarChartBase<?> paramPieRadarChartBase)
+  {
+    super(paramPieRadarChartBase);
+  }
+  
+  private float calculateVelocity()
+  {
+    if (_velocitySamples.isEmpty()) {
+      return 0.0F;
+    }
+    Object localObject = _velocitySamples;
+    int j = 0;
+    AngularVelocitySample localAngularVelocitySample1 = (AngularVelocitySample)((ArrayList)localObject).get(0);
+    localObject = _velocitySamples;
+    AngularVelocitySample localAngularVelocitySample2 = (AngularVelocitySample)((ArrayList)localObject).get(((ArrayList)localObject).size() - 1);
+    int i = _velocitySamples.size() - 1;
+    localObject = localAngularVelocitySample1;
+    while (i >= 0)
+    {
+      localObject = (AngularVelocitySample)_velocitySamples.get(i);
+      if (angle != angle) {
+        break;
+      }
+      i -= 1;
+    }
+    float f2 = (float)(time - time) / 1000.0F;
+    float f1 = f2;
+    if (f2 == 0.0F) {
+      f1 = 0.1F;
+    }
+    i = j;
+    if (angle >= angle) {
+      i = 1;
+    }
+    j = i;
+    if (Math.abs(angle - angle) > 270.0D) {
+      j = i ^ 0x1;
+    }
+    f2 = angle;
+    float f3 = angle;
+    double d;
+    if (f2 - f3 > 180.0D)
+    {
+      d = f3;
+      Double.isNaN(d);
+      angle = ((float)(d + 360.0D));
+    }
+    else if (f3 - f2 > 180.0D)
+    {
+      d = f2;
+      Double.isNaN(d);
+      angle = ((float)(d + 360.0D));
+    }
+    f2 = Math.abs((angle - angle) / f1);
+    f1 = f2;
+    if (j == 0) {
+      f1 = -f2;
+    }
+    return f1;
+  }
+  
+  private void resetVelocity()
+  {
+    _velocitySamples.clear();
+  }
+  
+  private void sampleVelocity(float paramFloat1, float paramFloat2)
+  {
+    long l = AnimationUtils.currentAnimationTimeMillis();
+    _velocitySamples.add(new AngularVelocitySample(l, ((PieRadarChartBase)mChart).getAngleForPoint(paramFloat1, paramFloat2)));
+    int i = _velocitySamples.size();
+    while ((i - 2 > 0) && (l - _velocitySamples.get(0)).time > 1000L))
+    {
+      _velocitySamples.remove(0);
+      i -= 1;
+    }
+  }
+  
+  public void computeScroll()
+  {
+    if (mDecelerationAngularVelocity == 0.0F) {
+      return;
+    }
+    long l = AnimationUtils.currentAnimationTimeMillis();
+    float f1 = mDecelerationAngularVelocity;
+    mDecelerationAngularVelocity = (((PieRadarChartBase)mChart).getDragDecelerationFrictionCoef() * f1);
+    f1 = (float)(l - mDecelerationLastTime) / 1000.0F;
+    Chart localChart = mChart;
+    PieRadarChartBase localPieRadarChartBase = (PieRadarChartBase)localChart;
+    float f2 = ((PieRadarChartBase)localChart).getRotationAngle();
+    localPieRadarChartBase.setRotationAngle(mDecelerationAngularVelocity * f1 + f2);
+    mDecelerationLastTime = l;
+    if (Math.abs(mDecelerationAngularVelocity) >= 0.001D)
+    {
+      Utils.postInvalidateOnAnimation(mChart);
+      return;
+    }
+    stopDeceleration();
+  }
+  
+  public void onLongPress(MotionEvent paramMotionEvent)
+  {
+    mLastGesture = ChartTouchListener.ChartGesture.LONG_PRESS;
+    OnChartGestureListener localOnChartGestureListener = ((PieRadarChartBase)mChart).getOnChartGestureListener();
+    if (localOnChartGestureListener != null) {
+      localOnChartGestureListener.onChartLongPressed(paramMotionEvent);
+    }
+  }
+  
+  public boolean onSingleTapConfirmed(MotionEvent paramMotionEvent)
+  {
+    return true;
+  }
+  
+  public boolean onSingleTapUp(MotionEvent paramMotionEvent)
+  {
+    mLastGesture = ChartTouchListener.ChartGesture.SINGLE_TAP;
+    Object localObject = ((PieRadarChartBase)mChart).getOnChartGestureListener();
+    if (localObject != null) {
+      ((OnChartGestureListener)localObject).onChartSingleTapped(paramMotionEvent);
+    }
+    boolean bool = ((PieRadarChartBase)mChart).isHighlightPerTapEnabled();
+    int i = 0;
+    if (!bool) {
+      return false;
+    }
+    float f3 = ((PieRadarChartBase)mChart).distanceToCenter(paramMotionEvent.getX(), paramMotionEvent.getY());
+    if (f3 > ((PieRadarChartBase)mChart).getRadius())
+    {
+      if (mLastHighlighted == null) {
+        ((PieRadarChartBase)mChart).highlightValues(null);
+      } else {
+        ((PieRadarChartBase)mChart).highlightTouch(null);
+      }
+      mLastHighlighted = null;
+    }
+    else
+    {
+      float f2 = ((PieRadarChartBase)mChart).getAngleForPoint(paramMotionEvent.getX(), paramMotionEvent.getY());
+      localObject = mChart;
+      float f1 = f2;
+      if ((localObject instanceof PieChart)) {
+        f1 = f2 / ((PieRadarChartBase)localObject).getAnimator().getPhaseY();
+      }
+      int j = ((PieRadarChartBase)mChart).getIndexForAngle(f1);
+      if (j < 0)
+      {
+        ((PieRadarChartBase)mChart).highlightValues(null);
+        mLastHighlighted = null;
+      }
+      else
+      {
+        localObject = ((PieRadarChartBase)mChart).getSelectionDetailsAtIndex(j);
+        Chart localChart = mChart;
+        if ((localChart instanceof RadarChart)) {
+          i = Utils.getClosestDataSetIndex((List)localObject, f3 / ((RadarChart)localChart).getFactor(), null);
+        }
+        if (i < 0)
+        {
+          ((PieRadarChartBase)mChart).highlightValues(null);
+          mLastHighlighted = null;
+        }
+        else
+        {
+          performHighlight(new Highlight(j, i), paramMotionEvent);
+        }
+      }
+    }
+    return true;
+  }
+  
+  @SuppressLint({"ClickableViewAccessibility"})
+  public boolean onTouch(View paramView, MotionEvent paramMotionEvent)
+  {
+    if (mGestureDetector.onTouchEvent(paramMotionEvent)) {
+      return true;
+    }
+    if (((PieRadarChartBase)mChart).isRotationEnabled())
+    {
+      float f1 = paramMotionEvent.getX();
+      float f2 = paramMotionEvent.getY();
+      int i = paramMotionEvent.getAction();
+      if (i != 0)
+      {
+        if (i != 1)
+        {
+          if (i != 2) {
+            return true;
+          }
+          if (((PieRadarChartBase)mChart).isDragDecelerationEnabled()) {
+            sampleVelocity(f1, f2);
+          }
+          if (mTouchMode == 0)
+          {
+            paramView = mTouchStartPoint;
+            if (ChartTouchListener.distance(f1, x, f2, y) > Utils.convertDpToPixel(8.0F))
+            {
+              mLastGesture = ChartTouchListener.ChartGesture.ROTATE;
+              mTouchMode = 6;
+              ((PieRadarChartBase)mChart).disableScroll();
+              break label170;
+            }
+          }
+          if (mTouchMode == 6)
+          {
+            updateGestureRotation(f1, f2);
+            ((PieRadarChartBase)mChart).invalidate();
+          }
+          label170:
+          endAction(paramMotionEvent);
+          return true;
+        }
+        if (((PieRadarChartBase)mChart).isDragDecelerationEnabled())
+        {
+          stopDeceleration();
+          sampleVelocity(f1, f2);
+          mDecelerationAngularVelocity = calculateVelocity();
+          if (mDecelerationAngularVelocity != 0.0F)
+          {
+            mDecelerationLastTime = AnimationUtils.currentAnimationTimeMillis();
+            Utils.postInvalidateOnAnimation(mChart);
+          }
+        }
+        ((PieRadarChartBase)mChart).enableScroll();
+        mTouchMode = 0;
+        endAction(paramMotionEvent);
+        return true;
+      }
+      startAction(paramMotionEvent);
+      stopDeceleration();
+      _velocitySamples.clear();
+      if (((PieRadarChartBase)mChart).isDragDecelerationEnabled()) {
+        sampleVelocity(f1, f2);
+      }
+      setGestureStartAngle(f1, f2);
+      paramView = mTouchStartPoint;
+      x = f1;
+      y = f2;
+    }
+    return true;
+  }
+  
+  public void setGestureStartAngle(float paramFloat1, float paramFloat2)
+  {
+    mStartAngle = (((PieRadarChartBase)mChart).getAngleForPoint(paramFloat1, paramFloat2) - ((PieRadarChartBase)mChart).getRawRotationAngle());
+  }
+  
+  public void stopDeceleration()
+  {
+    mDecelerationAngularVelocity = 0.0F;
+  }
+  
+  public void updateGestureRotation(float paramFloat1, float paramFloat2)
+  {
+    Chart localChart = mChart;
+    ((PieRadarChartBase)localChart).setRotationAngle(((PieRadarChartBase)localChart).getAngleForPoint(paramFloat1, paramFloat2) - mStartAngle);
+  }
+  
+  private class AngularVelocitySample
+  {
+    public float angle;
+    public long time;
+    
+    public AngularVelocitySample(long paramLong, float paramFloat)
+    {
+      time = paramLong;
+      angle = paramFloat;
+    }
+  }
+}

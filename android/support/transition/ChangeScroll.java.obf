@@ -1,0 +1,85 @@
+package android.support.transition;
+
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.v.ha;
+import b.b.v.ia;
+import java.util.Map;
+
+public class ChangeScroll
+  extends Transition
+{
+  public static final String a = "android:changeScroll:x";
+  public static final String b = "android:changeScroll:y";
+  public static final String[] c = { "android:changeScroll:x", "android:changeScroll:y" };
+  
+  public ChangeScroll() {}
+  
+  public ChangeScroll(Context paramContext, AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet);
+  }
+  
+  private void captureValues(ia paramIa)
+  {
+    a.put("android:changeScroll:x", Integer.valueOf(b.getScrollX()));
+    a.put("android:changeScroll:y", Integer.valueOf(b.getScrollY()));
+  }
+  
+  public void captureEndValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  public void captureStartValues(@F ia paramIa)
+  {
+    captureValues(paramIa);
+  }
+  
+  @G
+  public Animator createAnimator(@F ViewGroup paramViewGroup, @G ia paramIa1, @G ia paramIa2)
+  {
+    paramViewGroup = null;
+    Object localObject = null;
+    if (paramIa1 != null)
+    {
+      if (paramIa2 == null) {
+        return null;
+      }
+      View localView = b;
+      int i = ((Integer)a.get("android:changeScroll:x")).intValue();
+      int j = ((Integer)a.get("android:changeScroll:x")).intValue();
+      int k = ((Integer)a.get("android:changeScroll:y")).intValue();
+      int m = ((Integer)a.get("android:changeScroll:y")).intValue();
+      if (i != j)
+      {
+        localView.setScrollX(i);
+        paramViewGroup = ObjectAnimator.ofInt(localView, "scrollX", new int[] { i, j });
+      }
+      else
+      {
+        paramViewGroup = null;
+      }
+      paramIa1 = localObject;
+      if (k != m)
+      {
+        localView.setScrollY(k);
+        paramIa1 = ObjectAnimator.ofInt(localView, "scrollY", new int[] { k, m });
+      }
+      paramViewGroup = ha.a(paramViewGroup, paramIa1);
+    }
+    return paramViewGroup;
+  }
+  
+  @G
+  public String[] getTransitionProperties()
+  {
+    return c;
+  }
+}

@@ -1,0 +1,78 @@
+package com.google.android.gms.internal;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import b.b.a.C;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzccn
+{
+  public final zzccp zzirq;
+  
+  public zzccn(zzccp paramZzccp)
+  {
+    zzbp.zzu(paramZzccp);
+    zzirq = paramZzccp;
+  }
+  
+  public static boolean zzj(Context paramContext, boolean paramBoolean)
+  {
+    zzbp.zzu(paramContext);
+    return zzcfw.zza(paramContext, "com.google.android.gms.measurement.AppMeasurementReceiver", false);
+  }
+  
+  @C
+  public final void onReceive(Context paramContext, Intent paramIntent)
+  {
+    zzccw localZzccw = zzccw.zzdn(paramContext);
+    zzcbw localZzcbw = localZzccw.zzaul();
+    if (paramIntent == null)
+    {
+      localZzcbw.zzayf().log("Receiver called with null intent");
+      return;
+    }
+    zzcax.zzawk();
+    Object localObject = paramIntent.getAction();
+    localZzcbw.zzayj().zzj("Local receiver got", localObject);
+    if ("com.google.android.gms.measurement.UPLOAD".equals(localObject))
+    {
+      zzcfh.zzk(paramContext, false);
+      paramIntent = new Intent().setClassName(paramContext, "com.google.android.gms.measurement.AppMeasurementService");
+      paramIntent.setAction("com.google.android.gms.measurement.UPLOAD");
+      zzirq.doStartService(paramContext, paramIntent);
+      return;
+    }
+    if ("com.android.vending.INSTALL_REFERRER".equals(localObject))
+    {
+      String str = paramIntent.getStringExtra("referrer");
+      if (str == null)
+      {
+        localZzcbw.zzayj().log("Install referrer extras are null");
+        return;
+      }
+      localZzcbw.zzayh().zzj("Install referrer extras are", str);
+      localObject = str;
+      if (!str.contains("?")) {
+        if (str.length() != 0) {
+          localObject = "?".concat(str);
+        } else {
+          localObject = new String("?");
+        }
+      }
+      localObject = Uri.parse((String)localObject);
+      localObject = localZzccw.zzauh().zzp((Uri)localObject);
+      if (localObject == null)
+      {
+        localZzcbw.zzayj().log("No campaign defined in install referrer broadcast");
+        return;
+      }
+      long l = paramIntent.getLongExtra("referrer_timestamp_seconds", 0L) * 1000L;
+      if (l == 0L) {
+        localZzcbw.zzayf().log("Install referrer is missing timestamp");
+      }
+      localZzccw.zzauk().zzg(new zzcco(this, localZzccw, l, (Bundle)localObject, paramContext, localZzcbw));
+    }
+  }
+}

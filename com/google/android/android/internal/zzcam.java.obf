@@ -1,0 +1,28 @@
+package com.google.android.gms.internal;
+
+import android.os.Looper;
+import b.b.a.G;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzcam
+{
+  public static Looper zzatk()
+  {
+    boolean bool;
+    if (Looper.myLooper() != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    zzbp.zza(bool, "Can't create handler inside thread that has not called Looper.prepare()");
+    return Looper.myLooper();
+  }
+  
+  public static Looper zzb(@G Looper paramLooper)
+  {
+    if (paramLooper != null) {
+      return paramLooper;
+    }
+    return zzatk();
+  }
+}

@@ -1,0 +1,235 @@
+package f.g.b.a.g;
+
+import f.g.b.a.e.a.a.a.b.g;
+import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+
+public final class s
+  extends AbstractMap<String, Object>
+{
+  public final Object a;
+  public final n b;
+  
+  public s(Object paramObject, boolean paramBoolean)
+  {
+    a = paramObject;
+    b = n.a(paramObject.getClass(), paramBoolean);
+    g.a(b.e() ^ true);
+  }
+  
+  public Object a(String paramString, Object paramObject)
+  {
+    v localV = b.b(paramString);
+    paramString = String.valueOf(paramString);
+    if (paramString.length() != 0) {
+      paramString = "no field of key ".concat(paramString);
+    } else {
+      paramString = new String("no field of key ");
+    }
+    g.a(localV, paramString);
+    paramString = localV.a(a);
+    Object localObject = a;
+    if (paramObject != null)
+    {
+      localV.a(localObject, paramObject);
+      return paramString;
+    }
+    throw new NullPointerException();
+  }
+  
+  public boolean containsKey(Object paramObject)
+  {
+    return get(paramObject) != null;
+  }
+  
+  public c entrySet()
+  {
+    return new c();
+  }
+  
+  public Object get(Object paramObject)
+  {
+    if (!(paramObject instanceof String)) {
+      return null;
+    }
+    paramObject = b.b((String)paramObject);
+    if (paramObject == null) {
+      return null;
+    }
+    return paramObject.a(a);
+  }
+  
+  public final class a
+    implements Map.Entry<String, Object>
+  {
+    public Object a;
+    public final v b;
+    
+    public a(v paramV, Object paramObject)
+    {
+      b = paramV;
+      if (paramObject != null)
+      {
+        a = paramObject;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public boolean equals(Object paramObject)
+    {
+      if (this == paramObject) {
+        return true;
+      }
+      if (!(paramObject instanceof Map.Entry)) {
+        return false;
+      }
+      paramObject = (Map.Entry)paramObject;
+      return (getKey().equals(paramObject.getKey())) && (getValue().equals(paramObject.getValue()));
+    }
+    
+    public String getKey()
+    {
+      String str2 = b.e();
+      String str1 = str2;
+      if (b.b()) {
+        str1 = str2.toLowerCase();
+      }
+      return str1;
+    }
+    
+    public Object getValue()
+    {
+      return a;
+    }
+    
+    public int hashCode()
+    {
+      return getKey().hashCode() ^ getValue().hashCode();
+    }
+    
+    public Object setValue(Object paramObject)
+    {
+      Object localObject = a;
+      if (paramObject != null)
+      {
+        a = paramObject;
+        b.a(a, paramObject);
+        return localObject;
+      }
+      throw new NullPointerException();
+    }
+  }
+  
+  public final class b
+    implements Iterator<Map.Entry<String, Object>>
+  {
+    public int a = -1;
+    public v b;
+    public Object c;
+    public boolean d;
+    public boolean e;
+    public v f;
+    
+    public b() {}
+    
+    public boolean hasNext()
+    {
+      if (!e)
+      {
+        e = true;
+        for (c = null; c == null; c = b.a(a))
+        {
+          int i = a + 1;
+          a = i;
+          if (i >= b.f.size()) {
+            break;
+          }
+          n localN = b;
+          b = localN.b((String)f.get(a));
+        }
+      }
+      return c != null;
+    }
+    
+    public Map.Entry<String, Object> next()
+    {
+      if (hasNext())
+      {
+        f = b;
+        Object localObject = c;
+        e = false;
+        d = false;
+        b = null;
+        c = null;
+        return new s.a(s.this, f, localObject);
+      }
+      throw new NoSuchElementException();
+    }
+    
+    public void remove()
+    {
+      boolean bool;
+      if ((f != null) && (!d)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+      g.b(bool);
+      d = true;
+      f.a(a, null);
+    }
+  }
+  
+  public final class c
+    extends AbstractSet<Map.Entry<String, Object>>
+  {
+    public c() {}
+    
+    public void clear()
+    {
+      Iterator localIterator = b.f.iterator();
+      while (localIterator.hasNext())
+      {
+        String str = (String)localIterator.next();
+        b.b(str).a(a, null);
+      }
+    }
+    
+    public boolean isEmpty()
+    {
+      Iterator localIterator = b.f.iterator();
+      while (localIterator.hasNext())
+      {
+        String str = (String)localIterator.next();
+        if (b.b(str).a(a) != null) {
+          return false;
+        }
+      }
+      return true;
+    }
+    
+    public s.b iterator()
+    {
+      return new s.b(s.this);
+    }
+    
+    public int size()
+    {
+      Iterator localIterator = b.f.iterator();
+      int i = 0;
+      while (localIterator.hasNext())
+      {
+        String str = (String)localIterator.next();
+        if (b.b(str).a(a) != null) {
+          i += 1;
+        }
+      }
+      return i;
+    }
+  }
+}

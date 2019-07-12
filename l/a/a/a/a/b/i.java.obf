@@ -1,0 +1,135 @@
+package l.a.a.a.a.b;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.text.TextUtils;
+import l.a.a.a.g;
+import l.a.a.a.q;
+
+public class i
+{
+  public static final String a = "io.fabric.ApiKey";
+  public static final String b = "com.crashlytics.ApiKey";
+  public static final String c = "@string/twitter_consumer_secret";
+  
+  public i() {}
+  
+  @Deprecated
+  public static String a(Context paramContext)
+  {
+    g.h().a("Fabric", "getApiKey(context) is deprecated, please upgrade kit(s) to the latest version.");
+    return new i().e(paramContext);
+  }
+  
+  @Deprecated
+  public static String a(Context paramContext, boolean paramBoolean)
+  {
+    g.h().a("Fabric", "getApiKey(context, debug) is deprecated, please upgrade kit(s) to the latest version.");
+    return new i().e(paramContext);
+  }
+  
+  public String a()
+  {
+    return "Fabric could not be initialized, API key missing from AndroidManifest.xml. Add the following tag to your Application element \n\t<meta-data android:name=\"io.fabric.ApiKey\" android:value=\"YOUR_API_KEY\"/>";
+  }
+  
+  public String b(Context paramContext)
+  {
+    return new x().a(paramContext);
+  }
+  
+  public String c(Context paramContext)
+  {
+    StringBuilder localStringBuilder = null;
+    Object localObject3 = null;
+    Object localObject2 = null;
+    Object localObject1 = localStringBuilder;
+    try
+    {
+      Object localObject4 = paramContext.getPackageName();
+      localObject1 = localStringBuilder;
+      localObject4 = getPackageManagergetApplicationInfo128metaData;
+      localObject1 = localObject3;
+      if (localObject4 == null) {
+        return localObject1;
+      }
+      localObject1 = localStringBuilder;
+      paramContext = ((Bundle)localObject4).getString("io.fabric.ApiKey");
+      try
+      {
+        if ("@string/twitter_consumer_secret".equals(paramContext))
+        {
+          g.h().d("Fabric", "Ignoring bad default value for Fabric ApiKey set by FirebaseUI-Auth");
+          paramContext = localObject2;
+        }
+        localObject1 = paramContext;
+        if (paramContext != null) {
+          return localObject1;
+        }
+        localObject1 = paramContext;
+        g.h().d("Fabric", "Falling back to Crashlytics key lookup from Manifest");
+        localObject1 = paramContext;
+        paramContext = ((Bundle)localObject4).getString("com.crashlytics.ApiKey");
+        return paramContext;
+      }
+      catch (Exception localException)
+      {
+        localObject1 = paramContext;
+        paramContext = localException;
+      }
+      localQ = g.h();
+    }
+    catch (Exception paramContext) {}
+    q localQ;
+    localStringBuilder = new StringBuilder();
+    localStringBuilder.append("Caught non-fatal exception while retrieving apiKey: ");
+    localStringBuilder.append(paramContext);
+    localQ.d("Fabric", localStringBuilder.toString());
+    return localObject1;
+  }
+  
+  public String d(Context paramContext)
+  {
+    int j = l.a(paramContext, "io.fabric.ApiKey", "string");
+    int i = j;
+    if (j == 0)
+    {
+      g.h().d("Fabric", "Falling back to Crashlytics key lookup from Strings");
+      i = l.a(paramContext, "com.crashlytics.ApiKey", "string");
+    }
+    if (i != 0) {
+      return paramContext.getResources().getString(i);
+    }
+    return null;
+  }
+  
+  public String e(Context paramContext)
+  {
+    Object localObject2 = c(paramContext);
+    Object localObject1 = localObject2;
+    if (TextUtils.isEmpty((CharSequence)localObject2)) {
+      localObject1 = d(paramContext);
+    }
+    localObject2 = localObject1;
+    if (TextUtils.isEmpty((CharSequence)localObject1)) {
+      localObject2 = b(paramContext);
+    }
+    if (TextUtils.isEmpty((CharSequence)localObject2)) {
+      f(paramContext);
+    }
+    return localObject2;
+  }
+  
+  public void f(Context paramContext)
+  {
+    if ((!g.k()) && (!l.j(paramContext)))
+    {
+      g.h().b("Fabric", a());
+      return;
+    }
+    throw new IllegalArgumentException(a());
+  }
+}

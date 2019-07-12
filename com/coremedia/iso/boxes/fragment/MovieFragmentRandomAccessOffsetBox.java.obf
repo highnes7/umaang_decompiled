@@ -1,0 +1,53 @@
+package com.coremedia.iso.boxes.fragment;
+
+import f.b.a.h;
+import f.h.a.c;
+import f.h.a.j;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class MovieFragmentRandomAccessOffsetBox
+  extends c
+{
+  public static final String TYPE = "mfro";
+  public long mfraSize;
+  
+  static {}
+  
+  public MovieFragmentRandomAccessOffsetBox()
+  {
+    super("mfro");
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    mfraSize = h.j(paramByteBuffer);
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    paramByteBuffer.putInt((int)mfraSize);
+  }
+  
+  public long getContentSize()
+  {
+    return 8L;
+  }
+  
+  public long getMfraSize()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    j.b().a(localJoinPoint);
+    return mfraSize;
+  }
+  
+  public void setMfraSize(long paramLong)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this, new Long(paramLong));
+    j.b().a(localJoinPoint);
+    mfraSize = paramLong;
+  }
+}

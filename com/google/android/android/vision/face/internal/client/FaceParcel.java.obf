@@ -1,0 +1,60 @@
+package com.google.android.gms.vision.face.internal.client;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.apps.common.proguard.UsedByNative;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+@UsedByNative("wrapper.cc")
+public class FaceParcel
+  extends zzbck
+{
+  public static final Parcelable.Creator<FaceParcel> CREATOR = new zzb();
+  public final float centerX;
+  public final float centerY;
+  public final float height;
+  public final int id;
+  public int versionCode;
+  public final float width;
+  public final float zzkjd;
+  public final float zzkje;
+  public final LandmarkParcel[] zzkjf;
+  public final float zzkjg;
+  public final float zzkjh;
+  public final float zzkji;
+  
+  public FaceParcel(int paramInt1, int paramInt2, float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4, float paramFloat5, float paramFloat6, LandmarkParcel[] paramArrayOfLandmarkParcel, float paramFloat7, float paramFloat8, float paramFloat9)
+  {
+    versionCode = paramInt1;
+    id = paramInt2;
+    centerX = paramFloat1;
+    centerY = paramFloat2;
+    width = paramFloat3;
+    height = paramFloat4;
+    zzkjd = paramFloat5;
+    zzkje = paramFloat6;
+    zzkjf = paramArrayOfLandmarkParcel;
+    zzkjg = paramFloat7;
+    zzkjh = paramFloat8;
+    zzkji = paramFloat9;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, versionCode);
+    zzbcn.zzc(paramParcel, 2, id);
+    zzbcn.zza(paramParcel, 3, centerX);
+    zzbcn.zza(paramParcel, 4, centerY);
+    zzbcn.zza(paramParcel, 5, width);
+    zzbcn.zza(paramParcel, 6, height);
+    zzbcn.zza(paramParcel, 7, zzkjd);
+    zzbcn.zza(paramParcel, 8, zzkje);
+    zzbcn.zza(paramParcel, 9, zzkjf, paramInt, false);
+    zzbcn.zza(paramParcel, 10, zzkjg);
+    zzbcn.zza(paramParcel, 11, zzkjh);
+    zzbcn.zza(paramParcel, 12, zzkji);
+    zzbcn.zzah(paramParcel, i);
+  }
+}

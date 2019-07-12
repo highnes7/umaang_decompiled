@@ -1,0 +1,36 @@
+package f.g.c.b;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+public final class y
+{
+  public static final Map<Class<?>, Object> a;
+  
+  static
+  {
+    HashMap localHashMap = new HashMap();
+    localHashMap.put(Boolean.TYPE, Boolean.valueOf(false));
+    localHashMap.put(Character.TYPE, Character.valueOf('\000'));
+    localHashMap.put(Byte.TYPE, Byte.valueOf((byte)0));
+    localHashMap.put(Short.TYPE, Short.valueOf((short)0));
+    localHashMap.put(Integer.TYPE, Integer.valueOf(0));
+    localHashMap.put(Long.TYPE, Long.valueOf(0L));
+    localHashMap.put(Float.TYPE, Float.valueOf(0.0F));
+    localHashMap.put(Double.TYPE, Double.valueOf(0.0D));
+    a = Collections.unmodifiableMap(localHashMap);
+  }
+  
+  public y() {}
+  
+  public static <T> T a(Class<T> paramClass)
+  {
+    return a.get(paramClass);
+  }
+  
+  public static <T> void a(Map<Class<?>, Object> paramMap, Class<T> paramClass, T paramT)
+  {
+    paramMap.put(paramClass, paramT);
+  }
+}

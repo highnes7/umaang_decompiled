@@ -1,0 +1,38 @@
+package f.c.a.a;
+
+import android.content.Context;
+import android.os.Looper;
+import java.io.File;
+import java.io.IOException;
+import l.a.a.a.a.b.G;
+import l.a.a.a.a.d.l;
+import l.a.a.a.a.d.q;
+import l.a.a.a.a.f.a;
+
+public class m
+{
+  public static final String a = "session_analytics_to_send";
+  public static final String b = "session_analytics.tap";
+  public final Context c;
+  public final a d;
+  
+  public m(Context paramContext, a paramA)
+  {
+    c = paramContext;
+    d = paramA;
+  }
+  
+  public S a()
+    throws IOException
+  {
+    if (Looper.myLooper() != Looper.getMainLooper())
+    {
+      Z localZ = new Z();
+      G localG = new G();
+      Object localObject = d.b();
+      localObject = new q(c, (File)localObject, "session_analytics.tap", "session_analytics_to_send");
+      return new S(c, localZ, localG, (l)localObject);
+    }
+    throw new IllegalStateException("AnswersFilesManagerProvider cannot be called on the main thread");
+  }
+}

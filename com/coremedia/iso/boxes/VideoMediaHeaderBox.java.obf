@@ -1,0 +1,102 @@
+package com.coremedia.iso.boxes;
+
+import f.a.a.a.a;
+import f.b.a.h;
+import f.h.a.c;
+import java.nio.ByteBuffer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.runtime.reflect.Factory;
+
+public class VideoMediaHeaderBox
+  extends AbstractMediaHeaderBox
+{
+  public static final String TYPE = "vmhd";
+  public int graphicsmode = 0;
+  public int[] opcolor = new int[3];
+  
+  static {}
+  
+  public VideoMediaHeaderBox()
+  {
+    super("vmhd");
+    setFlags(1);
+  }
+  
+  public void _parseDetails(ByteBuffer paramByteBuffer)
+  {
+    parseVersionAndFlags(paramByteBuffer);
+    graphicsmode = h.g(paramByteBuffer);
+    opcolor = new int[3];
+    int i = 0;
+    for (;;)
+    {
+      if (i >= 3) {
+        return;
+      }
+      opcolor[i] = h.g(paramByteBuffer);
+      i += 1;
+    }
+  }
+  
+  public void getContent(ByteBuffer paramByteBuffer)
+  {
+    writeVersionAndFlags(paramByteBuffer);
+    f.b.a.j.a(paramByteBuffer, graphicsmode);
+    int[] arrayOfInt = opcolor;
+    int j = arrayOfInt.length;
+    int i = 0;
+    for (;;)
+    {
+      if (i >= j) {
+        return;
+      }
+      f.b.a.j.a(paramByteBuffer, arrayOfInt[i]);
+      i += 1;
+    }
+  }
+  
+  public long getContentSize()
+  {
+    return 12L;
+  }
+  
+  public int getGraphicsmode()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_0, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return graphicsmode;
+  }
+  
+  public int[] getOpcolor()
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_1, this, this);
+    f.h.a.j.b().a(localJoinPoint);
+    return opcolor;
+  }
+  
+  public void setGraphicsmode(int paramInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_4, this, this, new Integer(paramInt));
+    f.h.a.j.b().a(localJoinPoint);
+    graphicsmode = paramInt;
+  }
+  
+  public void setOpcolor(int[] paramArrayOfInt)
+  {
+    JoinPoint localJoinPoint = Factory.makeJP(ajc$tjp_3, this, this, paramArrayOfInt);
+    f.h.a.j.b().a(localJoinPoint);
+    opcolor = paramArrayOfInt;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = a.a(Factory.makeJP(ajc$tjp_2, this, this), "VideoMediaHeaderBox[graphicsmode=");
+    localStringBuilder.append(getGraphicsmode());
+    localStringBuilder.append(";opcolor0=");
+    localStringBuilder.append(getOpcolor()[0]);
+    localStringBuilder.append(";opcolor1=");
+    localStringBuilder.append(getOpcolor()[1]);
+    localStringBuilder.append(";opcolor2=");
+    return a.a(localStringBuilder, getOpcolor()[2], "]");
+  }
+}

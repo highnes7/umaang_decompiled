@@ -1,0 +1,66 @@
+package org.spongycastle.asn1;
+
+import java.io.FilterInputStream;
+import java.io.IOException;
+
+public abstract class ASN1Primitive
+  extends ASN1Object
+{
+  public ASN1Primitive() {}
+  
+  public static ASN1Primitive fromByteArray(byte[] paramArrayOfByte)
+    throws IOException
+  {
+    paramArrayOfByte = new ASN1InputStream(paramArrayOfByte);
+    try
+    {
+      ASN1Primitive localASN1Primitive = paramArrayOfByte.readObject();
+      int i = ((FilterInputStream)paramArrayOfByte).available();
+      if (i == 0) {
+        return localASN1Primitive;
+      }
+      paramArrayOfByte = new IOException("Extra data detected in stream");
+      throw paramArrayOfByte;
+    }
+    catch (ClassCastException paramArrayOfByte)
+    {
+      for (;;) {}
+    }
+    throw new IOException("cannot recognise object in stream");
+  }
+  
+  public abstract boolean asn1Equals(ASN1Primitive paramASN1Primitive);
+  
+  public abstract void encode(ASN1OutputStream paramASN1OutputStream)
+    throws IOException;
+  
+  public abstract int encodedLength()
+    throws IOException;
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    return ((paramObject instanceof ASN1Encodable)) && (asn1Equals(((ASN1Encodable)paramObject).toASN1Primitive()));
+  }
+  
+  public abstract int hashCode();
+  
+  public abstract boolean isConstructed();
+  
+  public ASN1Primitive toASN1Primitive()
+  {
+    return this;
+  }
+  
+  public ASN1Primitive toDERObject()
+  {
+    return this;
+  }
+  
+  public ASN1Primitive toDLObject()
+  {
+    return this;
+  }
+}

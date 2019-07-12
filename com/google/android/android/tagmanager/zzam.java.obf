@@ -1,0 +1,71 @@
+package com.google.android.gms.tagmanager;
+
+import com.google.android.gms.internal.zzbd;
+import com.google.android.gms.internal.zzbe;
+import com.google.android.gms.internal.zzbp;
+import f.a.a.a.a;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public final class zzam
+  extends zzbr
+{
+  public static final String ID = zzbd.zzia.toString();
+  public static final String zzjot = zzbe.zzma.toString();
+  public static final String zzjqe = zzbe.zzqd.toString();
+  public final zzan zzjqf;
+  
+  public zzam(zzan paramZzan)
+  {
+    super(ID, new String[] { zzjqe });
+    zzjqf = paramZzan;
+  }
+  
+  public final boolean zzbcj()
+  {
+    return false;
+  }
+  
+  public final zzbp zzp(Map<String, zzbp> paramMap)
+  {
+    String str = zzgk.zzb((zzbp)paramMap.get(zzjqe));
+    Object localObject = new HashMap();
+    paramMap = (zzbp)paramMap.get(zzjot);
+    if (paramMap != null)
+    {
+      paramMap = zzgk.zzg(paramMap);
+      if (!(paramMap instanceof Map)) {
+        zzdj.zzjss.zzcr("FunctionCallMacro: expected ADDITIONAL_PARAMS to be a map.");
+      }
+    }
+    for (;;)
+    {
+      return zzgk.zzjwp;
+      paramMap = ((Map)paramMap).entrySet().iterator();
+      while (paramMap.hasNext())
+      {
+        Map.Entry localEntry = (Map.Entry)paramMap.next();
+        ((Map)localObject).put(localEntry.getKey().toString(), localEntry.getValue());
+      }
+      try
+      {
+        paramMap = zzgk.zzah(zzjqf.zzd(str, (Map)localObject));
+        return paramMap;
+      }
+      catch (Exception paramMap)
+      {
+        paramMap = paramMap.getMessage();
+        localObject = new StringBuilder(a.a(paramMap, a.a(str, 34)));
+        ((StringBuilder)localObject).append("Custom macro/tag ");
+        ((StringBuilder)localObject).append(str);
+        ((StringBuilder)localObject).append(" threw exception ");
+        ((StringBuilder)localObject).append(paramMap);
+        paramMap = ((StringBuilder)localObject).toString();
+        zzdj.zzjss.zzcr(paramMap);
+      }
+    }
+  }
+}

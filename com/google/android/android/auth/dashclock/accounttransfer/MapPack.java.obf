@@ -1,0 +1,109 @@
+package com.google.android.gms.auth.api.accounttransfer;
+
+import android.app.PendingIntent;
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import b.b.x.n.d;
+import com.google.android.gms.internal.zzatt;
+import com.google.android.gms.internal.zzbcn;
+import com.google.android.gms.internal.zzbdm;
+import f.a.a.a.a;
+import java.util.HashMap;
+import java.util.Set;
+
+public class zzu
+  extends zzatt
+{
+  public static final Parcelable.Creator<zzu> CREATOR = new zzv();
+  public static final HashMap<String, zzbdm<?, ?>> zzdzf;
+  public PendingIntent mPendingIntent;
+  public int zzbyz;
+  public int zzdxs;
+  public Set<Integer> zzdzg;
+  public String zzdzr;
+  public byte[] zzdzs;
+  public DeviceMetaData zzdzt;
+  
+  static
+  {
+    HashMap localHashMap = new HashMap();
+    zzdzf = localHashMap;
+    localHashMap.put("accountType", zzbdm.zzl("accountType", 2));
+    zzdzf.put("status", zzbdm.zzj("status", 3));
+    zzdzf.put("transferBytes", zzbdm.zzn("transferBytes", 4));
+  }
+  
+  public zzu()
+  {
+    zzdzg = new d(3);
+    zzdxs = 1;
+  }
+  
+  public zzu(Set<Integer> paramSet, int paramInt1, String paramString, int paramInt2, byte[] paramArrayOfByte, PendingIntent paramPendingIntent, DeviceMetaData paramDeviceMetaData)
+  {
+    zzdzg = paramSet;
+    zzdxs = paramInt1;
+    zzdzr = paramString;
+    zzbyz = paramInt2;
+    zzdzs = paramArrayOfByte;
+    mPendingIntent = paramPendingIntent;
+    zzdzt = paramDeviceMetaData;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    Set localSet = zzdzg;
+    if (localSet.contains(Integer.valueOf(1))) {
+      zzbcn.zzc(paramParcel, 1, zzdxs);
+    }
+    if (localSet.contains(Integer.valueOf(2))) {
+      zzbcn.zza(paramParcel, 2, zzdzr, true);
+    }
+    if (localSet.contains(Integer.valueOf(3))) {
+      zzbcn.zzc(paramParcel, 3, zzbyz);
+    }
+    if (localSet.contains(Integer.valueOf(4))) {
+      zzbcn.zza(paramParcel, 4, zzdzs, true);
+    }
+    if (localSet.contains(Integer.valueOf(5))) {
+      zzbcn.zza(paramParcel, 5, mPendingIntent, paramInt, true);
+    }
+    if (localSet.contains(Integer.valueOf(6))) {
+      zzbcn.zza(paramParcel, 6, zzdzt, paramInt, true);
+    }
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public final boolean zza(zzbdm paramZzbdm)
+  {
+    return zzdzg.contains(Integer.valueOf(paramZzbdm.zzakq()));
+  }
+  
+  public final Object zzb(zzbdm paramZzbdm)
+  {
+    int i = paramZzbdm.zzakq();
+    if (i != 1)
+    {
+      if (i != 2)
+      {
+        if (i != 3)
+        {
+          if (i == 4) {
+            return zzdzs;
+          }
+          throw new IllegalStateException(a.a(37, "Unknown SafeParcelable id=", paramZzbdm.zzakq()));
+        }
+        i = zzbyz;
+      }
+      else
+      {
+        return zzdzr;
+      }
+    }
+    else {
+      i = zzdxs;
+    }
+    return Integer.valueOf(i);
+  }
+}

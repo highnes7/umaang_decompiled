@@ -1,0 +1,493 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.RemoteException;
+import b.b.a.F;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.PendingResult.zza;
+import com.google.android.gms.common.api.Releasable;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.ResultTransform;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.TransformedResult;
+import com.google.android.gms.common.internal.zzap;
+import com.google.android.gms.common.internal.zzbp;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
+public abstract class zzs<R extends Result>
+  extends PendingResult<R>
+{
+  public static final ThreadLocal<Boolean> zzfje = new zzt();
+  public Status mStatus;
+  public boolean zzaj;
+  public final CountDownLatch zzaof = new CountDownLatch(1);
+  public R zzfhr;
+  public final Object zzfjf = new Object();
+  public zzu<R> zzfjg;
+  public WeakReference<GoogleApiClient> zzfjh;
+  public final ArrayList<PendingResult.zza> zzfji = new ArrayList();
+  public ResultCallback<? super R> zzfjj;
+  public final AtomicReference<zzdm> zzfjk = new AtomicReference();
+  public zzv zzfjl;
+  public volatile boolean zzfjm;
+  public boolean zzfjn;
+  public zzap zzfjo;
+  public volatile zzdg<R> zzfjp;
+  public boolean zzfjq = false;
+  
+  @Deprecated
+  public zzs()
+  {
+    zzfjg = new zzu(Looper.getMainLooper());
+    zzfjh = new WeakReference(null);
+  }
+  
+  @Deprecated
+  public zzs(Looper paramLooper)
+  {
+    zzfjg = new zzu(paramLooper);
+    zzfjh = new WeakReference(null);
+  }
+  
+  public zzs(GoogleApiClient paramGoogleApiClient)
+  {
+    Looper localLooper;
+    if (paramGoogleApiClient != null) {
+      localLooper = paramGoogleApiClient.getLooper();
+    } else {
+      localLooper = Looper.getMainLooper();
+    }
+    zzfjg = new zzu(localLooper);
+    zzfjh = new WeakReference(paramGoogleApiClient);
+  }
+  
+  private final R get()
+  {
+    for (;;)
+    {
+      synchronized (zzfjf)
+      {
+        if (!zzfjm)
+        {
+          bool = true;
+          zzbp.zza(bool, "Result has already been consumed.");
+          zzbp.zza(isReady(), "Result is not ready.");
+          Result localResult = zzfhr;
+          zzfhr = null;
+          zzfjj = null;
+          zzfjm = true;
+          ??? = (zzdm)zzfjk.getAndSet(null);
+          if (??? != null) {
+            ((zzdm)???).zzc(this);
+          }
+          return localResult;
+        }
+      }
+      boolean bool = false;
+    }
+  }
+  
+  private final void zzc(R paramR)
+  {
+    zzfhr = paramR;
+    zzfjo = null;
+    zzaof.countDown();
+    mStatus = zzfhr.getStatus();
+    if (zzaj)
+    {
+      zzfjj = null;
+    }
+    else if (zzfjj == null)
+    {
+      if ((zzfhr instanceof Releasable)) {
+        zzfjl = new zzv(this, null);
+      }
+    }
+    else
+    {
+      zzfjg.removeMessages(2);
+      zzfjg.zza(zzfjj, get());
+    }
+    paramR = zzfji;
+    int j = paramR.size();
+    int i = 0;
+    while (i < j)
+    {
+      Object localObject = paramR.get(i);
+      i += 1;
+      ((PendingResult.zza)localObject).zzq(mStatus);
+    }
+    zzfji.clear();
+  }
+  
+  public static void zzd(Result paramResult)
+  {
+    if ((paramResult instanceof Releasable)) {}
+    try
+    {
+      ((Releasable)paramResult).release();
+      return;
+    }
+    catch (RuntimeException localRuntimeException)
+    {
+      StringBuilder localStringBuilder;
+      for (;;) {}
+    }
+    paramResult = String.valueOf(paramResult);
+    localStringBuilder = new StringBuilder(paramResult.length() + 18);
+    localStringBuilder.append("Unable to release ");
+    localStringBuilder.append(paramResult);
+    localStringBuilder.toString();
+  }
+  
+  public final R await()
+  {
+    Looper localLooper1 = Looper.myLooper();
+    Looper localLooper2 = Looper.getMainLooper();
+    boolean bool2 = false;
+    if (localLooper1 != localLooper2) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    zzbp.zza(bool1, "await must not be called on the UI thread");
+    zzbp.zza(zzfjm ^ true, "Result has already been consumed");
+    boolean bool1 = bool2;
+    if (zzfjp == null) {
+      bool1 = true;
+    }
+    zzbp.zza(bool1, "Cannot await if then() has been called.");
+    try
+    {
+      zzaof.await();
+    }
+    catch (InterruptedException localInterruptedException)
+    {
+      for (;;) {}
+    }
+    zzu(Status.zzfhw);
+    zzbp.zza(isReady(), "Result is not ready.");
+    return get();
+  }
+  
+  public final R await(long paramLong, TimeUnit paramTimeUnit)
+  {
+    boolean bool2 = false;
+    if ((paramLong > 0L) && (Looper.myLooper() == Looper.getMainLooper())) {
+      bool1 = false;
+    } else {
+      bool1 = true;
+    }
+    zzbp.zza(bool1, "await must not be called on the UI thread when time is greater than zero.");
+    zzbp.zza(zzfjm ^ true, "Result has already been consumed.");
+    boolean bool1 = bool2;
+    if (zzfjp == null) {
+      bool1 = true;
+    }
+    zzbp.zza(bool1, "Cannot await if then() has been called.");
+    try
+    {
+      if (zzaof.await(paramLong, paramTimeUnit)) {
+        break label98;
+      }
+      zzu(Status.zzfhy);
+    }
+    catch (InterruptedException paramTimeUnit)
+    {
+      for (;;) {}
+    }
+    zzu(Status.zzfhw);
+    label98:
+    zzbp.zza(isReady(), "Result is not ready.");
+    return get();
+  }
+  
+  public void cancel()
+  {
+    synchronized (zzfjf)
+    {
+      if ((!zzaj) && (!zzfjm))
+      {
+        zzap localZzap = zzfjo;
+        if (localZzap == null) {}
+      }
+    }
+    try
+    {
+      zzfjo.cancel();
+      zzd(zzfhr);
+      zzaj = true;
+      zzc(zzb(Status.zzfhz));
+      return;
+      return;
+      localObject2 = finally;
+      throw localObject2;
+    }
+    catch (RemoteException localRemoteException)
+    {
+      for (;;) {}
+    }
+  }
+  
+  public boolean isCanceled()
+  {
+    synchronized (zzfjf)
+    {
+      boolean bool = zzaj;
+      return bool;
+    }
+  }
+  
+  public final boolean isReady()
+  {
+    return zzaof.getCount() == 0L;
+  }
+  
+  public final void setResult(R paramR)
+  {
+    for (;;)
+    {
+      synchronized (zzfjf)
+      {
+        if ((!zzfjn) && (!zzaj))
+        {
+          isReady();
+          bool1 = isReady();
+          boolean bool2 = true;
+          if (!bool1)
+          {
+            bool1 = true;
+            zzbp.zza(bool1, "Results have already been set");
+            if (zzfjm) {
+              break label97;
+            }
+            bool1 = bool2;
+            zzbp.zza(bool1, "Result has already been consumed");
+            zzc(paramR);
+          }
+        }
+        else
+        {
+          zzd(paramR);
+          return;
+        }
+      }
+      boolean bool1 = false;
+      continue;
+      label97:
+      bool1 = false;
+    }
+  }
+  
+  public final void setResultCallback(ResultCallback<? super R> paramResultCallback)
+  {
+    Object localObject = zzfjf;
+    if (paramResultCallback == null) {}
+    try
+    {
+      zzfjj = null;
+      return;
+    }
+    finally {}
+    boolean bool1 = zzfjm;
+    boolean bool2 = true;
+    if (!bool1)
+    {
+      bool1 = true;
+      zzbp.zza(bool1, "Result has already been consumed.");
+      if (zzfjp != null) {
+        break label116;
+      }
+      bool1 = bool2;
+    }
+    for (;;)
+    {
+      zzbp.zza(bool1, "Cannot set callbacks if then() has been called.");
+      if (isCanceled()) {
+        return;
+      }
+      if (isReady()) {
+        zzfjg.zza(paramResultCallback, get());
+      } else {
+        zzfjj = paramResultCallback;
+      }
+      return;
+      bool1 = false;
+      break;
+      label116:
+      bool1 = false;
+    }
+  }
+  
+  public final void setResultCallback(ResultCallback<? super R> paramResultCallback, long paramLong, TimeUnit paramTimeUnit)
+  {
+    Object localObject = zzfjf;
+    if (paramResultCallback == null) {}
+    try
+    {
+      zzfjj = null;
+      return;
+    }
+    finally {}
+    boolean bool1 = zzfjm;
+    boolean bool2 = true;
+    if (!bool1)
+    {
+      bool1 = true;
+      zzbp.zza(bool1, "Result has already been consumed.");
+      if (zzfjp != null) {
+        break label149;
+      }
+      bool1 = bool2;
+    }
+    for (;;)
+    {
+      zzbp.zza(bool1, "Cannot set callbacks if then() has been called.");
+      if (isCanceled()) {
+        return;
+      }
+      if (isReady())
+      {
+        zzfjg.zza(paramResultCallback, get());
+      }
+      else
+      {
+        zzfjj = paramResultCallback;
+        paramResultCallback = zzfjg;
+        paramLong = paramTimeUnit.toMillis(paramLong);
+        paramResultCallback.sendMessageDelayed(paramResultCallback.obtainMessage(2, this), paramLong);
+      }
+      return;
+      bool1 = false;
+      break;
+      label149:
+      bool1 = false;
+    }
+  }
+  
+  public <S extends Result> TransformedResult<S> then(ResultTransform<? super R, ? extends S> paramResultTransform)
+  {
+    zzbp.zza(zzfjm ^ true, "Result has already been consumed.");
+    for (;;)
+    {
+      synchronized (zzfjf)
+      {
+        zzdg localZzdg = zzfjp;
+        boolean bool2 = false;
+        if (localZzdg == null)
+        {
+          bool1 = true;
+          zzbp.zza(bool1, "Cannot call then() twice.");
+          if (zzfjj != null) {
+            break label160;
+          }
+          bool1 = true;
+          zzbp.zza(bool1, "Cannot call then() if callbacks are set.");
+          bool1 = bool2;
+          if (!zzaj) {
+            bool1 = true;
+          }
+          zzbp.zza(bool1, "Cannot call then() if result was canceled.");
+          zzfjq = true;
+          zzfjp = new zzdg(zzfjh);
+          paramResultTransform = zzfjp.then(paramResultTransform);
+          if (isReady()) {
+            zzfjg.zza(zzfjp, get());
+          } else {
+            zzfjj = zzfjp;
+          }
+          return paramResultTransform;
+        }
+      }
+      boolean bool1 = false;
+      continue;
+      label160:
+      bool1 = false;
+    }
+  }
+  
+  public final void zza(PendingResult.zza paramZza)
+  {
+    boolean bool;
+    if (paramZza != null) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    zzbp.zzb(bool, "Callback cannot be null.");
+    synchronized (zzfjf)
+    {
+      if (isReady()) {
+        paramZza.zzq(mStatus);
+      } else {
+        zzfji.add(paramZza);
+      }
+      return;
+    }
+  }
+  
+  public final void zza(zzdm paramZzdm)
+  {
+    zzfjk.set(paramZzdm);
+  }
+  
+  public final void zza(zzap paramZzap)
+  {
+    synchronized (zzfjf)
+    {
+      zzfjo = paramZzap;
+      return;
+    }
+  }
+  
+  public final Integer zzafs()
+  {
+    return null;
+  }
+  
+  public final boolean zzagf()
+  {
+    synchronized (zzfjf)
+    {
+      if (((GoogleApiClient)zzfjh.get() == null) || (!zzfjq)) {
+        cancel();
+      }
+      boolean bool = isCanceled();
+      return bool;
+    }
+  }
+  
+  public final void zzagg()
+  {
+    boolean bool;
+    if ((!zzfjq) && (!((Boolean)zzfje.get()).booleanValue())) {
+      bool = false;
+    } else {
+      bool = true;
+    }
+    zzfjq = bool;
+  }
+  
+  @F
+  public abstract R zzb(Status paramStatus);
+  
+  public final void zzu(Status paramStatus)
+  {
+    synchronized (zzfjf)
+    {
+      if (!isReady())
+      {
+        setResult(zzb(paramStatus));
+        zzfjn = true;
+      }
+      return;
+    }
+  }
+}

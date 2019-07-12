@@ -1,0 +1,102 @@
+package d;
+
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+public class a
+  extends Exception
+{
+  public static final long a = 1L;
+  public static final String b = "There were multiple errors.";
+  public List<Throwable> c;
+  
+  public a(String paramString, List<? extends Throwable> paramList)
+  {
+    super(paramString, localThrowable);
+    c = Collections.unmodifiableList(paramList);
+  }
+  
+  public a(String paramString, Throwable[] paramArrayOfThrowable)
+  {
+    this(paramString, Arrays.asList(paramArrayOfThrowable));
+  }
+  
+  public a(List<? extends Throwable> paramList)
+  {
+    this("There were multiple errors.", paramList);
+  }
+  
+  @Deprecated
+  public Throwable[] a()
+  {
+    List localList = c;
+    return (Throwable[])localList.toArray(new Throwable[localList.size()]);
+  }
+  
+  @Deprecated
+  public List<Exception> b()
+  {
+    ArrayList localArrayList = new ArrayList();
+    Object localObject = c;
+    if (localObject == null) {
+      return localArrayList;
+    }
+    localObject = ((List)localObject).iterator();
+    while (((Iterator)localObject).hasNext())
+    {
+      Throwable localThrowable = (Throwable)((Iterator)localObject).next();
+      if ((localThrowable instanceof Exception)) {
+        localArrayList.add((Exception)localThrowable);
+      } else {
+        localArrayList.add(new Exception(localThrowable));
+      }
+    }
+    return localArrayList;
+  }
+  
+  public List<Throwable> c()
+  {
+    return c;
+  }
+  
+  public void printStackTrace(PrintStream paramPrintStream)
+  {
+    super.printStackTrace(paramPrintStream);
+    Iterator localIterator = c.iterator();
+    int i = -1;
+    while (localIterator.hasNext())
+    {
+      Throwable localThrowable = (Throwable)localIterator.next();
+      paramPrintStream.append("\n");
+      paramPrintStream.append("  Inner throwable #");
+      i += 1;
+      paramPrintStream.append(Integer.toString(i));
+      paramPrintStream.append(": ");
+      localThrowable.printStackTrace(paramPrintStream);
+      paramPrintStream.append("\n");
+    }
+  }
+  
+  public void printStackTrace(PrintWriter paramPrintWriter)
+  {
+    super.printStackTrace(paramPrintWriter);
+    Iterator localIterator = c.iterator();
+    int i = -1;
+    while (localIterator.hasNext())
+    {
+      Throwable localThrowable = (Throwable)localIterator.next();
+      paramPrintWriter.append("\n");
+      paramPrintWriter.append("  Inner throwable #");
+      i += 1;
+      paramPrintWriter.append(Integer.toString(i));
+      paramPrintWriter.append(": ");
+      localThrowable.printStackTrace(paramPrintWriter);
+      paramPrintWriter.append("\n");
+    }
+  }
+}

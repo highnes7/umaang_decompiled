@@ -1,0 +1,233 @@
+package b.b.x.d;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.graphics.fonts.FontVariationAxis;
+import android.os.CancellationSignal;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.K;
+import b.b.a.N;
+import b.b.x.b.b.d.c;
+import b.b.x.l.r.c;
+import f.a.a.a.a;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
+
+@K(26)
+@N({b.b.a.N.a.b})
+public class j
+  extends h
+{
+  public static final String d = "TypefaceCompatApi26Impl";
+  public static final String e = "android.graphics.FontFamily";
+  public static final String f = "addFontFromAssetManager";
+  public static final String g = "addFontFromBuffer";
+  public static final String h = "createFromFamiliesWithDefault";
+  public static final String i = "freeze";
+  public static final String j = "abortCreation";
+  public static final int k = -1;
+  public static final String l = "sans-serif";
+  public final Class m;
+  public final Constructor n;
+  public final Method o;
+  public final Method p;
+  public final Method q;
+  public final Method r;
+  public final Method s;
+  
+  public j()
+  {
+    Object localObject9 = null;
+    try
+    {
+      Class localClass = a();
+      localObject3 = e(localClass);
+      localObject4 = b(localClass);
+      localObject5 = c(localClass);
+      localObject6 = f(localClass);
+      localObject7 = a(localClass);
+      localObject2 = d(localClass);
+    }
+    catch (NoSuchMethodException localNoSuchMethodException) {}catch (ClassNotFoundException localClassNotFoundException) {}
+    Object localObject2 = a.b("Unable to collect necessary methods for class ");
+    ((StringBuilder)localObject2).append(localClassNotFoundException.getClass().getName());
+    ((StringBuilder)localObject2).toString();
+    Object localObject8 = null;
+    Object localObject1 = localObject8;
+    localObject2 = localObject1;
+    Object localObject3 = localObject2;
+    Object localObject4 = localObject3;
+    Object localObject7 = localObject4;
+    Object localObject6 = localObject4;
+    Object localObject5 = localObject3;
+    localObject4 = localObject2;
+    localObject3 = localObject1;
+    localObject2 = localObject8;
+    localObject1 = localObject9;
+    m = localObject1;
+    n = ((Constructor)localObject3);
+    o = ((Method)localObject4);
+    p = ((Method)localObject5);
+    q = ((Method)localObject6);
+    r = ((Method)localObject7);
+    s = ((Method)localObject2);
+  }
+  
+  private boolean a(Context paramContext, Object paramObject, String paramString, int paramInt1, int paramInt2, int paramInt3, @G FontVariationAxis[] paramArrayOfFontVariationAxis)
+  {
+    try
+    {
+      boolean bool = ((Boolean)o.invoke(paramObject, new Object[] { paramContext.getAssets(), paramString, Integer.valueOf(0), Boolean.valueOf(false), Integer.valueOf(paramInt1), Integer.valueOf(paramInt2), Integer.valueOf(paramInt3), paramArrayOfFontVariationAxis })).booleanValue();
+      return bool;
+    }
+    catch (InvocationTargetException paramContext) {}catch (IllegalAccessException paramContext) {}
+    throw new RuntimeException(paramContext);
+  }
+  
+  private boolean a(Object paramObject, ByteBuffer paramByteBuffer, int paramInt1, int paramInt2, int paramInt3)
+  {
+    try
+    {
+      boolean bool = ((Boolean)p.invoke(paramObject, new Object[] { paramByteBuffer, Integer.valueOf(paramInt1), null, Integer.valueOf(paramInt2), Integer.valueOf(paramInt3) })).booleanValue();
+      return bool;
+    }
+    catch (InvocationTargetException paramObject) {}catch (IllegalAccessException paramObject) {}
+    throw new RuntimeException(paramObject);
+  }
+  
+  private void b(Object paramObject)
+  {
+    try
+    {
+      r.invoke(paramObject, new Object[0]);
+      return;
+    }
+    catch (InvocationTargetException paramObject) {}catch (IllegalAccessException paramObject) {}
+    throw new RuntimeException(paramObject);
+  }
+  
+  private boolean b()
+  {
+    Method localMethod = o;
+    return o != null;
+  }
+  
+  private Object c()
+  {
+    try
+    {
+      Object localObject = n.newInstance(new Object[0]);
+      return localObject;
+    }
+    catch (InvocationTargetException localInvocationTargetException) {}catch (InstantiationException localInstantiationException) {}catch (IllegalAccessException localIllegalAccessException) {}
+    throw new RuntimeException(localIllegalAccessException);
+  }
+  
+  private boolean c(Object paramObject)
+  {
+    try
+    {
+      boolean bool = ((Boolean)q.invoke(paramObject, new Object[0])).booleanValue();
+      return bool;
+    }
+    catch (InvocationTargetException paramObject) {}catch (IllegalAccessException paramObject) {}
+    throw new RuntimeException(paramObject);
+  }
+  
+  @G
+  public Typeface a(Context paramContext, Resources paramResources, int paramInt1, String paramString, int paramInt2)
+  {
+    if (!b()) {
+      return super.a(paramContext, paramResources, paramInt1, paramString, paramInt2);
+    }
+    paramResources = c();
+    if (!a(paramContext, paramResources, paramString, 0, -1, -1, null))
+    {
+      b(paramResources);
+      return null;
+    }
+    if (!c(paramResources)) {
+      return null;
+    }
+    return a(paramResources);
+  }
+  
+  public Typeface a(Context paramContext, @G CancellationSignal paramCancellationSignal, @F r.c[] paramArrayOfC, int paramInt)
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:659)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:698)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.e2expr(TypeTransformer.java:629)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:716)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  public Typeface a(Context paramContext, d.c paramC, Resources paramResources, int paramInt)
+  {
+    throw new Runtime("d2j fail translate: java.lang.RuntimeException: can not merge I and Z\n\tat com.googlecode.dex2jar.ir.TypeClass.merge(TypeClass.java:100)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeRef.updateTypeClass(TypeTransformer.java:174)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.provideAs(TypeTransformer.java:780)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:659)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.enexpr(TypeTransformer.java:698)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:719)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.e2expr(TypeTransformer.java:629)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:716)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.exExpr(TypeTransformer.java:703)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.s1stmt(TypeTransformer.java:810)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.sxStmt(TypeTransformer.java:840)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer$TypeAnalyze.analyze(TypeTransformer.java:206)\n\tat com.googlecode.dex2jar.ir.ts.TypeTransformer.transform(TypeTransformer.java:44)\n\tat com.googlecode.d2j.dex.Dex2jar$2.optimize(Dex2jar.java:162)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertCode(Dex2Asm.java:414)\n\tat com.googlecode.d2j.dex.ExDex2Asm.convertCode(ExDex2Asm.java:42)\n\tat com.googlecode.d2j.dex.Dex2jar$2.convertCode(Dex2jar.java:128)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertMethod(Dex2Asm.java:509)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertClass(Dex2Asm.java:406)\n\tat com.googlecode.d2j.dex.Dex2Asm.convertDex(Dex2Asm.java:422)\n\tat com.googlecode.d2j.dex.Dex2jar.doTranslate(Dex2jar.java:172)\n\tat com.googlecode.d2j.dex.Dex2jar.to(Dex2jar.java:272)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.doCommandLine(Dex2jarCmd.java:108)\n\tat com.googlecode.dex2jar.tools.BaseCmd.doMain(BaseCmd.java:288)\n\tat com.googlecode.dex2jar.tools.Dex2jarCmd.main(Dex2jarCmd.java:32)\n");
+  }
+  
+  public Typeface a(Object paramObject)
+  {
+    try
+    {
+      Object localObject = Array.newInstance(m, 1);
+      Array.set(localObject, 0, paramObject);
+      paramObject = (Typeface)s.invoke(null, new Object[] { localObject, Integer.valueOf(-1), Integer.valueOf(-1) });
+      return paramObject;
+    }
+    catch (InvocationTargetException paramObject) {}catch (IllegalAccessException paramObject) {}
+    throw new RuntimeException(paramObject);
+  }
+  
+  public Class a()
+    throws ClassNotFoundException
+  {
+    return Class.forName("android.graphics.FontFamily");
+  }
+  
+  public Method a(Class paramClass)
+    throws NoSuchMethodException
+  {
+    return paramClass.getMethod("abortCreation", new Class[0]);
+  }
+  
+  public Method b(Class paramClass)
+    throws NoSuchMethodException
+  {
+    Class localClass1 = Integer.TYPE;
+    Class localClass2 = Boolean.TYPE;
+    Class localClass3 = Integer.TYPE;
+    return paramClass.getMethod("addFontFromAssetManager", new Class[] { AssetManager.class, String.class, localClass1, localClass2, localClass3, localClass3, localClass3, [Landroid.graphics.fonts.FontVariationAxis.class });
+  }
+  
+  public Method c(Class paramClass)
+    throws NoSuchMethodException
+  {
+    Class localClass = Integer.TYPE;
+    return paramClass.getMethod("addFontFromBuffer", new Class[] { ByteBuffer.class, localClass, [Landroid.graphics.fonts.FontVariationAxis.class, localClass, localClass });
+  }
+  
+  public Method d(Class paramClass)
+    throws NoSuchMethodException
+  {
+    paramClass = Array.newInstance(paramClass, 1).getClass();
+    Class localClass = Integer.TYPE;
+    paramClass = Typeface.class.getDeclaredMethod("createFromFamiliesWithDefault", new Class[] { paramClass, localClass, localClass });
+    paramClass.setAccessible(true);
+    return paramClass;
+  }
+  
+  public Constructor e(Class paramClass)
+    throws NoSuchMethodException
+  {
+    return paramClass.getConstructor(new Class[0]);
+  }
+  
+  public Method f(Class paramClass)
+    throws NoSuchMethodException
+  {
+    return paramClass.getMethod("freeze", new Class[0]);
+  }
+}

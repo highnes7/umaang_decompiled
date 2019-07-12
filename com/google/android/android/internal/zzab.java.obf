@@ -1,0 +1,143 @@
+package com.google.android.gms.internal;
+
+import android.os.SystemClock;
+import android.util.Log;
+import f.a.a.a.a;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+
+public class zzab
+{
+  public static boolean DEBUG = Log.isLoggable("Volley", 2);
+  public static String TAG = "Volley";
+  
+  public zzab() {}
+  
+  public static void zza(String paramString, Object... paramVarArgs)
+  {
+    if (DEBUG)
+    {
+      String str = TAG;
+      zzd(paramString, paramVarArgs);
+    }
+  }
+  
+  public static void zza(Throwable paramThrowable, String paramString, Object... paramVarArgs)
+  {
+    paramThrowable = TAG;
+    zzd(paramString, paramVarArgs);
+  }
+  
+  public static void zzb(String paramString, Object... paramVarArgs)
+  {
+    String str = TAG;
+    zzd(paramString, paramVarArgs);
+  }
+  
+  public static void zzc(String paramString, Object... paramVarArgs)
+  {
+    String str = TAG;
+    zzd(paramString, paramVarArgs);
+  }
+  
+  public static String zzd(String paramString, Object... paramVarArgs)
+  {
+    if (paramVarArgs != null) {
+      paramString = String.format(Locale.US, paramString, paramVarArgs);
+    }
+    paramVarArgs = new Throwable().fillInStackTrace().getStackTrace();
+    int i = 2;
+    while (i < paramVarArgs.length)
+    {
+      if (!paramVarArgs[i].getClass().equals(zzab.class))
+      {
+        String str = paramVarArgs[i].getClassName();
+        str = str.substring(str.lastIndexOf('.') + 1);
+        str = str.substring(str.lastIndexOf('$') + 1);
+        paramVarArgs = paramVarArgs[i].getMethodName();
+        paramVarArgs = a.a(a.a(paramVarArgs, a.a(str, 1)), str, ".", paramVarArgs);
+        break label122;
+      }
+      i += 1;
+    }
+    paramVarArgs = "<unknown>";
+    label122:
+    return String.format(Locale.US, "[%d] %s: %s", new Object[] { Long.valueOf(Thread.currentThread().getId()), paramVarArgs, paramString });
+  }
+  
+  public static final class zza
+  {
+    public static final boolean zzbi = zzab.DEBUG;
+    public final List<zzac> zzbj = new ArrayList();
+    public boolean zzbk = false;
+    
+    public zza() {}
+    
+    public final void finalize()
+      throws Throwable
+    {
+      if (!zzbk)
+      {
+        zzc("Request on the loose");
+        String str = zzab.TAG;
+        zzab.zzd("Marker log finalized without finish() - uncaught exit point for request", new Object[0]);
+      }
+    }
+    
+    public final void zza(String paramString, long paramLong)
+    {
+      try
+      {
+        if (!zzbk)
+        {
+          zzbj.add(new zzac(paramString, paramLong, SystemClock.elapsedRealtime()));
+          return;
+        }
+        throw new IllegalStateException("Marker added to finished log");
+      }
+      finally {}
+    }
+    
+    public final void zzc(String paramString)
+    {
+      try
+      {
+        zzbk = true;
+        if (zzbj.size() == 0)
+        {
+          l1 = 0L;
+        }
+        else
+        {
+          l1 = zzbj.get(0)).time;
+          l2 = zzbj.get(zzbj.size() - 1)).time;
+          l1 = l2 - l1;
+        }
+        if (l1 <= 0L) {
+          return;
+        }
+        long l2 = zzbj.get(0)).time;
+        Object localObject = zzab.TAG;
+        zzab.zzd("(%-4d ms) %s", new Object[] { Long.valueOf(l1), paramString });
+        paramString = zzbj.iterator();
+        for (long l1 = l2; paramString.hasNext(); l1 = l2)
+        {
+          localObject = (zzac)paramString.next();
+          l2 = time;
+          long l3 = zzbl;
+          localObject = name;
+          String str = zzab.TAG;
+          zzab.zzd("(+%-4d) [%2d] %s", new Object[] { Long.valueOf(l2 - l1), Long.valueOf(l3), localObject });
+        }
+        return;
+      }
+      finally {}
+      for (;;)
+      {
+        throw paramString;
+      }
+    }
+  }
+}

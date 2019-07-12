@@ -1,0 +1,94 @@
+package android.support.v4.app;
+
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.IBinder;
+import b.b.a.F;
+import b.b.a.G;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public final class BundleCompat
+{
+  public BundleCompat() {}
+  
+  @G
+  public static IBinder getBinder(@F Bundle paramBundle, @G String paramString)
+  {
+    int i = Build.VERSION.SDK_INT;
+    return paramBundle.getBinder(paramString);
+  }
+  
+  public static void putBinder(@F Bundle paramBundle, @G String paramString, @G IBinder paramIBinder)
+  {
+    int i = Build.VERSION.SDK_INT;
+    paramBundle.putBinder(paramString, paramIBinder);
+  }
+  
+  public static class BundleCompatBaseImpl
+  {
+    public static final String TAG = "BundleCompatBaseImpl";
+    public static Method sGetIBinderMethod;
+    public static boolean sGetIBinderMethodFetched;
+    public static Method sPutIBinderMethod;
+    public static boolean sPutIBinderMethodFetched;
+    
+    public BundleCompatBaseImpl() {}
+    
+    public static IBinder getBinder(Bundle paramBundle, String paramString)
+    {
+      if (!sGetIBinderMethodFetched) {}
+      try
+      {
+        sGetIBinderMethod = Bundle.class.getMethod("getIBinder", new Class[] { String.class });
+        sGetIBinderMethod.setAccessible(true);
+        sGetIBinderMethodFetched = true;
+        Method localMethod = sGetIBinderMethod;
+        if (localMethod != null) {}
+        try
+        {
+          paramBundle = (IBinder)localMethod.invoke(paramBundle, new Object[] { paramString });
+          return paramBundle;
+        }
+        catch (InvocationTargetException|IllegalAccessException|IllegalArgumentException paramBundle)
+        {
+          for (;;) {}
+        }
+        sGetIBinderMethod = null;
+        return null;
+      }
+      catch (NoSuchMethodException localNoSuchMethodException)
+      {
+        for (;;) {}
+      }
+    }
+    
+    public static void putBinder(Bundle paramBundle, String paramString, IBinder paramIBinder)
+    {
+      if (!sPutIBinderMethodFetched) {}
+      try
+      {
+        sPutIBinderMethod = Bundle.class.getMethod("putIBinder", new Class[] { String.class, IBinder.class });
+        sPutIBinderMethod.setAccessible(true);
+        sPutIBinderMethodFetched = true;
+        Method localMethod = sPutIBinderMethod;
+        if (localMethod != null) {}
+        try
+        {
+          localMethod.invoke(paramBundle, new Object[] { paramString, paramIBinder });
+          return;
+        }
+        catch (InvocationTargetException|IllegalAccessException|IllegalArgumentException paramBundle)
+        {
+          for (;;) {}
+        }
+        sPutIBinderMethod = null;
+        return;
+      }
+      catch (NoSuchMethodException localNoSuchMethodException)
+      {
+        for (;;) {}
+      }
+    }
+  }
+}

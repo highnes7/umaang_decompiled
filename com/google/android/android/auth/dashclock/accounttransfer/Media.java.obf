@@ -1,0 +1,92 @@
+package com.google.android.gms.auth.api.accounttransfer;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.internal.zzatt;
+import com.google.android.gms.internal.zzbcn;
+import com.google.android.gms.internal.zzbdm;
+import f.a.a.a.a;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+public class zzs
+  extends zzatt
+{
+  public static final Parcelable.Creator<zzs> CREATOR = new zzt();
+  public static final HashMap<String, zzbdm<?, ?>> zzdzf;
+  public String mPackageName;
+  public String zzaxp;
+  public int zzdxs;
+  public Set<Integer> zzdzg;
+  public zzu zzdzq;
+  
+  static
+  {
+    HashMap localHashMap = new HashMap();
+    zzdzf = localHashMap;
+    localHashMap.put("authenticatorInfo", zzbdm.zza("authenticatorInfo", 2, zzu.class));
+    zzdzf.put("signature", zzbdm.zzl("signature", 3));
+    zzdzf.put("package", zzbdm.zzl("package", 4));
+  }
+  
+  public zzs()
+  {
+    zzdzg = new HashSet(3);
+    zzdxs = 1;
+  }
+  
+  public zzs(Set<Integer> paramSet, int paramInt, zzu paramZzu, String paramString1, String paramString2)
+  {
+    zzdzg = paramSet;
+    zzdxs = paramInt;
+    zzdzq = paramZzu;
+    zzaxp = paramString1;
+    mPackageName = paramString2;
+  }
+  
+  public void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    int i = zzbcn.zze(paramParcel);
+    Set localSet = zzdzg;
+    if (localSet.contains(Integer.valueOf(1))) {
+      zzbcn.zzc(paramParcel, 1, zzdxs);
+    }
+    if (localSet.contains(Integer.valueOf(2))) {
+      zzbcn.zza(paramParcel, 2, zzdzq, paramInt, true);
+    }
+    if (localSet.contains(Integer.valueOf(3))) {
+      zzbcn.zza(paramParcel, 3, zzaxp, true);
+    }
+    if (localSet.contains(Integer.valueOf(4))) {
+      zzbcn.zza(paramParcel, 4, mPackageName, true);
+    }
+    zzbcn.zzah(paramParcel, i);
+  }
+  
+  public final boolean zza(zzbdm paramZzbdm)
+  {
+    return zzdzg.contains(Integer.valueOf(paramZzbdm.zzakq()));
+  }
+  
+  public final Object zzb(zzbdm paramZzbdm)
+  {
+    int i = paramZzbdm.zzakq();
+    if (i != 1)
+    {
+      if (i != 2)
+      {
+        if (i != 3)
+        {
+          if (i == 4) {
+            return mPackageName;
+          }
+          throw new IllegalStateException(a.a(37, "Unknown SafeParcelable id=", paramZzbdm.zzakq()));
+        }
+        return zzaxp;
+      }
+      return zzdzq;
+    }
+    return Integer.valueOf(zzdxs);
+  }
+}

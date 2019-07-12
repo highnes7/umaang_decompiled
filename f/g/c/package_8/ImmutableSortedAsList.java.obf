@@ -1,0 +1,54 @@
+package f.g.c.d;
+
+import f.g.c.a.b;
+import f.g.c.a.c;
+import java.util.Comparator;
+import m.a.h;
+
+@b(emulated=true)
+public final class Qb<E>
+  extends zf<E>
+  implements ng<E>
+{
+  public Qb(Wb<E> paramWb, vb<E> paramVb)
+  {
+    super(paramWb, paramVb);
+  }
+  
+  @c("super.subListUnchecked does not exist; inherited subList is valid if slow")
+  public vb<E> a(int paramInt1, int paramInt2)
+  {
+    return new Of(super.a(paramInt1, paramInt2), comparator()).a();
+  }
+  
+  public Comparator<? super E> comparator()
+  {
+    return h().comparator();
+  }
+  
+  public boolean contains(Object paramObject)
+  {
+    return indexOf(paramObject) >= 0;
+  }
+  
+  public Wb<E> h()
+  {
+    return (Wb)c;
+  }
+  
+  @c("ImmutableSortedSet.indexOf")
+  public int indexOf(@h Object paramObject)
+  {
+    int i = h().indexOf(paramObject);
+    if ((i >= 0) && (get(i).equals(paramObject))) {
+      return i;
+    }
+    return -1;
+  }
+  
+  @c("ImmutableSortedSet.indexOf")
+  public int lastIndexOf(@h Object paramObject)
+  {
+    return indexOf(paramObject);
+  }
+}

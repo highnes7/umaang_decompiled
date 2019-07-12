@@ -1,0 +1,96 @@
+package android.support.v4.widget;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.ProgressBar;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.x.p.h;
+import b.b.x.p.i;
+
+public class ContentLoadingProgressBar
+  extends ProgressBar
+{
+  public static final int a = 500;
+  public static final int b = 500;
+  public long c = -1L;
+  public boolean d = false;
+  public boolean e = false;
+  public boolean f = false;
+  public final Runnable g = new h(this);
+  public final Runnable h = new i(this);
+  
+  public ContentLoadingProgressBar(@F Context paramContext)
+  {
+    this(paramContext, null);
+  }
+  
+  public ContentLoadingProgressBar(@F Context paramContext, @G AttributeSet paramAttributeSet)
+  {
+    super(paramContext, paramAttributeSet, 0);
+  }
+  
+  private void c()
+  {
+    removeCallbacks(g);
+    removeCallbacks(h);
+  }
+  
+  public void a()
+  {
+    try
+    {
+      f = true;
+      removeCallbacks(h);
+      e = false;
+      long l = System.currentTimeMillis() - c;
+      if ((l < 500L) && (c != -1L))
+      {
+        if (!d)
+        {
+          postDelayed(g, 500L - l);
+          d = true;
+        }
+      }
+      else {
+        setVisibility(8);
+      }
+      return;
+    }
+    finally {}
+  }
+  
+  public void b()
+  {
+    try
+    {
+      c = -1L;
+      f = false;
+      removeCallbacks(g);
+      d = false;
+      if (!e)
+      {
+        postDelayed(h, 500L);
+        e = true;
+      }
+      return;
+    }
+    finally
+    {
+      localObject = finally;
+      throw localObject;
+    }
+  }
+  
+  public void onAttachedToWindow()
+  {
+    super.onAttachedToWindow();
+    c();
+  }
+  
+  public void onDetachedFromWindow()
+  {
+    super.onDetachedFromWindow();
+    c();
+  }
+}

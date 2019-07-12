@@ -1,0 +1,99 @@
+package com.google.android.gms.internal;
+
+import java.io.IOException;
+
+public final class zzewh<K, V>
+{
+  public final V value;
+  public final K zzlss;
+  public final zzewj<K, V> zzopl;
+  
+  public zzewh(zzexu paramZzexu1, K paramK, zzexu paramZzexu2, V paramV)
+  {
+    zzopl = new zzewj(paramZzexu1, paramK, paramZzexu2, paramV);
+    zzlss = paramK;
+    value = paramV;
+  }
+  
+  public static <K, V> int zza(zzewj<K, V> paramZzewj, K paramK, V paramV)
+  {
+    int i = zzeve.zza(zzopm, 1, paramK);
+    return zzeve.zza(zzopo, 2, paramV) + i;
+  }
+  
+  public static <K, V> zzewh<K, V> zza(zzexu paramZzexu1, K paramK, zzexu paramZzexu2, V paramV)
+  {
+    return new zzewh(paramZzexu1, paramK, paramZzexu2, paramV);
+  }
+  
+  public static <T> T zza(zzeut paramZzeut, zzevd paramZzevd, zzexu paramZzexu, T paramT)
+    throws IOException
+  {
+    int i = zzewi.zzood[paramZzexu.ordinal()];
+    if (i != 1)
+    {
+      if (i != 2)
+      {
+        if (i != 3) {
+          return zzeve.zza(paramZzeut, paramZzexu, true);
+        }
+        throw new RuntimeException("Groups are not allowed in maps.");
+      }
+      return Integer.valueOf(paramZzeut.zzcsx());
+    }
+    paramZzexu = ((zzewl)paramT).zzcub();
+    paramZzeut.zza(paramZzexu, paramZzevd);
+    return paramZzexu.zzcug();
+  }
+  
+  public final void zza(zzeuy paramZzeuy, int paramInt, K paramK, V paramV)
+    throws IOException
+  {
+    paramZzeuy.zzw(paramInt, 2);
+    paramZzeuy.zzjy(zza(zzopl, paramK, paramV));
+    zzewj localZzewj = zzopl;
+    zzeve.zza(paramZzeuy, zzopm, 1, paramK);
+    zzeve.zza(paramZzeuy, zzopo, 2, paramV);
+  }
+  
+  public final void zza(zzewk<K, V> paramZzewk, zzeut paramZzeut, zzevd paramZzevd)
+    throws IOException
+  {
+    int i = paramZzeut.zzjn(paramZzeut.zzctc());
+    Object localObject2 = zzopl;
+    Object localObject1 = zzopn;
+    localObject2 = zzopp;
+    int j;
+    do
+    {
+      for (;;)
+      {
+        j = paramZzeut.zzcsn();
+        if (j == 0) {
+          break label124;
+        }
+        if (j == (zzopl.zzopm.zzcvy() | 0x8))
+        {
+          localObject1 = zza(paramZzeut, paramZzevd, zzopl.zzopm, localObject1);
+        }
+        else
+        {
+          if (j != (zzopl.zzopo.zzcvy() | 0x10)) {
+            break;
+          }
+          localObject2 = zza(paramZzeut, paramZzevd, zzopl.zzopo, localObject2);
+        }
+      }
+    } while (paramZzeut.zzjl(j));
+    label124:
+    paramZzeut.zzjk(0);
+    paramZzeut.zzjo(i);
+    paramZzewk.put(localObject1, localObject2);
+  }
+  
+  public final int zzb(int paramInt, K paramK, V paramV)
+  {
+    paramInt = zzeuy.zzkb(paramInt);
+    return zzeuy.zzki(zza(zzopl, paramK, paramV)) + paramInt;
+  }
+}

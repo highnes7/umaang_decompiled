@@ -1,0 +1,37 @@
+package f.g.b.a.g;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+public final class A
+{
+  public A() {}
+  
+  public static <E> ArrayList<E> a()
+  {
+    return new ArrayList();
+  }
+  
+  public static <E> ArrayList<E> a(int paramInt)
+  {
+    return new ArrayList(paramInt);
+  }
+  
+  public static <E> ArrayList<E> a(Iterable<? extends E> paramIterable)
+  {
+    if ((paramIterable instanceof Collection)) {
+      return new ArrayList((Collection)paramIterable);
+    }
+    return a(paramIterable.iterator());
+  }
+  
+  public static <E> ArrayList<E> a(Iterator<? extends E> paramIterator)
+  {
+    ArrayList localArrayList = new ArrayList();
+    while (paramIterator.hasNext()) {
+      localArrayList.add(paramIterator.next());
+    }
+    return localArrayList;
+  }
+}

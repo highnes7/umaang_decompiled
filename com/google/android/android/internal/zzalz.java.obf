@@ -1,0 +1,40 @@
+package com.google.android.gms.internal;
+
+import com.google.android.gms.analytics.zzh;
+import com.google.android.gms.common.internal.zzbp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+public final class zzalz
+  extends zzh<zzalz>
+{
+  public final Map<String, Object> zzbqm = new HashMap();
+  
+  public zzalz() {}
+  
+  public final void set(String paramString1, String paramString2)
+  {
+    zzbp.zzgg(paramString1);
+    String str = paramString1;
+    if (paramString1 != null)
+    {
+      str = paramString1;
+      if (paramString1.startsWith("&")) {
+        str = paramString1.substring(1);
+      }
+    }
+    zzbp.zzh(str, "Name can not be empty or \"&\"");
+    zzbqm.put(str, paramString2);
+  }
+  
+  public final String toString()
+  {
+    return zzh.zzh(zzbqm);
+  }
+  
+  public final Map<String, Object> zzuy()
+  {
+    return Collections.unmodifiableMap(zzbqm);
+  }
+}

@@ -1,0 +1,159 @@
+package com.google.android.gms.auth.api.signin.internal;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.text.TextUtils;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.internal.zzbp;
+import f.a.a.a.a;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import org.json.JSONException;
+
+public final class zzy
+{
+  public static final Lock zzedl = new ReentrantLock();
+  public static zzy zzedm;
+  public final Lock zzedn = new ReentrantLock();
+  public final SharedPreferences zzedo;
+  
+  public zzy(Context paramContext)
+  {
+    zzedo = paramContext.getSharedPreferences("com.google.android.gms.signin", 0);
+  }
+  
+  public static zzy zzbl(Context paramContext)
+  {
+    zzbp.zzu(paramContext);
+    zzedl.lock();
+    try
+    {
+      if (zzedm == null) {
+        zzedm = new zzy(paramContext.getApplicationContext());
+      }
+      paramContext = zzedm;
+      return paramContext;
+    }
+    finally
+    {
+      zzedl.unlock();
+    }
+  }
+  
+  private final GoogleSignInAccount zzep(String paramString)
+  {
+    if (TextUtils.isEmpty(paramString)) {
+      return null;
+    }
+    paramString = zzer(zzq("googleSignInAccount", paramString));
+    if (paramString != null) {}
+    try
+    {
+      paramString = GoogleSignInAccount.zzem(paramString);
+      return paramString;
+    }
+    catch (JSONException paramString) {}
+    return null;
+    return null;
+  }
+  
+  private final GoogleSignInOptions zzeq(String paramString)
+  {
+    if (TextUtils.isEmpty(paramString)) {
+      return null;
+    }
+    paramString = zzer(zzq("googleSignInOptions", paramString));
+    if (paramString != null) {}
+    try
+    {
+      paramString = GoogleSignInOptions.zzen(paramString);
+      return paramString;
+    }
+    catch (JSONException paramString) {}
+    return null;
+    return null;
+  }
+  
+  private final String zzer(String paramString)
+  {
+    zzedn.lock();
+    try
+    {
+      paramString = zzedo.getString(paramString, null);
+      return paramString;
+    }
+    finally
+    {
+      zzedn.unlock();
+    }
+  }
+  
+  private final void zzes(String paramString)
+  {
+    zzedn.lock();
+    try
+    {
+      zzedo.edit().remove(paramString).apply();
+      return;
+    }
+    finally
+    {
+      zzedn.unlock();
+    }
+  }
+  
+  private final void zzp(String paramString1, String paramString2)
+  {
+    zzedn.lock();
+    try
+    {
+      zzedo.edit().putString(paramString1, paramString2).apply();
+      return;
+    }
+    finally
+    {
+      zzedn.unlock();
+    }
+  }
+  
+  public static String zzq(String paramString1, String paramString2)
+  {
+    int i = String.valueOf(paramString1).length();
+    return a.a(a.a(paramString2, ":".length() + i), paramString1, ":", paramString2);
+  }
+  
+  public final void zza(GoogleSignInAccount paramGoogleSignInAccount, GoogleSignInOptions paramGoogleSignInOptions)
+  {
+    zzbp.zzu(paramGoogleSignInAccount);
+    zzbp.zzu(paramGoogleSignInOptions);
+    zzp("defaultGoogleSignInAccount", paramGoogleSignInAccount.zzaae());
+    zzbp.zzu(paramGoogleSignInAccount);
+    zzbp.zzu(paramGoogleSignInOptions);
+    String str = paramGoogleSignInAccount.zzaae();
+    zzp(zzq("googleSignInAccount", str), paramGoogleSignInAccount.zzaaf());
+    zzp(zzq("googleSignInOptions", str), paramGoogleSignInOptions.zzaai());
+  }
+  
+  public final GoogleSignInAccount zzaas()
+  {
+    return zzep(zzer("defaultGoogleSignInAccount"));
+  }
+  
+  public final GoogleSignInOptions zzaat()
+  {
+    return zzeq(zzer("defaultGoogleSignInAccount"));
+  }
+  
+  public final void zzaau()
+  {
+    String str = zzer("defaultGoogleSignInAccount");
+    zzes("defaultGoogleSignInAccount");
+    if (!TextUtils.isEmpty(str))
+    {
+      zzes(zzq("googleSignInAccount", str));
+      zzes(zzq("googleSignInOptions", str));
+    }
+  }
+}

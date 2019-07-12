@@ -1,0 +1,214 @@
+package com.google.android.gms.tasks;
+
+import b.b.a.F;
+import com.google.android.gms.common.internal.zzbp;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public final class Tasks
+{
+  public Tasks() {}
+  
+  public static <TResult> TResult await(@F Task<TResult> paramTask)
+    throws ExecutionException, InterruptedException
+  {
+    zzbp.zzgh("Must not be called on the main application thread");
+    zzbp.zzb(paramTask, "Task must not be null");
+    if (paramTask.isComplete()) {
+      return zzc(paramTask);
+    }
+    zza localZza = new zza();
+    zza(paramTask, localZza);
+    localZza.await();
+    return zzc(paramTask);
+  }
+  
+  public static <TResult> TResult await(@F Task<TResult> paramTask, long paramLong, @F TimeUnit paramTimeUnit)
+    throws ExecutionException, InterruptedException, TimeoutException
+  {
+    zzbp.zzgh("Must not be called on the main application thread");
+    zzbp.zzb(paramTask, "Task must not be null");
+    zzbp.zzb(paramTimeUnit, "TimeUnit must not be null");
+    if (paramTask.isComplete()) {
+      return zzc(paramTask);
+    }
+    zza localZza = new zza();
+    zza(paramTask, localZza);
+    if (localZza.await(paramLong, paramTimeUnit)) {
+      return zzc(paramTask);
+    }
+    throw new TimeoutException("Timed out waiting for Task");
+  }
+  
+  public static <TResult> Task<TResult> call(@F Callable<TResult> paramCallable)
+  {
+    return call(TaskExecutors.MAIN_THREAD, paramCallable);
+  }
+  
+  public static <TResult> Task<TResult> call(@F Executor paramExecutor, @F Callable<TResult> paramCallable)
+  {
+    zzbp.zzb(paramExecutor, "Executor must not be null");
+    zzbp.zzb(paramCallable, "Callback must not be null");
+    zzn localZzn = new zzn();
+    paramExecutor.execute(new zzo(localZzn, paramCallable));
+    return localZzn;
+  }
+  
+  public static <TResult> Task<TResult> forException(@F Exception paramException)
+  {
+    zzn localZzn = new zzn();
+    localZzn.setException(paramException);
+    return localZzn;
+  }
+  
+  public static <TResult> Task<TResult> forResult(TResult paramTResult)
+  {
+    zzn localZzn = new zzn();
+    localZzn.setResult(paramTResult);
+    return localZzn;
+  }
+  
+  public static Task<Void> whenAll(Collection<? extends Task<?>> paramCollection)
+  {
+    if (paramCollection.isEmpty()) {
+      return forResult(null);
+    }
+    Object localObject = paramCollection.iterator();
+    while (((Iterator)localObject).hasNext()) {
+      if ((Task)((Iterator)localObject).next() == null) {
+        throw new NullPointerException("null tasks are not accepted");
+      }
+    }
+    localObject = new zzn();
+    zzc localZzc = new zzc(paramCollection.size(), (zzn)localObject);
+    paramCollection = paramCollection.iterator();
+    while (paramCollection.hasNext()) {
+      zza((Task)paramCollection.next(), localZzc);
+    }
+    return localObject;
+  }
+  
+  public static Task<Void> whenAll(Task<?>... paramVarArgs)
+  {
+    if (paramVarArgs.length == 0) {
+      return forResult(null);
+    }
+    return whenAll(Arrays.asList(paramVarArgs));
+  }
+  
+  public static void zza(Task<?> paramTask, zzb paramZzb)
+  {
+    paramTask.addOnSuccessListener(TaskExecutors.zzkgi, paramZzb);
+    paramTask.addOnFailureListener(TaskExecutors.zzkgi, paramZzb);
+  }
+  
+  public static <TResult> TResult zzc(Task<TResult> paramTask)
+    throws ExecutionException
+  {
+    if (paramTask.isSuccessful()) {
+      return paramTask.getResult();
+    }
+    throw new ExecutionException(paramTask.getException());
+  }
+  
+  public static final class zza
+    implements Tasks.zzb
+  {
+    public final CountDownLatch zzaof = new CountDownLatch(1);
+    
+    public zza() {}
+    
+    public final void await()
+      throws InterruptedException
+    {
+      zzaof.await();
+    }
+    
+    public final boolean await(long paramLong, TimeUnit paramTimeUnit)
+      throws InterruptedException
+    {
+      return zzaof.await(paramLong, paramTimeUnit);
+    }
+    
+    public final void onFailure(@F Exception paramException)
+    {
+      zzaof.countDown();
+    }
+    
+    public final void onSuccess(Object paramObject)
+    {
+      zzaof.countDown();
+    }
+  }
+  
+  public static abstract interface zzb
+    extends OnFailureListener, OnSuccessListener<Object>
+  {}
+  
+  public static final class zzc
+    implements Tasks.zzb
+  {
+    public final Object mLock = new Object();
+    public final zzn<Void> zzkgh;
+    public Exception zzkgm;
+    public final int zzkgo;
+    public int zzkgp;
+    public int zzkgq;
+    
+    public zzc(int paramInt, zzn<Void> paramZzn)
+    {
+      zzkgo = paramInt;
+      zzkgh = paramZzn;
+    }
+    
+    private final void zzbih()
+    {
+      int i = zzkgp;
+      int j = zzkgq;
+      int k = zzkgo;
+      if (i + j == k)
+      {
+        if (zzkgm == null)
+        {
+          zzkgh.setResult(null);
+          return;
+        }
+        zzn localZzn = zzkgh;
+        StringBuilder localStringBuilder = new StringBuilder(54);
+        localStringBuilder.append(j);
+        localStringBuilder.append(" out of ");
+        localStringBuilder.append(k);
+        localStringBuilder.append(" underlying tasks failed");
+        localZzn.setException(new ExecutionException(localStringBuilder.toString(), zzkgm));
+      }
+    }
+    
+    public final void onFailure(@F Exception paramException)
+    {
+      synchronized (mLock)
+      {
+        zzkgq += 1;
+        zzkgm = paramException;
+        zzbih();
+        return;
+      }
+    }
+    
+    public final void onSuccess(Object arg1)
+    {
+      synchronized (mLock)
+      {
+        zzkgp += 1;
+        zzbih();
+        return;
+      }
+    }
+  }
+}

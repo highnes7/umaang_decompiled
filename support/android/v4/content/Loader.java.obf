@@ -1,0 +1,301 @@
+package b.b.x.b;
+
+import android.content.Context;
+import android.database.ContentObserver;
+import android.os.Handler;
+import b.b.a.C;
+import b.b.a.F;
+import b.b.a.G;
+import b.b.x.n.j;
+import f.a.a.a.a;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+
+public class f<D>
+{
+  public boolean mAbandoned = false;
+  public boolean mContentChanged = false;
+  public Context mContext;
+  public int mId;
+  public c<D> mListener;
+  public b<D> mOnLoadCanceledListener;
+  public boolean mProcessingChange = false;
+  public boolean mReset = true;
+  public boolean mStarted = false;
+  
+  public f(@F Context paramContext)
+  {
+    mContext = paramContext.getApplicationContext();
+  }
+  
+  @C
+  public void abandon()
+  {
+    mAbandoned = true;
+    onAbandon();
+  }
+  
+  @C
+  public boolean cancelLoad()
+  {
+    return onCancelLoad();
+  }
+  
+  public void commitContentChanged()
+  {
+    mProcessingChange = false;
+  }
+  
+  @F
+  public String dataToString(@G D paramD)
+  {
+    StringBuilder localStringBuilder = new StringBuilder(64);
+    j.a(paramD, localStringBuilder);
+    localStringBuilder.append("}");
+    return localStringBuilder.toString();
+  }
+  
+  @C
+  public void deliverCancellation()
+  {
+    b localB = mOnLoadCanceledListener;
+    if (localB != null) {
+      localB.a(this);
+    }
+  }
+  
+  @C
+  public void deliverResult(@G D paramD)
+  {
+    c localC = mListener;
+    if (localC != null) {
+      localC.onLoadComplete(this, paramD);
+    }
+  }
+  
+  @Deprecated
+  public void dump(String paramString, FileDescriptor paramFileDescriptor, PrintWriter paramPrintWriter, String[] paramArrayOfString)
+  {
+    paramPrintWriter.print(paramString);
+    paramPrintWriter.print("mId=");
+    paramPrintWriter.print(mId);
+    paramPrintWriter.print(" mListener=");
+    paramPrintWriter.println(mListener);
+    if ((mStarted) || (mContentChanged) || (mProcessingChange))
+    {
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mStarted=");
+      paramPrintWriter.print(mStarted);
+      paramPrintWriter.print(" mContentChanged=");
+      paramPrintWriter.print(mContentChanged);
+      paramPrintWriter.print(" mProcessingChange=");
+      paramPrintWriter.println(mProcessingChange);
+    }
+    if ((mAbandoned) || (mReset))
+    {
+      paramPrintWriter.print(paramString);
+      paramPrintWriter.print("mAbandoned=");
+      paramPrintWriter.print(mAbandoned);
+      paramPrintWriter.print(" mReset=");
+      paramPrintWriter.println(mReset);
+    }
+  }
+  
+  @C
+  public void forceLoad()
+  {
+    onForceLoad();
+  }
+  
+  @F
+  public Context getContext()
+  {
+    return mContext;
+  }
+  
+  public int getId()
+  {
+    return mId;
+  }
+  
+  public boolean isAbandoned()
+  {
+    return mAbandoned;
+  }
+  
+  public boolean isReset()
+  {
+    return mReset;
+  }
+  
+  public boolean isStarted()
+  {
+    return mStarted;
+  }
+  
+  @C
+  public void onAbandon() {}
+  
+  @C
+  public boolean onCancelLoad()
+  {
+    return false;
+  }
+  
+  @C
+  public void onContentChanged()
+  {
+    if (mStarted)
+    {
+      forceLoad();
+      return;
+    }
+    mContentChanged = true;
+  }
+  
+  @C
+  public void onForceLoad() {}
+  
+  @C
+  public void onReset() {}
+  
+  @C
+  public void onStartLoading() {}
+  
+  @C
+  public void onStopLoading() {}
+  
+  @C
+  public void registerListener(int paramInt, @F c<D> paramC)
+  {
+    if (mListener == null)
+    {
+      mListener = paramC;
+      mId = paramInt;
+      return;
+    }
+    throw new IllegalStateException("There is already a listener registered");
+  }
+  
+  @C
+  public void registerOnLoadCanceledListener(@F b<D> paramB)
+  {
+    if (mOnLoadCanceledListener == null)
+    {
+      mOnLoadCanceledListener = paramB;
+      return;
+    }
+    throw new IllegalStateException("There is already a listener registered");
+  }
+  
+  @C
+  public void reset()
+  {
+    onReset();
+    mReset = true;
+    mStarted = false;
+    mAbandoned = false;
+    mContentChanged = false;
+    mProcessingChange = false;
+  }
+  
+  public void rollbackContentChanged()
+  {
+    if (mProcessingChange) {
+      onContentChanged();
+    }
+  }
+  
+  @C
+  public final void startLoading()
+  {
+    mStarted = true;
+    mReset = false;
+    mAbandoned = false;
+    onStartLoading();
+  }
+  
+  @C
+  public void stopLoading()
+  {
+    mStarted = false;
+    onStopLoading();
+  }
+  
+  public boolean takeContentChanged()
+  {
+    boolean bool = mContentChanged;
+    mContentChanged = false;
+    mProcessingChange |= bool;
+    return bool;
+  }
+  
+  public String toString()
+  {
+    StringBuilder localStringBuilder = new StringBuilder(64);
+    j.a(this, localStringBuilder);
+    localStringBuilder.append(" id=");
+    return a.a(localStringBuilder, mId, "}");
+  }
+  
+  @C
+  public void unregisterListener(@F c<D> paramC)
+  {
+    c localC = mListener;
+    if (localC != null)
+    {
+      if (localC == paramC)
+      {
+        mListener = null;
+        return;
+      }
+      throw new IllegalArgumentException("Attempting to unregister the wrong listener");
+    }
+    throw new IllegalStateException("No listener register");
+  }
+  
+  @C
+  public void unregisterOnLoadCanceledListener(@F b<D> paramB)
+  {
+    b localB = mOnLoadCanceledListener;
+    if (localB != null)
+    {
+      if (localB == paramB)
+      {
+        mOnLoadCanceledListener = null;
+        return;
+      }
+      throw new IllegalArgumentException("Attempting to unregister the wrong listener");
+    }
+    throw new IllegalStateException("No listener register");
+  }
+  
+  public final class a
+    extends ContentObserver
+  {
+    public a()
+    {
+      super();
+    }
+    
+    public boolean deliverSelfNotifications()
+    {
+      return true;
+    }
+    
+    public void onChange(boolean paramBoolean)
+    {
+      onContentChanged();
+    }
+  }
+  
+  public static abstract interface b<D>
+  {
+    public abstract void a(@F f<D> paramF);
+  }
+  
+  public static abstract interface c<D>
+  {
+    public abstract void onLoadComplete(@F f<D> paramF, @G D paramD);
+  }
+}

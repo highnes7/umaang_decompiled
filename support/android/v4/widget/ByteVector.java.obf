@@ -1,0 +1,182 @@
+package b.b.x.p;
+
+import b.b.a.F;
+import b.b.a.G;
+import b.b.a.N;
+import b.b.x.n.r.a;
+import b.b.x.n.r.b;
+import b.b.x.n.t;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+@N({b.b.a.N.a.a})
+public final class l<T>
+{
+  public final r.a<ArrayList<T>> a = new r.b(10);
+  public final t<T, ArrayList<T>> b = new t();
+  public final ArrayList<T> c = new ArrayList();
+  public final HashSet<T> d = new HashSet();
+  
+  public l() {}
+  
+  private void a(T paramT, ArrayList<T> paramArrayList, HashSet<T> paramHashSet)
+  {
+    if (paramArrayList.contains(paramT)) {
+      return;
+    }
+    if (!paramHashSet.contains(paramT))
+    {
+      paramHashSet.add(paramT);
+      ArrayList localArrayList = (ArrayList)b.get(paramT);
+      if (localArrayList != null)
+      {
+        int i = 0;
+        int j = localArrayList.size();
+        while (i < j)
+        {
+          a(localArrayList.get(i), paramArrayList, paramHashSet);
+          i += 1;
+        }
+      }
+      paramHashSet.remove(paramT);
+      paramArrayList.add(paramT);
+      return;
+    }
+    paramT = new RuntimeException("This graph contains cyclic dependencies");
+    for (;;)
+    {
+      throw paramT;
+    }
+  }
+  
+  private void a(@F ArrayList<T> paramArrayList)
+  {
+    paramArrayList.clear();
+    a.a(paramArrayList);
+  }
+  
+  @F
+  private ArrayList<T> d()
+  {
+    ArrayList localArrayList2 = (ArrayList)a.a();
+    ArrayList localArrayList1 = localArrayList2;
+    if (localArrayList2 == null) {
+      localArrayList1 = new ArrayList();
+    }
+    return localArrayList1;
+  }
+  
+  public void a()
+  {
+    int j = b.size();
+    int i = 0;
+    while (i < j)
+    {
+      ArrayList localArrayList = (ArrayList)b.d(i);
+      if (localArrayList != null) {
+        a(localArrayList);
+      }
+      i += 1;
+    }
+    b.clear();
+  }
+  
+  public void a(@F T paramT)
+  {
+    if (!b.containsKey(paramT)) {
+      b.put(paramT, null);
+    }
+  }
+  
+  public void a(@F T paramT1, @F T paramT2)
+  {
+    if ((b.containsKey(paramT1)) && (b.containsKey(paramT2)))
+    {
+      ArrayList localArrayList2 = (ArrayList)b.get(paramT1);
+      ArrayList localArrayList1 = localArrayList2;
+      if (localArrayList2 == null)
+      {
+        localArrayList1 = d();
+        b.put(paramT1, localArrayList1);
+      }
+      localArrayList1.add(paramT2);
+      return;
+    }
+    throw new IllegalArgumentException("All nodes must be present in the graph before being added as an edge");
+  }
+  
+  @F
+  public ArrayList<T> b()
+  {
+    c.clear();
+    d.clear();
+    int j = b.size();
+    int i = 0;
+    while (i < j)
+    {
+      a(b.b(i), c, d);
+      i += 1;
+    }
+    return c;
+  }
+  
+  public boolean b(@F T paramT)
+  {
+    return b.containsKey(paramT);
+  }
+  
+  public int c()
+  {
+    return b.size();
+  }
+  
+  @G
+  public List c(@F T paramT)
+  {
+    return (List)b.get(paramT);
+  }
+  
+  @G
+  public List<T> d(@F T paramT)
+  {
+    int j = b.size();
+    Object localObject1 = null;
+    int i = 0;
+    while (i < j)
+    {
+      ArrayList localArrayList = (ArrayList)b.d(i);
+      Object localObject2 = localObject1;
+      if (localArrayList != null)
+      {
+        localObject2 = localObject1;
+        if (localArrayList.contains(paramT))
+        {
+          localObject2 = localObject1;
+          if (localObject1 == null) {
+            localObject2 = new ArrayList();
+          }
+          ((ArrayList)localObject2).add(b.b(i));
+        }
+      }
+      i += 1;
+      localObject1 = localObject2;
+    }
+    return localObject1;
+  }
+  
+  public boolean e(@F T paramT)
+  {
+    int j = b.size();
+    int i = 0;
+    while (i < j)
+    {
+      ArrayList localArrayList = (ArrayList)b.d(i);
+      if ((localArrayList != null) && (localArrayList.contains(paramT))) {
+        return true;
+      }
+      i += 1;
+    }
+    return false;
+  }
+}

@@ -1,0 +1,434 @@
+package l.b.j;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.Callable;
+import l.b.G;
+import l.b.b.f;
+import l.b.g.e.e.i;
+import l.b.g.e.e.l;
+import l.b.g.e.e.n;
+import l.b.g.e.e.s;
+import l.b.g.j.w;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+@l.b.b.c
+public abstract class b<T>
+{
+  public b() {}
+  
+  @l.b.b.d
+  public static <T> b<T> a(@f Publisher<? extends T> paramPublisher)
+  {
+    return a(paramPublisher, Runtime.getRuntime().availableProcessors(), l.b.k.a);
+  }
+  
+  @l.b.b.d
+  public static <T> b<T> a(@f Publisher<? extends T> paramPublisher, int paramInt)
+  {
+    return a(paramPublisher, paramInt, l.b.k.a);
+  }
+  
+  @l.b.b.d
+  @f
+  public static <T> b<T> a(@f Publisher<? extends T> paramPublisher, int paramInt1, int paramInt2)
+  {
+    l.b.g.b.b.a(paramPublisher, "source");
+    l.b.g.b.b.a(paramInt1, "parallelism");
+    l.b.g.b.b.a(paramInt2, "prefetch");
+    return l.b.k.a.a(new l.b.g.e.e.j(paramPublisher, paramInt1, paramInt2));
+  }
+  
+  @l.b.b.d
+  @f
+  public static <T> b<T> a(@f Publisher<T>... paramVarArgs)
+  {
+    if (paramVarArgs.length != 0) {
+      return l.b.k.a.a(new i(paramVarArgs));
+    }
+    throw new IllegalArgumentException("Zero publishers not supported");
+  }
+  
+  public abstract int a();
+  
+  @l.b.b.d
+  @f
+  public final <C> b<C> a(@f Callable<? extends C> paramCallable, @f l.b.f.b<? super C, ? super T> paramB)
+  {
+    l.b.g.b.b.a(paramCallable, "collectionSupplier is null");
+    l.b.g.b.b.a(paramB, "collector is null");
+    return l.b.k.a.a(new l.b.g.e.e.a(this, paramCallable, paramB));
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> a(@f Callable<R> paramCallable, @f l.b.f.c<R, ? super T, R> paramC)
+  {
+    l.b.g.b.b.a(paramCallable, "initialSupplier");
+    l.b.g.b.b.a(paramC, "reducer");
+    return l.b.k.a.a(new l.b.g.e.e.p(this, paramCallable, paramC));
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> a(@f G paramG)
+  {
+    return a(paramG, l.b.k.a);
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> a(@f G paramG, int paramInt)
+  {
+    l.b.g.b.b.a(paramG, "scheduler");
+    l.b.g.b.b.a(paramInt, "prefetch");
+    return l.b.k.a.a(new l.b.g.e.e.r(this, paramG, paramInt));
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> a(@f l.b.f.a paramA)
+  {
+    l.b.g.b.b.a(paramA, "onAfterTerminate is null");
+    l.b.f.g localG = l.b.g.b.a.d;
+    return l.b.k.a.a(new l.b.g.e.e.o(this, localG, localG, localG, l.b.g.b.a.c, paramA, l.b.g.b.a.d, l.b.g.b.a.g, l.b.g.b.a.c));
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> a(@f l.b.f.g<? super T> paramG)
+  {
+    l.b.g.b.b.a(paramG, "onAfterNext is null");
+    l.b.f.g localG = l.b.g.b.a.d;
+    l.b.f.a localA = l.b.g.b.a.c;
+    return l.b.k.a.a(new l.b.g.e.e.o(this, localG, paramG, localG, localA, localA, l.b.g.b.a.d, l.b.g.b.a.g, l.b.g.b.a.c));
+  }
+  
+  @l.b.b.d
+  @l.b.b.e
+  @f
+  public final b<T> a(@f l.b.f.g<? super T> paramG, @f l.b.f.c<? super Long, ? super Throwable, a> paramC)
+  {
+    l.b.g.b.b.a(paramG, "onNext is null");
+    l.b.g.b.b.a(paramC, "errorHandler is null");
+    return l.b.k.a.a(new l.b.g.e.e.d(this, paramG, paramC));
+  }
+  
+  @l.b.b.d
+  @l.b.b.e
+  @f
+  public final b<T> a(@f l.b.f.g<? super T> paramG, @f a paramA)
+  {
+    l.b.g.b.b.a(paramG, "onNext is null");
+    l.b.g.b.b.a(paramA, "errorHandler is null");
+    return l.b.k.a.a(new l.b.g.e.e.d(this, paramG, paramA));
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> a(@f l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO)
+  {
+    return a(paramO, 2);
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> a(@f l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO, int paramInt)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    l.b.g.b.b.a(paramInt, "prefetch");
+    return l.b.k.a.a(new l.b.g.e.e.b(this, paramO, paramInt, l.b.g.j.j.a));
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> a(@f l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO, int paramInt, boolean paramBoolean)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    l.b.g.b.b.a(paramInt, "prefetch");
+    l.b.g.j.j localJ;
+    if (paramBoolean) {
+      localJ = l.b.g.j.j.c;
+    } else {
+      localJ = l.b.g.j.j.b;
+    }
+    return l.b.k.a.a(new l.b.g.e.e.b(this, paramO, paramInt, localJ));
+  }
+  
+  @l.b.b.d
+  @l.b.b.e
+  @f
+  public final <R> b<R> a(@f l.b.f.o<? super T, ? extends R> paramO, @f l.b.f.c<? super Long, ? super Throwable, a> paramC)
+  {
+    l.b.g.b.b.a(paramO, "mapper");
+    l.b.g.b.b.a(paramC, "errorHandler is null");
+    return l.b.k.a.a(new n(this, paramO, paramC));
+  }
+  
+  @l.b.b.d
+  @l.b.b.e
+  @f
+  public final <R> b<R> a(@f l.b.f.o<? super T, ? extends R> paramO, @f a paramA)
+  {
+    l.b.g.b.b.a(paramO, "mapper");
+    l.b.g.b.b.a(paramA, "errorHandler is null");
+    return l.b.k.a.a(new n(this, paramO, paramA));
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> a(@f l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO, boolean paramBoolean)
+  {
+    return a(paramO, 2, paramBoolean);
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> a(@f l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO, boolean paramBoolean, int paramInt)
+  {
+    return a(paramO, paramBoolean, paramInt, l.b.k.a);
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> a(@f l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO, boolean paramBoolean, int paramInt1, int paramInt2)
+  {
+    l.b.g.b.b.a(paramO, "mapper is null");
+    l.b.g.b.b.a(paramInt1, "maxConcurrency");
+    l.b.g.b.b.a(paramInt2, "prefetch");
+    return l.b.k.a.a(new l.b.g.e.e.h(this, paramO, paramBoolean, paramInt1, paramInt2));
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> a(@f l.b.f.q paramQ)
+  {
+    l.b.g.b.b.a(paramQ, "onRequest is null");
+    l.b.f.g localG = l.b.g.b.a.d;
+    l.b.f.a localA = l.b.g.b.a.c;
+    return l.b.k.a.a(new l.b.g.e.e.o(this, localG, localG, localG, localA, localA, l.b.g.b.a.d, paramQ, l.b.g.b.a.c));
+  }
+  
+  @l.b.b.d
+  public final b<T> a(@f l.b.f.r<? super T> paramR)
+  {
+    l.b.g.b.b.a(paramR, "predicate");
+    return l.b.k.a.a(new l.b.g.e.e.e(this, paramR));
+  }
+  
+  @l.b.b.d
+  @l.b.b.e
+  public final b<T> a(@f l.b.f.r<? super T> paramR, @f l.b.f.c<? super Long, ? super Throwable, a> paramC)
+  {
+    l.b.g.b.b.a(paramR, "predicate");
+    l.b.g.b.b.a(paramC, "errorHandler is null");
+    return l.b.k.a.a(new l.b.g.e.e.g(this, paramR, paramC));
+  }
+  
+  @l.b.b.d
+  @l.b.b.e
+  public final b<T> a(@f l.b.f.r<? super T> paramR, @f a paramA)
+  {
+    l.b.g.b.b.a(paramR, "predicate");
+    l.b.g.b.b.a(paramA, "errorHandler is null");
+    return l.b.k.a.a(new l.b.g.e.e.g(this, paramR, paramA));
+  }
+  
+  @l.b.b.d
+  @f
+  public final <U> b<U> a(@f c<T, U> paramC)
+  {
+    l.b.g.b.b.a(paramC, "composer is null");
+    return l.b.k.a.a(((c)paramC).a(this));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  @f
+  public final l.b.k<T> a(int paramInt)
+  {
+    l.b.g.b.b.a(paramInt, "prefetch");
+    return l.b.k.a.a(new l.b.g.e.e.k(this, paramInt, false));
+  }
+  
+  @l.b.b.d
+  @f
+  public final l.b.k<T> a(@f Comparator<? super T> paramComparator)
+  {
+    return a(paramComparator, 16);
+  }
+  
+  @l.b.b.d
+  @f
+  public final l.b.k<T> a(@f Comparator<? super T> paramComparator, int paramInt)
+  {
+    l.b.g.b.b.a(paramComparator, "comparator is null");
+    l.b.g.b.b.a(paramInt, "capacityHint");
+    return l.b.k.a.a(new s(a(l.b.g.b.a.a(paramInt / a() + 1), l.b.g.j.o.a).c(new w(paramComparator)), paramComparator));
+  }
+  
+  @l.b.b.d
+  @f
+  public final l.b.k<T> a(@f l.b.f.c<T, T, T> paramC)
+  {
+    l.b.g.b.b.a(paramC, "reducer");
+    return l.b.k.a.a(new l.b.g.e.e.q(this, paramC));
+  }
+  
+  public abstract void a(@f Subscriber<? super T>[] paramArrayOfSubscriber);
+  
+  @l.b.b.d
+  @f
+  public final b<T> b(@f l.b.f.a paramA)
+  {
+    l.b.g.b.b.a(paramA, "onCancel is null");
+    l.b.f.g localG = l.b.g.b.a.d;
+    l.b.f.a localA = l.b.g.b.a.c;
+    return l.b.k.a.a(new l.b.g.e.e.o(this, localG, localG, localG, localA, localA, l.b.g.b.a.d, l.b.g.b.a.g, paramA));
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> b(@f l.b.f.g<Throwable> paramG)
+  {
+    l.b.g.b.b.a(paramG, "onError is null");
+    l.b.f.g localG = l.b.g.b.a.d;
+    l.b.f.a localA = l.b.g.b.a.c;
+    return l.b.k.a.a(new l.b.g.e.e.o(this, localG, localG, paramG, localA, localA, l.b.g.b.a.d, l.b.g.b.a.g, l.b.g.b.a.c));
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> b(@f l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO)
+  {
+    return a(paramO, false, Integer.MAX_VALUE, l.b.k.a);
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> b(@f l.b.f.o<? super T, ? extends Publisher<? extends R>> paramO, boolean paramBoolean)
+  {
+    return a(paramO, paramBoolean, Integer.MAX_VALUE, l.b.k.a);
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  public final l.b.k<T> b()
+  {
+    return a(l.b.k.a);
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  @f
+  public final l.b.k<T> b(int paramInt)
+  {
+    l.b.g.b.b.a(paramInt, "prefetch");
+    return l.b.k.a.a(new l.b.g.e.e.k(this, paramInt, true));
+  }
+  
+  @l.b.b.d
+  @f
+  public final l.b.k<List<T>> b(@f Comparator<? super T> paramComparator)
+  {
+    return b(paramComparator, 16);
+  }
+  
+  @l.b.b.d
+  @f
+  public final l.b.k<List<T>> b(@f Comparator<? super T> paramComparator, int paramInt)
+  {
+    l.b.g.b.b.a(paramComparator, "comparator is null");
+    l.b.g.b.b.a(paramInt, "capacityHint");
+    return l.b.k.a.a(a(l.b.g.b.a.a(paramInt / a() + 1), l.b.g.j.o.a).c(new w(paramComparator)).a(new l.b.g.j.p(paramComparator)));
+  }
+  
+  public final boolean b(@f Subscriber<?>[] paramArrayOfSubscriber)
+  {
+    int i = a();
+    if (paramArrayOfSubscriber.length != i)
+    {
+      Object localObject = f.a.a.a.a.b("parallelism = ", i, ", subscribers = ");
+      ((StringBuilder)localObject).append(paramArrayOfSubscriber.length);
+      localObject = new IllegalArgumentException(((StringBuilder)localObject).toString());
+      int j = paramArrayOfSubscriber.length;
+      i = 0;
+      while (i < j)
+      {
+        l.b.g.i.g.a((Throwable)localObject, paramArrayOfSubscriber[i]);
+        i += 1;
+      }
+      return false;
+    }
+    return true;
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> c(@f l.b.f.a paramA)
+  {
+    l.b.g.b.b.a(paramA, "onComplete is null");
+    l.b.f.g localG = l.b.g.b.a.d;
+    return l.b.k.a.a(new l.b.g.e.e.o(this, localG, localG, localG, paramA, l.b.g.b.a.c, l.b.g.b.a.d, l.b.g.b.a.g, l.b.g.b.a.c));
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> c(@f l.b.f.g<? super T> paramG)
+  {
+    l.b.g.b.b.a(paramG, "onNext is null");
+    l.b.f.g localG = l.b.g.b.a.d;
+    l.b.f.a localA = l.b.g.b.a.c;
+    return l.b.k.a.a(new l.b.g.e.e.o(this, paramG, localG, localG, localA, localA, l.b.g.b.a.d, l.b.g.b.a.g, l.b.g.b.a.c));
+  }
+  
+  @l.b.b.d
+  @f
+  public final <R> b<R> c(@f l.b.f.o<? super T, ? extends R> paramO)
+  {
+    l.b.g.b.b.a(paramO, "mapper");
+    return l.b.k.a.a(new l(this, paramO));
+  }
+  
+  @l.b.b.b(l.b.b.a.b)
+  @l.b.b.d
+  @l.b.b.h("none")
+  @l.b.b.e
+  @f
+  public final l.b.k<T> c()
+  {
+    return b(l.b.k.a);
+  }
+  
+  @l.b.b.d
+  @f
+  public final <U> U d(@f l.b.f.o<? super b<T>, U> paramO)
+  {
+    try
+    {
+      l.b.g.b.b.a(paramO, "converter is null");
+      paramO = ((l.b.f.o)paramO).apply(this);
+      return paramO;
+    }
+    catch (Throwable paramO)
+    {
+      l.b.d.b.b(paramO);
+      throw l.b.g.j.k.c(paramO);
+    }
+  }
+  
+  @l.b.b.d
+  @f
+  public final b<T> d(@f l.b.f.g<? super Subscription> paramG)
+  {
+    l.b.g.b.b.a(paramG, "onSubscribe is null");
+    l.b.f.g localG = l.b.g.b.a.d;
+    l.b.f.a localA = l.b.g.b.a.c;
+    return l.b.k.a.a(new l.b.g.e.e.o(this, localG, localG, localG, localA, localA, paramG, l.b.g.b.a.g, l.b.g.b.a.c));
+  }
+}

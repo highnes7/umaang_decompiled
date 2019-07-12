@@ -1,0 +1,63 @@
+package com.google.android.gms.common.api;
+
+import android.os.Parcel;
+import android.os.Parcelable.Creator;
+import com.google.android.gms.common.internal.ReflectedParcelable;
+import com.google.android.gms.common.internal.zzbp;
+import com.google.android.gms.internal.zzbck;
+import com.google.android.gms.internal.zzbcn;
+
+public final class Scope
+  extends zzbck
+  implements ReflectedParcelable
+{
+  public static final Parcelable.Creator<Scope> CREATOR = new zzf();
+  public int zzdxs;
+  public final String zzfhu;
+  
+  public Scope(int paramInt, String paramString)
+  {
+    zzbp.zzh(paramString, "scopeUri must not be null or empty");
+    zzdxs = paramInt;
+    zzfhu = paramString;
+  }
+  
+  public Scope(String paramString)
+  {
+    this(1, paramString);
+  }
+  
+  public final boolean equals(Object paramObject)
+  {
+    if (this == paramObject) {
+      return true;
+    }
+    if (!(paramObject instanceof Scope)) {
+      return false;
+    }
+    return zzfhu.equals(zzfhu);
+  }
+  
+  public final int hashCode()
+  {
+    return zzfhu.hashCode();
+  }
+  
+  public final String toString()
+  {
+    return zzfhu;
+  }
+  
+  public final void writeToParcel(Parcel paramParcel, int paramInt)
+  {
+    paramInt = zzbcn.zze(paramParcel);
+    zzbcn.zzc(paramParcel, 1, zzdxs);
+    zzbcn.zza(paramParcel, 2, zzfhu, false);
+    zzbcn.zzah(paramParcel, paramInt);
+  }
+  
+  public final String zzaft()
+  {
+    return zzfhu;
+  }
+}

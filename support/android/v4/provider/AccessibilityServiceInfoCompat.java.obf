@@ -1,0 +1,130 @@
+package b.b.x.a;
+
+import android.accessibilityservice.AccessibilityServiceInfo;
+import android.content.pm.PackageManager;
+import android.os.Build.VERSION;
+import b.b.a.F;
+import b.b.a.G;
+
+public final class a
+{
+  public static final int a = 1;
+  public static final int b = 2;
+  public static final int c = 4;
+  public static final int d = 8;
+  public static final int e = 32;
+  public static final int f = -1;
+  public static final int g = 2;
+  public static final int h = 4;
+  public static final int i = 8;
+  public static final int j = 16;
+  public static final int k = 32;
+  
+  public a() {}
+  
+  public static int a(@F AccessibilityServiceInfo paramAccessibilityServiceInfo)
+  {
+    int m = Build.VERSION.SDK_INT;
+    return paramAccessibilityServiceInfo.getCapabilities();
+  }
+  
+  @F
+  public static String a(int paramInt)
+  {
+    if (paramInt != 1)
+    {
+      if (paramInt != 2)
+      {
+        if (paramInt != 4)
+        {
+          if (paramInt != 8) {
+            return "UNKNOWN";
+          }
+          return "CAPABILITY_CAN_FILTER_KEY_EVENTS";
+        }
+        return "CAPABILITY_CAN_REQUEST_ENHANCED_WEB_ACCESSIBILITY";
+      }
+      return "CAPABILITY_CAN_REQUEST_TOUCH_EXPLORATION";
+    }
+    return "CAPABILITY_CAN_RETRIEVE_WINDOW_CONTENT";
+  }
+  
+  @G
+  public static String a(@F AccessibilityServiceInfo paramAccessibilityServiceInfo, @F PackageManager paramPackageManager)
+  {
+    int m = Build.VERSION.SDK_INT;
+    return paramAccessibilityServiceInfo.loadDescription(paramPackageManager);
+  }
+  
+  @F
+  public static String b(int paramInt)
+  {
+    StringBuilder localStringBuilder = f.a.a.a.a.b("[");
+    while (paramInt > 0)
+    {
+      int m = 1 << Integer.numberOfTrailingZeros(paramInt);
+      paramInt &= (m ^ 0xFFFFFFFF);
+      if (localStringBuilder.length() > 1) {
+        localStringBuilder.append(", ");
+      }
+      if (m != 1)
+      {
+        if (m != 2)
+        {
+          if (m != 4)
+          {
+            if (m != 8)
+            {
+              if (m == 16) {
+                localStringBuilder.append("FEEDBACK_GENERIC");
+              }
+            }
+            else {
+              localStringBuilder.append("FEEDBACK_VISUAL");
+            }
+          }
+          else {
+            localStringBuilder.append("FEEDBACK_AUDIBLE");
+          }
+        }
+        else {
+          localStringBuilder.append("FEEDBACK_HAPTIC");
+        }
+      }
+      else {
+        localStringBuilder.append("FEEDBACK_SPOKEN");
+      }
+    }
+    localStringBuilder.append("]");
+    return localStringBuilder.toString();
+  }
+  
+  @G
+  public static String c(int paramInt)
+  {
+    if (paramInt != 1)
+    {
+      if (paramInt != 2)
+      {
+        if (paramInt != 4)
+        {
+          if (paramInt != 8)
+          {
+            if (paramInt != 16)
+            {
+              if (paramInt != 32) {
+                return null;
+              }
+              return "FLAG_REQUEST_FILTER_KEY_EVENTS";
+            }
+            return "FLAG_REPORT_VIEW_IDS";
+          }
+          return "FLAG_REQUEST_ENHANCED_WEB_ACCESSIBILITY";
+        }
+        return "FLAG_REQUEST_TOUCH_EXPLORATION_MODE";
+      }
+      return "FLAG_INCLUDE_NOT_IMPORTANT_VIEWS";
+    }
+    return "DEFAULT";
+  }
+}

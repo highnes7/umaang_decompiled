@@ -1,0 +1,33 @@
+package com.google.android.gms.location;
+
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import com.google.android.gms.internal.zzeb;
+import com.google.android.gms.internal.zzed;
+
+public final class zzl
+  extends zzeb
+  implements zzj
+{
+  public zzl(IBinder paramIBinder)
+  {
+    super(paramIBinder, "com.google.android.gms.location.ILocationCallback");
+  }
+  
+  public final void onLocationAvailability(LocationAvailability paramLocationAvailability)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramLocationAvailability);
+    zzc(2, localParcel);
+  }
+  
+  public final void onLocationResult(LocationResult paramLocationResult)
+    throws RemoteException
+  {
+    Parcel localParcel = zzax();
+    zzed.zza(localParcel, paramLocationResult);
+    zzc(1, localParcel);
+  }
+}

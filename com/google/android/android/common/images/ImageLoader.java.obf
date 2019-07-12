@@ -1,0 +1,58 @@
+package com.google.android.gms.common.images;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import com.google.android.gms.common.internal.zzc;
+import com.google.android.gms.internal.zzbcj;
+
+public abstract class zza
+{
+  public final zzb zzfrp;
+  public int zzfrq = 0;
+  public int zzfrr = 0;
+  public boolean zzfrs = false;
+  public boolean zzfrt = true;
+  public boolean zzfru = false;
+  public boolean zzfrv = true;
+  
+  public zza(Uri paramUri, int paramInt)
+  {
+    zzfrp = new zzb(paramUri);
+    zzfrr = paramInt;
+  }
+  
+  public final void zza(Context paramContext, Bitmap paramBitmap, boolean paramBoolean)
+  {
+    zzc.zzr(paramBitmap);
+    zza(new BitmapDrawable(paramContext.getResources(), paramBitmap), paramBoolean, false, true);
+  }
+  
+  public final void zza(Context paramContext, zzbcj paramZzbcj)
+  {
+    if (zzfrv) {
+      zza(null, false, true, false);
+    }
+  }
+  
+  public final void zza(Context paramContext, zzbcj paramZzbcj, boolean paramBoolean)
+  {
+    int i = zzfrr;
+    if (i != 0) {
+      paramContext = paramContext.getResources().getDrawable(i);
+    } else {
+      paramContext = null;
+    }
+    zza(paramContext, paramBoolean, false, false);
+  }
+  
+  public abstract void zza(Drawable paramDrawable, boolean paramBoolean1, boolean paramBoolean2, boolean paramBoolean3);
+  
+  public final boolean zzc(boolean paramBoolean1, boolean paramBoolean2)
+  {
+    return (zzfrt) && (!paramBoolean2) && (!paramBoolean1);
+  }
+}

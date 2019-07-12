@@ -1,0 +1,22 @@
+package com.google.android.gms.internal;
+
+import android.os.Process;
+
+public final class zzbea
+  implements Runnable
+{
+  public final int mPriority;
+  public final Runnable zzv;
+  
+  public zzbea(Runnable paramRunnable, int paramInt)
+  {
+    zzv = paramRunnable;
+    mPriority = paramInt;
+  }
+  
+  public final void run()
+  {
+    Process.setThreadPriority(mPriority);
+    zzv.run();
+  }
+}

@@ -1,0 +1,106 @@
+package f.g.c.c;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.a.c;
+import f.g.c.b.J;
+import f.g.c.b.ya;
+import f.g.c.l.a.ja;
+import f.g.c.l.a.oa;
+import java.io.Serializable;
+import java.util.Map;
+
+@b(emulated=true)
+public abstract class j<K, V>
+{
+  public j() {}
+  
+  @a
+  public static <K, V> j<K, V> a(J<K, V> paramJ)
+  {
+    return new a(paramJ);
+  }
+  
+  @a
+  public static <V> j<Object, V> a(ya<V> paramYa)
+  {
+    return new c(paramYa);
+  }
+  
+  @c("Futures")
+  public oa<V> a(K paramK, V paramV)
+    throws Exception
+  {
+    return ja.b(a(paramK));
+  }
+  
+  public abstract V a(K paramK)
+    throws Exception;
+  
+  public Map<K, V> a(Iterable<? extends K> paramIterable)
+    throws Exception
+  {
+    throw new d();
+  }
+  
+  private static final class a<K, V>
+    extends j<K, V>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final J<K, V> b;
+    
+    public a(J<K, V> paramJ)
+    {
+      if (paramJ != null)
+      {
+        b = paramJ;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public V a(K paramK)
+    {
+      return b.apply(paramK);
+    }
+  }
+  
+  public static final class b
+    extends RuntimeException
+  {
+    public b(String paramString)
+    {
+      super();
+    }
+  }
+  
+  private static final class c<V>
+    extends j<Object, V>
+    implements Serializable
+  {
+    public static final long a = 0L;
+    public final ya<V> b;
+    
+    public c(ya<V> paramYa)
+    {
+      if (paramYa != null)
+      {
+        b = paramYa;
+        return;
+      }
+      throw new NullPointerException();
+    }
+    
+    public V a(Object paramObject)
+    {
+      return b.get();
+    }
+  }
+  
+  public static final class d
+    extends UnsupportedOperationException
+  {
+    public d() {}
+  }
+}

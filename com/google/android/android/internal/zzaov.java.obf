@@ -1,0 +1,98 @@
+package com.google.android.gms.internal;
+
+import android.annotation.TargetApi;
+import android.app.job.JobParameters;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.PersistableBundle;
+import b.b.a.M;
+import com.google.android.gms.common.internal.zzbp;
+
+public final class zzaov<T extends Context,  extends zzaoy>
+{
+  public static Boolean zzdty;
+  public final Handler mHandler;
+  public final T zzdtx;
+  
+  public zzaov(T paramT)
+  {
+    zzbp.zzu(paramT);
+    zzdtx = paramT;
+    mHandler = new Handler();
+  }
+  
+  private final void zza(Integer paramInteger, JobParameters paramJobParameters)
+  {
+    zzamu localZzamu = zzamu.zzbg(zzdtx);
+    zzaon localZzaon = localZzamu.zzvy();
+    localZzamu.zzwc().zza(new zzaow(this, paramInteger, localZzamu, localZzaon, paramJobParameters));
+  }
+  
+  public static boolean zzbi(Context paramContext)
+  {
+    zzbp.zzu(paramContext);
+    Boolean localBoolean = zzdty;
+    if (localBoolean != null) {
+      return localBoolean.booleanValue();
+    }
+    boolean bool = zzapd.zzv(paramContext, "com.google.android.gms.analytics.AnalyticsService");
+    zzdty = Boolean.valueOf(bool);
+    return bool;
+  }
+  
+  @M(allOf={"android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE"})
+  public final void onCreate()
+  {
+    zzamu.zzbg(zzdtx).zzvy().zzdm("Local AnalyticsService is starting up");
+  }
+  
+  @M(allOf={"android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE"})
+  public final void onDestroy()
+  {
+    zzamu.zzbg(zzdtx).zzvy().zzdm("Local AnalyticsService is shutting down");
+  }
+  
+  @M(allOf={"android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE"})
+  public final int onStartCommand(Intent paramIntent, int paramInt1, int paramInt2)
+  {
+    try
+    {
+      synchronized (zzaou.zzaqd)
+      {
+        zzcqh localZzcqh = zzaou.zzdtw;
+        if ((localZzcqh != null) && (localZzcqh.isHeld())) {
+          localZzcqh.release();
+        }
+      }
+    }
+    catch (SecurityException localSecurityException)
+    {
+      for (;;) {}
+    }
+    ??? = zzamu.zzbg(zzdtx).zzvy();
+    if (paramIntent == null)
+    {
+      ((zzamr)???).zzdp("AnalyticsService started with null intent");
+      return 2;
+    }
+    paramIntent = paramIntent.getAction();
+    ((zzamr)???).zza("Local AnalyticsService called. startId, action", Integer.valueOf(paramInt2), paramIntent);
+    if ("com.google.android.gms.analytics.ANALYTICS_DISPATCH".equals(paramIntent)) {
+      zza(Integer.valueOf(paramInt2), null);
+    }
+    return 2;
+  }
+  
+  @TargetApi(24)
+  public final boolean onStartJob(JobParameters paramJobParameters)
+  {
+    zzaon localZzaon = zzamu.zzbg(zzdtx).zzvy();
+    String str = paramJobParameters.getExtras().getString("action");
+    localZzaon.zza("Local AnalyticsJobService called. action", str);
+    if ("com.google.android.gms.analytics.ANALYTICS_DISPATCH".equals(str)) {
+      zza(null, paramJobParameters);
+    }
+    return true;
+  }
+}

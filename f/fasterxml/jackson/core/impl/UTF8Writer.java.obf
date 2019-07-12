@@ -1,0 +1,493 @@
+package f.d.a.a.c;
+
+import f.a.a.a.a;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
+
+public final class n
+  extends Writer
+{
+  public static final int a = 55296;
+  public static final int b = 56319;
+  public static final int c = 56320;
+  public static final int d = 57343;
+  public final d e;
+  public OutputStream f;
+  public byte[] g;
+  public final int h;
+  public int i;
+  public int j = 0;
+  
+  public n(d paramD, OutputStream paramOutputStream)
+  {
+    e = paramD;
+    f = paramOutputStream;
+    g = paramD.e();
+    h = (g.length - 4);
+    i = 0;
+  }
+  
+  private int d(int paramInt)
+    throws IOException
+  {
+    int k = j;
+    j = 0;
+    if ((paramInt >= 56320) && (paramInt <= 57343)) {
+      return paramInt - 56320 + ((k - 55296 << 10) + 65536);
+    }
+    StringBuilder localStringBuilder = a.b("Broken surrogate pair: first char 0x");
+    localStringBuilder.append(Integer.toHexString(k));
+    localStringBuilder.append(", second 0x");
+    localStringBuilder.append(Integer.toHexString(paramInt));
+    localStringBuilder.append("; illegal combination");
+    throw new IOException(localStringBuilder.toString());
+  }
+  
+  private void e(int paramInt)
+    throws IOException
+  {
+    if (paramInt <= 1114111)
+    {
+      if (paramInt >= 55296)
+      {
+        if (paramInt <= 56319)
+        {
+          localStringBuilder = a.b("Unmatched first part of surrogate pair (0x");
+          localStringBuilder.append(Integer.toHexString(paramInt));
+          localStringBuilder.append(")");
+          throw new IOException(localStringBuilder.toString());
+        }
+        localStringBuilder = a.b("Unmatched second part of surrogate pair (0x");
+        localStringBuilder.append(Integer.toHexString(paramInt));
+        localStringBuilder.append(")");
+        throw new IOException(localStringBuilder.toString());
+      }
+      localStringBuilder = a.b("Illegal character point (0x");
+      localStringBuilder.append(Integer.toHexString(paramInt));
+      localStringBuilder.append(") to output");
+      throw new IOException(localStringBuilder.toString());
+    }
+    StringBuilder localStringBuilder = a.b("Illegal character point (0x");
+    localStringBuilder.append(Integer.toHexString(paramInt));
+    localStringBuilder.append(") to output; max is 0x10FFFF as per RFC 4627");
+    throw new IOException(localStringBuilder.toString());
+  }
+  
+  public Writer append(char paramChar)
+    throws IOException
+  {
+    write(paramChar);
+    return this;
+  }
+  
+  public void close()
+    throws IOException
+  {
+    OutputStream localOutputStream = f;
+    if (localOutputStream != null)
+    {
+      int k = i;
+      if (k > 0)
+      {
+        localOutputStream.write(g, 0, k);
+        i = 0;
+      }
+      localOutputStream = f;
+      f = null;
+      byte[] arrayOfByte = g;
+      if (arrayOfByte != null)
+      {
+        g = null;
+        e.c(arrayOfByte);
+      }
+      localOutputStream.close();
+      k = j;
+      j = 0;
+      if (k <= 0) {
+        return;
+      }
+      e(k);
+      throw null;
+    }
+  }
+  
+  public void flush()
+    throws IOException
+  {
+    OutputStream localOutputStream = f;
+    if (localOutputStream != null)
+    {
+      int k = i;
+      if (k > 0)
+      {
+        localOutputStream.write(g, 0, k);
+        i = 0;
+      }
+      f.flush();
+    }
+  }
+  
+  public void write(int paramInt)
+    throws IOException
+  {
+    int k;
+    if (j > 0)
+    {
+      k = d(paramInt);
+    }
+    else
+    {
+      k = paramInt;
+      if (paramInt >= 55296)
+      {
+        k = paramInt;
+        if (paramInt <= 57343)
+        {
+          if (paramInt <= 56319)
+          {
+            j = paramInt;
+            return;
+          }
+          e(paramInt);
+          throw null;
+        }
+      }
+    }
+    paramInt = i;
+    if (paramInt >= h)
+    {
+      f.write(g, 0, paramInt);
+      i = 0;
+    }
+    byte[] arrayOfByte;
+    if (k < 128)
+    {
+      arrayOfByte = g;
+      paramInt = i;
+      i = (paramInt + 1);
+      arrayOfByte[paramInt] = ((byte)k);
+      return;
+    }
+    paramInt = i;
+    int m;
+    if (k < 2048)
+    {
+      arrayOfByte = g;
+      m = paramInt + 1;
+      arrayOfByte[paramInt] = ((byte)(k >> 6 | 0xC0));
+      paramInt = m + 1;
+      arrayOfByte[m] = ((byte)(k & 0x3F | 0x80));
+    }
+    else if (k <= 65535)
+    {
+      arrayOfByte = g;
+      m = paramInt + 1;
+      arrayOfByte[paramInt] = ((byte)(k >> 12 | 0xE0));
+      paramInt = m + 1;
+      arrayOfByte[m] = ((byte)(k >> 6 & 0x3F | 0x80));
+      arrayOfByte[paramInt] = ((byte)(k & 0x3F | 0x80));
+      paramInt += 1;
+    }
+    else
+    {
+      if (k > 1114111) {
+        break label330;
+      }
+      arrayOfByte = g;
+      m = paramInt + 1;
+      arrayOfByte[paramInt] = ((byte)(k >> 18 | 0xF0));
+      paramInt = m + 1;
+      arrayOfByte[m] = ((byte)(k >> 12 & 0x3F | 0x80));
+      m = paramInt + 1;
+      arrayOfByte[paramInt] = ((byte)(k >> 6 & 0x3F | 0x80));
+      paramInt = m + 1;
+      arrayOfByte[m] = ((byte)(k & 0x3F | 0x80));
+    }
+    i = paramInt;
+    return;
+    label330:
+    e(k);
+    throw null;
+  }
+  
+  public void write(String paramString)
+    throws IOException
+  {
+    write(paramString, 0, paramString.length());
+  }
+  
+  public void write(String paramString, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    if (paramInt2 < 2)
+    {
+      if (paramInt2 == 1) {
+        write(paramString.charAt(paramInt1));
+      }
+      return;
+    }
+    int k = paramInt1;
+    int m = paramInt2;
+    if (j > 0)
+    {
+      k = paramString.charAt(paramInt1);
+      m = paramInt2 - 1;
+      write(d(k));
+      k = paramInt1 + 1;
+    }
+    paramInt1 = i;
+    byte[] arrayOfByte = g;
+    int i3 = h;
+    int i4 = m + k;
+    paramInt2 = k;
+    for (;;)
+    {
+      k = paramInt1;
+      if (paramInt2 >= i4) {
+        break;
+      }
+      k = paramInt1;
+      if (paramInt1 >= i3)
+      {
+        f.write(arrayOfByte, 0, paramInt1);
+        k = 0;
+      }
+      m = paramInt2 + 1;
+      int i1 = paramString.charAt(paramInt2);
+      paramInt2 = k;
+      paramInt1 = m;
+      int n = i1;
+      if (i1 < 128)
+      {
+        paramInt1 = k + 1;
+        arrayOfByte[k] = ((byte)i1);
+        paramInt2 = i4 - m;
+        n = i3 - paramInt1;
+        k = paramInt2;
+        if (paramInt2 > n) {
+          k = n;
+        }
+        paramInt2 = m;
+        while (paramInt2 < k + m)
+        {
+          n = paramInt2 + 1;
+          i1 = paramString.charAt(paramInt2);
+          if (i1 >= 128)
+          {
+            paramInt2 = paramInt1;
+            paramInt1 = n;
+            n = i1;
+            break label255;
+          }
+          int i2 = paramInt1 + 1;
+          arrayOfByte[paramInt1] = ((byte)i1);
+          paramInt2 = n;
+          paramInt1 = i2;
+        }
+      }
+      else
+      {
+        label255:
+        if (n < 2048)
+        {
+          m = paramInt2 + 1;
+          arrayOfByte[paramInt2] = ((byte)(n >> 6 | 0xC0));
+          k = m + 1;
+          arrayOfByte[m] = ((byte)(n & 0x3F | 0x80));
+          paramInt2 = paramInt1;
+          paramInt1 = k;
+        }
+        else if ((n >= 55296) && (n <= 57343))
+        {
+          if (n <= 56319)
+          {
+            j = n;
+            if (paramInt1 >= i4)
+            {
+              k = paramInt2;
+              break;
+            }
+            k = paramInt1 + 1;
+            m = d(paramString.charAt(paramInt1));
+            if (m <= 1114111)
+            {
+              paramInt1 = paramInt2 + 1;
+              arrayOfByte[paramInt2] = ((byte)(m >> 18 | 0xF0));
+              paramInt2 = paramInt1 + 1;
+              arrayOfByte[paramInt1] = ((byte)(m >> 12 & 0x3F | 0x80));
+              n = paramInt2 + 1;
+              arrayOfByte[paramInt2] = ((byte)(m >> 6 & 0x3F | 0x80));
+              paramInt1 = n + 1;
+              arrayOfByte[n] = ((byte)(m & 0x3F | 0x80));
+              paramInt2 = k;
+            }
+            else
+            {
+              i = paramInt2;
+              e(m);
+              throw null;
+            }
+          }
+          else
+          {
+            i = paramInt2;
+            e(n);
+            throw null;
+          }
+        }
+        else
+        {
+          k = paramInt2 + 1;
+          arrayOfByte[paramInt2] = ((byte)(n >> 12 | 0xE0));
+          m = k + 1;
+          arrayOfByte[k] = ((byte)(n >> 6 & 0x3F | 0x80));
+          arrayOfByte[m] = ((byte)(n & 0x3F | 0x80));
+          paramInt2 = paramInt1;
+          paramInt1 = m + 1;
+        }
+      }
+    }
+    i = k;
+  }
+  
+  public void write(char[] paramArrayOfChar)
+    throws IOException
+  {
+    write(paramArrayOfChar, 0, paramArrayOfChar.length);
+  }
+  
+  public void write(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    if (paramInt2 < 2)
+    {
+      if (paramInt2 == 1) {
+        write(paramArrayOfChar[paramInt1]);
+      }
+      return;
+    }
+    int k = paramInt1;
+    int m = paramInt2;
+    if (j > 0)
+    {
+      k = paramArrayOfChar[paramInt1];
+      m = paramInt2 - 1;
+      write(d(k));
+      k = paramInt1 + 1;
+    }
+    paramInt1 = i;
+    byte[] arrayOfByte = g;
+    int i3 = h;
+    int i4 = m + k;
+    paramInt2 = k;
+    for (;;)
+    {
+      k = paramInt1;
+      if (paramInt2 >= i4) {
+        break;
+      }
+      k = paramInt1;
+      if (paramInt1 >= i3)
+      {
+        f.write(arrayOfByte, 0, paramInt1);
+        k = 0;
+      }
+      m = paramInt2 + 1;
+      int i1 = paramArrayOfChar[paramInt2];
+      paramInt2 = k;
+      paramInt1 = m;
+      int n = i1;
+      if (i1 < 128)
+      {
+        paramInt1 = k + 1;
+        arrayOfByte[k] = ((byte)i1);
+        paramInt2 = i4 - m;
+        n = i3 - paramInt1;
+        k = paramInt2;
+        if (paramInt2 > n) {
+          k = n;
+        }
+        paramInt2 = m;
+        while (paramInt2 < k + m)
+        {
+          n = paramInt2 + 1;
+          i1 = paramArrayOfChar[paramInt2];
+          if (i1 >= 128)
+          {
+            paramInt2 = paramInt1;
+            paramInt1 = n;
+            n = i1;
+            break label247;
+          }
+          int i2 = paramInt1 + 1;
+          arrayOfByte[paramInt1] = ((byte)i1);
+          paramInt2 = n;
+          paramInt1 = i2;
+        }
+      }
+      else
+      {
+        label247:
+        if (n < 2048)
+        {
+          m = paramInt2 + 1;
+          arrayOfByte[paramInt2] = ((byte)(n >> 6 | 0xC0));
+          k = m + 1;
+          arrayOfByte[m] = ((byte)(n & 0x3F | 0x80));
+          paramInt2 = paramInt1;
+          paramInt1 = k;
+        }
+        else if ((n >= 55296) && (n <= 57343))
+        {
+          if (n <= 56319)
+          {
+            j = n;
+            if (paramInt1 >= i4)
+            {
+              k = paramInt2;
+              break;
+            }
+            k = paramInt1 + 1;
+            m = d(paramArrayOfChar[paramInt1]);
+            if (m <= 1114111)
+            {
+              paramInt1 = paramInt2 + 1;
+              arrayOfByte[paramInt2] = ((byte)(m >> 18 | 0xF0));
+              paramInt2 = paramInt1 + 1;
+              arrayOfByte[paramInt1] = ((byte)(m >> 12 & 0x3F | 0x80));
+              n = paramInt2 + 1;
+              arrayOfByte[paramInt2] = ((byte)(m >> 6 & 0x3F | 0x80));
+              paramInt1 = n + 1;
+              arrayOfByte[n] = ((byte)(m & 0x3F | 0x80));
+              paramInt2 = k;
+            }
+            else
+            {
+              i = paramInt2;
+              e(m);
+              throw null;
+            }
+          }
+          else
+          {
+            i = paramInt2;
+            e(n);
+            throw null;
+          }
+        }
+        else
+        {
+          k = paramInt2 + 1;
+          arrayOfByte[paramInt2] = ((byte)(n >> 12 | 0xE0));
+          m = k + 1;
+          arrayOfByte[k] = ((byte)(n >> 6 & 0x3F | 0x80));
+          arrayOfByte[m] = ((byte)(n & 0x3F | 0x80));
+          paramInt2 = paramInt1;
+          paramInt1 = m + 1;
+        }
+      }
+    }
+    i = k;
+  }
+}

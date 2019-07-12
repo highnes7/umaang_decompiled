@@ -1,0 +1,75 @@
+package f.g.b.a.g;
+
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+
+public final class U
+{
+  public U() {}
+  
+  public static KeyManagerFactory a()
+    throws NoSuchAlgorithmException
+  {
+    return KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+  }
+  
+  public static SSLContext a(SSLContext paramSSLContext, KeyStore paramKeyStore, TrustManagerFactory paramTrustManagerFactory)
+    throws GeneralSecurityException
+  {
+    paramTrustManagerFactory.init(paramKeyStore);
+    paramSSLContext.init(null, paramTrustManagerFactory.getTrustManagers(), null);
+    return paramSSLContext;
+  }
+  
+  public static TrustManagerFactory b()
+    throws NoSuchAlgorithmException
+  {
+    return TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+  }
+  
+  public static KeyManagerFactory c()
+    throws NoSuchAlgorithmException
+  {
+    return KeyManagerFactory.getInstance("PKIX");
+  }
+  
+  public static TrustManagerFactory d()
+    throws NoSuchAlgorithmException
+  {
+    return TrustManagerFactory.getInstance("PKIX");
+  }
+  
+  public static SSLContext e()
+    throws NoSuchAlgorithmException
+  {
+    return SSLContext.getInstance("SSL");
+  }
+  
+  public static SSLContext f()
+    throws NoSuchAlgorithmException
+  {
+    return SSLContext.getInstance("TLS");
+  }
+  
+  @h
+  public static HostnameVerifier g()
+  {
+    return new T();
+  }
+  
+  @h
+  public static SSLContext h()
+    throws GeneralSecurityException
+  {
+    S localS = new S();
+    SSLContext localSSLContext = f();
+    localSSLContext.init(null, new TrustManager[] { localS }, null);
+    return localSSLContext;
+  }
+}

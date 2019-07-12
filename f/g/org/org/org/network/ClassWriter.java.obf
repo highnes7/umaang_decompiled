@@ -1,0 +1,359 @@
+package f.g.b.a.b.c;
+
+import f.g.b.a.c.B;
+import f.g.b.a.c.E;
+import f.g.b.a.c.F;
+import f.g.b.a.c.G;
+import f.g.b.a.c.I;
+import f.g.b.a.c.k;
+import f.g.b.a.c.p;
+import f.g.b.a.c.t;
+import f.g.b.a.c.y;
+import f.g.b.a.c.z;
+import f.g.b.a.g.k.a;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+public final class d
+{
+  public final String a;
+  public final List<b.b<?, ?>> b;
+  public final InputStream c;
+  public boolean d = true;
+  public List<b.b<?, ?>> e = new ArrayList();
+  public boolean f;
+  public int g = 0;
+  public final boolean h;
+  
+  public d(InputStream paramInputStream, String paramString, List<b.b<?, ?>> paramList, boolean paramBoolean)
+    throws IOException
+  {
+    a = paramString;
+    b = paramList;
+    h = paramBoolean;
+    c = paramInputStream;
+    b(b());
+  }
+  
+  private B a(int paramInt, InputStream paramInputStream, List<String> paramList1, List<String> paramList2)
+    throws IOException
+  {
+    paramInputStream = new c(paramInt, paramInputStream, paramList1, paramList2).b().b(new k("http://google.com/"), null);
+    paramInputStream.c(false);
+    paramInputStream.f(false);
+    return paramInputStream.a();
+  }
+  
+  public static InputStream a(byte[] paramArrayOfByte)
+  {
+    int j = paramArrayOfByte.length;
+    int i = j;
+    if (j > 0)
+    {
+      i = j;
+      if (paramArrayOfByte[(j - 1)] == 10) {
+        i = j - 1;
+      }
+    }
+    j = i;
+    if (i > 0)
+    {
+      j = i;
+      if (paramArrayOfByte[(i - 1)] == 13) {
+        j = i - 1;
+      }
+    }
+    return new ByteArrayInputStream(paramArrayOfByte, 0, j);
+  }
+  
+  private <A, T, E> A a(Class<A> paramClass, B paramB, b.b<T, E> paramB1)
+    throws IOException
+  {
+    if (paramClass == Void.class) {
+      return null;
+    }
+    return d.m().a(paramB.b(), paramB.c(), paramClass);
+  }
+  
+  public static String a(String paramString)
+  {
+    if (paramString.endsWith("\r\n")) {
+      return f.a.a.a.a.b(paramString, -2, 0);
+    }
+    String str = paramString;
+    if (paramString.endsWith("\n")) {
+      str = f.a.a.a.a.b(paramString, -1, 0);
+    }
+    return str;
+  }
+  
+  private <T, E> void a(b.b<T, E> paramB, int paramInt, B paramB1)
+    throws IOException
+  {
+    a localA = a;
+    t localT = paramB1.g();
+    G localG = d.w();
+    f.g.b.a.c.c localC = d.c();
+    int i = 0;
+    f = false;
+    if (E.b(paramInt))
+    {
+      if (localA == null) {
+        return;
+      }
+      localA.b(a(b, paramB1, paramB), localT);
+      return;
+    }
+    p localP = d.e();
+    boolean bool1;
+    if ((h) && ((localP == null) || (localP.a()))) {
+      bool1 = true;
+    } else {
+      bool1 = false;
+    }
+    boolean bool2;
+    if (localG != null) {
+      bool2 = localG.a(d, paramB1, bool1);
+    } else {
+      bool2 = false;
+    }
+    paramInt = i;
+    if (!bool2) {
+      if (d.a(paramB1.j(), paramB1.g()))
+      {
+        paramInt = 1;
+      }
+      else
+      {
+        paramInt = i;
+        if (bool1)
+        {
+          paramInt = i;
+          if (localC != null)
+          {
+            paramInt = i;
+            if (localC.a(paramB1.j()))
+            {
+              f = true;
+              paramInt = i;
+            }
+          }
+        }
+      }
+    }
+    if ((bool1) && ((bool2) || (f) || (paramInt != 0)))
+    {
+      e.add(paramB);
+      return;
+    }
+    if (localA == null) {
+      return;
+    }
+    localA.a(a(c, paramB1, paramB), localT);
+  }
+  
+  private String b()
+    throws IOException
+  {
+    return a(c());
+  }
+  
+  private void b(String paramString)
+    throws IOException
+  {
+    if (paramString.equals(String.valueOf(a).concat("--")))
+    {
+      d = false;
+      c.close();
+    }
+  }
+  
+  private String c()
+    throws IOException
+  {
+    int i = c.read();
+    if (i == -1) {
+      return null;
+    }
+    StringBuilder localStringBuilder = new StringBuilder();
+    while (i != -1)
+    {
+      localStringBuilder.append((char)i);
+      if (i == 10) {
+        break;
+      }
+      i = c.read();
+    }
+    return localStringBuilder.toString();
+  }
+  
+  public void a()
+    throws IOException
+  {
+    g += 1;
+    do
+    {
+      str = b();
+    } while ((str != null) && (!str.equals("")));
+    int i = Integer.parseInt(b().split(" ")[1]);
+    Object localObject2 = new ArrayList();
+    ArrayList localArrayList = new ArrayList();
+    long l = -1L;
+    Object localObject1;
+    for (;;)
+    {
+      str = b();
+      if ((str == null) || (str.equals(""))) {
+        break;
+      }
+      localObject1 = str.split(": ", 2);
+      str = localObject1[0];
+      localObject1 = localObject1[1];
+      ((List)localObject2).add(str);
+      localArrayList.add(localObject1);
+      if ("Content-Length".equalsIgnoreCase(str.trim())) {
+        l = Long.parseLong((String)localObject1);
+      }
+    }
+    if (l == -1L)
+    {
+      localObject1 = new ByteArrayOutputStream();
+      for (;;)
+      {
+        str = c();
+        if ((str == null) || (str.startsWith(a))) {
+          break;
+        }
+        ((ByteArrayOutputStream)localObject1).write(str.getBytes("ISO-8859-1"));
+      }
+      localObject1 = a(((ByteArrayOutputStream)localObject1).toByteArray());
+      str = a(str);
+    }
+    else
+    {
+      localObject1 = new c(this, new k.a(c, l));
+    }
+    localObject2 = a(i, (InputStream)localObject1, (List)localObject2, localArrayList);
+    while ((((InputStream)localObject1).skip(l) > 0L) || (((InputStream)localObject1).read() != -1)) {}
+    if (l != -1L) {}
+    for (String str = b(); (str != null) && (str.length() == 0); str = b()) {}
+    b(str);
+  }
+  
+  private static class a
+    extends I
+  {
+    public InputStream e;
+    public int f;
+    public List<String> g;
+    public List<String> h;
+    
+    public a(InputStream paramInputStream, int paramInt, List<String> paramList1, List<String> paramList2)
+    {
+      e = paramInputStream;
+      f = paramInt;
+      g = paramList1;
+      h = paramList2;
+    }
+    
+    public f.g.b.a.c.J a()
+    {
+      return new d.b(e, f, g, h);
+    }
+    
+    public void a(String paramString1, String paramString2) {}
+  }
+  
+  private static class b
+    extends f.g.b.a.c.J
+  {
+    public InputStream a;
+    public int b;
+    public List<String> c = new ArrayList();
+    public List<String> d = new ArrayList();
+    
+    public b(InputStream paramInputStream, int paramInt, List<String> paramList1, List<String> paramList2)
+    {
+      a = paramInputStream;
+      b = paramInt;
+      c = paramList1;
+      d = paramList2;
+    }
+    
+    public String a(int paramInt)
+    {
+      return (String)c.get(paramInt);
+    }
+    
+    public InputStream b()
+    {
+      return a;
+    }
+    
+    public String b(int paramInt)
+    {
+      return (String)d.get(paramInt);
+    }
+    
+    public String c()
+    {
+      return null;
+    }
+    
+    public long d()
+    {
+      return 0L;
+    }
+    
+    public String e()
+    {
+      return null;
+    }
+    
+    public int f()
+    {
+      return c.size();
+    }
+    
+    public String g()
+    {
+      return null;
+    }
+    
+    public int h()
+    {
+      return b;
+    }
+    
+    public String i()
+    {
+      return null;
+    }
+  }
+  
+  private static class c
+    extends F
+  {
+    public int c;
+    public InputStream d;
+    public List<String> e;
+    public List<String> f;
+    
+    public c(int paramInt, InputStream paramInputStream, List<String> paramList1, List<String> paramList2)
+    {
+      c = paramInt;
+      d = paramInputStream;
+      e = paramList1;
+      f = paramList2;
+    }
+    
+    public I a(String paramString1, String paramString2)
+    {
+      return new d.a(d, c, e, f);
+    }
+  }
+}

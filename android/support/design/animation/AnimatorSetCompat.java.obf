@@ -1,0 +1,31 @@
+package android.support.design.animation;
+
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
+import b.b.a.N;
+import java.util.List;
+
+@N({b.b.a.N.a.b})
+public class AnimatorSetCompat
+{
+  public AnimatorSetCompat() {}
+  
+  public static void playTogether(AnimatorSet paramAnimatorSet, List<Animator> paramList)
+  {
+    int j = paramList.size();
+    long l1 = 0L;
+    int i = 0;
+    while (i < j)
+    {
+      localObject = (Animator)paramList.get(i);
+      long l2 = ((Animator)localObject).getStartDelay();
+      l1 = Math.max(l1, ((Animator)localObject).getDuration() + l2);
+      i += 1;
+    }
+    Object localObject = ValueAnimator.ofInt(new int[] { 0, 0 });
+    ((ValueAnimator)localObject).setDuration(l1);
+    paramList.add(0, localObject);
+    paramAnimatorSet.playTogether(paramList);
+  }
+}

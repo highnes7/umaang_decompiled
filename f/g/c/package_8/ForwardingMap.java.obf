@@ -1,0 +1,197 @@
+package f.g.c.d;
+
+import f.g.c.a.a;
+import f.g.c.a.b;
+import f.g.c.b.U;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import m.a.h;
+
+@b
+public abstract class Sa<K, V>
+  extends Wa
+  implements Map<K, V>
+{
+  public Sa() {}
+  
+  @a
+  public void a(Map<? extends K, ? extends V> paramMap)
+  {
+    fe.b(this, paramMap);
+  }
+  
+  public void clear()
+  {
+    q().clear();
+  }
+  
+  public boolean containsKey(Object paramObject)
+  {
+    return q().containsKey(paramObject);
+  }
+  
+  public boolean containsValue(Object paramObject)
+  {
+    return q().containsValue(paramObject);
+  }
+  
+  public Set<Map.Entry<K, V>> entrySet()
+  {
+    return q().entrySet();
+  }
+  
+  public boolean equals(@h Object paramObject)
+  {
+    return (paramObject == this) || (q().equals(paramObject));
+  }
+  
+  public V get(Object paramObject)
+  {
+    return q().get(paramObject);
+  }
+  
+  public int hashCode()
+  {
+    return q().hashCode();
+  }
+  
+  public boolean isEmpty()
+  {
+    return q().isEmpty();
+  }
+  
+  @a
+  public boolean k(@h Object paramObject)
+  {
+    return fe.a(this, paramObject);
+  }
+  
+  public Set<K> keySet()
+  {
+    return q().keySet();
+  }
+  
+  @a
+  public boolean l(@h Object paramObject)
+  {
+    return fe.b(this, paramObject);
+  }
+  
+  @a
+  public boolean m(@h Object paramObject)
+  {
+    return fe.c(this, paramObject);
+  }
+  
+  @a
+  public V n(@h Object paramObject)
+  {
+    Iterator localIterator = entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)localIterator.next();
+      if (U.a(localEntry.getKey(), paramObject))
+      {
+        paramObject = localEntry.getValue();
+        localIterator.remove();
+        return paramObject;
+      }
+    }
+    return null;
+  }
+  
+  public V put(K paramK, V paramV)
+  {
+    return q().put(paramK, paramV);
+  }
+  
+  public void putAll(Map<? extends K, ? extends V> paramMap)
+  {
+    q().putAll(paramMap);
+  }
+  
+  public abstract Map<K, V> q();
+  
+  @a
+  public void r()
+  {
+    Iterator localIterator = entrySet().iterator();
+    while (localIterator.hasNext())
+    {
+      localIterator.next();
+      localIterator.remove();
+    }
+  }
+  
+  public V remove(Object paramObject)
+  {
+    return q().remove(paramObject);
+  }
+  
+  @a
+  public int s()
+  {
+    return gg.a(entrySet());
+  }
+  
+  public int size()
+  {
+    return q().size();
+  }
+  
+  @a
+  public boolean t()
+  {
+    return entrySet().iterator().hasNext() ^ true;
+  }
+  
+  public Collection<V> values()
+  {
+    return q().values();
+  }
+  
+  @a
+  public String w()
+  {
+    return fe.e(this);
+  }
+  
+  @a
+  protected abstract class a
+    extends fe.c<K, V>
+  {
+    public a() {}
+    
+    public Map<K, V> c()
+    {
+      return Sa.this;
+    }
+  }
+  
+  @a
+  protected class b
+    extends fe.i<K, V>
+  {
+    public b() {}
+    
+    public Map<K, V> c()
+    {
+      return Sa.this;
+    }
+  }
+  
+  @a
+  protected class c
+    extends fe.s<K, V>
+  {
+    public c() {}
+    
+    public Map<K, V> a()
+    {
+      return Sa.this;
+    }
+  }
+}

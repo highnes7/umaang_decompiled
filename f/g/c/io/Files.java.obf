@@ -1,0 +1,455 @@
+package f.g.c.g;
+
+import f.g.c.b.Q;
+import f.g.c.b.ba;
+import f.g.c.b.ua;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel.MapMode;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.zip.Checksum;
+
+@f.g.c.a.a
+public final class w
+{
+  public static final int a = 10000;
+  
+  public w() {}
+  
+  public static long a(File paramFile, Checksum paramChecksum)
+    throws IOException
+  {
+    if (paramFile != null) {
+      return i.a(new u(paramFile), paramChecksum);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static f.g.c.f.l a(File paramFile, f.g.c.f.n paramN)
+    throws IOException
+  {
+    if (paramFile != null) {
+      return i.a(new u(paramFile), paramN);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static J<OutputStreamWriter> a(File paramFile, Charset paramCharset, boolean paramBoolean)
+  {
+    if (paramFile != null)
+    {
+      paramFile = new v(paramFile, paramBoolean);
+      if (paramCharset != null) {
+        return new l(paramFile, paramCharset);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static J<FileOutputStream> a(File paramFile, boolean paramBoolean)
+  {
+    if (paramFile != null) {
+      return new v(paramFile, paramBoolean);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static BufferedReader a(File paramFile, Charset paramCharset)
+    throws FileNotFoundException
+  {
+    return new BufferedReader(new InputStreamReader(new FileInputStream(paramFile), paramCharset));
+  }
+  
+  public static File a()
+  {
+    Object localObject1 = new File(System.getProperty("java.io.tmpdir"));
+    Object localObject2 = new StringBuilder();
+    ((StringBuilder)localObject2).append(System.currentTimeMillis());
+    ((StringBuilder)localObject2).append("-");
+    localObject2 = ((StringBuilder)localObject2).toString();
+    int i = 0;
+    while (i < 10000)
+    {
+      File localFile = new File((File)localObject1, f.a.a.a.a.a((String)localObject2, i));
+      if (localFile.mkdir()) {
+        return localFile;
+      }
+      i += 1;
+    }
+    localObject1 = new StringBuilder();
+    ((StringBuilder)localObject1).append("Failed to create directory within 10000 attempts (tried ");
+    ((StringBuilder)localObject1).append((String)localObject2);
+    ((StringBuilder)localObject1).append("0 to ");
+    ((StringBuilder)localObject1).append((String)localObject2);
+    ((StringBuilder)localObject1).append(9999);
+    ((StringBuilder)localObject1).append(')');
+    localObject1 = new IllegalStateException(((StringBuilder)localObject1).toString());
+    for (;;)
+    {
+      throw ((Throwable)localObject1);
+    }
+  }
+  
+  public static <T> T a(File paramFile, d<T> paramD)
+    throws IOException
+  {
+    if (paramFile != null) {
+      return i.a(new u(paramFile), paramD);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <T> T a(File paramFile, Charset paramCharset, B<T> paramB)
+    throws IOException
+  {
+    return n.a(b(paramFile, paramCharset), paramB);
+  }
+  
+  public static String a(String paramString)
+  {
+    if (paramString != null)
+    {
+      int i = paramString.lastIndexOf('.');
+      if (i == -1) {
+        return "";
+      }
+      return paramString.substring(i + 1);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static MappedByteBuffer a(File paramFile, FileChannel.MapMode paramMapMode)
+    throws IOException
+  {
+    if (paramFile.exists()) {
+      return a(paramFile, paramMapMode, paramFile.length());
+    }
+    throw new FileNotFoundException(paramFile.toString());
+  }
+  
+  public static MappedByteBuffer a(File paramFile, FileChannel.MapMode paramMapMode, long paramLong)
+    throws FileNotFoundException, IOException
+  {
+    String str;
+    if (paramMapMode == FileChannel.MapMode.READ_ONLY) {
+      str = "r";
+    } else {
+      str = "rw";
+    }
+    paramFile = new RandomAccessFile(paramFile, str);
+    try
+    {
+      paramMapMode = a(paramFile, paramMapMode, paramLong);
+      o.a(paramFile, false);
+      return paramMapMode;
+    }
+    finally
+    {
+      o.a(paramFile, true);
+    }
+  }
+  
+  public static MappedByteBuffer a(RandomAccessFile paramRandomAccessFile, FileChannel.MapMode paramMapMode, long paramLong)
+    throws IOException
+  {
+    paramRandomAccessFile = paramRandomAccessFile.getChannel();
+    try
+    {
+      paramMapMode = paramRandomAccessFile.map(paramMapMode, 0L, paramLong);
+      o.a(paramRandomAccessFile, false);
+      return paramMapMode;
+    }
+    finally
+    {
+      o.a(paramRandomAccessFile, true);
+    }
+  }
+  
+  public static void a(y<? extends InputStream> paramY, File paramFile)
+    throws IOException
+  {
+    i.a(paramY, d(paramFile));
+  }
+  
+  public static <R extends Readable,  extends Closeable> void a(y<R> paramY, File paramFile, Charset paramCharset)
+    throws IOException
+  {
+    n.a(paramY, d(paramFile, paramCharset));
+  }
+  
+  public static void a(File paramFile)
+    throws IOException
+  {
+    File localFile = paramFile.getCanonicalFile().getParentFile();
+    if (localFile == null) {
+      return;
+    }
+    localFile.mkdirs();
+    if (localFile.isDirectory()) {
+      return;
+    }
+    throw new IOException(f.a.a.a.a.a("Unable to create parent directories of ", paramFile));
+  }
+  
+  public static void a(File paramFile, J<? extends OutputStream> paramJ)
+    throws IOException
+  {
+    if (paramFile != null)
+    {
+      i.a(new u(paramFile), paramJ);
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static void a(File paramFile1, File paramFile2)
+    throws IOException
+  {
+    ba.a(paramFile1.equals(paramFile2) ^ true, "Source %s and destination %s must be different", new Object[] { paramFile1, paramFile2 });
+    a(new u(paramFile1), paramFile2);
+  }
+  
+  public static void a(File paramFile, OutputStream paramOutputStream)
+    throws IOException
+  {
+    if (paramFile != null)
+    {
+      i.a(new u(paramFile), paramOutputStream);
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static <W extends Appendable,  extends Closeable> void a(File paramFile, Charset paramCharset, J<W> paramJ)
+    throws IOException
+  {
+    n.a(b(paramFile, paramCharset), paramJ);
+  }
+  
+  public static void a(File paramFile, Charset paramCharset, Appendable paramAppendable)
+    throws IOException
+  {
+    n.a(b(paramFile, paramCharset), paramAppendable);
+  }
+  
+  public static void a(CharSequence paramCharSequence, File paramFile, Charset paramCharset)
+    throws IOException
+  {
+    a(paramCharSequence, paramFile, paramCharset, true);
+  }
+  
+  public static void a(CharSequence paramCharSequence, File paramFile, Charset paramCharset, boolean paramBoolean)
+    throws IOException
+  {
+    n.a(paramCharSequence, a(paramFile, paramCharset, paramBoolean));
+  }
+  
+  public static void a(byte[] paramArrayOfByte, File paramFile)
+    throws IOException
+  {
+    i.a(paramArrayOfByte, d(paramFile));
+  }
+  
+  public static y<InputStreamReader> b(File paramFile, Charset paramCharset)
+  {
+    if (paramFile != null)
+    {
+      paramFile = new u(paramFile);
+      if (paramCharset != null) {
+        return new k(paramFile, paramCharset);
+      }
+      throw new NullPointerException();
+    }
+    throw new NullPointerException();
+  }
+  
+  public static String b(String paramString)
+  {
+    if (paramString.length() == 0) {
+      return ".";
+    }
+    Object localObject2 = ua.a('/').a().a(paramString);
+    Object localObject1 = new ArrayList();
+    localObject2 = ((Iterable)localObject2).iterator();
+    while (((Iterator)localObject2).hasNext())
+    {
+      String str = (String)((Iterator)localObject2).next();
+      if (!str.equals(".")) {
+        if (str.equals(".."))
+        {
+          if ((((List)localObject1).size() > 0) && (!((String)f.a.a.a.a.a((List)localObject1, -1)).equals(".."))) {
+            ((List)localObject1).remove(((List)localObject1).size() - 1);
+          } else {
+            ((List)localObject1).add("..");
+          }
+        }
+        else {
+          ((List)localObject1).add(str);
+        }
+      }
+    }
+    localObject1 = Q.a('/').a((Iterable)localObject1);
+    if (paramString.charAt(0) == '/') {
+      paramString = f.a.a.a.a.c("/", (String)localObject1);
+    }
+    for (paramString = (String)localObject1; paramString.startsWith("/../"); paramString = paramString.substring(3)) {}
+    if (paramString.equals("/..")) {
+      return "/";
+    }
+    localObject1 = paramString;
+    if ("".equals(paramString)) {
+      localObject1 = ".";
+    }
+    return localObject1;
+  }
+  
+  public static MappedByteBuffer b(File paramFile)
+    throws IOException
+  {
+    return a(paramFile, FileChannel.MapMode.READ_ONLY);
+  }
+  
+  public static void b(CharSequence paramCharSequence, File paramFile, Charset paramCharset)
+    throws IOException
+  {
+    a(paramCharSequence, paramFile, paramCharset, false);
+  }
+  
+  public static boolean b(File paramFile1, File paramFile2)
+    throws IOException
+  {
+    if ((paramFile1 != paramFile2) && (!paramFile1.equals(paramFile2)))
+    {
+      long l1 = paramFile1.length();
+      long l2 = paramFile2.length();
+      if ((l1 != 0L) && (l2 != 0L) && (l1 != l2)) {
+        return false;
+      }
+      return i.a(new u(paramFile1), new u(paramFile2));
+    }
+    return true;
+  }
+  
+  public static y<FileInputStream> c(File paramFile)
+  {
+    if (paramFile != null) {
+      return new u(paramFile);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static BufferedWriter c(File paramFile, Charset paramCharset)
+    throws FileNotFoundException
+  {
+    return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(paramFile), paramCharset));
+  }
+  
+  public static void c(File paramFile1, File paramFile2)
+    throws IOException
+  {
+    if (paramFile2 != null)
+    {
+      ba.a(paramFile1.equals(paramFile2) ^ true, "Source %s and destination %s must be different", new Object[] { paramFile1, paramFile2 });
+      if (!paramFile1.renameTo(paramFile2))
+      {
+        a(paramFile1, paramFile2);
+        if (!paramFile1.delete())
+        {
+          if (!paramFile2.delete()) {
+            throw new IOException(f.a.a.a.a.a("Unable to delete ", paramFile2));
+          }
+          throw new IOException(f.a.a.a.a.a("Unable to delete ", paramFile1));
+        }
+      }
+      return;
+    }
+    throw new NullPointerException();
+  }
+  
+  public static J<FileOutputStream> d(File paramFile)
+  {
+    if (paramFile != null) {
+      return new v(paramFile, false);
+    }
+    throw new NullPointerException();
+  }
+  
+  public static J<OutputStreamWriter> d(File paramFile, Charset paramCharset)
+  {
+    return a(paramFile, paramCharset, false);
+  }
+  
+  public static String e(File paramFile, Charset paramCharset)
+    throws IOException
+  {
+    return n.a(b(paramFile, paramCharset));
+  }
+  
+  public static byte[] e(File paramFile)
+    throws IOException
+  {
+    boolean bool;
+    if (paramFile.length() <= 2147483647L) {
+      bool = true;
+    } else {
+      bool = false;
+    }
+    ba.a(bool);
+    if (paramFile.length() == 0L) {
+      return i.b(new u(paramFile));
+    }
+    byte[] arrayOfByte = new byte[(int)paramFile.length()];
+    paramFile = new FileInputStream(paramFile);
+    try
+    {
+      i.b(paramFile, arrayOfByte, 0, arrayOfByte.length);
+      o.a(paramFile, false);
+      return arrayOfByte;
+    }
+    finally
+    {
+      o.a(paramFile, true);
+    }
+  }
+  
+  public static List<String> f(File paramFile, Charset paramCharset)
+    throws IOException
+  {
+    return n.b(b(paramFile, paramCharset));
+  }
+  
+  public static void f(File paramFile)
+    throws IOException
+  {
+    if (!paramFile.createNewFile())
+    {
+      if (paramFile.setLastModified(System.currentTimeMillis())) {
+        return;
+      }
+      throw new IOException(f.a.a.a.a.a("Unable to update modification time of ", paramFile));
+    }
+  }
+  
+  public static String g(File paramFile, Charset paramCharset)
+    throws IOException
+  {
+    return new String(e(paramFile), paramCharset.name());
+  }
+}

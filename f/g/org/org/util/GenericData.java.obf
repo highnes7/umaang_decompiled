@@ -1,0 +1,207 @@
+package f.g.b.a.g;
+
+import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class w
+  extends AbstractMap<String, Object>
+  implements Cloneable
+{
+  public Map<String, Object> a = new a();
+  public final n b;
+  
+  public w()
+  {
+    this(EnumSet.noneOf(c.class));
+  }
+  
+  public w(EnumSet<c> paramEnumSet)
+  {
+    b = n.a(getClass(), paramEnumSet.contains(c.a));
+  }
+  
+  public final Object a(String paramString, Object paramObject)
+  {
+    Object localObject = b.b(paramString);
+    if (localObject != null)
+    {
+      paramString = ((v)localObject).a(this);
+      ((v)localObject).a(this, paramObject);
+      return paramString;
+    }
+    localObject = paramString;
+    if (b.b()) {
+      localObject = paramString.toLowerCase();
+    }
+    return a.put(localObject, paramObject);
+  }
+  
+  public final void a(Map<String, Object> paramMap)
+  {
+    a = paramMap;
+  }
+  
+  public final n b()
+  {
+    return b;
+  }
+  
+  public w b(String paramString, Object paramObject)
+  {
+    Object localObject = b.b(paramString);
+    if (localObject != null)
+    {
+      ((v)localObject).a(this, paramObject);
+      return this;
+    }
+    localObject = paramString;
+    if (b.b()) {
+      localObject = paramString.toLowerCase();
+    }
+    a.put(localObject, paramObject);
+    return this;
+  }
+  
+  public final Map<String, Object> c()
+  {
+    return a;
+  }
+  
+  public w clone()
+  {
+    try
+    {
+      w localW = (w)super.clone();
+      r.a(this, localW);
+      a = ((Map)r.a(a));
+      return localW;
+    }
+    catch (CloneNotSupportedException localCloneNotSupportedException)
+    {
+      throw new IllegalStateException(localCloneNotSupportedException);
+    }
+  }
+  
+  public Set<Map.Entry<String, Object>> entrySet()
+  {
+    return new b();
+  }
+  
+  public final Object get(Object paramObject)
+  {
+    if (!(paramObject instanceof String)) {
+      return null;
+    }
+    String str = (String)paramObject;
+    paramObject = b.b(str);
+    if (paramObject != null) {
+      return paramObject.a(this);
+    }
+    paramObject = str;
+    if (b.b()) {
+      paramObject = str.toLowerCase();
+    }
+    return a.get(paramObject);
+  }
+  
+  public final void putAll(Map<? extends String, ?> paramMap)
+  {
+    paramMap = paramMap.entrySet().iterator();
+    while (paramMap.hasNext())
+    {
+      Map.Entry localEntry = (Map.Entry)paramMap.next();
+      b((String)localEntry.getKey(), localEntry.getValue());
+    }
+  }
+  
+  public final Object remove(Object paramObject)
+  {
+    if (!(paramObject instanceof String)) {
+      return null;
+    }
+    String str = (String)paramObject;
+    if (b.b(str) == null)
+    {
+      paramObject = str;
+      if (b.b()) {
+        paramObject = str.toLowerCase();
+      }
+      return a.remove(paramObject);
+    }
+    throw new UnsupportedOperationException();
+  }
+  
+  public final class a
+    implements Iterator<Map.Entry<String, Object>>
+  {
+    public boolean a;
+    public final Iterator<Map.Entry<String, Object>> b;
+    public final Iterator<Map.Entry<String, Object>> c;
+    
+    public a(s.c paramC)
+    {
+      b = paramC.iterator();
+      c = a.entrySet().iterator();
+    }
+    
+    public boolean hasNext()
+    {
+      return (b.hasNext()) || (c.hasNext());
+    }
+    
+    public Map.Entry<String, Object> next()
+    {
+      if (!a)
+      {
+        if (b.hasNext()) {
+          return (Map.Entry)b.next();
+        }
+        a = true;
+      }
+      return (Map.Entry)c.next();
+    }
+    
+    public void remove()
+    {
+      if (a) {
+        c.remove();
+      }
+      b.remove();
+    }
+  }
+  
+  public final class b
+    extends AbstractSet<Map.Entry<String, Object>>
+  {
+    public final s.c a = new s(w.this, b.b()).entrySet();
+    
+    public b() {}
+    
+    public void clear()
+    {
+      a.clear();
+      a.clear();
+    }
+    
+    public Iterator<Map.Entry<String, Object>> iterator()
+    {
+      return new w.a(w.this, a);
+    }
+    
+    public int size()
+    {
+      int i = a.size();
+      return a.size() + i;
+    }
+  }
+  
+  public static enum c
+  {
+    public c() {}
+  }
+}
